@@ -13,6 +13,7 @@ module.exports = {
       'layout/datatables': './templates/layout/datatables.js', // <-- add this line
       'web/users': './templates/web/users.js', // <-- add this line
       'web/customers': './templates/web/customers.js', // <-- add this line
+      'web/products': './templates/web/products.js', // <-- add this line
       
     },
     output: {

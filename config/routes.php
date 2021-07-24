@@ -26,5 +26,6 @@ return function (App $app) {
 
     
     $app->get('/customers', \App\Action\Web\CustomerAction::class)->add(UserAuthMiddleware::class);
+    $app->get('/products', \App\Action\Web\ProductAction::class)->add(UserAuthMiddleware::class);
     
 };
