@@ -27,7 +27,7 @@ trait HttpBasicAuthTestTrait
             ],
         ];
 
-        $this->setContainerValue(HttpBasicAuthentication::class, new HttpBasicAuthentication($settings));
+        $this->container->set(HttpBasicAuthentication::class, new HttpBasicAuthentication($settings));
 
         return $request->withHeader('Authorization', 'Basic ' . base64_encode('api-user:secret'));
     }

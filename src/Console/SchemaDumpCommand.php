@@ -14,7 +14,10 @@ use UnexpectedValueException;
  */
 final class SchemaDumpCommand extends Command
 {
-    private PDO $pdo;
+    /**
+     * @var PDO
+     */
+    private $pdo;
 
     /**
      * The constructor.

@@ -1,13 +1,12 @@
 ---
 layout: default
-title: Directory Structure
-parent: Getting Started
-nav_order: 3
+title: Directory structure
+nav_order: 5
 ---
 
 # Directory structure
 
-The directory structure is based on the [Standard PHP package skeleton](https://github.com/php-pds/skeleton).
+The directory structure based on the [Standard PHP package skeleton](https://github.com/php-pds/skeleton).
 
 {% raw %}
 ```
@@ -20,7 +19,7 @@ The directory structure is based on the [Standard PHP package skeleton](https://
 ├── logs                    # Log files
 ├── public                  # Web server files
 ├── resources               # Other resource files
-│   ├── migrations          # Database migration files
+│   ├── migrations          # Database migration files (Phinx)
 │   ├── seeds               # Data seeds
 │   └── translations        # The .po message files for PoEdit
 ├── src                     # PHP source code (The App namespace)

@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Database
-nav_order: 6
+nav_order: 12
 ---
 
 # Database
@@ -18,26 +18,11 @@ This skeleton contains [cakephp/database](https://github.com/cakephp/database) a
 
 The query builder provides a convenient, fluid interface for creating and executing database queries. It can be used to perform most database operations in your application, and works great with MySQL and MariaDB.
 
-* **[Query Builder Documentation](https://book.cakephp.org/4/en/orm/query-builder.html)**
-* [Slim 4 - CakePHP Query Builder](https://odan.github.io/2019/12/03/slim4-cakephp-query-builder.html)
-
-It's possible to replace the existing QueryBuilder with another component as listed below:
-
-* [Laminas Query Builder](https://odan.github.io/2019/12/01/slim4-laminas-db-query-builder-setup.html)
-* [Laravel Query Builder](https://odan.github.io/2019/12/03/slim4-eloquent.html)
-* [Doctrine DBAL](https://odan.github.io/2019/12/05/slim4-doctrine-dbal.html)
-* [PDO](https://odan.github.io/2017/01/07/basic-crud-operations-with-pdo.html)
-
-## Multitenancy
-
-The concept from this article can also be applied to all other QueryBuilders:
-
-* [Multiple database connections](https://odan.github.io/2020/04/05/slim4-multiple-pdo-database-connections.html)
+Read more: **[Query Builder Documentation](https://book.cakephp.org/4/en/orm/query-builder.html)**
 
 ## Migrations
 
-This skeleton provides a [Phoenix](https://github.com/lulco/phoenix/) 
-console access to create database migrations.
+This skeleton provides a [Phinx](https://phinx.org/) console access to create database migrations.
 
 **Some basics:**
 
@@ -45,47 +30,68 @@ console access to create database migrations.
 * **Seeding** is the initial data setup. If you aren't at an initial (seed) state, you need a migration to change the data.
 * **Fixtures** are data for testing purposes.
 
-To create a new migration class, run:
+### Generating a migration from a diff automatically
 
-```
-php vendor/bin/phoenix create UpdateArticleFixtures
-```
-
-To generate a migration diff from another database, run:
-
-```
-php vendor/bin/phoenix diff --source=local2 --target=local --migration=NameOfMigration
+```bash
+$ composer migration:diff
 ```
 
-*Make sure that you have a second local database to create the diff from. See `config/defaults.php`.* 
+You can specify a migration name by adding the `--name` parameter.
 
-To executes all available migrations, run:
+**Note:** [Composer](https://getcomposer.org/) requires double dashes (`--`) to separate arguments. 
 
-```
-php vendor/bin/phoenix migrate
-```
-
-To rollback the last executed migration, run:
-
-```
-php vendor/bin/phoenix rollback
+```bash
+$ composer migration:diff -- --name AddTableCustomers
 ```
 
-To list the already executed migrations, run:
+### Creating a blank database migration
 
-```
-php vendor/bin/phoenix status
+```bash
+$ composer migration:create UpdateArticleFixtures
 ```
 
-There are more commands available. Please consult the **[Phoenix Documentation](https://github.com/lulco/phoenix/)**.
+Read more: **[Phinx Documentation](http://docs.phinx.org/)**
+
+## Update schema
+
+Update the database schema with this command:
+
+```bash
+$ composer migration:migrate
+```
+
+If [Composer](https://getcomposer.org/) is not installed on the target server, 
+the following command can be used:
+
+```bash
+$ vendor/bin/phinx migrate -c config/phinx.php
+```
+
+## Data Seeding
+
+All seeds are stored in the directory: `resources/seeds/`
+
+To populate the database with data for testing and experimenting, run:
+
+Linux:
+
+```bash
+$ vendor/bin/phinx seed:run -c config/phinx.php
+```
+
+Windows:
+
+```bash
+call vendor/bin/phinx seed:run -c config/phinx.php
+```
 
 ## Schema Dump
 
-The `composer schema:dump` command dumps the current state of your schema to 
+The `composer dump-schema` command dumps the current state of your schema to 
 a `resources/schema/schema.sql` file.
 
 ```
-composer schema:dump
+$ composer migration:dump
 ```
 
 When you run integrations (database) tests, this `schema.sql` file will be loaded into the database. 
@@ -97,7 +103,3 @@ This feature solves two problems. First, it relieves developers from having a hu
 directory full of files they no longer need. Second, loading a single schema file is quicker 
 than running hundreds of migrations for each test class in your applications, 
 so your tests can run much faster when using a schema.
-
-## More Resources
-
-* [Designing a database](https://odan.github.io/2017/01/17/designing-a-database.html)

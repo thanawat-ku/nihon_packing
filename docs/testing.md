@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Testing
-nav_order: 8
+nav_order: 15
 ---
 
 # Testing
@@ -215,7 +215,7 @@ $this->assertTableRow($expected, 'users', 1, ['email', 'url']);
 $this->assertTableRow($expected, 'users', 1, array_keys($expected));
 ```
 
-Assert a specific value in a given table, row and field:
+Assert a specific value in the given table, row and field:
 
 ```php
 $this->assertTableRowValue('1', 'users', 1, 'id');
@@ -226,10 +226,6 @@ Read single value from table by id:
 ```php
 $password = $this->getTableRowById('users', 1)['password'];
 ```
-
-## Performance Testing
-
-* [Slim 4 - Performance Testing](https://odan.github.io/2019/12/20/slim4-performance-testing.html)
 
 ## Debugging Tests
 
@@ -242,7 +238,3 @@ To debug tests in [PhpStorm](https://www.jetbrains.com/phpstorm/), you have to m
 * Set a breakpoint within a test method
 * Right click `test`
 * Click `Debug (tests) PHPUnit`
-
-## Read more
-
-* [Slim 4 - Testing](https://odan.github.io/2020/06/09/slim4-testing.html)

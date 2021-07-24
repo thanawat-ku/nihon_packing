@@ -1,22 +1,13 @@
 ---
 layout: default
 title: Frontend
-published: true
-parent: Advanced
+published: false
+nav_order: 11
 ---
 
 # Frontend
 
-## Webpack
-
-Webpack makes it relatively easy to compile and minify your application's 
-CSS and JavaScript files. However, you are not required to use it 
-while developing your application; 
-you are free to use any asset pipeline tool you wish, or even none at all.
-
-**Installation Instructions:** 
-
-* [Slim 4 - Webpack](https://odan.github.io/2019/09/21/slim4-compiling-assets-with-webpack.html)
+## Assets
 
 ### Updating packages
 
@@ -54,13 +45,54 @@ To watch files and recompile whenever they change, run:
 npm run watch
 ```
 
-## Frontend Frameworks and Libraries
+## Modal windows
 
-* [Bootstrap](https://getbootstrap.com/)
-* [Bootstrap Icons](https://odan.github.io/2021/01/07/webpack-bootstrap-icons.html)
-* [Font Awesome](https://fontawesome.com/)
-* [Slim - Vue.js](https://odan.github.io/2020/07/21/slim4-vue.html)
+Show a modal window:
 
-## API Documentation
+```js
+Swal.fire(
+  'Good job!',
+  'You clicked the button!',
+  'success'
+);
+```
 
-* [API documentation with Swagger](https://odan.github.io/2020/06/12/slim4-swagger-ui.html)
+Read more: [SweetAlert2](https://sweetalert2.github.io/)
+
+## Notifications
+
+Showing a success message:
+
+```js
+notif({
+    msg: "Good!",
+    type: "success",
+    position: "center"
+});
+```
+
+Showing an error message:
+
+```js
+notif({
+    msg: "Ooops!",
+    type: "error",
+    position: "center"
+});
+```
+
+Read more: [notifIt!](https://github.com/naoxink/notifit-2)
+
+## Loading indicator
+
+Show loading indicator:
+
+```js
+spinner.showLoading();
+```
+
+Hide loading indicator:
+
+```js
+spinner.hideLoading();
+```

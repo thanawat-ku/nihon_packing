@@ -1,14 +1,14 @@
 ---
 layout: default
 title: Deployment
-parent: Advanced
+nav_order: 16
 ---
 
 # Deployment
 
 A deployment artifact (or a build ) is the application code as it runs on production: 
 compiled, built, bundled, minified, optimized and so on.
-
+ 
 ## Requirements
 
 * [Apache ant](https://ant.apache.org) to create deployment artifacts (build)
@@ -24,15 +24,15 @@ compiled, built, bundled, minified, optimized and so on.
 
 ## Building
 
+Make sure that the project is already versioned in a Git repository.
+
 To build a new artifact (ZIP file), run:
 
 ``` bash
-ant build
+$ composer build
 ```
 
 The artifact output directory is: `build/`
-
-*Make sure that the project is already versioned in a Git repository.*
 
 ## Server Setup
 

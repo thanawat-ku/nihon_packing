@@ -24,6 +24,7 @@ servers:
     description: Production
 tags:
   - name: User
+    description: Access to users
 security:
   - BasicAuth: []
 paths:
@@ -56,23 +57,18 @@ paths:
       description: 'My description.'
       operationId: createUser
       requestBody:
-        description: Created
+        description: The user object
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/UserRequest'
       responses:
         '201':
-          description: Created
+          description: The created user.
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  user_id:
-                    type: integer
-                    format: int32
-                    example: 10
+                $ref: '#/components/schemas/User'
         '400':
           $ref: '#/components/responses/400'
         '403':
@@ -87,7 +83,7 @@ paths:
         - User
       summary: Get user
       description: 'My description.'
-      operationId: getUserById
+      operationId: getUserByName
       parameters:
         - name: user_id
           in: path

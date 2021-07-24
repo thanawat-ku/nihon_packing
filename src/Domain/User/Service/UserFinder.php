@@ -2,22 +2,24 @@
 
 namespace App\Domain\User\Service;
 
-use App\Domain\User\Data\UserData;
-use App\Domain\User\Repository\UserFinderRepository;
+use App\Domain\User\Repository\UserRepository;
 
 /**
  * Service.
  */
 final class UserFinder
 {
-    private UserFinderRepository $repository;
+    /**
+     * @var UserRepository
+     */
+    private $repository;
 
     /**
      * The constructor.
      *
-     * @param UserFinderRepository $repository The repository
+     * @param UserRepository $repository The repository
      */
-    public function __construct(UserFinderRepository $repository)
+    public function __construct(UserRepository $repository)
     {
         $this->repository = $repository;
     }
@@ -25,13 +27,12 @@ final class UserFinder
     /**
      * Find users.
      *
-     * @return UserData[] A list of users
+     * @param array<mixed> $params The parameters
+     *
+     * @return array<mixed> The result
      */
-    public function findUsers(): array
+    public function findUsers(array $params): array
     {
-        // Input validation
-        // ...
-
-        return $this->repository->findUsers();
+        return $this->repository->findUsers($params);
     }
 }

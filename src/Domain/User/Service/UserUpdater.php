@@ -2,7 +2,6 @@
 
 namespace App\Domain\User\Service;
 
-use App\Domain\User\Data\UserData;
 use App\Domain\User\Repository\UserRepository;
 use App\Factory\LoggerFactory;
 use Psr\Log\LoggerInterface;
@@ -12,11 +11,20 @@ use Psr\Log\LoggerInterface;
  */
 final class UserUpdater
 {
-    private UserRepository $repository;
+    /**
+     * @var UserRepository
+     */
+    private $repository;
 
-    private UserValidator $userValidator;
+    /**
+     * @var UserValidator
+     */
+    private $userValidator;
 
-    private LoggerInterface $logger;
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
 
     /**
      * The constructor.
@@ -34,7 +42,7 @@ final class UserUpdater
         $this->userValidator = $userValidator;
         $this->logger = $loggerFactory
             ->addFileHandler('user_updater.log')
-            ->createLogger();
+            ->createInstance();
     }
 
     /**
@@ -50,14 +58,63 @@ final class UserUpdater
         // Input validation
         $this->userValidator->validateUserUpdate($userId, $data);
 
-        // Validation was successfully
-        $user = new UserData($data);
-        $user->id = $userId;
+        // Map form data to row
+        $userRow = $this->mapToUserRow($data);
 
-        // Update the user
-        $this->repository->updateUser($user);
+        // Insert user
+        $this->repository->updateUser($userId, $userRow);
 
         // Logging
         $this->logger->info(sprintf('User updated successfully: %s', $userId));
+    }
+
+    /**
+     * Map data to row.
+     *
+     * @param array<mixed> $data The data
+     *
+     * @return array<mixed> The row
+     */
+    private function mapToUserRow(array $data): array
+    {
+        $result = [];
+
+        if (isset($data['username'])) {
+            $result['username'] = (string)$data['username'];
+        }
+
+        if (isset($data['password']) && $data['password']!='') {
+            $result['password'] = (string)password_hash($data['password'], PASSWORD_DEFAULT);
+        }
+
+        if (isset($data['email'])) {
+            $result['email'] = (string)$data['email'];
+        }
+
+        if (isset($data['first_name'])) {
+            $result['first_name'] = (string)$data['first_name'];
+        }
+
+        if (isset($data['last_name'])) {
+            $result['last_name'] = (string)$data['last_name'];
+        }
+
+        if (isset($data['user_role_id'])) {
+            $result['user_role_id'] = (int)$data['user_role_id'];
+        }
+
+        if (isset($data['store_id'])) {
+            $result['store_id'] = (int)$data['store_id'];
+        }
+
+        if (isset($data['locale'])) {
+            $result['locale'] = (string)$data['locale'];
+        }
+
+        if (isset($data['enabled'])) {
+            $result['enabled'] = (int)$data['enabled'];
+        }
+
+        return $result;
     }
 }

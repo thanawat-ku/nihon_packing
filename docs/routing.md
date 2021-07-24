@@ -1,8 +1,7 @@
 ---
 layout: default
 title: Routing
-parent: The Basics
-nav_order: 1
+nav_order: 6
 ---
 
 # Routing

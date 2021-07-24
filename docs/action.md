@@ -7,24 +7,6 @@ nav_order: 1
 
 # Action
 
-***Action** is the logic to connect the Domain and Responder. 
-It invokes the Domain with inputs collected from the HTTP Request, 
-then invokes the Responder with the data needed to build an HTTP Response.*
-
-## Collaborations
-
-1. The web handler receives an HTTP Request and dispatches it to an Action.
-
-2. The Action invokes the Domain, collecting any required inputs to the Domain from the HTTP Request.
-
-3. The Action then invokes the Responder with the data it needs to build an HTTP Response (typically the HTTP Request and the Domain results, if any).
-
-4. The Responder builds an HTTP Response using the data fed to it by the Action.
-
-5. The Action returns the HTTP Response to the web handler sends the HTTP Response.
-
-## Single Action Controller
-
 Each **Single Action Controller** is represented by a dedicated class or closure.
 
 The *Action* does only these things:
@@ -46,48 +28,66 @@ exactly one specific task. You get very specific classes with only one clearly d
 (see SRP in SOLID). So you should not worry too much about too many files, instead you should worry
 about too few and big files (fat controllers) with too many responsibilities.
 
-**Pseudo Example**
+### Rendering a Twig template
 
 ```php
 <?php
 
 namespace App\Action;
 
-use App\Domain\Example\Service\MyService;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 
-final class ExampleAction
+final class HomeAction
 {
-    /**
-     * @var MyService
-     */
-    private $myService;
-    
     /**
      * @var Responder
      */
     private $responder;
     
-    public function __construct(MyService $myService, Responder $responder)
+    public function __construct(Responder $responder)
     {
-        $this->myService = $myService;
         $this->responder = $responder;
     }
 
     public function __invoke(ServerRequest $request, Response $response): ResponseInterface
     {
-        // 1. collect input from the HTTP request (if needed)
-        $data = (array)$request->getParsedBody();
-        
-        // 2. Invokes the Domain (Application-Service)
-        // with those inputs (if required) and retains the result
-        $domainResult = $this->myService->doSomething($data);
-        
-        // 3. Build and return a HTTP response
-        return $this->responder->withJson($domainResult);
+        return $this->responder->withTemplate($response, 'home/home-index.twig');
+    }
+}
+```
+
+### Writing JSON to the response
+
+Instead of calling `json_encode` everytime, you can use the responder `withJson()` method to render the response.
+
+```php
+<?php
+
+namespace App\Action;
+
+use App\Responder\Responder;
+use Psr\Http\Message\ResponseInterface;
+use Slim\Http\Response;
+use Slim\Http\ServerRequest;
+
+final class HomeAction
+{
+    /**
+     * @var Responder
+     */
+    private $responder;
+    
+    public function __construct(Responder $responder)
+    {
+        $this->responder = $responder;
+    }
+    
+    public function __invoke(ServerRequest $request, Response $response): ResponseInterface
+    {
+        return $this->responder->withJson(['success' => true]);
     }
 }
 ```

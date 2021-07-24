@@ -19,11 +19,20 @@ use Throwable;
  */
 final class DefaultErrorHandler
 {
-    private Responder $responder;
+    /**
+     * @var Responder
+     */
+    private $responder;
 
-    private ResponseFactoryInterface $responseFactory;
+    /**
+     * @var ResponseFactoryInterface
+     */
+    private $responseFactory;
 
-    private LoggerInterface $logger;
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
 
     /**
      * The constructor.
@@ -41,7 +50,7 @@ final class DefaultErrorHandler
         $this->responseFactory = $responseFactory;
         $this->logger = $loggerFactory
             ->addFileHandler('error.log')
-            ->createLogger();
+            ->createInstance();
     }
 
     /**

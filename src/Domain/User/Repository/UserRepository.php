@@ -2,70 +2,90 @@
 
 namespace App\Domain\User\Repository;
 
-use App\Domain\User\Data\UserData;
 use App\Factory\QueryFactory;
-use Cake\Chronos\Chronos;
 use DomainException;
+use Cake\Chronos\Chronos;
+use Symfony\Component\HttpFoundation\Session\Session;
 
-/**
- * Repository.
- */
 final class UserRepository
 {
-    private QueryFactory $queryFactory;
+    private $queryFactory;
+    private $session;
 
-    /**
-     * The constructor.
-     *
-     * @param QueryFactory $queryFactory The query factory
-     */
-    public function __construct(QueryFactory $queryFactory)
+    public function __construct(Session $session,QueryFactory $queryFactory)
     {
         $this->queryFactory = $queryFactory;
+        $this->session=$session;
     }
 
-    /**
-     * Insert user row.
-     *
-     * @param UserData $user The user data
-     *
-     * @return int The new ID
-     */
-    public function insertUser(UserData $user): int
-    {
-        $row = $this->toRow($user);
-        $row['created_at'] = Chronos::now()->toDateTimeString();
-
-        return (int)$this->queryFactory->newInsert('users', $row)
-            ->execute()
-            ->lastInsertId();
-    }
-
-    /**
-     * Get user by id.
-     *
-     * @param int $userId The user id
-     *
-     * @throws DomainException
-     *
-     * @return UserData The user
-     */
-    public function getUserById(int $userId): UserData
+    public function checkLogin(string $username,string $password)
     {
         $query = $this->queryFactory->newSelect('users');
         $query->select(
             [
-                'id',
+                'users.id',
+                'username',
+                'password',
+                'first_name',
+                'last_name',
+                'email',
+                'user_role_id',
+                'store_id',
+                'locale',
+                'enabled',
+                'user_role_name',
+                'store_name',
+            ]
+        );
+        $query->join([
+            'r' => [
+                'table' => 'user_roles',
+                'type' => 'INNER',
+                'conditions' => 'r.id = users.user_role_id',
+            ]]);
+
+        $query->join([
+            's' => [
+                'table' => 'stores',
+                'type' => 'INNER',
+                'conditions' => 's.id = users.store_id',
+            ]]);
+        $query->andWhere(['username' => $username]);
+
+        $row = $query->execute()->fetch('assoc');
+        if (!$row) {
+            //throw new DomainException(sprintf('User not found: %s', $username));
+            return null;
+        }
+        if(password_verify($password,$row["password"])){
+            return $row;
+        }
+        return false;
+    }
+
+    public function getUserById(int $userId): array
+    {
+        $query = $this->queryFactory->newSelect('users');
+        $query->select(
+            [
+                'users.id',
                 'username',
                 'first_name',
                 'last_name',
                 'email',
                 'user_role_id',
+                'store_id',
                 'locale',
                 'enabled',
+                'store_name',
             ]
         );
-
+        $query->join([
+            's' => [
+                'table' => 'stores',
+                'type' => 'INNER',
+                'conditions' => 's.id = users.store_id',
+            ]]);
         $query->andWhere(['id' => $userId]);
 
         $row = $query->execute()->fetch('assoc');
@@ -74,78 +94,68 @@ final class UserRepository
             throw new DomainException(sprintf('User not found: %s', $userId));
         }
 
-        return new UserData($row);
+        return $row;
     }
 
-    /**
-     * Update user row.
-     *
-     * @param UserData $user The user
-     *
-     * @return void
-     */
-    public function updateUser(UserData $user): void
+    public function findUsers(array $params): array
     {
-        $row = $this->toRow($user);
+        $query = $this->queryFactory->newSelect('users');
+        $query->select(
+            [
+                'users.id',
+                'username',
+                'first_name',
+                'last_name',
+                'email',
+                'user_role_id',
+                'store_id',
+                'locale',
+                'enabled',
+                'store_name',
+            ]
+        );
+        $query->join([
+            's' => [
+                'table' => 'stores',
+                'type' => 'INNER',
+                'conditions' => 's.id = users.store_id',
+            ]]);
 
-        // Updating the password is another use case
-        unset($row['password']);
-
-        $row['updated_at'] = Chronos::now()->toDateTimeString();
-
-        $this->queryFactory->newUpdate('users', $row)
-            ->andWhere(['id' => $user->id])
-            ->execute();
+        return $query->execute()->fetchAll('assoc') ?: [];
     }
 
-    /**
-     * Check user id.
-     *
-     * @param int $userId The user id
-     *
-     * @return bool True if exists
-     */
+    public function deleteUserById(int $userId): void
+    {
+        $statement = $this->queryFactory->newDelete('users')->andWhere(['id' => $userId])->execute();
+
+        if (!$statement->count()) {
+            throw new DomainException(sprintf('Cannot delete user: %s', $userId));
+        }
+    }
+
+    public function insertUser(array $row): int
+    {
+        $row['created_at'] = Chronos::now()->toDateTimeString();
+        $data['created_user_id'] = $this->session->get('user')["id"];
+        $row['updated_at'] = Chronos::now()->toDateTimeString();
+        $data['updated_user_id'] = $this->session->get('user')["id"];
+
+        return (int)$this->queryFactory->newInsert('users', $row)->execute()->lastInsertId();
+    }
+
+    public function updateUser(int $userId, array $data): void
+    {
+        $data['updated_at'] = Chronos::now()->toDateTimeString();
+        $data['updated_user_id'] = $this->session->get('user')["id"];
+
+        $this->queryFactory->newUpdate('users', $data)->andWhere(['id' => $userId])->execute();
+    }
+
     public function existsUserId(int $userId): bool
     {
         $query = $this->queryFactory->newSelect('users');
         $query->select('id')->andWhere(['id' => $userId]);
 
         return (bool)$query->execute()->fetch('assoc');
-    }
-
-    /**
-     * Delete user row.
-     *
-     * @param int $userId The user id
-     *
-     * @return void
-     */
-    public function deleteUserById(int $userId): void
-    {
-        $this->queryFactory->newDelete('users')
-            ->andWhere(['id' => $userId])
-            ->execute();
-    }
-
-    /**
-     * Convert to array.
-     *
-     * @param UserData $user The user data
-     *
-     * @return array The array
-     */
-    private function toRow(UserData $user): array
-    {
-        return [
-            'id' => $user->id,
-            'username' => $user->username,
-            'password' => $user->password,
-            'first_name' => $user->firstName,
-            'last_name' => $user->lastName,
-            'email' => $user->email,
-            'user_role_id' => $user->userRoleId,
-            'locale' => $user->locale,
-            'enabled' => (int)$user->enabled,
-        ];
     }
 }

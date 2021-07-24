@@ -2,8 +2,8 @@
 
 namespace App\Domain\User\Service;
 
-use App\Domain\User\Data\UserData;
 use App\Domain\User\Repository\UserRepository;
+use App\Domain\User\Type\UserRoleType;
 use App\Factory\LoggerFactory;
 use Psr\Log\LoggerInterface;
 
@@ -12,11 +12,20 @@ use Psr\Log\LoggerInterface;
  */
 final class UserCreator
 {
-    private UserRepository $repository;
+    /**
+     * @var UserRepository
+     */
+    private $repository;
 
-    private UserValidator $userValidator;
+    /**
+     * @var UserValidator
+     */
+    private $userValidator;
 
-    private LoggerInterface $logger;
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
 
     /**
      * The constructor.
@@ -34,7 +43,7 @@ final class UserCreator
         $this->userValidator = $userValidator;
         $this->logger = $loggerFactory
             ->addFileHandler('user_creator.log')
-            ->createLogger();
+            ->createInstance();
     }
 
     /**
@@ -49,20 +58,37 @@ final class UserCreator
         // Input validation
         $this->userValidator->validateUser($data);
 
-        // Map form data to user DTO (model)
-        $user = new UserData($data);
+        // Map form data to row
+        $userRow = $this->mapToUserRow($data);
 
-        // Hash password
-        if ($user->password) {
-            $user->password = (string)password_hash($user->password, PASSWORD_DEFAULT);
-        }
-
-        // Insert user and get new user ID
-        $userId = $this->repository->insertUser($user);
+        // Insert user
+        $userId = $this->repository->insertUser($userRow);
 
         // Logging
         $this->logger->info(sprintf('User created successfully: %s', $userId));
 
         return $userId;
+    }
+
+    /**
+     * Map data to row.
+     *
+     * @param array<mixed> $data The data
+     *
+     * @return array<mixed> The row
+     */
+    private function mapToUserRow(array $data): array
+    {
+        return [
+            'username' => $data['username'],
+            'password' => password_hash($data['password'], PASSWORD_DEFAULT),
+            'email' => $data['email'],
+            'first_name' => $data['first_name'] ?? null,
+            'last_name' => $data['last_name'] ?? null,
+            'user_role_id' => $data['user_role_id'] ?? UserRoleType::ROLE_USER,
+            'store_id' => $data['store_id'] ?? '1',
+            'locale' => $data['locale'] ?? 'en_US',
+            'enabled' => (int)($data['enabled'] ?? true),
+        ];
     }
 }

@@ -7,18 +7,22 @@ description: "Slim 4 Skeleton"
 
 ![image](https://user-images.githubusercontent.com/781074/67564463-4a102980-f723-11e9-9202-5e1d1641d06c.png)
 
+
 ## Introduction
 
-This is a Slim 4 Framework skeleton project 
-for building awesome APIs, websites and web applications.
+A Slim 4 Framework skeleton for web applications and APIs.
 
 ## Installation
 
-* [Composer](installation.md#installation-via-composer)
-* [Docker](installation.md#installation-via-docker)
-* [Vagrant](installation.md#installation-via-vagrant)
+* [Composer](setup/composer.md)
+* [Docker](setup/docker.md)
+* [Vagrant](setup/vagrant.md)
 
-## Support
+## Links
 
-* [Issues](https://github.com/odan/slim4-skeleton/issues)
-* [Donate](https://odan.github.io/donate.html) for this project.
+* [Slim Framework Website](https://www.slimframework.com/)
+* [Slim Framework Documentation](https://www.slimframework.com/docs/v4/)
+* [Slim Framework Support Forum](https://discourse.slimframework.com/)
+* [Slim Framework 4 Tutorial](https://odan.github.io/2019/11/05/slim4-tutorial.html)
+* [Slim Framework Articles](https://odan.github.io/)
+* [Donate](https://odan.github.io/donate.html)

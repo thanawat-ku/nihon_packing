@@ -30,10 +30,9 @@ A quick overview of the request/response cycle:
 This architecture was inspired by the following resources and books:
 
 * [Action Domain Responder](https://pmjones.io/adr/)
-* [The Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
+* [The Beauty of Single Action Controllers](https://driesvints.com/blog/the-beauty-of-single-action-controllers)
 * [Domain-Driven Design](https://amzn.to/3cNq2jV) (The blue DDD book)
 * [Implementing Domain-Driven Design](https://amzn.to/2zrGrMm) (The red DDD book)
-* [The Beauty of Single Action Controllers](https://driesvints.com/blog/the-beauty-of-single-action-controllers)
 * [Object Design Style Guide](https://www.manning.com/books/object-design-style-guide?a_aid=object-design&a_bid=4e089b42)
 * [Advanced Web Application Architecture](https://leanpub.com/web-application-architecture/) (Book)
 * [Advanced Web Application Architecture](https://www.slideshare.net/matthiasnoback/advanced-web-application-architecture-full-stack-europe-2019) (Slides)
