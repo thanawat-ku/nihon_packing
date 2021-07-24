@@ -2,6 +2,7 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nihon Packing System</title>
 <style>
 body {
   font-family: Arial, Helvetica, sans-serif;
@@ -137,7 +138,7 @@ input[type=submit]:hover {
 <div class="container">
   <form action="login" method="post">
     <div class="row">
-      <h2 style="text-align:center">Login to Tool Store</h2>
+      <h2 style="text-align:center">Login to Nihon Packing</h2>
 
       <div class="col">
         <input type="text" name="username" placeholder="Username" required>

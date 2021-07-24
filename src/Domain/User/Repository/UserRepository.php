@@ -28,28 +28,10 @@ final class UserRepository
                 'password',
                 'first_name',
                 'last_name',
-                'email',
-                'user_role_id',
-                'store_id',
                 'locale',
                 'enabled',
-                'user_role_name',
-                'store_name',
             ]
         );
-        $query->join([
-            'r' => [
-                'table' => 'user_roles',
-                'type' => 'INNER',
-                'conditions' => 'r.id = users.user_role_id',
-            ]]);
-
-        $query->join([
-            's' => [
-                'table' => 'stores',
-                'type' => 'INNER',
-                'conditions' => 's.id = users.store_id',
-            ]]);
         $query->andWhere(['username' => $username]);
 
         $row = $query->execute()->fetch('assoc');
@@ -72,20 +54,11 @@ final class UserRepository
                 'username',
                 'first_name',
                 'last_name',
-                'email',
                 'user_role_id',
-                'store_id',
                 'locale',
                 'enabled',
-                'store_name',
             ]
         );
-        $query->join([
-            's' => [
-                'table' => 'stores',
-                'type' => 'INNER',
-                'conditions' => 's.id = users.store_id',
-            ]]);
         $query->andWhere(['id' => $userId]);
 
         $row = $query->execute()->fetch('assoc');
@@ -106,20 +79,11 @@ final class UserRepository
                 'username',
                 'first_name',
                 'last_name',
-                'email',
                 'user_role_id',
-                'store_id',
                 'locale',
                 'enabled',
-                'store_name',
             ]
         );
-        $query->join([
-            's' => [
-                'table' => 'stores',
-                'type' => 'INNER',
-                'conditions' => 's.id = users.store_id',
-            ]]);
 
         return $query->execute()->fetchAll('assoc') ?: [];
     }

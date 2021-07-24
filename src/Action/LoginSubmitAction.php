@@ -56,7 +56,7 @@ final class LoginSubmitAction
             $flash->set('success', 'Login successfully');
     
             // Redirect to protected page
-            $url = $routeParser->urlFor('home');
+            $url = 'users';
         } else {
             $flash->set('error', 'Login failed!');
 
