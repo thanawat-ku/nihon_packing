@@ -23,5 +23,8 @@ return function (App $app) {
     $app->get('/users', \App\Action\Web\UserAction::class)->add(UserAuthMiddleware::class);
     $app->post('/edit_user', \App\Action\Web\UserEditAction::class)->add(UserAuthMiddleware::class);
     $app->post('/add_user', \App\Action\Web\UserAddAction::class)->add(UserAuthMiddleware::class);
+
+    
+    $app->get('/customers', \App\Action\Web\CustomerAction::class)->add(UserAuthMiddleware::class);
     
 };
