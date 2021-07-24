@@ -7,7 +7,7 @@ error_reporting(0);
 ini_set('display_errors', '0');
 
 // Timezone
-date_default_timezone_set('Europe/Berlin');
+date_default_timezone_set('Asia/Bangkok');
 
 // Settings
 $settings = [];
@@ -20,9 +20,9 @@ $settings['template'] = $settings['root'] . '/templates';
 
 // Error handler
 $settings['error'] = [
-    // Should be set to false for the production environment
-    'display_error_details' => false,
-    // Should be set to false for the test environment
+    // Should be set to false in production
+    'display_error_details' => true,
+    // Should be set to false for unit tests
     'log_errors' => true,
     // Display error details in error log
     'log_error_details' => true,
@@ -33,8 +33,24 @@ $settings['logger'] = [
     'name' => 'app',
     'path' => $settings['root'] . '/logs',
     'filename' => 'app.log',
-    'level' => \Monolog\Logger::INFO,
+    'level' => \Monolog\Logger::DEBUG,
     'file_permission' => 0775,
+];
+
+// Phinx settings
+$settings['phinx'] = [
+    'paths' => [
+        'migrations' => $settings['root'] . '/resources/migrations',
+        'seeds' => $settings['root'] . '/resources/seeds',
+    ],
+    'default_migration_prefix' => 'db_change_',
+    'generate_migration_name' => true,
+    'schema_file' => __DIR__ . '/../resources/schema/schema.php',
+    'environments' => [
+        'default_migration_table' => 'phinxlog',
+        'default_environment' => 'local',
+        'local' => [],
+    ],
 ];
 
 // Database settings
@@ -61,45 +77,32 @@ $settings['db'] = [
         PDO::ATTR_EMULATE_PREPARES => true,
         // Set default fetch mode to array
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-        // Convert numeric values to strings when fetching.
-        // Since PHP 8.1 integers and floats in result sets will be returned using native PHP types.
-        // This option restores the previous behavior.
-        PDO::ATTR_STRINGIFY_FETCHES => true,
     ],
-];
-
-// Phoenix settings
-$settings['phoenix'] = [
-    'migration_dirs' => [
-        'first' => __DIR__ . '/../resources/migrations',
-    ],
-    'environments' => [
-        'local' => [
-            'adapter' => 'mysql',
-            'host' => '127.0.0.1',
-            'port' => 3306,
-            'username' => 'root',
-            'password' => '',
-            'db_name' => 'slim_skeleton_dev',
-            'charset' => 'utf8',
-        ],
-        'local2' => [
-            'adapter' => 'mysql',
-            'host' => '127.0.0.1',
-            'port' => 3306,
-            'username' => 'root',
-            'password' => 'root',
-            'db_name' => 'slim_skeleton_diff',
-            'charset' => 'utf8',
-        ],
-    ],
-    'default_environment' => 'local',
-    'log_table_name' => 'phoenix_log',
 ];
 
 // Console commands
 $settings['commands'] = [
     \App\Console\SchemaDumpCommand::class,
+];
+
+// Session management
+$settings['session'] = [
+    'name' => 'webapp',
+    'cache_expire' => 0,
+];
+
+// Twig settings
+$settings['twig'] = [
+    // Template paths
+    'paths' => [
+        __DIR__ . '/../templates',
+    ],
+    // Twig environment options
+    'options' => [
+        // Should be set to true in production
+        'cache_enabled' => false,
+        'cache_path' => __DIR__ . '/../tmp/twig',
+    ],
 ];
 
 return $settings;

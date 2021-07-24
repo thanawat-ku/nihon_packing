@@ -1,27 +1,31 @@
 <?php
 
+use App\Middleware\SessionMiddleware;
 use App\Factory\LoggerFactory;
 use App\Handler\DefaultErrorHandler;
 use Cake\Database\Connection;
-use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
-use Psr\Http\Message\ServerRequestFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
-use Psr\Http\Message\UploadedFileFactoryInterface;
-use Psr\Http\Message\UriFactoryInterface;
 use Selective\BasePath\BasePathMiddleware;
 use Selective\Validation\Encoder\JsonEncoder;
 use Selective\Validation\Middleware\ValidationExceptionMiddleware;
 use Selective\Validation\Transformer\ErrorDetailsResultTransformer;
 use Slim\App;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
+use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
 use Slim\Factory\AppFactory;
 use Slim\Interfaces\RouteParserInterface;
 use Slim\Middleware\ErrorMiddleware;
+use Slim\Psr7\Factory\StreamFactory;
 use Slim\Views\PhpRenderer;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\InputOption;
 use Tuupola\Middleware\HttpBasicAuthentication;
+use Slim\Views\Twig;
+use Slim\Views\TwigMiddleware;
 
 return [
     // Application settings
@@ -35,25 +39,13 @@ return [
         return AppFactory::create();
     },
 
-    // HTTP factories
+    // For the responder
     ResponseFactoryInterface::class => function (ContainerInterface $container) {
         return $container->get(App::class)->getResponseFactory();
     },
 
-    ServerRequestFactoryInterface::class => function (ContainerInterface $container) {
-        return $container->get(Psr17Factory::class);
-    },
-
-    StreamFactoryInterface::class => function (ContainerInterface $container) {
-        return $container->get(Psr17Factory::class);
-    },
-
-    UploadedFileFactoryInterface::class => function (ContainerInterface $container) {
-        return $container->get(Psr17Factory::class);
-    },
-
-    UriFactoryInterface::class => function (ContainerInterface $container) {
-        return $container->get(Psr17Factory::class);
+    StreamFactoryInterface::class => function () {
+        return new StreamFactory();
     },
 
     // The Slim RouterParser
@@ -67,7 +59,9 @@ return [
     },
 
     BasePathMiddleware::class => function (ContainerInterface $container) {
-        return new BasePathMiddleware($container->get(App::class));
+        $app = $container->get(App::class);
+
+        return new BasePathMiddleware($app);
     },
 
     // Database connection
@@ -84,8 +78,10 @@ return [
     },
 
     ValidationExceptionMiddleware::class => function (ContainerInterface $container) {
+        $factory = $container->get(ResponseFactoryInterface::class);
+
         return new ValidationExceptionMiddleware(
-            $container->get(ResponseFactoryInterface::class),
+            $factory,
             new ErrorDetailsResultTransformer(),
             new JsonEncoder()
         );
@@ -97,7 +93,7 @@ return [
 
         $logger = $container->get(LoggerFactory::class)
             ->addFileHandler('error.log')
-            ->createLogger();
+            ->createInstance();
 
         $errorMiddleware = new ErrorMiddleware(
             $app->getCallableResolver(),
@@ -132,6 +128,57 @@ return [
     },
 
     HttpBasicAuthentication::class => function (ContainerInterface $container) {
-        return new HttpBasicAuthentication($container->get('settings')['api_auth']);
+        $settings = $container->get('settings')['api_auth'];
+
+        return new HttpBasicAuthentication($settings);
+    },
+    
+    
+    Session::class => function (ContainerInterface $container) {
+        $settings = $container->get('settings')['session'];
+        if (PHP_SAPI === 'cli') {
+            return new Session(new MockArraySessionStorage());
+        } else {
+            return new Session(new NativeSessionStorage($settings));
+        }
+    },
+
+    SessionInterface::class => function (ContainerInterface $container) {
+        return $container->get(Session::class);
+    },
+
+    // The Twig template engine
+    Twig::class => function (ContainerInterface $container) {
+        $settings = (array)$container->get('settings');
+        $twigSettings = $settings['twig'];
+
+        $twig = Twig::create($twigSettings['paths'], $twigSettings['options']);
+        // ...
+
+        // The path must be absolute.
+        // e.g. /var/www/example.com/public
+        $publicPath = (string)$settings['public'];
+
+        // Add extensions
+        $twig->addExtension(new \Fullpipe\TwigWebpackExtension\WebpackExtension(
+            // The manifest file.
+            $publicPath . '/assets/manifest.json',
+            // The public path
+            $publicPath
+        ));
+
+        return $twig;
+    },
+    PDO::class => function (ContainerInterface $container) {
+        $settings = $container->get('settings')['db'];
+    
+        $host = $settings['host'];
+        $dbname = $settings['database'];
+        $username = $settings['username'];
+        $password = $settings['password'];
+        $flags = $settings['flags'];
+        $dsn = "mysql:host=$host;dbname=$dbname";
+    
+        return new PDO($dsn, $username, $password, $flags);
     },
 ];
