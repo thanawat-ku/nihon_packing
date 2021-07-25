@@ -29,5 +29,6 @@ return function (App $app) {
     $app->get('/products', \App\Action\Web\ProductAction::class)->add(UserAuthMiddleware::class);
     $app->get('/lots', \App\Action\Web\LotAction::class)->add(UserAuthMiddleware::class);
     $app->post('/add_lot', \App\Action\Web\LotAddAction::class)->add(UserAuthMiddleware::class);
-
+    $app->post('/edit_lot', \App\Action\Web\LotEditAction::class)->add(UserAuthMiddleware::class);
+    
 };

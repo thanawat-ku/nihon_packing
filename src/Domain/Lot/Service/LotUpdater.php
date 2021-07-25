@@ -47,7 +47,7 @@ final class LotUpdater
         $storeRow = $this->mapToLotRow($data);
 
         // Insert store
-       // $this->repository->updateLot($lotId, $storeRow);
+        $this->repository->updateLot($lotId, $storeRow);
 
         // Logging
         //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));

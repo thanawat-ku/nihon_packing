@@ -27,12 +27,20 @@ final class LotRepository
 
         return (int)$this->queryFactory->newInsert('lots', $row)->execute()->lastInsertId();
     }
+    public function updateLot(int $lotID, array $data): void
+    {
+        $data['updated_at'] = Chronos::now()->toDateTimeString();
+        $data['updated_user_id'] = $this->session->get('user')["id"];
+
+        $this->queryFactory->newUpdate('lots', $data)->andWhere(['id' => $lotID])->execute();
+    }
 
     public function findLots(array $params): array
     {
         $query = $this->queryFactory->newSelect('lots');
         $query->select(
             [
+                'lots.id',
                 'lot_no',
                 'product_id',
                 'quantity',
