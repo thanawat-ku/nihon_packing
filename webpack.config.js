@@ -14,6 +14,7 @@ module.exports = {
       'web/users': './templates/web/users.js', // <-- add this line
       'web/customers': './templates/web/customers.js', // <-- add this line
       'web/products': './templates/web/products.js', // <-- add this line
+      'web/lots': './templates/web/lots.js', // <-- add this line
       
     },
     output: {
