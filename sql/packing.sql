@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 24, 2021 at 06:31 PM
+-- Generation Time: Jul 25, 2021 at 05:36 PM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 8.0.3
 
@@ -33,7 +33,7 @@ CREATE TABLE `customers` (
   `tel_no` varchar(30) NOT NULL,
   `address` text NOT NULL,
   `created_at` datetime DEFAULT NULL,
-  `create_user_id` int(11) NOT NULL,
+  `created_user_id` int(11) NOT NULL,
   `updated_at` datetime DEFAULT NULL,
   `updated_user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -42,7 +42,7 @@ CREATE TABLE `customers` (
 -- Dumping data for table `customers`
 --
 
-INSERT INTO `customers` (`id`, `customer_name`, `tel_no`, `address`, `created_at`, `create_user_id`, `updated_at`, `updated_user_id`) VALUES
+INSERT INTO `customers` (`id`, `customer_name`, `tel_no`, `address`, `created_at`, `created_user_id`, `updated_at`, `updated_user_id`) VALUES
 (1, 'CANON HI-TECH (THAILAND)LTD.', '-', '-', NULL, 0, NULL, 0),
 (2, 'DENSO (GUANGZHOU NANSHA) CO.,LTD.', '-', '-', NULL, 0, NULL, 0),
 (3, 'HITACHI AUTOMOTIVE SYSTEMS AMERICAS,INC.-MONROE,GA', '-', '-', NULL, 0, NULL, 0);
@@ -101,18 +101,24 @@ CREATE TABLE `lots` (
   `id` int(11) NOT NULL,
   `lot_no` varchar(100) NOT NULL,
   `product_id` int(11) NOT NULL,
-  `quantity` int(11) NOT NULL
+  `quantity` int(11) NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `created_user_id` int(11) NOT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `updated_user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `lots`
 --
 
-INSERT INTO `lots` (`id`, `lot_no`, `product_id`, `quantity`) VALUES
-(1, '21506NSB10B', 1, 38),
-(2, '21506NSB10C', 1, 43),
-(5, '21513K20J13B', 2, 68),
-(6, '21513K20J11B', 3, 15);
+INSERT INTO `lots` (`id`, `lot_no`, `product_id`, `quantity`, `created_at`, `created_user_id`, `updated_at`, `updated_user_id`) VALUES
+(1, '21506NSB10B', 1, 35, NULL, 0, '2021-07-25 22:35:20', 1),
+(2, '21506NSB10C', 1, 43, NULL, 0, NULL, 0),
+(5, '21513K20J13B', 2, 68, NULL, 0, NULL, 0),
+(6, '21513K20J11B', 3, 15, NULL, 0, NULL, 0),
+(7, 'wwerwq', 2, 45, '2021-07-25 22:13:54', 1, '2021-07-25 22:13:54', 1),
+(8, '43214dgsd', 2, 35, '2021-07-25 22:14:10', 1, '2021-07-25 22:14:10', 1);
 
 -- --------------------------------------------------------
 
@@ -210,7 +216,7 @@ CREATE TABLE `products` (
   `std_pack` int(11) NOT NULL,
   `std_box` int(11) NOT NULL,
   `created_at` datetime DEFAULT NULL,
-  `create_user_id` int(11) NOT NULL,
+  `created_user_id` int(11) NOT NULL,
   `updated_at` datetime DEFAULT NULL,
   `updated_user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -219,7 +225,7 @@ CREATE TABLE `products` (
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`id`, `product_code`, `product_name`, `price`, `std_pack`, `std_box`, `created_at`, `create_user_id`, `updated_at`, `updated_user_id`) VALUES
+INSERT INTO `products` (`id`, `product_code`, `product_name`, `price`, `std_pack`, `std_box`, `created_at`, `created_user_id`, `updated_at`, `updated_user_id`) VALUES
 (1, 'CHT0089', 'SHAFT,LOCK,PUSH', 100, 10, 30, NULL, 0, NULL, 0),
 (2, 'CHT4291', 'MAIN CAM SHAFT (T99001)', 300, 20, 20, NULL, 0, NULL, 0),
 (3, 'HAG0024', 'RETAINER-BALL', 200, 5, 40, NULL, 0, NULL, 0);
@@ -393,7 +399,7 @@ ALTER TABLE `labels`
 -- AUTO_INCREMENT for table `lots`
 --
 ALTER TABLE `lots`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `merge_packs`
