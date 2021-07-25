@@ -18,7 +18,15 @@ final class LotRepository
         $this->session=$session;
     }
 
-    
+    public function insertLot(array $row): int
+    {
+        $row['created_at'] = Chronos::now()->toDateTimeString();
+        $row['created_user_id'] = $this->session->get('user')["id"];
+        $row['updated_at'] = Chronos::now()->toDateTimeString();
+        $row['updated_user_id'] = $this->session->get('user')["id"];
+
+        return (int)$this->queryFactory->newInsert('lots', $row)->execute()->lastInsertId();
+    }
 
     public function findLots(array $params): array
     {

@@ -14,7 +14,7 @@
         <div class="row">
             <div class="col-md-12">
                 <h2><i class="fas fa-dolly"></i> Lot list</h2>
-                <button type="button" id="addBt" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addProduct"><i style="font-size:15px; width:20px;" class="fas fa-dolly"></i> Add Lot</button>      
+                <button type="button" id="addBt" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addLot"><i style="font-size:15px; width:20px;" class="fas fa-dolly"></i> Add Lot</button>      
                 <hr>
                 <table id="my-data-table" class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline collapsed">
                     <thead>
@@ -44,67 +44,33 @@
         </div>
     </div>
 <!-- Modal Add product -->
-<div class="modal fade" id="addProduct">
+<div class="modal fade" id="addLot">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
-      <form id="form-addProduct" action="add_product" method="post">
+      <form id="form-addLot" action="add_lot" method="post">
         <!-- Modal Header -->
         <div class="modal-header">
-          <h4 class="modal-title">Add Product</h4>
+          <h4 class="modal-title">Add Lot</h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         <!-- Modal body -->
         <div class="modal-body">          
           <div class="form-product">
-            <label for="productName">Product Name</label>
-            <input type="text" autocomplete="off" class="form-control" id="addProductName" name="productname" required>
-          </div>          
+            <label for="lotNo">Lot No</label>
+            <input type="text" autocomplete="off" class="form-control" id="addLoNo" name="lot_no" required>
+          </div>                 
           <div class="form-product">
-            <label for="email">Email</label>
-            <input type="text" autocomplete="off" class="form-control" id="addEmail" name="email" required>
-          </div>
-          <div class="form-product">
-            <label for="addPassword">Password</label>
-            <input type="password" autocomplete="off" class="form-control" id="addPassword" name="password" required>
-          </div>          
-          <div class="form-product">
-            <label for="addConfirmPassword">Confirm Password</label>
-            <input type="password" autocomplete="off" class="form-control" id="addConfirmPassword" name="confirmPassword" required>
-          </div>         
-          <div class="form-product">
-            <label for="firstName">First Name</label>
-            <input type="text" autocomplete="off" class="form-control" id="addFirstName" name="first_name" required>
-          </div>          
-          <div class="form-product">
-            <label for="lasttName">Last Name</label>
-            <input type="text" autocomplete="off" class="form-control" id="addLastName" name="last_name" required>
-          </div>         
-          <div class="form-product">
-            <label for="email">Group</label>
-            <select class="form-control"  id="addProductRoleID" name="product_role_id">
-                <option value="1">Admin</option>
-                <option value="2">Product</option>
-                <option value="3">Store</option>
-                <option value="4">Manager</option>
-                <option value="5">Store Manager</option>
-                <option value="6">Super Admin</option>
-                <option value="7">Finance</option>
+            <label for="email">Product</label>
+            <select class="form-control"  id="addProductID" name="product_id">
+            {% for p in products %}
+              <option value={{ p.id }}>({{p.product_code}}) {{ p.product_name}} </option>
+            {% endfor %}
             </select>
-          </div>         
+          </div>           
           <div class="form-product">
-            <label for="email">Store</label>
-            <select class="form-control"  id="addStoreID" name="store_id">
-                <option value="1">Ayutthaya</option>
-                <option value="2">Khonkean</option>
-            </select>
-          </div>        
-          <div class="form-product">
-            <label for="enabled">Enabled</label>
-            <select class="form-control"  id="editEnabled" name="enabled">
-                <option value="1">enable</option>
-                <option value="0">disable</option>
-            </select>
-          </div>
+            <label for="lotNo">Quantity</label>
+            <input type="text" autocomplete="off" class="form-control" id="addQuantity" name="quantity" required>
+          </div> 
         </div>
         <div class="modal-footer">
           <button type="submit" class="btn btn-primary">Save</button>
