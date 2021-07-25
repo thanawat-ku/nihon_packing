@@ -30,6 +30,8 @@ final class LotRepository
                 'quantity',
                 'product_code',
                 'product_name',
+                'std_pack',
+                'std_box',
             ]
         );
         $query->join([

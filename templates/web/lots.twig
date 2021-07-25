@@ -22,6 +22,8 @@
                         <th>Lot No</th>
                         <th>Product</th>
                         <th>Qty</th>
+                        <th>Std Pack</th>
+                        <th>Std Box</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -30,6 +32,8 @@
                         <td>{{ lot.lot_no }}</td>
                         <td>{{ '(' ~ lot.product_code ~ ') ' ~ lot.product_name}}</td>
                         <td>{{ lot.quantity }}</td>
+                        <td>{{ lot.std_pack }}</td>
+                        <td>{{ lot.std_box }}</td>
                     </tr>
                     {% endfor %}
                     </tbody>
