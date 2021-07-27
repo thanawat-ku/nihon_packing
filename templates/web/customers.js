@@ -10,18 +10,7 @@ function editCustomer(event){
     $("#editTelNo").val(obj.tel_no);
     $("#editAddress").val(obj.address);
 }
-$( "#form-editUser" ).on("submit", function( event ) {
-    if ( $( "#editPassword" ).val() ==  $( "#editConfirmPassword" ).val()) {
-        if($("#editPassword").val()==""){
-            $("#editUser").modal('toggle');
-            $("#editPassword").remove();
-        }
-        return;
-    }else{
-        alert("Password not match");
-        event.preventDefault();
-    }
-  });
+
   function deleteCustomer(event){
     let customer = event.currentTarget.name;
     console.log(customer);
