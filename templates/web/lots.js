@@ -22,6 +22,13 @@ $( "#form-editUser" ).on("submit", function( event ) {
         event.preventDefault();
     }
   });
+  function deleteLot(event){
+    let lot = event.currentTarget.name;
+    console.log(lot);
+    var obj = JSON.parse(lot);
+    $("#deleteLotID").val(obj.id);
+    $("#deleteLotNo").text(obj.lot_no);
+}
 $(document).on(
     "click",
     "#editBt, #deleteBt",
