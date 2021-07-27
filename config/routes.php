@@ -33,6 +33,7 @@ return function (App $app) {
     $app->post('/add_lot', \App\Action\Web\LotAddAction::class)->add(UserAuthMiddleware::class);
     $app->post('/edit_lot', \App\Action\Web\LotEditAction::class)->add(UserAuthMiddleware::class);
 
+
     //เพิ่ม customer และแก้ไข customer
     $app->post('/add_customer', \App\Action\Web\CustomerAddAction::class)->add(UserAuthMiddleware::class);
     $app->post('/edit_customer', \App\Action\Web\CustomerEditAction::class)->add(UserAuthMiddleware::class);
@@ -40,5 +41,8 @@ return function (App $app) {
     //เพิ่ม route ของ product การเพิ่มข้อมูลสินค้าและแก้ไขข้อมูลสินค้า
     $app->post('/add_product', \App\Action\Web\ProductAddAction::class)->add(UserAuthMiddleware::class);
     $app->post('/edit_product', \App\Action\Web\ProductEditAction::class)->add(UserAuthMiddleware::class);
+
+    $app->post('/delete_lot', \App\Action\Web\LotDeleteAction::class)->add(UserAuthMiddleware::class);
+
     
 };

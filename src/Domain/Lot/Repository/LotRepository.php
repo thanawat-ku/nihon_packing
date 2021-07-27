@@ -35,6 +35,10 @@ final class LotRepository
 
         $this->queryFactory->newUpdate('lots', $data)->andWhere(['id' => $lotID])->execute();
     }
+    public function deleteLot(int $lotID): void
+    {
+        $this->queryFactory->newDelete('lots')->andWhere(['id' => $lotID])->execute();
+    }
 
     public function findLots(array $params): array
     {
