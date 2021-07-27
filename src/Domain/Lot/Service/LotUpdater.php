@@ -52,6 +52,15 @@ final class LotUpdater
         // Logging
         //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));
     }
+    public function deleteLot(int $lotId, array $data): void
+    {
+
+        // Insert store
+        $this->repository->deleteLot($lotId);
+
+        // Logging
+        //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));
+    }
 
     /**
      * Map data to row.
