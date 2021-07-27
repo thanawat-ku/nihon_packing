@@ -22,6 +22,7 @@
                         <th>Name</th>
                         <th>Tel No</th>
                         <th>Address</th>
+                        <th>Operation</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -29,7 +30,11 @@
                     <tr>
                         <td>{{ customer.customer_name }}</td>
                         <td>{{ customer.tel_no }}</td>
-                        <td>{{ address }}</td>
+                        <td>{{ customer.address }}</td>
+                        <td>
+                        <button type="button" id="editBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-edit"></i></button>
+                        <button type="button" id="deleteBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-trash"></i></button>
+                        </td>
                     </tr>
                     {% endfor %}
                     </tbody>

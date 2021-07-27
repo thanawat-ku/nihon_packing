@@ -24,6 +24,7 @@
                         <th>Price</th>
                         <th>STD Pack</th>
                         <th>STD Box</th>
+                        <th>Operation</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -34,6 +35,10 @@
                         <td>{{ product.price }}</td>
                         <td>{{ product.std_pack }}</td>
                         <td>{{ product.std_box }}</td>
+                        <td>
+                        <button type="button" id="editBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-edit"></i></button>
+                        <button type="button" id="deleteBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-trash"></i></button>
+                        </td>
                     </tr>
                     {% endfor %}
                     </tbody>
