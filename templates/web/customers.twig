@@ -58,55 +58,16 @@
         <div class="modal-body">          
           <div class="form-customer">
             <label for="customerName">Customer Name</label>
-            <input type="text" autocomplete="off" class="form-control" id="addCustomerName" name="customername" required>
+            <input type="text" autocomplete="off" class="form-control" id="addCustomerName" name="customer_name" required>
           </div>          
           <div class="form-customer">
-            <label for="email">Email</label>
-            <input type="text" autocomplete="off" class="form-control" id="addEmail" name="email" required>
+            <label for="telNo">Tel No</label>
+            <input type="text" autocomplete="off" class="form-control" id="addtelNo" name="tel_no" required>
           </div>
           <div class="form-customer">
-            <label for="addPassword">Password</label>
-            <input type="password" autocomplete="off" class="form-control" id="addPassword" name="password" required>
-          </div>          
-          <div class="form-customer">
-            <label for="addConfirmPassword">Confirm Password</label>
-            <input type="password" autocomplete="off" class="form-control" id="addConfirmPassword" name="confirmPassword" required>
-          </div>         
-          <div class="form-customer">
-            <label for="firstName">First Name</label>
-            <input type="text" autocomplete="off" class="form-control" id="addFirstName" name="first_name" required>
-          </div>          
-          <div class="form-customer">
-            <label for="lasttName">Last Name</label>
-            <input type="text" autocomplete="off" class="form-control" id="addLastName" name="last_name" required>
-          </div>         
-          <div class="form-customer">
-            <label for="email">Group</label>
-            <select class="form-control"  id="addCustomerRoleID" name="customer_role_id">
-                <option value="1">Admin</option>
-                <option value="2">Customer</option>
-                <option value="3">Store</option>
-                <option value="4">Manager</option>
-                <option value="5">Store Manager</option>
-                <option value="6">Super Admin</option>
-                <option value="7">Finance</option>
-            </select>
-          </div>         
-          <div class="form-customer">
-            <label for="email">Store</label>
-            <select class="form-control"  id="addStoreID" name="store_id">
-                <option value="1">Ayutthaya</option>
-                <option value="2">Khonkean</option>
-            </select>
-          </div>        
-          <div class="form-customer">
-            <label for="enabled">Enabled</label>
-            <select class="form-control"  id="editEnabled" name="enabled">
-                <option value="1">enable</option>
-                <option value="0">disable</option>
-            </select>
-          </div>
-        </div>
+            <label for="addAddress">Address</label>
+            <input type="text" autocomplete="off" class="form-control" id="addAddress" name="address" required>
+          </div>           
         <div class="modal-footer">
           <button type="submit" class="btn btn-primary">Save</button>
           <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
@@ -115,70 +76,31 @@
     </div>
   </div>
 </div>
-    <!-- Modal edit customer -->
+
+<!-- Modal Edit customer -->
 <div class="modal fade" id="editCustomer">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <form id="form-editCustomer" action="edit_customer" method="post">
         <!-- Modal Header -->
         <div class="modal-header">
-          <h4 class="modal-title">Edit Customer</h4>
+          <h4 class="modal-title">Add Customer</h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         <!-- Modal body -->
         <div class="modal-body">          
           <div class="form-customer">
-            <input type="text" id="editCustomerID" name="id" hidden>
             <label for="customerName">Customer Name</label>
-            <input type="text" autocomplete="off" class="form-control" id="editCustomerName" name="customername" required>
+            <input type="text" autocomplete="off" class="form-control" id="editCustomerName" name="customer_name" required>
           </div>          
           <div class="form-customer">
-            <label for="email">Email</label>
-            <input type="text" autocomplete="off" class="form-control" id="editEmail" name="email" required>
+            <label for="telNo">Tel No</label>
+            <input type="text" autocomplete="off" class="form-control" id="edittelNo" name="tel_no" required>
           </div>
           <div class="form-customer">
-            <label for="editPassword">Password</label>
-            <input type="password" autocomplete="off" class="form-control" id="editPassword" name="password">
-          </div>          
-          <div class="form-customer">
-            <label for="editConfirmPassword">Confirm Password</label>
-            <input type="password" autocomplete="off" class="form-control" id="editConfirmPassword" name="confirmPassword">
-          </div>         
-          <div class="form-customer">
-            <label for="firstName">First Name</label>
-            <input type="text" autocomplete="off" class="form-control" id="editFirstName" name="first_name" required>
-          </div>          
-          <div class="form-customer">
-            <label for="lasttName">Last Name</label>
-            <input type="text" autocomplete="off" class="form-control" id="editLastName" name="last_name" required>
-          </div>         
-          <div class="form-customer">
-            <label for="email">Group</label>
-            <select class="form-control"  id="editCustomerRoleID" name="customer_role_id">
-                <option value="1">Admin</option>
-                <option value="2">Customer</option>
-                <option value="3">Store</option>
-                <option value="4">Manager</option>
-                <option value="5">Store Manager</option>
-                <option value="6">Super Admin</option>
-                <option value="7">Finance</option>
-            </select>
-          </div>          
-          <div class="form-customer">
-            <label for="email">Store</label>
-            <select class="form-control"  id="editStoreID" name="store_id">
-                <option value="1">Ayutthaya</option>
-                <option value="2">Khonkean</option>
-            </select>
-          </div>         
-          <div class="form-customer">
-            <label for="enabled">Enabled</label>
-            <select class="form-control"  id="editEnabled" name="enabled">
-                <option value="1">enable</option>
-                <option value="0">disable</option>
-            </select>
-          </div>
-        </div>
+            <label for="editAddress">Address</label>
+            <input type="text" autocomplete="off" class="form-control" id="editAddress" name="editress" required>
+          </div>           
         <div class="modal-footer">
           <button type="submit" class="btn btn-primary">Save</button>
           <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
