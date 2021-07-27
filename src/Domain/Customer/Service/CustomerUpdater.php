@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Domain\Lot\Service;
+namespace App\Domain\Customer\Service;
 
-use App\Domain\Lot\Repository\LotRepository;
+use App\Domain\Customer\Repository\CustomerRepository;
 
 /**
  * Service.
  */
-final class LotUpdater
+final class CustomerUpdater
 {
     private $repository;
     private $validator;
 
     public function __construct(
-        LotRepository $repository,
-        LotValidator $validator
+        CustomerRepository $repository,
+        CustomerValidator $validator
     ) {
         $this->repository = $repository;
         $this->validator = $validator;
@@ -23,32 +23,32 @@ final class LotUpdater
             //->createInstance();
     }
 
-    public function insertLot( array $data): int
+    public function insertCustomer( array $data): int
     {
         // Input validation
-        $this->validator->validateLotInsert($data);
+        $this->validator->validateCustomerInsert($data);
 
         // Map form data to row
         $lotRow = $this->mapToLotRow($data);
 
         // Insert transferStore
-        $id=$this->repository->insertLot($lotRow);
+        $id=$this->repository->insertCustomer($lotRow);
 
         // Logging
         //$this->logger->info(sprintf('TransferStore updated successfully: %s', $id));
         return $id;
     }
     
-    public function updateLot(int $lotId, array $data): void
+    public function updateCustomer(int $lotId, array $data): void
     {
         // Input validation
-        $this->validator->validateLotUpdate($lotId, $data);
+        $this->validator->validateCustomerUpdate($lotId, $data);
 
         // Map form data to row
         $storeRow = $this->mapToLotRow($data);
 
         // Insert store
-        $this->repository->updateLot($lotId, $storeRow);
+        $this->repository->updateCustomer($lotId, $storeRow);
 
         // Logging
         //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));
@@ -58,14 +58,14 @@ final class LotUpdater
     {
         $result = [];
 
-        if (isset($data['lot_no'])) {
-            $result['lot_no'] = (string)$data['lot_no'];
+        if (isset($data['customer_name'])) {
+            $result['customer_name'] = (string)$data['customer_name'];
         }
-        if (isset($data['product_id'])) {
-            $result['product_id'] = (string)$data['product_id'];
+        if (isset($data['tel_no'])) {
+            $result['tel_no'] = (string)$data['tel_no'];
         }
-        if (isset($data['quantity'])) {
-            $result['quantity'] = (string)$data['quantity'];
+        if (isset($data['address'])) {
+            $result['address'] = (string)$data['address'];
         }
 
 

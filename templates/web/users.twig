@@ -32,12 +32,12 @@
                         <td>{{ user.first_name ~ " " ~ user.last_name}}</td>
                         <td>{{ user.user_role_id==1?"Admin":user.user_role_id==2?"User":user.user_role_id==3?"Store":user.user_role_id==4?"Manager":user.user_role_id==5?"Store Manager":"Super Admin" }}</td>
                         <td>
-                        {% if user_login["user_role_id"] in [1,6] %}
-                            <button type="button" id="editBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editUser" name="{{ user|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-edit"></i></button>
-                            <button type="button" id="deleteBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteUser" name="{{ user|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-trash-alt"></i></button>
-                        {% else %}
-                            &nbsp;
-                        {% endif %}
+                          {% if user_login["user_role_id"] in [1,6] %}
+                              <button type="button" id="editBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editUser" name="{{ user|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-edit"></i></button>
+                              <button type="button" id="deleteBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteUser" name="{{ user|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-trash-alt"></i></button>
+                          {% else %}
+                              &nbsp;
+                          {% endif %}
                         </td>
                     </tr>
                     {% endfor %}
@@ -48,6 +48,7 @@
             </div>
         </div>
     </div>
+
 <!-- Modal Add user -->
 <div class="modal fade" id="addUser">
   <div class="modal-dialog modal-dialog-centered">
@@ -119,7 +120,8 @@
     </div>
   </div>
 </div>
-    <!-- Modal edit user -->
+
+<!-- Modal edit user -->
 <div class="modal fade" id="editUser">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">

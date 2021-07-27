@@ -14,19 +14,11 @@ use Symfony\Component\HttpFoundation\Session\Session;
  */
 final class CustomerAction
 {
-    /**
-     * @var Responder
-     */
     private $responder;
     private $twig;
     private $customerFinder;
     private $session;
 
-    /**
-     * The constructor.
-     *
-     * @param Responder $responder The responder
-     */
     public function __construct(Twig $twig,CustomerFinder $customerFinder,Session $session,Responder $responder)
     {
         $this->twig = $twig;
@@ -35,14 +27,6 @@ final class CustomerAction
         $this->responder = $responder;
     }
 
-    /**
-     * Action.
-     *
-     * @param ServerRequestInterface $request The request
-     * @param ResponseInterface $response The response
-     *
-     * @return ResponseInterface The response
-     */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $params = (array)$request->getQueryParams();
@@ -52,7 +36,6 @@ final class CustomerAction
             'user_login' => $this->session->get('user'),
         ];
         
-
         return $this->twig->render($response, 'web/customers.twig',$viewData);
     }
 }
