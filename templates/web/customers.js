@@ -6,9 +6,9 @@ function editCustomer(event){
     console.log(customer);
     var obj = JSON.parse(customer);
     $("#editCustomerID").val(obj.id);
-    $("#editeditCustomerName").val(obj.customer_name);
-    $("#editeditTelNo").val(obj.tel_no);
-    $("#editeditAddress").val(obj.address);
+    $("#editCustomerName").val(obj.customer_name);
+    $("#editTelNo").val(obj.tel_no);
+    $("#editAddress").val(obj.address);
 }
 $( "#form-editUser" ).on("submit", function( event ) {
     if ( $( "#editPassword" ).val() ==  $( "#editConfirmPassword" ).val()) {
@@ -22,6 +22,13 @@ $( "#form-editUser" ).on("submit", function( event ) {
         event.preventDefault();
     }
   });
+  function deleteCustomer(event){
+    let customer = event.currentTarget.name;
+    console.log(customer);
+    var obj = JSON.parse(customer);
+    $("#deleteCustomerID").val(obj.id);
+    $("#deleteCustomerNo").text(obj.customer_no);
+}
 $(document).on(
     "click",
     "#editBt, #deleteBt",
@@ -29,10 +36,10 @@ $(document).on(
         let id = event.currentTarget.id;
         switch (id) {
             case "editBt":
-                editLot(event);
+                editCustomer(event);
                 break;
             case "deleteBt":
-                deleteLot(event);
+                deleteCustomer(event);
                 break;
             default:
                 console.log("no any events click");

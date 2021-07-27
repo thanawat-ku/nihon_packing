@@ -44,6 +44,7 @@
             </div>
         </div>
     </div>
+  </div>
 
 <!-- Modal Add customer -->
 <div class="modal fade" id="addCustomer">
@@ -68,7 +69,8 @@
           <div class="form-customer">
             <label for="addAddress">Address</label>
             <input type="text" autocomplete="off" class="form-control" id="addAddress" name="address" required>
-          </div>           
+          </div> 
+        </div>          
         <div class="modal-footer">
           <button type="submit" class="btn btn-primary">Save</button>
           <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
@@ -101,10 +103,38 @@
           <div class="form-customer">
             <label for="addAddress">Address</label>
             <input type="text" autocomplete="off" class="form-control" id="editAddress" name="address" required>
-          </div>           
+          </div>
+        </div>            
         <div class="modal-footer">
           <button type="submit" class="btn btn-primary">Save</button>
           <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Delete customer -->
+<div class="modal fade" id="deleteCustomer">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form id="form-deleteCustomer" action="delete_customer" method="post">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Delete Customer</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">          
+          <div class="form-product">
+            <input type="hidden" id="deleteCustomerID" name="id">
+            <label for="customerNo">Do you want to delete customer: <span id="deleteCustomerNo"></span></label>
+          </div>                 
+          
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-danger">Delete</button>
+          <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
         </div>
       </form>
     </div>
