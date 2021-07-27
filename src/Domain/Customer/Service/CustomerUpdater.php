@@ -53,6 +53,15 @@ final class CustomerUpdater
         //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));
     }
 
+    public function deleteCustomer(int $customerId, array $data): void
+    {
+        // Insert store
+        $this->repository->deleteCustomer($customerId);
+
+        // Logging
+        //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));
+    }
+
     /**
      * Map data to row.
      *

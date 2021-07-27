@@ -27,7 +27,7 @@ $( "#form-editUser" ).on("submit", function( event ) {
     console.log(customer);
     var obj = JSON.parse(customer);
     $("#deleteCustomerID").val(obj.id);
-    $("#deleteCustomerNo").text(obj.customer_no);
+    $("#deleteCustomer").text(obj.customer_name);
 }
 $(document).on(
     "click",

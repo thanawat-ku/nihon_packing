@@ -34,6 +34,10 @@ final class CustomerRepository
         $this->queryFactory->newUpdate('customers', $data)->andWhere(['id' => $customerID])->execute();
     }
     
+    public function deleteCustomer(int $customerID): void
+    {
+        $this->queryFactory->newDelete('customers')->andWhere(['id' => $customerID])->execute();
+    }
 
     public function findCustomers(array $params): array
     {

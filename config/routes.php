@@ -28,6 +28,7 @@ return function (App $app) {
     $app->get('/customers', \App\Action\Web\CustomerAction::class)->add(UserAuthMiddleware::class);
     $app->post('/add_customer', \App\Action\Web\CustomerAddAction::class)->add(UserAuthMiddleware::class);
     $app->post('/edit_customer', \App\Action\Web\CustomerEditAction::class)->add(UserAuthMiddleware::class);
+    $app->post('/delete_customer', \App\Action\Web\CustomerDeleteAction::class)->add(UserAuthMiddleware::class);
  
     $app->get('/products', \App\Action\Web\ProductAction::class)->add(UserAuthMiddleware::class);
     
