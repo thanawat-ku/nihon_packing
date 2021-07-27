@@ -44,6 +44,7 @@ final class CustomerRepository
         $query = $this->queryFactory->newSelect('customers');
         $query->select(
             [
+                'id',
                 'customer_name',
                 'tel_no',
                 'address',
