@@ -31,6 +31,7 @@ return function (App $app) {
     $app->post('/delete_customer', \App\Action\Web\CustomerDeleteAction::class)->add(UserAuthMiddleware::class);
  
     $app->get('/products', \App\Action\Web\ProductAction::class)->add(UserAuthMiddleware::class);
+    $app->post('/add_product', \App\Action\Web\ProductAddAction::class)->add(UserAuthMiddleware::class);
     
     $app->get('/lots', \App\Action\Web\LotAction::class)->add(UserAuthMiddleware::class);
     $app->post('/add_lot', \App\Action\Web\LotAddAction::class)->add(UserAuthMiddleware::class);
