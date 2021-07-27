@@ -32,8 +32,8 @@
                         <td>{{ customer.tel_no }}</td>
                         <td>{{ customer.address }}</td>
                         <td>
-                        <button type="button" id="editBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-edit"></i></button>
-                        <button type="button" id="deleteBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-trash"></i></button>
+                        <button type="button" id="editBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editCustomer" name="{{ customer|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-edit"></i></button>
+                        <button type="button" id="deleteBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteCustomer" name="{{ customer|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-trash"></i></button>
                         </td>
                     </tr>
                     {% endfor %}
@@ -44,6 +44,7 @@
             </div>
         </div>
     </div>
+
 <!-- Modal Add customer -->
 <div class="modal fade" id="addCustomer">
   <div class="modal-dialog modal-dialog-centered">
@@ -62,7 +63,7 @@
           </div>          
           <div class="form-customer">
             <label for="telNo">Tel No</label>
-            <input type="text" autocomplete="off" class="form-control" id="addtelNo" name="tel_no" required>
+            <input type="text" autocomplete="off" class="form-control" id="addTelNo" name="tel_no" required>
           </div>
           <div class="form-customer">
             <label for="addAddress">Address</label>
@@ -84,7 +85,7 @@
       <form id="form-editCustomer" action="edit_customer" method="post">
         <!-- Modal Header -->
         <div class="modal-header">
-          <h4 class="modal-title">Add Customer</h4>
+          <h4 class="modal-title">Edit Customer</h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         <!-- Modal body -->
@@ -95,11 +96,11 @@
           </div>          
           <div class="form-customer">
             <label for="telNo">Tel No</label>
-            <input type="text" autocomplete="off" class="form-control" id="edittelNo" name="tel_no" required>
+            <input type="text" autocomplete="off" class="form-control" id="editTelNo" name="tel_no" required>
           </div>
           <div class="form-customer">
-            <label for="editAddress">Address</label>
-            <input type="text" autocomplete="off" class="form-control" id="editAddress" name="editress" required>
+            <label for="addAddress">Address</label>
+            <input type="text" autocomplete="off" class="form-control" id="editAddress" name="address" required>
           </div>           
         <div class="modal-footer">
           <button type="submit" class="btn btn-primary">Save</button>
