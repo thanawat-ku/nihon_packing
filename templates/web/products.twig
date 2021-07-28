@@ -36,8 +36,8 @@
                         <td>{{ product.std_pack }}</td>
                         <td>{{ product.std_box }}</td>
                         <td>
-                        <button type="button" id="editBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-edit"></i></button>
-                        <button type="button" id="deleteBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-trash"></i></button>
+                        <button type="button" id="editBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editProduct" name="{{ product|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-edit"></i></button>
+                        <button type="button" id="deleteBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteProduct" name="{{ product|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-trash"></i></button>
                         </td>
                     </tr>
                     {% endfor %}
@@ -66,7 +66,7 @@
           </div>          
           <div class="form-product">
             <label for="addName">Name</label>
-            <input type="text" autocomplete="off" class="form-control" id="addProduct_code" name="product_codeproduct_code" required>
+            <input type="text" autocomplete="off" class="form-control" id="addProduct_name" name="product_name" required>
           </div>
           <div class="form-product">
             <label for="addPrice">Price</label>
@@ -78,7 +78,7 @@
           </div>     
           <div class="form-product">
             <label for="addStdPack">Std Pack</label>
-            <input type="text" autocomplete="off" class="form-control" id="addStdPack" name="std_box" required>
+            <input type="text" autocomplete="off" class="form-control" id="addStdBox" name="std_box" required>
           </div>             
         </div>
         <div class="modal-footer">
@@ -90,7 +90,7 @@
   </div>
 </div>
 
-    <!-- Modal edit product -->
+<!-- Modal Edit product -->
 <div class="modal fade" id="editProduct">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
@@ -103,60 +103,56 @@
         <!-- Modal body -->
         <div class="modal-body">          
           <div class="form-product">
-            <input type="text" id="editProductID" name="id" hidden>
-            <label for="productName">Product Name</label>
-            <input type="text" autocomplete="off" class="form-control" id="editProductName" name="productname" required>
+            <label for="AddCode">Code</label>
+            <input type="text" autocomplete="off" class="form-control" id="editProduct_code" name="product_code" required>
           </div>          
           <div class="form-product">
-            <label for="email">Email</label>
-            <input type="text" autocomplete="off" class="form-control" id="editEmail" name="email" required>
+            <label for="editName">Name</label>
+            <input type="text" autocomplete="off" class="form-control" id="editProduct_name" name="product_name" required>
           </div>
           <div class="form-product">
-            <label for="editPassword">Password</label>
-            <input type="password" autocomplete="off" class="form-control" id="editPassword" name="password">
+            <label for="editPrice">Price</label>
+            <input type="text" autocomplete="off" class="form-control" id="editPrice" name="price" required>
           </div>          
           <div class="form-product">
-            <label for="editConfirmPassword">Confirm Password</label>
-            <input type="password" autocomplete="off" class="form-control" id="editConfirmPassword" name="confirmPassword">
-          </div>         
+            <label for="editStdPack">Std Pack</label>
+            <input type="text" autocomplete="off" class="form-control" id="editStdPack" name="std_pack" required>
+          </div>     
           <div class="form-product">
-            <label for="firstName">First Name</label>
-            <input type="text" autocomplete="off" class="form-control" id="editFirstName" name="first_name" required>
-          </div>          
-          <div class="form-product">
-            <label for="lasttName">Last Name</label>
-            <input type="text" autocomplete="off" class="form-control" id="editLastName" name="last_name" required>
-          </div>         
-          <div class="form-product">
-            <label for="email">Group</label>
-            <select class="form-control"  id="editProductRoleID" name="product_role_id">
-                <option value="1">Admin</option>
-                <option value="2">Product</option>
-                <option value="3">Store</option>
-                <option value="4">Manager</option>
-                <option value="5">Store Manager</option>
-                <option value="6">Super Admin</option>
-                <option value="7">Finance</option>
-            </select>
-          </div>          
-          <div class="form-product">
-            <label for="email">Store</label>
-            <select class="form-control"  id="editStoreID" name="store_id">
-                <option value="1">Ayutthaya</option>
-                <option value="2">Khonkean</option>
-            </select>
-          </div>         
-          <div class="form-product">
-            <label for="enabled">Enabled</label>
-            <select class="form-control"  id="editEnabled" name="enabled">
-                <option value="1">enable</option>
-                <option value="0">disable</option>
-            </select>
-          </div>
+            <label for="editStdPack">Std Pack</label>
+            <input type="text" autocomplete="off" class="form-control" id="editStdBox" name="std_box" required>
+          </div>             
         </div>
         <div class="modal-footer">
           <button type="submit" class="btn btn-primary">Save</button>
           <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Delete product -->
+<div class="modal fade" id="deleteProduct">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form id="form-deleteProduct" action="delete_product" method="post">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Delete Product</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">          
+          <div class="form-product">
+            <input type="hidden" id="deleteProductID" name="id">
+            <label for="productNo">Do you want to delete product: <span id="deleteProductCode"></span><span> </span><span id="deleteProductName"></span></label>
+          </div>                 
+          
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-danger">Delete</button>
+          <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
         </div>
       </form>
     </div>

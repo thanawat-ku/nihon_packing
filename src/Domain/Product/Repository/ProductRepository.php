@@ -33,6 +33,7 @@ final class ProductRepository
 
         $this->queryFactory->newUpdate('products', $data)->andWhere(['id' => $productID])->execute();
     }
+    
     public function deleteProduct(int $productID): void
     {
         $this->queryFactory->newDelete('products')->andWhere(['id' => $productID])->execute();
@@ -44,7 +45,7 @@ final class ProductRepository
         $query = $this->queryFactory->newSelect('products');
         $query->select(
             [
-                'products.id',
+                'id',
                 'product_code',
                 'product_name',
                 'price',

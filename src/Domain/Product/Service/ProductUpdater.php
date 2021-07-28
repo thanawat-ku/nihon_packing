@@ -89,7 +89,6 @@ final class ProductUpdater
             $result['std_box'] = (string)$data['std_box'];
         }
 
-
         return $result;
     }
 }
