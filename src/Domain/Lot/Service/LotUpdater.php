@@ -14,7 +14,7 @@ final class LotUpdater
 
     public function __construct(
         LotRepository $repository,
-        LotValidator $validator
+        LotValidator $validator,
     ) {
         $this->repository = $repository;
         $this->validator = $validator;
@@ -53,6 +53,12 @@ final class LotUpdater
         // Logging
         //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));
     }
+    
+    public function printLot(int $lotId): void
+    {
+        $this->repository->printLot($lotId);
+    }
+
     public function deleteLot(int $lotId, array $data): void
     {
 

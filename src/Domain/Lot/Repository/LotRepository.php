@@ -34,6 +34,15 @@ final class LotRepository
         $data['updated_user_id'] = $this->session->get('user')["id"];
 
         $this->queryFactory->newUpdate('lots', $data)->andWhere(['id' => $lotID])->execute();
+    }    
+    public function printLot(int $lotID): void
+    {
+        $data['updated_at'] = Chronos::now()->toDateTimeString();
+        $data['updated_user_id'] = $this->session->get('user')["id"];
+        $data['printed_user_id'] = $this->session->get('user')["id"];
+        $data['status'] = "PRINTED";
+
+        $this->queryFactory->newUpdate('lots', $data)->andWhere(['id' => $lotID])->execute();
     }
     public function deleteLot(int $lotID): void
     {
@@ -53,6 +62,7 @@ final class LotRepository
                 'product_name',
                 'std_pack',
                 'std_box',
+                'status',
             ]
         );
         $query->join([
@@ -62,6 +72,9 @@ final class LotRepository
                 'conditions' => 'p.id = lots.product_id',
             ]]);
 
+        if(isset($params['lot_id'])){
+            $query->andWhere(['lots.id'=>$params["lot_id"]]);
+        }
         return $query->execute()->fetchAll('assoc') ?: [];
     }
 
