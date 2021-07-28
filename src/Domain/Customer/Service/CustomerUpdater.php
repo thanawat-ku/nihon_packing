@@ -38,6 +38,16 @@ final class CustomerUpdater
         //$this->logger->info(sprintf('TransferStore updated successfully: %s', $id));
         return $id;
     }
+
+    public function deleteCustomer(int $lotId, array $data): void
+    {
+
+        // Insert store
+        $this->repository->deleteCustomer($lotId);
+
+        // Logging
+        //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));
+    }
     
     public function updateCustomer(int $lotId, array $data): void
     {

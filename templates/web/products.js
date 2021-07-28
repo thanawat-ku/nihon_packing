@@ -1,18 +1,16 @@
 $(function() {
     $('#my-data-table').DataTable();
 });
-function editUser(event){
+function editProduct(event){
     let user = event.currentTarget.name;
     console.log(user);
     var obj = JSON.parse(user);
-    $("#editUserID").val(obj.id);
-    $("#editUserName").val(obj.username);
-    $("#editEmail").val(obj.email);
-    $("#editFirstName").val(obj.first_name);
-    $("#editLastName").val(obj.last_name);
-    $("#editUserRoleID").val(obj.user_role_id);
-    $("#editStoreID").val(obj.store_id);
-    $("#editEnabled").val(obj.enabled);
+    $("#editProductID").val(obj.id);
+    $("#editProductCode").val(obj.product_code);
+    $("#editProductName").val(obj.product_name);
+    $("#editPrice").val(obj.price);
+    $("#editStdPack").val(obj.std_pack);
+    $("#editStdBox").val(obj.std_box);
 }
 $( "#form-editUser" ).on("submit", function( event ) {
     if ( $( "#editPassword" ).val() ==  $( "#editConfirmPassword" ).val()) {
@@ -26,6 +24,13 @@ $( "#form-editUser" ).on("submit", function( event ) {
         event.preventDefault();
     }
   });
+  function deleteProduct(event){
+    let lot = event.currentTarget.name;
+    console.log(lot);
+    var obj = JSON.parse(lot);
+    $("#deleteProductID").val(obj.id);
+    $("#deleteProductNo").text(obj.product_code);
+}
 $(document).on(
     "click",
     "#editBt, #deleteBt",
@@ -33,10 +38,10 @@ $(document).on(
         let id = event.currentTarget.id;
         switch (id) {
             case "editBt":
-                editUser(event);
+                editProduct(event);
                 break;
             case "deleteBt":
-                deleteUser(event);
+                deleteProduct(event);
                 break;
             default:
                 console.log("no any events click");

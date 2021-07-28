@@ -1,18 +1,14 @@
 $(function() {
     $('#my-data-table').DataTable();
 });
-function editUser(event){
+function editCustomer(event){
     let user = event.currentTarget.name;
     console.log(user);
     var obj = JSON.parse(user);
-    $("#editUserID").val(obj.id);
-    $("#editUserName").val(obj.username);
-    $("#editEmail").val(obj.email);
-    $("#editFirstName").val(obj.first_name);
-    $("#editLastName").val(obj.last_name);
-    $("#editUserRoleID").val(obj.user_role_id);
-    $("#editStoreID").val(obj.store_id);
-    $("#editEnabled").val(obj.enabled);
+    $("#editCustomerID").val(obj.id);
+    $("#editCustomerName").val(obj.customer_name);
+    $("#editTelNo").val(obj.tel_no);
+    $("#editAddress").val(obj.address);
 }
 $( "#form-editUser" ).on("submit", function( event ) {
     if ( $( "#editPassword" ).val() ==  $( "#editConfirmPassword" ).val()) {
@@ -26,6 +22,13 @@ $( "#form-editUser" ).on("submit", function( event ) {
         event.preventDefault();
     }
   });
+  function deleteCustomer(event){
+    let lot = event.currentTarget.name;
+    console.log(lot);
+    var obj = JSON.parse(lot);
+    $("#deleteCustomerID").val(obj.id);
+    $("#deleteCustomerNo").text(obj.customer_name);
+}
 $(document).on(
     "click",
     "#editBt, #deleteBt",
@@ -33,10 +36,10 @@ $(document).on(
         let id = event.currentTarget.id;
         switch (id) {
             case "editBt":
-                editUser(event);
+                editCustomer(event);
                 break;
             case "deleteBt":
-                deleteUser(event);
+                deleteCustomer(event);
                 break;
             default:
                 console.log("no any events click");

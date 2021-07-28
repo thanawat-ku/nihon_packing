@@ -54,6 +54,16 @@ final class ProductUpdater
         //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));
     }
 
+    public function deleteProduct(int $lotId, array $data): void
+    {
+
+        // Insert store
+        $this->repository->deleteProduct($lotId);
+
+        // Logging
+        //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));
+    }
+
     private function mapToLotRow(array $data): array
     {
         $result = [];

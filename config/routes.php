@@ -29,20 +29,20 @@ return function (App $app) {
     $app->get('/products', \App\Action\Web\ProductAction::class)->add(UserAuthMiddleware::class);
     $app->get('/lots', \App\Action\Web\LotAction::class)->add(UserAuthMiddleware::class);
     
-    //เพิ่ม lot และแก้ไข lot
+    //เพิ่ม lot แก้ไข lot และลบ lot
     $app->post('/add_lot', \App\Action\Web\LotAddAction::class)->add(UserAuthMiddleware::class);
     $app->post('/edit_lot', \App\Action\Web\LotEditAction::class)->add(UserAuthMiddleware::class);
+    $app->post('/delete_lot', \App\Action\Web\LotDeleteAction::class)->add(UserAuthMiddleware::class);
 
 
     //เพิ่ม customer และแก้ไข customer
     $app->post('/add_customer', \App\Action\Web\CustomerAddAction::class)->add(UserAuthMiddleware::class);
     $app->post('/edit_customer', \App\Action\Web\CustomerEditAction::class)->add(UserAuthMiddleware::class);
+    $app->post('/delete_customer', \App\Action\Web\CustomerDeleteAction::class)->add(UserAuthMiddleware::class);
 
-    //เพิ่ม route ของ product การเพิ่มข้อมูลสินค้าและแก้ไขข้อมูลสินค้า
+    //เพิ่ม route ของ product การเพิ่มข้อมูลสินค้าและแก้ไขข้อมูลสินค้า กับลบข้อมูลสินค้าออก
     $app->post('/add_product', \App\Action\Web\ProductAddAction::class)->add(UserAuthMiddleware::class);
     $app->post('/edit_product', \App\Action\Web\ProductEditAction::class)->add(UserAuthMiddleware::class);
+    $app->post('/delete_product', \App\Action\Web\ProductDeleteAction::class)->add(UserAuthMiddleware::class);
 
-    $app->post('/delete_lot', \App\Action\Web\LotDeleteAction::class)->add(UserAuthMiddleware::class);
-
-    
 };

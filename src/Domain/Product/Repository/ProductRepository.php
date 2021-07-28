@@ -35,6 +35,11 @@ final class ProductRepository
 
         $this->queryFactory->newUpdate('products', $data)->andWhere(['id' => $lotID])->execute();
     }
+
+    public function deleteProduct(int $lotID): void
+    {
+        $this->queryFactory->newDelete('products')->andWhere(['id' => $lotID])->execute();
+    }
     
     public function findProducts(array $params): array
     {
