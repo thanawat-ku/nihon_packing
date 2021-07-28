@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 25, 2021 at 05:36 PM
+-- Generation Time: Jul 28, 2021 at 07:10 PM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 8.0.3
 
@@ -43,7 +43,6 @@ CREATE TABLE `customers` (
 --
 
 INSERT INTO `customers` (`id`, `customer_name`, `tel_no`, `address`, `created_at`, `created_user_id`, `updated_at`, `updated_user_id`) VALUES
-(1, 'CANON HI-TECH (THAILAND)LTD.', '-', '-', NULL, 0, NULL, 0),
 (2, 'DENSO (GUANGZHOU NANSHA) CO.,LTD.', '-', '-', NULL, 0, NULL, 0),
 (3, 'HITACHI AUTOMOTIVE SYSTEMS AMERICAS,INC.-MONROE,GA', '-', '-', NULL, 0, NULL, 0);
 
@@ -60,36 +59,12 @@ CREATE TABLE `labels` (
   `label_no` varchar(100) NOT NULL,
   `label_type` enum('FULLY','NONFULLY','MERGE_FULLY','MERGE_NONFULLY') NOT NULL,
   `quantity` int(11) NOT NULL,
-  `status` enum('CREATE','PACKED','USED','VOID','MERGED') NOT NULL
+  `status` enum('CREATED','PACKED','USED','VOID','MERGED') NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `created_user_id` int(11) NOT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `updated_user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `labels`
---
-
-INSERT INTO `labels` (`id`, `lot_id`, `merge_pack_id`, `label_no`, `label_type`, `quantity`, `status`) VALUES
-(1, 1, 0, 'PK0000001', 'FULLY', 10, 'USED'),
-(2, 1, 0, 'PK0000002', 'FULLY', 10, 'PACKED'),
-(3, 1, 0, 'PK0000003', 'FULLY', 10, 'USED'),
-(4, 1, 0, 'PK0000004', 'FULLY', 10, 'VOID'),
-(5, 1, 0, 'PK0000005', 'NONFULLY', 8, 'MERGED'),
-(6, 2, 0, 'PK0000006', 'FULLY', 10, 'PACKED'),
-(7, 2, 0, 'PK0000007', 'FULLY', 10, 'PACKED'),
-(8, 2, 0, 'PK0000008', 'FULLY', 10, 'PACKED'),
-(9, 2, 0, 'PK0000009', 'FULLY', 10, 'PACKED'),
-(10, 2, 0, 'PK0000010', 'FULLY', 10, 'VOID'),
-(11, 2, 0, 'PK0000011', 'NONFULLY', 5, 'MERGED'),
-(12, 5, 0, 'PK0000012', 'FULLY', 20, 'USED'),
-(13, 5, 0, 'PK0000013', 'FULLY', 20, 'USED'),
-(14, 5, 0, 'PK0000014', 'FULLY', 20, 'VOID'),
-(15, 5, 0, 'PK0000015', 'FULLY', 20, 'PACKED'),
-(16, 5, 0, 'PK0000016', 'NONFULLY', 4, 'PACKED'),
-(17, 6, 0, 'PK0000017', 'FULLY', 5, 'USED'),
-(18, 6, 0, 'PK0000018', 'FULLY', 5, 'USED'),
-(19, 6, 0, 'PK0000019', 'FULLY', 5, 'PACKED'),
-(20, 6, 0, 'PK0000020', 'NONFULLY', 0, 'VOID'),
-(21, 0, 1, 'PK0000021', 'MERGE_FULLY', 10, 'PACKED'),
-(22, 0, 1, 'PK0000022', 'MERGE_NONFULLY', 2, 'PACKED');
 
 -- --------------------------------------------------------
 
@@ -102,6 +77,9 @@ CREATE TABLE `lots` (
   `lot_no` varchar(100) NOT NULL,
   `product_id` int(11) NOT NULL,
   `quantity` int(11) NOT NULL,
+  `printed_user_id` int(11) DEFAULT NULL,
+  `packed_user_id` int(11) NOT NULL,
+  `status` enum('CREATED','PRINTED','PACKING','PACKED') NOT NULL DEFAULT 'CREATED',
   `created_at` datetime DEFAULT NULL,
   `created_user_id` int(11) NOT NULL,
   `updated_at` datetime DEFAULT NULL,
@@ -112,13 +90,11 @@ CREATE TABLE `lots` (
 -- Dumping data for table `lots`
 --
 
-INSERT INTO `lots` (`id`, `lot_no`, `product_id`, `quantity`, `created_at`, `created_user_id`, `updated_at`, `updated_user_id`) VALUES
-(1, '21506NSB10B', 1, 35, NULL, 0, '2021-07-25 22:35:20', 1),
-(2, '21506NSB10C', 1, 43, NULL, 0, NULL, 0),
-(5, '21513K20J13B', 2, 68, NULL, 0, NULL, 0),
-(6, '21513K20J11B', 3, 15, NULL, 0, NULL, 0),
-(7, 'wwerwq', 2, 45, '2021-07-25 22:13:54', 1, '2021-07-25 22:13:54', 1),
-(8, '43214dgsd', 2, 35, '2021-07-25 22:14:10', 1, '2021-07-25 22:14:10', 1);
+INSERT INTO `lots` (`id`, `lot_no`, `product_id`, `quantity`, `printed_user_id`, `packed_user_id`, `status`, `created_at`, `created_user_id`, `updated_at`, `updated_user_id`) VALUES
+(1, '21506NSB10B', 1, 35, 1, 0, 'CREATED', NULL, 0, '2021-07-28 22:48:01', 1),
+(2, '21506NSB10C', 1, 43, 1, 0, 'CREATED', NULL, 0, '2021-07-28 22:30:07', 1),
+(5, '21513K20J13B', 2, 68, 1, 0, 'CREATED', NULL, 0, '2021-07-28 22:34:34', 1),
+(6, '21513K20J11B', 3, 15, 1, 0, 'CREATED', NULL, 0, '2021-07-28 22:34:03', 1);
 
 -- --------------------------------------------------------
 
@@ -132,13 +108,6 @@ CREATE TABLE `merge_packs` (
   `product_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `merge_packs`
---
-
-INSERT INTO `merge_packs` (`id`, `merge_no`, `product_id`) VALUES
-(1, 'M0001', 1);
-
 -- --------------------------------------------------------
 
 --
@@ -150,14 +119,6 @@ CREATE TABLE `merge_pack_details` (
   `merge_pack_id` int(11) NOT NULL,
   `label_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `merge_pack_details`
---
-
-INSERT INTO `merge_pack_details` (`id`, `merge_pack_id`, `label_id`) VALUES
-(1, 1, 5),
-(2, 1, 11);
 
 -- --------------------------------------------------------
 
@@ -172,14 +133,6 @@ CREATE TABLE `pos` (
   `po_date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `pos`
---
-
-INSERT INTO `pos` (`id`, `po_no`, `customer_id`, `po_date`) VALUES
-(1, 'PO0001', 1, '2021-07-10'),
-(2, 'PO0002', 2, '2021-07-10');
-
 -- --------------------------------------------------------
 
 --
@@ -192,15 +145,6 @@ CREATE TABLE `po_details` (
   `product_id` int(11) NOT NULL,
   `quantity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `po_details`
---
-
-INSERT INTO `po_details` (`id`, `po_id`, `product_id`, `quantity`) VALUES
-(1, 1, 1, 20),
-(2, 1, 2, 40),
-(3, 2, 3, 10);
 
 -- --------------------------------------------------------
 
@@ -244,16 +188,6 @@ CREATE TABLE `tags` (
   `status` enum('CREATED','BOXED','SHIPPED','VOID') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `tags`
---
-
-INSERT INTO `tags` (`id`, `tag_no`, `po_detail_id`, `quantity`, `status`) VALUES
-(1, 'PT0001', 1, 20, 'SHIPPED'),
-(2, 'PT0002', 2, 20, 'SHIPPED'),
-(4, 'PT0003', 2, 20, 'SHIPPED'),
-(5, 'PT0004', 3, 10, 'SHIPPED');
-
 -- --------------------------------------------------------
 
 --
@@ -265,18 +199,6 @@ CREATE TABLE `tag_labels` (
   `tag_id` int(11) NOT NULL,
   `label_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `tag_labels`
---
-
-INSERT INTO `tag_labels` (`id`, `tag_id`, `label_id`) VALUES
-(1, 1, 1),
-(2, 1, 3),
-(3, 2, 13),
-(4, 4, 12),
-(5, 5, 18),
-(6, 5, 17);
 
 -- --------------------------------------------------------
 
@@ -393,7 +315,7 @@ ALTER TABLE `customers`
 -- AUTO_INCREMENT for table `labels`
 --
 ALTER TABLE `labels`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `lots`
@@ -405,25 +327,25 @@ ALTER TABLE `lots`
 -- AUTO_INCREMENT for table `merge_packs`
 --
 ALTER TABLE `merge_packs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `merge_pack_details`
 --
 ALTER TABLE `merge_pack_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `pos`
 --
 ALTER TABLE `pos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `po_details`
 --
 ALTER TABLE `po_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `products`
@@ -435,13 +357,13 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT for table `tags`
 --
 ALTER TABLE `tags`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tag_labels`
 --
 ALTER TABLE `tag_labels`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
