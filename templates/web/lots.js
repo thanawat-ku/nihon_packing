@@ -22,16 +22,23 @@ $( "#form-editUser" ).on("submit", function( event ) {
         event.preventDefault();
     }
   });
-  function deleteLot(event){
+function deleteLot(event){
     let lot = event.currentTarget.name;
     console.log(lot);
     var obj = JSON.parse(lot);
     $("#deleteLotID").val(obj.id);
     $("#deleteLotNo").text(obj.lot_no);
 }
+function printLot(event){
+    let lot = event.currentTarget.name;
+    console.log(lot);
+    var obj = JSON.parse(lot);
+    $("#printLotID").val(obj.id);
+    $("#printLotNo").text(obj.lot_no);
+}
 $(document).on(
     "click",
-    "#editBt, #deleteBt",
+    "#editBt, #deleteBt, #printBt",
     (event) => {
         let id = event.currentTarget.id;
         switch (id) {
@@ -40,6 +47,9 @@ $(document).on(
                 break;
             case "deleteBt":
                 deleteLot(event);
+                break;
+            case "printBt":
+                printLot(event);
                 break;
             default:
                 console.log("no any events click");

@@ -24,6 +24,7 @@
                         <th>Qty</th>
                         <th>Std Pack</th>
                         <th>Std Box</th>
+                        <th>Status</th>
                         <th>Operation</th>
                     </tr>
                     </thead>
@@ -35,7 +36,11 @@
                         <td>{{ lot.quantity }}</td>
                         <td>{{ lot.std_pack }}</td>
                         <td>{{ lot.std_box }}</td>
+                        <td>{{ lot.status }}</td>
                         <td>
+                        {% if lot.status == "CREATED" %}
+                        <button type="button" id="printBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#printLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-print"></i></button>
+                        {% endif %}
                         <button type="button" id="editBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-edit"></i></button>
                         <button type="button" id="deleteBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-trash"></i></button>
                         </td>
@@ -150,5 +155,30 @@
     </div>
   </div>
 </div>
-
+<!-- Modal Print lot -->
+<div class="modal fade" id="printLot">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form id="form-printLot" action="print_lot" method="post">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Print Lot</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">          
+          <div class="form-product">
+            <input type="hidden" id="printLotID" name="id">
+            <label for="lotNo">Do you want to print label of lot: <span id="printLotNo">xxx</span></label>
+          </div>                 
+          
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-info">Print</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 {% endblock %}
