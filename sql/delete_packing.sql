@@ -1,0 +1,11 @@
+DROP TABLE customers;
+DROP TABLE labels;
+DROP TABLE lots;
+DROP TABLE merge_packs;
+DROP TABLE merge_pack_details;
+DROP TABLE pos;
+DROP TABLE po_details;
+DROP TABLE tags;
+DROP TABLE tag_labels;
+DROP TABLE users;
+DROP TABLE products;
