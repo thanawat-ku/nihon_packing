@@ -42,7 +42,7 @@ final class ProductValidator
         }
     }
 
-    public function validateProductUpdate(string $productNo, array $data): void
+    public function validateProductUpdate(string $product_code, array $data): void
     {
         /*
         if (!$this->repository->existsProductNo($productNo)) {

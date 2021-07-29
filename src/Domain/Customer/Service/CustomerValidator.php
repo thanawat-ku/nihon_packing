@@ -40,7 +40,7 @@ final class CustomerValidator
         }
     }
 
-    public function validateCustomerUpdate(string $customerNo, array $data): void
+    public function validateCustomerUpdate(string $customer_name, array $data): void
     {
         /*
         if (!$this->repository->existsCustomerNo($customerNo)) {
