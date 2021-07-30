@@ -28,6 +28,7 @@ final class UserRepository
                 'password',
                 'first_name',
                 'last_name',
+                'user_role_id',
                 'locale',
                 'enabled',
             ]
