@@ -41,4 +41,6 @@ return function (App $app) {
     $app->post('/delete_lot', \App\Action\Web\LotDeleteAction::class)->add(UserAuthMiddleware::class);
     $app->post('/print_lot', \App\Action\Web\LotPrintAction::class)->add(UserAuthMiddleware::class);
     
+    $app->post('/api/login', \App\Action\ApiLoginSubmitAction::class);
+    
 };
