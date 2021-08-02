@@ -2,7 +2,6 @@
 
 namespace App\Action\Api;
 
-use App\Domain\Customer\Service\CustomerFinder;
 use App\Domain\Product\Service\ProductFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
@@ -13,7 +12,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 /**
  * Action.
  */
-final class CustomerAction
+final class ProductAction
 {
     /**
      * @var Responder
@@ -21,7 +20,7 @@ final class CustomerAction
     private $responder;
     private $finder;
 
-    public function __construct(Twig $twig,CustomerFinder $finder,ProductFinder $productFinder,
+    public function __construct(Twig $twig,ProductFinder $finder,ProductFinder $productFinder,
     Session $session,Responder $responder)
     {
         $this->twig = $twig;
@@ -35,9 +34,9 @@ final class CustomerAction
     {
         $params = (array)$request->getQueryParams();
         
-        $rtdata['message']="Get Customer Successful";
+        $rtdata['message']="Get Product Successful";
         $rtdata['error']=false;
-        $rtdata['customers']=$this->finder->findCustomers($params);
+        $rtdata['products']=$this->finder->findProducts($params);
 
 
         
