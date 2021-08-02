@@ -47,5 +47,6 @@ return function (App $app) {
 
     $app->get('/api/customers', \App\Action\Api\CustomerAction::class);
 
+    $app->get('/api/products', \App\Action\Api\ProductAction::class);
     
 };
