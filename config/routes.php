@@ -35,5 +35,6 @@ return function (App $app) {
     
     $app->post('/api/login', \App\Action\ApiLoginSubmitAction::class);
     $app->get('/api/lots', \App\Action\Api\LotAction::class);
+    $app->get('/api/lot_defects', \App\Action\Api\LotDefectAction::class);
     
 };
