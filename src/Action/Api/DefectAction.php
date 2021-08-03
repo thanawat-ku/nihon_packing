@@ -33,7 +33,7 @@ final class DefectAction
     {
         $params = (array)$request->getQueryParams();
         
-        $rtdata['message']="Get Lot Successful";
+        $rtdata['message']="Get Defect Successful";
         $rtdata['error']=false;
         $rtdata['defects']=$this->finder->findDefects($params);
 
