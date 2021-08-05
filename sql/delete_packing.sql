@@ -9,3 +9,5 @@ DROP TABLE tags;
 DROP TABLE tag_labels;
 DROP TABLE users;
 DROP TABLE products;
+DROP TABLE defects;
+DROP TABLE lot_defects;
