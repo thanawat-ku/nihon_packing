@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 28, 2021 at 07:10 PM
+-- Generation Time: Aug 02, 2021 at 03:55 PM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 8.0.3
 
@@ -45,6 +45,31 @@ CREATE TABLE `customers` (
 INSERT INTO `customers` (`id`, `customer_name`, `tel_no`, `address`, `created_at`, `created_user_id`, `updated_at`, `updated_user_id`) VALUES
 (2, 'DENSO (GUANGZHOU NANSHA) CO.,LTD.', '-', '-', NULL, 0, NULL, 0),
 (3, 'HITACHI AUTOMOTIVE SYSTEMS AMERICAS,INC.-MONROE,GA', '-', '-', NULL, 0, NULL, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `defects`
+--
+
+CREATE TABLE `defects` (
+  `id` int(11) NOT NULL,
+  `defect_code` varchar(100) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `created_user_id` int(11) NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `updated_user_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `defects`
+--
+
+INSERT INTO `defects` (`id`, `defect_code`, `created_at`, `created_user_id`, `updated_at`, `updated_user_id`) VALUES
+(1, 'A1', '2021-08-02 15:51:56', 1, '2021-08-02 15:51:56', 1),
+(2, 'B2', '2021-08-02 15:51:57', 1, '2021-08-02 15:51:57', 1),
+(3, 'C3', '2021-08-02 15:52:21', 1, '2021-08-02 15:52:21', 1),
+(4, 'D4', '2021-08-02 15:52:21', 1, '2021-08-02 15:52:21', 1);
 
 -- --------------------------------------------------------
 
@@ -95,6 +120,23 @@ INSERT INTO `lots` (`id`, `lot_no`, `product_id`, `quantity`, `printed_user_id`,
 (2, '21506NSB10C', 1, 43, 1, 0, 'CREATED', NULL, 0, '2021-07-28 22:30:07', 1),
 (5, '21513K20J13B', 2, 68, 1, 0, 'CREATED', NULL, 0, '2021-07-28 22:34:34', 1),
 (6, '21513K20J11B', 3, 15, 1, 0, 'CREATED', NULL, 0, '2021-07-28 22:34:03', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `lot_defects`
+--
+
+CREATE TABLE `lot_defects` (
+  `id` int(11) NOT NULL,
+  `lot_id` int(11) NOT NULL,
+  `defect_id` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `created_user_id` int(11) NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `updated_user_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -240,6 +282,12 @@ ALTER TABLE `customers`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `defects`
+--
+ALTER TABLE `defects`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `labels`
 --
 ALTER TABLE `labels`
@@ -251,6 +299,12 @@ ALTER TABLE `labels`
 ALTER TABLE `lots`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `lot_no` (`lot_no`);
+
+--
+-- Indexes for table `lot_defects`
+--
+ALTER TABLE `lot_defects`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `merge_packs`
@@ -312,6 +366,12 @@ ALTER TABLE `customers`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT for table `defects`
+--
+ALTER TABLE `defects`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT for table `labels`
 --
 ALTER TABLE `labels`
@@ -322,6 +382,12 @@ ALTER TABLE `labels`
 --
 ALTER TABLE `lots`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `lot_defects`
+--
+ALTER TABLE `lot_defects`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `merge_packs`

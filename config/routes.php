@@ -52,5 +52,10 @@ return function (App $app) {
     $app->get('/api/lots', \App\Action\Api\LotAction::class);
     $app->get('/api/customers', \App\Action\Api\CustomerAction::class);
     $app->get('/api/products', \App\Action\Api\ProductAction::class);
+    $app->get('/api/lot_defects', \App\Action\Api\LotDefectAction::class);
+    $app->get('/api/defects', \App\Action\Api\DefectAction::class);
+    $app->post('/api/add_defect', \App\Action\Api\DefectAddAction::class);
+    $app->post('/api/delete_defect', \App\Action\Api\DefectDeleteAction::class);
+    $app->post('/api/edit_defect', \App\Action\Api\DefectEditAction::class);
     
 };
