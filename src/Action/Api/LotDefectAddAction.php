@@ -33,7 +33,7 @@ final class LotDefectAddAction
        
         $params = (array)$request->getParsedBody();
         
-        $this->updater->insertLotDefect($params);
+        $this->updater->insertLotDefectApi($params);
 
         $rtdata['message']="Get Lot Defect Successful";
         $rtdata['error']=false;
