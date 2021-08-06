@@ -27,26 +27,26 @@ final class LotDefectRepository
 
         return (int)$this->queryFactory->newInsert('lot_defects', $row)->execute()->lastInsertId();
     }
-    // public function updateLotDefect(int $lotID, array $data): void
-    // {
-    //     $data['updated_at'] = Chronos::now()->toDateTimeString();
-    //     $data['updated_user_id'] = $this->session->get('user')["id"];
+    public function updateLotDefect(int $lotID, array $data): void
+    {
+        $data['updated_at'] = Chronos::now()->toDateTimeString();
+        $data['updated_user_id'] = $this->session->get('user')["id"];
 
-    //     $this->queryFactory->newUpdate('lots', $data)->andWhere(['id' => $lotID])->execute();
-    // }    
-    // public function printLot(int $lotID): void
-    // {
-    //     $data['updated_at'] = Chronos::now()->toDateTimeString();
-    //     $data['updated_user_id'] = $this->session->get('user')["id"];
-    //     $data['printed_user_id'] = $this->session->get('user')["id"];
-    //     $data['status'] = "PRINTED";
+        $this->queryFactory->newUpdate('lots', $data)->andWhere(['id' => $lotID])->execute();
+    }    
+    public function printLot(int $lotID): void
+    {
+        $data['updated_at'] = Chronos::now()->toDateTimeString();
+        $data['updated_user_id'] = $this->session->get('user')["id"];
+        $data['printed_user_id'] = $this->session->get('user')["id"];
+        $data['status'] = "PRINTED";
 
-    //     $this->queryFactory->newUpdate('lots', $data)->andWhere(['id' => $lotID])->execute();
-    // }
-    // public function deleteLot(int $lotID): void
-    // {
-    //     $this->queryFactory->newDelete('lots')->andWhere(['id' => $lotID])->execute();
-    // }
+        $this->queryFactory->newUpdate('lots', $data)->andWhere(['id' => $lotID])->execute();
+    }
+    public function deleteLotDefect(int $lotID): void
+    {
+        $this->queryFactory->newDelete('lots')->andWhere(['id' => $lotID])->execute();
+    }
     
     public function findLotDefects(array $params): array
     {
