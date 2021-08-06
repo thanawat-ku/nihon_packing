@@ -29,39 +29,40 @@ final class LotDefectUpdater
         $this->validator->validateLotDefectInsert($data);
 
         // Map form data to row
-        $lotRow = $this->mapToLotDefectRow($data);
+        $row = $this->mapToLotDefectRow($data);
 
         // Insert transferStore
-        $id=$this->repository->insertLotDefect($lotRow);
+        $id=$this->repository->insertLotDefect($row);
 
         // Logging
         //$this->logger->info(sprintf('TransferStore updated successfully: %s', $id));
         return $id;
     }
-    // public function updateLotDefect(int $lotId, array $data): void
-    // {
-    //     // Input validation
-    //     $this->validator->validateLotDefectUpdate($lotId, $data);
+    public function updateLotDefect(int $id, array $data): void
+    {
+        // Input validation
+        $this->validator->validateLotDefectUpdate($id, $data);
 
-    //     // Map form data to row
-    //     $storeRow = $this->mapToLotDefectRow($data);
+        // Map form data to row
+        $storeRow = $this->mapToLotDefectRow($data);
 
-    //     // Insert store
-    //     $this->repository->updateLotDefect($lotId, $storeRow);
+        // Insert store
+        $this->repository->updateLotDefect($id, $storeRow);
 
-    //     // Logging
-    //     //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));
-    // }
+        // Logging
+        //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));
+    }
+    
 
-    // public function deleteLotDefect(int $lotId, array $data): void
-    // {
+    public function deleteLotDefect(int $id): void
+    {
 
-    //     // Insert store
-    //     $this->repository->deleteLotDefect($lotId);
+        // Insert store
+        $this->repository->deleteLotDefect($id);
 
-    //     // Logging
-    //     //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));
-    // }
+        // Logging
+        //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));
+    }
 
     /**
      * Map data to row.

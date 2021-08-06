@@ -43,7 +43,7 @@ final class LotDefectValidator
     public function validateLotDefectUpdate(string $lotNo, array $data): void
     {
         /*
-        if (!$this->repository->existsLotDefectNo($lotNo)) {
+        if (!$this->repository->existsLotNo($lotNo)) {
             throw new ValidationException(sprintf('Store not found: %s', $stolotNoreId));
         }
         */
