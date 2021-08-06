@@ -35,10 +35,16 @@ return function (App $app) {
     
     $app->post('/api/login', \App\Action\ApiLoginSubmitAction::class);
     $app->get('/api/lots', \App\Action\Api\LotAction::class);
-    $app->get('/api/lot_defects', \App\Action\Api\LotDefectAction::class);
+
     $app->get('/api/defects', \App\Action\Api\DefectAction::class);
     $app->post('/api/add_defect', \App\Action\Api\DefectAddAction::class);
     $app->post('/api/delete_defect', \App\Action\Api\DefectDeleteAction::class);
     $app->post('/api/edit_defect', \App\Action\Api\DefectEditAction::class);
+
+    
+    $app->get('/api/lot_defects', \App\Action\Api\LotDefectAction::class);
+    $app->post('/api/add_lot_defect', \App\Action\Api\LotDefectAddAction::class);
+    $app->post('/api/delete_lot_defect', \App\Action\Api\LotDefectDeleteAction::class);
+    $app->post('/api/edit_lot_defect', \App\Action\Api\LotDefectEditAction::class);
     
 };

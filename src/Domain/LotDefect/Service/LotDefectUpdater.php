@@ -23,7 +23,7 @@ final class LotDefectUpdater
             //->createInstance();
     }
 
-    public function insertLotDefect( array $data): int
+    public function insertLotDefectApi( array $data,$user_id): int
     {
         // Input validation
         $this->validator->validateLotDefectInsert($data);
@@ -32,13 +32,13 @@ final class LotDefectUpdater
         $row = $this->mapToLotDefectRow($data);
 
         // Insert transferStore
-        $id=$this->repository->insertLotDefect($row);
+        $id=$this->repository->insertLotDefectApi($row,$user_id);
 
         // Logging
         //$this->logger->info(sprintf('TransferStore updated successfully: %s', $id));
         return $id;
     }
-    public function updateLotDefect(int $id, array $data): void
+    public function updateLotDefectApi(int $id, array $data,$user_id): void
     {
         // Input validation
         $this->validator->validateLotDefectUpdate($id, $data);
@@ -47,7 +47,7 @@ final class LotDefectUpdater
         $storeRow = $this->mapToLotDefectRow($data);
 
         // Insert store
-        $this->repository->updateLotDefect($id, $storeRow);
+        $this->repository->updateLotDefectApi($id, $storeRow,$user_id);
 
         // Logging
         //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));
