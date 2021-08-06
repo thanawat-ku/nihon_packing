@@ -37,13 +37,14 @@ final class LotDefectAddAction
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $params = (array)$request->getParsedBody();
+        $this->updater->insertLotDefect($params);
         
 
         $rtdata['message']="Get Lot Successful";
         $rtdata['error']=false;
         $rtdata['lot_defects']=$this->finder->findLotDefects($params);
 
-        $this->updater->insertLotDefect($rtdata);
+       
         return $this->responder->withJson($response, $rtdata);
     }
 }
