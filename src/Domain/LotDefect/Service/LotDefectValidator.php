@@ -40,11 +40,11 @@ final class LotDefectValidator
         }
     }
 
-    public function validateLotDefectUpdate(string $lotDefect_code, array $data): void
+    public function validateLotDefectUpdate(string $lotNo, array $data): void
     {
         /*
-        if (!$this->repository->existsLotDefectNo($lotDefectNo)) {
-            throw new ValidationException(sprintf('Store not found: %s', $stolotDefectNoreId));
+        if (!$this->repository->existsLotNo($lotNo)) {
+            throw new ValidationException(sprintf('Store not found: %s', $stolotNoreId));
         }
         */
         $this->validateLotDefect($data);
