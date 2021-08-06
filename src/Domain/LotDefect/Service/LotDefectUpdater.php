@@ -7,7 +7,7 @@ use App\Domain\LotDefect\Repository\LotDefectRepository;
 /**
  * Service.
  */
-final class LotUpdater
+final class LotDefectUpdater
 {
     private $repository;
     private $validator;
