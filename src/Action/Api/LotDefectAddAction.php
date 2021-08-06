@@ -32,8 +32,9 @@ final class LotDefectAddAction
     ): ResponseInterface {
        
         $params = (array)$request->getParsedBody();
-        
-        $this->updater->insertLotDefectApi($params);
+        $user_id=$params["user_id"];
+
+        $this->updater->insertLotDefectApi($params, $user_id);
 
         $rtdata['message']="Get Lot Defect Successful";
         $rtdata['error']=false;
