@@ -31,16 +31,14 @@ final class LotDefectAddAction
         array $args
     ): ResponseInterface {
        
-        $data = (array)$request->getParsedBody();
+        $params = (array)$request->getParsedBody();
         
-        $this->updater->insertLotDefect( $data);
+        $this->updater->insertLotDefect($params);
 
-        $params = (array)$request->getQueryParams();
-
-        $rtdata['message']="Add LotDefect Successful";
+        $rtdata['message']="Get Lot Defect Successful";
         $rtdata['error']=false;
         $rtdata['lot_defects']=$this->finder->findLotDefects($params);
- 
+        
         return $this->responder->withJson($response, $rtdata);
     }
 }
