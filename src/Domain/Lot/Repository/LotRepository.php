@@ -62,7 +62,7 @@ final class LotRepository
                 'std_pack',
                 'std_box',
                 'status',
-                'user.username'
+                
             ]
         );
         $query->join([
