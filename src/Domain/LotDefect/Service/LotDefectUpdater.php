@@ -38,27 +38,27 @@ final class LotDefectUpdater
         //$this->logger->info(sprintf('TransferStore updated successfully: %s', $id));
         return $id;
     }
-    public function updateLotDefect(int $id, array $data): void
+    public function updateLotDefect(int $lotDefect, array $data): void
     {
         // Input validation
-        $this->validator->validateLotDefectUpdate($id, $data);
+        $this->validator->validateLotDefectUpdate($lotDefect, $data);
 
         // Map form data to row
         $storeRow = $this->mapToLotDefectRow($data);
 
         // Insert store
-        $this->repository->updateLotDefect($id, $storeRow);
+        $this->repository->updateLotDefect($lotDefect, $storeRow);
 
         // Logging
         //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));
     }
     
 
-    public function deleteLotDefect(int $id): void
+    public function deleteLotDefect(int $lotDefect): void
     {
 
         // Insert store
-        $this->repository->deleteLotDefect($id);
+        $this->repository->deleteLotDefect($lotDefect);
 
         // Logging
         //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));
