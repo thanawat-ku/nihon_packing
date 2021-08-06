@@ -47,7 +47,7 @@ final class LotDefectUpdater
         $storeRow = $this->mapToLotDefectRow($data);
 
         // Insert store
-        $this->repository->updateLotDefectApi($lotDefect, $user_id);
+        $this->repository->updateLotDefectApi($lotDefect, $storeRow,$user_id);
 
         // Logging
         //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));
