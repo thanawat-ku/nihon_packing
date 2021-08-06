@@ -51,7 +51,7 @@ return function (App $app) {
     
     $app->get('/api/lot_defects', \App\Action\Api\LotDefectAction::class);
     $app->get('/api/defects', \App\Action\Api\DefectAction::class);
-    $app->post('/api/add_lotdefects', \App\Action\Api\LotDefectAddAction::class);
-    $app->post('/api/delete_lotdefect', \App\Action\Api\LotDefectDeleteAction::class);
-    $app->post('/api/edit_lotdefects', \App\Action\Api\LotDefectEditAction::class);
+    $app->post('/api/add_lot_defect', \App\Action\Api\LotDefectAddAction::class);
+    $app->post('/api/delete_lot_defect', \App\Action\Api\LotDefectDeleteAction::class);
+    $app->post('/api/edit_lot_defects', \App\Action\Api\LotDefectEditAction::class);
 };
