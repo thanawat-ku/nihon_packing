@@ -43,10 +43,10 @@ final class LotDefectRepository
 
         $this->queryFactory->newUpdate('lots', $data)->andWhere(['id' => $lotID])->execute();
     }
-    public function deleteLotDefect(int $lotID): void
-    {
-        $this->queryFactory->newDelete('lots')->andWhere(['id' => $lotID])->execute();
-    }
+    // public function deleteLotDefect(int $lotID): void
+    // {
+    //     $this->queryFactory->newDelete('lots')->andWhere(['id' => $lotID])->execute();
+    // }
     
     public function findLotDefects(array $params): array
     {
@@ -76,5 +76,26 @@ final class LotDefectRepository
 
         return $query->execute()->fetchAll('assoc') ?: [];
     }
+
+    public function insertLotDefectApi(array $row,$user_id): int
+    {
+        $row['created_at'] = Chronos::now()->toDateTimeString();
+        $row['created_user_id'] = $user_id;
+        $row['updated_at'] = Chronos::now()->toDateTimeString();
+        $row['updated_user_id'] = $user_id;
+
+        return (int)$this->queryFactory->newInsert('lot_defects', $row)->execute()->lastInsertId();
+    }
+    public function updateLotDefectApi(int $id, array $data,$user_id): void
+    {
+        $data['updated_at'] = Chronos::now()->toDateTimeString();
+        $data['updated_user_id'] = $user_id;
+
+        $this->queryFactory->newUpdate('lot_defects', $data)->andWhere(['id' => $id])->execute();
+    } 
+    public function deleteLotDefect(int $id): void
+    {
+        $this->queryFactory->newDelete('lot_defects')->andWhere(['id' => $id])->execute();
+    } 
 
 }
