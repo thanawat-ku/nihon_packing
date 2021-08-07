@@ -23,18 +23,10 @@ final class CustomerValidator
         $validator = $this->validationFactory->createValidator();
 
         return $validator
-<<<<<<< HEAD
             ->notEmptyString('customer_no', 'Input required')
             ->notEmptyString('product_id', 'Input required')
             ->notEmptyString('quantity', 'Input required');
     }
-=======
-            ->notEmptyString('customer_name', 'Input required')
-            ->notEmptyString('tel_no', 'Input required')
-            ->notEmptyString('address', 'Input required');
-    }
-    
->>>>>>> tae
     public function validateCustomer(array $data): void
     {
         $validator = $this->createValidator();
@@ -48,19 +40,11 @@ final class CustomerValidator
         }
     }
 
-<<<<<<< HEAD
     public function validateCustomerUpdate(string $customer_name, array $data): void
     {
         /*
         if (!$this->repository->existsCustomerNo($customerNo)) {
             throw new ValidationException(sprintf('Store not found: %s', $stocustomerNoreId));
-=======
-    public function validateCustomerUpdate(string $lotNo, array $data): void
-    {
-        /*
-        if (!$this->repository->existsLotNo($lotNo)) {
-            throw new ValidationException(sprintf('Store not found: %s', $stolotNoreId));
->>>>>>> tae
         }
         */
         $this->validateCustomer($data);

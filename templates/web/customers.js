@@ -2,20 +2,13 @@ $(function() {
     $('#my-data-table').DataTable();
 });
 function editCustomer(event){
-<<<<<<< HEAD
     let customer = event.currentTarget.name;
     console.log(customer);
     var obj = JSON.parse(customer);
-=======
-    let user = event.currentTarget.name;
-    console.log(user);
-    var obj = JSON.parse(user);
->>>>>>> tae
     $("#editCustomerID").val(obj.id);
     $("#editCustomerName").val(obj.customer_name);
     $("#editTelNo").val(obj.tel_no);
     $("#editAddress").val(obj.address);
-<<<<<<< HEAD
 }
 
   function deleteCustomer(event){
@@ -25,28 +18,6 @@ function editCustomer(event){
     $("#deleteCustomerID").val(obj.id);
     $("#deleteCustomerName").text(obj.customer_name);
 }
-=======
-}
-$( "#form-editUser" ).on("submit", function( event ) {
-    if ( $( "#editPassword" ).val() ==  $( "#editConfirmPassword" ).val()) {
-        if($("#editPassword").val()==""){
-            $("#editUser").modal('toggle');
-            $("#editPassword").remove();
-        }
-        return;
-    }else{
-        alert("Password not match");
-        event.preventDefault();
-    }
-  });
-  function deleteCustomer(event){
-    let lot = event.currentTarget.name;
-    console.log(lot);
-    var obj = JSON.parse(lot);
-    $("#deleteCustomerID").val(obj.id);
-    $("#deleteCustomerNo").text(obj.customer_name);
-}
->>>>>>> tae
 $(document).on(
     "click",
     "#editBt, #deleteBt",

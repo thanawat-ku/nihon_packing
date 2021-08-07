@@ -28,17 +28,10 @@ final class ProductDeleteAction
     ): ResponseInterface {
         // Extract the form data from the request body
         $data = (array)$request->getParsedBody();
-<<<<<<< HEAD
         $productId = $data["id"];
 
         // Invoke the Domain with inputs and retain the result
         $this->updater->deleteProduct($productId, $data);
-=======
-        $lotId = $data["id"];
-
-        // Invoke the Domain with inputs and retain the result
-        $this->updater->deleteProduct($lotId, $data);
->>>>>>> tae
 
         // Build the HTTP response
         return $this->responder->withRedirect($response,"products");

@@ -31,36 +31,12 @@ final class CustomerRepository
         $data['updated_at'] = Chronos::now()->toDateTimeString();
         $data['updated_user_id'] = $this->session->get('user')["id"];
 
-<<<<<<< HEAD
         $this->queryFactory->newUpdate('customers', $data)->andWhere(['id' => $customerID])->execute();
     }
     
     public function deleteCustomer(int $customerID): void
     {
         $this->queryFactory->newDelete('customers')->andWhere(['id' => $customerID])->execute();
-=======
-    public function insertCustomer(array $row): int
-    {
-        $row['created_at'] = Chronos::now()->toDateTimeString();
-        $row['created_user_id'] = $this->session->get('user')["id"];
-        $row['updated_at'] = Chronos::now()->toDateTimeString();
-        $row['updated_user_id'] = $this->session->get('user')["id"];
-
-        return (int)$this->queryFactory->newInsert('customers', $row)->execute()->lastInsertId();
-    }    
-
-    public function updateCustomer(int $lotID, array $data): void
-    {
-        $data['updated_at'] = Chronos::now()->toDateTimeString();
-        $data['updated_user_id'] = $this->session->get('user')["id"];
-
-        $this->queryFactory->newUpdate('customers', $data)->andWhere(['id' => $lotID])->execute();
-    }
-
-    public function deleteCustomer(int $lotID): void
-    {
-        $this->queryFactory->newDelete('customers')->andWhere(['id' => $lotID])->execute();
->>>>>>> tae
     }
 
     public function findCustomers(array $params): array

@@ -29,10 +29,6 @@ final class ProductValidator
             ->notEmptyString('std_pack', 'Input required')
             ->notEmptyString('std_box', 'Input required');
     }
-<<<<<<< HEAD
-=======
-    
->>>>>>> tae
     public function validateProduct(array $data): void
     {
         $validator = $this->createValidator();
@@ -46,19 +42,11 @@ final class ProductValidator
         }
     }
 
-<<<<<<< HEAD
     public function validateProductUpdate(string $product_code, array $data): void
     {
         /*
         if (!$this->repository->existsProductNo($productNo)) {
             throw new ValidationException(sprintf('Store not found: %s', $stoproductNoreId));
-=======
-    public function validateProductUpdate(string $lotNo, array $data): void
-    {
-        /*
-        if (!$this->repository->existsLotNo($lotNo)) {
-            throw new ValidationException(sprintf('Store not found: %s', $stolotNoreId));
->>>>>>> tae
         }
         */
         $this->validateProduct($data);

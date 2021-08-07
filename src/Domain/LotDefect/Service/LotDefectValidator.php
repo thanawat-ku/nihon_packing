@@ -27,10 +27,6 @@ final class LotDefectValidator
             ->notEmptyString('defect_id', 'Input required')
             ->notEmptyString('quantity', 'Input required');
     }
-<<<<<<< HEAD
-=======
-    
->>>>>>> tae
     public function validateLotDefect(array $data): void
     {
         $validator = $this->createValidator();
@@ -44,11 +40,7 @@ final class LotDefectValidator
         }
     }
 
-<<<<<<< HEAD
     public function validateLotDefectUpdate(string $lotNo, array $data): void
-=======
-    public function validateLotDefectUpdate(array $data): void
->>>>>>> tae
     {
         /*
         if (!$this->repository->existsLotNo($lotNo)) {

@@ -29,23 +29,15 @@ final class ProductUpdater
         $this->validator->validateProductInsert($data);
 
         // Map form data to row
-<<<<<<< HEAD
         $productRow = $this->mapToProductRow($data);
 
         // Insert transferStore
         $id=$this->repository->insertProduct($productRow);
-=======
-        $lotRow = $this->mapToLotRow($data);
-
-        // Insert transferStore
-        $id=$this->repository->insertProduct($lotRow);
->>>>>>> tae
 
         // Logging
         //$this->logger->info(sprintf('TransferStore updated successfully: %s', $id));
         return $id;
     }
-<<<<<<< HEAD
     public function updateProduct(int $productId, array $data): void
     {
         // Input validation
@@ -56,43 +48,20 @@ final class ProductUpdater
 
         // Insert store
         $this->repository->updateProduct($productId, $storeRow);
-=======
-    
-    public function updateProduct(int $lotId, array $data): void
-    {
-        // Input validation
-        $this->validator->validateProductUpdate($lotId, $data);
-
-        // Map form data to row
-        $storeRow = $this->mapToLotRow($data);
-
-        // Insert store
-        $this->repository->updateProduct($lotId, $storeRow);
->>>>>>> tae
 
         // Logging
         //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));
     }
-<<<<<<< HEAD
     public function deleteProduct(int $productId, array $data): void
     {
 
         // Insert store
         $this->repository->deleteProduct($productId);
-=======
-
-    public function deleteProduct(int $lotId, array $data): void
-    {
-
-        // Insert store
-        $this->repository->deleteProduct($lotId);
->>>>>>> tae
 
         // Logging
         //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));
     }
 
-<<<<<<< HEAD
     /**
      * Map data to row.
      *
@@ -101,9 +70,6 @@ final class ProductUpdater
      * @return array<mixed> The row
      */
     private function mapToProductRow(array $data): array
-=======
-    private function mapToLotRow(array $data): array
->>>>>>> tae
     {
         $result = [];
 
@@ -123,10 +89,6 @@ final class ProductUpdater
             $result['std_box'] = (string)$data['std_box'];
         }
 
-<<<<<<< HEAD
-=======
-
->>>>>>> tae
         return $result;
     }
 }
