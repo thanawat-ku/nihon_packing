@@ -23,29 +23,28 @@ return function (App $app) {
     $app->get('/users', \App\Action\Web\UserAction::class)->add(UserAuthMiddleware::class);
     $app->post('/edit_user', \App\Action\Web\UserEditAction::class)->add(UserAuthMiddleware::class);
     $app->post('/add_user', \App\Action\Web\UserAddAction::class)->add(UserAuthMiddleware::class);
-
-    
-    $app->get('/customers', \App\Action\Web\CustomerAction::class)->add(UserAuthMiddleware::class);
-    $app->get('/products', \App\Action\Web\ProductAction::class)->add(UserAuthMiddleware::class);
-    $app->get('/lots', \App\Action\Web\LotAction::class)->add(UserAuthMiddleware::class);
     
     //เพิ่ม lot แก้ไข lot และลบ lot
+    $app->get('/lots', \App\Action\Web\LotAction::class)->add(UserAuthMiddleware::class);
     $app->post('/add_lot', \App\Action\Web\LotAddAction::class)->add(UserAuthMiddleware::class);
     $app->post('/edit_lot', \App\Action\Web\LotEditAction::class)->add(UserAuthMiddleware::class);
     $app->post('/delete_lot', \App\Action\Web\LotDeleteAction::class)->add(UserAuthMiddleware::class);
-
+    $app->post('/print_lot', \App\Action\Web\LotPrintAction::class)->add(UserAuthMiddleware::class);
 
     //เพิ่ม customer และแก้ไข customer
+    $app->get('/customers', \App\Action\Web\CustomerAction::class)->add(UserAuthMiddleware::class);
     $app->post('/add_customer', \App\Action\Web\CustomerAddAction::class)->add(UserAuthMiddleware::class);
     $app->post('/edit_customer', \App\Action\Web\CustomerEditAction::class)->add(UserAuthMiddleware::class);
     $app->post('/delete_customer', \App\Action\Web\CustomerDeleteAction::class)->add(UserAuthMiddleware::class);
 
     //เพิ่ม route ของ product การเพิ่มข้อมูลสินค้าและแก้ไขข้อมูลสินค้า กับลบข้อมูลสินค้าออก
+    $app->get('/products', \App\Action\Web\ProductAction::class)->add(UserAuthMiddleware::class);
     $app->post('/add_product', \App\Action\Web\ProductAddAction::class)->add(UserAuthMiddleware::class);
     $app->post('/edit_product', \App\Action\Web\ProductEditAction::class)->add(UserAuthMiddleware::class);
     $app->post('/delete_product', \App\Action\Web\ProductDeleteAction::class)->add(UserAuthMiddleware::class);
 
-    $app->post('/print_lot', \App\Action\Web\LotPrintAction::class)->add(UserAuthMiddleware::class);
+    // เพิ่ม route ของ labels
+    $app->get('/labels', \App\Action\Web\LabelAction::class)->add(UserAuthMiddleware::class);
     
     //เพิ่ม route ของ applictation ในโทรศัพท์ 
     $app->post('/api/login', \App\Action\ApiLoginSubmitAction::class);
@@ -58,7 +57,10 @@ return function (App $app) {
 
     $app->post('/api/add_defect', \App\Action\Api\DefectAddAction::class);
     $app->post('/api/delete_defect', \App\Action\Api\DefectDeleteAction::class);
-    
     $app->post('/api/edit_defect', \App\Action\Api\DefectEditAction::class);
+
+    $app->post('/api/add_lot_defect', \App\Action\Api\LotDefectAddAction::class);
+    $app->post('/api/delete_lot_defect', \App\Action\Api\LotDefectDeleteAction::class);
+    $app->post('/api/edit_lot_defect', \App\Action\Api\LotDefectEditAction::class);
     
 };
