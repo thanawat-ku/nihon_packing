@@ -38,6 +38,7 @@ final class LotUpdater
         //$this->logger->info(sprintf('TransferStore updated successfully: %s', $id));
         return $id;
     }
+    
     public function updateLot(int $lotId, array $data): void
     {
         // Input validation
@@ -68,13 +69,6 @@ final class LotUpdater
         //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));
     }
 
-    /**
-     * Map data to row.
-     *
-     * @param array<mixed> $data The data
-     *
-     * @return array<mixed> The row
-     */
     private function mapToLotRow(array $data): array
     {
         $result = [];

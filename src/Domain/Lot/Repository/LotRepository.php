@@ -27,6 +27,7 @@ final class LotRepository
 
         return (int)$this->queryFactory->newInsert('lots', $row)->execute()->lastInsertId();
     }
+    
     public function updateLot(int $lotID, array $data): void
     {
         $data['updated_at'] = Chronos::now()->toDateTimeString();

@@ -27,6 +27,7 @@ final class LotValidator
             ->notEmptyString('product_id', 'Input required')
             ->notEmptyString('quantity', 'Input required');
     }
+    
     public function validateLot(array $data): void
     {
         $validator = $this->createValidator();

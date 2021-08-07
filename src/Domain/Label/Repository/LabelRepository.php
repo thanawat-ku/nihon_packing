@@ -46,27 +46,13 @@ final class LabelRepository
         $query->select(
             [
                 'labels.id',
+                'lot_id',
                 'label_no',
-                'product_id',
                 'label_type',
                 'quantity',
-                'lot_no',
-                'product_name',
-                'product_code',
+                'status',
             ]
         );
-        $query->join([
-            'l' => [
-                'table' => 'lots',
-                'type' => 'INNER',
-                'conditions' => 'l.id = label.lot_id',
-            ]]);
-        $query->join([
-            'p' => [
-                'table' => 'products',
-                'type' => 'INNER',
-                'conditions' => 'p.id = l.product_id',
-            ]]);
         return $query->execute()->fetchAll('assoc') ?: [];
     }
 
