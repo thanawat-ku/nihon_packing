@@ -17,8 +17,8 @@ function editLabels(event){
     let labels = event.currentTarget.name;
     console.log(labels);
     var obj = JSON.parse(labels);
-    $("#deleteLabelsID").val(obj.id);
-    $("#deleteLabelsName").text(obj.labels_name);
+    $("#deleteLabelID").val(obj.id);
+    $("#deleteLabelNo").text(obj.label_no);
 }
 $(document).on(
     "click",
