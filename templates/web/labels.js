@@ -1,35 +1,22 @@
 $(function() {
     $('#my-data-table').DataTable();
 });
-function editProduct(event){
-    let user = event.currentTarget.name;
-    console.log(user);
-    var obj = JSON.parse(user);
-    $("#editProductID").val(obj.id);
-    $("#editProductCode").val(obj.product_code);
-    $("#editProductName").val(obj.product_name);
-    $("#editPrice").val(obj.price);
-    $("#editStdPack").val(obj.std_pack);
-    $("#editStdBox").val(obj.std_box);
+function editLabels(event){
+    let labels = event.currentTarget.name;
+    console.log(labels);
+    var obj = JSON.parse(labels);
+    $("#editLabelsID").val(obj.id);
+    $("#editLabelsName").val(obj.labels_name);
+    $("#editTelNo").val(obj.tel_no);
+    $("#editAddress").val(obj.address);
 }
-$( "#form-editUser" ).on("submit", function( event ) {
-    if ( $( "#editPassword" ).val() ==  $( "#editConfirmPassword" ).val()) {
-        if($("#editPassword").val()==""){
-            $("#editUser").modal('toggle');
-            $("#editPassword").remove();
-        }
-        return;
-    }else{
-        alert("Password not match");
-        event.preventDefault();
-    }
-  });
-  function deleteProduct(event){
-    let lot = event.currentTarget.name;
-    console.log(lot);
-    var obj = JSON.parse(lot);
-    $("#deleteProductID").val(obj.id);
-    $("#deleteProductNo").text(obj.product_code);
+
+  function deleteLabels(event){
+    let labels = event.currentTarget.name;
+    console.log(labels);
+    var obj = JSON.parse(labels);
+    $("#deleteLabelsID").val(obj.id);
+    $("#deleteLabelsName").text(obj.labels_name);
 }
 $(document).on(
     "click",
@@ -38,10 +25,10 @@ $(document).on(
         let id = event.currentTarget.id;
         switch (id) {
             case "editBt":
-                editProduct(event);
+                editLabels(event);
                 break;
             case "deleteBt":
-                deleteProduct(event);
+                deleteLabels(event);
                 break;
             default:
                 console.log("no any events click");
