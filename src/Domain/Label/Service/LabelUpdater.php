@@ -42,22 +42,22 @@ final class LabelUpdater
         //$this->logger->info(sprintf('TransferStore updated successfully: %s', $id));
         return $id;
     }
-    public function updateLabel(int $labelId, array $data): void
+    public function updateLabel(int $labelID, array $data): void
     {
         // Input validation
-        $this->validator->validateLabelUpdate($labelId, $data);
+        $this->validator->validateLabelUpdate($labelID, $data);
 
         // Map form data to row
         $storeRow = $this->mapToLabelRow($data);
 
         // Insert store
-        $this->repository->updateLabel($labelId, $storeRow);
+        $this->repository->updateLabel($labelID, $storeRow);
     }
     
     
-    public function deleteLabel(int $labelId, array $data): void
+    public function deleteLabel(int $labelID, array $data): void
     {
-        $this->repository->deleteLabel($labelId);
+        $this->repository->deleteLabel($labelID);
     }
 
     private function mapToLabelRow(array $data): array

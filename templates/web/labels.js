@@ -5,10 +5,12 @@ function editLabels(event){
     let labels = event.currentTarget.name;
     console.log(labels);
     var obj = JSON.parse(labels);
-    $("#editLabelsID").val(obj.id);
-    $("#editLabelsName").val(obj.labels_name);
-    $("#editTelNo").val(obj.tel_no);
-    $("#editAddress").val(obj.address);
+    $("#editLabelID").val(obj.id);
+    $("#editLabelNo").val(obj.label_no);
+    $("#editLotId").val(obj.lot_id);
+    $("#editQuantity").val(obj.quantity);
+    $("#editLabelType").val(obj.label_type);
+    $("#editStatus").val(obj.status);
 }
 
   function deleteLabels(event){

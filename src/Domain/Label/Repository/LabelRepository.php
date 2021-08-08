@@ -47,6 +47,8 @@ final class LabelRepository
             [
                 'labels.id',
                 'label_no',
+                'merge_pack_id',
+                'lot_id',
                 'product_id',
                 'label_type',
                 'labels.quantity',
@@ -68,6 +70,7 @@ final class LabelRepository
                 'type' => 'INNER',
                 'conditions' => 'p.id = l.product_id',
             ]]);
+
         return $query->execute()->fetchAll('assoc') ?: [];
     }
 
