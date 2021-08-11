@@ -40,6 +40,7 @@ return function (App $app) {
     $app->post('/edit_lot', \App\Action\Web\LotEditAction::class)->add(UserAuthMiddleware::class);
     $app->post('/delete_lot', \App\Action\Web\LotDeleteAction::class)->add(UserAuthMiddleware::class);
     $app->post('/print_lot', \App\Action\Web\LotPrintAction::class)->add(UserAuthMiddleware::class);
+    $app->post('/label_lot', \App\Action\Web\LotLabelAction::class)->add(UserAuthMiddleware::class);
     
     $app->get('/labels', \App\Action\Web\LabelAction::class)->add(UserAuthMiddleware::class);
     $app->post('/add_label', \App\Action\Web\LabelAddAction::class)->add(UserAuthMiddleware::class);

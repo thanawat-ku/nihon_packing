@@ -1,7 +1,7 @@
-$(function() {
+$(function () {
     $('#my-data-table').DataTable();
 });
-function editLot(event){
+function editLot(event) {
     let lot = event.currentTarget.name;
     console.log(lot);
     var obj = JSON.parse(lot);
@@ -11,24 +11,31 @@ function editLot(event){
     $("#editQuantity").val(obj.quantity);
 }
 
-function deleteLot(event){
+function deleteLot(event) {
     let lot = event.currentTarget.name;
     console.log(lot);
     var obj = JSON.parse(lot);
     $("#deleteLotID").val(obj.id);
-    $("#deleteLotNoLabel").val(obj.lot_no);
     $("#deleteLotNoLabelStatus").val(obj.status);
 }
-function printLot(event){
+function printLot(event) {
     let lot = event.currentTarget.name;
     console.log(lot);
     var obj = JSON.parse(lot);
     $("#printLotID").val(obj.id);
     $("#printLotNo").text(obj.lot_no);
 }
+function labelLot(event) {
+    let lot = event.currentTarget.name;
+    console.log(lot);
+    var obj = JSON.parse(lot);
+    $("#labelLotID").val(obj.id);
+    $("#labelLotNoStatus").val(obj.status);
+    $("#labelLotNo").text(obj.lot_no);
+}
 $(document).on(
     "click",
-    "#editBt, #deleteBt, #printBt",
+    "#editBt, #deleteBt, #printBt, #labelLotBt",
     (event) => {
         let id = event.currentTarget.id;
         switch (id) {
@@ -40,6 +47,9 @@ $(document).on(
                 break;
             case "printBt":
                 printLot(event);
+                break;
+            case "labelLotBt":
+                labelLot(event);
                 break;
             default:
                 console.log("no any events click");

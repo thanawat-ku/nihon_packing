@@ -77,7 +77,7 @@ final class LotRepository
         }
         if(isset($params['lot_no'])){
             $query->andWhere(['lot_no'=>$params['lot_no']]);
-    }
+        }
         
         return $query->execute()->fetchAll('assoc') ?: [];
     }

@@ -76,6 +76,12 @@ final class LabelRepository
                 'conditions' => 'p.id = l.product_id',
             ]]);
 
+            if(isset($params["lot_id"] )){
+                $query->andWhere(['lot_id'=>$params["lot_id"] ]);
+            }
+            
+
+
         return $query->execute()->fetchAll('assoc') ?: [];
     }
 

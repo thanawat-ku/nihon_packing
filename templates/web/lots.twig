@@ -44,7 +44,7 @@
                         <button type="button" id="editBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-edit"></i></button>
                         <button type="button" id="deleteBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-trash"></i></button>
                         {% if lot.status == "PRINTED" %}
-                        <button type="button" id="labelBt" class="btn btn-success" data-toggle="modal" data-target="#labelLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-info"></i></button>
+                        <button type="button" id="labelLotBt" class="btn btn-success btn-sm" data-toggle="modal" data-target="#labelLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-info-circle"></i></button>
                         {% endif %}
                         </td>
                     </tr>
@@ -203,13 +203,12 @@
         <div class="modal-body">          
           <div class="form-product">
             <input type="hidden" id="labelLotID" name="id">
-            <input type="hidden" id="labelLotNoLabel" name="lot_no">
-            <input type="hidden" id="labelLotNoLabelStatus" name="status">
+            <input type="hidden" id="labelLotNoStatus" name="status">
             <label for="lotNo">Do you want to find label from lot: <span id="labelLotNo"></span></label>
           </div>                 
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-danger">Label</button>
+          <button type="submit" class="btn btn-danger">Find</button>
           <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
         </div>
       </form>
