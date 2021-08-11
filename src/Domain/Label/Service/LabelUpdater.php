@@ -60,6 +60,11 @@ final class LabelUpdater
         $this->repository->deleteLabel($labelID);
     }
 
+    public function deleteLabelAll( int $lotId, array $data): void
+    {
+        $this->repository->deleteLabelAll($lotId);
+    }
+
     private function mapToLabelRow(array $data): array
     {
         $result = [];

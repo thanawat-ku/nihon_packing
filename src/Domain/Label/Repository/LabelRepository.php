@@ -40,6 +40,11 @@ final class LabelRepository
         $this->queryFactory->newDelete('labels')->andWhere(['id' => $labelID])->execute();
     }
 
+    public function deleteLabelAll(int $lotId): void
+    {
+        $this->queryFactory->newDelete('labels')->andWhere(['lot_id' => $lotId])->execute();
+    }
+
     public function findLabels(array $params): array
     {
         $query = $this->queryFactory->newSelect('labels');
