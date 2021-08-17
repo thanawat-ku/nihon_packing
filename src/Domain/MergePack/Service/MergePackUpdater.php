@@ -52,17 +52,32 @@ final class MergePackUpdater
         // Logging
         //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));
     }
-    
 
-    public function deleteMergePack(int $id): void
+    public function updateMergingApi(string $mergeNO, array $data,$user_id): void
     {
+        // Input validation
+        $this->validator->validateMergePackUpdate($mergeNO, $data);
+
+        // Map form data to row
+        $storeRow = $this->mapToMergePackRow($data);
 
         // Insert store
-        $this->repository->deleteMergePack($id);
+        $this->repository->updateMergingApi($mergeNO, $storeRow,$user_id);
 
         // Logging
         //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));
     }
+    
+
+    // public function deleteMergePack(int $id): void
+    // {
+
+    //     // Insert store
+    //     $this->repository->deleteMergePack($id);
+
+    //     // Logging
+    //     //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));
+    // }
 
     /**
      * Map data to row.
@@ -75,14 +90,14 @@ final class MergePackUpdater
     {
         $result = [];
 
-        if (isset($data['lot_id'])) {
-            $result['lot_id'] = (string)$data['lot_id'];
+        if (isset($data['product_id'])) {
+            $result['product_id'] = (string)$data['product_id'];
         }
-        if (isset($data['defect_id'])) {
-            $result['defect_id'] = (string)$data['defect_id'];
+        if (isset($data['merge_no'])) {
+            $result['merge_no'] = (string)$data['merge_no'];
         }
-        if (isset($data['quantity'])) {
-            $result['quantity'] = (string)$data['quantity'];
+        if (isset($data['merge_status'])) {
+            $result['merge_status'] = (string)$data['merge_status'];
         }
 
 

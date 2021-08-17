@@ -77,7 +77,7 @@ final class LotDefectRepository
         return $query->execute()->fetchAll('assoc') ?: [];
     }
 
-    public function insertLotDefectApi(array $row,$user_id): int
+    public function insertLotDefectApi(array $row, $user_id): int
     {
         $row['created_at'] = Chronos::now()->toDateTimeString();
         $row['created_user_id'] = $user_id;

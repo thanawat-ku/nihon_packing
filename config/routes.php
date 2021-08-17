@@ -54,6 +54,20 @@ return function (App $app) {
     $app->get('/api/merge_labels', \App\Action\Api\MergeLabelAction::class);
     $app->get('/api/merge_pack_details', \App\Action\Api\MergePackDetailAction::class);
 
+    $app->get('/api/label_nonfullys', \App\Action\Api\LabelNonfullyAction::class);
+    $app->post('/api/update_label_non_to_merge', \App\Action\Api\UpdateLabelNonToMergeAction::class);
 
-    
+
+    // merge label
+    $app->get('/api/select_product_to_merges', \App\Action\Api\SelectProductToMergeAction::class);
+    $app->get('/api/labels', \App\Action\Api\LabelAction::class);
+    $app->get('/api/label_pack_merges', \App\Action\Api\LabelPackMergeAction::class);
+    // $app->get('/api/select_merge_pack_id', \App\Action\Api\SelectMergePackIDAction::class);
+    // $app->get('/api/labels', \App\Action\Api\LabelAction::class);
+
+    $app->post('/api/add_merge_packs', \App\Action\Api\MergePackAddAction::class);
+    $app->post('/api/up_status_merge_packs', \App\Action\Api\UpStatusMergePackAction::class);
+    $app->post('/api/up_status_merge_labels', \App\Action\Api\UpStatusMergeLabelAction::class);
+    $app->post('/api/up_status_mergings', \App\Action\Api\UpStatusMergingAction::class);
+  
 };

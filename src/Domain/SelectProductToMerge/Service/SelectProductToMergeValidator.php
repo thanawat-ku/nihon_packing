@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Domain\MergePack\Service;
+namespace App\Domain\SelectProductToMerge\Service;
 
-use App\Domain\MergePack\Repository\MergePackRepository;
+use App\Domain\Product\Repository\ProductRepository;
 use App\Factory\ValidationFactory;
 use Cake\Validation\Validator;
 use Selective\Validation\Exception\ValidationException;
 
-final class MergePackValidator
+final class ProductValidator
 {
     private $repository;
     private $validationFactory;
 
-    public function __construct(MergePackRepository $repository, ValidationFactory $validationFactory)
+    public function __construct(ProductRepository $repository, ValidationFactory $validationFactory)
     {
         $this->repository = $repository;
         $this->validationFactory = $validationFactory;
@@ -23,12 +23,11 @@ final class MergePackValidator
         $validator = $this->validationFactory->createValidator();
 
         return $validator
-            ->notEmptyString('merge_no', 'Input required')
+            ->notEmptyString('product_no', 'Input required')
             ->notEmptyString('product_id', 'Input required')
-            ->notEmptyString('merge_status', 'Input required');
-            
+            ->notEmptyString('quantity', 'Input required');
     }
-    public function validateMergePack(array $data): void
+    public function validateProduct(array $data): void
     {
         $validator = $this->createValidator();
 
@@ -41,17 +40,17 @@ final class MergePackValidator
         }
     }
 
-    public function validateMergePackUpdate(string $lotNo, array $data): void
+    public function validateProductUpdate(string $productNo, array $data): void
     {
         /*
-        if (!$this->repository->existsLotNo($lotNo)) {
-            throw new ValidationException(sprintf('Store not found: %s', $stolotNoreId));
+        if (!$this->repository->existsProductNo($productNo)) {
+            throw new ValidationException(sprintf('Store not found: %s', $stoproductNoreId));
         }
         */
-        $this->validateMergePack($data);
+        $this->validateProduct($data);
     }
-    public function validateMergePackInsert( array $data): void
+    public function validateProductInsert( array $data): void
     {
-        $this->validateMergePack($data);
+        $this->validateProduct($data);
     }
 }

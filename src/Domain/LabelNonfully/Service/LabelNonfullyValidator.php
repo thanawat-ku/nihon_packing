@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Domain\MergePack\Service;
+namespace App\Domain\LabelNonfully\Service;
 
-use App\Domain\MergePack\Repository\MergePackRepository;
+use App\Domain\LabelNonfully\Repository\LabelNonfullyRepository;
 use App\Factory\ValidationFactory;
 use Cake\Validation\Validator;
 use Selective\Validation\Exception\ValidationException;
 
-final class MergePackValidator
+final class LabelNonfullyValidator
 {
     private $repository;
     private $validationFactory;
 
-    public function __construct(MergePackRepository $repository, ValidationFactory $validationFactory)
+    public function __construct(LabelNonfullyRepository $repository, ValidationFactory $validationFactory)
     {
         $this->repository = $repository;
         $this->validationFactory = $validationFactory;
@@ -23,12 +23,12 @@ final class MergePackValidator
         $validator = $this->validationFactory->createValidator();
 
         return $validator
-            ->notEmptyString('merge_no', 'Input required')
-            ->notEmptyString('product_id', 'Input required')
-            ->notEmptyString('merge_status', 'Input required');
-            
+            ->notEmptyString('merge_pack_id', 'Input required')
+            ->notEmptyString('label_type', 'Input required')
+            ->notEmptyString('status', 'Input required');
+            // ->notEmptyString('quantity', 'Input required');
     }
-    public function validateMergePack(array $data): void
+    public function validateLabelNonfully(array $data): void
     {
         $validator = $this->createValidator();
 
@@ -41,17 +41,17 @@ final class MergePackValidator
         }
     }
 
-    public function validateMergePackUpdate(string $lotNo, array $data): void
+    public function validateLabelNonfullyUpdateApi(string $lotNo, array $data): void
     {
         /*
         if (!$this->repository->existsLotNo($lotNo)) {
             throw new ValidationException(sprintf('Store not found: %s', $stolotNoreId));
         }
         */
-        $this->validateMergePack($data);
+        $this->validateLabelNonfully($data);
     }
-    public function validateMergePackInsert( array $data): void
+    public function validateLabelNonfullyInsert( array $data): void
     {
-        $this->validateMergePack($data);
+        $this->validateLabelNonfully($data);
     }
 }
