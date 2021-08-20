@@ -74,9 +74,9 @@ final class LabelPackMergeRepository
         $query->where(
             ['label_type !=' => "FULLY"]  
         );
-        $query->where(
-            ['label_type !=' => "NONFULLY"] 
-        );
+        // $query->where(
+        //     ['label_type !=' => "NONFULLY"] 
+        // );
 
         if(isset($params['merge_pack_id'])){
             $query->andWhere(['merge_pack_id' => $params['merge_pack_id']]);

@@ -18,22 +18,22 @@ final class MergePackDetailRepository
         $this->session = $session;
     }
 
-    // public function insertMergePackDetail(array $row): int
-    // {
-    //     $row['created_at'] = Chronos::now()->toDateTimeString();
-    //     $row['created_user_id'] = $this->session->get('user')["id"];
-    //     $row['updated_at'] = Chronos::now()->toDateTimeString();
-    //     $row['updated_user_id'] = $this->session->get('user')["id"];
+    public function insertMergePackDetailApi(array $row, $user_id): int
+    {
+        $row['created_at'] = Chronos::now()->toDateTimeString();
+        $row['created_user_id'] = $user_id;
+        $row['updated_at'] = Chronos::now()->toDateTimeString();
+        $row['updated_user_id'] = $user_id;
 
-    //     return (int)$this->queryFactory->newInsert('labels', $row)->execute()->lastInsertId();
-    // }
-    // public function updateMergePackDetail(int $labelID, array $data): void
-    // {
-    //     $data['updated_at'] = Chronos::now()->toDateTimeString();
-    //     $data['updated_user_id'] = $this->session->get('user')["id"];
+        return (int)$this->queryFactory->newInsert('merge_pack_details', $row)->execute()->lastInsertId();
+    }
+    public function updateMergePackDetailApi(int $labelID, array $data, $user_id): void
+    {
+        $data['updated_at'] = Chronos::now()->toDateTimeString();
+        $data['updated_user_id'] = $user_id;
 
-    //     $this->queryFactory->newUpdate('labels', $data)->andWhere(['id' => $labelID])->execute();
-    // }    
+        $this->queryFactory->newUpdate('labels', $data)->andWhere(['id' => $labelID])->execute();
+    }    
 
     // public function deleteMergePackDetail(int $labelID): void
     // {
@@ -48,37 +48,37 @@ final class MergePackDetailRepository
                 'merge_pack_details.id',
                 // 'merge_pack.id',
                 'merge_pack_details.merge_pack_id',
-                'merge_no',
+                // 'merge_no',
                 'label_id',
                 // 'label_type',
                 
-                'label_no',
-                'quantity',
+                // 'label_no',
+                // 'quantity',
                 // 'product_name',
                 // 'product_code',
             ]
         );
         
-        $query->join([
-            'mp' => [
-                'table' => 'merge_packs',
-                'type' => 'INNER',
-                'conditions' => 'mp.id = merge_pack_details.merge_pack_id',
-            ],
-        ]);
+        // $query->join([
+        //     'mp' => [
+        //         'table' => 'merge_packs',
+        //         'type' => 'INNER',
+        //         'conditions' => 'mp.id = merge_pack_details.merge_pack_id',
+        //     ],
+        // ]);
 
-        $query->join([
-            'lb' => [
-                'table' => 'labels',
-                'type' => 'INNER',
-                'conditions' => 'lb.merge_pack_id = mp.id',
-            ]
-        ]);
-        $query->group([
-        'lb.id'
-        ]
+        // $query->join([
+        //     'lb' => [
+        //         'table' => 'labels',
+        //         'type' => 'INNER',
+        //         'conditions' => 'lb.id = merge_pack_details.label_id',
+        //     ]
+        // ]);
+        // $query->group([
+        // 'lb.id'
+        // ]
 
-        );
+        // );
        
         // $query->join([
         //     'p' => [

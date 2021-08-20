@@ -49,30 +49,36 @@ final class LabelNonfullyRepository
                 'label_no',
                 'product_id',
                 'label_type',
-                'quantity',
-                // 'lot_no',
+                'labels.quantity',
+                'lot_id',
                 'labels.merge_pack_id',
-                'status'
+                'labels.status'
                 
             ]
         );
+        // $query->join([
+        //     'mp' => [
+        //         'table' => 'merge_packs',
+        //         'type' => 'INNER',
+        //         'conditions' => 'mp.id = labels.merge_pack_id',
+        //     ]]);
+        // $query->join([
+        //     'mpd' => [
+        //         'table' => 'merge_pack_details',
+        //         'type' => 'INNER',
+        //         'conditions' => 'mpd.merge_pack_id = mp.product_id',
+        //     ]]);
         $query->join([
-            'mp' => [
-                'table' => 'merge_packs',
+            'l' => [
+                'table' => 'lots',
                 'type' => 'INNER',
-                'conditions' => 'mp.id = labels.merge_pack_id',
-            ]]);
-        $query->join([
-            'mpd' => [
-                'table' => 'merge_pack_details',
-                'type' => 'INNER',
-                'conditions' => 'mpd.merge_pack_id = mp.product_id',
+                'conditions' => 'l.id = labels.lot_id',
             ]]);
         $query->join([
             'p' => [
                 'table' => 'products',
                 'type' => 'INNER',
-                'conditions' => 'p.id = mp.product_id',
+                'conditions' => 'p.id = l.product_id',
             ]]);
         $query->group([
             'labels.id'

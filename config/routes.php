@@ -62,6 +62,7 @@ return function (App $app) {
     $app->get('/api/select_product_to_merges', \App\Action\Api\SelectProductToMergeAction::class);
     $app->get('/api/labels', \App\Action\Api\LabelAction::class);
     $app->get('/api/label_pack_merges', \App\Action\Api\LabelPackMergeAction::class);
+    $app->get('/api/check_labels', \App\Action\Api\CheckLabelAction::class);
     // $app->get('/api/select_merge_pack_id', \App\Action\Api\SelectMergePackIDAction::class);
     // $app->get('/api/labels', \App\Action\Api\LabelAction::class);
 
@@ -69,5 +70,7 @@ return function (App $app) {
     $app->post('/api/up_status_merge_packs', \App\Action\Api\UpStatusMergePackAction::class);
     $app->post('/api/up_status_merge_labels', \App\Action\Api\UpStatusMergeLabelAction::class);
     $app->post('/api/up_status_mergings', \App\Action\Api\UpStatusMergingAction::class);
-  
+    $app->post('/api/up_status_merged', \App\Action\Api\UpStatusMergedAction::class);
+    $app->post('/api/add_merge_pack_detail', \App\Action\Api\MergePackDetailAddAction::class);
+    $app->post('/api/print_label_merge_packs', \App\Action\Api\PrintLabelMergePackAction::class);
 };

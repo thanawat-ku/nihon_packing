@@ -1,23 +1,23 @@
 <?php
 
-namespace App\Domain\Label\Service;
+namespace App\Domain\MergePackDetail\Service;
 
-use App\Domain\Label\Repository\LabelRepository;
-use App\Domain\Label\Service\LabelFinder;
+use App\Domain\MergePackDetail\Repository\MergePackDetailRepository;
+use App\Domain\MergePackDetail\Service\MergePackDetailFinder;
 
 /**
  * Service.
  */
-final class LabelUpdater
+final class MergePackDetailUpdater
 {
     private $repository;
     private $validator;
     private $finder;
 
     public function __construct(
-        LabelRepository $repository,
-        LabelValidator $validator,
-        LabelFinder $finder
+        MergePackDetailRepository $repository,
+        MergePackDetailValidator $validator,
+        MergePackDetailFinder $finder
     ) {
         $this->repository = $repository;
         $this->validator = $validator;
@@ -27,61 +27,50 @@ final class LabelUpdater
             //->createInstance();
     }
 
-    public function insertLabel( array $data): int
+    public function insertMergePackDetailApi( array $data, $user_id): int
     {
         // Input validation
-        $this->validator->validateLabelInsert($data);
+        $this->validator->validateMergePackDetailInsert($data);
 
         // Map form data to row
-        $lotRow = $this->mapToLabelRow($data);
+        $lotRow = $this->mapToMergePackDetailRow($data);
 
         // Insert transferStore
-        $id=$this->repository->insertLabel($lotRow);
+        $id=$this->repository->insertMergePackDetailApi($lotRow, $user_id);
 
         // Logging
         //$this->logger->info(sprintf('TransferStore updated successfully: %s', $id));
         return $id;
     }
-    public function updateLabel(int $labelId, array $data): void
+    public function updateMergePackDetailApi(int $labelId, array $data, $user_id): void
     {
         // Input validation
-        $this->validator->validateLabelUpdate($labelId, $data);
+        $this->validator->validateMergePackDetailUpdate($labelId, $data);
 
         // Map form data to row
-        $storeRow = $this->mapToLabelRow($data);
+        $storeRow = $this->mapToMergePackDetailRow($data);
 
         // Insert store
-        $this->repository->updateLabel($labelId, $storeRow);
+        $this->repository->updateMergePackDetailApi($labelId, $storeRow, $user_id);
     }
     
     
-    public function deleteLabel(int $labelId, array $data): void
-    {
-        $this->repository->deleteLabel($labelId);
-    }
+    // public function deleteMergePackDetail(int $labelId, array $data): void
+    // {
+    //     $this->repository->deleteMergePackDetail($labelId);
+    // }
 
-    private function mapToLabelRow(array $data): array
+    private function mapToMergePackDetailRow(array $data): array
     {
         $result = [];
 
-        if (isset($data['lot_id'])) {
-            $result['lot_id'] = (string)$data['lot_id'];
-        }
         if (isset($data['merge_pack_id'])) {
             $result['merge_pack_id'] = (string)$data['merge_pack_id'];
         }
-        if (isset($data['label_no'])) {
-            $result['label_no'] = (string)$data['label_no'];
+        if (isset($data['label_id'])) {
+            $result['label_id'] = (string)$data['label_id'];
         }
-        if (isset($data['label_type'])) {
-            $result['label_type'] = (string)$data['label_type'];
-        }
-        if (isset($data['quantity'])) {
-            $result['quantity'] = (string)$data['quantity'];
-        }
-        if (isset($data['status'])) {
-            $result['status'] = (string)$data['status'];
-        }
+        
 
 
         return $result;
