@@ -2,8 +2,7 @@
 
 namespace App\Action\Api;
 
-use App\Domain\MergePack\Service\MergePackFinder;
-use App\Domain\MergePack\Service\MergePackUpdater;
+use App\Domain\CreateMergeNoFromLabel\Service\CreateMergeNoFromLabelFinder;
 use App\Domain\Product\Service\ProductFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
@@ -14,21 +13,19 @@ use Symfony\Component\HttpFoundation\Session\Session;
 /**
  * Action.
  */
-final class UpStatusMergingAction
+final class CreateMergeNoFromLabelAction
 {
     /**
      * @var Responder
      */
     private $responder;
     private $finder;
-    private $updater;
 
-    public function __construct(Twig $twig,MergePackFinder $finder,ProductFinder $productFinder, MergePackUpdater $updater,
+    public function __construct(Twig $twig,CreateMergeNoFromLabelFinder $finder,ProductFinder $productFinder,
     Session $session,Responder $responder)
     {
         $this->twig = $twig;
         $this->finder=$finder;
-        $this->updater=$updater;
         $this->productFinder=$productFinder;
         $this->session=$session;
         $this->responder = $responder;
@@ -36,20 +33,14 @@ final class UpStatusMergingAction
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        $params = (array)$request->getParsedBody();
-        $merge_status=$params["merge_status"];
-        $user_id=$params["user_id"];
-        $id=$params["merge_no"];
-
-        $this->updater->updateMergingApi($id, $params, $user_id);
-
+        $params = (array)$request->getQueryParams();
+        
         $rtdata['message']="Get MergePack Successful";
         $rtdata['error']=false;
-        $rtdata['merge_packs']=$this->finder->findMergePacks($params);
+        $rtdata['labels']=$this->finder->findCreateMergeNoFromLabels($params);
 
-        return $this->responder->withJson($response, $rtdata);
 
         
-
+        return $this->responder->withJson($response, $rtdata);
     }
 }

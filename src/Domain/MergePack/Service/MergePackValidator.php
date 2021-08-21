@@ -25,7 +25,8 @@ final class MergePackValidator
         return $validator
             ->notEmptyString('merge_no', 'Input required')
             ->notEmptyString('product_id', 'Input required')
-            ->notEmptyString('merge_status', 'Input required');
+            ->notEmptyString('merge_status', 'Input required')
+            ->notEmptyString('product_code', 'Input required');
             
     }
     public function validateMergePack(array $data): void
