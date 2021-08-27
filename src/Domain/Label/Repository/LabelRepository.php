@@ -27,6 +27,15 @@ final class LabelRepository
 
         return (int)$this->queryFactory->newInsert('labels', $row)->execute()->lastInsertId();
     }
+
+    public function updateLabelApi(int $labelID, array $data,$user_id): void
+    {
+        $data['updated_at'] = Chronos::now()->toDateTimeString();
+        $data['updated_user_id'] = $user_id;
+
+        $this->queryFactory->newUpdate('labels', $data)->andWhere(['id' => $labelID])->execute();
+    }    
+
     public function updateLabel(int $labelID, array $data): void
     {
         $data['updated_at'] = Chronos::now()->toDateTimeString();

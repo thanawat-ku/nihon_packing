@@ -52,6 +52,7 @@ return function (App $app) {
     $app->get('/api/lots', \App\Action\Api\LotAction::class);
 
     $app->get('/api/labels', \App\Action\Api\LabelAction::class);
+    $app->post('/api/register_label', \App\Action\Api\LabelRegisterAction::class);
 
     $app->get('/api/customers', \App\Action\Api\CustomerAction::class);
 
@@ -60,7 +61,6 @@ return function (App $app) {
     $app->get('/api/defects', \App\Action\Api\DefectAction::class);
 
     $app->get('/api/lot_defects', \App\Action\Api\LotDefectAction::class);
-    
     $app->post('/api/add_lot_defect', \App\Action\Api\LotDefectAddAction::class);
     $app->post('/api/delete_lot_defect', \App\Action\Api\LotDefectDeleteAction::class);
     $app->post('/api/edit_lot_defects', \App\Action\Api\LotDefectEditAction::class);

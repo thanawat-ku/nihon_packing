@@ -42,6 +42,17 @@ final class LabelUpdater
         //$this->logger->info(sprintf('TransferStore updated successfully: %s', $id));
         return $id;
     }
+    public function updateLabelApi(int $labelID, array $data ,$user_id): void
+    {
+        // Input validation
+        $this->validator->validateLabelUpdate($labelID, $data);
+
+        // Map form data to row
+        $storeRow = $this->mapToLabelRow($data);
+
+        // Insert store
+        $this->repository->updateLabelApi($labelID, $storeRow,$user_id);
+    }
     public function updateLabel(int $labelID, array $data): void
     {
         // Input validation

@@ -24,9 +24,11 @@ final class LabelValidator
 
         return $validator
             ->notEmptyString('lot_id', 'Input required')
+            ->notEmptyString('merge_pack_id', 'Input required')
             ->notEmptyString('label_no', 'Input required')
             ->notEmptyString('label_type', 'Input required')
-            ->notEmptyString('quantity', 'Input required');
+            ->notEmptyString('quantity', 'Input required')
+            ->notEmptyString('status', 'Input required');
     }
     public function validateLabel(array $data): void
     {
