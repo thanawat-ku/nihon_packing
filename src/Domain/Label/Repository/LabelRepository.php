@@ -61,6 +61,8 @@ final class LabelRepository
                 'product_name',
                 'product_code',
                 'labels.status',
+                'std_pack',
+                'std_box',
             ]
         );
         $query->join([
