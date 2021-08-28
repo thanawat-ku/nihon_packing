@@ -50,6 +50,7 @@ return function (App $app) {
     $app->post('/api/login', \App\Action\ApiLoginSubmitAction::class);
     
     $app->get('/api/lots', \App\Action\Api\LotAction::class);
+    $app->post('/api/end_lot', \App\Action\Api\EndLotAction::class);
 
     $app->get('/api/labels', \App\Action\Api\LabelAction::class);
     $app->post('/api/register_label', \App\Action\Api\LabelRegisterAction::class);
