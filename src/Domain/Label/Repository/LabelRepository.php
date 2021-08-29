@@ -62,6 +62,7 @@ final class LabelRepository
                 'labels.id',
                 'label_no',
                 'merge_pack_id',
+                'split_label_id',
                 'lot_id',
                 'product_id',
                 'label_type',

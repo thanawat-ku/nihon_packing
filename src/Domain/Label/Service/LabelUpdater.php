@@ -98,6 +98,9 @@ final class LabelUpdater
         if (isset($data['status'])) {
             $result['status'] = (string)$data['status'];
         }
+        if (isset($data['split_label_id'])) {
+            $result['split_label_id'] = (string)$data['split_label_id'];
+        }
 
 
         return $result;
