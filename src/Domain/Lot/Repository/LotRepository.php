@@ -31,6 +31,7 @@ final class LotRepository
     {
         $data['updated_at'] = Chronos::now()->toDateTimeString();
         $data['updated_user_id'] = $user_id;
+        $data['packed_user_id'] = $user_id;
 
         $this->queryFactory->newUpdate('lots', $data)->andWhere(['id' => $lotID])->execute();
     } 
