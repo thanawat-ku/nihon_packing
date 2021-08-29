@@ -44,7 +44,7 @@
                         <button type="button" id="editBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-edit"></i></button>
                         <button type="button" id="deleteBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-trash"></i></button>
                         {% if lot.status == "PRINTED" %}
-                        <button type="button" id="labelLotBt" class="btn btn-success btn-sm" data-toggle="modal" data-target="#labelLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-info-circle"></i></button>
+                        <a href="label_lot?id={{lot.id}}"><button type="button" class="btn btn-success btn-sm" data-toggle="modal" ><i style="font-size:15px; width:20px;" class="fas fa-info-circle"></i></button></a> 
                         {% endif %}
                         </td>
                     </tr>

@@ -25,14 +25,6 @@ function printLot(event) {
     $("#printLotID").val(obj.id);
     $("#printLotNo").text(obj.lot_no);
 }
-function labelLot(event) {
-    let lot = event.currentTarget.name;
-    console.log(lot);
-    var obj = JSON.parse(lot);
-    $("#labelLotID").val(obj.id);
-    $("#labelLotNoStatus").val(obj.status);
-    $("#labelLotNo").text(obj.lot_no);
-}
 $(document).on(
     "click",
     "#editBt, #deleteBt, #printBt, #labelLotBt",
@@ -47,9 +39,6 @@ $(document).on(
                 break;
             case "printBt":
                 printLot(event);
-                break;
-            case "labelLotBt":
-                labelLot(event);
                 break;
             default:
                 console.log("no any events click");

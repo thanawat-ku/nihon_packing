@@ -28,7 +28,7 @@ final class  LotLabelAction
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        $data = (array)$request->getParsedBody();
+        $data = (array)$request->getQueryParams();
         $lotId = $data["id"];
         $params["lot_id"] = $lotId;
 
