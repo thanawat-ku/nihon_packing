@@ -48,9 +48,8 @@ final class SplitLabelUpdater
         $splitLabelRow = $this->mapToSplitLabelRow($data);
 
 
-        //$id=$this->repository->insertSplitLabelApi($splitLabelRow,$user_id );
-        return 0;
-        //return $id;
+        $id=$this->repository->insertSplitLabelApi($splitLabelRow,$user_id );
+        return $id;
     }
 
     public function updateSplitLabel(int $splitLabelId, array $data): void

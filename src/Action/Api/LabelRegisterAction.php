@@ -28,7 +28,7 @@ final class LabelRegisterAction
     ) {
         $this->responder = $responder;
         $this->updater = $updater;
-        $this->finder=$finder;
+        $this->finder = $finder;
     }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
@@ -37,7 +37,7 @@ final class LabelRegisterAction
         $labelID = $params["label_id"];
         $user_id = $params["user_id"];
 
-        $this->updater->updateLabelApi($labelID ,$params,$user_id);
+        $this->updater->updateLabelApi($labelID, $params, $user_id);
 
         $rtdata['message'] = "Registor Label Successful";
         $rtdata['error'] = false;
