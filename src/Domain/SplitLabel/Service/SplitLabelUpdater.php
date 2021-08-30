@@ -4,9 +4,7 @@ namespace App\Domain\SplitLabel\Service;
 
 use App\Domain\SplitLabel\Repository\SplitLabelRepository;
 
-/**
- * Service.
- */
+
 final class SplitLabelUpdater
 {
     private $repository;
@@ -18,9 +16,6 @@ final class SplitLabelUpdater
     ) {
         $this->repository = $repository;
         $this->validator = $validator;
-        //$this->logger = $loggerFactory
-            //->addFileHandler('store_updater.log')
-            //->createInstance();
     }
 
     public function insertSplitLabel( array $data): int
@@ -48,8 +43,9 @@ final class SplitLabelUpdater
         $splitLabelRow = $this->mapToSplitLabelRow($data);
 
 
-        $id=$this->repository->insertSplitLabelApi($splitLabelRow,$user_id );
-        return $id;
+        //$id=$this->repository->insertSplitLabelApi($splitLabelRow,$user_id );
+        //return $id;
+        return 0;
     }
 
     public function updateSplitLabel(int $splitLabelId, array $data): void

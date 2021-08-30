@@ -6,8 +6,6 @@ use App\Domain\SplitLabel\Service\SplitLabelFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Slim\Views\Twig;
-use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * Action.
@@ -33,7 +31,7 @@ final class SplitLabelAction
 
         $rtdata['message']="Get SplitLabel Successful";
         $rtdata['error']=false;
-        $rtdata['labels']=$this->finder->findSplitLabels($params);
+        $rtdata['split_labels']=$this->finder->findSplitLabels($params);
 
 
         

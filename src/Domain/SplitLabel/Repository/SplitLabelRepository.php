@@ -12,10 +12,10 @@ final class SplitLabelRepository
     private $queryFactory;
     private $session;
 
-    public function __construct(Session $session,QueryFactory $queryFactory)
+    public function __construct(Session $session, QueryFactory $queryFactory)
     {
         $this->queryFactory = $queryFactory;
-        $this->session=$session;
+        $this->session = $session;
     }
     public function insertSplitLabel(array $row): int
     {
@@ -27,7 +27,7 @@ final class SplitLabelRepository
         return (int)$this->queryFactory->newInsert('split_labels', $row)->execute()->lastInsertId();
     }
 
-    public function insertSplitLabelApi(array $row,$user_id): int
+    public function insertSplitLabelApi(array $row, $user_id): int
     {
         $row['created_at'] = Chronos::now()->toDateTimeString();
         $row['created_user_id'] = $user_id;
@@ -54,7 +54,7 @@ final class SplitLabelRepository
 
         $this->queryFactory->newUpdate('split_labels', $data)->andWhere(['id' => $splitLabelID])->execute();
     }
-    
+
     public function deleteSplitLabel(int $splitLabelID): void
     {
         $this->queryFactory->newDelete('split_labels')->andWhere(['id' => $splitLabelID])->execute();
@@ -65,14 +65,32 @@ final class SplitLabelRepository
         $query = $this->queryFactory->newSelect('split_labels');
         $query->select(
             [
-                'id',
-                'splitLabel_name',
-                'tel_no',
-                'address',
+                'split_labels.id',
+                'split_label_no',
+                'label_id',
+                'split_labels.status',
+                'label_no',
+                'label_type',
+                'quantity',
+                'merge_pack_id',
+                'split_label_id',
+                'split_label_id',
             ]
         );
-
+        $query->join([
+            'l' => [
+                'table' => 'labels',
+                'type' => 'INNER',
+                'conditions' => 'l.id = split_labels.label_id',
+            ]
+        ]);
+        // $query->join([
+        //     'lot' => [
+        //         'table' => 'lots',
+        //         'type' => 'INNER',
+        //         'conditions' => 'lot.id = l.lot_id',
+        //     ]
+        // ]);
         return $query->execute()->fetchAll('assoc') ?: [];
     }
-
 }
