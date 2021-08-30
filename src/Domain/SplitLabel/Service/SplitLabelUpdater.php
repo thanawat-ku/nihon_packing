@@ -52,8 +52,6 @@ final class SplitLabelUpdater
         return $id;
     }
 
-
-
     public function updateSplitLabel(int $labelID, array $data): void
     {
         // Input validation
@@ -66,7 +64,7 @@ final class SplitLabelUpdater
         $this->repository->updateSplitLabel($labelID, $storeRow);
     }
 
-    public function updateInsertSplitLabelApi(array $data,int $splitID,$user_id ): void
+    public function updateSplitLabelApi(array $data,int $splitID,$user_id ): void
     {
         // Input validation
         $this->validator->validateSplitLabelUpdate($splitID, $data);
@@ -77,6 +75,7 @@ final class SplitLabelUpdater
         // Insert store
         $this->repository->updateSplitLabelApi($splitID, $storeRow,$user_id );
     }
+    
 
 
     public function deleteSplitLabel(int $labelID, array $data): void

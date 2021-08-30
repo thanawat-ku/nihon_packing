@@ -29,19 +29,30 @@ final class LabelUpdater
 
     public function insertLabel( array $data): int
     {
-        // Input validation
+
         $this->validator->validateLabelInsert($data);
 
-        // Map form data to row
         $lotRow = $this->mapToLabelRow($data);
 
-        // Insert transferStore
         $id=$this->repository->insertLabel($lotRow);
 
-        // Logging
-        //$this->logger->info(sprintf('TransferStore updated successfully: %s', $id));
+        
         return $id;
     }
+
+    public function insertLabelApi( array $data,$user_id): int //สร้าง labels จาก splitlabel
+    {
+
+        $this->validator->validateLabelInsert($data);
+
+        $Row = $this->mapToLabelRow($data);
+
+        $id=$this->repository->insertLabelApi($Row,$user_id);
+
+        
+        return $id;
+    }
+
     public function updateLabelApi(int $labelID, array $data ,$user_id): void
     {
         // Input validation

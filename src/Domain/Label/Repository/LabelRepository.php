@@ -18,6 +18,16 @@ final class LabelRepository
         $this->session=$session;
     }
 
+    public function insertLabelApi(array $row,$user_id): int
+    {
+        $row['created_at'] = Chronos::now()->toDateTimeString();
+        $row['created_user_id'] = $user_id;
+        $row['updated_at'] = Chronos::now()->toDateTimeString();
+        $row['updated_user_id'] = $user_id;
+
+        return (int)$this->queryFactory->newInsert('labels', $row)->execute()->lastInsertId();
+    }
+
     public function insertLabel(array $row): int
     {
         $row['created_at'] = Chronos::now()->toDateTimeString();
