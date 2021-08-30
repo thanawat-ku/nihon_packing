@@ -3,7 +3,6 @@
 namespace App\Action\Api;
 
 use App\Domain\SplitLabel\Service\SplitLabelFinder;
-use App\Domain\SplitLabel\Service\SplitLabelUpdater;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -20,14 +19,12 @@ final class SplitLabelAction
      */
     private $responder;
     private $finder;
-    private $updater;
+   
 
-    public function __construct(SplitLabelFinder $finder,SplitLabelUpdater $updater,
-Responder $responder)
+    public function __construct(SplitLabelFinder $finder,Responder $responder)
     {
         $this->finder=$finder;
         $this->responder = $responder;
-        $this->updater=$updater;
     }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface

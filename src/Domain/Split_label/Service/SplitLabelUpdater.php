@@ -41,42 +41,34 @@ final class SplitLabelUpdater
 
     public function insertSplitLabelApi( array $data,$user_id ): int
     {
-        // Input validation
+
         $this->validator->validateSplitLabelInsert($data);
 
-        // Map form data to row
+
         $splitLabelRow = $this->mapToSplitLabelRow($data);
 
-        // Insert transferStore
-        $id=$this->repository->insertSplitLabelApi($splitLabelRow,$user_id );
 
-        // Logging
-        //$this->logger->info(sprintf('TransferStore updated successfully: %s', $id));
-        return $id;
+        //$id=$this->repository->insertSplitLabelApi($splitLabelRow,$user_id );
+        return 0;
+        //return $id;
     }
 
     public function updateSplitLabel(int $splitLabelId, array $data): void
     {
-        // Input validation
+
         $this->validator->validateSplitLabelUpdate($splitLabelId, $data);
 
-        // Map form data to row
+  
         $storeRow = $this->mapToSplitLabelRow($data);
 
-        // Insert store
         $this->repository->updateSplitLabel($splitLabelId, $storeRow);
 
-        // Logging
-        //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));
     }
 
     public function deleteSplitLabel(int $splitLabelId, array $data): void
     {
         // Insert store
         $this->repository->deleteSplitLabel($splitLabelId);
-
-        // Logging
-        //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));
     }
 
     /**

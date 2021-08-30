@@ -58,6 +58,7 @@ return function (App $app) {
     $app->post('/api/register_label', \App\Action\Api\LabelRegisterAction::class);
 
     $app->get('/api/split_labels',  \App\Action\Api\SplitLabelAction::class);
+    $app->post('/api/add_split_label', \App\Action\Api\SplitLabelAddAction::class);
 
     $app->get('/api/customers', \App\Action\Api\CustomerAction::class);
 
