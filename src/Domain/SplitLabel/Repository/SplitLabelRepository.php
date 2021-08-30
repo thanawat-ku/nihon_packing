@@ -33,6 +33,7 @@ final class SplitLabelRepository
         $row['created_user_id'] = $user_id;
         $row['updated_at'] = Chronos::now()->toDateTimeString();
         $row['updated_user_id'] = $user_id;
+        $row['status'] = "CREATED";
 
         return (int)$this->queryFactory->newInsert('split_labels', $row)->execute()->lastInsertId();
     }
@@ -55,6 +56,14 @@ final class SplitLabelRepository
         $this->queryFactory->newUpdate('split_labels', $data)->andWhere(['id' => $splitLabelID])->execute();
     }
 
+    public function updateSplitLabelApi(int $splitID, array $data, $user_id): void
+    {
+        $data['updated_at'] = Chronos::now()->toDateTimeString();
+        $data['updated_user_id'] = $user_id;
+
+        $this->queryFactory->newUpdate('split_labels', $data)->andWhere(['id' => $splitID])->execute();
+    }
+
     public function deleteSplitLabel(int $splitLabelID): void
     {
         $this->queryFactory->newDelete('split_labels')->andWhere(['id' => $splitLabelID])->execute();
@@ -74,7 +83,6 @@ final class SplitLabelRepository
                 'quantity',
                 'merge_pack_id',
                 'split_label_id',
-                'split_label_id',
             ]
         );
         $query->join([
@@ -84,13 +92,11 @@ final class SplitLabelRepository
                 'conditions' => 'l.id = split_labels.label_id',
             ]
         ]);
-        // $query->join([
-        //     'lot' => [
-        //         'table' => 'lots',
-        //         'type' => 'INNER',
-        //         'conditions' => 'lot.id = l.lot_id',
-        //     ]
-        // ]);
+
+        if (isset($params['label_id'])) {
+            $query->andWhere(['label_id' => $params['label_id']]);
+        }
+
         return $query->execute()->fetchAll('assoc') ?: [];
     }
 }

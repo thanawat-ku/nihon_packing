@@ -40,7 +40,7 @@ final class SplitLabelValidator
         }
     }
 
-    public function validateSplitLabelUpdate(string $splitLabel ,array $data): void
+    public function validateSplitLabelUpdate(string $splitLabelID ,array $data): void
     {
         /*
         if (!$this->repository->existsSplitLabelNo($splitLabelNo)) {

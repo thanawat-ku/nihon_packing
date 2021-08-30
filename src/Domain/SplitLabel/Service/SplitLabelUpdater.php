@@ -3,76 +3,88 @@
 namespace App\Domain\SplitLabel\Service;
 
 use App\Domain\SplitLabel\Repository\SplitLabelRepository;
+use App\Domain\SplitLabel\Service\SplitLabelFinder;
 
-
+/**
+ * Service.
+ */
 final class SplitLabelUpdater
 {
     private $repository;
     private $validator;
+    private $finder;
 
     public function __construct(
         SplitLabelRepository $repository,
-        SplitLabelValidator $validator
+        SplitLabelValidator $validator,
+        SplitLabelFinder $finder
     ) {
         $this->repository = $repository;
         $this->validator = $validator;
+        $this->finder = $finder;
+        //$this->logger = $loggerFactory
+        //->addFileHandler('store_updater.log')
+        //->createInstance();
     }
 
-    public function insertSplitLabel( array $data): int
+    public function insertSplitLabel(array $data): int
     {
         // Input validation
         $this->validator->validateSplitLabelInsert($data);
 
         // Map form data to row
-        $splitLabelRow = $this->mapToSplitLabelRow($data);
+        $lotRow = $this->mapToSplitLabelRow($data);
 
         // Insert transferStore
-        $id=$this->repository->insertSplitLabel($splitLabelRow);
+        $id = $this->repository->insertSplitLabel($lotRow);
 
-        // Logging
-        //$this->logger->info(sprintf('TransferStore updated successfully: %s', $id));
         return $id;
     }
 
-    public function insertSplitLabelApi( array $data,$user_id ): int
+    public function insertSplitLabelApi(array $data, $user_id): int
     {
-
         $this->validator->validateSplitLabelInsert($data);
 
+        $Row = $this->mapToSplitLabelRow($data);
 
-        $splitLabelRow = $this->mapToSplitLabelRow($data);
+        $id = $this->repository->insertSplitLabelApi($Row, $user_id);
 
-
-        //$id=$this->repository->insertSplitLabelApi($splitLabelRow,$user_id );
-        //return $id;
-        return 0;
+        return $id;
     }
 
-    public function updateSplitLabel(int $splitLabelId, array $data): void
+
+
+    public function updateSplitLabel(int $labelID, array $data): void
     {
+        // Input validation
+        $this->validator->validateSplitLabelUpdate($labelID, $data);
 
-        $this->validator->validateSplitLabelUpdate($splitLabelId, $data);
-
-  
+        // Map form data to row
         $storeRow = $this->mapToSplitLabelRow($data);
 
-        $this->repository->updateSplitLabel($splitLabelId, $storeRow);
-
-    }
-
-    public function deleteSplitLabel(int $splitLabelId, array $data): void
-    {
         // Insert store
-        $this->repository->deleteSplitLabel($splitLabelId);
+        $this->repository->updateSplitLabel($labelID, $storeRow);
     }
 
-    /**
-     * Map data to row.
-     *
-     * @param array<mixed> $data The data
-     *
-     * @return array<mixed> The row
-     */
+    public function updateInsertSplitLabelApi(array $data,int $splitID,$user_id ): void
+    {
+        // Input validation
+        $this->validator->validateSplitLabelUpdate($splitID, $data);
+
+        // Map form data to row
+        $storeRow = $this->mapToSplitLabelRow($data);
+
+        // Insert store
+        $this->repository->updateSplitLabelApi($splitID, $storeRow,$user_id );
+    }
+
+
+    public function deleteSplitLabel(int $labelID, array $data): void
+    {
+        $this->repository->deleteSplitLabel($labelID);
+    }
+
+
     private function mapToSplitLabelRow(array $data): array
     {
         $result = [];

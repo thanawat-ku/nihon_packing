@@ -4,6 +4,7 @@ namespace App\Action\Api;
 
 use App\Domain\SplitLabel\Service\SplitLabelFinder;
 use App\Domain\SplitLabel\Service\SplitLabelUpdater;
+use App\Domain\Label\Service\LabelUpdater;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -22,29 +23,37 @@ final class SplitLabelAddAction
     private $finder;
 
     public function __construct(
-        SplitLabelUpdater $updater,
         SplitLabelFinder $finder,
-        Responder $responder
+        Responder $responder,
+        LabelUpdater $updaterLabel,
+        SplitLabelUpdater  $updater,
     ) {
         $this->responder = $responder;
+        $this->finder = $finder;
         $this->updater = $updater;
-        $this->finder=$finder;
+        $this->updaterLabel = $updaterLabel;
     }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        
+
         $params = (array)$request->getParsedBody();
         $labelID = $params["label_id"];
         $user_id = $params["user_id"];
 
-        $this->updater->insertSplitLabelApi($labelID ,$params,$user_id);
+        $this->updater->insertSplitLabelApi($params, $user_id);
 
-        $rtdata['message'] = "Registor Label Successful";
+        $data = $this->finder->findSplitLabels($params);
+
+        $params['split_label_no'] = "SP.{$data[0]['id']}L{$data[0]['label_id']}";
+        $splitID = $data[0]['id'];
+        $this->updater->updateInsertSplitLabelApi($params, $splitID, $user_id);
+
+        $dataLabel['split_label_id'] = $data[0]['id'];
+
+        $rtdata['message'] = "Add Splitlabel Successful";
         $rtdata['error'] = false;
-        $rtdata['labels'] = $this->finder->findSplitLabels($params);
-
-
+        $rtdata['split_labels'] = $this->finder->findSplitLabels($params);
 
         return $this->responder->withJson($response, $rtdata);
     }
