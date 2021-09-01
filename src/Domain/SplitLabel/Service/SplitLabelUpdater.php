@@ -54,14 +54,14 @@ final class SplitLabelUpdater
         // Input validation
         $this->validator->validateSplitLabelUpdate($labelID, $data);
 
-        
+
         $storeRow = $this->mapToSplitLabelRow($data);
 
         // Insert store
         $this->repository->updateSplitLabel($labelID, $storeRow);
     }
 
-    public function updateSplitLabelApi(array $data,int $splitID,$user_id ): void
+    public function updateSplitLabelApi(array $data, int $splitID, $user_id): void
     {
         // Input validation
         $this->validator->validateSplitLabelUpdate($splitID, $data);
@@ -70,9 +70,21 @@ final class SplitLabelUpdater
         $storeRow = $this->mapToSplitLabelRow($data);
 
         // Insert store
-        $this->repository->updateSplitLabelApi($splitID, $storeRow,$user_id );
+        $this->repository->updateSplitLabelApi($splitID, $storeRow, $user_id);
     }
-    
+
+    public function registerSplitLabelApi(array $data, int $splitID, $user_id): void
+    {
+        // Input validation
+        $this->validator->validateSplitLabelUpdate($splitID, $data);
+
+        // Map form data to row
+        $storeRow = $this->mapToSplitLabelRow($data);
+
+        // Insert store
+        $this->repository->updateSplitLabelApi($splitID, $storeRow, $user_id);
+    }
+
 
 
     public function deleteSplitLabel(int $labelID, array $data): void
@@ -108,7 +120,7 @@ final class SplitLabelUpdater
         if (isset($data['label_id'])) {
             $result['label_id'] = (string)$data['label_id'];
         }
-        
+
         return $result;
     }
 }
