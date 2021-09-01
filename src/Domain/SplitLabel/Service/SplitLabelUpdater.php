@@ -27,19 +27,6 @@ final class SplitLabelUpdater
         //->createInstance();
     }
 
-    public function insertSplitLabel(array $data): int
-    {
-        // Input validation
-        $this->validator->validateSplitLabelInsert($data);
-
-        // Map form data to row
-        $lotRow = $this->mapToSplitLabelRow($data);
-
-        // Insert transferStore
-        $id = $this->repository->insertSplitLabel($lotRow);
-
-        return $id;
-    }
 
     public function insertSplitLabelApi(array $data, $user_id): int
     {
@@ -51,13 +38,23 @@ final class SplitLabelUpdater
 
         return $id;
     }
+    public function insertSplitLabelDeatilApi(array $data, $user_id): int
+    {
+        $this->validator->validateSplitLabelInsert($data);
+
+        $Row = $this->mapToSplitLabelDeatilRow($data);
+
+        $id = $this->repository->insertSplitLabelDeatilApi($Row, $user_id);
+
+        return $id;
+    }
 
     public function updateSplitLabel(int $labelID, array $data): void
     {
         // Input validation
         $this->validator->validateSplitLabelUpdate($labelID, $data);
 
-        // Map form data to row
+        
         $storeRow = $this->mapToSplitLabelRow($data);
 
         // Insert store
@@ -98,7 +95,20 @@ final class SplitLabelUpdater
             $result['status'] = (string)$data['status'];
         }
 
+        return $result;
+    }
 
+    private function mapToSplitLabelDeatilRow(array $data): array
+    {
+        $result = [];
+
+        if (isset($data['split_label_id'])) {
+            $result['split_label_id'] = (string)$data['split_label_id'];
+        }
+        if (isset($data['label_id'])) {
+            $result['label_id'] = (string)$data['label_id'];
+        }
+        
         return $result;
     }
 }

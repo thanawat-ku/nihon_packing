@@ -38,6 +38,16 @@ final class SplitLabelRepository
         return (int)$this->queryFactory->newInsert('split_labels', $row)->execute()->lastInsertId();
     }
 
+    public function insertSplitLabelDeatilApi(array $row, $user_id): int
+    {
+        $row['created_at'] = Chronos::now()->toDateTimeString();
+        $row['created_user_id'] = $user_id;
+        $row['updated_at'] = Chronos::now()->toDateTimeString();
+        $row['updated_user_id'] = $user_id;
+
+        return (int)$this->queryFactory->newInsert('split_label_details', $row)->execute()->lastInsertId();
+    }
+
     public function insertSplitLabelDetail(array $row): int
     {
         $row['created_at'] = Chronos::now()->toDateTimeString();

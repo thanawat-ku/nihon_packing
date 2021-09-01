@@ -98,8 +98,8 @@ final class LabelRepository
                 'conditions' => 'p.id = l.product_id',
             ]]);
 
-            if(isset($params["split_label_id"] )){
-                $query->andWhere(['split_label_id'=>$params["split_label_id"] ]);
+            if(isset($params['split_label_id'])){
+                $query->andWhere(['split_label_id'=>$params['split_label_id']]);
             }
             
 

@@ -21,7 +21,7 @@ final class SplitLabelCreateLabelAction
      */
     private $responder;
     private $updater;
-    private $updaterLabel; 
+    private $updaterLabel;
     private $LabelFinder;
     private $finder;
 
@@ -31,7 +31,7 @@ final class SplitLabelCreateLabelAction
         LabelUpdater $updaterLabel,
         SplitLabelUpdater  $updater,
         LabelFinder $LabelFinder,
-        
+
     ) {
         $this->responder = $responder;
         $this->finder = $finder;
@@ -67,6 +67,18 @@ final class SplitLabelCreateLabelAction
             $dataLabel['label_no'] = $labelNo . str_pad($i, 2, "0", STR_PAD_LEFT);
             $this->updaterLabel->insertLabelApi($dataLabel, $user_id);
         }
+
+        $data2 = $this->LabelFinder->findLabels($dataLabel);
+    //สร้าง split labels detail
+        for($i=0;$i<3;$i++){
+            $dataSplitlabelDtetail['split_label_id'] = $data2[$i]['split_label_id'];
+            $dataSplitlabelDtetail['label_id'] = $data2[$i]['id'];
+            $statusLales = $data2[$i]['status'];
+            if($statusLales != "VOID"){
+                $this->updater->insertSplitLabelDeatilApi($dataSplitlabelDtetail,$user_id);
+            }
+        }
+        
 
         $rtdata['message'] = "Gen label Successful";
         $rtdata['error'] = false;
