@@ -27,23 +27,25 @@ final class SplitLabelCreateLabelAction
 
     public function __construct(
         SplitLabelFinder $finder,
-        LabelFinder $LabelFinder,
         Responder $responder,
         LabelUpdater $updaterLabel,
         SplitLabelUpdater  $updater,
+        LabelFinder $LabelFinder,
         
     ) {
         $this->responder = $responder;
         $this->finder = $finder;
-        //$this->updater = $updater;
+        $this->updater = $updater;
         $this->updaterLabel = $updaterLabel;
-        $this->$LabelFinder = $LabelFinder;
+        $this->LabelFinder = $LabelFinder;
     }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
 
         $params = (array)$request->getParsedBody();
+
+        //organize information(แจกแจงข้อมูล)
         $user_id = $params["user_id"];
         $labelID = $params['label_id'];
         $lotID = $params['lot_id'];
@@ -51,6 +53,7 @@ final class SplitLabelCreateLabelAction
         $type = $params['label_type'];
         $dataSplitlabel['label_id'] = $labelID;
 
+        //find SplitLabel เอาID มาสร้าง Label No
         $data1 = $this->finder->findSplitLabels($dataSplitlabel);
         $dataLabel['split_label_id'] = $data1[0]['id'];
         $sliteLabelID = $dataLabel['split_label_id'];
@@ -59,14 +62,15 @@ final class SplitLabelCreateLabelAction
         $dataLabel['status'] = $status;
         $labelNo = "LBSP{$labelID}{$sliteLabelID}";
 
+        //สร้าง label 
         for ($i = 0; $i < 2; $i++) {
-            $dataLabel['label_no'] = $labelNo . str_pad($i, 3, "0", STR_PAD_LEFT);
-            $this->updaterLabel->insertLabelApi($dataSplitlabel, $user_id);
+            $dataLabel['label_no'] = $labelNo . str_pad($i, 2, "0", STR_PAD_LEFT);
+            $this->updaterLabel->insertLabelApi($dataLabel, $user_id);
         }
 
         $rtdata['message'] = "Gen label Successful";
         $rtdata['error'] = false;
-        $rtdata['labels'] = $this->LabelFinder->findLabels($dataSplitlabel);
+        $rtdata['labels'] = $this->LabelFinder->findLabels($dataLabel);
 
         return $this->responder->withJson($response, $rtdata);
     }
