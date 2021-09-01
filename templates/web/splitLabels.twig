@@ -6,45 +6,38 @@
 
 {% block js %}
     {% webpack_entry_js 'layout/datatables' %}
-    {% webpack_entry_js 'web/lots' %}
+    {% webpack_entry_js 'web/splitLabels' %}
 {% endblock %}
 
 {% block content %}
   <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <h2><i class="fas fa-dolly"></i> Lot list</h2>
+                <h2><i class="fas fa-dolly"></i> Split Label list</h2>
                 <button type="button" id="addBt" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addLot"><i style="font-size:15px; width:20px;" class="fas fa-dolly"></i> Add Lot</button>      
                 <hr>
                 <table id="my-data-table" class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline collapsed">
                     <thead>
                     <tr>
-                        <th>Lot No</th>
-                        <th>Product</th>
-                        <th>Qty</th>
-                        <th>Std Pack</th>
-                        <th>Std Box</th>
-                        <th>Status</th>
-                        <th>Operation</th>
+                        <th>Split Label No</th>
+                        <th>Label NO</th>
+                        <th>status</th>
                     </tr>
                     </thead>
                     <tbody>
-                    {% for lot in lots %}                    
+                    {% for splitLabel in splitLabels %}                    
                     <tr>
-                        <td>{{ lot.lot_no }}</td>
-                        <td>{{ '(' ~ lot.product_code ~ ') ' ~ lot.product_name}}</td>
-                        <td>{{ lot.quantity }}</td>
-                        <td>{{ lot.std_pack }}</td>
-                        <td>{{ lot.std_box }}</td>
-                        <td>{{ lot.status }}</td>
+                        <td>{{ splitLabel.splitLabel_no }}</td>
+                        <td>{{ splitLabel.label_no}}</td>
+                        <td>{{ splitLabel.status}}</td>
                         <td>
-                        {% if lot.status == "CREATED" %}
-                        <button type="button" id="printBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#printLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-print"></i></button>
+                        {% if splitLabel.status == "CREATED" %}
+                        <button type="button" id="printBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#printLot" name="{{ splitLabel|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-print"></i></button>
                         {% endif %}
-                        <button type="button" id="editBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-edit"></i></button>
-                        <button type="button" id="deleteBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-trash"></i></button>
-                        {% if lot.status != "CREATED" %}
-                        <a href="label_lot?id={{lot.id}}"><button type="button" class="btn btn-success btn-sm" data-toggle="modal" ><i style="font-size:15px; width:20px;" class="fas fa-info-circle"></i></button></a> 
+                        <button type="button" id="editBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editLot" name="{{ splitLabel|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-edit"></i></button>
+                        <button type="button" id="deleteBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteLot" name="{{ splitLabel|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-trash"></i></button>
+                        {% if splitLabel.status != "CREATED" %}
+                        <a href="label_splitLabel?id={{splitLabel.id}}"><button type="button" class="btn btn-success btn-sm" data-toggle="modal" ><i style="font-size:15px; width:20px;" class="fas fa-info-circle"></i></button></a> 
                         {% endif %}
                         </td>
                     </tr>
@@ -56,11 +49,11 @@
             </div>
         </div>
     </div>
-<!-- Modal add lot -->
+<!-- Modal add splitLabel -->
 <div class="modal fade" id="addLot">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
-      <form id="form-addLot" action="add_lot" method="post">
+      <form id="form-addLot" action="add_splitLabel" method="post">
         <!-- Modal Header -->
         <div class="modal-header">
           <h4 class="modal-title">Add Lot</h4>
@@ -70,8 +63,8 @@
         <div class="modal-body">          
           <div class="form-product">
             <input type="hidden" id="addLotID" name="id">
-            <label for="lotNo">Lot No</label>
-            <input type="text" autocomplete="off" class="form-control" id="addLotNo" name="lot_no" required>
+            <label for="splitLabelNo">Lot No</label>
+            <input type="text" autocomplete="off" class="form-control" id="addLotNo" name="splitLabel_no" required>
           </div>                 
           <div class="form-product">
             <label for="email">Lot</label>
@@ -82,7 +75,7 @@
             </select>
           </div>           
           <div class="form-product">
-            <label for="lotNo">Quantity</label>
+            <label for="splitLabelNo">Quantity</label>
             <input type="text" autocomplete="off" class="form-control" id="addQuantity" name="quantity" required>
           </div> 
         </div>
@@ -95,11 +88,11 @@
   </div>
 </div>
 
-<!-- Modal edit lot -->
+<!-- Modal edit splitLabel -->
 <div class="modal fade" id="editLot">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
-      <form id="form-editLot" action="edit_lot" method="post">
+      <form id="form-editLot" action="edit_splitLabel" method="post">
         <!-- Modal Header -->
         <div class="modal-header">
           <h4 class="modal-title">Edit Lot</h4>
@@ -109,8 +102,8 @@
         <div class="modal-body">          
           <div class="form-product">
             <input type="hidden" id="editLotID" name="id">
-            <label for="lotNo">Lot No</label>
-            <input type="text" autocomplete="off" class="form-control" id="editLotNo" name="lot_no" required>
+            <label for="splitLabelNo">Lot No</label>
+            <input type="text" autocomplete="off" class="form-control" id="editLotNo" name="splitLabel_no" required>
           </div>                 
           <div class="form-product">
             <label for="email">Product</label>
@@ -121,7 +114,7 @@
             </select>
           </div>           
           <div class="form-product">
-            <label for="lotNo">Quantity</label>
+            <label for="splitLabelNo">Quantity</label>
             <input type="text" autocomplete="off" class="form-control" id="editQuantity" name="quantity" required>
           </div> 
         </div>
@@ -135,11 +128,11 @@
 </div>
 
  
-<!-- Modal Delete lot -->
+<!-- Modal Delete splitLabel -->
 <div class="modal fade" id="deleteLot">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
-      <form id="form-deleteLot" action="delete_lot" method="post">
+      <form id="form-deleteLot" action="delete_splitLabel" method="post">
         <!-- Modal Header -->
         <div class="modal-header">
           <h4 class="modal-title">Delete Lot</h4>
@@ -150,7 +143,7 @@
           <div class="form-product">
             <input type="hidden" id="deleteLotID" name="id">
             <input type="hidden" id="deleteLotNoLabelStatus" name="status">
-            <label for="lotNo">Do you want to delete lot: <span id="deleteLotNo"></span></label>
+            <label for="splitLabelNo">Do you want to delete splitLabel: <span id="deleteLotNo"></span></label>
           </div>                 
         </div>
         <div class="modal-footer">
@@ -162,58 +155,5 @@
   </div>
 </div>
 
-<!-- Modal Print lot -->
-<div class="modal fade" id="printLot">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <form id="form-printLot" action="print_lot" method="post">
-        <!-- Modal Header -->
-        <div class="modal-header">
-          <h4 class="modal-title">Print Lot</h4>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-        </div>
-        <!-- Modal body -->
-        <div class="modal-body">          
-          <div class="form-product">
-            <input type="hidden" id="printLotID" name="id">
-            <label for="lotNo">Do you want to print label of lot: <span id="printLotNo">xxx</span></label>
-          </div>                 
-          
-        </div>
-        <div class="modal-footer">
-          <button type="submit" class="btn btn-info">Print</button>
-          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
-
-<!-- Modal Label lot -->
-<div class="modal fade" id="labelLot">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <form id="form-labelLot" action="label_lot" method="post">
-        <!-- Modal Header -->
-        <div class="modal-header">
-          <h4 class="modal-title">Find label</h4>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-        </div>
-        <!-- Modal body -->
-        <div class="modal-body">          
-          <div class="form-product">
-            <input type="hidden" id="labelLotID" name="id">
-            <input type="hidden" id="labelLotNoStatus" name="status">
-            <label for="lotNo">Do you want to find label from lot: <span id="labelLotNo"></span></label>
-          </div>                 
-        </div>
-        <div class="modal-footer">
-          <button type="submit" class="btn btn-danger">Find</button>
-          <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
 
 {% endblock %}

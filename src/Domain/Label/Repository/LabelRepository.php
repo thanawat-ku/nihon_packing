@@ -97,7 +97,11 @@ final class LabelRepository
                 'type' => 'INNER',
                 'conditions' => 'p.id = l.product_id',
             ]]);
-
+            //find label from lot
+            if(isset($params['lot_id'])){
+                $query->andWhere(['lot_id'=>$params['lot_id']]);
+            }
+            //find label from splitLabel
             if(isset($params['split_label_id'])){
                 $query->andWhere(['split_label_id'=>$params['split_label_id']]);
             }

@@ -16,7 +16,7 @@ module.exports = {
       'web/products': './templates/web/products.js', 
       'web/lots': './templates/web/lots.js', 
       'web/labels': './templates/web/labels.js',// <-- add this line
-      
+      'web/splitLabels': './templates/web/splitLabels.js',
     },
     output: {
       path: path.resolve(__dirname, 'public/assets'),

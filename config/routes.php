@@ -47,6 +47,8 @@ return function (App $app) {
     $app->post('/edit_label', \App\Action\Web\LabelEditAction::class)->add(UserAuthMiddleware::class);
     $app->post('/delete_label', \App\Action\Web\LabelDeleteAction::class)->add(UserAuthMiddleware::class);
 
+    $app->get('/splitLabels', \App\Action\Web\SplitLabelAction::class)->add(UserAuthMiddleware::class);
+
     $app->post('/api/login', \App\Action\ApiLoginSubmitAction::class);
 
     $app->get('/api/lots', \App\Action\Api\LotAction::class);
