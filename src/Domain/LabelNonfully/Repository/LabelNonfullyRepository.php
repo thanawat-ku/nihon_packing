@@ -52,7 +52,12 @@ final class LabelNonfullyRepository
                 'labels.quantity',
                 'lot_id',
                 'labels.merge_pack_id',
-                'labels.status'
+                'labels.status',
+                'product_code',
+                'product_name',
+                'std_pack',
+                'std_box',
+                'lot_no'
                 
             ]
         );
@@ -87,6 +92,63 @@ final class LabelNonfullyRepository
             $query->andWhere(['product_id' => $params['product_id']]);
         }
         
+        return $query->execute()->fetchAll('assoc') ?: [];
+    }
+
+    public function findMergePacks(array $params): array
+    {
+        $query = $this->queryFactory->newSelect('merge_packs');
+        $query->select(
+            [
+                'merge_packs.id',
+                'merge_no',
+                'product_id',
+                'product_code',
+                'merge_status',
+                // 'label_no',
+                'merge_packs.created_user_id',
+                'std_pack',
+                
+            ]
+        );
+
+        $query->join(
+            [
+            'p' => [
+                'table' => 'products',
+                'type' => 'INNER',
+                'conditions' => 'p.id = merge_packs.product_id',
+            ]
+            ]
+        );
+        // $query->join([
+        //     'lb' => [
+        //         'table' => 'labels',
+        //         'type' => 'INNER',
+        //         'conditions' => 'merge_packs.id = lb.merge_pack_id',
+        //     ]
+        // ]);
+        // $query->group([
+        //     'merge_packs.merge_no'
+        //     ]
+    
+        //     );
+        
+
+        // $quantity=$params[][];
+
+        // if (isset($params['merge_no'])) {
+        //     $query->where(
+        //         // ['merge_packs.id' => 1],
+        //         ['merge_no' => "gg"]
+        //     );
+        // }
+
+        // if(isset($params['lot_id'])){
+        //     $query->andWhere(['lot_id' => $params['lot_id']]); 
+        // }
+        
+
         return $query->execute()->fetchAll('assoc') ?: [];
     }
 

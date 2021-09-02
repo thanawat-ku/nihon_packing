@@ -54,11 +54,16 @@ final class LabelPackMergeUpdater
         // Insert store
         $this->repository->updateLabelPackMergeApi($labelId, $storeRow, $user_id);
     }
+
+    public function deleteLabelMergePackApi(int $labelId, array $data): void
+    {
+        $this->repository->deleteLabelMergePackApi($labelId);
+    }
     
     
     public function deleteLabelPackMergeApi(int $labelId, array $data): void
     {
-        $this->repository->deleteLabelPackMerge($labelId);
+        $this->repository->deleteLabelPackMergeApi($labelId);
     }
 
     private function mapToLabelPackMergeRow(array $data): array
@@ -83,7 +88,6 @@ final class LabelPackMergeUpdater
         if (isset($data['status'])) {
             $result['status'] = (string)$data['status'];
         }
-
 
         return $result;
     }

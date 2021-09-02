@@ -35,9 +35,14 @@ final class LabelPackMergeRepository
         $this->queryFactory->newUpdate('labels', $data)->andWhere(['label_no' => $labelID])->execute();
     }    
     
-    public function deleteLabelPackMerge(int $labelID): void
+    public function deleteLabelPackMergeApi(int $labelID): void
     {
         $this->queryFactory->newDelete('labels')->andWhere(['id' => $labelID])->execute();
+    }
+
+    public function deleteLabelMergePackApi(int $labelID): void
+    {
+        $this->queryFactory->newDelete('merge_pack_details')->andWhere(['label_id' => $labelID])->execute();
     }
 
     public function findLabelPackMerges(array $params): array
@@ -55,47 +60,15 @@ final class LabelPackMergeRepository
               
             ]
         );
-        // $query->join([
-        //     'l' => [
-        //         'table' => 'lots',
-        //         'type' => 'INNER',
-        //         'conditions' => 'l.id = labels.lot_id',
-        //     ]]);
-        // $query->join([
-        //     'm' => [
-        //         'table' => 'merge_packs',
-        //         'type' => 'INNER',
-        //         'condition' => 'm.id=labels.merge_pack_id'
-        //     ]
-        //     ]);
-
-
-        
+       
         $query->where(
             ['label_type !=' => "FULLY"]  
         );
-        // $query->where(
-        //     ['label_type !=' => "NONFULLY"] 
-        // );
-
+       
         if(isset($params['merge_pack_id'])){
             $query->andWhere(['merge_pack_id' => $params['merge_pack_id']]);
         }
         
-        
-
-        // $query->join([
-        //     'l' => [
-        //         'table' => 'lots',
-        //         'type' => 'INNER',
-        //         'conditions' => 'l.id = labels.lot_id',
-        //     ]]);
-        // $query->join([
-        //     'p' => [
-        //         'table' => 'products',
-        //         'type' => 'INNER',
-        //         'conditions' => 'p.id = l.product_id',
-        //     ]]);
         return $query->execute()->fetchAll('assoc') ?: [];
     }
 

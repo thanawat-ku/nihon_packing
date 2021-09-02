@@ -33,12 +33,20 @@ final class MergePackDetailRepository
         $data['updated_user_id'] = $user_id;
 
         $this->queryFactory->newUpdate('labels', $data)->andWhere(['id' => $labelID])->execute();
-    }    
+    }   
+    
+    public function updateLabelApi(int $labelID, array $data, $user_id): void
+    {
+        $data['updated_at'] = Chronos::now()->toDateTimeString();
+        $data['updated_user_id'] = $user_id;
 
-    // public function deleteMergePackDetail(int $labelID): void
-    // {
-    //     $this->queryFactory->newDelete('labels')->andWhere(['id' => $labelID])->execute();
-    // }
+        $this->queryFactory->newUpdate('labels', $data)->andWhere(['id' => $labelID])->execute();
+    } 
+
+    public function deleteLabelMergePackApi(int $labelID): void
+    {
+        $this->queryFactory->newDelete('merge_pack_details')->andWhere(['label_id' => $labelID])->execute();
+    }
 
     public function findMergePackDetails(array $params): array
     {
@@ -88,7 +96,43 @@ final class MergePackDetailRepository
         //     ]
         // ]);
         return $query->execute()->fetchAll('assoc') ?: [];
+    }
 
+    public function findLabelNonfullys(array $params): array
+    {
+        $query = $this->queryFactory->newSelect('labels');
+        $query->select(
+            [
+                'labels.id',
+                'label_no',
+                'product_id',
+                'label_type',
+                'labels.quantity',
+                'lot_id',
+                'labels.merge_pack_id',
+                'labels.status'
+                
+            ]
+        );
+        $query->join([
+            'l' => [
+                'table' => 'lots',
+                'type' => 'INNER',
+                'conditions' => 'l.id = labels.lot_id',
+            ]]);
+        $query->join([
+            'p' => [
+                'table' => 'products',
+                'type' => 'INNER',
+                'conditions' => 'p.id = l.product_id',
+            ]]);
+        $query->group([
+            'labels.id'
+            ]);
+        if(isset($params['product_id'])){
+            $query->andWhere(['product_id' => $params['product_id']]);
+        }
         
+        return $query->execute()->fetchAll('assoc') ?: [];
     }
 }

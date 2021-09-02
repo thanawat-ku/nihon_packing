@@ -67,8 +67,11 @@ final class MergePackRepository
                 'merge_no',
                 'product_id',
                 'product_code',
+                'product_name',
                 'merge_status',
                 // 'label_no',
+                'merge_packs.created_user_id',
+                'std_pack'
                 
             ]
         );

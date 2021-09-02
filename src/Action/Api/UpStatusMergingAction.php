@@ -37,7 +37,7 @@ final class UpStatusMergingAction
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $params = (array)$request->getParsedBody();
-        $merge_status=$params["merge_status"];
+        // $merge_status=$params["merge_status"];
         $user_id=$params["user_id"];
         $id=$params["merge_no"];
 

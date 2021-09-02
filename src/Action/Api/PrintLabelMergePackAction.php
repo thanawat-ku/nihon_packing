@@ -49,7 +49,7 @@ final class PrintLabelMergePackAction
         $sumqty=0;
 
         for($i=0; $i < $countlabel; $i++){
-            if($rtdata["labels"][$i]['merge_pack_id']  == $mergepackID && $rtdata["labels"][$i]['status'] == "MERGED"){
+            if($rtdata["labels"][$i]['merge_pack_id']  == $mergepackID && $rtdata["labels"][$i]['status'] == "MERGING"){
                $quantity = $rtdata["labels"][$i]['quantity'];
                $std_pack = $rtdata["labels"][$i]['std_pack'];
                $product_id = $rtdata["labels"][$i]['product_code'];
