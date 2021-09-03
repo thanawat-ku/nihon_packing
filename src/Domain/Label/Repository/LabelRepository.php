@@ -31,11 +31,11 @@ final class LabelRepository
     public function insertLabel(array $row): int
     {
         $row['created_at'] = Chronos::now()->toDateTimeString();
-        $row['created_user_id'] = $this->session->get('user')["id"];
+        $row['created_user_id'] = $user_id;
         $row['updated_at'] = Chronos::now()->toDateTimeString();
-        $row['updated_user_id'] = $this->session->get('user')["id"];
+        $row['updated_user_id'] = $user_id;
 
-        return (int)$this->queryFactory->newInsert('labels', $row)->execute()->lastInsertId();
+        return (int)$this->queryFactory->newInsert('merge_packs', $row)->execute()->lastInsertId();
     }
 
     public function insertLabelMergePackApi(array $row, $user_id): int
@@ -48,7 +48,7 @@ final class LabelRepository
         return (int)$this->queryFactory->newInsert('labels', $row)->execute()->lastInsertId();
     }
     
-    public function updateLabelMergePackApi(int $labelID, array $data, $user_id): void
+    //public function updateLabelMergePackApi(int $labelID, array $data, $user_id): void
     public function updateLabelApi(int $labelID, array $data,$user_id): void
     {
         $data['updated_at'] = Chronos::now()->toDateTimeString();
@@ -81,6 +81,7 @@ final class LabelRepository
         $query->select(
             [
                 'labels.id',
+<<<<<<< HEAD
                 'lot_id',
                 'labels.merge_pack_id',
                 'label_no',
@@ -99,6 +100,12 @@ final class LabelRepository
                 'product_id',
                 'label_type',
                 'labels.quantity',
+=======
+                'labels.quantity',
+                'label_no',
+                'l.product_id',
+                'label_type',
+>>>>>>> varin_v2
                 'lot_no',
                 'product_name',
 >>>>>>> tae01
@@ -120,10 +127,14 @@ final class LabelRepository
                 'table' => 'merge_packs',
                 'type' => 'INNER',
 <<<<<<< HEAD
+<<<<<<< HEAD
                 'conditions' => 'mp.id = labels.merge_pack_id',
 =======
                 'conditions' => 'l.id = labels.lot_id',
 >>>>>>> tae01
+=======
+                'conditions' => 'l.id = labels.lot_id',
+>>>>>>> varin_v2
             ]]);
         $query->join([
             'p' => [
