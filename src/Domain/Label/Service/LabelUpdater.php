@@ -27,20 +27,6 @@ final class LabelUpdater
         //->createInstance();
     }
 
-    public function insertLabelerror(array $data, $user_id): int
-    {
-
-        $this->validator->validateLabelInsert($data);
-
-        // Map form data to row
-        $lotRow = $this->mapToMergePackRow($data);
-
-        // Insert transferStore
-        $id = $this->repository->insertLabel($lotRow, $user_id);
-
-
-        return $id;
-    }
     public function insertLabel(array $data): int
     {
 
@@ -53,6 +39,22 @@ final class LabelUpdater
 
         return $id;
     }
+
+    public function insertLabelerror(array $data, $user_id): int
+    {
+
+        $this->validator->validateLabelInsert($data);
+
+        // Map form data to row
+        $lotRow = $this->mapToMergePackRow($data);
+
+        // Insert transferStore
+        $id = $this->repository->insertLabelerror($lotRow, $user_id);
+
+
+        return $id;
+    }
+    
     public function insertLabelApi(array $data, $user_id): int //สร้าง labels จาก splitlabel
     {
 

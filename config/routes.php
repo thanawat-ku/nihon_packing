@@ -13,18 +13,13 @@ return function (App $app) {
     $app->post('/login', \App\Action\LoginSubmitAction::class);
     $app->get('/logout', \App\Action\LogoutAction::class)->setName('logout');
 
-
-
-    
     // Swagger API documentation
     $app->get('/docs/v1', \App\Action\Documentation\SwaggerUiAction::class)->setName('docs');
-
 
     $app->get('/', \App\Action\Web\HomeAction::class)->setName('home')->add(UserAuthMiddleware::class);
     $app->get('/users', \App\Action\Web\UserAction::class)->add(UserAuthMiddleware::class);
     $app->post('/edit_user', \App\Action\Web\UserEditAction::class)->add(UserAuthMiddleware::class);
     $app->post('/add_user', \App\Action\Web\UserAddAction::class)->add(UserAuthMiddleware::class);
-
 
     $app->get('/customers', \App\Action\Web\CustomerAction::class)->add(UserAuthMiddleware::class);
     $app->post('/add_customer', \App\Action\Web\CustomerAddAction::class)->add(UserAuthMiddleware::class);
@@ -36,9 +31,7 @@ return function (App $app) {
     $app->post('/edit_product', \App\Action\Web\ProductEditAction::class)->add(UserAuthMiddleware::class);
     $app->post('/delete_product', \App\Action\Web\ProductDeleteAction::class)->add(UserAuthMiddleware::class);
 
-    $app->get('/lots', \App\Action\Web\LotAction::class)->add(UserAuthMiddleware::class);
     $app->get('/merges', \App\Action\Web\MergeAction::class)->add(UserAuthMiddleware::class);
-
     $app->get('/merge_detail', \App\Action\Web\MergeDetailAction::class)->add(UserAuthMiddleware::class); //page2
     
     $app->post('/add_lot', \App\Action\Web\LotAddAction::class)->add(UserAuthMiddleware::class);
@@ -56,32 +49,46 @@ return function (App $app) {
 
     $app->post('/api/login', \App\Action\ApiLoginSubmitAction::class);
 
+    //---------------------------Api-------------------------------
 
-    // $app->get('/merges', \App\Action\Web\MergeAction::class)->add(UserAuthMiddleware::class);
-    
 
-    //Api
+
     $app->post('/api/login', \App\Action\ApiLoginSubmitAction::class);
     $app->get('/api/lots', \App\Action\Api\LotAction::class);
+
     $app->get('/api/merges', \App\Action\Api\MergeAction::class);
-    $app->get('/api/labels', \App\Action\Api\LabelAction::class);
 
     $app->get('/api/lots', \App\Action\Api\LotAction::class);
-    $app->get('/api/products', \App\Action\Api\ProductAction::class);
-    $app->get('/api/customers', \App\Action\Api\CustomerAction::class);
+
+    $app->get('/api/lot_defects', \App\Action\Api\LotDefectAction::class);
+    $app->post('/api/add_lot_defect', \App\Action\Api\LotDefectAddAction::class);
+    $app->post('/api/delete_lot_defect', \App\Action\Api\LotDefectDeleteAction::class);
+    $app->post('/api/edit_lot_defects', \App\Action\Api\LotDefectEditAction::class);
+
     $app->get('/api/defects', \App\Action\Api\DefectAction::class);
-    $app->post('/api/merge_label', \App\Action\Api\MergeLabelAction::class);
     $app->post('/api/add_defect', \App\Action\Api\DefectAddAction::class);
     $app->post('/api/delete_defect', \App\Action\Api\DefectDeleteAction::class);
     $app->post('/api/edit_defect', \App\Action\Api\DefectEditAction::class);
-    
+
+    $app->get('/api/products', \App\Action\Api\ProductAction::class);
+
+    $app->get('/api/customers', \App\Action\Api\CustomerAction::class);
+
     $app->get('/api/lot_defects', \App\Action\Api\LotDefectAction::class);
     $app->post('/api/add_lot_defect', \App\Action\Api\LotDefectAddAction::class);
     $app->post('/api/delete_lot_defect', \App\Action\Api\LotDefectDeleteAction::class);
     $app->post('/api/edit_lot_defect', \App\Action\Api\LotDefectEditAction::class);
 
+    $app->get('/api/labels', \App\Action\Api\LabelAction::class);
+    $app->post('/api/register_label', \App\Action\Api\LabelRegisterAction::class);
+    $app->post('/api/create_label', \App\Action\Api\SplitLabelCreateLabelAction::class);
+
+    $app->get('/api/split_labels',  \App\Action\Api\SplitLabelAction::class);
+    $app->post('/api/add_split_label', \App\Action\Api\SplitLabelAddAction::class);
+    $app->post('/api/register_split_label', \App\Action\Api\SpliteLabelRegisterAction::class);
+
     $app->get('/api/merge_packs', \App\Action\Api\MergePackAction::class);
-    $app->get('/api/merge_labels', \App\Action\Api\MergeLabelAction::class);
+    $app->post('/api/merge_label', \App\Action\Api\MergeLabelAction::class);
     $app->get('/api/merge_pack_details', \App\Action\Api\MergePackDetailAction::class);
 
     $app->get('/api/label_nonfullys', \App\Action\Api\LabelNonfullyAction::class);
@@ -110,22 +117,10 @@ return function (App $app) {
     $app->post('/api/get_qty_scan', \App\Action\Api\GetQtyScanAction::class);
     $app->post('/api/end_lot', \App\Action\Api\EndLotAction::class);
 
-    $app->get('/api/labels', \App\Action\Api\LabelAction::class);
-    $app->post('/api/register_label', \App\Action\Api\LabelRegisterAction::class);
-    $app->post('/api/create_label', \App\Action\Api\SplitLabelCreateLabelAction::class);
+    
 
-    $app->get('/api/split_labels',  \App\Action\Api\SplitLabelAction::class);
-    $app->post('/api/add_split_label', \App\Action\Api\SplitLabelAddAction::class);
-    $app->post('/api/register_split_label', \App\Action\Api\SpliteLabelRegisterAction::class);
+    
 
-    $app->get('/api/customers', \App\Action\Api\CustomerAction::class);
 
-    $app->get('/api/products', \App\Action\Api\ProductAction::class);
-
-    $app->get('/api/defects', \App\Action\Api\DefectAction::class);
-
-    $app->get('/api/lot_defects', \App\Action\Api\LotDefectAction::class);
-    $app->post('/api/add_lot_defect', \App\Action\Api\LotDefectAddAction::class);
-    $app->post('/api/delete_lot_defect', \App\Action\Api\LotDefectDeleteAction::class);
-    $app->post('/api/edit_lot_defects', \App\Action\Api\LotDefectEditAction::class);
+    
 };
