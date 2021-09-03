@@ -23,42 +23,42 @@ final class LotDefectUpdater
             //->createInstance();
     }
 
-    public function insertLotDefectApi( array $data,$user_id): int
+    public function insertLotDefectApi( array $data, $user_id): int
     {
         // Input validation
         $this->validator->validateLotDefectInsert($data);
 
         // Map form data to row
-        $row = $this->mapToLotDefectRow($data);
+        $lotDefectRow = $this->mapToLotDefectRow($data);
 
         // Insert transferStore
-        $id=$this->repository->insertLotDefectApi($row,$user_id);
+        $id=$this->repository->insertLotDefectApi($lotDefectRow, $user_id);
 
         // Logging
         //$this->logger->info(sprintf('TransferStore updated successfully: %s', $id));
         return $id;
     }
-    public function updateLotDefectApi(int $id, array $data,$user_id): void
+    public function updateLotDefectApi(int $lotDefect, $user_id ,array $data): void
     {
         // Input validation
-        $this->validator->validateLotDefectUpdate($id, $data);
+        $this->validator->validateLotDefectUpdate($lotDefect, $data);
 
         // Map form data to row
         $storeRow = $this->mapToLotDefectRow($data);
 
         // Insert store
-        $this->repository->updateLotDefectApi($id, $storeRow,$user_id);
+        $this->repository->updateLotDefectApi($lotDefect, $storeRow,$user_id);
 
         // Logging
         //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));
     }
     
 
-    public function deleteLotDefect(int $id): void
+    public function deleteLotDefect(int $lotDefect): void
     {
 
         // Insert store
-        $this->repository->deleteLotDefect($id);
+        $this->repository->deleteLotDefect($lotDefect);
 
         // Logging
         //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));
@@ -84,7 +84,6 @@ final class LotDefectUpdater
         if (isset($data['quantity'])) {
             $result['quantity'] = (string)$data['quantity'];
         }
-
 
         return $result;
     }

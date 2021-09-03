@@ -23,9 +23,11 @@ final class ProductValidator
         $validator = $this->validationFactory->createValidator();
 
         return $validator
-            ->notEmptyString('product_no', 'Input required')
-            ->notEmptyString('product_id', 'Input required')
-            ->notEmptyString('quantity', 'Input required');
+            ->notEmptyString('product_code', 'Input required')
+            ->notEmptyString('product_name', 'Input required')
+            ->notEmptyString('price', 'Input required')
+            ->notEmptyString('std_pack', 'Input required')
+            ->notEmptyString('std_box', 'Input required');
     }
     public function validateProduct(array $data): void
     {
@@ -40,7 +42,7 @@ final class ProductValidator
         }
     }
 
-    public function validateProductUpdate(string $productNo, array $data): void
+    public function validateProductUpdate(string $product_code, array $data): void
     {
         /*
         if (!$this->repository->existsProductNo($productNo)) {

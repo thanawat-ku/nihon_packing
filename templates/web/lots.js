@@ -1,7 +1,7 @@
-$(function() {
+$(function () {
     $('#my-data-table').DataTable();
 });
-function editLot(event){
+function editLot(event) {
     let lot = event.currentTarget.name;
     console.log(lot);
     var obj = JSON.parse(lot);
@@ -10,26 +10,15 @@ function editLot(event){
     $("#editProductID").val(obj.product_id);
     $("#editQuantity").val(obj.quantity);
 }
-$( "#form-editUser" ).on("submit", function( event ) {
-    if ( $( "#editPassword" ).val() ==  $( "#editConfirmPassword" ).val()) {
-        if($("#editPassword").val()==""){
-            $("#editUser").modal('toggle');
-            $("#editPassword").remove();
-        }
-        return;
-    }else{
-        alert("Password not match");
-        event.preventDefault();
-    }
-  });
-function deleteLot(event){
+
+function deleteLot(event) {
     let lot = event.currentTarget.name;
     console.log(lot);
     var obj = JSON.parse(lot);
     $("#deleteLotID").val(obj.id);
-    $("#deleteLotNo").text(obj.lot_no);
+    $("#deleteLotNoLabelStatus").val(obj.status);
 }
-function printLot(event){
+function printLot(event) {
     let lot = event.currentTarget.name;
     console.log(lot);
     var obj = JSON.parse(lot);
@@ -38,7 +27,7 @@ function printLot(event){
 }
 $(document).on(
     "click",
-    "#editBt, #deleteBt, #printBt",
+    "#editBt, #deleteBt, #printBt, #labelLotBt",
     (event) => {
         let id = event.currentTarget.id;
         switch (id) {

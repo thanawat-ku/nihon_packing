@@ -27,6 +27,15 @@ final class LotRepository
 
         return (int)$this->queryFactory->newInsert('lots', $row)->execute()->lastInsertId();
     }
+    public function updateLotApi(int $lotID, array $data ,$user_id): void
+    {
+        $data['updated_at'] = Chronos::now()->toDateTimeString();
+        $data['updated_user_id'] = $user_id;
+        $data['packed_user_id'] = $user_id;
+
+        $this->queryFactory->newUpdate('lots', $data)->andWhere(['id' => $lotID])->execute();
+    } 
+    
     public function updateLot(int $lotID, array $data): void
     {
         $data['updated_at'] = Chronos::now()->toDateTimeString();
@@ -75,6 +84,10 @@ final class LotRepository
         if(isset($params['lot_id'])){
             $query->andWhere(['lots.id'=>$params["lot_id"]]);
         }
+        if(isset($params['lot_no'])){
+            $query->andWhere(['lot_no'=>$params['lot_no']]);
+        }
+        
         return $query->execute()->fetchAll('assoc') ?: [];
     }
 

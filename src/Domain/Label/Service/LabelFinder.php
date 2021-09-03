@@ -10,6 +10,7 @@ use App\Domain\Label\Repository\LabelRepository;
 final class LabelFinder
 {
     private $repository;
+    
     public function __construct(LabelRepository $repository)
     {
         $this->repository = $repository;

@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Action\Api;
+namespace App\Action\Web;
 
 use App\Domain\Customer\Service\CustomerFinder;
-use App\Domain\Product\Service\ProductFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -15,18 +14,15 @@ use Symfony\Component\HttpFoundation\Session\Session;
  */
 final class CustomerAction
 {
-    /**
-     * @var Responder
-     */
     private $responder;
-    private $finder;
+    private $twig;
+    private $customerFinder;
+    private $session;
 
-    public function __construct(Twig $twig,CustomerFinder $finder,ProductFinder $productFinder,
-    Session $session,Responder $responder)
+    public function __construct(Twig $twig,CustomerFinder $customerFinder,Session $session,Responder $responder)
     {
         $this->twig = $twig;
-        $this->finder=$finder;
-        $this->productFinder=$productFinder;
+        $this->customerFinder=$customerFinder;
         $this->session=$session;
         $this->responder = $responder;
     }
@@ -35,12 +31,11 @@ final class CustomerAction
     {
         $params = (array)$request->getQueryParams();
         
-        $rtdata['message']="Get Customer Successful";
-        $rtdata['error']=false;
-        $rtdata['customers']=$this->finder->findCustomers($params);
-
-
+        $viewData = [
+            'customers' => $this->customerFinder->findCustomers($params),
+            'user_login' => $this->session->get('user'),
+        ];
         
-        return $this->responder->withJson($response, $rtdata);
+        return $this->twig->render($response, 'web/customers.twig',$viewData);
     }
 }

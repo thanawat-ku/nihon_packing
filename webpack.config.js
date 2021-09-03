@@ -10,13 +10,13 @@ module.exports = {
     entry: {
       'layout/layout': './templates/layout/layout.js',
       'web/home': './templates/web/home.js',
-      'layout/datatables': './templates/layout/datatables.js', // <-- add this line
-      'web/users': './templates/web/users.js', // <-- add this line
-      'web/customers': './templates/web/customers.js', // <-- add this line
-      'web/products': './templates/web/products.js', // <-- add this line
-      'web/lots': './templates/web/lots.js', // <-- add this line
-      'web/lots': './templates/web/merge_packs.js', // <-- add this line
-      
+      'layout/datatables': './templates/layout/datatables.js', 
+      'web/users': './templates/web/users.js',
+      'web/customers': './templates/web/customers.js', 
+      'web/products': './templates/web/products.js', 
+      'web/lots': './templates/web/lots.js', 
+      'web/labels': './templates/web/labels.js',
+      'web/splitLabels': './templates/web/splitLabels.js',// <-- add this line
     },
     output: {
       path: path.resolve(__dirname, 'public/assets'),

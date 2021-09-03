@@ -29,35 +29,62 @@ final class LabelUpdater
 
     public function insertLabel( array $data): int
     {
-        // Input validation
+
         $this->validator->validateLabelInsert($data);
 
-        // Map form data to row
         $lotRow = $this->mapToLabelRow($data);
 
-        // Insert transferStore
         $id=$this->repository->insertLabel($lotRow);
 
-        // Logging
-        //$this->logger->info(sprintf('TransferStore updated successfully: %s', $id));
+        
         return $id;
     }
-    // public function updateLabel(int $labelId, array $data): void
-    // {
-    //     // Input validation
-    //     $this->validator->validateLabelUpdate($labelId, $data);
+
+    public function insertLabelApi( array $data,$user_id): int //สร้าง labels จาก splitlabel
+    {
+
+        $this->validator->validateLabelInsert($data);
+
+        $Row = $this->mapToLabelRow($data);
+
+        $id=$this->repository->insertLabelApi($Row,$user_id);
+
+        
+        return $id;
+    }
+
+    public function updateLabelApi(int $labelID, array $data ,$user_id): void
+    {
+        // Input validation
+        $this->validator->validateLabelUpdate($labelID, $data);
 
     //     // Map form data to row
-    //     $storeRow = $this->mapToLabelRow($data);
+        $storeRow = $this->mapToLabelRow($data);
 
-    //     // Insert store
-    //     $this->repository->updateLabel($labelId, $storeRow);
-    // }
-    
-    
-    public function deleteLabel(int $labelId, array $data): void
+        // Insert store
+        $this->repository->updateLabelApi($labelID, $storeRow,$user_id);
+    }
+    public function updateLabel(int $labelID, array $data): void
     {
-        $this->repository->deleteLabel($labelId);
+        // Input validation
+        $this->validator->validateLabelUpdate($labelID, $data);
+
+        // Map form data to row
+        $storeRow = $this->mapToLabelRow($data);
+
+        // Insert store
+        $this->repository->updateLabel($labelID, $storeRow);
+    }
+    
+    
+    public function deleteLabel(int $labelID, array $data): void
+    {
+        $this->repository->deleteLabel($labelID);
+    }
+
+    public function deleteLabelAll( int $lotId, array $data): void
+    {
+        $this->repository->deleteLabelAll($lotId);
     }
 
     private function mapToLabelRow(array $data): array
@@ -81,6 +108,9 @@ final class LabelUpdater
         }
         if (isset($data['status'])) {
             $result['status'] = (string)$data['status'];
+        }
+        if (isset($data['split_label_id'])) {
+            $result['split_label_id'] = (string)$data['split_label_id'];
         }
 
 

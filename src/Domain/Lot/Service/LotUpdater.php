@@ -38,6 +38,18 @@ final class LotUpdater
         //$this->logger->info(sprintf('TransferStore updated successfully: %s', $id));
         return $id;
     }
+    public function updateLotApi(int $lotId, array $data, $user_id): void
+    {
+        // Input validation
+        $this->validator->validateLotUpdate($lotId, $data);
+
+        // Map form data to row
+        $storeRow = $this->mapToLotRow($data);
+
+        // Insert store
+        $this->repository->updateLotApi($lotId, $storeRow,$user_id);
+    }
+
     public function updateLot(int $lotId, array $data): void
     {
         // Input validation
@@ -68,13 +80,6 @@ final class LotUpdater
         //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));
     }
 
-    /**
-     * Map data to row.
-     *
-     * @param array<mixed> $data The data
-     *
-     * @return array<mixed> The row
-     */
     private function mapToLotRow(array $data): array
     {
         $result = [];
@@ -88,7 +93,9 @@ final class LotUpdater
         if (isset($data['quantity'])) {
             $result['quantity'] = (string)$data['quantity'];
         }
-
+        if (isset($data['status'])) {
+            $result['status'] = (string)$data['status'];
+        }
 
         return $result;
     }

@@ -43,6 +43,9 @@
                         {% endif %}
                         <button type="button" id="editBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-edit"></i></button>
                         <button type="button" id="deleteBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-trash"></i></button>
+                        {% if lot.status != "CREATED" %}
+                        <a href="label_lot?id={{lot.id}}"><button type="button" class="btn btn-success btn-sm" data-toggle="modal" ><i style="font-size:15px; width:20px;" class="fas fa-info-circle"></i></button></a> 
+                        {% endif %}
                         </td>
                     </tr>
                     {% endfor %}
@@ -53,7 +56,7 @@
             </div>
         </div>
     </div>
-<!-- Modal Add lot -->
+<!-- Modal add lot -->
 <div class="modal fade" id="addLot">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
@@ -66,12 +69,13 @@
         <!-- Modal body -->
         <div class="modal-body">          
           <div class="form-product">
+            <input type="hidden" id="addLotID" name="id">
             <label for="lotNo">Lot No</label>
             <input type="text" autocomplete="off" class="form-control" id="addLotNo" name="lot_no" required>
           </div>                 
           <div class="form-product">
-            <label for="email">Product</label>
-            <select class="form-control"  id="addProductID" name="product_id">
+            <label for="email">Lot</label>
+            <select class="form-control"  id="addLotID" name="product_id">
             {% for p in products %}
               <option value={{ p.id }}>({{p.product_code}}) {{ p.product_name}} </option>
             {% endfor %}
@@ -90,7 +94,8 @@
     </div>
   </div>
 </div>
-<!-- Modal Add lot -->
+
+<!-- Modal edit lot -->
 <div class="modal fade" id="editLot">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
@@ -128,6 +133,7 @@
     </div>
   </div>
 </div>
+
  
 <!-- Modal Delete lot -->
 <div class="modal fade" id="deleteLot">
@@ -143,9 +149,9 @@
         <div class="modal-body">          
           <div class="form-product">
             <input type="hidden" id="deleteLotID" name="id">
-            <label for="lotNo">Do you want to delete lot: <span id="deleteLotNo">xxx</span></label>
+            <input type="hidden" id="deleteLotNoLabelStatus" name="status">
+            <label for="lotNo">Do you want to delete lot: <span id="deleteLotNo"></span></label>
           </div>                 
-          
         </div>
         <div class="modal-footer">
           <button type="submit" class="btn btn-danger">Delete</button>
@@ -155,6 +161,7 @@
     </div>
   </div>
 </div>
+
 <!-- Modal Print lot -->
 <div class="modal fade" id="printLot">
   <div class="modal-dialog modal-dialog-centered">
@@ -181,4 +188,32 @@
     </div>
   </div>
 </div>
+
+<!-- Modal Label lot -->
+<div class="modal fade" id="labelLot">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form id="form-labelLot" action="label_lot" method="post">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Find label</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">          
+          <div class="form-product">
+            <input type="hidden" id="labelLotID" name="id">
+            <input type="hidden" id="labelLotNoStatus" name="status">
+            <label for="lotNo">Do you want to find label from lot: <span id="labelLotNo"></span></label>
+          </div>                 
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-danger">Find</button>
+          <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 {% endblock %}

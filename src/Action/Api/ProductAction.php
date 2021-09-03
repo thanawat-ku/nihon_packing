@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Action\Api;
+namespace App\Action\Web;
 
 use App\Domain\Product\Service\ProductFinder;
 use App\Responder\Responder;
@@ -18,28 +18,41 @@ final class ProductAction
      * @var Responder
      */
     private $responder;
-    private $finder;
+    private $twig;
+    private $productFinder;
+    private $session;
 
-    public function __construct(Twig $twig,ProductFinder $finder,ProductFinder $productFinder,
-    Session $session,Responder $responder)
+    /**
+     * The constructor.
+     *
+     * @param Responder $responder The responder
+     */
+    public function __construct(Twig $twig,ProductFinder $productFinder,Session $session,Responder $responder)
     {
         $this->twig = $twig;
-        $this->finder=$finder;
         $this->productFinder=$productFinder;
         $this->session=$session;
         $this->responder = $responder;
     }
 
+    /**
+     * Action.
+     *
+     * @param ServerRequestInterface $request The request
+     * @param ResponseInterface $response The response
+     *
+     * @return ResponseInterface The response
+     */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $params = (array)$request->getQueryParams();
         
-        $rtdata['message']="Get Product Successful";
-        $rtdata['error']=false;
-        $rtdata['products']=$this->finder->findProducts($params);
-
-
+        $viewData = [
+            'products' => $this->productFinder->findProducts($params),
+            'user_login' => $this->session->get('user'),
+        ];
         
-        return $this->responder->withJson($response, $rtdata);
+
+        return $this->twig->render($response, 'web/products.twig',$viewData);
     }
 }

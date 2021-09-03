@@ -21,13 +21,9 @@ final class LabelAction
     private $responder;
     private $finder;
 
-    public function __construct(Twig $twig,LabelFinder $finder,ProductFinder $productFinder,
-    Session $session,Responder $responder)
+    public function __construct(Twig $twig,LabelFinder $finder,Responder $responder)
     {
-        $this->twig = $twig;
         $this->finder=$finder;
-        $this->productFinder=$productFinder;
-        $this->session=$session;
         $this->responder = $responder;
     }
 

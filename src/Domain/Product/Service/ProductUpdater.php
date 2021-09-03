@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Domain\Lot\Service;
+namespace App\Domain\Product\Service;
 
-use App\Domain\Lot\Repository\LotRepository;
+use App\Domain\Product\Repository\ProductRepository;
 
 /**
  * Service.
  */
-final class LotUpdater
+final class ProductUpdater
 {
     private $repository;
     private $validator;
 
     public function __construct(
-        LotRepository $repository,
-        LotValidator $validator,
+        ProductRepository $repository,
+        ProductValidator $validator
     ) {
         $this->repository = $repository;
         $this->validator = $validator;
@@ -23,46 +23,40 @@ final class LotUpdater
             //->createInstance();
     }
 
-    public function insertLot( array $data): int
+    public function insertProduct( array $data): int
     {
         // Input validation
-        $this->validator->validateLotInsert($data);
+        $this->validator->validateProductInsert($data);
 
         // Map form data to row
-        $lotRow = $this->mapToLotRow($data);
+        $productRow = $this->mapToProductRow($data);
 
         // Insert transferStore
-        $id=$this->repository->insertLot($lotRow);
+        $id=$this->repository->insertProduct($productRow);
 
         // Logging
         //$this->logger->info(sprintf('TransferStore updated successfully: %s', $id));
         return $id;
     }
-    public function updateLot(int $lotId, array $data): void
+    public function updateProduct(int $productId, array $data): void
     {
         // Input validation
-        $this->validator->validateLotUpdate($lotId, $data);
+        $this->validator->validateProductUpdate($productId, $data);
 
         // Map form data to row
-        $storeRow = $this->mapToLotRow($data);
+        $storeRow = $this->mapToProductRow($data);
 
         // Insert store
-        $this->repository->updateLot($lotId, $storeRow);
+        $this->repository->updateProduct($productId, $storeRow);
 
         // Logging
         //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));
     }
-    
-    public function printLot(int $lotId): void
-    {
-        $this->repository->printLot($lotId);
-    }
-
-    public function deleteLot(int $lotId, array $data): void
+    public function deleteProduct(int $productId, array $data): void
     {
 
         // Insert store
-        $this->repository->deleteLot($lotId);
+        $this->repository->deleteProduct($productId);
 
         // Logging
         //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));
@@ -75,20 +69,25 @@ final class LotUpdater
      *
      * @return array<mixed> The row
      */
-    private function mapToLotRow(array $data): array
+    private function mapToProductRow(array $data): array
     {
         $result = [];
 
-        if (isset($data['lot_no'])) {
-            $result['lot_no'] = (string)$data['lot_no'];
+        if (isset($data['product_code'])) {
+            $result['product_code'] = (string)$data['product_code'];
         }
-        if (isset($data['product_id'])) {
-            $result['product_id'] = (string)$data['product_id'];
+        if (isset($data['product_name'])) {
+            $result['product_name'] = (string)$data['product_name'];
         }
-        if (isset($data['quantity'])) {
-            $result['quantity'] = (string)$data['quantity'];
+        if (isset($data['price'])) {
+            $result['price'] = (string)$data['price'];
         }
-
+        if (isset($data['std_pack'])) {
+            $result['std_pack'] = (string)$data['std_pack'];
+        }
+        if (isset($data['std_box'])) {
+            $result['std_box'] = (string)$data['std_box'];
+        }
 
         return $result;
     }

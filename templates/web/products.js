@@ -1,31 +1,27 @@
 $(function() {
     $('#my-data-table').DataTable();
 });
-function editUser(event){
-    let user = event.currentTarget.name;
-    console.log(user);
-    var obj = JSON.parse(user);
-    $("#editUserID").val(obj.id);
-    $("#editUserName").val(obj.username);
-    $("#editEmail").val(obj.email);
-    $("#editFirstName").val(obj.first_name);
-    $("#editLastName").val(obj.last_name);
-    $("#editUserRoleID").val(obj.user_role_id);
-    $("#editStoreID").val(obj.store_id);
-    $("#editEnabled").val(obj.enabled);
+function editProduct(event){
+    let product = event.currentTarget.name;
+    console.log(product);
+    var obj = JSON.parse(product);
+    $("#editProductID").val(obj.id);
+    $("#editProduct_code").val(obj.product_code);
+    $("#editProduct_name").val(obj.product_name);
+    $("#editPrice").val(obj.price);
+    $("#editStdPack").val(obj.std_pack);
+    $("#editStdBox").val(obj.std_box);
 }
-$( "#form-editUser" ).on("submit", function( event ) {
-    if ( $( "#editPassword" ).val() ==  $( "#editConfirmPassword" ).val()) {
-        if($("#editPassword").val()==""){
-            $("#editUser").modal('toggle');
-            $("#editPassword").remove();
-        }
-        return;
-    }else{
-        alert("Password not match");
-        event.preventDefault();
-    }
-  });
+
+  function deleteProduct(event){
+    let product = event.currentTarget.name;
+    console.log(product);
+    var obj = JSON.parse(product);
+    $("#deleteProductID").val(obj.id);
+    $("#deleteProductCode").text(obj.product_code);
+    $("#deleteProductName").text(obj.product_name);
+}
+
 $(document).on(
     "click",
     "#editBt, #deleteBt",
@@ -33,10 +29,10 @@ $(document).on(
         let id = event.currentTarget.id;
         switch (id) {
             case "editBt":
-                editUser(event);
+                editProduct(event);
                 break;
             case "deleteBt":
-                deleteUser(event);
+                deleteProduct(event);
                 break;
             default:
                 console.log("no any events click");

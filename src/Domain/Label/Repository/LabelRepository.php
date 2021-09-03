@@ -18,6 +18,16 @@ final class LabelRepository
         $this->session=$session;
     }
 
+    public function insertLabelApi(array $row,$user_id): int
+    {
+        $row['created_at'] = Chronos::now()->toDateTimeString();
+        $row['created_user_id'] = $user_id;
+        $row['updated_at'] = Chronos::now()->toDateTimeString();
+        $row['updated_user_id'] = $user_id;
+
+        return (int)$this->queryFactory->newInsert('labels', $row)->execute()->lastInsertId();
+    }
+
     public function insertLabel(array $row): int
     {
         $row['created_at'] = Chronos::now()->toDateTimeString();
@@ -39,6 +49,15 @@ final class LabelRepository
     }
     
     public function updateLabelMergePackApi(int $labelID, array $data, $user_id): void
+    public function updateLabelApi(int $labelID, array $data,$user_id): void
+    {
+        $data['updated_at'] = Chronos::now()->toDateTimeString();
+        $data['updated_user_id'] = $user_id;
+
+        $this->queryFactory->newUpdate('labels', $data)->andWhere(['id' => $labelID])->execute();
+    }    
+
+    public function updateLabel(int $labelID, array $data): void
     {
         $data['updated_at'] = Chronos::now()->toDateTimeString();
         $data['updated_user_id'] = $user_id;
@@ -51,6 +70,11 @@ final class LabelRepository
         $this->queryFactory->newDelete('labels')->andWhere(['id' => $labelID])->execute();
     }
 
+    public function deleteLabelAll(int $lotId): void
+    {
+        $this->queryFactory->newDelete('labels')->andWhere(['lot_id' => $lotId])->execute();
+    }
+
     public function findLabels(array $params): array
     {
         $query = $this->queryFactory->newSelect('labels');
@@ -60,6 +84,7 @@ final class LabelRepository
                 'lot_id',
                 'labels.merge_pack_id',
                 'label_no',
+<<<<<<< HEAD
                 'mp.product_id',
                 'label_type',
                 'labels.quantity',
@@ -67,7 +92,20 @@ final class LabelRepository
                 // 'lot_no',
                 'std_pack',
                 // 'product_name',
+=======
+                'merge_pack_id',
+                'split_label_id',
+                'lot_id',
+                'product_id',
+                'label_type',
+                'labels.quantity',
+                'lot_no',
+                'product_name',
+>>>>>>> tae01
                 'product_code',
+                'labels.status',
+                'std_pack',
+                'std_box',
             ]
         ); 
 
@@ -81,7 +119,11 @@ final class LabelRepository
             'mp' => [
                 'table' => 'merge_packs',
                 'type' => 'INNER',
+<<<<<<< HEAD
                 'conditions' => 'mp.id = labels.merge_pack_id',
+=======
+                'conditions' => 'l.id = labels.lot_id',
+>>>>>>> tae01
             ]]);
         $query->join([
             'p' => [
@@ -89,6 +131,7 @@ final class LabelRepository
                 'type' => 'INNER',
                 'conditions' => 'p.id = mp.product_id',
             ]]);
+<<<<<<< HEAD
         
         return $query->execute()->fetchAll('assoc') ?: [];
     }
@@ -160,6 +203,19 @@ final class LabelRepository
             ]
         );
        
+=======
+            //find label from lot
+            if(isset($params['lot_id'])){
+                $query->andWhere(['lot_id'=>$params['lot_id']]);
+            }
+            //find label from splitLabel
+            if(isset($params['split_label_id'])){
+                $query->andWhere(['split_label_id'=>$params['split_label_id']]);
+            }
+            
+
+
+>>>>>>> tae01
         return $query->execute()->fetchAll('assoc') ?: [];
     }
 
