@@ -14,7 +14,6 @@ return function (App $app) {
     $app->get('/logout', \App\Action\LogoutAction::class)->setName('logout'); 
 
     
-    
     // Swagger API documentation
     $app->get('/docs/v1', \App\Action\Documentation\SwaggerUiAction::class)->setName('docs');
 
@@ -40,11 +39,11 @@ return function (App $app) {
     $app->post('/api/add_defect', \App\Action\Api\DefectAddAction::class);
     $app->post('/api/delete_defect', \App\Action\Api\DefectDeleteAction::class);
     $app->post('/api/edit_defect', \App\Action\Api\DefectEditAction::class);
-
     
     $app->get('/api/lot_defects', \App\Action\Api\LotDefectAction::class);
     $app->post('/api/add_lot_defect', \App\Action\Api\LotDefectAddAction::class);
     $app->post('/api/delete_lot_defect', \App\Action\Api\LotDefectDeleteAction::class);
     $app->post('/api/edit_lot_defect', \App\Action\Api\LotDefectEditAction::class);
+
     
 };
