@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Domain\Label\Service;
+namespace App\Domain\CreateMergeNoFromLabel\Service;
 
-use App\Domain\Label\Repository\LabelRepository;
+use App\Domain\CreateMergeNoFromLabel\Repository\CreateMergeNoFromLabelRepository;
 use App\Factory\ValidationFactory;
 use Cake\Validation\Validator;
 use Selective\Validation\Exception\ValidationException;
 
-final class LabelValidator
+final class CreateMergeNoFromLabelValidator
 {
     private $repository;
     private $validationFactory;
 
-    public function __construct(LabelRepository $repository, ValidationFactory $validationFactory)
+    public function __construct(CreateMergeNoFromLabelRepository $repository, ValidationFactory $validationFactory)
     {
         $this->repository = $repository;
         $this->validationFactory = $validationFactory;
@@ -28,9 +28,11 @@ final class LabelValidator
             ->notEmptyString('label_no', 'Input required')
             ->notEmptyString('label_type', 'Input required')
             ->notEmptyString('quantity', 'Input required')
-            ->notEmptyString('status', 'Input required');
+            ->notEmptyString('status', 'Input required')
+            ->notEmptyString('product_id', 'Input required')
+            ->notEmptyString('merge_no', 'Input required');
     }
-    public function validateLabel(array $data): void
+    public function validateCreateMergeNoFromLabel(array $data): void
     {
         $validator = $this->createValidator();
 
@@ -43,17 +45,17 @@ final class LabelValidator
         }
     }
 
-    public function validateLabelUpdate(string $lotNo, array $data): void
+    public function validateCreateMergeNoFromLabelUpdate(string $lotNo, array $data): void
     {
         /*
         if (!$this->repository->existsLotNo($lotNo)) {
             throw new ValidationException(sprintf('Store not found: %s', $stolotNoreId));
         }
         */
-        $this->validateLabel($data);
+        $this->validateCreateMergeNoFromLabel($data);
     }
-    public function validateLabelInsert( array $data): void
+    public function validateCreateMergeNoFromLabelInsert( array $data): void
     {
-        $this->validateLabel($data);
+        $this->validateCreateMergeNoFromLabel($data);
     }
 }

@@ -2,8 +2,9 @@
 
 namespace App\Action\Api;
 
+use App\Domain\LabelNonfully\Service\LabelNonfullyFinder;
+use App\Domain\LabelNonfully\Service\LabelNonfullyUpdater;
 use App\Domain\Lot\Service\LotFinder;
-use App\Domain\Product\Service\ProductFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -13,19 +14,21 @@ use Symfony\Component\HttpFoundation\Session\Session;
 /**
  * Action.
  */
-final class LotAction
+final class DefectAddAction
 {
     /**
      * @var Responder
      */
     private $responder;
     private $finder;
+    private $updater;
 
-    public function __construct(Twig $twig,LotFinder $finder,ProductFinder $productFinder,
-    Session $session,Responder $responder)
+    public function __construct(Twig $twig,LabelNonfullyFinder $finder,LotFinder $productFinder,
+    Session $session,Responder $responder, LabelNonfullyUpdater $updater)
     {
         $this->twig = $twig;
         $this->finder=$finder;
+        $this->updater=$updater;
         $this->productFinder=$productFinder;
         $this->session=$session;
         $this->responder = $responder;
@@ -33,12 +36,15 @@ final class LotAction
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        $params = (array)$request->getQueryParams();
+        $params = (array)$request->getParsedBody();
+        $user_id=$params["user_id"];
+        $labelId=$params["merge_pack_id"];
+        
+        $this->updater->updateLabelNonfullyApi($labelId, $params, $user_id);
         
         $rtdata['message']="Get Lot Successful";
         $rtdata['error']=false;
-        $rtdata['lots']=$this->finder->findLots($params);
-
+        $rtdata['labels']=$this->finder->findLabelNonfullys($params);
 
         
         return $this->responder->withJson($response, $rtdata);

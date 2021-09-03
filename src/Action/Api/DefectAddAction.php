@@ -2,8 +2,9 @@
 
 namespace App\Action\Api;
 
+use App\Domain\LotDefect\Service\LotDefectFinder;
+use App\Domain\LotDefect\Service\LotDefectUpdater;
 use App\Domain\Lot\Service\LotFinder;
-use App\Domain\Product\Service\ProductFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -13,19 +14,21 @@ use Symfony\Component\HttpFoundation\Session\Session;
 /**
  * Action.
  */
-final class LotAction
+final class DefectAddAction
 {
     /**
      * @var Responder
      */
     private $responder;
     private $finder;
+    private $updater;
 
-    public function __construct(Twig $twig,LotFinder $finder,ProductFinder $productFinder,
-    Session $session,Responder $responder)
+    public function __construct(Twig $twig,LotDefectFinder $finder,LotFinder $productFinder,
+    Session $session,Responder $responder, LotDefectUpdater $updater)
     {
         $this->twig = $twig;
         $this->finder=$finder;
+        $this->updater=$updater;
         $this->productFinder=$productFinder;
         $this->session=$session;
         $this->responder = $responder;
@@ -33,12 +36,12 @@ final class LotAction
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        $params = (array)$request->getQueryParams();
+        $params = (array)$request->getParsedBody();
+        $this->updater->insertLotDefect($params);
         
         $rtdata['message']="Get Lot Successful";
         $rtdata['error']=false;
-        $rtdata['lots']=$this->finder->findLots($params);
-
+        $rtdata['lot_defects']=$this->finder->findLotDefects($params);
 
         
         return $this->responder->withJson($response, $rtdata);

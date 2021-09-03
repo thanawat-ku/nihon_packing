@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Domain\Label\Service;
+namespace App\Domain\MergeLabel\Service;
 
 use App\Domain\Label\Repository\LabelRepository;
 use App\Factory\ValidationFactory;
 use Cake\Validation\Validator;
 use Selective\Validation\Exception\ValidationException;
 
-final class LabelValidator
+final class MergeLabelValidator
 {
     private $repository;
     private $validationFactory;
@@ -24,11 +24,9 @@ final class LabelValidator
 
         return $validator
             ->notEmptyString('lot_id', 'Input required')
-            ->notEmptyString('merge_pack_id', 'Input required')
             ->notEmptyString('label_no', 'Input required')
             ->notEmptyString('label_type', 'Input required')
-            ->notEmptyString('quantity', 'Input required')
-            ->notEmptyString('status', 'Input required');
+            ->notEmptyString('quantity', 'Input required');
     }
     public function validateLabel(array $data): void
     {
@@ -52,7 +50,7 @@ final class LabelValidator
         */
         $this->validateLabel($data);
     }
-    public function validateLabelInsert( array $data): void
+    public function validateMergeLabelInsert( array $data): void
     {
         $this->validateLabel($data);
     }

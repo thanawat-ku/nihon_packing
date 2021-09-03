@@ -20,3 +20,17 @@ final class LabelFinder
         return $this->repository->findLabels($params);
     }
 }
+
+final class LabelPackMergeFinder
+{
+    private $repository;
+    public function __construct(LabelRepository $repository)
+    {
+        $this->repository = $repository;
+    }
+
+    public function findLabelPackMerges(array $params): array
+    {
+        return $this->repository->findLabelPackMerges($params);
+    }
+}

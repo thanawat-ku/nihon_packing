@@ -2,7 +2,7 @@
 
 namespace App\Action\Api;
 
-use App\Domain\Lot\Service\LotFinder;
+use App\Domain\Customer\Service\CustomerFinder;
 use App\Domain\Product\Service\ProductFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 /**
  * Action.
  */
-final class LotAction
+final class CustomerAction
 {
     /**
      * @var Responder
@@ -21,7 +21,7 @@ final class LotAction
     private $responder;
     private $finder;
 
-    public function __construct(Twig $twig,LotFinder $finder,ProductFinder $productFinder,
+    public function __construct(Twig $twig,CustomerFinder $finder,ProductFinder $productFinder,
     Session $session,Responder $responder)
     {
         $this->twig = $twig;
@@ -35,9 +35,9 @@ final class LotAction
     {
         $params = (array)$request->getQueryParams();
         
-        $rtdata['message']="Get Lot Successful";
+        $rtdata['message']="Get Customer Successful";
         $rtdata['error']=false;
-        $rtdata['lots']=$this->finder->findLots($params);
+        $rtdata['customers']=$this->finder->findCustomers($params);
 
 
         
