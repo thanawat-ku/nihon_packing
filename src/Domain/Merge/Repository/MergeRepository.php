@@ -51,7 +51,7 @@ final class MergeRepository
                 'product_name',
                 'merge_status',
                 'std_pack',
-                'quantity',
+                // 'quantity',
                 
             ]
         );

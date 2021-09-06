@@ -44,7 +44,6 @@ final class LotAction
             'user_login' => $this->session->get('user'),
         ];
         
-
         return $this->twig->render($response, 'web/lots.twig',$viewData);
     }
 }

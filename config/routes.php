@@ -39,6 +39,7 @@ return function (App $app) {
     $app->post('/delete_lot', \App\Action\Web\LotDeleteAction::class)->add(UserAuthMiddleware::class);
     $app->post('/print_lot', \App\Action\Web\LotPrintAction::class)->add(UserAuthMiddleware::class);
     $app->get('/label_lot', \App\Action\Web\LotLabelAction::class)->add(UserAuthMiddleware::class);
+    $app->get('/lots', \App\Action\Web\LotAction::class)->add(UserAuthMiddleware::class);
 
     $app->get('/labels', \App\Action\Web\LabelAction::class)->add(UserAuthMiddleware::class);
     $app->post('/add_label', \App\Action\Web\LabelAddAction::class)->add(UserAuthMiddleware::class);
@@ -51,10 +52,6 @@ return function (App $app) {
 
     //---------------------------Api-------------------------------
 
-
-
-    $app->post('/api/login', \App\Action\ApiLoginSubmitAction::class);
-    $app->get('/api/lots', \App\Action\Api\LotAction::class);
 
     $app->get('/api/merges', \App\Action\Api\MergeAction::class);
 
@@ -73,11 +70,7 @@ return function (App $app) {
     $app->get('/api/products', \App\Action\Api\ProductAction::class);
 
     $app->get('/api/customers', \App\Action\Api\CustomerAction::class);
-
-    $app->get('/api/lot_defects', \App\Action\Api\LotDefectAction::class);
-    $app->post('/api/add_lot_defect', \App\Action\Api\LotDefectAddAction::class);
-    $app->post('/api/delete_lot_defect', \App\Action\Api\LotDefectDeleteAction::class);
-    $app->post('/api/edit_lot_defect', \App\Action\Api\LotDefectEditAction::class);
+    
 
     $app->get('/api/labels', \App\Action\Api\LabelAction::class);
     $app->post('/api/register_label', \App\Action\Api\LabelRegisterAction::class);
@@ -96,10 +89,10 @@ return function (App $app) {
 
     // merge label
     $app->get('/api/select_product_to_merges', \App\Action\Api\SelectProductToMergeAction::class);
-    $app->get('/api/labels', \App\Action\Api\LabelAction::class);
+    
     $app->get('/api/label_pack_merges', \App\Action\Api\LabelPackMergeAction::class);
     $app->get('/api/check_labels', \App\Action\Api\CheckLabelAction::class);
-    // $app->get('/api/select_merge_pack_id', \App\Action\Api\SelectMergePackIDAction::class);
+    $app->get('/api/select_merge_pack_id', \App\Action\Api\SelectMergePackIDAction::class);
     $app->get('/api/create_mn_from_lb', \App\Action\Api\CreateMergeNoFromLabelAction::class);
 
     $app->post('/api/add_merge_packs', \App\Action\Api\MergePackAddAction::class);
@@ -116,11 +109,5 @@ return function (App $app) {
     $app->post('/api/delete_merge_pack_detail', \App\Action\Api\MergePackDetailDeleteAction::class);
     $app->post('/api/get_qty_scan', \App\Action\Api\GetQtyScanAction::class);
     $app->post('/api/end_lot', \App\Action\Api\EndLotAction::class);
-
-    
-
-    
-
-
     
 };

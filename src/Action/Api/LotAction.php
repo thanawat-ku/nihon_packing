@@ -30,7 +30,6 @@ final class LotAction
         $this->twig = $twig;
         $this->finder = $finder;
         $this->productFinder = $productFinder;
-
         $this->responder = $responder;
     }
 
@@ -41,8 +40,6 @@ final class LotAction
         $rtdata['message'] = "Get Lot Successful";
         $rtdata['error'] = false;
         $rtdata['lots'] = $this->finder->findLots($params);
-
-
 
         return $this->responder->withJson($response, $rtdata);
     }

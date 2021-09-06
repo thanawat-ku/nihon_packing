@@ -58,7 +58,9 @@ final class LabelRepository
         return (int)$this->queryFactory->newInsert('labels', $row)->execute()->lastInsertId();
     }
     
-    //public function updateLabelMergePackApi(int $labelID, array $data, $user_id): void
+    public function updateLabelMergePackApi(int $labelID, array $data, $user_id): void{
+        
+    }
     public function updateLabelApi(int $labelID, array $data,$user_id): void
     {
         $data['updated_at'] = Chronos::now()->toDateTimeString();
