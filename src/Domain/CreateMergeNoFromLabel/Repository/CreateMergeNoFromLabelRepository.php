@@ -77,12 +77,6 @@ final class CreateMergeNoFromLabelRepository
                 'type' => 'INNER',
                 'conditions' => 'l.id = labels.lot_id',
             ]]);
-        // $query->join([
-        //     'mp' => [
-        //         'table' => 'merge_packs',
-        //         'type' => 'INNER',
-        //         'conditions' => 'mp.id = labels.merge_pack_id',
-        //     ]]);
         $query->join([
             'p' => [
                 'table' => 'products',
@@ -90,6 +84,25 @@ final class CreateMergeNoFromLabelRepository
                 'conditions' => 'p.id = l.product_id',
             ]]);
         
+        return $query->execute()->fetchAll('assoc') ?: [];
+    }
+
+    public function findMergePacks(array $params): array
+    {
+        $query = $this->queryFactory->newSelect('merge_packs');
+        $query->select(
+            [
+                'id',
+                'merge_no',
+                'product_id',
+                'merge_status',
+            ]
+        ); 
+
+        $query->where(
+            ['merge_status =' => "CREATED"]  
+        );
+
         return $query->execute()->fetchAll('assoc') ?: [];
     }
 

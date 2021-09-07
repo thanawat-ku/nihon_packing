@@ -61,18 +61,6 @@ final class LabelNonfullyRepository
                 
             ]
         );
-        // $query->join([
-        //     'mp' => [
-        //         'table' => 'merge_packs',
-        //         'type' => 'INNER',
-        //         'conditions' => 'mp.id = labels.merge_pack_id',
-        //     ]]);
-        // $query->join([
-        //     'mpd' => [
-        //         'table' => 'merge_pack_details',
-        //         'type' => 'INNER',
-        //         'conditions' => 'mpd.merge_pack_id = mp.product_id',
-        //     ]]);
         $query->join([
             'l' => [
                 'table' => 'lots',
@@ -111,7 +99,6 @@ final class LabelNonfullyRepository
                 
             ]
         );
-
         $query->join(
             [
             'p' => [
@@ -121,33 +108,6 @@ final class LabelNonfullyRepository
             ]
             ]
         );
-        // $query->join([
-        //     'lb' => [
-        //         'table' => 'labels',
-        //         'type' => 'INNER',
-        //         'conditions' => 'merge_packs.id = lb.merge_pack_id',
-        //     ]
-        // ]);
-        // $query->group([
-        //     'merge_packs.merge_no'
-        //     ]
-    
-        //     );
-        
-
-        // $quantity=$params[][];
-
-        // if (isset($params['merge_no'])) {
-        //     $query->where(
-        //         // ['merge_packs.id' => 1],
-        //         ['merge_no' => "gg"]
-        //     );
-        // }
-
-        // if(isset($params['lot_id'])){
-        //     $query->andWhere(['lot_id' => $params['lot_id']]); 
-        // }
-        
 
         return $query->execute()->fetchAll('assoc') ?: [];
     }

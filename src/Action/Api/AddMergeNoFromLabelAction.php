@@ -43,16 +43,19 @@ final class AddMergeNoFromLabelAction
         $params["label_no"]=$label_no;
 
         $rtdata['labels']=$this->finder->findCreateMergeNoFromLabels($params);
+        $mpdata['merge_packs']=$this->finder->findMergePacks($params);
 
         $countlabel=count($rtdata["labels"]);
-        // $sumqty=0;
+        $count_mp=count($mpdata["merge_packs"]);
+        $count_mp -= 1;
 
         for($i=0; $i < $countlabel; $i++){
             if($rtdata["labels"][$i]['label_no']  == $label_no && $rtdata["labels"][$i]['label_type'] == "NONFULLY"){
                 $productID = $rtdata["labels"][$i]['product_id'];
-                $productCode = $rtdata["labels"][$i]['product_code'];
+                $merpack_id = $mpdata["merge_packs"][$count_mp]['id'];
+                $merpack_id += 1;
 
-                $data1['merge_no']= "M".$productCode.str_pad($i, 5, "0", STR_PAD_LEFT); //สร้าง merge_no
+                $data1['merge_no']= "MP".str_pad($merpack_id, 10, "0", STR_PAD_LEFT); //สร้าง merge_no
                 $data1['product_id']= $productID;
                 $data1['merge_status']= "CREATED";
 
