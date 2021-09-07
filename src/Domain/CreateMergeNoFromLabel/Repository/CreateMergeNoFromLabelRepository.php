@@ -99,10 +99,6 @@ final class CreateMergeNoFromLabelRepository
             ]
         ); 
 
-        $query->where(
-            ['merge_status =' => "CREATED"]  
-        );
-
         return $query->execute()->fetchAll('assoc') ?: [];
     }
 
