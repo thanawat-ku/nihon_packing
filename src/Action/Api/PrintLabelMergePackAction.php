@@ -66,6 +66,7 @@ final class PrintLabelMergePackAction
         for($i=0; $i <  $num_packs; $i++){
             $data1['lot_id']= 0;
             $data1['merge_pack_id']= $mergepackID;
+            $data1['split_label_id']= 0;
             $data1['label_no']=$mergepackID.$product_id.str_pad( $i, 5, "0", STR_PAD_LEFT);
             $data1['label_type']="MERGE_FULLY";
             $data1['quantity']=$std_pack;
@@ -77,6 +78,7 @@ final class PrintLabelMergePackAction
         }
         $data1['lot_id']= 0;
         $data1['merge_pack_id']= $mergepackID;
+        $data1['split_label_id']= 0;
         $data1['label_no']=$mergepackID.$product_id.str_pad( $counti, 5, "0", STR_PAD_LEFT);
         $data1['label_type']="MERGE_NONFULLY";
         $data1['quantity']=$mod_num_pack;

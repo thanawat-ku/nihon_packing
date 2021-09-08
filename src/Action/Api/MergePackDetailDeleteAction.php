@@ -39,27 +39,12 @@ final class MergePackDetailDeleteAction
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $data = (array)$request->getParsedBody();
-        // $user_id=$data["user_id"];
         $label_id=$data["label_id"];
         $this->updater->deleteLabelMergePackApi($label_id, $data);
 
         $rtdata['message']="Get MergePackDetail Successful";
         $rtdata['error']=false;
         $rtdata['merge_pack_details']=$this->finder->findLabelNonfullys($data);
-        // $rtdata['labels']=$this->finder->findLabelNonfullys($data);
-
-        // $countlabel = count($rtdata["labels"]);
-
-        // for ($i=0; $i < $countlabel; $i++) { 
-        //     if ($rtdata["labels"][$i]['merge_pack_id'] == $merge_pack_id) {
-        //         $data1['label_id']=$rtdata["labels"][$i]['id'];
-        //         $data1['merge_pack_id'] = $rtdata["labels"][$i]['merge_pack_id']; 
-        //         // $data1['status']="PACKED";
-                
-        //         $this->updater->insertMergePackDetailApi($data1, $user_id);
-        //     }
-        // }
-
 
         return $this->responder->withJson($response, $rtdata);
 

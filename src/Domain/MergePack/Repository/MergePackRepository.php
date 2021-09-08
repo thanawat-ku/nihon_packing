@@ -85,34 +85,7 @@ final class MergePackRepository
             ]
             ]
         );
-        // $query->join([
-        //     'lb' => [
-        //         'table' => 'labels',
-        //         'type' => 'INNER',
-        //         'conditions' => 'merge_packs.id = lb.merge_pack_id',
-        //     ]
-        // ]);
-        // $query->group([
-        //     'merge_packs.merge_no'
-        //     ]
-    
-        //     );
         
-
-        // $quantity=$params[][];
-
-        // if (isset($params['merge_no'])) {
-        //     $query->where(
-        //         // ['merge_packs.id' => 1],
-        //         ['merge_no' => "gg"]
-        //     );
-        // }
-
-        // if(isset($params['lot_id'])){
-        //     $query->andWhere(['lot_id' => $params['lot_id']]); 
-        // }
-        
-
         return $query->execute()->fetchAll('assoc') ?: [];
     }
 

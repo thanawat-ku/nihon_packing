@@ -30,8 +30,8 @@ final class LabelPackMergeFinder
         $this->repository = $repository;
     }
 
-    public function findLabelPackMerges(array $params): array
-    {
-        return $this->repository->findLabelPackMerges($params);
-    }
+    // public function findLabelPackMerges(array $params): array
+    // {
+    //     return $this->repository->findLabelPackMerges($params);
+    // }
 }

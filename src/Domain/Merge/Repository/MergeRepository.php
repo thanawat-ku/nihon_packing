@@ -55,13 +55,6 @@ final class MergeRepository
                 
             ]
         );
-        // $query->join([      //focus that!!!!!!!!!!!!
-        //     'm' => [
-        //         'table' => 'merge_packs',  //table name
-        //         'type' => 'INNER',
-        //         'conditions' => 'm.id = labels.merge_pack_id',
-        //     ],
-        // ]);
         $query->join([
             'p' => [
                 'table' => 'products',

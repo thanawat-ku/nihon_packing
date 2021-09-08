@@ -19,18 +19,10 @@ final class CreateMergeNoFromLabelFinder
     {
         return $this->repository->findCreateMergeNoFromLabels($params);
     }
+
+    public function findMergePacks(array $params): array
+    {
+        return $this->repository->findMergePacks($params);
+    }
 }
 
-// final class CreateMergeNoFromLabelPackMergeFinder
-// {
-//     private $repository;
-//     public function __construct(CreateMergeNoFromLabelRepository $repository)
-//     {
-//         $this->repository = $repository;
-//     }
-
-//     public function findCreateMergeNoFromLabels(array $params): array
-//     {
-//         return $this->repository->findCreateMergeNoFromLabels($params);
-//     }
-// }
