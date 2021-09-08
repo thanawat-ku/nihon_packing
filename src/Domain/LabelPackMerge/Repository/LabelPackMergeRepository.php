@@ -56,14 +56,35 @@ final class LabelPackMergeRepository
                 'label_no',
                 'label_type',
                 'labels.quantity',
-                'labels.status'
+                'labels.status',
+                'product_code',
+                'product_name'
               
             ]
         );
        
+
+        $query->join([
+            'mp' => [
+                'table' => 'merge_packs',
+                'type' => 'INNER',
+                'conditions' => 'mp.id = labels.merge_pack_id',
+            ]]);
+
+        $query->join([
+            'p' => [
+                'table' => 'products',
+                'type' => 'INNER',
+                'conditions' => 'p.id = mp.product_id',
+            ]]);
+       
         $query->where(
             ['label_type !=' => "FULLY"]  
         );
+
+        $query->group([
+            'labels.label_no'
+            ]);
        
         if(isset($params['merge_pack_id'])){
             $query->andWhere(['merge_pack_id' => $params['merge_pack_id']]);

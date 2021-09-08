@@ -40,6 +40,7 @@ final class MergePackDetailAddAction
         $data = (array)$request->getParsedBody();
         $user_id=$data["user_id"];
         $merge_pack_id=$data["merge_pack_id"];
+        $label_no=$data["label_no"];
         
 
 
@@ -52,10 +53,10 @@ final class MergePackDetailAddAction
         $countlabel = count($rtdata["labels"]);
 
         for ($i=0; $i < $countlabel; $i++) { 
-            if ($rtdata["labels"][$i]['merge_pack_id'] == $merge_pack_id) {
+            if ($rtdata["labels"][$i]['merge_pack_id'] == $merge_pack_id && $rtdata["labels"][$i]['label_no'] != $label_no) {
                 $data1['label_id']=$rtdata["labels"][$i]['id'];
                 $data1['merge_pack_id'] = $rtdata["labels"][$i]['merge_pack_id']; 
-                // $data1['status']="PACKED";
+                $data1['status']="MERGING";
                 
                 $this->updater->insertMergePackDetailApi($data1, $user_id);
                 break;
