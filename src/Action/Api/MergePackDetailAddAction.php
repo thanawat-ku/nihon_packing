@@ -53,7 +53,7 @@ final class MergePackDetailAddAction
         $countlabel = count($rtdata["labels"]);
 
         for ($i=0; $i < $countlabel; $i++) {
-            if ($rtdata["labels"][$i]['label_no'] == $label_no) {
+            if ($rtdata["labels"][$i]['merge_pack_id'] == $merge_pack_id && $rtdata["labels"][$i]['label_no'] == $label_no) {
                 $data1['label_id']=$rtdata["labels"][$i]['id'];
                 $data1['merge_pack_id'] = $merge_pack_id; 
                 // $data1['status']="MERGING";
