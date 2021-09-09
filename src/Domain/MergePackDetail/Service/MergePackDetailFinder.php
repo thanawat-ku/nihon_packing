@@ -39,6 +39,11 @@ final class MergePackDetailFinder
     {
         return $this->repository->findLabelNonfullys($params);
     }
+
+    public function findLabelNonfully(array $params): array
+    {
+        return $this->repository->findLabelNonfully($params);
+    }
 }
 
 
