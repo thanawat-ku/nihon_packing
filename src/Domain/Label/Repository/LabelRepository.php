@@ -133,6 +133,9 @@ final class LabelRepository
             if(isset($params['split_label_id'])){
                 $query->andWhere(['split_label_id'=>$params['split_label_id']]);
             }
+            if(isset($params['status'])){
+                $query->andWhere(['labels.status'=>$params['status']]);
+            }
             
         return $query->execute()->fetchAll('assoc') ?: [];
     }
