@@ -135,4 +135,21 @@ final class MergePackDetailRepository
         
         return $query->execute()->fetchAll('assoc') ?: [];
     }
+
+    public function findLabelNonfully(array $params): array
+    {
+        $query = $this->queryFactory->newSelect('labels');
+        $query->select(
+            [
+                'labels.id',
+                'label_no',
+                'label_type',
+                'labels.quantity',
+                'labels.merge_pack_id',
+                'labels.status'
+            ]
+        );
+        
+        return $query->execute()->fetchAll('assoc') ?: [];
+    }
 }

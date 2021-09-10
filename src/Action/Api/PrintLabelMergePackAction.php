@@ -76,15 +76,18 @@ final class PrintLabelMergePackAction
 
             $this->updater->insertLabelMergePackApi($data1, $user_id);
         }
-        $data1['lot_id']= 0;
-        $data1['merge_pack_id']= $mergepackID;
-        $data1['split_label_id']= 0;
-        $data1['label_no']=$mergepackID.$product_id.str_pad( $counti, 5, "0", STR_PAD_LEFT);
-        $data1['label_type']="MERGE_NONFULLY";
-        $data1['quantity']=$mod_num_pack;
-        $data1['status']="CREATED";
-
-        $this->updater->insertLabelMergePackApi($data1, $user_id);
+        if($mod_num_pack != 0){
+            $data1['lot_id']= 0;
+            $data1['merge_pack_id']= $mergepackID;
+            $data1['split_label_id']= 0;
+            $data1['label_no']=$mergepackID.$product_id.str_pad( $counti, 5, "0", STR_PAD_LEFT);
+            $data1['label_type']="MERGE_NONFULLY";
+            $data1['quantity']=$mod_num_pack;
+            $data1['status']="CREATED";
+    
+            $this->updater->insertLabelMergePackApi($data1, $user_id);
+        }
+       
 
         return $this->responder->withJson($response,  $rtdata); 
 
