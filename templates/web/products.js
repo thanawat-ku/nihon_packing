@@ -8,7 +8,6 @@ function editProduct(event){
     $("#editProductID").val(obj.id);
     $("#editProduct_code").val(obj.part_code);
     $("#editProduct_name").val(obj.part_name);
-    $("#editPrice").val(obj.price);
     $("#editStdPack").val(obj.std_pack);
     $("#editStdBox").val(obj.std_box);
 }

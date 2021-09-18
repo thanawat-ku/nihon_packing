@@ -26,10 +26,8 @@ final class SelectProductToMergeRepository
         $query->select(
             [
                 'products.id',
-                // 'product_id',
                 'part_code',
                 'part_name',
-                // 'price',
                 'std_pack',
                 'std_box',
 

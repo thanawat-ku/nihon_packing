@@ -48,7 +48,6 @@ final class ProductRepository
                 'id',
                 'part_code',
                 'part_name',
-                'price',
                 'std_pack',
                 'std_box',
             ]

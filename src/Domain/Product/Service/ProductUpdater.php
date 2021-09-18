@@ -79,9 +79,6 @@ final class ProductUpdater
         if (isset($data['part_name'])) {
             $result['part_name'] = (string)$data['part_name'];
         }
-        if (isset($data['price'])) {
-            $result['price'] = (string)$data['price'];
-        }
         if (isset($data['std_pack'])) {
             $result['std_pack'] = (string)$data['std_pack'];
         }

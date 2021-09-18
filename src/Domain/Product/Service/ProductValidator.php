@@ -25,7 +25,6 @@ final class ProductValidator
         return $validator
             ->notEmptyString('part_code', 'Input required')
             ->notEmptyString('part_name', 'Input required')
-            ->notEmptyString('price', 'Input required')
             ->notEmptyString('std_pack', 'Input required')
             ->notEmptyString('std_box', 'Input required');
     }

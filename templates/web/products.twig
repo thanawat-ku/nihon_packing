@@ -21,7 +21,6 @@
                     <tr>
                         <th>Code</th>
                         <th>Name</th>
-                        <th>Price</th>
                         <th>STD Pack</th>
                         <th>STD Box</th>
                         <th>Operation</th>
@@ -32,7 +31,6 @@
                     <tr>
                         <td>{{ product.part_code }}</td>
                         <td>{{ product.part_name }}</td>
-                        <td>{{ product.price }}</td>
                         <td>{{ product.std_pack }}</td>
                         <td>{{ product.std_box }}</td>
                         <td>
@@ -67,11 +65,7 @@
           <div class="form-product">
             <label for="addName">Name</label>
             <input type="text" autocomplete="off" class="form-control" id="addProduct_name" name="part_name" required>
-          </div>
-          <div class="form-product">
-            <label for="addPrice">Price</label>
-            <input type="text" autocomplete="off" class="form-control" id="addPrice" name="price" required>
-          </div>          
+          </div>      
           <div class="form-product">
             <label for="addStdPack">Std Pack</label>
             <input type="text" autocomplete="off" class="form-control" id="addStdPack" name="std_pack" required>
@@ -110,11 +104,7 @@
           <div class="form-product">
             <label for="editName">Name</label>
             <input type="text" autocomplete="off" class="form-control" id="editProduct_name" name="part_name" required>
-          </div>
-          <div class="form-product">
-            <label for="editPrice">Price</label>
-            <input type="text" autocomplete="off" class="form-control" id="editPrice" name="price" required>
-          </div>          
+          </div>       
           <div class="form-product">
             <label for="editStdPack">Std Pack</label>
             <input type="text" autocomplete="off" class="form-control" id="editStdPack" name="std_pack" required>
