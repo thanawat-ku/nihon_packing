@@ -76,13 +76,9 @@ final class CustomerUpdater
         if (isset($data['customer_name'])) {
             $result['customer_name'] = (string)$data['customer_name'];
         }
-        if (isset($data['tel_no'])) {
-            $result['tel_no'] = (string)$data['tel_no'];
+        if (isset($data['customer_code'])) {
+            $result['customer_code'] = (string)$data['customer_code'];
         }
-        if (isset($data['address'])) {
-            $result['address'] = (string)$data['address'];
-        }
-
 
         return $result;
     }

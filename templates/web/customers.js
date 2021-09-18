@@ -6,9 +6,8 @@ function editCustomer(event){
     console.log(customer);
     var obj = JSON.parse(customer);
     $("#editCustomerID").val(obj.id);
+    $("#editCustomerCode").val(obj.customer_code);
     $("#editCustomerName").val(obj.customer_name);
-    $("#editTelNo").val(obj.tel_no);
-    $("#editAddress").val(obj.address);
 }
 
   function deleteCustomer(event){
@@ -16,6 +15,7 @@ function editCustomer(event){
     console.log(customer);
     var obj = JSON.parse(customer);
     $("#deleteCustomerID").val(obj.id);
+    $("#deleteCustomerCode").text(obj.customer_code);
     $("#deleteCustomerName").text(obj.customer_name);
 }
 $(document).on(

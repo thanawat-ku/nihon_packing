@@ -46,8 +46,7 @@ final class CustomerRepository
             [
                 'id',
                 'customer_name',
-                'tel_no',
-                'address',
+                'customer_code',
             ]
         );
 
