@@ -32,7 +32,7 @@
                     <tr>
                         
                         <td>{{ merge.merge_no}}</td>  <!-- Focus that!!!!!!!! -->
-                        <td>{{ merge.product_code }}</td>  <!-- Focus that!!!!!!!! -->
+                        <td>{{ merge.part_code }}</td>  <!-- Focus that!!!!!!!! -->
                         {# <td>{{ merge.label_type }}</td> #}
                         <td>{{ merge.merge_status }}</td>
                         <td>{{ merge.std_pack }}</td>
@@ -77,7 +77,7 @@
             <label for="email">Product</label>
             <select class="form-control"  id="addProductID" name="product_id">
             {% for p in products %}
-              <option value={{ p.id }}>({{p.product_code}}) {{ p.product_name}} </option>
+              <option value={{ p.id }}>({{p.part_code}}) {{ p.part_name}} </option>
             {% endfor %}
             </select>
           </div>           

@@ -27,8 +27,8 @@ final class SelectProductToMergeRepository
             [
                 'products.id',
                 // 'product_id',
-                'product_code',
-                'product_name',
+                'part_code',
+                'part_name',
                 // 'price',
                 'std_pack',
                 'std_box',

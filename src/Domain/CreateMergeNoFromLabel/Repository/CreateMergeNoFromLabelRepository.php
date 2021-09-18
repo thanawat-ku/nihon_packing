@@ -66,8 +66,8 @@ final class CreateMergeNoFromLabelRepository
                 'labels.status',
                 // 'lot_no',
                 'std_pack',
-                // 'product_name',
-                'product_code',
+                // 'part_name',
+                'part_code',
             ]
         ); 
 

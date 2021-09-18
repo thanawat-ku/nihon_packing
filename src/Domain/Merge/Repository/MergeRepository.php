@@ -47,8 +47,8 @@ final class MergeRepository
                 
                 'merge_no',
                 'product_id',
-                'product_code',
-                'product_name',
+                'part_code',
+                'part_name',
                 'merge_status',
                 'std_pack',
                 // 'quantity',

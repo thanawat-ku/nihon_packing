@@ -68,7 +68,7 @@
             <label for="email">Product</label>
             <select class="form-control"  id="addProductID" name="product_id">
             {% for p in products %}
-              <option value={{ p.id }}>({{p.product_code}}) {{ p.product_name}} </option>
+              <option value={{ p.id }}>({{p.part_code}}) {{ p.part_name}} </option>
             {% endfor %}
             </select>
           </div>           

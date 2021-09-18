@@ -62,8 +62,8 @@ final class MergePackDetailRepository
                 
                 // 'label_no',
                 // 'quantity',
-                // 'product_name',
-                // 'product_code',
+                // 'part_name',
+                // 'part_code',
             ]
         );
         

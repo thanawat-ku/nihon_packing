@@ -6,8 +6,8 @@ function editProduct(event){
     console.log(product);
     var obj = JSON.parse(product);
     $("#editProductID").val(obj.id);
-    $("#editProduct_code").val(obj.product_code);
-    $("#editProduct_name").val(obj.product_name);
+    $("#editProduct_code").val(obj.part_code);
+    $("#editProduct_name").val(obj.part_name);
     $("#editPrice").val(obj.price);
     $("#editStdPack").val(obj.std_pack);
     $("#editStdBox").val(obj.std_box);
@@ -18,8 +18,8 @@ function editProduct(event){
     console.log(product);
     var obj = JSON.parse(product);
     $("#deleteProductID").val(obj.id);
-    $("#deleteProductCode").text(obj.product_code);
-    $("#deleteProductName").text(obj.product_name);
+    $("#deleteProductCode").text(obj.part_code);
+    $("#deleteProductName").text(obj.part_name);
 }
 
 $(document).on(

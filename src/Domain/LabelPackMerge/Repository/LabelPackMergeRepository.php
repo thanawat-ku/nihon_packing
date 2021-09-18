@@ -57,8 +57,8 @@ final class LabelPackMergeRepository
                 'label_type',
                 'labels.quantity',
                 'labels.status',
-                'product_code',
-                'product_name'
+                'part_code',
+                'part_name'
               
             ]
         );

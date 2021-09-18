@@ -73,11 +73,11 @@ final class ProductUpdater
     {
         $result = [];
 
-        if (isset($data['product_code'])) {
-            $result['product_code'] = (string)$data['product_code'];
+        if (isset($data['part_code'])) {
+            $result['part_code'] = (string)$data['part_code'];
         }
-        if (isset($data['product_name'])) {
-            $result['product_name'] = (string)$data['product_name'];
+        if (isset($data['part_name'])) {
+            $result['part_name'] = (string)$data['part_name'];
         }
         if (isset($data['price'])) {
             $result['price'] = (string)$data['price'];

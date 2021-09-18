@@ -39,7 +39,7 @@ final class MergePackAddAction
         $product_id=$params["product_id"];
         $merge_status=$params["merge_status"];
         
-        //ทำการสร้าง merge_no ขึ้นมาก่อน เเต่ merge_no ที่สร้างขึ้นมาใหม่นั้นนังไม่สามารถดึง product_code มาได้
+        //ทำการสร้าง merge_no ขึ้นมาก่อน เเต่ merge_no ที่สร้างขึ้นมาใหม่นั้นนังไม่สามารถดึง part_code มาได้
         //หลังจากที่สร้างเสร็จแล้จึง update merge_no
         $rtdata['merge_packs']=$this->finder->findMergePacks($params); //ดึงข้อมูลมาจากฐานข้อมูล
 
@@ -57,11 +57,11 @@ final class MergePackAddAction
 
         $this->updater->insertMergePackApi($data1, $user_id);
 
-        // //หลังจากสร้าง merge_no เสร็จ เเล้วก็ update merge_no ที่ได้ product_code เข้าไปอยู่ใน merge_no ที่สร้างขึ้น
+        // //หลังจากสร้าง merge_no เสร็จ เเล้วก็ update merge_no ที่ได้ part_code เข้าไปอยู่ใน merge_no ที่สร้างขึ้น
         // $rtdata['merge_packs']=$this->finder->findMergePacks($params);
 
-        // $product_code = $rtdata["merge_packs"][$araynumfu]['product_code'];//update merge_no
-        // $data1['merge_no']= "M".$product_code.str_pad($mergeID, 5, "0", STR_PAD_LEFT);
+        // $part_code = $rtdata["merge_packs"][$araynumfu]['part_code'];//update merge_no
+        // $data1['merge_no']= "M".$part_code.str_pad($mergeID, 5, "0", STR_PAD_LEFT);
         
         // $this->updater->updateMergePackApi($mergeID, $data1, $user_id);
        

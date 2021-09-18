@@ -32,7 +32,7 @@
                     {% for lot in lots %}                    
                     <tr>
                         <td>{{ lot.lot_no }}</td>
-                        <td>{{ '(' ~ lot.product_code ~ ') ' ~ lot.product_name}}</td>
+                        <td>{{ '(' ~ lot.part_code ~ ') ' ~ lot.part_name}}</td>
                         <td>{{ lot.quantity }}</td>
                         <td>{{ lot.std_pack }}</td>
                         <td>{{ lot.std_box }}</td>
@@ -77,7 +77,7 @@
             <label for="email">Lot</label>
             <select class="form-control"  id="addLotID" name="product_id">
             {% for p in products %}
-              <option value={{ p.id }}>({{p.product_code}}) {{ p.product_name}} </option>
+              <option value={{ p.id }}>({{p.part_code}}) {{ p.part_name}} </option>
             {% endfor %}
             </select>
           </div>           
@@ -115,7 +115,7 @@
             <label for="email">Product</label>
             <select class="form-control"  id="editProductID" name="product_id">
             {% for p in products %}
-              <option value={{ p.id }}>({{p.product_code}}) {{ p.product_name}} </option>
+              <option value={{ p.id }}>({{p.part_code}}) {{ p.part_name}} </option>
             {% endfor %}
             </select>
           </div>           

@@ -26,8 +26,8 @@ final class ProductRepository
         $query->select(
             [
                 'products.id',
-                'product_code',
-                'product_name',
+                'part_code',
+                'part_name',
                 'price',
                 'std_pack',
                 'std_box',

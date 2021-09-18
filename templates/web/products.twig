@@ -30,8 +30,8 @@
                     <tbody>
                     {% for product in products %}                    
                     <tr>
-                        <td>{{ product.product_code }}</td>
-                        <td>{{ product.product_name }}</td>
+                        <td>{{ product.part_code }}</td>
+                        <td>{{ product.part_name }}</td>
                         <td>{{ product.price }}</td>
                         <td>{{ product.std_pack }}</td>
                         <td>{{ product.std_box }}</td>
@@ -62,11 +62,11 @@
         <div class="modal-body">          
           <div class="form-product">
             <label for="AddCode">Code</label>
-            <input type="text" autocomplete="off" class="form-control" id="addProduct_code" name="product_code" required>
+            <input type="text" autocomplete="off" class="form-control" id="addProduct_code" name="part_code" required>
           </div>          
           <div class="form-product">
             <label for="addName">Name</label>
-            <input type="text" autocomplete="off" class="form-control" id="addProduct_name" name="product_name" required>
+            <input type="text" autocomplete="off" class="form-control" id="addProduct_name" name="part_name" required>
           </div>
           <div class="form-product">
             <label for="addPrice">Price</label>
@@ -105,11 +105,11 @@
           <div class="form-product">
             <input type="hidden" id="editProductID" name="id">
             <label for="AddCode">Code</label>
-            <input type="text" autocomplete="off" class="form-control" id="editProduct_code" name="product_code" required>
+            <input type="text" autocomplete="off" class="form-control" id="editProduct_code" name="part_code" required>
           </div>          
           <div class="form-product">
             <label for="editName">Name</label>
-            <input type="text" autocomplete="off" class="form-control" id="editProduct_name" name="product_name" required>
+            <input type="text" autocomplete="off" class="form-control" id="editProduct_name" name="part_name" required>
           </div>
           <div class="form-product">
             <label for="editPrice">Price</label>
