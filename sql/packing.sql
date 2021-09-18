@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Sep 18, 2021 at 06:47 AM
+-- Generation Time: Sep 18, 2021 at 07:20 AM
 -- Server version: 8.0.18
 -- PHP Version: 7.4.0
 
@@ -4703,7 +4703,7 @@ CREATE TABLE IF NOT EXISTS `scraps` (
   `updated_at` datetime NOT NULL,
   `updated_user_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -4724,7 +4724,7 @@ CREATE TABLE IF NOT EXISTS `scrap_details` (
   `updated_at` datetime NOT NULL,
   `updated_user_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -4742,7 +4742,7 @@ CREATE TABLE IF NOT EXISTS `sections` (
   `updated_at` datetime NOT NULL,
   `updated_user_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
