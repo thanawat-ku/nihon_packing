@@ -7,8 +7,6 @@ use App\Domain\Product\Service\ProductFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Slim\Views\Twig;
-use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * Action.
@@ -22,14 +20,12 @@ final class GetQtyMpLabelAction
     private $finder;
     private $updater;
 
-    public function __construct(Twig $twig,LabelPackMergeFinder $finder,ProductFinder $productFinder, 
-    Session $session,Responder $responder)
+    public function __construct(LabelPackMergeFinder $finder,ProductFinder $productFinder, 
+    Responder $responder)
     {
-        $this->twig = $twig;
         $this->finder=$finder;
         // $this->updater=$updater;
         $this->productFinder=$productFinder;
-        $this->session=$session;
         $this->responder = $responder;
     }
 

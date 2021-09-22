@@ -87,9 +87,6 @@ return function (App $app) {
 
     $app->get('/api/label_nonfullys', \App\Action\Api\LabelNonfullyAction::class);
     $app->post('/api/update_label_non_to_merge', \App\Action\Api\UpdateLabelNonToMergeAction::class);
-
-    // merge label
-    $app->get('/api/select_product_to_merges', \App\Action\Api\SelectProductToMergeAction::class);
     
     $app->get('/api/label_pack_merges', \App\Action\Api\LabelPackMergeAction::class);
     $app->get('/api/check_labels', \App\Action\Api\CheckLabelAction::class);
@@ -110,5 +107,8 @@ return function (App $app) {
     $app->post('/api/delete_merge_pack_detail', \App\Action\Api\MergePackDetailDeleteAction::class);
     $app->post('/api/get_qty_scan', \App\Action\Api\GetQtyScanAction::class);
     $app->post('/api/end_lot', \App\Action\Api\EndLotAction::class);
+
+
+    $app->get('binary_search', \App\Action\Api\Binary_search::class);
     
 };

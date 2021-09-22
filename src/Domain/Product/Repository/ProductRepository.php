@@ -43,6 +43,7 @@ final class ProductRepository
     public function findProducts(array $params): array
     {
         $query = $this->queryFactory->newSelect('products');
+        
         $query->select(
             [
                 'id',
