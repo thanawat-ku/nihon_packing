@@ -18,14 +18,14 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav bg-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+        <ul class="navbar-nav bg-warning sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="./">
                 <div class="sidebar-brand-icon">
-                    <i class="fas fa-store"></i>
+                    <i class="fas fa-store text-dark"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">Nihon Packing</div>
+                <div class="sidebar-brand-text mx-3 text-dark">Nihon Packing</div>
             </a>
 
             <!-- Divider -->
@@ -34,8 +34,8 @@
             <li class="nav-item dropdown no-arrow">
                 <a class="nav-link" dropdown-toggle href="#" id="masterDropdown" role="button"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-fw fa-database"></i>
-                    <span>Master</span></a>
+                    <i class="fas fa-fw fa-database text-dark"></i>
+                    <span class="text-dark">Master</span></a>
                 <!-- Dropdown - Master Information -->
                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                     aria-labelledby="masterDropdown">
@@ -54,6 +54,27 @@
                         <a class="dropdown-item" href="labels">
                         <i class="fas fa-fw fa-newspaper"></i> Labels All</a>
                 </div>
+                <a class="dropdown-item" href="users">
+                    <i class="fas fa-fw fa-users text-dark"></i>
+                    <span class="text-dark">Users</span></a>
+                <a class="dropdown-item" href="customers">
+                    <i class="fas fa-fw fa-address-card text-dark"></i>
+                    <span class="text-dark">Customers</span></a>
+                <a class="dropdown-item" href="products">
+                    <i class="fas fa-fw fa-archive text-dark"></i>
+                    <span class="text-dark">Products</span></a>
+                <a class="dropdown-item" href="lots">
+                    <i class="fas fa-fw fa-dolly text-dark"></i>
+                    <span class="text-dark">Lots</span></a>
+                <a class="dropdown-item" href="splitLabels">
+                    <i class="fas fa-fw fa-object-ungroup text-dark"></i>
+                    <span class="text-dark">Split labels</span></a>
+                <a class="dropdown-item" href="merges">
+                    <i class="fas fa-fw fa-folder-plus text-dark"></i>
+                    <span class="text-dark">Merge Labels</span></a>
+                <a class="dropdown-item" href="labels">
+                    <i class="fas fa-fw fa-newspaper text-dark"></i>
+                    <span class="text-dark">Labels All</span></a>
             </li>
 
             <!-- Nav Item - Tools -->
@@ -81,15 +102,15 @@
             <div id="content">
 
                 <!-- Topbar -->
-                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                <nav class="navbar navbar-expand navbar-light bg-dark topbar mb-4 static-top shadow">
 
                     <!-- Sidebar Toggle (Topbar) -->
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                        <i class="fa fa-bars"></i>
+                        <i class="fa fa-bars "></i>
                     </button>
 
                     <!-- Topbar Navbar -->
-                    <ul class="navbar-nav ml-auto">
+                    <ul class="navbar-nav ml-auto ">
 
                         <!-- Nav Item - Search Dropdown (Visible Only XS) -->
                         <li class="nav-item dropdown no-arrow d-sm-none">
@@ -174,7 +195,7 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ user_login["username"] }}</span>
+                                <span class="mr-2 d-none d-lg-inline text-white-600 small">{{ user_login["username"] }}</span>
                                 <img class="img-profile rounded-circle"
                                     src="img/undraw_profile.svg">
                             </a>
@@ -211,8 +232,8 @@
 
             <!-- Footer -->
             <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
+                <div class="container my-auto ">
+                    <div class="copyright text-center my-auto ">
                         <span>Copyright &copy; Nihon Seiki Thai - 2021</span>
                     </div>
                 </div>
