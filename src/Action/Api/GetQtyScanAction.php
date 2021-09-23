@@ -81,7 +81,7 @@ final class GetQtyScanAction
         }else{
 
             for($i=0; $i<$countlb;$i++) {
-                if($label[$i]['merge_pack_id'] == $mrege_pack_id && $label[$i]['status'] == "MERGING"){
+                if($label[$i]['merge_pack_id'] == $mrege_pack_id && $label[$i]['status'] == "MERGING" && $label[$i]['label_type'] == "NONFULLY"){
                     $qty = $label[$i]['quantity'];
                     $sum_qty += $qty;   
                 }

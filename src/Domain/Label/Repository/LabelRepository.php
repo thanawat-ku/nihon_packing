@@ -139,4 +139,52 @@ final class LabelRepository
             
         return $query->execute()->fetchAll('assoc') ?: [];
     }
+
+    public function findLabelNonfullys(array $params): array
+    {
+        $query = $this->queryFactory->newSelect('labels');
+        $query->select(
+            [
+                'labels.id',
+                'label_no',
+                'product_id',
+                'label_type',
+                'labels.quantity',
+                'lot_id',
+                'labels.merge_pack_id',
+                'labels.status',
+                'part_code',
+                'part_name',
+                'std_pack',
+                'std_box',
+                'lot_no'
+                
+            ]
+        );
+        $query->join([
+            'l' => [
+                'table' => 'lots',
+                'type' => 'INNER',
+                'conditions' => 'l.id = labels.lot_id',
+            ]]);
+        $query->join([
+            'p' => [
+                'table' => 'products',
+                'type' => 'INNER',
+                'conditions' => 'p.id = l.product_id',
+            ]]);
+        $query->group([
+            'labels.id'
+            ]);
+         
+        // $query->andWhere(['product_id' => $params['product_id']]);
+        
+        $query->where(['labels.status !=' => 'CREATED']);
+
+        if(isset($params['product_id'])){
+            $query->andWhere(['product_id' => $params['product_id']]);
+        }
+        
+        return $query->execute()->fetchAll('assoc') ?: [];
+    }
 }
