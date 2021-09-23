@@ -75,7 +75,7 @@ final class GenSplitLabelBarcodeNoAction
         }
         else if($label_type=="MERGE_FULLY"||$label_type=="MERGE_NONFULLY"){
             $data1['merge_pack_id']=$merge_pack_id;
-            $data1['label_no']="X".str_pad( $i, 11, "0", STR_PAD_LEFT);
+            $data1['label_no']="X".str_pad( 1, 11, "0", STR_PAD_LEFT);
             $data1['label_type']="MERGE_NONFULLY";
             $data1['quantity']=$quantity1;
             $data1['status']="CREATED";
@@ -89,7 +89,7 @@ final class GenSplitLabelBarcodeNoAction
             array_push($labels,$label);
 
             $data1['merge_pack_id']=$merge_pack_id;
-            $data1['label_no']="X".str_pad( $i, 11, "0", STR_PAD_LEFT);
+            $data1['label_no']="X".str_pad( 2, 11, "0", STR_PAD_LEFT);
             $data1['label_type']="MERGE_NONFULLY";
             $data1['quantity']=$quantity2;
             $data1['status']="CREATED";
