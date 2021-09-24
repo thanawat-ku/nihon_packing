@@ -12,7 +12,7 @@ use Psr\Http\Message\ServerRequestInterface;
 /**
  * Action.
  */
-final class LabelSearchAction
+final class LabelFindForScanAction
 {
     /**
      * @var Responder
@@ -37,40 +37,26 @@ final class LabelSearchAction
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
 
-        $data = (array)$request->getParsedBody();
+        
+        $data = (array)$request->getQueryParams();
+        $labelNO['label_no'] = $data['label_no'];
 
-        $labelNO = $data['label_no'];
+        $findlabel = $this->finder->findLabels($labelNO);
 
-        $labels = $this->finder->findLabelNonfullys($data);
-
-
-        function search($labels, $labelNO)
-        {
-            $n = sizeof($labels);
-            for ($i = 0; $i < $n; $i++) {
-                if ($labels[$i]['label_no'] == $labelNO)
-                    return $i;
-            }
-            return -1;
-        }
-
-        $result = search($labels, $labelNO);
-
-        if ($result != -1) {
-            if ($result["status"] == "MERGING" || $result["status"] == "MERGED") {
-                $array_label = array("error");
-
-                $rtdata['error'] = true;
-                $rtdata['labels'] = $array_label;
-            } else {
+        if ($findlabel) {
+            if ($findlabel['status' == "CONFIRM"]) {
+                $rtdata['message'] = "find Label for scan Successful";
                 $rtdata['error'] = false;
-                $rtdata['labels'] = $result;
+                $rtdata['labels'] = $findlabel;
+            } else {
+                $rtdata['message'] = "find Label for scan fail becuse not CONFIRM";
+                $rtdata['error'] = true;
+                $rtdata['labels'] = "error";
             }
         } else {
-            $array_label = array("error");
-
+            $rtdata['message'] = "find Label for scan fail";
             $rtdata['error'] = true;
-            $rtdata['labels'] = $array_label;
+            $rtdata['labels'] = "error";
         }
 
         return $this->responder->withJson($response, $rtdata);
