@@ -179,7 +179,7 @@ final class LabelRepository
          
         // $query->andWhere(['product_id' => $params['product_id']]);
         
-        $query->where(['labels.status !=' => 'CREATED']);
+        // $query->where(['labels.status !=' => 'CREATED']);
 
         if(isset($params['product_id'])){
             $query->andWhere(['product_id' => $params['product_id']]);
