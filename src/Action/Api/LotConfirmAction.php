@@ -12,7 +12,7 @@ use Psr\Http\Message\ServerRequestInterface;
 /**
  * Action.
  */
-final class EndLotAction
+final class LotConfirmAction
 {
     /**
      * @var Responder
@@ -36,7 +36,8 @@ final class EndLotAction
         $params = (array)$request->getQueryParams();
         $user_id = $params["user_id"];
         $lotID = $params["lot_id"];
-        
+        $realQTY = $params["quantity"];
+ 
         $this->updater->updateLotApi($lotID,$params,$user_id);
         
         $rtdata['message']="Get EndLot Successful";

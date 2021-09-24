@@ -57,6 +57,8 @@ return function (App $app) {
     $app->get('/api/merges', \App\Action\Api\MergeAction::class);
 
     $app->get('/api/lots', \App\Action\Api\LotAction::class);
+    $app->post('/api/confirm_lot_check', \App\Action\Api\LotConfirmCheckAction::class);
+    $app->post('/api/confirm_lot', \App\Action\Api\LotConfirmAction::class);
 
     $app->get('/api/lot_defects', \App\Action\Api\LotDefectAction::class);
     $app->post('/api/add_lot_defect', \App\Action\Api\LotDefectAddAction::class);
@@ -107,7 +109,7 @@ return function (App $app) {
     $app->post('/api/get_qty_mp_labels', \App\Action\Api\GetQtyMpLabelAction::class);
     $app->post('/api/delete_merge_pack_detail', \App\Action\Api\MergePackDetailDeleteAction::class);
     $app->post('/api/get_qty_scan', \App\Action\Api\GetQtyScanAction::class);
-    $app->post('/api/end_lot', \App\Action\Api\EndLotAction::class);
+    
 
 
     $app->get('binary_search', \App\Action\Api\Binary_search::class);
