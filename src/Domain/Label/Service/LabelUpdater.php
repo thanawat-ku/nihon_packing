@@ -40,6 +40,8 @@ final class LabelUpdater
         return $id;
     }
 
+    
+
     public function insertLabelerror(array $data, $user_id): int
     {
 
