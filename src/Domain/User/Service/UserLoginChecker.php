@@ -31,13 +31,13 @@ final class UserLoginChecker
      *
      * @return array The user data
      */
-    public function checkLogin(string $username,string $password)
+    public function checkLogin(string $username, string $password)
     {
         // Input validation
         // ...
 
         // Fetch data from the database
-        $userRow = $this->repository->checkLogin($username,$password);
+        $userRow = $this->repository->checkLogin($username, $password);
 
         // Optional: Add or invoke your complex business logic here
         // ...

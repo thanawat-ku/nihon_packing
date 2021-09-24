@@ -109,6 +109,6 @@ return function (App $app) {
     $app->post('/api/end_lot', \App\Action\Api\EndLotAction::class);
 
 
-    $app->get('binary_search', \App\Action\Api\Binary_search::class);
+    $app->post('/api/label_search', \App\Action\Api\LabelsearchAction::class);
     
 };

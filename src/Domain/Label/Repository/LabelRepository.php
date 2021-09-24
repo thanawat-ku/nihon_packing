@@ -187,4 +187,56 @@ final class LabelRepository
         
         return $query->execute()->fetchAll('assoc') ?: [];
     }
+
+    public function checkLabel(string $labelNO)
+    {
+        $query = $this->queryFactory->newSelect('labels');
+        $query->select(
+            [
+                'labels.id',
+                'label_no',
+                'product_id',
+                'label_type',
+                'labels.quantity',
+                'lot_id',
+                'labels.merge_pack_id',
+                'labels.status',
+                'part_code',
+                'part_name',
+                'std_pack',
+                'std_box',
+                'lot_no'
+                
+            ]
+        );
+        $query->join([
+            'l' => [
+                'table' => 'lots',
+                'type' => 'INNER',
+                'conditions' => 'l.id = labels.lot_id',
+            ]]);
+        $query->join([
+            'p' => [
+                'table' => 'products',
+                'type' => 'INNER',
+                'conditions' => 'p.id = l.product_id',
+            ]]);
+        $query->group([
+            'labels.id'
+            ]);
+
+        $query->andWhere(['label_no' => $labelNO]);
+
+        $row = $query->execute()->fetch('assoc');
+
+
+        if (!$row) {
+            //throw new DomainException(sprintf('User not found: %s', $username));
+            return null;
+        }
+        else{
+            return $row;
+        }
+        return false;
+    }
 }
