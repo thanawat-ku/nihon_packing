@@ -136,8 +136,17 @@ final class LabelRepository
             if(isset($params['status'])){
                 $query->andWhere(['labels.status'=>$params['status']]);
             }
-            
-        return $query->execute()->fetchAll('assoc') ?: [];
+            if(isset($params['label_no'])){
+                $query->andWhere(['labels.label_no'=>$params['label_no']]);
+            }
+        $getdata = $query->execute()->fetchAll('assoc') ?: [];
+        if($getdata){
+            return  $getdata;
+        }
+        else{
+            return null;
+        }
+        
     }
 
     public function findLabelNonfullys(array $params): array
