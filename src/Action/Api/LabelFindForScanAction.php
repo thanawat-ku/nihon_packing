@@ -44,7 +44,8 @@ final class LabelFindForScanAction
         $findlabel = $this->finder->findLabels($labelNO);
 
         if ($findlabel) {
-            if ($findlabel['status' == "CONFIRM"]) {
+            
+            if ($findlabel[0]['status']== "CREATED") {
                 $rtdata['message'] = "find Label for scan Successful";
                 $rtdata['error'] = false;
                 $rtdata['labels'] = $findlabel;

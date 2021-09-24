@@ -54,7 +54,7 @@ final class LabelUpdater
 
         return $id;
     }
-    
+
     public function insertLabelApi(array $data, $user_id): int //สร้าง labels จาก splitlabel
     {
 
@@ -68,16 +68,16 @@ final class LabelUpdater
         return $id;
     }
 
-    public function updateLabelApi(int $labelID, array $data, $user_id): void
+    public function registerLabelApi(int $lot_id, array $data, $user_id): void
     {
         // Input validation
-        $this->validator->validateLabelUpdate($labelID, $data);
+        $this->validator->validateLabelUpdate($lot_id, $data);
 
         //     // Map form data to row
         $storeRow = $this->mapToLabelRow($data);
 
         // Insert store
-        $this->repository->updateLabelApi($labelID, $storeRow, $user_id);
+        $this->repository->registerLabelApi($lot_id, $storeRow, $user_id);
     }
     public function updateLabel(int $labelID, array $data): void
     {
