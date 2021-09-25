@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Merge_detail\Repository;
+namespace App\Domain\MergeDetail\Repository;
 
 use App\Factory\QueryFactory;
 use DomainException;

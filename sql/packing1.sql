@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.0
+-- version 5.0.4
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 24, 2021 at 06:43 PM
--- Server version: 10.4.19-MariaDB
--- PHP Version: 8.0.6
+-- Generation Time: Sep 25, 2021 at 08:43 AM
+-- Server version: 10.4.17-MariaDB
+-- PHP Version: 8.0.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -367,21 +367,39 @@ CREATE TABLE `labels` (
   `updated_at` datetime DEFAULT NULL,
   `updated_user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-<<<<<<< HEAD
 
 --
 -- Dumping data for table `labels`
 --
 
 INSERT INTO `labels` (`id`, `lot_id`, `merge_pack_id`, `split_label_id`, `label_no`, `label_type`, `quantity`, `status`, `created_at`, `created_user_id`, `updated_at`, `updated_user_id`) VALUES
-(277, 21, 0, 0, 'TestV.1000', 'FULLY', 1, 'PACKED', '2021-09-24 22:48:18', 1, '2021-09-24 23:38:13', 1),
-(278, 21, 0, 0, 'TestV.1001', 'FULLY', 1, 'PACKED', '2021-09-24 22:48:18', 1, '2021-09-24 23:38:13', 1),
-(279, 21, 0, 0, 'TestV.1002', 'FULLY', 1, 'PACKED', '2021-09-24 22:48:18', 1, '2021-09-24 23:38:13', 1),
-(280, 21, 0, 0, 'TestV.1003', 'FULLY', 1, 'PACKED', '2021-09-24 22:48:18', 1, '2021-09-24 23:38:13', 1),
-(281, 21, 0, 0, 'TestV.1004', 'FULLY', 1, 'PACKED', '2021-09-24 22:48:18', 1, '2021-09-24 23:38:13', 1),
-(282, 21, 0, 0, 'TestV.1005', 'NONFULLY', 0, 'PACKED', '2021-09-24 22:48:18', 1, '2021-09-24 23:38:13', 1);
-=======
->>>>>>> main
+(224, 15, 0, 27, 'test_v001000', 'FULLY', 10, 'VOID', '2021-09-08 17:59:22', 1, '2021-09-08 18:45:38', 1),
+(225, 15, 139, 0, 'test_v001001', 'FULLY', 0, 'MERGING', '2021-09-08 17:59:22', 1, '2021-09-21 23:17:01', 1),
+(226, 15, 139, 0, 'test_v001002', 'FULLY', 10, 'MERGING', '2021-09-08 17:59:22', 1, '2021-09-21 22:46:31', 1),
+(227, 15, 143, 0, 'test_v001003', 'NONFULLY', 8, 'MERGING', '2021-09-08 17:59:22', 1, '2021-09-23 00:22:26', 1),
+(234, 18, 139, 0, 'TPR01v2000', 'FULLY', 10, 'MERGING', '2021-09-08 18:36:12', 1, '2021-09-21 23:10:12', 1),
+(235, 18, 0, 0, 'TPR01v2001', 'FULLY', 10, 'PACKED', '2021-09-08 18:36:12', 1, '2021-09-21 22:40:54', 1),
+(236, 18, 0, 0, 'TPR01v2002', 'FULLY', 0, 'PACKED', '2021-09-08 18:36:12', 1, '2021-09-21 22:09:29', 1),
+(237, 18, 0, 0, 'TPR01v2003', 'NONFULLY', 2, 'CREATED', '2021-09-08 18:36:12', 1, '2021-09-23 17:56:27', 1),
+(238, 15, 147, 27, 'LBSP2242700', 'NONFULLY', 5, 'MERGED', '2021-09-08 18:45:39', 1, '2021-09-23 17:56:27', 1),
+(239, 15, 0, 27, 'LBSP2242701', 'NONFULLY', 3, 'PACKED', '2021-09-08 18:45:39', 1, '2021-09-08 19:22:27', 1),
+(246, 0, 137, 0, '137CHJ833300000', 'MERGE_FULLY', 1, 'CREATED', '2021-09-21 16:56:02', 1, '2021-09-22 20:41:00', 1),
+(247, 0, 137, 0, '137CHJ833300001', 'MERGE_FULLY', 1, 'PACKED', '2021-09-21 16:56:02', 1, '2021-09-22 20:29:54', 1),
+(248, 0, 137, 0, '137CHJ833300002', 'MERGE_FULLY', 1, 'PACKED', '2021-09-21 16:56:02', 1, '2021-09-22 19:49:57', 1),
+(249, 0, 137, 0, '137CHJ833300003', 'MERGE_FULLY', 1, 'CREATED', '2021-09-21 16:56:02', 1, '2021-09-22 19:50:16', 1),
+(250, 0, 137, 0, '137CHJ833300004', 'MERGE_FULLY', 1, 'PACKED', '2021-09-21 16:56:02', 1, '2021-09-22 19:59:01', 1),
+(251, 0, 137, 0, '137CHJ833300005', 'MERGE_FULLY', 1, 'PACKED', '2021-09-21 16:56:02', 1, '2021-09-21 16:56:02', 1),
+(252, 0, 137, 0, '137CHJ833300006', 'MERGE_FULLY', 1, 'PACKED', '2021-09-21 16:56:02', 1, '2021-09-21 16:56:02', 1),
+(253, 0, 137, 0, '137CHJ833300007', 'MERGE_FULLY', 1, 'PACKED', '2021-09-21 16:56:02', 1, '2021-09-22 19:59:15', 1),
+(254, 0, 137, 0, '137CHJ833300008', 'MERGE_FULLY', 1, 'PACKED', '2021-09-21 16:56:02', 1, '2021-09-22 19:59:27', 1),
+(255, 0, 137, 0, '137CHJ833300009', 'MERGE_FULLY', 1, 'PACKED', '2021-09-21 16:56:02', 1, '2021-09-21 16:56:02', 1),
+(256, 0, 147, 0, '147CHJ833300000', 'MERGE_FULLY', 1, 'PACKED', '2021-09-23 17:56:27', 1, '2021-09-23 17:59:44', 1),
+(257, 0, 147, 0, '147CHJ833300001', 'MERGE_FULLY', 1, 'PACKED', '2021-09-23 17:56:27', 1, '2021-09-23 18:00:04', 1),
+(258, 0, 147, 0, '147CHJ833300002', 'MERGE_FULLY', 1, 'PACKED', '2021-09-23 17:56:27', 1, '2021-09-23 18:00:18', 1),
+(259, 0, 147, 0, '147CHJ833300003', 'MERGE_FULLY', 1, 'PACKED', '2021-09-23 17:56:27', 1, '2021-09-23 18:00:26', 1),
+(260, 0, 147, 0, '147CHJ833300004', 'MERGE_FULLY', 1, 'PACKED', '2021-09-23 17:56:27', 1, '2021-09-23 18:00:37', 1),
+(261, 0, 147, 0, '147CHJ833300005', 'MERGE_FULLY', 1, 'PACKED', '2021-09-23 17:56:27', 1, '2021-09-23 18:00:59', 1),
+(262, 0, 147, 0, '147CHJ833300006', 'MERGE_FULLY', 1, 'PACKED', '2021-09-23 17:56:27', 1, '2021-09-23 18:01:10', 1);
 
 -- --------------------------------------------------------
 
@@ -395,7 +413,6 @@ CREATE TABLE `lots` (
   `generate_lot_no` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `product_id` int(11) NOT NULL,
   `quantity` int(11) NOT NULL,
-  `real_qty` int(11) NOT NULL,
   `printed_user_id` int(11) DEFAULT NULL,
   `packed_user_id` int(11) NOT NULL,
   `status` enum('CREATED','PRINTED','PACKING','PACKED') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'CREATED',
@@ -404,16 +421,14 @@ CREATE TABLE `lots` (
   `updated_at` datetime DEFAULT NULL,
   `updated_user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-<<<<<<< HEAD
 
 --
 -- Dumping data for table `lots`
 --
 
 INSERT INTO `lots` (`id`, `lot_no`, `generate_lot_no`, `product_id`, `quantity`, `printed_user_id`, `packed_user_id`, `status`, `created_at`, `created_user_id`, `updated_at`, `updated_user_id`) VALUES
-(21, 'TestV.1', NULL, 96, 5, 1, 1, 'PACKED', '2021-09-24 22:48:15', 1, '2021-09-24 23:38:16', 1);
-=======
->>>>>>> main
+(15, 'test_v001', NULL, 1, 28, 1, 1, 'PACKED', '2021-09-08 17:58:05', 1, '2021-09-08 18:13:29', 1),
+(18, 'TPR01v2', NULL, 1, 22, 1, 1, 'PACKED', '2021-09-08 18:36:03', 1, '2021-09-08 18:38:26', 1);
 
 -- --------------------------------------------------------
 
@@ -431,7 +446,6 @@ CREATE TABLE `lot_defects` (
   `updated_at` datetime NOT NULL,
   `updated_user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-<<<<<<< HEAD
 
 --
 -- Dumping data for table `lot_defects`
@@ -471,8 +485,6 @@ INSERT INTO `lot_defects` (`id`, `lot_id`, `defect_id`, `quantity`, `created_at`
 (31, 6, 1, 3, '2021-08-13 22:51:33', 1, '2021-08-13 22:51:33', 1),
 (32, 0, 0, 0, '2021-08-13 22:55:22', 1, '2021-08-13 22:55:22', 1),
 (33, 2, 1, 3, '2021-08-13 23:08:49', 1, '2021-08-13 23:08:49', 1);
-=======
->>>>>>> main
 
 -- --------------------------------------------------------
 
@@ -491,6 +503,23 @@ CREATE TABLE `merge_packs` (
   `updated_user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `merge_packs`
+--
+
+INSERT INTO `merge_packs` (`id`, `merge_no`, `product_id`, `merge_status`, `created_at`, `created_user_id`, `updated_at`, `updated_user_id`) VALUES
+(137, 'MP0000000001', 1, 'REGISTERING', '2021-09-21 13:39:52', 1, '2021-09-24 10:46:25', 1),
+(138, 'MP0000000138', 2, 'CREATED', '2021-09-21 16:13:15', 1, '2021-09-21 16:13:15', 1),
+(139, 'MP0000000139', 1, 'MERGING', '2021-09-21 16:44:11', 1, '2021-09-23 00:16:27', 1),
+(140, 'MP0000000140', 1, 'CREATED', '2021-09-22 16:47:55', 1, '2021-09-22 16:47:55', 1),
+(141, 'MP0000000141', 54, 'CREATED', '2021-09-22 16:50:30', 1, '2021-09-22 16:50:30', 1),
+(142, 'MP0000000142', 17, 'CREATED', '2021-09-22 17:12:30', 1, '2021-09-22 17:12:30', 1),
+(143, 'MP0000000143', 1, 'MERGING', '2021-09-23 00:18:48', 1, '2021-09-23 00:22:28', 1),
+(144, 'MP0000000144', 1, 'CREATED', '2021-09-23 17:22:35', 1, '2021-09-23 17:22:35', 1),
+(145, 'MP0000000145', 1, 'MERGING', '2021-09-23 17:25:25', 1, '2021-09-23 17:27:52', 1),
+(146, 'MP0000000146', 1, 'CREATED', '2021-09-23 17:35:06', 1, '2021-09-23 17:35:06', 1),
+(147, 'MP0000000147', 1, 'COMPLETE', '2021-09-23 17:37:03', 1, '2021-09-23 18:01:11', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -505,8 +534,16 @@ CREATE TABLE `merge_pack_details` (
   `created_user_id` int(11) NOT NULL,
   `updated_at` datetime DEFAULT NULL,
   `updated_user_id` int(11) NOT NULL
-<<<<<<< HEAD
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `merge_pack_details`
+--
+
+INSERT INTO `merge_pack_details` (`id`, `merge_pack_id`, `label_id`, `created_at`, `created_user_id`, `updated_at`, `updated_user_id`) VALUES
+(107, 143, 227, '2021-09-23 00:22:26', 1, '2021-09-23 00:22:26', 1),
+(109, 147, 237, '2021-09-23 17:37:03', 1, '2021-09-23 17:37:03', 1),
+(111, 147, 238, '2021-09-23 17:45:04', 1, '2021-09-23 17:45:04', 1);
 
 -- --------------------------------------------------------
 
@@ -532,8 +569,6 @@ CREATE TABLE `po_details` (
   `po_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `quantity` int(11) NOT NULL
-=======
->>>>>>> main
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -4727,80 +4762,6 @@ CREATE TABLE `sections` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `sells`
---
-
-<<<<<<< HEAD
-CREATE TABLE `split_labels` (
-  `id` int(11) NOT NULL,
-  `split_label_no` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `label_id` int(11) NOT NULL,
-  `status` enum('CREATED','PRINTED','PACKING','PACKED') COLLATE utf8mb4_unicode_ci NOT NULL,
-=======
-CREATE TABLE `sells` (
-  `id` int(11) NOT NULL,
-  `sell_no` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `sell_date` date NOT NULL,
-  `product_id` int(11) NOT NULL,
-  `total_qty` int(11) NOT NULL,
-  `sell_status` enum('CREATED','SELECTPO','SELECTLABEL','TAGGED','INVOICED') COLLATE utf8mb4_unicode_ci NOT NULL,
->>>>>>> main
-  `created_at` datetime NOT NULL,
-  `created_user_id` int(11) NOT NULL,
-  `updated_at` datetime NOT NULL,
-  `updated_user_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-<<<<<<< HEAD
-=======
-
--- --------------------------------------------------------
->>>>>>> main
-
---
--- Table structure for table `sell_labels`
---
-
-CREATE TABLE `sell_labels` (
-  `id` int(11) NOT NULL,
-  `sell_id` int(11) NOT NULL,
-  `label_id` int(11) NOT NULL,
-  `created_at` datetime NOT NULL,
-  `created_user_id` int(11) NOT NULL,
-  `updated_at` datetime NOT NULL,
-  `updated_user_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `sell_po_details`
---
-
-<<<<<<< HEAD
-CREATE TABLE `split_label_details` (
-  `id` int(11) NOT NULL,
-  `split_label_id` int(11) NOT NULL,
-  `label_id` int(11) NOT NULL,
-=======
-CREATE TABLE `sell_po_details` (
-  `id` int(11) NOT NULL,
-  `sell_id` int(11) NOT NULL,
-  `po_detail_id` int(11) NOT NULL,
-  `remain_qty` int(11) NOT NULL,
-  `sell_qty` int(11) NOT NULL,
->>>>>>> main
-  `created_at` datetime NOT NULL,
-  `created_user_id` int(11) NOT NULL,
-  `updated_at` datetime NOT NULL,
-  `updated_user_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-<<<<<<< HEAD
-=======
-
--- --------------------------------------------------------
->>>>>>> main
-
---
 -- Table structure for table `split_labels`
 --
 
@@ -4815,20 +4776,19 @@ CREATE TABLE `split_labels` (
   `updated_user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `split_labels`
+--
+
+INSERT INTO `split_labels` (`id`, `split_label_no`, `label_id`, `status`, `created_at`, `created_user_id`, `updated_at`, `updated_user_id`) VALUES
+(27, 'SP27LB224', 224, 'PACKED', '2021-09-08 18:45:38', 1, '2021-09-08 19:22:31', 1);
+
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `split_label_details`
 --
 
-<<<<<<< HEAD
-CREATE TABLE `tags` (
-  `id` int(11) NOT NULL,
-  `tag_no` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `po_detail_id` int(11) NOT NULL,
-  `quantity` int(11) NOT NULL,
-  `status` enum('CREATED','BOXED','SHIPPED','VOID') COLLATE utf8mb4_unicode_ci NOT NULL
-=======
 CREATE TABLE `split_label_details` (
   `id` int(11) NOT NULL,
   `split_label_id` int(11) NOT NULL,
@@ -4837,8 +4797,15 @@ CREATE TABLE `split_label_details` (
   `created_user_id` int(11) NOT NULL,
   `updated_at` datetime NOT NULL,
   `updated_user_id` int(11) NOT NULL
->>>>>>> main
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `split_label_details`
+--
+
+INSERT INTO `split_label_details` (`id`, `split_label_id`, `label_id`, `created_at`, `created_user_id`, `updated_at`, `updated_user_id`) VALUES
+(7, 27, 238, '2021-09-08 18:45:39', 1, '2021-09-08 18:45:39', 0),
+(8, 27, 239, '2021-09-08 18:45:39', 1, '2021-09-08 18:45:39', 0);
 
 -- --------------------------------------------------------
 
@@ -4846,23 +4813,24 @@ CREATE TABLE `split_label_details` (
 -- Table structure for table `tags`
 --
 
-<<<<<<< HEAD
+CREATE TABLE `tags` (
+  `id` int(11) NOT NULL,
+  `tag_no` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `po_detail_id` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `status` enum('CREATED','BOXED','SHIPPED','VOID') COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tag_labels`
+--
+
 CREATE TABLE `tag_labels` (
   `id` int(11) NOT NULL,
   `tag_id` int(11) NOT NULL,
   `label_id` int(11) NOT NULL
-=======
-CREATE TABLE `tags` (
-  `id` int(11) NOT NULL,
-  `tag_no` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `sell_id` int(11) NOT NULL,
-  `quantity` int(11) NOT NULL,
-  `status` enum('CREATED','BOXED','SHIPPED','VOID') COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` datetime NOT NULL,
-  `create_user_id` int(11) NOT NULL,
-  `updated_at` datetime NOT NULL,
-  `updated_user_id` int(11) NOT NULL
->>>>>>> main
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -4942,7 +4910,6 @@ ALTER TABLE `merge_pack_details`
   ADD PRIMARY KEY (`id`);
 
 --
-<<<<<<< HEAD
 -- Indexes for table `pos`
 --
 ALTER TABLE `pos`
@@ -4955,8 +4922,6 @@ ALTER TABLE `po_details`
   ADD PRIMARY KEY (`id`);
 
 --
-=======
->>>>>>> main
 -- Indexes for table `products`
 --
 ALTER TABLE `products`
@@ -4981,21 +4946,6 @@ ALTER TABLE `sections`
   ADD PRIMARY KEY (`id`);
 
 --
-<<<<<<< HEAD
-=======
--- Indexes for table `sell_labels`
---
-ALTER TABLE `sell_labels`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `sell_po_details`
---
-ALTER TABLE `sell_po_details`
-  ADD PRIMARY KEY (`id`);
-
---
->>>>>>> main
 -- Indexes for table `split_labels`
 --
 ALTER TABLE `split_labels`
@@ -5014,15 +4964,12 @@ ALTER TABLE `tags`
   ADD PRIMARY KEY (`id`);
 
 --
-<<<<<<< HEAD
 -- Indexes for table `tag_labels`
 --
 ALTER TABLE `tag_labels`
   ADD PRIMARY KEY (`id`);
 
 --
-=======
->>>>>>> main
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -5042,46 +4989,33 @@ ALTER TABLE `defects`
 -- AUTO_INCREMENT for table `labels`
 --
 ALTER TABLE `labels`
-<<<<<<< HEAD
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=283;
-=======
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
->>>>>>> main
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=263;
 
 --
 -- AUTO_INCREMENT for table `lots`
 --
 ALTER TABLE `lots`
-<<<<<<< HEAD
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
-=======
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
->>>>>>> main
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `lot_defects`
 --
 ALTER TABLE `lot_defects`
-<<<<<<< HEAD
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
-=======
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
->>>>>>> main
 
 --
 -- AUTO_INCREMENT for table `merge_packs`
 --
 ALTER TABLE `merge_packs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=137;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=148;
 
 --
 -- AUTO_INCREMENT for table `merge_pack_details`
 --
 ALTER TABLE `merge_pack_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=112;
 
 --
-<<<<<<< HEAD
 -- AUTO_INCREMENT for table `pos`
 --
 ALTER TABLE `pos`
@@ -5109,56 +5043,19 @@ ALTER TABLE `scrap_details`
 -- AUTO_INCREMENT for table `sections`
 --
 ALTER TABLE `sections`
-=======
--- AUTO_INCREMENT for table `scraps`
---
-ALTER TABLE `scraps`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `scrap_details`
---
-ALTER TABLE `scrap_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `sections`
---
-ALTER TABLE `sections`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `sell_labels`
---
-ALTER TABLE `sell_labels`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `sell_po_details`
---
-ALTER TABLE `sell_po_details`
->>>>>>> main
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `split_labels`
 --
 ALTER TABLE `split_labels`
-<<<<<<< HEAD
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
-=======
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
->>>>>>> main
 
 --
 -- AUTO_INCREMENT for table `split_label_details`
 --
 ALTER TABLE `split_label_details`
-<<<<<<< HEAD
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-=======
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
->>>>>>> main
 
 --
 -- AUTO_INCREMENT for table `tags`
@@ -5167,15 +5064,12 @@ ALTER TABLE `tags`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
-<<<<<<< HEAD
 -- AUTO_INCREMENT for table `tag_labels`
 --
 ALTER TABLE `tag_labels`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
-=======
->>>>>>> main
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`

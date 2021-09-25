@@ -41,7 +41,7 @@ final class LabelFindForScanAction
         $data = (array)$request->getQueryParams();
         $labelNO['label_no'] = $data['label_no'];
 
-        $findlabel = $this->finder->findLabels($labelNO);
+        $findlabel = $this->finder->findLabelsForScan($labelNO);
 
         if ($findlabel) {
             

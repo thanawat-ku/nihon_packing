@@ -78,7 +78,15 @@ return function (App $app) {
     $app->get('/api/labels', \App\Action\Api\LabelAction::class);
     $app->get('/api/find_labels_scan', \App\Action\Api\LabelFindForScanAction::class);
     $app->post('/api/register_label', \App\Action\Api\LabelRegisterAction::class);
-    $app->post('/api/create_label', \App\Action\Api\SplitLabelCreateLabelAction::class);
+    //$app->post('/api/create_label', \App\Action\Api\SplitLabelCreateLabelAction::class);
+    $app->post('/api/gen_labels', \App\Action\Api\GenLabelBarcodeNoAction::class);
+    $app->post('/api/gen_split_labels', \App\Action\Api\GenSplitLabelBarcodeNoAction::class);
+    $app->post('/api/gen_merge_labels', \App\Action\Api\GenMergeLabelBarcodeNoAction::class);
+
+    
+    $app->get('/api/tags', \App\Action\Api\TagAction::class);
+    $app->post('/api/register_tag', \App\Action\Api\TagRegisterAction::class);
+    $app->post('/api/gen_tags', \App\Action\Api\GenTagBarcodeNoAction::class);
 
     $app->get('/api/split_labels',  \App\Action\Api\SplitLabelAction::class);
     $app->post('/api/add_split_label', \App\Action\Api\SplitLabelAddAction::class);

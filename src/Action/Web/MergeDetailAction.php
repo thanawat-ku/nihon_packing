@@ -2,7 +2,7 @@
 
 namespace App\Action\Web;
 
-use App\Domain\Merge_detail\Service\MergeDetailFinder;
+use App\Domain\MergeDetail\Service\MergeDetailFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;

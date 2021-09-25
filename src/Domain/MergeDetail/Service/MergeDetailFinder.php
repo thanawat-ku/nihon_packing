@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Domain\Merge_detail\Service;
+namespace App\Domain\MergeDetail\Service;
 
-use App\Domain\Merge_detail\Repository\MergeDetailRepository;
+use App\Domain\MergeDetail\Repository\MergeDetailRepository;
 
 /**
  * Service.

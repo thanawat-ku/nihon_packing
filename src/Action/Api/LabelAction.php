@@ -35,8 +35,6 @@ final class LabelAction
         $rtdata['error']=false;
         $rtdata['labels']=$this->finder->findLabels($params);
 
-
-        
         return $this->responder->withJson($response, $rtdata);
     }
 }
