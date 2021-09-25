@@ -37,7 +37,7 @@ final class LotConfirmAction
         $user_id = $params["user_id"];
         $lotID = $params["lot_id"];
 
-        $this->updater->updateLotApi($lotID, $params, $user_id);
+        $this->updater->confirmLotApi($lotID, $params, $user_id);
 
         $rtdata['message'] = "Get EndLot Successful";
         $rtdata['error'] = false;

@@ -50,6 +50,18 @@ final class LotUpdater
         $this->repository->updateLotApi($lotId, $storeRow,$user_id);
     }
 
+    public function confirmLotApi(int $lotId, array $data, $user_id): void
+    {
+        // Input validation
+        $this->validator->validateLotUpdate($lotId, $data);
+
+        // Map form data to row
+        $storeRow = $this->mapToLotRow($data);
+
+        // Insert store
+        $this->repository->confirmLotApi($lotId, $storeRow,$user_id);
+    }
+
     public function updateLot(int $lotId, array $data): void
     {
         // Input validation

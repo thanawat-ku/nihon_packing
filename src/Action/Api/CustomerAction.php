@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Action\Web;
+namespace App\Action\Api;
 
 use App\Domain\Customer\Service\CustomerFinder;
+use App\Domain\Product\Service\ProductFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -14,28 +15,26 @@ use Symfony\Component\HttpFoundation\Session\Session;
  */
 final class CustomerAction
 {
+    /**
+     * @var Responder
+     */
     private $responder;
-    private $twig;
-    private $customerFinder;
-    private $session;
+    private $finder;
 
-    public function __construct(Twig $twig,CustomerFinder $customerFinder,Session $session,Responder $responder)
+    public function __construct(CustomerFinder $finder, Responder $responder)
     {
-        $this->twig = $twig;
-        $this->customerFinder=$customerFinder;
-        $this->session=$session;
+        $this->finder = $finder;
         $this->responder = $responder;
     }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $params = (array)$request->getQueryParams();
-        
-        $viewData = [
-            'customers' => $this->customerFinder->findCustomers($params),
-            'user_login' => $this->session->get('user'),
-        ];
-        
-        return $this->twig->render($response, 'web/customers.twig',$viewData);
+
+        $rtdata['message'] = "Get Customer Successful";
+        $rtdata['error'] = false;
+        $rtdata['customers'] = $this->finder->findCustomers($params);
+
+        return $this->responder->withJson($response, $rtdata);
     }
 }
