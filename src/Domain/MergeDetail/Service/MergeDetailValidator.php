@@ -1,8 +1,8 @@
 <?php  //dont finish!!!!
 
-namespace App\Domain\Merge_detail\Service;
+namespace App\Domain\MergeDetail\Service;
 
-use App\Domain\Merge_detail\Repository\MergeDetailRepository;
+use App\Domain\MergeDetail\Repository\MergeDetailRepository;
 use App\Factory\ValidationFactory;
 use Cake\Validation\Validator;
 use Selective\Validation\Exception\ValidationException;

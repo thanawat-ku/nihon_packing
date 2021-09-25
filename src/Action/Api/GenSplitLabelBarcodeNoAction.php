@@ -46,7 +46,7 @@ final class GenSplitLabelBarcodeNoAction
         $labels=[];
         if($label_type=="FULLY"||$label_type=="NONFULLY"){
             $data1['lot_id']=$lot_id;
-            $data1['label_no']="X".str_pad( $i, 11, "0", STR_PAD_LEFT);
+            $data1['label_no']="X".str_pad( 1, 11, "0", STR_PAD_LEFT);
             $data1['label_type']="NONFULLY";
             $data1['quantity']=$quantity1;
             $data1['status']="CREATED";
@@ -60,7 +60,7 @@ final class GenSplitLabelBarcodeNoAction
             array_push($labels,$label);
 
             $data1['lot_id']=$lot_id;
-            $data1['label_no']="X".str_pad( $i, 11, "0", STR_PAD_LEFT);
+            $data1['label_no']="X".str_pad( 2, 11, "0", STR_PAD_LEFT);
             $data1['label_type']="NONFULLY";
             $data1['quantity']=$quantity2;
             $data1['status']="CREATED";
