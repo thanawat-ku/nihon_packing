@@ -2,7 +2,7 @@
 
 namespace App\Action\Web;
 
-use App\Domain\Merge\Service\MergeFinder;
+use App\Domain\MergePack\Service\MergePackFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -27,7 +27,7 @@ final class MergeAction
      *
      * @param Responder $responder The responder
      */
-    public function __construct(Twig $twig,MergeFinder $mergeFinder,Session $session,Responder $responder)
+    public function __construct(Twig $twig,MergePackFinder $mergeFinder,Session $session,Responder $responder)
     {
         $this->twig = $twig;
         $this->mergeFinder=$mergeFinder;
@@ -48,7 +48,7 @@ final class MergeAction
         $params = (array)$request->getQueryParams();
         
         $viewData = [
-            'labels' => $this->mergeFinder->findMerges($params), //Focus that!!!!!!
+            'labels' => $this->mergeFinder->findMergePacks($params), //Focus that!!!!!!
             'user_login' => $this->session->get('user'),
         ];
         

@@ -2,11 +2,13 @@
 
 namespace App\Action\Api;
 
-use App\Domain\CreateMergeNoFromLabel\Service\CreateMergeNoFromLabelFinder;
+use App\Domain\MergePack\Service\MergePackFinder;
+use App\Domain\Label\Service\LabelFinder;
 use App\Domain\CreateMergeNoFromLabel\Service\CreateMergeNoFromLabelUpdater;
 use App\Domain\MergePackDetail\Service\MergePackDetailUpdater;
 use App\Domain\Product\Service\ProductFinder;
 use App\Responder\Responder;
+use PhpParser\Node\Stmt\Label;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Views\Twig;
@@ -24,15 +26,17 @@ final class AddMergeNoFromLabelAction
     private $finder;
     private $updater;
     private $updatermergepackdetail;
+    private $finLabel;
 
-    public function __construct(CreateMergeNoFromLabelFinder $finder,ProductFinder $productFinder, CreateMergeNoFromLabelUpdater $updater,
-    Responder $responder,  MergePackDetailUpdater $updatermergepackdetail)
+    public function __construct(MergePackFinder $finder,ProductFinder $productFinder, CreateMergeNoFromLabelUpdater $updater,
+    Responder $responder,  MergePackDetailUpdater $updatermergepackdetail,LabelFinder $finLabel )
     {
         $this->finder=$finder;
         $this->updater=$updater;
         $this->productFinder=$productFinder;
         $this->responder = $responder;
         $this->updatermergepackdetail=$updatermergepackdetail;
+        $this->finLabel = $finLabel;
     }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
@@ -43,7 +47,7 @@ final class AddMergeNoFromLabelAction
 
         $params["label_no"]=$label_no;
 
-        $rtdata['labels']=$this->finder->findCreateMergeNoFromLabels($params);
+        $rtdata['labels']=$this->finLabel->findCreateMergeNoFromLabels($params);
         $mpdata['merge_packs']=$this->finder->findMergePacks($params);
 
         $countlabel=count($rtdata["labels"]);

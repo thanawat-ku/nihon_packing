@@ -53,9 +53,6 @@ return function (App $app) {
 
     //---------------------------Api-------------------------------
 
-
-    $app->get('/api/merges', \App\Action\Api\MergeAction::class);
-
     $app->get('/api/lots', \App\Action\Api\LotAction::class);
 
     $app->get('/api/lot_defects', \App\Action\Api\LotDefectAction::class);
@@ -82,16 +79,11 @@ return function (App $app) {
     $app->post('/api/register_split_label', \App\Action\Api\SpliteLabelRegisterAction::class);
 
     $app->get('/api/merge_packs', \App\Action\Api\MergePackAction::class);
-    $app->post('/api/merge_label', \App\Action\Api\MergeLabelAction::class);
-    $app->get('/api/merge_pack_details', \App\Action\Api\MergePackDetailAction::class);
 
     $app->get('/api/label_nonfullys', \App\Action\Api\LabelNonfullyAction::class);
-    $app->post('/api/update_label_non_to_merge', \App\Action\Api\UpdateLabelNonToMergeAction::class);
     
     $app->get('/api/label_pack_merges', \App\Action\Api\LabelPackMergeAction::class);
-    $app->get('/api/check_labels', \App\Action\Api\CheckLabelAction::class);
     $app->get('/api/select_merge_pack_id', \App\Action\Api\SelectMergePackIDAction::class);
-    $app->get('/api/create_mn_from_lb', \App\Action\Api\CreateMergeNoFromLabelAction::class);
 
     $app->post('/api/add_merge_packs', \App\Action\Api\MergePackAddAction::class);
     $app->post('/api/up_status_merge_packs', \App\Action\Api\UpStatusMergePackAction::class);

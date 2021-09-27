@@ -2,7 +2,8 @@
 
 namespace App\Action\Api;
 
-use App\Domain\LabelNonfully\Service\LabelNonfullyFinder;
+use App\Domain\Label\Service\LabelFinder;
+use App\Domain\MergePack\Service\MergePackFinder;
 use App\Domain\Product\Service\ProductFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
@@ -20,13 +21,15 @@ final class GetQtyScanAction
      */
     private $responder;
     private $finder;
+    private $findermergepack;
     private $updater;
 
-    public function __construct(Twig $twig,LabelNonfullyFinder $finder,ProductFinder $productFinder, 
-    Session $session,Responder $responder)
+    public function __construct(Twig $twig,LabelFinder $finder,ProductFinder $productFinder, 
+    Session $session,Responder $responder, MergePackFinder $findermergepack)
     {
         $this->twig = $twig;
         $this->finder=$finder;
+        $this->findermergepack=$findermergepack;
         // $this->updater=$updater;
         $this->productFinder=$productFinder;
         $this->session=$session;
@@ -41,14 +44,14 @@ final class GetQtyScanAction
         $user_id = $data['user_id'];
 
         $label = $this->finder->findLabelNonfullys($data);
-        $mergepack = $this->finder->findMergePacks($data);
+        $mergepack = $this->findermergepack->findMergePacks($data);
         
         $countlb = count($label);
         $sum_qty = 0;
         $countmp = count($mergepack);
         $std_pack = 0;
 
-        $merge_pack_id = $this->finder->findMergePacks($data);
+        $merge_pack_id = $this->findermergepack->findMergePacks($data);
 
         if ($mrege_pack_id == 0) {
 

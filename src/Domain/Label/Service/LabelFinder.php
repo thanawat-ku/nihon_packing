@@ -25,27 +25,22 @@ final class LabelFinder
         return $this->repository->findLabelNonfullys($params);
     }
 
-    // public function checklabel(string $labelNO)
-    // {
-    //     $labelRow = $this->repository->checklabel($labelNOO);
-    //     return $labelRow;
-    // }
 
     public function checklabel(string $labelNO)
     {
-        // Input validation
-        // ...
-
-        // Fetch data from the database
         $userRow = $this->repository->checklabel($labelNO);
 
-        // Optional: Add or invoke your complex business logic here
-        // ...
-
-        // Optional: Map result
-        // ...
-
         return $userRow;
+    }
+
+    public function findCreateMergeNoFromLabels(array $params): array
+    {
+        return $this->repository->findCreateMergeNoFromLabels($params);
+    }
+
+    public function findLabelPackMerges(array $params): array
+    {
+        return $this->repository->findLabelPackMerges($params);
     }
 }
 
@@ -56,9 +51,4 @@ final class LabelPackMergeFinder
     {
         $this->repository = $repository;
     }
-
-    // public function findLabelPackMerges(array $params): array
-    // {
-    //     return $this->repository->findLabelPackMerges($params);
-    // }
 }

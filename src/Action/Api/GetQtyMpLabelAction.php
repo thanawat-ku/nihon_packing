@@ -2,7 +2,7 @@
 
 namespace App\Action\Api;
 
-use App\Domain\LabelPackMerge\Service\LabelPackMergeFinder;
+use App\Domain\MergePack\Service\MergePackFinder;
 use App\Domain\Product\Service\ProductFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
@@ -20,7 +20,7 @@ final class GetQtyMpLabelAction
     private $finder;
     private $updater;
 
-    public function __construct(LabelPackMergeFinder $finder,ProductFinder $productFinder, 
+    public function __construct(MergePackFinder $finder,ProductFinder $productFinder, 
     Responder $responder)
     {
         $this->finder=$finder;

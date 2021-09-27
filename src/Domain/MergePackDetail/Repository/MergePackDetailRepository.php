@@ -50,54 +50,44 @@ final class MergePackDetailRepository
 
     public function findMergePackDetails(array $params): array
     {
-        $query = $this->queryFactory->newSelect('merge_pack_details');
+        $query = $this->queryFactory->newSelect('merge_pack_details'); // focus that
         $query->select(
             [
                 'merge_pack_details.id',
-                // 'merge_pack.id',
                 'merge_pack_details.merge_pack_id',
-                // 'merge_no',
-                'label_id',
-                // 'label_type',
-                
-                // 'label_no',
-                // 'quantity',
-                // 'part_name',
-                // 'part_code',
+                'merge_no',
+                'lb.status',     
+                'label_no',  
+                'lot_no',
+                'lb.quantity'
             ]
         );
-        
-        // $query->join([
-        //     'mp' => [
-        //         'table' => 'merge_packs',
-        //         'type' => 'INNER',
-        //         'conditions' => 'mp.id = merge_pack_details.merge_pack_id',
-        //     ],
-        // ]);
 
-        // $query->join([
-        //     'lb' => [
-        //         'table' => 'labels',
-        //         'type' => 'INNER',
-        //         'conditions' => 'lb.id = merge_pack_details.label_id',
-        //     ]
-        // ]);
-        // $query->group([
-        // 'lb.id'
-        // ]
+        $query->join([
+            'mp' => [
+                'table' => 'merge_packs',
+                'type' => 'INNER',
+                'conditions' => 'mp.id = merge_pack_details.merge_pack_id',
+            ]]);
+        $query->join([      //focus that!!!!!!!!!!!!
+            'lb' => [
+                'table' => 'labels',  //table name
+                'type' => 'INNER',
+                'conditions' => 'lb.id = merge_pack_details.label_id',
+            ],
+        ]);
+        $query->join([      //focus that!!!!!!!!!!!!
+            'l' => [
+                'table' => 'lots',  //table name
+                'type' => 'INNER',
+                'conditions' => 'l.id = lb.lot_id',
+            ],
+        ]);
 
-        // );
-       
-        // $query->join([
-        //     'p' => [
-        //         'table' => 'products',
-        //         'type' => 'INNER',
-        //         'conditions' => 'p.id = mp.product_id',
-        //     ]
-        // ]);
+        $query->Where(['merge_pack_details.merge_pack_id' => $params["id"]]);
+
         return $query->execute()->fetchAll('assoc') ?: [];
     }
-
     public function findLabelNonfullys(array $params): array
     {
         $query = $this->queryFactory->newSelect('labels');

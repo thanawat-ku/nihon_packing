@@ -3,7 +3,7 @@
 namespace App\Action\Web;
 
 // use App\Domain\MergePack\Service\MergePackFinder;
-use App\Domain\MergePack\Service\ProductFinder;
+use App\Domain\Product\Service\ProductFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -28,7 +28,7 @@ final class MergePackAction
      *
      * @param Responder $responder The responder
      */
-    public function __construct(Twig $twig,ProductFinder $productFinder,Session $session,Responder $responder)
+    public function __construct(Twig $twig, ProductFinder $productFinder,Session $session,Responder $responder)
     {
         $this->twig = $twig;
         $this->productFinder=$productFinder;

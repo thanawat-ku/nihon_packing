@@ -27,4 +27,24 @@ final class MergePackFinder
     {
         return $this->repository->findMergePacks($params);
     }
+
+    public function findLabelPackMerges(array $params): array
+    {
+        return $this->repository->findLabelPackMerges($params);
+    }
+
+    // public function findMerges(array $params): array
+    // {
+    //     return $this->repository->findMerges($params);
+    // }
+
+    // public function findMergePacks(array $params): array
+    // {
+    //     return $this->repository->findMergePacks($params);
+    // }
+
+    // public function findCreateMergeNoFromLabels(array $params): array
+    // {
+    //     return $this->repository->findCreateMergeNoFromLabels($params);
+    // }
 }

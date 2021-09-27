@@ -239,4 +239,88 @@ final class LabelRepository
         }
         return false;
     }
+
+    public function findCreateMergeNoFromLabels(array $params): array
+    {
+        $query = $this->queryFactory->newSelect('labels');
+        $query->select(
+            [
+                'labels.id',
+                'lot_id',
+                'labels.merge_pack_id',
+                'label_no',
+                'l.product_id',
+                'label_type',
+                'labels.quantity',
+                'labels.status',
+                // 'lot_no',
+                'std_pack',
+                // 'part_name',
+                'part_code',
+            ]
+        ); 
+
+        $query->join([
+            'l' => [
+                'table' => 'lots',
+                'type' => 'INNER',
+                'conditions' => 'l.id = labels.lot_id',
+            ]]);
+        $query->join([
+            'p' => [
+                'table' => 'products',
+                'type' => 'INNER',
+                'conditions' => 'p.id = l.product_id',
+            ]]);
+        
+        return $query->execute()->fetchAll('assoc') ?: [];
+    }
+
+    public function findLabelPackMerges(array $params): array
+    {
+        $query = $this->queryFactory->newSelect('labels');
+        $query->select(
+            [
+                'labels.id',
+                'lot_id',
+                'merge_pack_id',
+                'label_no',
+                'label_type',
+                'labels.quantity',
+                'labels.status',
+                'part_code',
+                'part_name'
+              
+            ]
+        );
+       
+
+        $query->join([
+            'mp' => [
+                'table' => 'merge_packs',
+                'type' => 'INNER',
+                'conditions' => 'mp.id = labels.merge_pack_id',
+            ]]);
+
+        $query->join([
+            'p' => [
+                'table' => 'products',
+                'type' => 'INNER',
+                'conditions' => 'p.id = mp.product_id',
+            ]]);
+       
+        $query->where(
+            ['label_type !=' => "FULLY"]  
+        );
+
+        $query->group([
+            'labels.label_no'
+            ]);
+       
+        if(isset($params['merge_pack_id'])){
+            $query->andWhere(['merge_pack_id' => $params['merge_pack_id']]);
+        }
+        
+        return $query->execute()->fetchAll('assoc') ?: [];
+    }
 }
