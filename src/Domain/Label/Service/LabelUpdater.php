@@ -32,9 +32,9 @@ final class LabelUpdater
 
         $this->validator->validateLabelInsert($data);
 
-        $lotRow = $this->mapToLabelRow($data);
+        $labelRow = $this->mapToLabelRow($data);
 
-        $id = $this->repository->insertLabel($lotRow);
+        $id = $this->repository->insertLabel($labelRow);
 
 
         return $id;

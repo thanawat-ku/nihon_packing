@@ -87,11 +87,23 @@ final class LotUpdater
         if (isset($data['lot_no'])) {
             $result['lot_no'] = (string)$data['lot_no'];
         }
+        if (isset($data['generate_lot_no'])) {
+            $result['generate_lot_no'] = (string)$data['generate_lot_no'];
+        }
         if (isset($data['product_id'])) {
             $result['product_id'] = (string)$data['product_id'];
         }
         if (isset($data['quantity'])) {
             $result['quantity'] = (string)$data['quantity'];
+        }
+        if (isset($data['real_qty'])) {
+            $result['real_qty'] = (string)$data['real_qty'];
+        }
+        if (isset($data['printed_user_id'])) {
+            $result['printed_user_id'] = (string)$data['printed_user_id'];
+        }
+        if (isset($data['packed_user_id'])) {
+            $result['packed_user_id'] = (string)$data['packed_user_id'];
         }
         if (isset($data['status'])) {
             $result['status'] = (string)$data['status'];
