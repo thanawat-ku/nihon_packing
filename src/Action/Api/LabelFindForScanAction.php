@@ -37,15 +37,15 @@ final class LabelFindForScanAction
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
 
-        
+
         $data = (array)$request->getQueryParams();
         $labelNO['label_no'] = $data['label_no'];
-
+        $status =  $data['status'];
         $findlabel = $this->finder->findLabelsForScan($labelNO);
 
         if ($findlabel) {
-            
-            if ($findlabel[0]['status']== "CREATED") {
+
+            if ($findlabel[0]['status'] == $status) {
                 $rtdata['message'] = "find Label for scan Successful";
                 $rtdata['error'] = false;
                 $rtdata['labels'] = $findlabel;

@@ -21,7 +21,7 @@ final class SplitLabelAddAction
     private $responder;
     private $updater;
     private $finder;
-
+    private $updaterLabel;
     public function __construct(
         SplitLabelFinder $finder,
         Responder $responder,

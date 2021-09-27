@@ -120,7 +120,8 @@ final class LabelRepository
                 'labels.status',
                 'std_pack',
                 'std_box',
-                'labels.split_label_id'
+                'labels.split_label_id',
+                'real_qty',
             ]
         );
         $query->join([
@@ -201,6 +202,9 @@ final class LabelRepository
         //find label from splitLabel
         if (isset($params['split_label_id'])) {
             $query->andWhere(['split_label_id' => $params['split_label_id']]);
+        }
+        if (isset($params['status'])) {
+            $query->andWhere(['labels.status' => $params['status']]);
         }
         $getdata = $query->execute()->fetchAll('assoc') ?: [];
         if ($getdata) {
