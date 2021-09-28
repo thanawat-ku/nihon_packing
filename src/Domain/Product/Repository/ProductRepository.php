@@ -43,7 +43,7 @@ final class ProductRepository
     }
     
 
-    public function findProducts(array $params): array
+    public function findProduct(array $params): array
     {
         $query = $this->queryFactory->newSelect('products');
         
@@ -60,7 +60,7 @@ final class ProductRepository
         return $query->execute()->fetchAll('assoc') ?: [];
     }
 
-    public function findProduct(array $params): array
+    public function findProducts(array $params): array
     {
         $query = $this->queryFactory2->newSelect('product');
         
