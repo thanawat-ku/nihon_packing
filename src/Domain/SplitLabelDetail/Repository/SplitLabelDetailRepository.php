@@ -73,6 +73,7 @@ final class SplitLabelDetailRepository
                 'label_no',
                 'label_type',
                 'merge_pack_id',
+                'quantity',
                 'status',
 
             ]
@@ -86,7 +87,7 @@ final class SplitLabelDetailRepository
         ]);
 
         if (isset($params['split_label_id'])) {
-            $query->andWhere(['split_label_id' => $params['split_label_id']]);
+            $query->andWhere(['split_label_details.split_label_id' => $params['split_label_id']]);
         }
 
         $get = $query->execute()->fetchAll('assoc') ?: [];

@@ -3,12 +3,10 @@
 namespace App\Action\Api;
 
 use App\Domain\Label\Service\LabelFinder;
-use App\Domain\Product\Service\ProductFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Views\Twig;
-use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * Action.
