@@ -90,7 +90,7 @@ return function (App $app) {
 
     $app->get('/api/split_labels',  \App\Action\Api\SplitLabelAction::class);
     $app->post('/api/add_split_label', \App\Action\Api\SplitLabelAddAction::class);
-    $app->post('/api/register_split_label', \App\Action\Api\SpliteLabelRegisterAction::class);
+    $app->post('/api/register_split_label', \App\Action\Api\SplitLabelRegisterAction::class);
 
     $app->get('/api/split_label_detail',  \App\Action\Api\SplitLabelDetailAction::class);
     $app->post('/api/add_split_label_detail', \App\Action\Api\SplitLabelDetailAddAction::class);
