@@ -54,7 +54,7 @@ $settings['phinx'] = [
 ];
 
 // Database settings
-$settings['db'] = [
+$settings['db1'] = [
     'driver' => \Cake\Database\Driver\Mysql::class,
     'host' => 'localhost',
     'encoding' => 'utf8mb4',
@@ -78,6 +78,16 @@ $settings['db'] = [
         // Set default fetch mode to array
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
     ],
+];
+
+$settings['db2'] = [
+    'driver' => \Cake\Database\Driver\Sqlserver::class,
+    'persistent' => false,
+    // PDO::SQLSRV_ENCODING_UTF8
+    'encoding' => 65001,
+    'flags' => [],
+    'init' => [],
+    'settings' => [],
 ];
 
 // Console commands

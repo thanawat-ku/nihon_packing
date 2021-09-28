@@ -27,6 +27,8 @@ use Tuupola\Middleware\HttpBasicAuthentication;
 use Slim\Views\Twig;
 use Slim\Views\TwigMiddleware;
 
+use App\Factory\Connection2;
+
 return [
     // Application settings
     'settings' => function () {
@@ -66,16 +68,21 @@ return [
 
     // Database connection
     Connection::class => function (ContainerInterface $container) {
-        return new Connection($container->get('settings')['db']);
+        return new Connection($container->get('settings')['db1']);
     },
 
-    PDO::class => function (ContainerInterface $container) {
-        $db = $container->get(Connection::class);
-        $driver = $db->getDriver();
-        $driver->connect();
-
-        return $driver->getConnection();
+    // Database connection
+    Connection2::class => function (ContainerInterface $container) {
+        return new Connection2($container->get('settings')['db2']);
     },
+
+    // PDO::class => function (ContainerInterface $container) {
+    //     $db = $container->get(Connection::class);
+    //     $driver = $db->getDriver();
+    //     $driver->connect();
+
+    //     return $driver->getConnection();
+    // },
 
     ValidationExceptionMiddleware::class => function (ContainerInterface $container) {
         $factory = $container->get(ResponseFactoryInterface::class);
@@ -169,16 +176,16 @@ return [
 
         return $twig;
     },
-    PDO::class => function (ContainerInterface $container) {
-        $settings = $container->get('settings')['db'];
+    // PDO::class => function (ContainerInterface $container) {
+    //     $settings = $container->get('settings')['db'];
     
-        $host = $settings['host'];
-        $dbname = $settings['database'];
-        $username = $settings['username'];
-        $password = $settings['password'];
-        $flags = $settings['flags'];
-        $dsn = "mysql:host=$host;dbname=$dbname";
+    //     $host = $settings['host'];
+    //     $dbname = $settings['database'];
+    //     $username = $settings['username'];
+    //     $password = $settings['password'];
+    //     $flags = $settings['flags'];
+    //     $dsn = "mysql:host=$host;dbname=$dbname";
     
-        return new PDO($dsn, $username, $password, $flags);
-    },
+    //     return new PDO($dsn, $username, $password, $flags);
+    // },
 ];
