@@ -74,6 +74,7 @@ final class GenMergeLabelBarcodeNoAction
             $label['quantity']=$data1['quantity'];
             array_push($labels,$label);
         }
+        
         $rtdata['message']="Gen Merge Labels Successful";
         $rtdata['error']=false;
         $rtdata['labels']=$labels;

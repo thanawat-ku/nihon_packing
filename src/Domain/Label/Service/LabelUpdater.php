@@ -79,6 +79,18 @@ final class LabelUpdater
         // Insert store
         $this->repository->updateLabelApi($labelID, $storeRow, $user_id);
     }
+
+    public function updateLabelStrApi(String $labelNo, array $data, $user_id): void
+    {
+        // Input validation
+        $this->validator->validateLabelUpdate($labelNo, $data);
+
+        //     // Map form data to row
+        $storeRow = $this->mapToLabelRow($data);
+
+        // Insert store
+        $this->repository->updateLabelStrApi($labelNo, $storeRow, $user_id);
+    }
     public function updateLabel(int $labelID, array $data): void
     {
         // Input validation

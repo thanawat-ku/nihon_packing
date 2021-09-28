@@ -68,17 +68,17 @@ final class MergePackUpdater
         //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));
     }
 
-    public function updateLabelPackMergeApi(string $labelId, array $data,$user_id): void
+    public function updateLabelPackMergeApi(string $labelNo, array $data,$user_id): void
     {
        
         // Input validation
-        $this->validator->validateMergePackUpdate($labelId, $data);
+        $this->validator->validateMergePackUpdate($labelNo, $data);
 
         // Map form data to row
         $storeRow = $this->mapToMergePackRow($data);
 
         // Insert store
-        $this->repository->updateLabelPackMergeApi($labelId, $storeRow, $user_id);
+        $this->repository->updateLabelPackMergeApi($labelNo, $storeRow, $user_id);
     }
 
      public function deleteMergePackApi(int $labelId, array $data): void

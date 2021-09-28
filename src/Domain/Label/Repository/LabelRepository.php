@@ -73,6 +73,14 @@ final class LabelRepository
         $this->queryFactory->newUpdate('labels', $data)->andWhere(['id' => $labelID])->execute();
     }    
 
+    public function updateLabelStrApi(String $labelNo, array $data, $user_id): void
+    {
+        $data['updated_at'] = Chronos::now()->toDateTimeString();
+        $data['updated_user_id'] = $user_id;
+
+        $this->queryFactory->newUpdate('labels', $data)->andWhere(['label_no' => $labelNo])->execute();
+    }  
+
     public function updateLabel(int $labelID, array $data): void
     {
         $data['updated_at'] = Chronos::now()->toDateTimeString();
@@ -179,7 +187,8 @@ final class LabelRepository
          
         // $query->andWhere(['product_id' => $params['product_id']]);
         
-        // $query->where(['labels.status !=' => 'CREATED']);
+        // $query->where(['labels.label_type' => 'NONFULLY']);
+        // $query->or(['labels.label_type' => 'MERGE_NONFULLY']);
 
         if(isset($params['product_id'])){
             $query->andWhere(['product_id' => $params['product_id']]);
@@ -225,13 +234,12 @@ final class LabelRepository
             'labels.id'
             ]);
 
-        $query->andWhere(['label_no' => $labelNO]);
+        $query->Where(['label_no' => $labelNO]);
 
         $row = $query->execute()->fetch('assoc');
 
 
         if (!$row) {
-            //throw new DomainException(sprintf('User not found: %s', $username));
             return null;
         }
         else{
@@ -253,9 +261,7 @@ final class LabelRepository
                 'label_type',
                 'labels.quantity',
                 'labels.status',
-                // 'lot_no',
                 'std_pack',
-                // 'part_name',
                 'part_code',
             ]
         ); 

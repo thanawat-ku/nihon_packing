@@ -72,6 +72,8 @@ final class MergePackDetailUpdater
         $this->repository->deleteLabelMergePackApi($labelId);
     }
 
+    
+
     private function mapToMergePackDetailRow(array $data): array
     {
         $result = [];

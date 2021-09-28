@@ -2,7 +2,7 @@
 
 namespace App\Action\Api;
 
-use App\Domain\LabelPackMerge\Service\LabelPackMergeFinder;
+use App\Domain\Label\Service\LabelFinder;
 use App\Domain\Product\Service\ProductFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
@@ -21,7 +21,7 @@ final class LabelPackMergeAction
     private $responder;
     private $finder;
 
-    public function __construct(Twig $twig,LabelPackMergeFinder $finder,ProductFinder $productFinder,
+    public function __construct(Twig $twig,LabelFinder $finder,ProductFinder $productFinder,
     Session $session,Responder $responder)
     {
         $this->twig = $twig;

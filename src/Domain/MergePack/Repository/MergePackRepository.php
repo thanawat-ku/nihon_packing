@@ -36,12 +36,12 @@ final class MergePackRepository
         $this->queryFactory->newUpdate('merge_packs', $data)->andWhere(['id' => $lotID])->execute();
     }    
 
-    public function updateLabelPackMergeApi(string $labelID, array $data, $user_id): void
+    public function updateLabelPackMergeApi(string $labelNo, array $data, $user_id): void
     {
         $data['updated_at'] = Chronos::now()->toDateTimeString();
         $data['updated_user_id'] = $user_id;
 
-        $this->queryFactory->newUpdate('labels', $data)->andWhere(['label_no' => $labelID])->execute();
+        $this->queryFactory->newUpdate('labels', $data)->andWhere(['label_no' => $labelNo])->execute();
     } 
 
     public function updateMergingApi(string $mergeNO, array $data, $user_id): void

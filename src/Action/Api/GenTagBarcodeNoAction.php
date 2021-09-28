@@ -22,7 +22,7 @@ final class GenTagBarcodeNoAction
     private $finder;
     private $updater;
 
-    public function __construct(Twig $twig,TagFinder $finder, TagUpdater $updater,
+    public function __construct(Twig $twig, TagFinder $finder, TagUpdater $updater,
     Session $session,Responder $responder)
     {
         $this->twig = $twig;

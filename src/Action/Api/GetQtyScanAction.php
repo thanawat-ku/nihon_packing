@@ -8,8 +8,6 @@ use App\Domain\Product\Service\ProductFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Slim\Views\Twig;
-use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * Action.
@@ -24,15 +22,15 @@ final class GetQtyScanAction
     private $findermergepack;
     private $updater;
 
-    public function __construct(Twig $twig,LabelFinder $finder,ProductFinder $productFinder, 
-    Session $session,Responder $responder, MergePackFinder $findermergepack)
+    public function __construct(LabelFinder $finder,ProductFinder $productFinder, 
+    Responder $responder, MergePackFinder $findermergepack)
     {
-        $this->twig = $twig;
+       
         $this->finder=$finder;
         $this->findermergepack=$findermergepack;
         // $this->updater=$updater;
         $this->productFinder=$productFinder;
-        $this->session=$session;
+        
         $this->responder = $responder;
     }
 
@@ -60,23 +58,8 @@ final class GetQtyScanAction
             for($i=0; $i<$countmp;$i++){
                 if ($merge_pack_id[$i]["product_id"] == $product_id && $merge_pack_id[$i]["merge_status"] == "CREATED" && $merge_pack_id[$i]["created_user_id"] == $user_id) {
 
-                    $std_pack = $std_pack = $mergepack[$i]['std_pack'];
-                    // $merge_no = $merge_pack_id[$i];
-
-                    // if($merge_pack_id) {
-                    //     $merge_no = $merge_pack_id[$i];
-                    // }
-            
-                    // if ($merge_no) {
-                    //     $rtdata['message'] = 'Login successfully';
-                    //     $rtdata['error']=false;
-                    //     $rtdata['merge_packs']=$merge_no ;
-                    // } else {
-                    //     $rtdata['message'] = 'Login fail';
-                    //     $rtdata['error']=true;
-                    //     $rtdata['merge_packs']=null;
-                    // }
-
+                    $std_pack = $mergepack[$i]['std_pack'];
+                    break;
 
                 }
 

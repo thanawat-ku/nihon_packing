@@ -3,7 +3,8 @@
 namespace App\Action\Api;
 
 use App\Domain\Label\Service\LabelFinder;
-use App\Domain\MergePack\Service\MergePackUpdater;
+use App\Domain\Label\Service\LabelUpdater;
+use App\Domain\MergePackDetail\Service\MergePackDetailUpdater;
 use App\Domain\Product\Service\ProductFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
@@ -21,17 +22,17 @@ final class CancelAllLabelAction
      */
     private $responder;
     private $finder;
+    private $findermpd;
     private $updater;
 
-    public function __construct(Twig $twig,LabelFinder $finder,ProductFinder $productFinder, MergePackUpdater $updater,
-    Session $session,Responder $responder)
+    public function __construct(LabelFinder $finder,ProductFinder $productFinder, LabelUpdater $updater,
+    Responder $responder, MergePackDetailUpdater $findermpd )
     {
-        $this->twig = $twig;
         $this->finder=$finder;
         $this->updater=$updater;
         $this->productFinder=$productFinder;
-        $this->session=$session;
         $this->responder = $responder;
+        $this->findermpd = $findermpd;
     }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
@@ -54,9 +55,9 @@ final class CancelAllLabelAction
                 $label_id = $rtdata["labels"][$i]['id'];
 
 
-                $this->updater->updateLabelPackmergeApi($label_no, $data1, $user_id);
+                $this->updater->updateLabelStrApi($label_no, $data1, $user_id);
 
-                $this->updater->deleteMergePackApi($label_id, $data);
+                $this->findermpd->deleteLabelMergePackApi($label_id, $data);
             }            
         }
         return $this->responder->withJson($response, $rtdata);
