@@ -174,7 +174,8 @@ final class LabelRepository
                 'labels.status',
                 'std_pack',
                 'std_box',
-                'labels.split_label_id'
+                'labels.split_label_id',
+                'real_qty',
             ]
         );
         $query->join([

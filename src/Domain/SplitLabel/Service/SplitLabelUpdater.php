@@ -110,17 +110,5 @@ final class SplitLabelUpdater
         return $result;
     }
 
-    private function mapToSplitLabelDeatilRow(array $data): array
-    {
-        $result = [];
-
-        if (isset($data['split_label_id'])) {
-            $result['split_label_id'] = (string)$data['split_label_id'];
-        }
-        if (isset($data['label_id'])) {
-            $result['label_id'] = (string)$data['label_id'];
-        }
-
-        return $result;
-    }
+    
 }

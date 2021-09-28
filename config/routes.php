@@ -78,7 +78,7 @@ return function (App $app) {
     $app->get('/api/labels', \App\Action\Api\LabelAction::class);
     $app->get('/api/find_labels_scan', \App\Action\Api\LabelFindForScanAction::class);
     $app->post('/api/register_label', \App\Action\Api\LabelRegisterAction::class);
-    $app->post('/api/create_label', \App\Action\Api\SplitLabelCreateLabelAction::class);
+    //$app->post('/api/create_label', \App\Action\Api\SplitLabelCreateLabelAction::class);
     $app->post('/api/gen_labels', \App\Action\Api\GenLabelBarcodeNoAction::class);
     $app->post('/api/gen_split_labels', \App\Action\Api\GenSplitLabelBarcodeNoAction::class);
     $app->post('/api/gen_merge_labels', \App\Action\Api\GenMergeLabelBarcodeNoAction::class);
@@ -92,6 +92,9 @@ return function (App $app) {
     $app->post('/api/add_split_label', \App\Action\Api\SplitLabelAddAction::class);
     $app->post('/api/register_split_label', \App\Action\Api\SpliteLabelRegisterAction::class);
 
+    $app->get('/api/split_label_detail',  \App\Action\Api\SplitLabelDetailAction::class);
+    $app->post('/api/add_split_label_detail', \App\Action\Api\SplitLabelDetailAddAction::class);
+    
     $app->get('/api/merge_packs', \App\Action\Api\MergePackAction::class);
     $app->post('/api/merge_label', \App\Action\Api\MergeLabelAction::class);
     $app->get('/api/merge_pack_details', \App\Action\Api\MergePackDetailAction::class);
