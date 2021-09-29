@@ -24,10 +24,19 @@ function printLot(event) {
     var obj = JSON.parse(lot);
     $("#printLotID").val(obj.id);
     $("#printLotNo").text(obj.lot_no);
+
 }
+
+function addDefectLot(event) {
+    let lot = event.currentTarget.name;
+    console.log(lot);
+    var obj = JSON.parse(lot);
+    $("#defectLotID").val(obj.id);
+}
+
 $(document).on(
     "click",
-    "#editBt, #deleteBt, #printBt, #labelLotBt",
+    "#editBt, #deleteBt, #printBt, #addDefectBt",
     (event) => {
         let id = event.currentTarget.id;
         switch (id) {
@@ -39,6 +48,9 @@ $(document).on(
                 break;
             case "printBt":
                 printLot(event);
+                break;
+            case "addDefectBt":
+                addDefectLot(event);
                 break;
             default:
                 console.log("no any events click");

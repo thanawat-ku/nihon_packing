@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Action\Web;
+namespace App\Action\Api;
 
-use App\Domain\Lot\Service\LotUpdater;
+use App\Domain\LotDefect\Service\LotDefectFinder;
+use App\Domain\LotDefect\Service\LotDefectUpdater;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -10,15 +11,18 @@ use Psr\Http\Message\ServerRequestInterface;
 /**
  * Action.
  */
-final class LotAddAction
+final class LotDefectAddAction
 {
     private $responder;
     private $updater;
+    private $finder;
 
-    public function __construct(Responder $responder, LotUpdater $updater)
+
+    public function __construct(Responder $responder,  LotDefectUpdater $updater, LotDefectFinder $finder)
     {
         $this->responder = $responder;
         $this->updater = $updater;
+        $this->finder = $finder;
     }
 
     public function __invoke(
@@ -26,13 +30,10 @@ final class LotAddAction
         ResponseInterface $response,
         array $args
     ): ResponseInterface {
-        // Extract the form data from the request body
         $data = (array)$request->getParsedBody();
 
-        // Invoke the Domain with inputs and retain the result
-        $this->updater->insertLot( $data);
-
-        // Build the HTTP response
-        return $this->responder->withRedirect($response,"lots");
+        $this->updater->insertLotDefect($data);
+        
+        return $this->responder->withRedirect($response, "lots");
     }
 }
