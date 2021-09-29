@@ -92,9 +92,9 @@ final class LotUpdater
         //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));
     }
     
-    public function printLot(int $lotId): void
+    public function printLot(int $lotId,array $data): void
     {
-        $this->repository->printLot($lotId);
+        $this->repository->printLot($lotId,$data);
     }
 
     public function deleteLot(int $lotId, array $data): void

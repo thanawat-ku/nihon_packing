@@ -62,7 +62,7 @@ final class LotRepository
 
         $this->queryFactory->newUpdate('lots', $data)->andWhere(['id' => $lotID])->execute();
     }
-    public function printLot(int $lotID): void
+    public function printLot(int $lotID,array $data): void
     {
         $data['updated_at'] = Chronos::now()->toDateTimeString();
         $data['updated_user_id'] = $this->session->get('user')["id"];

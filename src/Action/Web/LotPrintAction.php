@@ -85,8 +85,10 @@ final class LotPrintAction
                 $label['quantity'] = $data1['quantity'];
                 array_push($labels, $label);
             }
+            $dataReal['real_qty'] = $realQty;
+            $this->updater->printLot($lotId, $dataReal);
+
             
-            $this->updater->printLot($lotId);
         }
 
 
