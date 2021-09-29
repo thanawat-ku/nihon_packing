@@ -80,6 +80,16 @@ final class LotDefectUpdater
         //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));
     }
 
+    public function deleteLotDefectAll($lotId): void
+    {
+
+        // Insert store
+        $this->repository->deleteLotDefectAll($lotId);
+
+        // Logging
+        //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));
+    }
+
     /**
      * Map data to row.
      *

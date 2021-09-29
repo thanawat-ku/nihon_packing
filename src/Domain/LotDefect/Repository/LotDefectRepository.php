@@ -57,6 +57,11 @@ final class LotDefectRepository
     {
         $this->queryFactory->newDelete('lot_defects')->andWhere(['id' => $id])->execute();
     } 
+
+    public function deleteLotDefectAll($lotId): void
+    {
+        $this->queryFactory->newDelete('lot_defects')->andWhere(['id' => $lotId])->execute();
+    } 
     
     public function findLotDefects(array $params): array
     {

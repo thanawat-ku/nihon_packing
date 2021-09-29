@@ -179,9 +179,15 @@
         <div class="modal-body">          
           <div class="form-product">
             <input type="hidden" id="printLotID" name="id">
-            <label for="lotNo">Do you want to print label of lot: <span id="printLotNo">xxx</span></label>
+            <label for="lotNo">Real Qty</label>
+            <input type="text" autocomplete="off" class="form-control" id="realQyt" name="real_qty" required>
+          </div> 
+          <div class="form-spec">
+          <label for="lotNo">    <span id="spec">  </span></label>
+          </div>
+          <div class="form-realQty">
+          <label for="lotNo">Do you want to print label of lot: <span id="printLotNo">xxx</span></label>
           </div>                 
-          
         </div>
         <div class="modal-footer">
           <button type="submit" class="btn btn-info">Print</button>
