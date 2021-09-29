@@ -34,9 +34,18 @@ function addDefectLot(event) {
     $("#defectLotID").val(obj.id);
 }
 
+function registerLot(event) {
+    let lot = event.currentTarget.name;
+    console.log(lot);
+    var obj = JSON.parse(lot);
+    $("#registerLotID").val(obj.id);
+    $("#regiserLotNo").text(obj.lot_no);
+
+}
+
 $(document).on(
     "click",
-    "#editBt, #deleteBt, #printBt, #addDefectBt",
+    "#editBt, #deleteBt, #printBt, #addDefectBt,#registerBt",
     (event) => {
         let id = event.currentTarget.id;
         switch (id) {
@@ -51,6 +60,9 @@ $(document).on(
                 break;
             case "addDefectBt":
                 addDefectLot(event);
+                break;
+            case "registerBt":
+                registerLot(event);
                 break;
             default:
                 console.log("no any events click");

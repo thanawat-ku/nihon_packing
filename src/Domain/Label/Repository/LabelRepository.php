@@ -75,6 +75,14 @@ final class LabelRepository
         $this->queryFactory->newUpdate('labels', $data)->andWhere(['id' => $labelID])->execute();
     }
 
+    public function registerLabel(int $lot_id, array $data): void
+    {
+        $data['updated_at'] = Chronos::now()->toDateTimeString();
+        $data['updated_user_id'] = $this->session->get('user')["id"];
+
+        $this->queryFactory->newUpdate('labels', $data)->andWhere(['lot_id' => $lot_id])->execute();
+    }
+
     public function registerLabelApi(int $lot_id, array $data, $user_id): void
     {
         $data['updated_at'] = Chronos::now()->toDateTimeString();
@@ -82,6 +90,7 @@ final class LabelRepository
 
         $this->queryFactory->newUpdate('labels', $data)->andWhere(['lot_id' => $lot_id])->execute();
     }
+    
     public function registerSpiteLabelApi(int $lot_id, array $data, $user_id): void
     {
         $data['updated_at'] = Chronos::now()->toDateTimeString();

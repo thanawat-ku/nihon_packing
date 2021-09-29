@@ -43,13 +43,15 @@
                         <button type="button" id="printBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#printLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-print"></i></button>
                         {% endif %}
                         {% if lot.status == "PRINTED" %}
-                        <button type="button" id="registerBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#defectLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-check-circle"></i></button>
+                        <button type="button" id="registerBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#registerLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-check-circle"></i></button>
                         {% endif %}
+                        {% if lot.status == "CREATED" %}
                         <button type="button" id="editBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-edit"></i></button>
-                        <button type="button" id="deleteBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-trash"></i></button>
+                        {% endif %}
                         {% if lot.status != "CREATED" %}
                         <a href="label_lot?id={{lot.id}}"><button type="button" class="btn btn-success btn-sm" data-toggle="modal" ><i style="font-size:15px; width:20px;" class="fas fa-info-circle"></i></button></a> 
                         {% endif %}
+                        <button type="button" id="deleteBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-trash"></i></button>    
                         </td>
                     </tr>
                     {% endfor %}
@@ -60,6 +62,34 @@
             </div>
         </div>
     </div>
+
+<!--regiserLot-->
+<div class="modal fade" id="registerLot">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form id="form-defectLot" action="register_lot" method="post">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Regiser Lot </h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">          
+          <div class="form-product">
+            <input type="text" id="registerLotID" name="lot_id">
+          </div>
+          <div class="form-realQty">
+          <label for="lotNo">Do you want to regiser lot: <span id="regiserLotNo">xxx</span></label>
+          </div>                            
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Save</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 
 <!--defectLot-->
 <div class="modal fade" id="defectLot">

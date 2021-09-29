@@ -38,6 +38,7 @@ return function (App $app) {
     $app->post('/delete_lot', \App\Action\Web\LotDeleteAction::class)->add(UserAuthMiddleware::class);
     $app->post('/add_lot_defect', \App\Action\Web\LotDefectAddAction::class)->add(UserAuthMiddleware::class);
     $app->post('/print_lot', \App\Action\Web\LotPrintAction::class)->add(UserAuthMiddleware::class);
+    $app->post('/register_lot', \App\Action\Web\LotRegisterAction::class)->add(UserAuthMiddleware::class);
     $app->get('/label_lot', \App\Action\Web\LotLabelAction::class)->add(UserAuthMiddleware::class);
     $app->get('/lots', \App\Action\Web\LotAction::class)->add(UserAuthMiddleware::class);
 

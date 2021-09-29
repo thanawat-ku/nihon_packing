@@ -56,7 +56,7 @@ final class LotPrintAction
 
             $labels = [];
             for ($i = 0; $i < $num_full_packs; $i++) {
-                $data1['id']  = $lot_id;
+                $data1['lot_id']  = $lot_id;
                 $data1['label_no'] = "X" . str_pad($i, 11, "0", STR_PAD_LEFT);
                 $data1['label_type'] = "FULLY";
                 $data1['quantity'] = $std_pack;
