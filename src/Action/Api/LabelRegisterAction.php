@@ -44,7 +44,8 @@ final class LabelRegisterAction
         $user_id = $params["user_id"];
 
         $this->updater->registerLabelApi($lot_id,$params, $user_id);
-        
+
+        $this->lotupdater->registerLotApi($lot_id,$params,$user_id);
         
         $rtdata['message'] = "Registor Label Successful";
         $rtdata['error'] = false;

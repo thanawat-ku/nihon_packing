@@ -32,11 +32,9 @@ final class LotDeleteAction
         // Extract the form data from the request body
         $data = (array)$request->getParsedBody();
         $lotId = $data["id"];
-        $lotStatus = $data["status"];
 
-        if($lotStatus=="PRINTED"){
-            $this->updaterLabel->deleteLabelAll($lotId , $data);
-        }
+
+        $this->updaterLabel->deleteLabelAll($lotId , $data);
 
         // Invoke the Domain with inputs and retain the result
 

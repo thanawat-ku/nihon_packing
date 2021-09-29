@@ -38,7 +38,7 @@ final class LotUpdater
         //$this->logger->info(sprintf('TransferStore updated successfully: %s', $id));
         return $id;
     }
-    public function updateLotApi(int $lotId, array $data, $user_id): void
+    public function registerLotApi(int $lotId, array $data, $user_id): void
     {
         // Input validation
         $this->validator->validateLotUpdate($lotId, $data);
@@ -47,7 +47,7 @@ final class LotUpdater
         $storeRow = $this->mapToLotRow($data);
 
         // Insert store
-        $this->repository->updateLotApi($lotId, $storeRow,$user_id);
+        $this->repository->registerLotApi($lotId, $storeRow,$user_id);
     }
 
     public function confirmLotApi(int $lotId, array $data, $user_id): void
