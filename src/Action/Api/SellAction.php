@@ -2,16 +2,15 @@
 
 namespace App\Action\Api;
 
-use App\Domain\CpoItem\Service\CpoItemFinder;
+use App\Domain\Sell\Service\SellFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * Action.
  */
-final class CpoItemAction
+final class SellAction
 {
     /**
      * @var Responder
@@ -25,12 +24,11 @@ final class CpoItemAction
      *
      * @param Responder $responder The responder
      */
-    public function __construct(CpoItemFinder $productFinder,Responder $responder, Session $session)
+    public function __construct(SellFinder $productFinder,Responder $responder)
     {
         
         $this->productFinder=$productFinder;
         $this->responder = $responder;
-        $this->session=$session;
     }
 
     /**
@@ -46,20 +44,9 @@ final class CpoItemAction
 
         $params = (array)$request->getQueryParams();
         
-        $rtdata['message']="Get CpoItem Successful";
+        $rtdata['message']="Get Sell Successful";
         $rtdata['error']=false;
-        $rtdata['cpo_item']=$this->productFinder->findCpoItem($params);    
-        
-        // for ($i=0; $i < count($rtdata['cpo_item']); $i++) { 
-        //     // $a = $rtdata['cpo_item'][$i]['Quantity'];
-        //     // $b = $rtdata['cpo_item'][$i]['PackingQtity'];
-        //    if($rtdata['cpo_item'][$i]['Quantity'] != $rtdata['cpo_item'][$i]['PackingQty']){
-        //         $cpodata = $rtdata['cpo_item'][$i];
-        //         $cpoitemdata['message']="Get CpoItem Successful";
-        //         $cpoitemdata['error']=false;
-        //         $cpoitemdata['cpo_item']=$cpodata; 
-        //    }
-        // }
+        $rtdata['sells']=$this->productFinder->findSells($params);        
 
         return $this->responder->withJson($response, $rtdata);
     }

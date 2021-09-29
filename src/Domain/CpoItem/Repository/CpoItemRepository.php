@@ -65,10 +65,45 @@ final class CpoItemRepository
             ]
         );
 
-        if(isset($params['PackingQty'])){
-            $query->andWhere(['Quantity >' => $params['PackingQty']]);
+        // $query->andWhere(['ProductID ' => 533]);
+
+        if(isset($params['ProductID'])){
+            $query->andWhere(['ProductID ' => $params['ProductID']]);
         }
         
+
+        return $query->execute()->fetchAll('assoc') ?: [];
+    }
+
+    public function findIDFromProductName(array $params, int $ProductID): array
+    {
+        $query = $this->queryFactory2->newSelect('cpo_item');
+        
+        $query->select(
+            [
+                'CpoItemID',
+                'ProductID',
+                'Quantity',
+                // 'DueDate',
+                'PackingQty',
+            ]
+        );
+
+        // if(isset($params['PackingQty'])){
+        //     $query->andWhere(['Quantity >' => $params['PackingQty']]);
+        // }
+
+        $query->Where(['ProductID' => $ProductID]);
+
+        // $row = $query->execute()->fetch('assoc');
+
+
+        // if (!$row) {
+        //     return null;
+        // }
+        // else{
+        //     return $row;
+        // }
 
         return $query->execute()->fetchAll('assoc') ?: [];
     }

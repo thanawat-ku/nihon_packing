@@ -35,4 +35,11 @@ final class CpoItemFinder
     {
         return $this->repository->findCpoItem($params);
     }
+
+    public function findIDFromProductName(array $params, int $ProductID)
+    {
+        return  $this->repository->findIDFromProductName($params, $ProductID);
+
+        // return $userRow;
+    }
 }
