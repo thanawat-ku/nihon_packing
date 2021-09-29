@@ -110,5 +110,7 @@ return function (App $app) {
 
 
     $app->post('/api/label_search', \App\Action\Api\LabelsearchAction::class);
+
+    $app->get('/api/cpo_item', \App\Action\Api\CpoItemAction::class);
     
 };
