@@ -43,7 +43,7 @@ final class LotRegisterAction
         $dataPack['status'] = "PACKED";
 
         $this->labelUpdater->registerLabel($lotId, $dataPack);
-        $this->updater->updateLot($lotId, $dataPack);
+        $this->updater->registerLot($lotId, $dataPack);
 
         // Build the HTTP response
         return $this->responder->withRedirect($response, "lots");

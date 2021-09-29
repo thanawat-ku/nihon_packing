@@ -76,6 +76,21 @@ final class LotUpdater
         // Logging
         //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));
     }
+
+    public function registerLot(int $lotId, array $data): void
+    {
+        // Input validation
+        $this->validator->validateLotUpdate($lotId, $data);
+
+        // Map form data to row
+        $storeRow = $this->mapToLotRow($data);
+
+        // Insert store
+        $this->repository->registerLot($lotId, $storeRow);
+
+        // Logging
+        //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));
+    }
     
     public function printLot(int $lotId): void
     {

@@ -34,8 +34,8 @@ final class SplitLabelDetailAddAction
     {
         $params = (array)$request->getParsedBody();
         $user_id = $params["user_id"];
-
-        $findLabels = $this->finderLabels->findLabels($params);
+        $dataL = $params["label_id"];
+        $findLabels = $this->finderLabels->findLabels($dataL);
         for ($i = 0; $i < sizeof($findLabels); $i++) {
             if ($findLabels[$i]['status'] == "VOID") {
                 $dataD['split_label_id'] = $findLabels[$i]['split_label_id'];
