@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 25, 2021 at 09:57 AM
+-- Generation Time: Sep 30, 2021 at 06:20 PM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 8.0.3
 
@@ -4640,7 +4640,25 @@ CREATE TABLE `sells` (
   `sell_date` date NOT NULL,
   `product_id` int(11) NOT NULL,
   `total_qty` int(11) NOT NULL,
-  `sell_status` enum('CREATED','SELECTPO','SELECTLABEL','TAGGED','INVOICED') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `sell_status` enum('CREATED','SELECTING_CPO','SELECTED_CPO','SELECTING_LABEL','SELECTED_LABEL','TAGGED','INVOICED') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` datetime NOT NULL,
+  `created_user_id` int(11) NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `updated_user_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sell_cpo_items`
+--
+
+CREATE TABLE `sell_cpo_items` (
+  `id` int(11) NOT NULL,
+  `sell_id` int(11) NOT NULL,
+  `cpo_item_id` int(11) NOT NULL,
+  `remain_qty` int(11) NOT NULL,
+  `sell_qty` int(11) NOT NULL,
   `created_at` datetime NOT NULL,
   `created_user_id` int(11) NOT NULL,
   `updated_at` datetime NOT NULL,
@@ -4657,24 +4675,6 @@ CREATE TABLE `sell_labels` (
   `id` int(11) NOT NULL,
   `sell_id` int(11) NOT NULL,
   `label_id` int(11) NOT NULL,
-  `created_at` datetime NOT NULL,
-  `created_user_id` int(11) NOT NULL,
-  `updated_at` datetime NOT NULL,
-  `updated_user_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `sell_po_details`
---
-
-CREATE TABLE `sell_po_details` (
-  `id` int(11) NOT NULL,
-  `sell_id` int(11) NOT NULL,
-  `po_detail_id` int(11) NOT NULL,
-  `remain_qty` int(11) NOT NULL,
-  `sell_qty` int(11) NOT NULL,
   `created_at` datetime NOT NULL,
   `created_user_id` int(11) NOT NULL,
   `updated_at` datetime NOT NULL,
@@ -4833,15 +4833,15 @@ ALTER TABLE `sections`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `sell_labels`
+-- Indexes for table `sell_cpo_items`
 --
-ALTER TABLE `sell_labels`
+ALTER TABLE `sell_cpo_items`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `sell_po_details`
+-- Indexes for table `sell_labels`
 --
-ALTER TABLE `sell_po_details`
+ALTER TABLE `sell_labels`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -4927,15 +4927,15 @@ ALTER TABLE `sections`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `sell_labels`
+-- AUTO_INCREMENT for table `sell_cpo_items`
 --
-ALTER TABLE `sell_labels`
+ALTER TABLE `sell_cpo_items`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `sell_po_details`
+-- AUTO_INCREMENT for table `sell_labels`
 --
-ALTER TABLE `sell_po_details`
+ALTER TABLE `sell_labels`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
