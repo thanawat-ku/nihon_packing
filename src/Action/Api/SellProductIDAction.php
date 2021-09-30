@@ -49,31 +49,7 @@ final class SellProductIDAction
 
 
         if ($product_id == 0) {
-            // $merge_no = null;
-
-            // $merge_pack_id = $this->finder->findSells($data);
-            // $countmp = count($merge_pack_id);
-
-            // for($i=0; $i<$countmp;$i++){
-            //     if ($merge_pack_id[$i]["product_id"] == $product_id && $merge_pack_id[$i]["merge_status"] == "CREATED" && $merge_pack_id[$i]["created_user_id"] == $user_id) {
-            //         $merge_no = $merge_pack_id[$i];
-
-            //         if($merge_pack_id) {
-            //             $merge_no = $merge_pack_id[$i];
-            //         }
-
-            //         if ($merge_no) {
-            //             $rtdata['message'] = 'Login successfully';
-            //             $rtdata['error']=false;
-            //             $rtdata['merge_packs']=$merge_no ;
-            //         } else {
-            //             $rtdata['message'] = 'Login fail';
-            //             $rtdata['error']=true;
-            //             $rtdata['merge_packs']=null;
-            //         }
-            //     }
-
-            // }
+           
         } else {
             $sell = null;
 
