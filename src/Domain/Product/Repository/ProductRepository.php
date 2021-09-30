@@ -87,6 +87,10 @@ final class ProductRepository
         //     ]
         // ]);
 
+        if(isset($params['PartName'])){
+            $query->andWhere(['PartName ' => $params['PartName']]);
+        }
+
         return $query->execute()->fetchAll('assoc') ?: [];
     }
 

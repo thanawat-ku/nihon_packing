@@ -58,7 +58,38 @@ final class SellRepository
             ]
         );
 
+        // if(isset($params['product_id'])){
+        //     $query->andWhere(['product_id ' => $params['product_id']]);
+        // }
+
         return $query->execute()->fetchAll('assoc') ?: [];
+    }
+
+    public function findSellProductID(int $product_id)
+    {
+        $query = $this->queryFactory->newSelect('sells');
+        $query->select(
+            [
+                'sells.id',
+                'sell_no',
+                'sell_date',
+                'product_id',
+                'total_qty',
+                'sell_status',
+            ]
+        );
+
+        $query->andWhere(['product_id' => $product_id]);
+
+        $row = $query->execute()->fetch('assoc');
+        
+        if (!$row) {
+            return null;
+        }
+        else{
+            return $row;
+        }
+        return false;
     }
 
 }

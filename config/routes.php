@@ -115,5 +115,6 @@ return function (App $app) {
 
     $app->get('/api/sells', \App\Action\Api\SellAction::class);
     $app->post('/api/add_sell', \App\Action\Api\SellAddAction::class);
+    $app->post('/api/sell_product_id', \App\Action\Api\SellProductIDAction::class);
     
 };

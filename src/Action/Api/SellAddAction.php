@@ -49,23 +49,23 @@ final class SellAddAction
 
         $params["product_id"]=$rtdata['id'];
         
-        $cpodata=$this->findcpo_item->findIDFromProductName($params, $params["product_id"]);
+        // $cpodata=$this->findcpo_item->findIDFromProductName($params, $params["product_id"]);
 
         $selldata=$this->finder->findSells($params);
         $countsell = count($selldata);
         $countID = $countsell -1;
         // $ID= (string)$countID;
 
-        $total_qty = 0;
+        // $total_qty = 0;
 
 
-        for ($i=0; $i < count($cpodata); $i++) { 
-            // $cpodata=$this->findcpo_item->findCpoItem($params);
-            if ($cpodata[$i]['Quantity'] > $cpodata[$i]['PackingQty']) {
-                $total_qty = $total_qty +  $cpodata[$i]['PackingQty'];
-            }
+        // for ($i=0; $i < count($cpodata); $i++) { 
+        //     // $cpodata=$this->findcpo_item->findCpoItem($params);
+        //     if ($cpodata[$i]['Quantity'] > $cpodata[$i]['PackingQty']) {
+        //         $total_qty = $total_qty +  $cpodata[$i]['PackingQty'];
+        //     }
 
-        }
+        // }
         
 
         if($countsell == 0){
@@ -82,7 +82,7 @@ final class SellAddAction
 
 
         // $params["sell_date"]="S000000000001";
-        $params["total_qty"]=$total_qty;
+        $params["total_qty"]=0;
         $params["sell_status"]="CREATED";
         $params["sell_date"]=Chronos::now()->toDateTimeString();
 
