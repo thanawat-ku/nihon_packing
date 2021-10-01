@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 29, 2021 at 03:56 PM
+-- Generation Time: Oct 01, 2021 at 09:09 PM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 8.0.2
 
@@ -423,15 +423,6 @@ CREATE TABLE `merge_packs` (
   `updated_at` datetime DEFAULT NULL,
   `updated_user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `merge_packs`
---
-
-INSERT INTO `merge_packs` (`id`, `merge_no`, `product_id`, `merge_status`, `created_at`, `created_user_id`, `updated_at`, `updated_user_id`) VALUES
-(137, 'MP0000000001', 1, 'CREATED', '2021-09-29 11:59:38', 1, '2021-09-29 11:59:38', 1),
-(138, 'MP0000000138', 1, 'CREATED', '2021-09-29 12:00:14', 1, '2021-09-29 12:00:14', 1),
-(139, 'MP0000000139', 1, 'CREATED', '2021-09-29 12:01:10', 1, '2021-09-29 12:01:10', 1);
 
 -- --------------------------------------------------------
 
@@ -4649,7 +4640,7 @@ CREATE TABLE `sells` (
   `sell_date` date NOT NULL,
   `product_id` int(11) NOT NULL,
   `total_qty` int(11) NOT NULL,
-  `sell_status` enum('CREATED','SELECTPO','SELECTLABEL','TAGGED','INVOICED') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `sell_status` enum('CREATED','SELECTING_CPO','SELECTED_CPO','SELECTING_LABEL','SELECTED_LABEL','TAGGED','INVOICED') COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` datetime NOT NULL,
   `created_user_id` int(11) NOT NULL,
   `updated_at` datetime NOT NULL,
@@ -4661,15 +4652,27 @@ CREATE TABLE `sells` (
 --
 
 INSERT INTO `sells` (`id`, `sell_no`, `sell_date`, `product_id`, `total_qty`, `sell_status`, `created_at`, `created_user_id`, `updated_at`, `updated_user_id`) VALUES
-(1, 'S000000000000', '2021-09-29', 3508, 20000, 'CREATED', '2021-09-29 16:46:02', 1, '2021-09-29 16:46:02', 1),
-(2, 'S00000000000', '2021-09-29', 17, 0, 'CREATED', '2021-09-29 16:49:35', 1, '2021-09-29 16:49:35', 1),
-(3, 'S00000000000', '2021-09-29', 17, 0, 'CREATED', '2021-09-29 16:52:53', 1, '2021-09-29 16:52:53', 1),
-(4, 'S00000000000', '2021-09-29', 17, 0, 'CREATED', '2021-09-29 16:53:30', 1, '2021-09-29 16:53:30', 1),
-(5, 'S00000000000', '2021-09-29', 17, 0, 'CREATED', '2021-09-29 16:54:53', 1, '2021-09-29 16:54:53', 1),
-(6, 'S00000000000', '2021-09-29', 17, 0, 'CREATED', '2021-09-29 16:59:44', 1, '2021-09-29 16:59:44', 1),
-(7, 'S00000000007', '2021-09-29', 17, 0, 'CREATED', '2021-09-29 17:01:27', 1, '2021-09-29 17:01:27', 1),
-(8, 'S00000000008', '2021-09-29', 533, 897, 'CREATED', '2021-09-29 17:20:38', 1, '2021-09-29 17:20:38', 1),
-(9, 'S00000000009', '2021-09-29', 26, 0, 'CREATED', '2021-09-29 19:31:04', 1, '2021-09-29 19:31:04', 1);
+(1, 'S00000000001', '2021-10-02', 98, 0, 'CREATED', '2021-10-02 01:37:19', 1, '2021-10-02 01:37:19', 1),
+(2, 'S00000000002', '2021-10-02', 1301, 0, 'CREATED', '2021-10-02 01:39:03', 1, '2021-10-02 01:39:03', 1),
+(3, 'S00000000003', '2021-10-02', 744, 0, 'CREATED', '2021-10-02 01:55:01', 1, '2021-10-02 01:55:01', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sell_cpo_items`
+--
+
+CREATE TABLE `sell_cpo_items` (
+  `id` int(11) NOT NULL,
+  `sell_id` int(11) NOT NULL,
+  `cpo_item_id` int(11) NOT NULL,
+  `remain_qty` int(11) NOT NULL,
+  `sell_qty` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `created_user_id` int(11) NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `updated_user_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -4681,24 +4684,6 @@ CREATE TABLE `sell_labels` (
   `id` int(11) NOT NULL,
   `sell_id` int(11) NOT NULL,
   `label_id` int(11) NOT NULL,
-  `created_at` datetime NOT NULL,
-  `created_user_id` int(11) NOT NULL,
-  `updated_at` datetime NOT NULL,
-  `updated_user_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `sell_po_details`
---
-
-CREATE TABLE `sell_po_details` (
-  `id` int(11) NOT NULL,
-  `sell_id` int(11) NOT NULL,
-  `po_detail_id` int(11) NOT NULL,
-  `remain_qty` int(11) NOT NULL,
-  `sell_qty` int(11) NOT NULL,
   `created_at` datetime NOT NULL,
   `created_user_id` int(11) NOT NULL,
   `updated_at` datetime NOT NULL,
@@ -4863,15 +4848,15 @@ ALTER TABLE `sells`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `sell_labels`
+-- Indexes for table `sell_cpo_items`
 --
-ALTER TABLE `sell_labels`
+ALTER TABLE `sell_cpo_items`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `sell_po_details`
+-- Indexes for table `sell_labels`
 --
-ALTER TABLE `sell_po_details`
+ALTER TABLE `sell_labels`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -4930,7 +4915,7 @@ ALTER TABLE `lot_defects`
 -- AUTO_INCREMENT for table `merge_packs`
 --
 ALTER TABLE `merge_packs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=140;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=137;
 
 --
 -- AUTO_INCREMENT for table `merge_pack_details`
@@ -4960,18 +4945,18 @@ ALTER TABLE `sections`
 -- AUTO_INCREMENT for table `sells`
 --
 ALTER TABLE `sells`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `sell_cpo_items`
+--
+ALTER TABLE `sell_cpo_items`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `sell_labels`
 --
 ALTER TABLE `sell_labels`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `sell_po_details`
---
-ALTER TABLE `sell_po_details`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
