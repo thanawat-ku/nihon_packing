@@ -21,22 +21,36 @@ final class SplitLabelRegisterAction
     private $finder;
     private $updater;
     private $labelsUpdater;
+    private $SpDetailFinder;
 
 
-    public function __construct(SplitLabelDetailFinder $finder,SplitLabelUpdater $updater, LabelUpdater $labelsUpdater, Responder $responder)
-    {
+
+    public function __construct(
+        SplitLabelDetailFinder $finder,
+        SplitLabelUpdater $updater,
+        LabelUpdater $labelsUpdater,
+        Responder $responder,
+    ) {
         $this->finder = $finder;
         $this->responder = $responder;
         $this->labelsUpdater = $labelsUpdater;
         $this->updater = $updater;
-
     }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $params = (array)$request->getParsedBody();
         $user_id = $params["user_id"];
-        $findD = $this->finder->findSplitLabelDetails($params);
+        $fDetail = $params['split_label_id'];
+        $dataL = $params['label_id'];
+        if ($fDetail == "0") {
+            $getSpID =  $this->finder->findSplitLabelDetailsForscan($dataL);
+            $fDetail['split_label_id'] = $getSpID[0]['split_label_id'];
+            $findD = $this->finder->findSplitLabelDetails($fDetail);
+        } else {
+            $findD = $this->finder->findSplitLabelDetails($fDetail);
+        }
+
 
         $labels = [];
 
@@ -45,8 +59,8 @@ final class SplitLabelRegisterAction
             $labelID = $findD[$i]['label_id'];
             $splitID = $params['split_label_id'];
             $GG = $this->labelsUpdater->updateLabelApi($labelID, $dataL, $user_id);
-            array_push($labels,$GG[0]);
-            $this->updater->updateSplitLabelApi($dataL,$splitID,$user_id);
+            array_push($labels, $GG[0]);
+            $this->updater->updateSplitLabelApi($dataL, $splitID, $user_id);
         }
 
 
