@@ -47,27 +47,43 @@ final class CpoItemRepository
     
 
     public function findCpoItem(array $params): array
-    {
-        
+    { 
+
         $query = $this->queryFactory2->newSelect('cpo_item');
         
         $query->select(
             [
+                'CpoNo',
+                'cpo_item.CpoID',
                 'CpoItemID',
-                'ProductID',
+                'cpo_item.ProductID',
                 'Quantity',
-                // 'DueDate',
+                'DueDate',
                 'PackingQty',
                 // 'part_code',
-                // 'part_name',
+                'PartName',
                 // 'std_pack',
                 // 'std_box',
             ]
         );
 
-        
+        // $query->andWhere(['Quantity >' => 'PackingQty']);
 
-        // $query->andWhere(['ProductID ' => 533]);
+        $query->join([
+            'c' => [
+                'table' => 'cpo',
+                'type' => 'INNER',
+                'conditions' => 'c.CpoID = cpo_item.CpoID AND cpo_item.Quantity>cpo_item.PackingQty',
+            ]
+        ]);
+
+        $query->join([
+            'p' => [
+                'table' => 'product',
+                'type' => 'INNER',
+                'conditions' => 'p.ProductID = cpo_item.ProductID',
+            ]
+        ]);
 
         if(isset($params['ProductID'])){
             $query->andWhere(['ProductID ' => $params['ProductID']]);

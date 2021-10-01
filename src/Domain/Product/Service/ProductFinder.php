@@ -47,5 +47,10 @@ final class ProductFinder
         return $userRow;
     }
 
+    public function findProductForSells(array $params): array
+    {
+        return $this->repository->findProductForSells($params);
+    }
+
     
 }

@@ -18,19 +18,19 @@ final class CpoItemAction
      */
     private $responder;
     private $productFinder;
-    
+
 
     /**
      * The constructor.
      *
      * @param Responder $responder The responder
      */
-    public function __construct(CpoItemFinder $productFinder,Responder $responder, Session $session)
+    public function __construct(CpoItemFinder $productFinder, Responder $responder, Session $session)
     {
-        
-        $this->productFinder=$productFinder;
+
+        $this->productFinder = $productFinder;
         $this->responder = $responder;
-        $this->session=$session;
+        $this->session = $session;
     }
 
     /**
@@ -45,22 +45,22 @@ final class CpoItemAction
     {
 
         $params = (array)$request->getQueryParams();
-        
-        $rtdata['message']="Get CpoItem Successful";
-        $rtdata['error']=false;
-        $rtdata['cpo_item']=$this->productFinder->findCpoItem($params);    
-        
-        // for ($i=0; $i < count($rtdata['cpo_item']); $i++) { 
-        //     // $a = $rtdata['cpo_item'][$i]['Quantity'];
-        //     // $b = $rtdata['cpo_item'][$i]['PackingQtity'];
-        //    if($rtdata['cpo_item'][$i]['Quantity'] != $rtdata['cpo_item'][$i]['PackingQty']){
-        //         $cpodata = $rtdata['cpo_item'][$i];
-        //         $cpoitemdata['message']="Get CpoItem Successful";
-        //         $cpoitemdata['error']=false;
-        //         $cpoitemdata['cpo_item']=$cpodata; 
-        //    }
-        // }
 
-        return $this->responder->withJson($response, $rtdata);
+        $rtdata['cpo_item'] = $this->productFinder->findCpoItem($params);
+
+        $stack = array();
+
+        for ($i = 0; $i < count($rtdata['cpo_item']); $i++) {
+            if ($rtdata['cpo_item'][$i]['Quantity'] != $rtdata['cpo_item'][$i]['PackingQty']) {
+                $cpodata = $rtdata['cpo_item'][$i];
+                array_push($stack, $cpodata);
+            }
+        }
+
+        $cpoitemdata['message'] = "Get CpoItem Successful";
+        $cpoitemdata['error'] = false;
+        $cpoitemdata['cpo_item'] = $stack;
+
+        return $this->responder->withJson($response, $cpoitemdata);
     }
 }

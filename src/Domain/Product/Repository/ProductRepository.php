@@ -158,12 +158,8 @@ final class ProductRepository
                 'part_name'=>'PartName',
                 'std_pack'=>'PackingStd',
                 'std_box'=>'BoxStd',
-                // 'cpo.ProductID',
-                // 'CpoItemID'
             ]
         );
-
-        
 
         $query->Where(['PartName' => $ProductName]);
 
@@ -178,6 +174,35 @@ final class ProductRepository
         }
 
         return false;
+    }
+
+    public function findProductForSells(array $params): array
+    { 
+
+        $query = $this->queryFactory2->newSelect('product');
+        
+        $query->select(
+            [
+                'CpoItemID',
+                'product.ProductID',
+                'Quantity',
+                'DueDate',
+                'PackingQty',
+                'PartName',
+            ]
+        );
+
+        // $query->andWhere(['Quantity >' => 'PackingQty']);
+
+        $query->join([
+            'cpo' => [
+                'table' => 'cpo_item',
+                'type' => 'INNER',
+                'conditions' => 'cpo.ProductID = product.ProductID AND cpo.Quantity>cpo.PackingQty',
+            ]
+        ]);
+        
+        return $query->execute()->fetchAll('assoc') ?: [];
     }
 
 }
