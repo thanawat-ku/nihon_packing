@@ -60,14 +60,10 @@ final class CpoItemRepository
                 'Quantity',
                 'DueDate',
                 'PackingQty',
-                // 'part_code',
                 'PartName',
-                // 'std_pack',
-                // 'std_box',
+               
             ]
         );
-
-        // $query->andWhere(['Quantity >' => 'PackingQty']);
 
         $query->join([
             'c' => [
@@ -86,7 +82,7 @@ final class CpoItemRepository
         ]);
 
         if(isset($params['ProductID'])){
-            $query->andWhere(['ProductID ' => $params['ProductID']]);
+            $query->andWhere(['cpo_item.ProductID ' => $params['ProductID']]);
         }
         
 

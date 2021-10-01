@@ -17,7 +17,7 @@ final class CpoItemAction
      * @var Responder
      */
     private $responder;
-    private $productFinder;
+    private $CpoItemFinder;
 
 
     /**
@@ -25,10 +25,10 @@ final class CpoItemAction
      *
      * @param Responder $responder The responder
      */
-    public function __construct(CpoItemFinder $productFinder, Responder $responder, Session $session)
+    public function __construct(CpoItemFinder $CpoItemFinder, Responder $responder, Session $session)
     {
 
-        $this->productFinder = $productFinder;
+        $this->CpoItemFinder = $CpoItemFinder;
         $this->responder = $responder;
         $this->session = $session;
     }
@@ -46,20 +46,20 @@ final class CpoItemAction
 
         $params = (array)$request->getQueryParams();
 
-        $rtdata['cpo_item'] = $this->productFinder->findCpoItem($params);
+        $rtdata = $this->CpoItemFinder->findCpoItem($params);
 
-        $stack = array();
+        // $stack = array();
 
-        for ($i = 0; $i < count($rtdata['cpo_item']); $i++) {
-            if ($rtdata['cpo_item'][$i]['Quantity'] != $rtdata['cpo_item'][$i]['PackingQty']) {
-                $cpodata = $rtdata['cpo_item'][$i];
-                array_push($stack, $cpodata);
-            }
-        }
+        // for ($i = 0; $i < count($rtdata['cpo_item']); $i++) {
+        //     if ($rtdata['cpo_item'][$i]['Quantity'] != $rtdata['cpo_item'][$i]['PackingQty']) {
+        //         $cpodata = $rtdata['cpo_item'][$i];
+        //         array_push($stack, $cpodata);
+        //     }
+        // }
 
         $cpoitemdata['message'] = "Get CpoItem Successful";
         $cpoitemdata['error'] = false;
-        $cpoitemdata['cpo_item'] = $stack;
+        $cpoitemdata['cpo_item'] = $rtdata;
 
         return $this->responder->withJson($response, $cpoitemdata);
     }

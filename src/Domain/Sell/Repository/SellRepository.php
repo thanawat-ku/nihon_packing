@@ -14,11 +14,11 @@ final class SellRepository
     private $queryFactory2;
     private $session;
 
-    public function __construct(Session $session,QueryFactory $queryFactory,QueryFactory2 $queryFactory2)
+    public function __construct(Session $session, QueryFactory $queryFactory, QueryFactory2 $queryFactory2)
     {
         $this->queryFactory = $queryFactory;
         $this->queryFactory2 = $queryFactory2;
-        $this->session=$session;
+        $this->session = $session;
     }
     public function insertSellApi(array $row, $user_id): int
     {
@@ -36,17 +36,17 @@ final class SellRepository
 
         $this->queryFactory->newUpdate('sells', $data)->andWhere(['id' => $productID])->execute();
     }
-    
+
     public function deleteSell(int $productID): void
     {
         $this->queryFactory->newDelete('sells')->andWhere(['id' => $productID])->execute();
     }
-    
+
 
     public function findSells(array $params): array
     {
         $query = $this->queryFactory->newSelect('sells');
-        
+
         $query->select(
             [
                 'sells.id',
@@ -58,9 +58,13 @@ final class SellRepository
             ]
         );
 
-        // if(isset($params['product_id'])){
-        //     $query->andWhere(['product_id ' => $params['product_id']]);
-        // }
+        $query->join([
+            'p' => [
+                'table' => 'products',
+                'type' => 'INNER',
+                'conditions' => 'p.id = sells.product_id',
+            ]
+        ]);
 
         return $query->execute()->fetchAll('assoc') ?: [];
     }
@@ -82,14 +86,12 @@ final class SellRepository
         $query->andWhere(['product_id' => $product_id]);
 
         $row = $query->execute()->fetch('assoc');
-        
+
         if (!$row) {
             return null;
-        }
-        else{
+        } else {
             return $row;
         }
         return false;
     }
-
 }
