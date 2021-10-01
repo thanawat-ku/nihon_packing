@@ -48,13 +48,15 @@ final class LabelFindForScanAction
         $findlabel = $this->finder->findLabelsForScan($labelNO);
 
         if ($findlabel) {
+
             if ($findlabel[0]['status'] == $status) {
                 $rtdata['message'] = "find Label for scan Successful";
                 $rtdata['error'] = false;
                 $rtdata['labels'] = $findlabel;
+
             } else if ($findlabel[0]['status'] == "CREATED" && $findlabel[0]['label_type']  == "NONFULLY") {
 
-                $dataSPDetrail['label_id'] = $findlabel[0]['label_id'];
+                $dataSPDetrail['label_id'] = $findlabel[0]['id'];
                 $SPDetrail = $this->splitDetailFinder->findSplitLabelDetailsForscan($dataSPDetrail);
                 if ($SPDetrail) {
                     $rtdata['message'] = "find Label for register split Successful";
@@ -65,6 +67,7 @@ final class LabelFindForScanAction
                     $rtdata['error'] = true;
                     $rtdata['labels'] = "error";
                 }
+                
             } else {
                 $rtdata['message'] = "find Label for scan fail becuse not CONFIRM";
                 $rtdata['error'] = true;
