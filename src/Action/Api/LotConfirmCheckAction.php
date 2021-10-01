@@ -37,12 +37,12 @@ final class LotConfirmCheckAction
         $findlot = $this->finder->findLots($params);
 
         if ($findlot[0]['status'] == "CREATED") {
-            $rtdata['message'] = "Get EndLot Successful";
+            $rtdata['message'] = "confirm Successful";
             $rtdata['error'] = false;
             $rtdata['lots'] = $this->finder->findLots($params);
         }
         else{
-            $rtdata['message'] = "Get EndLot fail";
+            $rtdata['message'] = "confirm Successful fail";
             $rtdata['error'] = true;
             $rtdata['lots'] = "error";
         }

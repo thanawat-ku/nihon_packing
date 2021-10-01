@@ -13,7 +13,7 @@ $container = $app->getContainer();
 $pdo = $container->get(PDO::class);
 // @phpstan-ignore-next-line
 $settings = $container->get('settings');
-$database = $settings['db']['database'];
+$database = $settings['db1']['database'];
 $phinx = $settings['phinx'];
 
 $phinx['environments']['local'] = [

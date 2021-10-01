@@ -93,4 +93,42 @@ final class SplitLabelDetailRepository
         $get = $query->execute()->fetchAll('assoc') ?: [];
         return $get;
     }
+
+    public function findSplitLabelDetailsForscan(array $params): array
+    {
+        $query = $this->queryFactory->newSelect('split_label_details');
+        $query->select(
+            [
+                'split_label_details.id',
+                'split_label_details.split_label_id',
+                'split_label_details.label_id',
+                'lot_id',
+                'label_no',
+                'label_type',
+                'merge_pack_id',
+                'quantity',
+                'status',
+
+            ]
+        );
+        $query->join([
+            'l' => [
+                'table' => 'labels',
+                'type' => 'INNER',
+                'conditions' => 'l.id = split_label_details.label_id',
+            ]
+        ]);
+
+        if (isset($params['split_label_id'])) {
+            $query->andWhere(['split_label_details.split_label_id' => $params['split_label_id']]);
+        }
+
+        $get = $query->execute()->fetchAll('assoc') ?: [];
+        if($get){
+            return $get;
+        }
+        else{
+            return null;
+        }
+    }
 }

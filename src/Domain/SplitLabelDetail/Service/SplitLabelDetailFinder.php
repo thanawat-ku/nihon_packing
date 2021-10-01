@@ -20,4 +20,9 @@ final class SplitLabelDetailFinder
     {
         return $this->repository->findSplitLabelDetail($params);
     }
+
+    public function findSplitLabelDetailsForscan(array $params): array
+    {
+        return $this->repository->findSplitLabelDetailsForscan($params);
+    }
 }

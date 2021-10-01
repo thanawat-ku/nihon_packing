@@ -21,14 +21,15 @@ final class LotConfirmAction
     private $responder;
     private $finder;
     private $updater;
+    private $labelUpdater;
 
-
-    public function __construct(LotFinder $finder, ProductFinder $productFinder, Responder $responder, LotUpdater $updater,)
+    public function __construct(LotFinder $finder, ProductFinder $productFinder, Responder $responder, LotUpdater $updater, LabelUpdater $labelUpdater,)
     {
         $this->finder = $finder;
         $this->productFinder = $productFinder;
         $this->responder = $responder;
         $this->updater = $updater;
+        $this->labelUpdater = $labelUpdater;
     }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
@@ -36,12 +37,16 @@ final class LotConfirmAction
         $params = (array)$request->getQueryParams();
         $user_id = $params["user_id"];
         $lotID = $params["lot_id"];
+ 
+        $genLabelSuccess = $this->labelUpdater->genLabelNo($params);
 
         $this->updater->confirmLotApi($lotID, $params, $user_id);
 
+        $findlot['lot'] = $lotID;
+        
         $rtdata['message'] = "Get EndLot Successful";
         $rtdata['error'] = false;
-        $rtdata['lots'] = $this->finder->findLots($params);
+        $rtdata['lots'] = $this->finder->findLots($findlot);
 
 
 
