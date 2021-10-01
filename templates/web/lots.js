@@ -39,13 +39,13 @@ function registerLot(event) {
     console.log(lot);
     var obj = JSON.parse(lot);
     $("#registerLotID").val(obj.id);
-    $("#regiserLotNo").text(obj.lot_no);
+    $("#registerLotNo").text(obj.lot_no);
 
 }
 
 $(document).on(
     "click",
-    "#editBt, #deleteBt, #printBt, #addDefectBt,#registerBt",
+    "#editBt, #deleteBt, #printBt, #addDefectBt, #registerBt",
     (event) => {
         let id = event.currentTarget.id;
         switch (id) {
