@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Sell\Repository;
+namespace App\Domain\SellCpoItem\Repository;
 
 use App\Factory\QueryFactory;
 use App\Factory\QueryFactory2;
@@ -8,7 +8,7 @@ use DomainException;
 use Cake\Chronos\Chronos;
 use Symfony\Component\HttpFoundation\Session\Session;
 
-final class SellRepository
+final class SellCpoItemRepository
 {
     private $queryFactory;
     private $queryFactory2;
@@ -20,60 +20,64 @@ final class SellRepository
         $this->queryFactory2 = $queryFactory2;
         $this->session = $session;
     }
-    public function insertSellApi(array $row, $user_id): int
+    public function insertSellCpoItemApi(array $row, $user_id): int
     {
         $row['created_at'] = Chronos::now()->toDateTimeString();
         $row['created_user_id'] = $user_id;
         $row['updated_at'] = Chronos::now()->toDateTimeString();
         $row['updated_user_id'] = $user_id;
 
-        return (int)$this->queryFactory->newInsert('sells', $row)->execute()->lastInsertId();
+        return (int)$this->queryFactory->newInsert('sell_cpo_items', $row)->execute()->lastInsertId();
     }
-    public function updateSellApi(int $sellID, array $data): void
+    public function updateSellCpoItem(int $productID, array $data): void
     {
         $data['updated_at'] = Chronos::now()->toDateTimeString();
         $data['updated_user_id'] = $this->session->get('user')["id"];
 
-        $this->queryFactory->newUpdate('sells', $data)->andWhere(['id' => $sellID])->execute();
+        $this->queryFactory->newUpdate('sells', $data)->andWhere(['id' => $productID])->execute();
     }
 
-    public function deleteSell(int $productID): void
+    public function deleteSellCpoItem(int $productID): void
     {
         $this->queryFactory->newDelete('sells')->andWhere(['id' => $productID])->execute();
     }
 
 
-    public function findSells(array $params): array
+    public function findSellCpoItems(array $params): array
     {
-        $query = $this->queryFactory->newSelect('sells');
+        $query = $this->queryFactory->newSelect('sell_cpo_items');
 
         $query->select(
             [
-                'sells.id',
+                'sell_cpo_items.id',
                 'sell_no',
                 'sell_date',
                 'product_id',
                 'total_qty',
                 'sell_status',
-                'part_name',
-                'part_code'
+                'sell_id',
+                'cpo_item_id',
+                'remain_qty',
+                'sell_qty'
             ]
         );
 
         $query->join([
-            'p' => [
-                'table' => 'products',
+            's' => [
+                'table' => 'sells',
                 'type' => 'INNER',
-                'conditions' => 'p.id = sells.product_id',
+                'conditions' => 's.id = sell_cpo_items.sell_id',
             ]
         ]);
 
-
+        if(isset($params['sell_id'])){
+            $query->andWhere(['p.sell_id ' => $params['sell_id']]);
+        }
 
         return $query->execute()->fetchAll('assoc') ?: [];
     }
 
-    public function findSellProductID(string $part_code)
+    public function findSellCpoItemProductID(int $product_id)
     {
         $query = $this->queryFactory->newSelect('sells');
         $query->select(
@@ -84,20 +88,10 @@ final class SellRepository
                 'product_id',
                 'total_qty',
                 'sell_status',
-                'part_name',
-                'part_code'
             ]
         );
 
-        $query->join([
-            'p' => [
-                'table' => 'products',
-                'type' => 'INNER',
-                'conditions' => 'p.id = sells.product_id',
-            ]
-        ]);
-
-        $query->where(['part_code' => $part_code]);
+        $query->andWhere(['product_id' => $product_id]);
 
         $row = $query->execute()->fetch('assoc');
 

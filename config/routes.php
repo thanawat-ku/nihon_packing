@@ -115,8 +115,12 @@ return function (App $app) {
 
     $app->get('/api/sells', \App\Action\Api\SellAction::class);
     $app->post('/api/add_sell', \App\Action\Api\SellAddAction::class);
-    $app->post('/api/sell_product_id', \App\Action\Api\SellProductIDAction::class);
+    $app->post('/api/sell_row', \App\Action\Api\SellRowAction::class);
+    $app->post('/api/up_status_sell', \App\Action\Api\SellUpStatusAction::class);
 
     $app->get('/api/product_for_sells', \App\Action\Api\ProductForSellAction::class);
+
+    $app->get('/api/sell_cpo_items', \App\Action\Api\SellCpoItemAction::class);
+    $app->post('/api/add_sell_cpo_item', \App\Action\Api\SellCpoItemAddAction::class);
     
 };

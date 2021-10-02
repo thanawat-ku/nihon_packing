@@ -38,19 +38,16 @@ final class SellUpdater
         //$this->logger->info(sprintf('TransferStore updated successfully: %s', $id));
         return $id;
     }
-    public function updateSellApi(int $productId, array $data): void
+    public function updateSellApi(int $sellId, array $data): void
     {
         // Input validation
-        $this->validator->validateSellUpdate($productId, $data);
+        $this->validator->validateSellUpdate($sellId, $data);
 
         // Map form data to row
         $storeRow = $this->mapToRow($data);
 
         // Insert store
-        $this->repository->updateSell($productId, $storeRow);
-
-        // Logging
-        //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));
+        $this->repository->updateSellApi($sellId, $storeRow);
     }
     public function deleteSellApi(int $productId, array $data): void
     {

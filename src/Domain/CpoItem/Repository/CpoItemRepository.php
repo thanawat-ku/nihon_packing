@@ -61,6 +61,7 @@ final class CpoItemRepository
                 'DueDate',
                 'PackingQty',
                 'PartName',
+                'PartCode'
                
             ]
         );
@@ -81,10 +82,59 @@ final class CpoItemRepository
             ]
         ]);
 
-        if(isset($params['ProductID'])){
-            $query->andWhere(['cpo_item.ProductID ' => $params['ProductID']]);
+        if(isset($params['PartCode'])){
+            $query->andWhere(['p.PartCode ' => $params['PartCode']]);
         }
+
+        if(isset($params['PartName'])){
+            $query->andWhere(['p.PartName ' => $params['PartName']]);
+        }
+
         
+        
+
+        return $query->execute()->fetchAll('assoc') ?: [];
+    }
+
+    public function findCpoItems(array $params): array
+    { 
+
+        $query = $this->queryFactory2->newSelect('cpo_item');
+        
+        $query->select(
+            [
+                'CpoNo',
+                'cpo_item.CpoID',
+                'CpoItemID',
+                'cpo_item.ProductID',
+                'Quantity',
+                'DueDate',
+                'PackingQty',
+                'PartName',
+                'PartCode'
+               
+            ]
+        );
+
+        $query->join([
+            'c' => [
+                'table' => 'cpo',
+                'type' => 'INNER',
+                'conditions' => 'c.CpoID = cpo_item.CpoID AND cpo_item.Quantity>cpo_item.PackingQty',
+            ]
+        ]);
+
+        $query->join([
+            'p' => [
+                'table' => 'product',
+                'type' => 'INNER',
+                'conditions' => 'p.ProductID = cpo_item.ProductID',
+            ]
+        ]);
+
+        if(isset($params['PartName'])){
+            $query->andWhere(['p.PartName ' => $params['PartName']]);
+        }
 
         return $query->execute()->fetchAll('assoc') ?: [];
     }

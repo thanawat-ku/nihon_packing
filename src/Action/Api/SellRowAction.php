@@ -11,10 +11,12 @@ use Psr\Http\Message\ServerRequestInterface;
 use Slim\Views\Twig;
 use Symfony\Component\HttpFoundation\Session\Session;
 
+use function DI\string;
+
 /**
  * Action.
  */
-final class SellProductIDAction
+final class SellRowAction
 {
     /**
      * @var Responder
@@ -43,35 +45,32 @@ final class SellProductIDAction
     {
         $data = (array)$request->getParsedBody();
         // $merge_status = (string)($data['merge_status'] ?? '');
-        $product_id = (int)($data['product_id'] ?? '');
-        $user_id = (int)($data['user_id'] ?? '');
+        $part_code = (string)($data['part_code'] ?? '');
+        // $user_id = (int)($data['user_id'] ?? '');
         // $merge_pack_ID = $data['id'];
 
 
-        if ($product_id == 0) {
-           
+
+        $sell = null;
+
+        // $merge_pack_id = $this->finder->findSells($data);
+
+        $sellRow = $this->finder->findSellProductID($part_code);
+
+        // if ($sellRow) {
+        //     $sell = $sellRow;
+        // }
+
+        if ($sellRow) {
+            $rtdata['message'] = 'Login successfully';
+            $rtdata['error'] = false;
+            $rtdata['sell_row'] = $sellRow;
         } else {
-            $sell = null;
-
-            // $merge_pack_id = $this->finder->findSells($data);
-
-            $sellRow = $this->finder->findSellProductID($product_id );
-
-            if ($sellRow) {
-                $sell = $sellRow;
-            }
-
-
-            if ($sell) {
-                $rtdata['message'] = 'Login successfully';
-                $rtdata['error'] = false;
-                $rtdata['sell'] = $sell;
-            } else {
-                $rtdata['message'] = 'Login fail';
-                $rtdata['error'] = true;
-                $rtdata['sell'] = null;
-            }
+            $rtdata['message'] = 'Login fail';
+            $rtdata['error'] = true;
+            $rtdata['sell_row'] = null;
         }
+
         return $this->responder->withJson($response, $rtdata);
     }
 }

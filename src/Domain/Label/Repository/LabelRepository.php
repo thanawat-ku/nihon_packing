@@ -158,34 +158,34 @@ final class LabelRepository
             [
                 'labels.id',
                 'label_no',
-                // 'l.product_id',
+                'l.product_id',
                 'label_type',
                 'labels.quantity',
-                // 'lot_id',
+                'lot_id',
                 'labels.merge_pack_id',
                 'labels.status',
-                // 'part_code',
-                // 'part_name',
-                // 'std_pack',
-                // 'std_box',
-                // 'lot_no'
+                'part_code',
+                'part_name',
+                'std_pack',
+                'std_box',
+                'lot_no'
 
             ]
         );
-        // $query->join([
-        //     'l' => [
-        //         'table' => 'lots',
-        //         'type' => 'INNER',
-        //         'conditions' => 'l.id = labels.lot_id',
-        //     ]
-        // ]);
-        // $query->join([
-        //     'p' => [
-        //         'table' => 'products',
-        //         'type' => 'INNER',
-        //         'conditions' => 'p.id = l.product_id',
-        //     ]
-        // ]);
+        $query->join([
+            'l' => [
+                'table' => 'lots',
+                'type' => 'INNER',
+                'conditions' => 'l.id = labels.lot_id',
+            ]
+        ]);
+        $query->join([
+            'p' => [
+                'table' => 'products',
+                'type' => 'INNER',
+                'conditions' => 'p.id = l.product_id',
+            ]
+        ]);
         // $query->join([
         //     'mp' => [
         //         'table' => 'merge_packs',
@@ -199,7 +199,7 @@ final class LabelRepository
 
         // $query->where(['OR' => [['published' => false], ['published' => true]]]);
 
-        $query->where(['OR' => [['labels.label_type' => 'NONFULLY'], ['labels.label_type' => 'MERGENONFULLY']]]);
+        // $query->where(['OR' => [['labels.label_type' => 'NONFULLY'], ['labels.label_type' => 'MERGENONFULLY']]]);
 
         // if (isset($params['product_id'])) {
         //     $query->andWhere(['product_id' => $params['product_id']]);

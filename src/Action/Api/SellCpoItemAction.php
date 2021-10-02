@@ -2,35 +2,33 @@
 
 namespace App\Action\Api;
 
-use App\Domain\CpoItem\Service\CpoItemFinder;
+use App\Domain\SellCpoItem\Service\SellCpoItemFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * Action.
  */
-final class CpoItemAction
+final class SellCpoItemAction
 {
     /**
      * @var Responder
      */
     private $responder;
-    private $CpoItemFinder;
-
+    private $productFinder;
+    
 
     /**
      * The constructor.
      *
      * @param Responder $responder The responder
      */
-    public function __construct(CpoItemFinder $CpoItemFinder, Responder $responder, Session $session)
+    public function __construct(SellCpoItemFinder $productFinder,Responder $responder)
     {
-
-        $this->CpoItemFinder = $CpoItemFinder;
+        
+        $this->productFinder=$productFinder;
         $this->responder = $responder;
-        $this->session = $session;
     }
 
     /**
@@ -45,15 +43,11 @@ final class CpoItemAction
     {
 
         $params = (array)$request->getQueryParams();
+        
+        $rtdata['message']="Get SellCpoItem Successful";
+        $rtdata['error']=false;
+        $rtdata['sell_cpo_items']=$this->productFinder->findSellCpoItems($params);        
 
-        $rtdata = $this->CpoItemFinder->findCpoItem($params);
-
-        $rtdata = $this->CpoItemFinder->findCpoItems($rtdata[0]);
-
-        $cpoitemdata['message'] = "Get CpoItem Successful";
-        $cpoitemdata['error'] = false;
-        $cpoitemdata['cpo_item'] = $rtdata;
-
-        return $this->responder->withJson($response, $cpoitemdata);
+        return $this->responder->withJson($response, $rtdata);
     }
 }
