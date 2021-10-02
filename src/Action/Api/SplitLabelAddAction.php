@@ -45,14 +45,19 @@ final class SplitLabelAddAction
         $params = (array)$request->getParsedBody();
         $user_id = $params["user_id"];
         $labelID = $params['label_id'];
-        //insertSplitLabel แต่ยังไม่ split_label_no 
-        $this->updater->insertSplitLabelApi($params, $user_id);
+        //validate data for split
 
-        $data = $this->finder->findSplitLabels($params);
-        //สร้าง split_label_no จากID และ LabelID 
-        $params['split_label_no'] = "SP{$data[0]['id']}LB{$data[0]['label_id']}";
-        $splitID = $data[0]['id'];
-        $this->updater->updateSplitLabelApi($params, $splitID, $user_id);
+
+
+        
+        //insertSplitLabel แต่ยังไม่ split_label_no 
+        $splitID=$this->updater->insertSplitLabelApi($params, $user_id);
+
+        // $data = $this->finder->findSplitLabels($params);
+        // //สร้าง split_label_no จากID และ LabelID 
+        // $params['split_label_no'] = "SP{$data[0]['id']}LB{$data[0]['label_id']}";
+        // $splitID = $data[0]['id'];
+        // $this->updater->updateSplitLabelApi($params, $splitID, $user_id);
 
         $dataLabel['split_label_id'] = $splitID;
         $dataLabel['status'] = "VOID";
