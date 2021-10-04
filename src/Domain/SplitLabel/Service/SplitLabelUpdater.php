@@ -37,16 +37,10 @@ final class SplitLabelUpdater
         $id = $this->repository->insertSplitLabelApi($Row, $user_id);
 
         //add gen split no
+        $data1['split_label_no'] = "SP" . str_pad($id, 10, "0", STR_PAD_LEFT);
+        
 
-        return $id;
-    }
-    public function insertSplitLabelDeatilApi(array $data, $user_id): int
-    {
-        $this->validator->validateSplitLabelInsert($data);
-
-        $Row = $this->mapToSplitLabelDeatilRow($data);
-
-        $id = $this->repository->insertSplitLabelDeatilApi($Row, $user_id);
+        $this->repository->updateSplitLabelApi($id, $data1, $user_id);
 
         return $id;
     }
@@ -111,6 +105,4 @@ final class SplitLabelUpdater
 
         return $result;
     }
-
-    
 }

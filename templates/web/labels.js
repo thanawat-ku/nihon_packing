@@ -1,7 +1,7 @@
-$(function() {
+$(function () {
     $('#my-data-table').DataTable();
 });
-function editLabels(event){
+function editLabels(event) {
     let labels = event.currentTarget.name;
     console.log(labels);
     var obj = JSON.parse(labels);
@@ -13,16 +13,28 @@ function editLabels(event){
     $("#editStatus").val(obj.status);
 }
 
-  function deleteLabels(event){
+function deleteLabels(event) {
     let labels = event.currentTarget.name;
     console.log(labels);
     var obj = JSON.parse(labels);
     $("#deleteLabelID").val(obj.id);
-    $("#deleteLabelNo").text(obj.label_no);
+    $("#deleteLotNo").text(obj.label_no);
 }
+
+function splitLabel(event) {
+    let labels = event.currentTarget.name;
+    console.log(labels);
+    var obj = JSON.parse(labels);
+    $("#SPLabelID").val(obj.id);
+    $("#SPLabelNo").text(obj.label_no);
+
+    
+}
+
+
 $(document).on(
     "click",
-    "#editBt, #deleteBt",
+    "#editBt, #deleteBt, #SplitBt",
     (event) => {
         let id = event.currentTarget.id;
         switch (id) {
@@ -31,6 +43,9 @@ $(document).on(
                 break;
             case "deleteBt":
                 deleteLabels(event);
+                break;
+            case "SplitBt":
+                splitLabel(event);
                 break;
             default:
                 console.log("no any events click");
