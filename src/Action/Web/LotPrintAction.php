@@ -58,6 +58,7 @@ final class LotPrintAction
             $this->labelUpdater->genLabelNo($data);
             $dataLot['user_id']=$this->session->get('user')["id"];
             $dataLot['status']='PRINTED';
+            $dataLot['real_qty']=$realQty;
             $this->updater->updateLot($lotId, $dataLot);
         }
 
