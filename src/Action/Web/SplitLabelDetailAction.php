@@ -10,7 +10,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Slim\Views\Twig;
 use Symfony\Component\HttpFoundation\Session\Session;
 
-final class  SplitLabelLabelAction
+final class  SplitLabelDetailAction
 {
 
     private $responder;
@@ -44,6 +44,7 @@ final class  SplitLabelLabelAction
 
         $labels = [];
         for ($i = 0; $i < sizeof($labelDetail); $i++) {
+
             $labelId['label_id'] = $labelDetail[$i]['label_id'];
             $label = $this->finder->findLabels($labelId);
             array_push($labels, $label[0]);

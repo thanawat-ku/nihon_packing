@@ -38,23 +38,23 @@ final class SplitLabelUpdater
 
         //add gen split no
         $data1['split_label_no'] = "SP" . str_pad($id, 10, "0", STR_PAD_LEFT);
-        
+
 
         $this->repository->updateSplitLabelApi($id, $data1, $user_id);
 
         return $id;
     }
 
-    public function updateSplitLabel(int $labelID, array $data): void
+    public function updateSplitLabel(int $splitLabelID, array $data): void
     {
         // Input validation
-        $this->validator->validateSplitLabelUpdate($labelID, $data);
+        $this->validator->validateSplitLabelUpdate($splitLabelID, $data);
 
 
         $storeRow = $this->mapToSplitLabelRow($data);
 
         // Insert store
-        $this->repository->updateSplitLabel($labelID, $storeRow);
+        $this->repository->updateSplitLabel($splitLabelID, $storeRow);
     }
 
     public function updateSplitLabelApi(array $data, int $splitID, $user_id): void
