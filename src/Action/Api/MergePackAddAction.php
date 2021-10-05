@@ -37,25 +37,25 @@ final class MergePackAddAction
         $params = (array)$request->getParsedBody();
         $user_id=$params["user_id"];
         $product_id=$params["product_id"];
-        $merge_status=$params["merge_status"];
         
-        //ทำการสร้าง merge_no ขึ้นมาก่อน เเต่ merge_no ที่สร้างขึ้นมาใหม่นั้นนังไม่สามารถดึง part_code มาได้
-        //หลังจากที่สร้างเสร็จแล้จึง update merge_no
-        $rtdata['merge_packs']=$this->finder->findMergePacks($params); //ดึงข้อมูลมาจากฐานข้อมูล
+        // $rtdata['merge_packs']=$this->finder->findMergePacks($params); //ดึงข้อมูลมาจากฐานข้อมูล
 
-        $countmerge=count($rtdata["merge_packs"]); //หาจำนวน array
-        $arraynumnow = $countmerge - 1; //กำหนดตัวแปรเพื่อหา array สุดท้าย
-        // $araynumfu = $arraynumnow + 1; //กำหนดตัวแปรเพื่อหา array สุดท้าย สำหรับ update merge_no
+        // $countmerge=count($rtdata["merge_packs"]); //หาจำนวน array
+        // $arraynumnow = $countmerge - 1; //กำหนดตัวแปรเพื่อหา array สุดท้าย
+        // // $araynumfu = $arraynumnow + 1; //กำหนดตัวแปรเพื่อหา array สุดท้าย สำหรับ update merge_no
         
-        $mpafterID = $rtdata["merge_packs"][$arraynumnow]['id']; //ดึงค่า id ของ array สุดท้าย
-        $mergeID = $mpafterID + 1; 
+        // $mpafterID = $rtdata["merge_packs"][$arraynumnow]['id']; //ดึงค่า id ของ array สุดท้าย
+        // $mergeID = $mpafterID + 1; 
         
         //insert data in merge_packs
-        $data1['merge_no']= "MP".str_pad($mergeID, 10, "0", STR_PAD_LEFT); //สร้าง merge_no
-        $data1['product_id']= $product_id;
-        $data1['merge_status']= $merge_status;
+        // $data1['merge_no']= "MP".str_pad($mergeID, 10, "0", STR_PAD_LEFT); //สร้าง merge_no
+        // $data1['product_id']= $product_id;
+        
 
-        $this->updater->insertMergePackApi($data1, $user_id);
+        $id=$this->updater->insertMergePackApi($params, $user_id);
+        $this->updater->updateMergePackApi($id, $params, $user_id);
+
+        
 
         // //หลังจากสร้าง merge_no เสร็จ เเล้วก็ update merge_no ที่ได้ part_code เข้าไปอยู่ใน merge_no ที่สร้างขึ้น
         // $rtdata['merge_packs']=$this->finder->findMergePacks($params);

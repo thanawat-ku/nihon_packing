@@ -23,33 +23,25 @@ final class MergePackUpdater
             //->createInstance();
     }
 
-    public function insertMergePackApi( array $data,$user_id): int
+    public function insertMergePackApi(array $data, $user_id): int
     {
-        // Input validation
         $this->validator->validateMergePackInsert($data);
 
-        // Map form data to row
         $row = $this->mapToMergePackRow($data);
-
-        // Insert transferStore
+        $row['merge_no'] = "M".str_pad(0, 11, "0", STR_PAD_LEFT);
         $id=$this->repository->insertMergePackApi($row,$user_id);
 
-        // Logging
-        //$this->logger->info(sprintf('TransferStore updated successfully: %s', $id));
         return $id;
     }
-    public function updateMergePackApi(int $id, array $data,$user_id): void
+    public function updateMergePackApi(int $id, array $data, $user_id): void
     {
-        // Input validation
         $this->validator->validateMergePackUpdate($id, $data);
 
-        // Map form data to row
-        $storeRow = $this->mapToMergePackRow($data);
+        $Row = $this->mapToMergePackRow($data);
+        $Row['merge_no']= "M".str_pad($id, 11, "0", STR_PAD_LEFT);
 
-        // Insert store
-        $this->repository->updateMergePackApi($id, $storeRow,$user_id);
+        $this->repository->updateMergePackApi($id, $Row,$user_id);
 
-        // Logging
         //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));
     }
 

@@ -94,10 +94,6 @@ return function (App $app) {
     $app->get('/api/select_merge_pack_id', \App\Action\Api\SelectMergePackIDAction::class);
 
     $app->post('/api/add_merge_packs', \App\Action\Api\MergePackAddAction::class);
-    $app->post('/api/up_status_merge_packs', \App\Action\Api\UpStatusMergePackAction::class);
-    $app->post('/api/up_status_merge_labels', \App\Action\Api\UpStatusMergeLabelAction::class);
-    $app->post('/api/up_status_mergings', \App\Action\Api\UpStatusMergingAction::class);
-    $app->post('/api/up_status_merged', \App\Action\Api\UpStatusMergedAction::class);
     $app->post('/api/add_merge_pack_detail', \App\Action\Api\MergePackDetailAddAction::class);
     $app->post('/api/gen_label_merge_packs', \App\Action\Api\GenMergeLabelBarcodeNoAction::class);
     $app->post('/api/add_mn_from_lb', \App\Action\Api\AddMergeNoFromLabelAction::class);
@@ -116,7 +112,6 @@ return function (App $app) {
     $app->get('/api/sells', \App\Action\Api\SellAction::class);
     $app->post('/api/add_sell', \App\Action\Api\SellAddAction::class);
     $app->post('/api/sell_row', \App\Action\Api\SellRowAction::class);
-    $app->post('/api/up_status_sell', \App\Action\Api\SellUpStatusAction::class);
 
     $app->get('/api/product_for_sells', \App\Action\Api\ProductForSellAction::class);
 

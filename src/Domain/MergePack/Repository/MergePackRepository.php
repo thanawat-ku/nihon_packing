@@ -25,6 +25,8 @@ final class MergePackRepository
         $row['updated_at'] = Chronos::now()->toDateTimeString();
         $row['updated_user_id'] = $user_id;
 
+        $row['merge_status']="CREATED";
+
         return (int)$this->queryFactory->newInsert('merge_packs', $row)->execute()->lastInsertId();
     }
     public function updateMergePackApi(int $lotID, array $data, $user_id): void
