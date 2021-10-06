@@ -24,7 +24,7 @@ final class SplitLabelDetailRepository
         $row['updated_at'] = Chronos::now()->toDateTimeString();
         $row['updated_user_id'] = $this->session->get('user')["id"];
 
-        return (int)$this->queryFactory->newInsert('split_labels', $row)->execute()->lastInsertId();
+        return (int)$this->queryFactory->newInsert('split_label_details', $row)->execute()->lastInsertId();
     }
 
 
@@ -45,7 +45,7 @@ final class SplitLabelDetailRepository
         $data['updated_at'] = Chronos::now()->toDateTimeString();
         $data['updated_user_id'] = $this->session->get('user')["id"];
 
-        $this->queryFactory->newUpdate('split_labels', $data)->andWhere(['id' => $splitLabelID])->execute();
+        $this->queryFactory->newUpdate('split_label_details', $data)->andWhere(['id' => $splitLabelID])->execute();
     }
 
     public function updateSplitLabelDetailApi(int $splitID, array $data, $user_id): void
@@ -53,12 +53,17 @@ final class SplitLabelDetailRepository
         $data['updated_at'] = Chronos::now()->toDateTimeString();
         $data['updated_user_id'] = $user_id;
 
-        $this->queryFactory->newUpdate('split_labels', $data)->andWhere(['id' => $splitID])->execute();
+        $this->queryFactory->newUpdate('split_label_details', $data)->andWhere(['id' => $splitID])->execute();
     }
 
     public function deleteSplitLabelDetail(int $splitLabelID): void
     {
-        $this->queryFactory->newDelete('split_labels')->andWhere(['id' => $splitLabelID])->execute();
+        $this->queryFactory->newDelete('split_label_details')->andWhere(['id' => $splitLabelID])->execute();
+    }
+
+    public function deleteSplitLabelDetailAll(int $splitLabelID): void
+    {
+        $this->queryFactory->newDelete('split_label_details')->andWhere(['split_label_id' => $splitLabelID])->execute();
     }
 
     public function findSplitLabelDetail(array $params): array

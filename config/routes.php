@@ -52,12 +52,11 @@ return function (App $app) {
     $app->get('/splitLabels', \App\Action\Web\SplitLabelAction::class)->add(UserAuthMiddleware::class);
     $app->get('/label_splitlabel', \App\Action\Web\SplitLabelDetailAction::class)->add(UserAuthMiddleware::class);
     $app->post('/splitLabel_register', \App\Action\Web\SplitLabelRegisterAction::class)->add(UserAuthMiddleware::class);
-
-    $app->post('/api/login', \App\Action\ApiLoginSubmitAction::class);
+    $app->post('/delete_splitLabel', \App\Action\Web\SplitLabelDeleteAction::class)->add(UserAuthMiddleware::class);
 
     //---------------------------Api-------------------------------
 
-
+    $app->post('/api/login', \App\Action\ApiLoginSubmitAction::class);
     $app->get('/api/merges', \App\Action\Api\MergeAction::class);
 
     $app->get('/api/lots', \App\Action\Api\LotAction::class);
