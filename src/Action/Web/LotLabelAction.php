@@ -31,11 +31,12 @@ final class  LotLabelAction
         $data = (array)$request->getQueryParams();
         $lotId = $data["id"];
         $params["lot_id"] = $lotId;
-
+        $lot = $this->finder->findLabels($params);
         $viewData = [
-            'labels' => $this->finder->findLabels($params),
+            'lot_no' => $lot[0]['lot_no'],
+            'labels' => $lot,
             'user_login' => $this->session->get('user'),
         ];
-        return $this->twig->render($response, 'web/labels.twig', $viewData);
+        return $this->twig->render($response, 'web/labelsLot.twig', $viewData);
     }
 }
