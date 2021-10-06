@@ -21,8 +21,7 @@
                         <th>Product</th>
                         <th>Qty</th>
                         <th>Real Qty</th>
-                        <th>Std Pack</th>
-                        <th>Std Box</th>
+                        <th>Std Pack/Box</th>
                         <th>Status</th>
                         <th>Operation</th>
                     </tr>
@@ -34,12 +33,14 @@
                         <td>{{ '(' ~ lot.part_code ~ ') ' ~ lot.part_name}}</td>
                         <td>{{ lot.quantity }}</td>
                         <td>{{ lot.real_qty }}</td>
-                        <td>{{ lot.std_pack }}</td>
-                        <td>{{ lot.std_box }}</td>
+                        <td>{{ lot.std_pack ~ '/' ~ lot.std_box }}</td>
                         <td>{{ lot.status }}</td>
                         <td>
                         {% if lot.status == "CREATED" %}
                         <button type="button" id="addDefectBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#defectLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-tools"></i></button>
+                        {% endif %}
+                        <a href="lot_defect_detail?id={{lot.id}}"><button type="button" class="btn btn-info btn-sm" data-toggle="modal" ><i style="font-size:15px; width:20px;" class="fas fa-info-circle"></i></button></a>
+                        {% if lot.status == "CREATED" %}
                         <button type="button" id="printBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#printLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-print"></i></button>
                         {% endif %}
                         {% if lot.status == "PRINTED" %}
@@ -61,7 +62,9 @@
                 <p></p>
             </div>
         </div>
+      </div>
     </div>
+  </div>
 
 <!--regiserLot-->
 <div class="modal fade" id="registerLot">

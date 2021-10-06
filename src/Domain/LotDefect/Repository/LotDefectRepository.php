@@ -73,6 +73,8 @@ final class LotDefectRepository
                 'defect_id',
                 'defect_code',
                 'quantity',
+                // 'lot_defects.quantity',
+                // 'lot_no',
             ]
         );
 
@@ -83,6 +85,13 @@ final class LotDefectRepository
                 'conditions' => 'd.id = lot_defects.defect_id',
             ]
         ]);
+        // $query->join([
+        //     'l' => [
+        //         'table' => 'lots',
+        //         'type' => 'INNER',
+        //         'conditions' => 'l.id = lot_defects.lot_id',
+        //     ]
+        // ]);
 
         if(isset($params['lot_id'])){
             $query->andWhere(['lot_id' => $params['lot_id']]);

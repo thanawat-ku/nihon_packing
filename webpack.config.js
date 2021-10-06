@@ -17,6 +17,7 @@ module.exports = {
       'web/lots': './templates/web/lots.js', 
       'web/labels': './templates/web/labels.js',
       'web/splitLabels': './templates/web/splitLabels.js',
+      'web/lotDefects': './templates/web/lotDefects.js',
       'web/merges': './templates/web/merges.js',
       'web/merge_detail': './templates/web/merge_detail.js', // <-- add this line
     },
