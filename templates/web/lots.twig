@@ -15,7 +15,7 @@
             <div class="col-md-12">
                 <h2><i class="fas fa-dolly"></i> Lot list</h2>
                 <label for=" ">     <span ></span></label>
-                <form id="form-searchIssue" class="form-inline float-right" action="#" method="get">
+                <form id="form-searchIssue" class="form-inline float-right" action="" method="get">
                   Issue Date From:&nbsp;&nbsp;
                   <input type="text" autocomplete="off" class="form-control" id="searchIssueStartDate" name="startDate" value="{{startDate}}">&nbsp;&nbsp;To&nbsp;&nbsp; 
                   <input type="text" autocomplete="off" class="form-control" id="searchIssueEndDate" name="endDate" value="{{endDate}}">&nbsp;&nbsp;
@@ -44,23 +44,20 @@
                         <td>{{ lot.std_pack ~ '/' ~ lot.std_box }}</td>
                         <td>{{ lot.status }}</td>
                         <td>
-                        {% if lot.status == "CREATED" %}
-                        <button type="button" id="addDefectBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#defectLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-tools"></i></button>
-                        {% endif %}
-                        <a href="lot_defect_detail?id={{lot.id}}"><button type="button" class="btn btn-info btn-sm" data-toggle="modal" ><i style="font-size:15px; width:20px;" class="fas fa-info-circle"></i></button></a>
+                        <a href="lot_defect_detail?id={{lot.id}}"><button type="button" class="btn btn-info btn-sm" data-toggle="modal" ><i style="font-size:15px; width:20px;" class="fas fa-tools"></i></button></a>
                         {% if lot.status == "CREATED" %}
                         <button type="button" id="printBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#printLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-print"></i></button>
                         {% endif %}
                         {% if lot.status == "PRINTED" %}
                         <button type="button" id="registerBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#registerLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-check-circle"></i></button>
                         {% endif %}
-                        {% if lot.status == "CREATED" %}
-                        <button type="button" id="editBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-edit"></i></button>
-                        {% endif %}
                         {% if lot.status != "CREATED" %}
                         <a href="label_lot?id={{lot.id}}"><button type="button" class="btn btn-success btn-sm" data-toggle="modal" ><i style="font-size:15px; width:20px;" class="fas fa-info-circle"></i></button></a> 
                         {% endif %}
+                        {% if lot.status == "CREATED" %}
+                        <button type="button" id="editBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-edit"></i></button>                   
                         <button type="button" id="deleteBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-trash"></i></button>    
+                        {% endif %}
                         </td>
                     </tr>
                     {% endfor %}
@@ -73,7 +70,6 @@
       </div>
     </div>
   </div>
-  
 
 <!--regiserLot-->
 <div class="modal fade" id="registerLot">
@@ -93,43 +89,6 @@
           <div class="form-realQty">
           <label for="lotNo">Do you want to register lot: <span id="registerLotNo"></span></label>
           </div>                            
-        </div>
-        <div class="modal-footer">
-          <button type="submit" class="btn btn-primary">Save</button>
-          <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
-
-<!--defectLot-->
-<div class="modal fade" id="defectLot">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <form id="form-defectLot" action="add_lot_defect" method="post">
-        <!-- Modal Header -->
-        <div class="modal-header">
-          <h4 class="modal-title">Add Lot Defect</h4>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-        </div>
-        <!-- Modal body -->
-        <div class="modal-body">          
-          <div class="form-product">
-            <input type="hidden" id="defectLotID" name="lot_id">
-          </div>                 
-          <div class="form-product">
-            <label for="email">Product</label>
-            <select class="form-control"  id="defectID" name="defect_id">
-            {% for d in defects %}
-              <option value={{ d.id }}>({{d.defect_code}}) </option>
-            {% endfor %}
-            </select>
-          </div>           
-          <div class="form-product">
-            <label for="lotNo">Quantity</label>
-            <input type="text" autocomplete="off" class="form-control" id="addQuantity" name="quantity" required>
-          </div> 
         </div>
         <div class="modal-footer">
           <button type="submit" class="btn btn-primary">Save</button>

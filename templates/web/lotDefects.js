@@ -10,18 +10,16 @@ function deleteSplitLabel(event) {
     $("#deleteLotNoLabelStatus").val(obj.status);
 }
 
-function registerLabel(event) {
+function addDefectLot(event) {
     let lot = event.currentTarget.name;
     console.log(lot);
     var obj = JSON.parse(lot);
-    $("#registerSpId").val(obj.id);
-    $("#registerSpNo").text(obj.split_label_no);
-
+    $("#defectLotID").val(obj.id);
 }
 
 $(document).on(
     "click",
-    " #deleteBt,#registerBt",
+    " #deleteBt,#registerBt,#addDefectBt",
     (event) => {
         let id = event.currentTarget.id;
         switch (id) {
@@ -31,6 +29,9 @@ $(document).on(
                 break;
             case "registerBt":
                 registerLabel(event);
+                break;
+            case "addDefectBt":
+                addDefectLot(event);
                 break;
             default:
                 console.log("no any events click");

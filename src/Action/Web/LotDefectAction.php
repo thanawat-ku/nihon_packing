@@ -4,6 +4,7 @@ namespace App\Action\Web;
 
 use App\Domain\LotDefect\Service\LotDefectFinder;
 use App\Domain\Lot\Service\LotFinder;
+use App\Domain\Defect\Service\DefectFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -30,12 +31,14 @@ final class LotDefectAction
         Session $session,
         Responder $responder,
         LotFinder $lotFinder,
+        DefectFinder $defectFinder,
     ) {
         $this->twig = $twig;
         $this->finder = $finder;
         $this->session = $session;
         $this->responder = $responder;
         $this->lotFinder = $lotFinder;
+        $this->defectFinder = $defectFinder;
     }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
@@ -46,8 +49,9 @@ final class LotDefectAction
         $lot = $this->lotFinder->findLots($data);
 
         $viewData = [
-            'lot_no' => $lot[0]['lot_no'] ,
-            'lotDefects' => $this->finder->findLotDefects($params),
+            'lot' => $lot[0],
+            'defects' => $this->defectFinder->findDefects($params),
+            'lotDefects' => $this->finder->findLotDefects($data),
             'user_login' => $this->session->get('user'),
         ];
 
