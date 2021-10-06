@@ -13,7 +13,15 @@
   <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <h2><i class="fas fa-dolly"></i> Lot list</h2>     
+                <h2><i class="fas fa-dolly"></i> Lot list</h2>
+                <label for=" ">     <span ></span></label>
+                <form id="form-searchIssue" class="form-inline float-right" action="#" method="get">
+                  Issue Date From:&nbsp;&nbsp;
+                  <input type="text" autocomplete="off" class="form-control" id="searchIssueStartDate" name="startDate" value="{{startDate}}">&nbsp;&nbsp;To&nbsp;&nbsp; 
+                  <input type="text" autocomplete="off" class="form-control" id="searchIssueEndDate" name="endDate" value="{{endDate}}">&nbsp;&nbsp;
+                  <button type="submit" class="btn btn-warning" id="searchIssueBt"><i class="fas fa-search fa-lg"></i> Search</button>
+                </form>
+                <hr>
                 <table id="my-data-table" class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline collapsed">
                     <thead>
                     <tr>
@@ -65,6 +73,7 @@
       </div>
     </div>
   </div>
+  
 
 <!--regiserLot-->
 <div class="modal fade" id="registerLot">

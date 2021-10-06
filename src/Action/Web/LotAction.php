@@ -46,11 +46,18 @@ final class LotAction
     {
         $params = (array)$request->getQueryParams();
 
+        if(!isset($params['startDate'])){
+            $params['startDate']=date('Y-m-d',strtotime('-30 days',strtotime(date('Y-m-d'))));
+            $params['endDate']=date('Y-m-d');
+        }
+
         $viewData = [
             'lots' => $this->finder->findLots($params),
             'products' => $this->productFinder->findProducts($params),
             'defects' => $this->defectFinder->findDefects($params),
             'user_login' => $this->session->get('user'),
+            'startDate' => $params['startDate'],
+            'endDate' => $params['endDate'],
         ];
 
         return $this->twig->render($response, 'web/lots.twig', $viewData);

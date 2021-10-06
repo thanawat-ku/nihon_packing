@@ -46,20 +46,20 @@ final class SplitLabelRegisterAction
         if ($fDetail['split_label_id'] == "0") {
             $getSpID =  $this->finder->findSplitLabelDetailsForscan($dataL);
             $fDetail['split_label_id'] = $getSpID[0]['split_label_id'];
-            $findD = $this->finder->findSplitLabelDetails($fDetail);
+            $findDetail = $this->finder->findSplitLabelDetails($fDetail);
         } else {
-            $findD = $this->finder->findSplitLabelDetails($fDetail);
+            $findDetail = $this->finder->findSplitLabelDetails($fDetail);
         }
 
 
         $labels = [];
 
-        for ($i = 0; $i < sizeof($findD); $i++) {
+        for ($i = 0; $i < sizeof($findDetail); $i++) {
             $dataL['status'] = "PACKED";
-            $labelID = $findD[$i]['label_id'];
+            $labelID = $findDetail[$i]['label_id'];
             $splitID = $fDetail['split_label_id'];
-            $GG = $this->labelsUpdater->updateLabelApi($labelID, $dataL, $user_id);
-            array_push($labels, $GG[0]);
+            $label = $this->labelsUpdater->updateLabelApi($labelID, $dataL, $user_id);
+            array_push($labels, $label[0]);
             $this->updater->updateSplitLabelApi($dataL, $splitID, $user_id);
         }
 

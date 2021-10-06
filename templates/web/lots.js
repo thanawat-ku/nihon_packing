@@ -1,3 +1,9 @@
+// $(function () {
+//     $('#my-data-table').DataTable({
+//         "scrollX": true,
+//         "lengthMenu": [[10, 50, 100, -1], [10, 50, 100, "All"]]
+//     });
+// });
 $(function () {
     $('#my-data-table').DataTable();
 });
@@ -64,6 +70,7 @@ $(document).on(
             case "registerBt":
                 registerLot(event);
                 break;
+            
             default:
                 console.log("no any events click");
         }

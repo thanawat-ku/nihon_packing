@@ -33,26 +33,13 @@ final class SplitLabelDetailAction
         $params = (array)$request->getQueryParams();
 
         $findD = $this->finder->findSplitLabelDetails($params);
-        // $paramsFL['GG'] = "GG";
-        // $findL = $this->labelFinder->findLabels($paramsFL);
 
-        $labels = [];
-        // for ($i = 0; $i < sizeof($findL); $i++) {
-        //     for ($j = 0; $j < sizeof($findD); $j++) {
-        //         $check1 = $findL[$i]['id'];
-        //         $check2 = $findD[$j]['label_id'];
-        //         if ($check1 == $check2) {
-        //             array_push($labels, $findL[$i]);
-        //         }
-        //     }
-        // }
-        
+        $labels = [];  
         for ($i = 0; $i < sizeof($findD); $i++) {
-            $dataL['label_id'] = $findD[$i]['label_id'];
-            $findL = $this->labelFinder->findLabels($dataL);
-            array_push($labels, $findL[0]);
+            $LabelId['label_id'] = $findD[$i]['label_id'];
+            $findLabel = $this->labelFinder->findLabels($LabelId);
+            array_push($labels, $findLabel[0]);
         }
-
 
         $rtdata['message'] = "Get SplitLabelDetail Successful";
         $rtdata['error'] = false;

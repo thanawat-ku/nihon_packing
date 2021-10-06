@@ -79,9 +79,10 @@ final class LabelSplitAction
             $dataDetailSL['split_label_id'] = $splitID;
             $this->updaterSpiteLabelDetail->insertSplitLabelDetailDeatilApi($dataDetailSL, $user_id);
         }
-        $fSplitLabel['label_id'] = $dataDetailSL['label_id'];
+        $findSplitLabel['label_id'] = $dataDetailSL['label_id'];
+        
         $viewData = [
-            'splitLabels' => $this->splitLabelFinder->findSplitLabels($fSplitLabel),
+            'splitLabels' => $this->splitLabelFinder->findSplitLabels($$findSplitLabel),
             'user_login' => $this->session->get('user'),
         ];
 

@@ -48,8 +48,8 @@ final class  SplitLabelRegisterAction
         $data = (array)$request->getParsedBody();
         $SplitLabelId = $data["id"];
 
-        $Fdetail["split_label_id"] = $SplitLabelId;
-        $labelDetail = $this->splitDetailFinder->findSplitLabelDetails($Fdetail);
+        $Finddetail["split_label_id"] = $SplitLabelId;
+        $labelDetail = $this->splitDetailFinder->findSplitLabelDetails($Finddetail);
         for ($i = 0; $i < sizeof($labelDetail); $i++) {
             $labelId['label_id'] = $labelDetail[$i]['label_id'];
             $label = $this->finder->findLabels($labelId);
@@ -60,10 +60,6 @@ final class  SplitLabelRegisterAction
         $data3['status'] = "PACKED";
         $this->updater->updateSplitLabel($SplitLabelId ,$data3);
 
-        $viewData = [
-            'splitLabels' => $labelDetail,
-            'user_login' => $this->session->get('user'),
-        ];
-        return $this->twig->render($response, 'web/splitLabels.twig', $viewData);
+        return $this->responder->withRedirect($response,"splitLabels");
     }
 }
