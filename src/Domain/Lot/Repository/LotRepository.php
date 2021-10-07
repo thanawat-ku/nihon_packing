@@ -105,9 +105,14 @@ final class LotRepository
         if (isset($params['lot_id'])) {
             $query->andWhere(['lots.id' => $params["lot_id"]]);
         }
-        if (isset($params['lot_no'])) {
+        else if (isset($params['lot_no'])) {
             $query->andWhere(['lot_no' => $params['lot_no']]);
         }
+        else if (isset($params["startDate"])) {
+            $query->andWhere(['issue_date <=' => $params['endDate'], 'issue_date >=' => $params['startDate']]);
+        }
+
+        $query->andWhere(['lots.is_delete' => 'N']);
 
         return $query->execute()->fetchAll('assoc') ?: [];
     }

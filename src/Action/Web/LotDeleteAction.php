@@ -35,14 +35,12 @@ final class LotDeleteAction
         $data = (array)$request->getParsedBody();
         $lotId = $data["id"];
 
-
-        $this->updaterLabel->deleteLabelAll($lotId , $data);
-
         // Invoke the Domain with inputs and retain the result
 
-        $this->updater->deleteLot($lotId, $data);
+        $this->updater->IsdeleteLot($lotId, $data);
         
-        $this->updaterLotDefect->deleteLotDefectAll($lotId);
+        // $this->updaterLabel->deleteLabelAll($lotId , $data);
+        // $this->updaterLotDefect->deleteLotDefectAll($lotId);
 
         // Build the HTTP response
         return $this->responder->withRedirect($response,"lots");

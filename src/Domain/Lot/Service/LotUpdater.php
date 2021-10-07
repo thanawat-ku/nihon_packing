@@ -107,6 +107,14 @@ final class LotUpdater
         //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));
     }
 
+    public function IsdeleteLot(int $lotId, array $data): void
+    {
+
+        $IsDelete['is_delete'] = "Y";
+        $this->repository->updateLot($lotId, $IsDelete);
+
+    }
+
     private function mapToLotRow(array $data): array
     {
         $result = [];
@@ -134,6 +142,9 @@ final class LotUpdater
         }
         if (isset($data['status'])) {
             $result['status'] = (string)$data['status'];
+        }
+        if (isset($data['is_delete'])) {
+            $result['is_delete'] = (string)$data['is_delete'];
         }
 
         return $result;

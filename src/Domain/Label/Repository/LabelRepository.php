@@ -90,7 +90,7 @@ final class LabelRepository
 
         $this->queryFactory->newUpdate('labels', $data)->andWhere(['lot_id' => $lot_id])->execute();
     }
-    
+
     public function registerSpiteLabelApi(int $lot_id, array $data, $user_id): void
     {
         $data['updated_at'] = Chronos::now()->toDateTimeString();
@@ -159,13 +159,11 @@ final class LabelRepository
             $query->andWhere(['lot_id' => $params['lot_id']]);
         }
         //find label from splitLabel
-        if (isset($params['split_label_id'])) {
+        else if (isset($params['split_label_id'])) {
             $query->andWhere(['split_label_id' => $params['split_label_id']]);
-        }
-        if (isset($params['status'])) {
+        } else if (isset($params['status'])) {
             $query->andWhere(['labels.status' => $params['status']]);
-        }
-        if (isset($params['label_no'])) {
+        } else if (isset($params['label_no'])) {
             $query->andWhere(['labels.label_no' => $params['label_no']]);
         }
 
@@ -174,11 +172,18 @@ final class LabelRepository
         //     $query->andWhere(['labels.status !=' => "VOID"]);
         // }
 
-        if (isset($params['label_id'])) {
+        else if (isset($params['label_id'])) {
             $query->andWhere(['labels.id' => $params['label_id']]);
-        }
+        } 
+        $query->andWhere(['l.is_delete' => 'N']);
+        // else if (isset($params["startDate"])) {
+        //     $query->andWhere(['issue_date <=' => $params['endDate'], 'issue_date >=' => $params['startDate']]);
+        // }
         
-        return $query->execute()->fetchAll('assoc') ?: [];
+
+        $get =  $query->execute()->fetchAll('assoc') ?: [];
+        return $get; 
+        // return $query->execute()->fetchAll('assoc') ?: [];
     }
 
     public function findLabelsForScan(array $params): array
@@ -223,16 +228,16 @@ final class LabelRepository
             $query->andWhere(['lot_id' => $params['lot_id']]);
         }
         //find label from label_no
-        if (isset($params['label_no'])) {
+        else if (isset($params['label_no'])) {
             $query->andWhere(['labels.label_no' => $params['label_no']]);
         }
         //find label from splitLabel
-        if (isset($params['split_label_id'])) {
+        else if (isset($params['split_label_id'])) {
             $query->andWhere(['split_label_id' => $params['split_label_id']]);
-        }
-        if (isset($params['status'])) {
-            $query->andWhere(['labels.status' => $params['status']]);
-        }
+        } 
+
+        $query->andWhere(['l.is_delete' => 'N']);
+
         $getdata = $query->execute()->fetchAll('assoc') ?: [];
         if ($getdata) {
             return  $getdata;

@@ -45,7 +45,6 @@ final class  SplitLabelDeleteAction
         $this->splitDetailFinder = $splitDetailFinder;
         $this->splitDetailUpdater = $splitDetailUpdater;
         $this->labelUpdater = $labelUpdater;
-        
     }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
@@ -59,12 +58,15 @@ final class  SplitLabelDeleteAction
             $labelId['label_id'] = $labelDetail[$i]['label_id'];
             $label = $this->finder->findLabels($labelId);
             $labelId2 = $label[0]['id'];
-            $this->labelUpdater->deleteLabel($labelId2,$data);
+            $this->labelUpdater->deleteLabel($labelId2, $data);
         }
 
-        $this->splitDetailUpdater->deleteSplitLabelDetailAll($SplitLabelId ,$data);
-        $this->updater->deleteSplitLabel($SplitLabelId ,$data);
-        
-        return $this->responder->withRedirect($response,"splitLabel");
+        $this->splitDetailUpdater->deleteSplitLabelDetailAll($SplitLabelId, $data);
+        $this->updater->deleteSplitLabel($SplitLabelId, $data);
+        $dataLabel['status'] = "PACKED";
+        $labelId3 = $data['label_id'];
+        $this->labelUpdater->updateLabel($labelId3, $dataLabel);
+
+        return $this->responder->withRedirect($response, "splitLabel");
     }
 }

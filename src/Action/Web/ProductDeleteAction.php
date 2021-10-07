@@ -31,7 +31,8 @@ final class ProductDeleteAction
         $productId = $data["id"];
 
         // Invoke the Domain with inputs and retain the result
-        $this->updater->deleteProduct($productId, $data);
+        $data2['is_detele'] = "Y";
+        $this->updater->updateProduct($productId,$data2);
 
         // Build the HTTP response
         return $this->responder->withRedirect($response,"products");

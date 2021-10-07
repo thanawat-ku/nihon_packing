@@ -7,7 +7,7 @@ function deleteSplitLabel(event) {
     console.log(splitLabel);
     var obj = JSON.parse(splitLabel);
     $("#deleteLotID").val(obj.id);
-    $("#deleteLotNoLabelStatus").val(obj.status);
+    $("#deleteLotNoLabelStatus").val(obj.label_id);
 }
 
 function registerLabel(event) {
@@ -15,7 +15,7 @@ function registerLabel(event) {
     console.log(lot);
     var obj = JSON.parse(lot);
     $("#registerSpId").val(obj.id);
-    $("#registerSpNo").text(obj.split_label_no);
+    $("#deleteSplitLabelNoLabelId").text(obj.split_label_no);
 
 }
 
