@@ -63,8 +63,8 @@ final class LabelSplitAction
         $user_id = $this->session->get('user')["id"];
         $splitID = $this->splitupdater->insertSplitLabelApi($dataSP, $user_id);
 
-        $fdata['label_id'] = $data['label_id'];
-        $findData = $this->finder->findLabels($fdata);
+        $data2['label_id'] = $data['label_id'];
+        $findData = $this->finder->findLabels($data2);
 
         $dataDeatail['label_type'] = $findData[0]['label_type'];
         $dataDeatail['lot_id'] = $findData[0]['lot_id'];
@@ -79,10 +79,9 @@ final class LabelSplitAction
             $dataDetailSL['split_label_id'] = $splitID;
             $this->updaterSpiteLabelDetail->insertSplitLabelDetailDeatilApi($dataDetailSL, $user_id);
         }
-        $findSplitLabel['label_id'] = $dataDetailSL['label_id'];
-        
+        $findSplitLabel['label_id'] =  $data2['label_id'];
         $viewData = [
-            'splitLabels' => $this->splitLabelFinder->findSplitLabels($$findSplitLabel),
+            'splitLabels' => $this->splitLabelFinder->findSplitLabels($findSplitLabel),
             'user_login' => $this->session->get('user'),
         ];
 

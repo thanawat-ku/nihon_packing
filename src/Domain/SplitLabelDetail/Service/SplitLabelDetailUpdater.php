@@ -45,9 +45,9 @@ final class SplitLabelDetailUpdater
         $this->repository->deleteSplitLabelDetail($labelID);
     }
 
-    public function deleteSplitLabelDetailAll(int $labelID, array $data): void
+    public function deleteSplitLabelDetailAll(int $splitLabelID, array $data): void
     {
-        $this->repository->deleteSplitLabelDetailAll($labelID);
+        $this->repository->deleteSplitLabelDetailAll($splitLabelID);
     }
 
 
