@@ -13,7 +13,7 @@ use Psr\Http\Message\ServerRequestInterface;
 /**
  * Action.
  */
-final class LotConfirmAction
+final class LotSaveAction
 {
     /**
      * @var Responder
@@ -34,13 +34,11 @@ final class LotConfirmAction
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        $params = (array)$request->getQueryParams();
+        $params = (array)$request->getParsedBody();
         $user_id = $params["user_id"];
         $lotID = $params["lot_id"];
- 
-        $genLabelSuccess = $this->labelUpdater->genLabelNo($params);
-
-        $this->updater->confirmLotApi($lotID, $params, $user_id);
+        
+        $this->updater->updateLotApi($lotID, $params, $user_id);
 
         $findlot['lot_id'] = $lotID;
         
