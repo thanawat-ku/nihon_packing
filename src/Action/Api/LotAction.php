@@ -37,6 +37,11 @@ final class LotAction
     {
         $params = (array)$request->getQueryParams();
 
+        if(isset($params['start_date'])){
+            $params['startDate']=$params['start_date'];
+            $params['endDate']=$params['end_date'];
+        }
+
         $rtdata['message'] = "Get Lot Successful";
         $rtdata['error'] = false;
         $rtdata['lots'] = $this->finder->findLots($params);

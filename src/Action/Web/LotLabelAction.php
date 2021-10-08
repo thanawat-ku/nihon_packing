@@ -32,8 +32,16 @@ final class  LotLabelAction
         $lotId = $data["id"];
         $params["lot_id"] = $lotId;
         $lot = $this->finder->findLabels($params);
+
+        if(isset($lot[0]['lot_no'])){
+            $lotNo = $lot[0]['lot_no'];
+        }
+        else{
+            $lotNo = "error";
+        }
+        
         $viewData = [
-            'lot_no' => $lot[0]['lot_no'],
+            'lot_no' => $lotNo ,
             'labels' => $lot,
             'user_login' => $this->session->get('user'),
         ];

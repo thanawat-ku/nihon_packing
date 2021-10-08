@@ -53,9 +53,16 @@ final class  SplitLabelDetailAction
             array_push($labels, $label[0]);
         }
         $findSplitNo['split_label_id'] = $SplitLabelId;
-        $splitNo = $this->finder->findSplitLabels($findSplitNo);
+        $splitLabel = $this->finder->findSplitLabels($findSplitNo);
+
+        if (isset($splitLabel[0]['split_label_no'])) {
+            $splitNo =  $splitLabel[0]['split_label_no'];
+        } else {
+            $splitNo = "ERROR";
+        }
+
         $viewData = [
-            'split_no' => $splitNo[0]['split_label_no'],
+            'split_no' => $splitNo,
             'labels' => $labels,
             'user_login' => $this->session->get('user'),
         ];
