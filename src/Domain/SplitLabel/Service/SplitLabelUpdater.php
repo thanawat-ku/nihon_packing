@@ -33,7 +33,7 @@ final class SplitLabelUpdater
         $this->validator->validateSplitLabelInsert($data);
 
         $Row = $this->mapToSplitLabelRow($data);
-        $Row['issue_date'] = date('Y-m-d');
+        $Row['split_date'] = date('Y-m-d');
 
         $id = $this->repository->insertSplitLabelApi($Row, $user_id);
 
