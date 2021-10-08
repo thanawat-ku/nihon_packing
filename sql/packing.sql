@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 08, 2021 at 03:00 PM
+-- Generation Time: Oct 08, 2021 at 06:42 PM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.6
 
@@ -368,6 +368,32 @@ CREATE TABLE `labels` (
   `updated_user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `labels`
+--
+
+INSERT INTO `labels` (`id`, `lot_id`, `merge_pack_id`, `split_label_id`, `label_no`, `label_type`, `quantity`, `status`, `created_at`, `created_user_id`, `updated_at`, `updated_user_id`) VALUES
+(1, 10, 0, 0, 'P00000000001', 'FULLY', 10, 'PACKED', '2021-10-08 22:16:20', 1, '2021-10-08 22:24:29', 1),
+(2, 10, 0, 0, 'P00000000002', 'FULLY', 10, 'PACKED', '2021-10-08 22:16:20', 1, '2021-10-08 22:22:34', 1),
+(7, 9, 0, 0, 'P00000000007', 'FULLY', 10, 'PACKED', '2021-10-08 22:26:23', 1, '2021-10-08 22:29:55', 1),
+(8, 9, 0, 0, 'P00000000008', 'NONFULLY', 2, 'PACKED', '2021-10-08 22:26:23', 1, '2021-10-08 22:29:55', 1),
+(9, 1, 0, 10, 'P00000000009', 'FULLY', 10, 'VOID', '2021-10-08 22:32:22', 1, '2021-10-08 22:42:25', 1),
+(10, 1, 0, 0, 'P00000000010', 'NONFULLY', 7, 'PACKED', '2021-10-08 22:32:22', 1, '2021-10-08 22:33:18', 1),
+(11, 2, 0, 11, 'P00000000011', 'FULLY', 5, 'VOID', '2021-10-08 22:34:16', 1, '2021-10-08 22:45:46', 1),
+(12, 2, 0, 0, 'P00000000012', 'FULLY', 5, 'PACKED', '2021-10-08 22:34:16', 1, '2021-10-08 22:35:27', 1),
+(13, 2, 0, 0, 'P00000000013', 'FULLY', 5, 'VOID', '2021-10-08 22:34:16', 1, '2021-10-08 22:47:31', 1),
+(14, 2, 0, 0, 'P00000000014', 'FULLY', 5, 'PACKED', '2021-10-08 22:34:16', 1, '2021-10-08 22:35:27', 1),
+(15, 3, 0, 0, 'P00000000015', 'FULLY', 10, 'PACKED', '2021-10-08 22:37:38', 1, '2021-10-08 22:38:04', 1),
+(16, 3, 0, 0, 'P00000000016', 'FULLY', 10, 'PACKED', '2021-10-08 22:37:38', 1, '2021-10-08 22:38:04', 1),
+(17, 3, 0, 0, 'P00000000017', 'FULLY', 10, 'PACKED', '2021-10-08 22:37:38', 1, '2021-10-08 22:38:04', 1),
+(18, 3, 0, 0, 'P00000000018', 'FULLY', 10, 'PACKED', '2021-10-08 22:37:38', 1, '2021-10-08 22:38:04', 1),
+(21, 1, 0, 26, 'P00000000021', 'NONFULLY', 4, 'PACKED', '2021-10-08 22:42:25', 1, '2021-10-08 22:50:17', 1),
+(22, 1, 0, 26, 'P00000000022', 'NONFULLY', 6, 'PACKED', '2021-10-08 22:42:25', 1, '2021-10-08 22:50:17', 1),
+(23, 2, 0, 11, 'P00000000023', 'NONFULLY', 3, 'PACKED', '2021-10-08 22:45:46', 1, '2021-10-08 22:45:58', 1),
+(24, 2, 0, 11, 'P00000000024', 'NONFULLY', 2, 'PACKED', '2021-10-08 22:45:46', 1, '2021-10-08 22:45:58', 1),
+(25, 2, 0, 0, 'P00000000025', 'NONFULLY', 6, 'CREATED', '2021-10-08 22:47:31', 1, '2021-10-08 22:47:31', 1),
+(26, 2, 0, 0, 'P00000000026', 'NONFULLY', 4, 'CREATED', '2021-10-08 22:47:31', 1, '2021-10-08 22:47:31', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -392,6 +418,22 @@ CREATE TABLE `lots` (
   `updated_user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `lots`
+--
+
+INSERT INTO `lots` (`id`, `lot_no`, `generate_lot_no`, `product_id`, `quantity`, `real_qty`, `printed_user_id`, `packed_user_id`, `status`, `issue_date`, `is_delete`, `created_at`, `created_user_id`, `updated_at`, `updated_user_id`) VALUES
+(1, 'A1', NULL, 1, 23, 17, 1, 1, 'PACKED', '2021-10-08', 'N', '2021-10-08 15:27:31', 1, '2021-10-08 22:33:18', 1),
+(2, 'A2', NULL, 2, 23, 20, 1, 1, 'PACKED', '2021-10-05', 'N', '2021-10-08 15:27:31', 1, '2021-10-08 22:35:27', 1),
+(3, 'B1', NULL, 1, 24, 40, 1, 1, 'PACKED', '2021-10-02', 'N', '2021-10-08 15:29:24', 1, '2021-10-08 22:38:04', 1),
+(4, 'B2', NULL, 5, 23, 0, 0, 0, 'CREATED', '2021-09-15', 'Y', '2021-10-08 15:29:24', 1, '2021-10-08 21:50:10', 1),
+(5, 'C1', NULL, 5, 23, 0, 0, 0, 'CREATED', '2021-09-11', 'N', '2021-10-08 15:35:30', 1, '2021-10-08 15:35:30', 1),
+(6, 'C2', NULL, 5, 23, 0, 0, 0, 'CREATED', '2021-09-04', 'N', '2021-10-08 15:35:30', 1, '2021-10-08 15:35:30', 1),
+(8, 'D1', NULL, 1, 22, 20, 0, 0, 'CREATED', '2021-09-12', 'N', '2021-10-08 15:41:50', 1, '2021-10-08 21:46:01', 1),
+(9, 'D2', NULL, 5, 12, 12, 0, 1, 'PACKED', '2021-09-15', 'N', '2021-10-08 15:41:50', 1, '2021-10-08 22:29:55', 1),
+(10, 'F1', NULL, 1, 23, 20, 0, 1, 'PACKED', '2021-09-09', 'N', '2021-10-08 15:43:49', 1, '2021-10-08 22:16:25', 1),
+(11, 'F2', NULL, 5, 23, 0, 0, 0, 'CREATED', '2021-09-01', 'N', '2021-10-08 15:43:49', 1, '2021-10-08 15:43:49', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -408,6 +450,14 @@ CREATE TABLE `lot_defects` (
   `updated_at` datetime NOT NULL,
   `updated_user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `lot_defects`
+--
+
+INSERT INTO `lot_defects` (`id`, `lot_id`, `defect_id`, `quantity`, `created_at`, `created_user_id`, `updated_at`, `updated_user_id`) VALUES
+(8, 1, 8, 3, '2021-10-08 22:31:09', 1, '2021-10-08 22:31:09', 1),
+(9, 2, 8, 3, '2021-10-08 22:33:51', 1, '2021-10-08 22:33:51', 1);
 
 -- --------------------------------------------------------
 
@@ -468,9 +518,9 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `part_no`, `part_name`, `part_code`, `customer_id`, `std_pack`, `std_box`, `is_delete`, `created_at`, `created_user_id`, `updated_at`, `updated_user_id`) VALUES
-(1, 'QC1-8333-002', 'PR LIFT SHAFT 2 P1', 'CHJ8333', 2, 1, 1, 'Y', '2021-02-01 17:15:57', 1, '2021-06-14 11:41:12', 1),
-(2, 'QC2-0019-000 (HIS003)', 'PG GEAR SHAFT (T99003)', 'CHT0019', 3, 1, 1, 'N', '2021-02-01 17:15:57', 1, '2021-07-03 14:52:58', 1),
-(5, 'HC1-0089-000', 'SHAFT,LOCK,PUSH', 'CHT0089', 3, 1, 1, 'N', '2021-02-01 17:15:57', 1, '2021-02-01 17:15:57', 1),
+(1, 'QC1-8333-002', 'PR LIFT SHAFT 2 P1', 'CHJ8333', 2, 10, 100, 'Y', '2021-02-01 17:15:57', 1, '2021-06-14 11:41:12', 1),
+(2, 'QC2-0019-000 (HIS003)', 'PG GEAR SHAFT (T99003)', 'CHT0019', 3, 5, 20, 'N', '2021-02-01 17:15:57', 1, '2021-07-03 14:52:58', 1),
+(5, 'HC1-0089-000', 'SHAFT,LOCK,PUSH', 'CHT0089', 3, 10, 40, 'N', '2021-02-01 17:15:57', 1, '2021-02-01 17:15:57', 1),
 (17, 'QC2-0414-000', 'CR SHAFT W61 (T99003)', 'CHT0414', 3, 1, 1, 'N', '2021-02-01 17:15:57', 1, '2021-02-01 17:15:57', 1),
 (18, 'QC2-0528-000', 'SLINDING ROD M62 (T99001)', 'CHT0528', 3, 1, 1, 'N', '2021-02-01 17:15:57', 1, '2021-02-01 17:15:57', 1),
 (26, 'HB1-1232-000', 'SHAFT CARRIAGE (T99003)', 'CHT1232', 3, 1, 1, 'N', '2021-02-01 17:15:57', 1, '2021-02-01 17:15:57', 1),
@@ -4701,6 +4751,43 @@ CREATE TABLE `split_labels` (
   `updated_user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `split_labels`
+--
+
+INSERT INTO `split_labels` (`id`, `split_label_no`, `label_id`, `status`, `split_date`, `created_at`, `created_user_id`, `updated_at`, `updated_user_id`) VALUES
+(10, 'SP0000000010', 9, 'PACKED', '2021-10-08', '2021-10-08 22:42:25', 1, '2021-10-08 22:50:17', 1),
+(11, 'SP0000000011', 11, 'PACKED', '2021-10-08', '2021-10-08 22:45:46', 1, '2021-10-08 22:45:58', 1),
+(12, 'SP0000000012', 13, 'CREATED', '2021-10-08', '2021-10-08 22:47:31', 1, '2021-10-08 22:47:31', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `split_label_details`
+--
+
+CREATE TABLE `split_label_details` (
+  `id` int(11) NOT NULL,
+  `split_label_id` int(11) NOT NULL,
+  `label_id` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `created_user_id` int(11) NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `updated_user_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `split_label_details`
+--
+
+INSERT INTO `split_label_details` (`id`, `split_label_id`, `label_id`, `created_at`, `created_user_id`, `updated_at`, `updated_user_id`) VALUES
+(11, 10, 21, '2021-10-08 22:42:25', 1, '2021-10-08 22:42:25', 1),
+(12, 10, 22, '2021-10-08 22:42:25', 1, '2021-10-08 22:42:25', 1),
+(13, 11, 23, '2021-10-08 22:45:46', 1, '2021-10-08 22:45:46', 1),
+(14, 11, 24, '2021-10-08 22:45:46', 1, '2021-10-08 22:45:46', 1),
+(15, 12, 25, '2021-10-08 22:47:31', 1, '2021-10-08 22:47:31', 1),
+(16, 12, 26, '2021-10-08 22:47:31', 1, '2021-10-08 22:47:31', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -4838,6 +4925,12 @@ ALTER TABLE `split_labels`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `split_label_details`
+--
+ALTER TABLE `split_label_details`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `tags`
 --
 ALTER TABLE `tags`
@@ -4863,19 +4956,19 @@ ALTER TABLE `defects`
 -- AUTO_INCREMENT for table `labels`
 --
 ALTER TABLE `labels`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `lots`
 --
 ALTER TABLE `lots`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `lot_defects`
 --
 ALTER TABLE `lot_defects`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `merge_packs`
@@ -4923,7 +5016,13 @@ ALTER TABLE `sell_labels`
 -- AUTO_INCREMENT for table `split_labels`
 --
 ALTER TABLE `split_labels`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT for table `split_label_details`
+--
+ALTER TABLE `split_label_details`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `tags`

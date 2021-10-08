@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 /**
  * Action.
  */
-final class LotDefectAddAction
+final class LotDefectEditAction
 {
     private $responder;
     private $updater;
@@ -51,8 +51,8 @@ final class LotDefectAddAction
         ResponseInterface $response,
     ): ResponseInterface {
         $data = (array)$request->getParsedBody();
-
-        $this->updater->insertLotDefect($data);
+        $lotDefectId = $data['id'];
+        $this->updater->updateLotDefect($lotDefectId ,$data);
         $dataLot['lot_id'] = $data['lot_id'];
         $lot = $this->lotFinder->findLots($dataLot);
 

@@ -32,8 +32,8 @@
                         <td>{{ lotDefect.defect_code}}</td>
                         <td>{{ lotDefect.quantity}}</td>
                         <td>
-                        <button type="button" id="editBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-edit"></i></button>
-                        <button type="button" id="deleteBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteSplitLabel" name="{{ lotDefect|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-trash"></i></button>
+                        <button type="button" id="editDefectBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editLotDefect" name="{{ lotDefect|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-edit"></i></button>
+                        <button type="button" id="deleteDefectBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteDefect" name="{{ lotDefect|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-trash"></i></button>
                         </td>
                     </tr>
                     {% endfor %}
@@ -44,6 +44,71 @@
             </div>
         </div>
     </div>
+
+<!--  Delete lotDefect -->
+<div class="modal fade" id="deleteDefect">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form id="form-deleteLot" action="delete_lot_defect" method="post">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Delete Lot</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">          
+          <div class="form-product">
+            <input type="hidden" id="deleteLotDefectID" name="id">
+            <input type="hidden" id="deleteDefectLotID" name="lot_id">
+            <label for="lotNo">Do you want to delete defect : <span id="deleteDefectCode"></span></label>
+          </div>                 
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-danger">Delete</button>
+          <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!--edit-->
+<div class="modal fade" id="editLotDefect">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form id="form-defectLot" action="edit_lot_defect" method="post">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Edit Lot Defect</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">          
+          <div class="form-product">
+            <input type="hidden" id="lotDefectID" name="id">
+            <input type="hidden" id="editdefectLotID" name="lot_id">
+          </div>                 
+          <div class="form-product">
+            <label for="email">Defect Code</label>
+            <select class="form-control"  id="editDefectId" name="defect_id">
+            {% for d in defects %}
+              <option value={{ d.id }}>({{d.defect_code}}) </option>
+            {% endfor %}
+            </select>
+          </div>           
+          <div class="form-product">
+            <label for="lotNo">Quantity</label>
+            <input type="text" autocomplete="off" class="form-control" id="editQuantity" name="quantity" required>
+          </div> 
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Save</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 
 <!--lotDefect-->
 <div class="modal fade" id="defectLot">
@@ -81,5 +146,7 @@
     </div>
   </div>
 </div>
+
+
 
 {% endblock %}

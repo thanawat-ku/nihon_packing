@@ -36,12 +36,15 @@ return function (App $app) {
     
     $app->post('/edit_lot', \App\Action\Web\LotEditAction::class)->add(UserAuthMiddleware::class);
     $app->post('/delete_lot', \App\Action\Web\LotDeleteAction::class)->add(UserAuthMiddleware::class);
-    $app->get('/lot_defect_detail', \App\Action\Web\LotDefectAction::class)->add(UserAuthMiddleware::class);
-    $app->post('/add_lot_defect', \App\Action\Web\LotDefectAddAction::class)->add(UserAuthMiddleware::class);
     $app->post('/print_lot', \App\Action\Web\LotPrintAction::class)->add(UserAuthMiddleware::class);
     $app->post('/register_lot', \App\Action\Web\LotRegisterAction::class)->add(UserAuthMiddleware::class);
     $app->get('/label_lot', \App\Action\Web\LotLabelAction::class)->add(UserAuthMiddleware::class);
     $app->get('/lots', \App\Action\Web\LotAction::class)->add(UserAuthMiddleware::class);
+
+    $app->get('/lot_defect_detail', \App\Action\Web\LotDefectAction::class)->add(UserAuthMiddleware::class);
+    $app->post('/add_lot_defect', \App\Action\Web\LotDefectAddAction::class)->add(UserAuthMiddleware::class);
+    $app->post('/edit_lot_defect', \App\Action\Web\LotDefectEditAction::class)->add(UserAuthMiddleware::class);
+    $app->post('/delete_lot_defect', \App\Action\Web\LotDefectDeleteAction::class)->add(UserAuthMiddleware::class);
 
     $app->get('/labels', \App\Action\Web\LabelAction::class)->add(UserAuthMiddleware::class);
     $app->post('/split_label', \App\Action\Web\LabelSplitAction::class)->add(UserAuthMiddleware::class);
@@ -66,8 +69,9 @@ return function (App $app) {
 
     $app->get('/api/lot_defects', \App\Action\Api\LotDefectAction::class);
     $app->post('/api/add_lot_defect', \App\Action\Api\LotDefectAddAction::class);
-    $app->post('/api/delete_lot_defect', \App\Action\Api\LotDefectDeleteAction::class);
-    $app->post('/api/edit_lot_defects', \App\Action\Api\LotDefectEditAction::class);
+    $app->post('/api/edit_lotdefects', \App\Action\Api\LotDefectEditAction::class);
+    $app->post('/api/delete_lotdefects', \App\Action\Api\LotDefectDeleteAction::class);
+    
 
     $app->get('/api/defects', \App\Action\Api\DefectAction::class);
     $app->post('/api/add_defect', \App\Action\Api\DefectAddAction::class);
