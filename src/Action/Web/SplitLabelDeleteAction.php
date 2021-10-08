@@ -67,6 +67,6 @@ final class  SplitLabelDeleteAction
         $labelId3 = $data['label_id'];
         $this->labelUpdater->updateLabel($labelId3, $dataLabel);
 
-        return $this->responder->withRedirect($response, "splitLabel");
+        return $this->responder->withRedirect($response, "splitLabels");
     }
 }
