@@ -1,12 +1,12 @@
-// $(function () {
-//     $('#my-data-table').DataTable({
-//         "scrollX": true,
-//         "lengthMenu": [[10, 50, 100, -1], [10, 50, 100, "All"]]
-//     });
-// });
-$(function () {
-    $('#my-data-table').DataTable();
+$(function() {
+    $('#my-data-table').DataTable({"scrollX": true,"order": [[ 0, "desc" ]]});
+    $('#searchIssueStartDate, #searchIssueEndDate').datepicker({
+        format: 'yyyy-mm-dd'
+    });
 });
+// $(function () {
+//     $('#my-data-table').DataTable();
+// });
 function editLot(event) {
     let lot = event.currentTarget.name;
     console.log(lot);

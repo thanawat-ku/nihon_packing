@@ -1,5 +1,12 @@
-$(function () {
-    $('#my-data-table').DataTable();
+// $(function () {
+//     $('#my-data-table').DataTable();
+// });
+
+$(function() {
+    $('#my-data-table').DataTable({"scrollX": true,"order": [[ 0, "desc" ]]});
+    $('#searchIssueStartDate, #searchIssueEndDate').datepicker({
+        format: 'yyyy-mm-dd'
+    });
 });
 
 function deleteSplitLabel(event) {
