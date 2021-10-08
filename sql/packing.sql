@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 07, 2021 at 01:48 PM
+-- Generation Time: Oct 08, 2021 at 03:00 PM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.6
 
@@ -384,8 +384,8 @@ CREATE TABLE `lots` (
   `printed_user_id` int(11) DEFAULT NULL,
   `packed_user_id` int(11) NOT NULL,
   `status` enum('CREATED','PRINTED','PACKING','PACKED') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'CREATED',
-  `issue_date` date DEFAULT NULL,
-  `is_delete` enum('Y','N') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `issue_date` date NOT NULL,
+  `is_delete` enum('N','Y') COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `created_user_id` int(11) NOT NULL,
   `updated_at` datetime DEFAULT NULL,
@@ -4694,22 +4694,7 @@ CREATE TABLE `split_labels` (
   `split_label_no` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
   `label_id` int(11) NOT NULL,
   `status` enum('CREATED','PRINTED','PACKING','PACKED') COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` datetime NOT NULL,
-  `created_user_id` int(11) NOT NULL,
-  `updated_at` datetime NOT NULL,
-  `updated_user_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `split_label_details`
---
-
-CREATE TABLE `split_label_details` (
-  `id` int(11) NOT NULL,
-  `split_label_id` int(11) NOT NULL,
-  `label_id` int(11) NOT NULL,
+  `split_date` date NOT NULL,
   `created_at` datetime NOT NULL,
   `created_user_id` int(11) NOT NULL,
   `updated_at` datetime NOT NULL,
@@ -4853,12 +4838,6 @@ ALTER TABLE `split_labels`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `split_label_details`
---
-ALTER TABLE `split_label_details`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `tags`
 --
 ALTER TABLE `tags`
@@ -4944,12 +4923,6 @@ ALTER TABLE `sell_labels`
 -- AUTO_INCREMENT for table `split_labels`
 --
 ALTER TABLE `split_labels`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `split_label_details`
---
-ALTER TABLE `split_label_details`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --

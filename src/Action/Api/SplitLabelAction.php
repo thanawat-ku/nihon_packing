@@ -17,11 +17,11 @@ final class SplitLabelAction
      */
     private $responder;
     private $finder;
-   
 
-    public function __construct(SplitLabelFinder $finder,Responder $responder)
+
+    public function __construct(SplitLabelFinder $finder, Responder $responder)
     {
-        $this->finder=$finder;
+        $this->finder = $finder;
         $this->responder = $responder;
     }
 
@@ -29,12 +29,17 @@ final class SplitLabelAction
     {
         $params = (array)$request->getQueryParams();
 
-        $rtdata['message']="Get SplitLabel Successful";
-        $rtdata['error']=false;
-        $rtdata['split_labels']=$this->finder->findSplitLabels($params);
+        if (isset($params['start_date'])) {
+            $params['startDate'] = $params['start_date'];
+            $params['endDate'] = $params['end_date'];
+        }
+
+        $rtdata['message'] = "Get SplitLabel Successful";
+        $rtdata['error'] = false;
+        $rtdata['split_labels'] = $this->finder->findSplitLabels($params);
 
 
-        
+
         return $this->responder->withJson($response, $rtdata);
     }
 }

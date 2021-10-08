@@ -112,17 +112,16 @@ final class SplitLabelRepository
 
         if (isset($params['label_id'])) {
             $query->andWhere(['split_labels.label_id' => $params['label_id']]);
-        }
-        else if (isset($params['split_label_id'])) {
+        } else if (isset($params['split_label_id'])) {
             $query->andWhere(['split_labels.id' => $params['split_label_id']]);
+        } else if (isset($params["startDate"])) {
+            $query->andWhere(['split_labels.split_date <=' => $params['endDate'], 'split_labels.split_date >=' => $params['startDate']]);
         }
-        // else if (isset($params["startDate"])) {
-        //     $query->andWhere(['issue_date <=' => $params['endDate'], 'issue_date >=' => $params['startDate']]);
-        // }
+
 
         $query->andWhere(['lot.is_delete' => 'N']);
 
-        
+
 
         return $query->execute()->fetchAll('assoc') ?: [];
     }

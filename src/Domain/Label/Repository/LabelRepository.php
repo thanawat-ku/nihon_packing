@@ -175,11 +175,13 @@ final class LabelRepository
         else if (isset($params['label_id'])) {
             $query->andWhere(['labels.id' => $params['label_id']]);
         } 
+        else if (isset($params["startDate"])) {
+            $query->andWhere(['l.issue_date <=' => $params['endDate'], 'l.issue_date >=' => $params['startDate']]);
+        }
+
         $query->andWhere(['l.is_delete' => 'N']);
-        // else if (isset($params["startDate"])) {
-        //     $query->andWhere(['issue_date <=' => $params['endDate'], 'issue_date >=' => $params['startDate']]);
-        // }
-        
+
+               
 
         $get =  $query->execute()->fetchAll('assoc') ?: [];
         return $get; 
@@ -235,7 +237,7 @@ final class LabelRepository
         else if (isset($params['split_label_id'])) {
             $query->andWhere(['split_label_id' => $params['split_label_id']]);
         } 
-
+        
         $query->andWhere(['l.is_delete' => 'N']);
 
         $getdata = $query->execute()->fetchAll('assoc') ?: [];
