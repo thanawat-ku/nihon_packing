@@ -36,6 +36,14 @@ final class LotDefectRepository
 
         $this->queryFactory->newUpdate('lots', $data)->andWhere(['id' => $lotID])->execute();
     }
+
+    public function updateLotDefect(int $id, array $data): void
+    {
+        $data['updated_at'] = Chronos::now()->toDateTimeString();
+        $data['updated_user_id'] =  $this->session->get('user')["id"];
+
+        $this->queryFactory->newUpdate('lot_defects', $data)->andWhere(['id' => $id])->execute();
+    }
     
     public function insertLotDefectApi(array $row, $user_id): int
     {
@@ -95,6 +103,8 @@ final class LotDefectRepository
 
         if(isset($params['lot_id'])){
             $query->andWhere(['lot_id' => $params['lot_id']]);
+        }else if(isset($params['lot_defect_id'])){
+            $query->andWhere(['lot_defects.id' => $params['lot_defect_id']]);
         }
         
 

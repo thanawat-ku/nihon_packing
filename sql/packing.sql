@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 08, 2021 at 03:00 PM
+-- Generation Time: Oct 08, 2021 at 10:13 PM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.6
 
@@ -468,9 +468,9 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `part_no`, `part_name`, `part_code`, `customer_id`, `std_pack`, `std_box`, `is_delete`, `created_at`, `created_user_id`, `updated_at`, `updated_user_id`) VALUES
-(1, 'QC1-8333-002', 'PR LIFT SHAFT 2 P1', 'CHJ8333', 2, 1, 1, 'Y', '2021-02-01 17:15:57', 1, '2021-06-14 11:41:12', 1),
-(2, 'QC2-0019-000 (HIS003)', 'PG GEAR SHAFT (T99003)', 'CHT0019', 3, 1, 1, 'N', '2021-02-01 17:15:57', 1, '2021-07-03 14:52:58', 1),
-(5, 'HC1-0089-000', 'SHAFT,LOCK,PUSH', 'CHT0089', 3, 1, 1, 'N', '2021-02-01 17:15:57', 1, '2021-02-01 17:15:57', 1),
+(1, 'QC1-8333-002', 'PR LIFT SHAFT 2 P1', 'CHJ8333', 2, 10, 100, 'Y', '2021-02-01 17:15:57', 1, '2021-06-14 11:41:12', 1),
+(2, 'QC2-0019-000 (HIS003)', 'PG GEAR SHAFT (T99003)', 'CHT0019', 3, 5, 20, 'N', '2021-02-01 17:15:57', 1, '2021-07-03 14:52:58', 1),
+(5, 'HC1-0089-000', 'SHAFT,LOCK,PUSH', 'CHT0089', 3, 10, 40, 'N', '2021-02-01 17:15:57', 1, '2021-02-01 17:15:57', 1),
 (17, 'QC2-0414-000', 'CR SHAFT W61 (T99003)', 'CHT0414', 3, 1, 1, 'N', '2021-02-01 17:15:57', 1, '2021-02-01 17:15:57', 1),
 (18, 'QC2-0528-000', 'SLINDING ROD M62 (T99001)', 'CHT0528', 3, 1, 1, 'N', '2021-02-01 17:15:57', 1, '2021-02-01 17:15:57', 1),
 (26, 'HB1-1232-000', 'SHAFT CARRIAGE (T99003)', 'CHT1232', 3, 1, 1, 'N', '2021-02-01 17:15:57', 1, '2021-02-01 17:15:57', 1),
@@ -4704,6 +4704,22 @@ CREATE TABLE `split_labels` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `split_label_details`
+--
+
+CREATE TABLE `split_label_details` (
+  `id` int(11) NOT NULL,
+  `split_label_id` int(11) NOT NULL,
+  `label_id` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `created_user_id` int(11) NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `updated_user_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tags`
 --
 
@@ -4838,6 +4854,12 @@ ALTER TABLE `split_labels`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `split_label_details`
+--
+ALTER TABLE `split_label_details`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `tags`
 --
 ALTER TABLE `tags`
@@ -4923,6 +4945,12 @@ ALTER TABLE `sell_labels`
 -- AUTO_INCREMENT for table `split_labels`
 --
 ALTER TABLE `split_labels`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `split_label_details`
+--
+ALTER TABLE `split_label_details`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --

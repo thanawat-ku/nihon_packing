@@ -23,7 +23,8 @@ final class LotDefectAction
     private $twig;
     private $finder;
     private $session;
-    private $lotFinder;
+    private $lotFinder; 
+    private  $defectFinder;
 
     public function __construct(
         Twig $twig,
