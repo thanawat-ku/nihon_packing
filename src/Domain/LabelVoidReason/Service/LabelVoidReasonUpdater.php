@@ -38,25 +38,25 @@ final class LabelVoidReasonUpdater
         //$this->logger->info(sprintf('TransferStore updated successfully: %s', $id));
         return $id;
     }
-    public function updateLabelVoidReason(int $customerId, array $data): void
+    public function updateLabelVoidReason(int $voidReasonId, array $data): void
     {
         // Input validation
-        $this->validator->validateLabelVoidReasonUpdate($customerId, $data);
+        $this->validator->validateLabelVoidReasonUpdate($voidReasonId, $data);
 
         // Map form data to row
         $storeRow = $this->mapToLabelVoidReasonRow($data);
 
         // Insert store
-        $this->repository->updateLabelVoidReason($customerId, $storeRow);
+        $this->repository->updateLabelVoidReason($voidReasonId, $storeRow);
 
         // Logging
         //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));
     }
 
-    public function deleteLabelVoidReason(int $customerId, array $data): void
+    public function deleteLabelVoidReason(int $voidReasonId): void
     {
         // Insert store
-        $this->repository->deleteLabelVoidReason($customerId);
+        $this->repository->deleteLabelVoidReason($voidReasonId);
 
         // Logging
         //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));
@@ -73,11 +73,11 @@ final class LabelVoidReasonUpdater
     {
         $result = [];
 
-        if (isset($data['customer_name'])) {
-            $result['customer_name'] = (string)$data['customer_name'];
+        if (isset($data['reason_name'])) {
+            $result['reason_name'] = (string)$data['reason_name'];
         }
-        if (isset($data['customer_code'])) {
-            $result['customer_code'] = (string)$data['customer_code'];
+        if (isset($data['description'])) {
+            $result['description'] = (string)$data['description'];
         }
 
         return $result;

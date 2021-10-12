@@ -5,18 +5,17 @@ function editCustomer(event){
     let customer = event.currentTarget.name;
     console.log(customer);
     var obj = JSON.parse(customer);
-    $("#editCustomerID").val(obj.id);
-    $("#editCustomerCode").val(obj.customer_code);
-    $("#editCustomerName").val(obj.customer_name);
+    $("#editLabelVoidReason").val(obj.id);
+    $("#editReasonName").val(obj.reason_name);
+    $("#editDescription").val(obj.description);
 }
 
   function deleteCustomer(event){
     let customer = event.currentTarget.name;
     console.log(customer);
     var obj = JSON.parse(customer);
-    $("#deleteCustomerID").val(obj.id);
-    $("#deleteCustomerCode").text(obj.customer_code);
-    $("#deleteCustomerName").text(obj.customer_name);
+    $("#deleteVoidReasonId").val(obj.id);
+    $("#deleteVoidReasonName").text(obj.reason_name);
 }
 $(document).on(
     "click",

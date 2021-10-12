@@ -29,7 +29,12 @@
                     <tbody>
                     {% for label in labels %}                    
                     <tr>
+                        {% if label.status  == "CREATED" %}
                         <td>{{ label.label_no }}</td>
+                        {% endif %}
+                        {% if label.status  == "CREATED" %}
+                        <td>{{ label.generate_lot_no	 }}</td>
+                        {% endif %}
                         <td>{{ '(' ~ label.part_code ~ ') ' ~ label.part_name }}</td>
                         <td>{{ label.label_type }}</td>
                         <td>{{ label.quantity }}</td>

@@ -35,6 +35,6 @@ final class  LabelVoidReasonAction
             'user_login' => $this->session->get('user'),
         ];
         
-        return $this->twig->render($response, 'web/LabelVoidReason.twig',$viewData);
+        return $this->twig->render($response, 'web/labelVoidReasons.twig',$viewData);
     }
 }
