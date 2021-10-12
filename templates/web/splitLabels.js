@@ -3,7 +3,7 @@
 // });
 
 $(function() {
-    $('#my-data-table').DataTable({"scrollX": true,"order": [[ 0, "desc" ]]});
+    $('#my-data-table').DataTable({"order": [[ 0, "desc" ]]});
     $('#searchIssueStartDate, #searchIssueEndDate').datepicker({
         format: 'yyyy-mm-dd'
     });

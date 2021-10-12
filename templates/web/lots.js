@@ -1,5 +1,5 @@
 $(function() {
-    $('#my-data-table').DataTable({"scrollX": true,"order": [[ 0, "desc" ]]});
+    $('#my-data-table').DataTable({"order": [[ 0, "desc" ]]});
     $('#searchIssueStartDate, #searchIssueEndDate').datepicker({
         format: 'yyyy-mm-dd'
     });
@@ -33,6 +33,15 @@ function printLot(event) {
 
 }
 
+function confirmPrintLot(event) {
+    let lot = event.currentTarget.name;
+    console.log(lot);
+    var obj = JSON.parse(lot);
+    $("#confirmPrintLotID").val(obj.id);
+    $("#confirmRealQty").text(obj.real_qty);
+    $("#onfirmPrintLotNo").text(obj.lot_no);
+}
+
 function addDefectLot(event) {
     let lot = event.currentTarget.name;
     console.log(lot);
@@ -51,7 +60,7 @@ function registerLot(event) {
 
 $(document).on(
     "click",
-    "#editBt, #deleteBt, #printBt, #addDefectBt, #registerBt",
+    "#editBt, #deleteBt, #printBt, #addDefectBt, #registerBt #confirmPrintLotBt",
     (event) => {
         let id = event.currentTarget.id;
         switch (id) {
@@ -69,6 +78,9 @@ $(document).on(
                 break;
             case "registerBt":
                 registerLot(event);
+                break;
+            case "confirmPrintLotBt":
+                confirmPrintLot(event)
                 break;
             
             default:

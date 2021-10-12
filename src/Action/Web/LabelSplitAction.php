@@ -56,6 +56,7 @@ final class LabelSplitAction
 
         $data = (array)$request->getParsedBody();
         $data['status'] = "VOID";
+        $data['label_void_reason_id'] = "1";
         $labelID = $data['label_id'];
         $this->updater->updateLabel($labelID, $data);
         $dataSP['status'] = "CREATED";

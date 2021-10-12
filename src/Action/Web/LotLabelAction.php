@@ -34,7 +34,12 @@ final class  LotLabelAction
         $lot = $this->finder->findLabels($params);
 
         if(isset($lot[0]['lot_no'])){
-            $lotNo = $lot[0]['lot_no'];
+            if($lot[0]['status'] == "CREATED"){
+                $lotNo = $lot[0]['lot_no'];
+            }else{
+                $lotNo = $lot[0]['generate_lot_no'];
+            }
+            
         }
         else{
             $lotNo = "error";

@@ -131,6 +131,7 @@ final class LabelRepository
                 'label_type',
                 'labels.quantity',
                 'lot_no',
+                'generate_lot_no',
                 'part_name',
                 'part_code',
                 'labels.status',
@@ -138,6 +139,7 @@ final class LabelRepository
                 'std_box',
                 'labels.split_label_id',
                 'real_qty',
+                'label_void_reason_id',
             ]
         );
         $query->join([

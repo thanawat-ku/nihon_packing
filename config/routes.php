@@ -57,6 +57,8 @@ return function (App $app) {
     $app->post('/splitLabel_register', \App\Action\Web\SplitLabelRegisterAction::class)->add(UserAuthMiddleware::class);
     $app->post('/delete_splitLabel', \App\Action\Web\SplitLabelDeleteAction::class)->add(UserAuthMiddleware::class);
 
+    $app->get('/label_void_reasons', \App\Action\Web\LabelVoidReasonAction::class)->add(UserAuthMiddleware::class);
+
     //---------------------------Api-------------------------------
 
     $app->post('/api/login', \App\Action\ApiLoginSubmitAction::class);

@@ -37,7 +37,12 @@
                     <tbody>
                     {% for lot in lots %}                    
                     <tr>
+                        {% if lot.status == "CREATED" %}
                         <td>{{ lot.lot_no }}</td>
+                        {% endif %}
+                        {% if lot.status != "CREATED" %}
+                        <td>{{ lot.generate_lot_no }}</td>
+                        {% endif %}
                         <td>{{ '(' ~ lot.part_code ~ ') ' ~ lot.part_name}}</td>
                         <td>{{ lot.quantity }}</td>
                         <td>{{ lot.real_qty }}</td>
@@ -168,6 +173,32 @@
 <div class="modal fade" id="printLot">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Input Real Qty</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">          
+          <div class="form-product">
+            <input type="hidden" id="printLotID" >
+            <label for="lotNo">Real Qty</label>
+            <input type="text" autocomplete="off" class="form-control" id="realQTY" required>
+          </div>              
+        </div>
+        <div class="modal-footer">
+          <button type="submit" id="confirmPrintLotBt" class="btn btn-info " data-toggle="modal" data-target="#confirmPrintLot" data-dismiss="modal" name="{{ data|json_encode }}"></i> Print</button> 
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Modal confirmPrint lot -->
+<div class="modal fade" id="confirmPrintLot">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
       <form id="form-printLot" action="print_lot" method="post">
         <!-- Modal Header -->
         <div class="modal-header">
@@ -177,19 +208,19 @@
         <!-- Modal body -->
         <div class="modal-body">          
           <div class="form-product">
-            <input type="hidden" id="printLotID" name="id">
-            <label for="lotNo">Real Qty</label>
-            <input type="text" autocomplete="off" class="form-control" id="realQyt" name="real_qty" required>
+            <input type="text" id="confirmPrintLotID" name="id">
+            {# <input type="text" id="confirmRealQty" name="real_qty"> #}
+            <label for="lotNo">Real Qty : <span id="confirmRealQty">xxx</span></label></label>
+          </div>
+          <div>
+            <label for="lotNo">Do you want to print label of lot: <span id="confirmPrintLotNo">xxx</span></label>   
           </div> 
           <div class="form-spec">
           <label for="lotNo">    <span id="spec">  </span></label>
-          </div>
-          <div class="form-realQty">
-          <label for="lotNo">Do you want to print label of lot: <span id="printLotNo">xxx</span></label>
-          </div>                 
+          </div>                    
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-info">Print</button>
+          <button type="submit" class="btn btn-info">Save</button>
           <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
         </div>
       </form>

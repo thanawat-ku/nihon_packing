@@ -92,6 +92,7 @@ final class LotRepository
             [
                 'lots.id',
                 'lot_no',
+                'generate_lot_no',
                 'product_id',
                 'quantity',
                 'part_code',
