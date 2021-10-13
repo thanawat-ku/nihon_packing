@@ -39,7 +39,8 @@ final class LotConfirmAction
         $lotID = $params["lot_id"];
  
         $genLabelSuccess = $this->labelUpdater->genLabelNo($params);
-
+        
+        $params['generate_lot_no'] = "L" . str_pad( $lotID, 11, "0", STR_PAD_LEFT);
         $this->updater->confirmLotApi($lotID, $params, $user_id);
 
         $findlot['lot_id'] = $lotID;
