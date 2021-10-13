@@ -34,12 +34,9 @@ function printLot(event) {
 }
 
 function confirmPrintLot(event) {
-    let lot = event.currentTarget.name;
-    console.log(lot);
-    var obj = JSON.parse(lot);
-    $("#confirmPrintLotID").val(obj.id);
-    $("#confirmRealQty").text(obj.real_qty);
-    $("#onfirmPrintLotNo").text(obj.lot_no);
+    $("#confirmPrintLotID").val($("#printLotID").val());
+    $("#confirmRealQty").text($("#realQTY").val());
+    $("#confirmRealQty2").val($("#realQTY").val());
 }
 
 function addDefectLot(event) {

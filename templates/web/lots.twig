@@ -47,7 +47,6 @@
                         <td>{{ lot.quantity }}</td>
                         <td>{{ lot.real_qty }}</td>
                         <td>{{ lot.std_pack ~ '/' ~ lot.std_box }}</td>
-                        <td>{{ lot.real_qty }}</td>
                         <td>{{ lot.status }}</td>
                         <td>
                         {% if lot.status == "CREATED" %}
@@ -88,8 +87,7 @@
         <!-- Modal body -->
         <div class="modal-body">          
           <div class="form-product">
-             <input type="hidden" id="printLotID" name ="id">
-
+            <input type="hidden" id="printLotID">
             <label for="lotNo">Real Qty</label>
             <input type="text" autocomplete="off" class="form-control" id="realQTY" required>
           </div>              
@@ -116,8 +114,9 @@
         <!-- Modal body -->
         <div class="modal-body">          
           <div class="form-product">
-            <input type="text" id="confirmPrintLotID" name="id">
-            {# <input type="text" id="confirmRealQty" name="real_qty"> #}
+            {# <input type="text" id="printLotID" name ="id"> #}
+            <input type="hidden" id="confirmPrintLotID" name ="id">
+            <input type="hidden" id="confirmRealQty2" name ="real_qty">
             <label for="lotNo">Real Qty : <span id="confirmRealQty">xxx</span></label></label>
           </div>
           <div>
@@ -128,8 +127,8 @@
           </div>                    
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-info">Save</button>
-          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-info">Yes</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
         </div>
       </form>
     </div>
