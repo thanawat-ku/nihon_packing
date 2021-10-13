@@ -168,12 +168,6 @@ final class LabelRepository
         } else if (isset($params['label_no'])) {
             $query->andWhere(['labels.label_no' => $params['label_no']]);
         }
-
-        // if (isset($params['status_sp'])) {
-        //     $query->andWhere(['labels.status !=' => "USED"]);
-        //     $query->andWhere(['labels.status !=' => "VOID"]);
-        // }
-
         else if (isset($params['label_id'])) {
             $query->andWhere(['labels.id' => $params['label_id']]);
         } 

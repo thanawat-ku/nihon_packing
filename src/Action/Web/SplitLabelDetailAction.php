@@ -5,6 +5,7 @@ namespace App\Action\Web;
 use App\Domain\Label\Service\LabelFinder;
 use App\Domain\SplitLabelDetail\Service\SplitLabelDetailFinder;
 use App\Domain\SplitLabel\Service\SplitLabelFinder;
+use App\Domain\LabelVoidReason\Service\LabelVoidReasonFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -27,7 +28,8 @@ final class  SplitLabelDetailAction
         LabelFinder $labelFinder,
         Session $session,
         Responder $responder,
-        SplitLabelDetailFinder $splitDetailFinder
+        SplitLabelDetailFinder $splitDetailFinder,
+        LabelVoidReasonFinder $voidReasonFinder,
     ) {
         $this->twig = $twig;
         $this->finder = $finder;
@@ -35,6 +37,7 @@ final class  SplitLabelDetailAction
         $this->session = $session;
         $this->responder = $responder;
         $this->splitDetailFinder = $splitDetailFinder;
+        $this->voidReasonFinder = $voidReasonFinder;
     }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
@@ -64,6 +67,7 @@ final class  SplitLabelDetailAction
         $viewData = [
             'split_no' => $splitNo,
             'labels' => $labels,
+            'void_reasons' => $this->voidReasonFinder->findLabelVoidReasonsForVoidLabel($data),
             'user_login' => $this->session->get('user'),
         ];
         return $this->twig->render($response, 'web/labelsSplit.twig', $viewData);

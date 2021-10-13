@@ -27,4 +27,9 @@ final class LabelVoidReasonFinder
     {
         return $this->repository->findLabelVoidReasons($params);
     }
+
+    public function findLabelVoidReasonsForVoidLabel(array $params): array
+    {
+        return $this->repository->findLabelVoidReasonsForVoidLabel($params);
+    }
 }

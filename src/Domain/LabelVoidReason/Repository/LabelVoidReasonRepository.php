@@ -54,4 +54,21 @@ final class LabelVoidReasonRepository
         );
         return $query->execute()->fetchAll('assoc') ?: [];
     }
+
+    public function findLabelVoidReasonsForVoidLabel(array $params): array
+    {
+        $query = $this->queryFactory->newSelect('label_void_reasons');
+        $query->select(
+            [
+                'id',
+                'reason_name',
+                'description',
+            ]
+        );
+
+        $query->where(['label_void_reasons.id !=' => '1']);
+        $query->where(['label_void_reasons.id !=' => '2']);
+        
+        return $query->execute()->fetchAll('assoc') ?: [];
+    }
 }

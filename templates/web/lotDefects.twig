@@ -95,7 +95,7 @@
             <label for="email">Defect Code</label>
             <select class="form-control"  id="editDefectId" name="defect_id">
             {% for d in defects %}
-              <option value={{ d.id }}>({{d.defect_code}}) </option>
+              <option value={{ d.id }}>{{d.defect_code}} </option>
             {% endfor %}
             </select>
           </div>           
@@ -132,7 +132,7 @@
             <label for="email">Defect Code</label>
             <select class="form-control"  id="defectID" name="defect_id">
             {% for d in defects %}
-              <option value={{ d.id }}>({{d.defect_code}}) </option>
+              <option value={{ d.id }}>{{d.defect_code}} </option>
             {% endfor %}
             </select>
           </div>           

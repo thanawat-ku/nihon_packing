@@ -1,5 +1,5 @@
-$(function() {
-    $('#my-data-table').DataTable({"order": [[ 0, "desc" ]]});
+$(function () {
+    $('#my-data-table').DataTable({ "order": [[0, "desc"]] });
     $('#searchIssueStartDate, #searchIssueEndDate').datepicker({
         format: 'yyyy-mm-dd'
     });
@@ -54,13 +54,13 @@ function registerLot(event) {
     console.log(lot);
     var obj = JSON.parse(lot);
     $("#registerLotID").val(obj.id);
-    $("#registerLotNo").text(obj.lot_no);
+    $("#registerLotNo").text(obj.generate_lot_no);
 
 }
 
 $(document).on(
     "click",
-    "#editBt, #deleteBt, #printBt, #addDefectBt, #registerBt #confirmPrintLotBt",
+    "#editBt, #deleteBt, #printBt, #addDefectBt, #registerBt, #confirmPrintLotBt",
     (event) => {
         let id = event.currentTarget.id;
         switch (id) {
@@ -82,7 +82,7 @@ $(document).on(
             case "confirmPrintLotBt":
                 confirmPrintLot(event)
                 break;
-            
+
             default:
                 console.log("no any events click");
         }
