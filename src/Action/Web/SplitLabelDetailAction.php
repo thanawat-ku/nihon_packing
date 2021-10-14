@@ -20,6 +20,7 @@ final class  SplitLabelDetailAction
     private $finder;
     private $session;
     private $splitDetailFinder;
+    private $labelFinder;
 
 
     public function __construct(

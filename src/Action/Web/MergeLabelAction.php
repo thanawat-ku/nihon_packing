@@ -9,11 +9,12 @@ use Psr\Http\Message\ServerRequestInterface;
 use Slim\Views\Twig;
 use Symfony\Component\HttpFoundation\Session\Session;
 use App\Domain\Product\Service\ProductFinder;
+use App\Domain\Label\Service\LabelFinder;
 
 /**
  * Action.
  */
-final class MergeAction
+final class MergeLabelAction
 {
     /**
      * @var Responder
@@ -23,6 +24,8 @@ final class MergeAction
     private $finder;
     private $session;
     private $productFinder;
+    private $labelFinder;
+ 
 
     /**
      * The constructor.
@@ -35,12 +38,14 @@ final class MergeAction
         Session $session,
         Responder $responder,
         ProductFinder $productFinder,
+        LabelFinder $labelFinder,
     ) {
         $this->twig = $twig;
         $this->finder = $finder;
         $this->session = $session;
         $this->responder = $responder;
         $this->productFinder = $productFinder;
+        $this->labelFinder = $labelFinder;
     }
 
     /**
@@ -54,21 +59,32 @@ final class MergeAction
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $params = (array)$request->getQueryParams();
+        $mergePack = $this->finder->findMergePacks($params);
 
-        if (!isset($params['startDate'])) {
-            $params['startDate'] = date('Y-m-d', strtotime('-30 days', strtotime(date('Y-m-d'))));
-            $params['endDate'] = date('Y-m-d');
+        $productId['product_id'] = $mergePack[0]['product_id'];
+
+        $getLabels = $this->labelFinder->findLabelForMerge($productId);
+
+        $labels = [];
+        if (isset($getLabels[0])) {
+            for($i=0;$i<sizeof($getLabels);$i++){
+                if($getLabels[$i]['merge_pack_id'] != "0"){
+                    $mergePackId['id'] = $getLabels[$i]['merge_pack_id'];
+                    $mergePack2 = $this->finder->findMergePacks($mergePackId);
+                    $getLabels[$i]['merge_no'] = $mergePack2[0]['merge_no'];
+                }
+                array_push($labels,  $getLabels[$i]);
+            }
+
         }
 
         $viewData = [
-            'labels' => $this->finder->findMergePacks($params), //Focus that!!!!!!
-            'products' => $this->productFinder->findProducts($params),
+            'labels' =>  $getLabels, //Focus that!!!!!!
+            'mergePack' => $mergePack[0],
             'user_login' => $this->session->get('user'),
-            'startDate' => $params['startDate'],
-            'endDate' => $params['endDate'],
         ];
 
 
-        return $this->twig->render($response, 'web/merges.twig', $viewData); //-----edit twig
+        return $this->twig->render($response, 'web/labelsMerge.twig', $viewData); //-----edit twig
     }
 }

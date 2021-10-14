@@ -24,6 +24,10 @@ final class LabelFinder
     {
         return $this->repository->findLabelsForScan($params);
     }
+    public function findLabelForMerge(array $params): array
+    {
+        return $this->repository->findLabelForMerge($params);
+    }
     public function findLabelNonfullys(array $params): array
     {
         return $this->repository->findLabelNonfullys($params);

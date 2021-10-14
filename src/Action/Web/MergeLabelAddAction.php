@@ -3,6 +3,7 @@
 namespace App\Action\Web;
 
 use App\Domain\MergePack\Service\MergePackFinder;
+use App\Domain\MergePack\Service\MergePackUpdater;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -13,7 +14,7 @@ use App\Domain\Product\Service\ProductFinder;
 /**
  * Action.
  */
-final class MergeAction
+final class MergeLabelAddAction
 {
     /**
      * @var Responder
@@ -21,8 +22,8 @@ final class MergeAction
     private $responder;
     private $twig;
     private $finder;
+    private $updater;
     private $session;
-    private $productFinder;
 
     /**
      * The constructor.
@@ -34,13 +35,13 @@ final class MergeAction
         MergePackFinder $finder,
         Session $session,
         Responder $responder,
-        ProductFinder $productFinder,
+        MergePackUpdater  $updater,
     ) {
         $this->twig = $twig;
         $this->finder = $finder;
+        $this->updater = $updater;
         $this->session = $session;
         $this->responder = $responder;
-        $this->productFinder = $productFinder;
     }
 
     /**
@@ -53,22 +54,10 @@ final class MergeAction
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        $params = (array)$request->getQueryParams();
-
-        if (!isset($params['startDate'])) {
-            $params['startDate'] = date('Y-m-d', strtotime('-30 days', strtotime(date('Y-m-d'))));
-            $params['endDate'] = date('Y-m-d');
-        }
-
-        $viewData = [
-            'labels' => $this->finder->findMergePacks($params), //Focus that!!!!!!
-            'products' => $this->productFinder->findProducts($params),
-            'user_login' => $this->session->get('user'),
-            'startDate' => $params['startDate'],
-            'endDate' => $params['endDate'],
-        ];
-
-
-        return $this->twig->render($response, 'web/merges.twig', $viewData); //-----edit twig
+        $data = (array)$request->getParsedBody(); 
+        $user_id = $this->session->get('user')["id"];
+        $this->updater->insertMergePackApi($data,$user_id);
+        
+        return $this->responder->withRedirect($response, "merges");
     }
 }

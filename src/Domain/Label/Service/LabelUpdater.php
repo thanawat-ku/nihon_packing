@@ -186,6 +186,10 @@ final class LabelUpdater
         if (isset($data['split_label_id'])) {
             $result['split_label_id'] = (string)$data['split_label_id'];
         }
+        if (isset($data['label_void_reason_id'])) {
+            $result['label_void_reason_id'] = (string)$data['label_void_reason_id'];
+        }
+        
         return $result;
     }
 

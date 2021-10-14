@@ -2,25 +2,27 @@
 
 namespace App\Action\Web;
 
-// use App\Domain\MergePack\Service\MergePackFinder;
-use App\Domain\MergePack\Service\ProductFinder;
+use App\Domain\MergePack\Service\MergePackFinder;
+use App\Domain\MergePack\Service\MergePackUpdater;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Views\Twig;
 use Symfony\Component\HttpFoundation\Session\Session;
+use App\Domain\Product\Service\ProductFinder;
 
 /**
  * Action.
  */
-final class MergePackAction
+final class MergeAddAction
 {
     /**
      * @var Responder
      */
     private $responder;
     private $twig;
-    private $productFinder;
+    private $finder;
+    private $updater;
     private $session;
 
     /**
@@ -28,11 +30,17 @@ final class MergePackAction
      *
      * @param Responder $responder The responder
      */
-    public function __construct(Twig $twig,ProductFinder $productFinder,Session $session,Responder $responder)
-    {
+    public function __construct(
+        Twig $twig,
+        MergePackFinder $finder,
+        Session $session,
+        Responder $responder,
+        MergePackUpdater  $updater,
+    ) {
         $this->twig = $twig;
-        $this->productFinder=$productFinder;
-        $this->session=$session;
+        $this->finder = $finder;
+        $this->updater = $updater;
+        $this->session = $session;
         $this->responder = $responder;
     }
 
@@ -46,14 +54,10 @@ final class MergePackAction
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        $params = (array)$request->getQueryParams();
+        $data = (array)$request->getParsedBody(); 
+        $user_id = $this->session->get('user')["id"];
+        $this->updater->insertMergePackApi($data,$user_id);
         
-        $viewData = [
-            'products' => $this->productFinder->findProducts($params),
-            'user_login' => $this->session->get('user'),
-        ];
-        
-
-        return $this->twig->render($response, 'web/products.twig',$viewData);
+        return $this->responder->withRedirect($response, "merges");
     }
 }

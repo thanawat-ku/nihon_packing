@@ -198,6 +198,7 @@ final class LabelRepository
                 'label_type',
                 'labels.quantity',
                 'lot_no',
+                'generate_lot_no',
                 'part_name',
                 'part_code',
                 'labels.status',
@@ -234,6 +235,62 @@ final class LabelRepository
             $query->andWhere(['split_label_id' => $params['split_label_id']]);
         } 
         
+        $query->andWhere(['l.is_delete' => 'N']);
+
+        $getdata = $query->execute()->fetchAll('assoc') ?: [];
+        if ($getdata) {
+            return  $getdata;
+        } else {
+            return null;
+        }
+    }
+
+    public function findLabelForMerge(array $params): array
+    {
+        $query = $this->queryFactory->newSelect('labels');
+        $query->select(
+            [
+                'labels.id',
+                'label_no',
+                'merge_pack_id',
+                'split_label_id',
+                'lot_id',
+                'product_id',
+                'label_type',
+                'labels.quantity',
+                'lot_no',
+                'generate_lot_no',
+                'part_name',
+                'part_code',
+                'labels.status',
+                'std_pack',
+                'std_box',
+                'labels.split_label_id',
+                'real_qty',
+            ]
+        );
+        $query->join([
+            'l' => [
+                'table' => 'lots',
+                'type' => 'INNER',
+                'conditions' => 'l.id = labels.lot_id',
+            ]
+        ]);
+        $query->join([
+            'p' => [
+                'table' => 'products',
+                'type' => 'INNER',
+                'conditions' => 'p.id = l.product_id',
+            ]
+        ]);
+        //find label from lot
+        if (isset($params['product_id'])) {
+            $query->andWhere(['product_id' => $params['product_id']]);
+        }
+
+        $query->andWhere(['labels.status ' => 'PACKED']);
+        $query->andWhere(['label_type in' => ['NONFULLY','MERGE_NONFULLY']]);
+        // $query->andWhere(['label_type' => 'MERGE_NONFULLY']);
         $query->andWhere(['l.is_delete' => 'N']);
 
         $getdata = $query->execute()->fetchAll('assoc') ?: [];
