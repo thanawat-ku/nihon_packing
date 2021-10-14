@@ -13,7 +13,7 @@
   <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <h2><i class="fas fa-folder-plus"></i> Labels in Merge No : {{ mergePack['merge_no'] }}</h2>  <!--dont show merge no -->    
+                <h2><i class="fas fa-folder-plus"></i> Detail Merge in : {{ mergePack['merge_no'] }}</h2>  <!--dont show merge no -->    
                 {% if mergePack.select_label  == "Y" %}
                 <a href="label_merges?id={{mergePack['id']}} "><button type="button" id="addLabelBt" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#addLabel"><i style="font-size:15px; width:20px;" class="fas fa-newspaper"></i> Select Label</button></a>
                 {% endif %}
