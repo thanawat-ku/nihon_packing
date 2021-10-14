@@ -33,6 +33,7 @@ return function (App $app) {
 
     $app->get('/merges', \App\Action\Web\MergeAction::class)->add(UserAuthMiddleware::class);
     $app->post('/add_merges', \App\Action\Web\MergeAddAction::class)->add(UserAuthMiddleware::class);
+    $app->post('/edit_merges', \App\Action\Web\MergeEditAction::class)->add(UserAuthMiddleware::class);
     $app->post('/confirm_merges', \App\Action\Web\MergeConfirmAction::class)->add(UserAuthMiddleware::class);
     $app->post('/register_merge', \App\Action\Web\MergeRegisterAction::class)->add(UserAuthMiddleware::class);
     $app->post('/delete_merges', \App\Action\Web\MergeDeleteAction::class)->add(UserAuthMiddleware::class);

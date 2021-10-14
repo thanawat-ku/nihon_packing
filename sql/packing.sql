@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 13, 2021 at 04:19 PM
+-- Generation Time: Oct 11, 2021 at 08:31 AM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.6
 
@@ -369,6 +369,15 @@ CREATE TABLE `labels` (
   `updated_user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `labels`
+--
+
+INSERT INTO `labels` (`id`, `lot_id`, `merge_pack_id`, `split_label_id`, `label_no`, `label_type`, `quantity`, `status`, `label_void_reason_id`, `created_at`, `created_user_id`, `updated_at`, `updated_user_id`) VALUES
+(1, 13, 0, 0, 'P00000000001', 'NONFULLY', 5, 'VOID', 0, '2021-10-09 12:21:24', 1, '2021-10-09 12:28:38', 1),
+(4, 13, 0, 0, 'P00000000004', 'NONFULLY', 5, 'PACKED', 0, '2021-10-09 12:28:38', 1, '2021-10-09 12:28:47', 1),
+(5, 13, 0, 0, 'P00000000005', 'NONFULLY', 3, 'PACKED', 0, '2021-10-09 12:28:38', 1, '2021-10-09 12:28:47', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -417,6 +426,16 @@ CREATE TABLE `lots` (
   `updated_user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `lots`
+--
+
+INSERT INTO `lots` (`id`, `lot_no`, `generate_lot_no`, `product_id`, `quantity`, `real_qty`, `printed_user_id`, `packed_user_id`, `status`, `issue_date`, `is_delete`, `created_at`, `created_user_id`, `updated_at`, `updated_user_id`) VALUES
+(1, 'A1', NULL, 1, 23, 0, 0, 0, 'CREATED', '2021-10-08', 'N', '2021-10-08 15:27:31', 1, '2021-10-08 22:33:18', 1),
+(2, 'A2', NULL, 2, 23, 0, 0, 0, 'CREATED', '2021-10-05', 'N', '2021-10-08 15:27:31', 1, '2021-10-08 22:35:27', 1),
+(12, 'b1', NULL, 5, 23, 0, 0, 0, 'CREATED', '2021-10-09', 'N', '2021-10-09 07:13:54', 1, '2021-10-09 07:13:54', 1),
+(13, 'b2', NULL, 1, 12, 5, 0, 1, 'PACKED', '2021-10-06', 'N', '2021-10-09 07:13:54', 1, '2021-10-09 12:24:30', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -434,6 +453,13 @@ CREATE TABLE `lot_defects` (
   `updated_user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `lot_defects`
+--
+
+INSERT INTO `lot_defects` (`id`, `lot_id`, `defect_id`, `quantity`, `created_at`, `created_user_id`, `updated_at`, `updated_user_id`) VALUES
+(1, 13, 32, 3, '2021-10-09 12:19:45', 1, '2021-10-09 12:19:45', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -444,8 +470,7 @@ CREATE TABLE `merge_packs` (
   `id` int(11) NOT NULL,
   `merge_no` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
   `product_id` int(11) NOT NULL,
-  `merge_status` enum('CREATED','MERGED','MERGING','REGISTERING','COMPLETE') COLLATE utf8mb4_unicode_ci NOT NULL,
-  `merge_date` date NOT NULL,
+  `merge_status` enum('CREATED','MERGE','MERGING','REGISTERING','COMPLETE') COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `created_user_id` int(11) NOT NULL,
   `updated_at` datetime DEFAULT NULL,
@@ -4727,6 +4752,13 @@ CREATE TABLE `split_labels` (
   `updated_user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `split_labels`
+--
+
+INSERT INTO `split_labels` (`id`, `split_label_no`, `label_id`, `status`, `split_date`, `created_at`, `created_user_id`, `updated_at`, `updated_user_id`) VALUES
+(2, 'SP0000000002', 1, 'PACKED', '2021-10-09', '2021-10-09 12:28:38', 1, '2021-10-09 12:28:47', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -4742,6 +4774,14 @@ CREATE TABLE `split_label_details` (
   `updated_at` datetime NOT NULL,
   `updated_user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `split_label_details`
+--
+
+INSERT INTO `split_label_details` (`id`, `split_label_id`, `label_id`, `created_at`, `created_user_id`, `updated_at`, `updated_user_id`) VALUES
+(3, 2, 4, '2021-10-09 12:28:38', 1, '2021-10-09 12:28:38', 1),
+(4, 2, 5, '2021-10-09 12:28:38', 1, '2021-10-09 12:28:38', 1);
 
 -- --------------------------------------------------------
 
@@ -4917,7 +4957,7 @@ ALTER TABLE `defects`
 -- AUTO_INCREMENT for table `labels`
 --
 ALTER TABLE `labels`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `label_void_reasons`
@@ -4929,13 +4969,13 @@ ALTER TABLE `label_void_reasons`
 -- AUTO_INCREMENT for table `lots`
 --
 ALTER TABLE `lots`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `lot_defects`
 --
 ALTER TABLE `lot_defects`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `merge_packs`
@@ -4983,13 +5023,13 @@ ALTER TABLE `sell_labels`
 -- AUTO_INCREMENT for table `split_labels`
 --
 ALTER TABLE `split_labels`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `split_label_details`
 --
 ALTER TABLE `split_label_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tags`

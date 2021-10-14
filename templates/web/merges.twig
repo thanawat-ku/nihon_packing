@@ -47,7 +47,7 @@
                         {% if (merge.merge_status == "MERGING") and (merge.merge_confirm == "Y") %}
                         <button type="button" id="confirmBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#confirmMerge" name="{{ merge|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-check-circle"></i></button>
                         {% endif %}
-                        {% if (merge.merge_status == "REGISTERING") or (merge.merge_status == "COMPLETE") %}
+                        {% if (merge.merge_status == "REGISTERING") or (merge.merge_status == "COMPLETE") or (merge.merge_status == "MERGED") %}
                         <a href="label_merge_news?id={{merge.id}}"><button type="button" class="btn btn-success btn-sm" data-toggle="modal" ><i style="font-size:15px; width:20px;" class="fas fa-info-circle"></i></button></a> 
                         {% endif %}
                         <a href="merge_detail?id={{merge.id}}"><button type="button" class="btn btn-success btn-sm" data-toggle="modal" ><i style="font-size:15px; width:20px;" class="fas fa-plus-square"></i></button></a> 
