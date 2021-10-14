@@ -57,12 +57,9 @@ final class LotDefectDeleteAction
         $lot = $this->lotFinder->findLots($dataLot);
 
         $viewData = [
-            'lot' => $lot[0],
-            'defects' => $this->defectFinder->findDefects($data),
-            'lotDefects' => $this->finder->findLotDefects($dataLot),
-            'user_login' => $this->session->get('user'),
+            'id' => $lot[0]['id'],
         ];
 
-        return $this->twig->render($response, 'web/lotDefects.twig', $viewData);
+        return $this->responder->withRedirect($response, "lot_defect_detail", $viewData);
     }
 }

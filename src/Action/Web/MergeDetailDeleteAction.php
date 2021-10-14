@@ -4,6 +4,7 @@ namespace App\Action\Web;
 
 use App\Domain\MergePack\Service\MergePackFinder;
 use App\Domain\MergePack\Service\MergePackUpdater;
+use App\Domain\MergePackDetail\Service\MergePackDetailFinder;
 use App\Domain\MergePackDetail\Service\MergePackDetailUpdater;
 use App\Domain\Label\Service\LabelUpdater;
 use App\Responder\Responder;
@@ -26,8 +27,10 @@ final class MergeDetailDeleteAction
     private $finder;
     private $updater;
     private $session;
+    private $mergeDetailFinder;
     private $mergeDetailUpdater;
     private $labelUpdater;
+
 
     /**
      * The constructor.
@@ -42,12 +45,14 @@ final class MergeDetailDeleteAction
         MergePackUpdater  $updater,
         MergePackDetailUpdater $mergeDetailUpdater,
         LabelUpdater $labelUpdater,
+        MergePackDetailFinder $mergeDetailFinder,
     ) {
         $this->twig = $twig;
         $this->finder = $finder;
         $this->updater = $updater;
         $this->session = $session;
         $this->responder = $responder;
+        $this->mergeDetailFinder = $mergeDetailFinder;
         $this->mergeDetailUpdater = $mergeDetailUpdater;
         $this->labelUpdater = $labelUpdater;
     }
@@ -68,7 +73,16 @@ final class MergeDetailDeleteAction
         $this->mergeDetailUpdater->deleteMergePackDetailFromLabel($labelId);
 
         $dataLabel['status'] = "PACKED";
-        $this->labelUpdater->updateLabel($labelId,$dataLabel);
+        $this->labelUpdater->updateLabel($labelId, $dataLabel);
+
+        $data2['merge_pack_id'] = $data['merge_pack_id'];
+        $mergeDetail = $this->mergeDetailFinder->findMergePackDetailsForMerge($data2);
+
+        if (!isset($mergeDetail[0])) {
+            $dataMergePack['merge_status'] = "CREATED";
+            $this->updater->updatePackMerge($mergeId, $dataMergePack);
+        }
+        
         $viewData = [
             'id' => $mergeId,
         ];

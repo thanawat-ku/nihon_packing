@@ -34,7 +34,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for merge in labels %}    <!-- Focus that!!!!!!!! -->             
+                    {% for merge in mergePacks %}    <!-- Focus that!!!!!!!! -->             
                     <tr>
                         
                         <td>{{ merge.merge_no}}</td>  <!-- Focus that!!!!!!!! -->
@@ -45,6 +45,12 @@
                         {# <td>{{ merge.id }}</td> #}
                         <td>
                         <a href="merge_detail?id={{merge.id}}"><button type="button" class="btn btn-success btn-sm" data-toggle="modal" ><i style="font-size:15px; width:20px;" class="fas fa-plus-square"></i></button></a> 
+                        {% if merge.merge_status == "CREATED" %}
+                        <button type="button" id="editBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editMerge" name="{{ merge|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-edit"></i></button>
+                        {% endif %}
+                        {% if (merge.merge_status == "CREATED") or (merge.merge_status == "MERGING") %}                   
+                        <button type="button" id="deleteBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteMerge" name="{{ merge|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-trash"></i></button>    
+                        {% endif %}
                         </td>
                     </tr>
                     {% endfor %}
@@ -56,7 +62,68 @@
         </div>
     </div>
 
-<!-- Modal add lot -->
+<!-- Modal Delete Merge -->
+<div class="modal fade" id="deleteMerge">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form id="form-deleteMerge" action="__" method="post">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Delete Merge</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">          
+          <div class="form-product">
+            <input type="hidden" id="deleteMergeId" name="id">
+            <label for="MergeNo">Do you want to delete Merge: <span id="deleteMergeNo"></span></label>
+          </div>                 
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-danger">Delete</button>
+          <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal edit merger -->
+<div class="modal fade" id="editMerge">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form id="form-editLot" action="edit_merges" method="post">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Edit Merge</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">          
+          <div class="form-product">
+            <input type="hidden" id="editMergeID" name="id">
+          </div>                 
+          <div class="form-product">
+            <label for="email">Product</label>
+            <select class="form-control"  id="editProductID" name="product_id">
+            {% for p in products %}
+              <option value={{ p.id }}>({{p.part_code}}) {{ p.part_name}} </option>
+            {% endfor %}
+            </select>
+          </div>           
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Yes</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal add merge -->
 <div class="modal fade" id="addMerge">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
@@ -88,4 +155,5 @@
     </div>
   </div>
 </div>
+
 {% endblock %}

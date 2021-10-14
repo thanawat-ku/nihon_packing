@@ -149,18 +149,6 @@ final class LabelUpdater
         return $id;
     }
 
-    public function updateLabelMergePackApi(int $labelId, array $data, $user_id): void
-    {
-        // Input validation
-        $this->validator->validateLabelUpdate($labelId, $data);
-
-        // Map form data to row
-        $storeRow = $this->mapToLabelRow($data);
-
-        // Insert store
-        $this->repository->updateLabelMergePackApi($labelId, $storeRow, $user_id);
-    }
-
     private function mapToLabelRow(array $data): array
     {
         $result = [];
@@ -274,10 +262,8 @@ final class LabelUpdater
             $rt1 = $this->finder->findLabels($params2);
             array_push($labels, $rt1[0]);
         }
-        $rtdata['message'] = "Gen Merge Labels Successful";
-        $rtdata['error'] = false;
-        $rtdata['labels'] = $labels;
-        return $rtdata;
+        
+        return $labels;
     }
 
     public function genSplitLabel(array $data): array

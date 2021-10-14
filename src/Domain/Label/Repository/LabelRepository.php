@@ -294,11 +294,8 @@ final class LabelRepository
         $query->andWhere(['l.is_delete' => 'N']);
 
         $getdata = $query->execute()->fetchAll('assoc') ?: [];
-        if ($getdata) {
-            return  $getdata;
-        } else {
-            return null;
-        }
+            return $getdata;
+        
     }
 
     public function findLabelNonfullys(array $params): array

@@ -61,7 +61,7 @@ final class MergeAction
         }
 
         $viewData = [
-            'labels' => $this->finder->findMergePacks($params), //Focus that!!!!!!
+            'mergePacks' => $this->finder->findMergePacks($params), //Focus that!!!!!!
             'products' => $this->productFinder->findProducts($params),
             'user_login' => $this->session->get('user'),
             'startDate' => $params['startDate'],

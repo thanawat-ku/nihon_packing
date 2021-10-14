@@ -65,14 +65,16 @@ final class MergeLabelAction
 
         $getLabels = $this->labelFinder->findLabelForMerge($productId);
 
-        $labels = [];
+       
         if (isset($getLabels[0])) {
+            $labels = [];
             for($i=0;$i<sizeof($getLabels);$i++){
                 if($getLabels[$i]['merge_pack_id'] != "0"){
                     $mergePackId['id'] = $getLabels[$i]['merge_pack_id'];
                     $mergePack2 = $this->finder->findMergePacks($mergePackId);
                     $getLabels[$i]['merge_no'] = $mergePack2[0]['merge_no'];
                 }
+                $getLabels[$i]['from_merge_id'] = $mergePack[0]['id'];
                 array_push($labels,  $getLabels[$i]);
             }
 

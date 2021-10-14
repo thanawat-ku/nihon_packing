@@ -50,6 +50,7 @@ final class SplitLabelAddAction
         $splitID=$this->updater->insertSplitLabelApi($params, $user_id);
 
         $dataLabel['split_label_id'] = $splitID;
+        $dataLabel['label_void_reason_id'] = "1";
         $dataLabel['status'] = "VOID";
 
         $this->updaterLabel->updateLabelApi($labelID, $dataLabel, $user_id);
