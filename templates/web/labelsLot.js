@@ -26,9 +26,7 @@ function splitLabel(event) {
     console.log(labels);
     var obj = JSON.parse(labels);
     $("#SPLabelID").val(obj.id);
-    $("#SPLabelNo").text(obj.label_no);
-
-    
+    $("#SPLabelNo").text(obj.label_no);  
 }
 
 

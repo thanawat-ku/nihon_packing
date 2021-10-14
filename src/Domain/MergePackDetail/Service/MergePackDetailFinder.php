@@ -34,9 +34,9 @@ final class MergePackDetailFinder
     {
         return $this->repository->findMergePackDetailForRegisters($params);
     }
+    
     public function findMergePackDetailsForMerge(array $params): array
     {
         return $this->repository->findMergePackDetailsForMerge($params);
     }
-
 }

@@ -99,6 +99,18 @@ final class LabelUpdater
         $this->repository->registerLabelApi($lot_id, $storeRow, $user_id);
     }
 
+    public function registerMerge(int $mergeId, array $data): void
+    {
+        // Input validation
+        $this->validator->validateLabelUpdate($mergeId, $data);
+
+        //     // Map form data to row
+        $storeRow = $this->mapToLabelRow($data);
+
+        // Insert store
+        $this->repository->registerMerge($mergeId, $storeRow);
+    }
+
     public function updateLabelApi(int $labelID, array $data, $user_id): void
     {
         // Input validation
@@ -122,6 +134,8 @@ final class LabelUpdater
         // Insert store
         $this->repository->updateLabel($labelID, $storeRow);
     }
+
+
 
 
     public function deleteLabel(int $labelID, array $data): void

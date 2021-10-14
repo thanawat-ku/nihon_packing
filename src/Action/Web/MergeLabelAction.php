@@ -64,24 +64,25 @@ final class MergeLabelAction
         $productId['product_id'] = $mergePack[0]['product_id'];
 
         $getLabels = $this->labelFinder->findLabelForMerge($productId);
+        $getLabels2 =  $this->labelFinder->findLabelForMergeLotZero($productId);
 
-       
-        if (isset($getLabels[0])) {
-            $labels = [];
+        $labels = [];
+        if (isset($getLabels[0])) {      
             for($i=0;$i<sizeof($getLabels);$i++){
-                if($getLabels[$i]['merge_pack_id'] != "0"){
-                    $mergePackId['id'] = $getLabels[$i]['merge_pack_id'];
-                    $mergePack2 = $this->finder->findMergePacks($mergePackId);
-                    $getLabels[$i]['merge_no'] = $mergePack2[0]['merge_no'];
-                }
                 $getLabels[$i]['from_merge_id'] = $mergePack[0]['id'];
                 array_push($labels,  $getLabels[$i]);
             }
 
         }
+        if(isset($getLabels2[0])){
+            for($i=0;$i<sizeof($getLabels2);$i++){
+                $getLabels2[$i]['from_merge_id'] = $mergePack[0]['id'];
+                array_push($labels,  $getLabels2[$i]);
+            }
+        }
 
         $viewData = [
-            'labels' =>  $getLabels, //Focus that!!!!!!
+            'labels' =>  $labels, 
             'mergePack' => $mergePack[0],
             'user_login' => $this->session->get('user'),
         ];

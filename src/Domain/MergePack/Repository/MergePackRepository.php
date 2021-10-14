@@ -85,6 +85,11 @@ final class MergePackRepository
         $this->queryFactory->newDelete('labels')->andWhere(['id' => $labelID])->execute();
     }
 
+    public function deleteMergePack(int $mergeId): void
+    {
+        $this->queryFactory->newDelete('merge_packs')->andWhere(['id' => $mergeId])->execute();
+    }
+
     public function findMergePacks(array $params): array
     {
         $query = $this->queryFactory->newSelect('merge_packs');

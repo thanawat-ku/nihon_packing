@@ -3,18 +3,18 @@
 namespace App\Action\Web;
 
 use App\Domain\MergePack\Service\MergePackFinder;
-use App\Domain\MergePackDetail\Service\MergePackDetailFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Views\Twig;
 use Symfony\Component\HttpFoundation\Session\Session;
 use App\Domain\Product\Service\ProductFinder;
+use App\Domain\Label\Service\LabelFinder;
 
 /**
  * Action.
  */
-final class MergeAction
+final class MergeLabelNewAction
 {
     /**
      * @var Responder
@@ -24,7 +24,8 @@ final class MergeAction
     private $finder;
     private $session;
     private $productFinder;
-    private $mergeDetailFinder;
+    private $labelFinder;
+
 
     /**
      * The constructor.
@@ -37,14 +38,14 @@ final class MergeAction
         Session $session,
         Responder $responder,
         ProductFinder $productFinder,
-        MergePackDetailFinder $mergeDetailFinder,
+        LabelFinder $labelFinder,
     ) {
         $this->twig = $twig;
         $this->finder = $finder;
         $this->session = $session;
         $this->responder = $responder;
         $this->productFinder = $productFinder;
-        $this->mergeDetailFinder = $mergeDetailFinder;
+        $this->labelFinder = $labelFinder;
     }
 
     /**
@@ -58,37 +59,22 @@ final class MergeAction
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $params = (array)$request->getQueryParams();
+        $mergePackId =  $params['id'];
 
-        if (!isset($params['startDate'])) {
-            $params['startDate'] = date('Y-m-d', strtotime('-30 days', strtotime(date('Y-m-d'))));
-            $params['endDate'] = date('Y-m-d');
-        }
+        $dataLabel['merge_pack_id'] = $mergePackId;
 
-        $mergePack = $this->finder->findMergePacks($params);
+        $labels = $this->labelFinder->findLabelForLotZero($dataLabel);
 
-        for($i=0;$i<sizeof($mergePack);$i++){
-            if($mergePack[$i]['status'] = "MERGING"){
-                $mergePackId['merge_pack_id']=  $mergePack[$i]['id'];
-                $gerMergeDetail = $this->mergeDetailFinder->findMergePackDetailsForMerge($mergePackId);
-
-                if(isset($gerMergeDetail[1])){
-                    $mergePack[$i]['merge_confirm'] = "Y";
-                }
-                else{
-                    $mergePack[$i]['merge_confirm'] = "N";
-                }
-            }
-        }
+        $mergePack['id'] = $mergePackId;
+        $mergePack['merge_no'] = $labels[0]['merge_no'];
 
         $viewData = [
-            'mergePacks' => $mergePack, 
-            'products' => $this->productFinder->findProducts($params),
+            'labels' =>  $labels,
+            'mergePack' => $mergePack,
             'user_login' => $this->session->get('user'),
-            'startDate' => $params['startDate'],
-            'endDate' => $params['endDate'],
         ];
 
 
-        return $this->twig->render($response, 'web/merges.twig', $viewData); //-----edit twig
+        return $this->twig->render($response, 'web/labelsMergeNew.twig', $viewData); //-----edit twig
     }
 }

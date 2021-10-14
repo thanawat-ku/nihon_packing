@@ -102,6 +102,11 @@ final class MergePackDetailUpdater
         $this->repository->deleteMergePackDetailApi($id);
     }
 
+    public function deleteMergePackDetail(int $mergeId): void
+    {
+        $this->repository->deleteMergePackDetail($mergeId);
+    }
+
     public function deleteMergePackDetailFromLabel(int $labelId): void
     {
         $this->repository->deleteMergePackDetailFromLabel($labelId);

@@ -52,30 +52,39 @@ final class MergeDetailAction
         $mergeDetail = $this->finder->findMergePackDetailsForMerge($data1);
         $mergePack =  $this->mergeFinder->findMergePacks($data1);
 
-        
+        if (($mergePack[0]['merge_status'] == "CREATED") or ($mergePack[0]['merge_status'] == "MERGING")) {
+            $mergePack[0]['select_label'] = "Y";
+        } else {
+            $mergePack[0]['select_label'] = "N";
+        }
+
+
         $labels = [];
-        if(isset($mergeDetail[0])){
-            for($i=0;$i<sizeof($mergeDetail);$i++){
+        if (isset($mergeDetail[0])) {
+            for ($i = 0; $i < sizeof($mergeDetail); $i++) {
                 $labelId['label_id'] = $mergeDetail[$i]['label_id'];
                 $label = $this->labelFinder->findLabels($labelId);
-
-                if($label[0]['merge_pack_id'] != "0"){
-                    $data2['merge_pack_id'] = $label[0]['merge_pack_id'];
-                    $mergePack2 = $this->mergeFinder->findMergePacks($data2);
-                    $label[0]['merge_no'] = $mergePack2[0]['merge_no'];
-                }
                 $label[0]['from_merge_id'] = $mergePack[0]['id'];
                 array_push($labels, $label[0]);
+            }
+
+            for ($i = 0; $i < sizeof($mergeDetail); $i++) {
+                $labelId['label_id'] = $mergeDetail[$i]['label_id'];
+                $label2 = $this->labelFinder->findLabelForLotZero($labelId);
+                if (isset($label2[0])) {
+                    $label2[0]['from_merge_id'] = $mergePack[0]['id'];
+                    array_push($labels, $label2[0]);
+                }
             }
         }
 
         $viewData = [
             'labels' => $labels,
-            'mergePack' => $mergePack[0] ,
+            'mergePack' => $mergePack[0],
             'user_login' => $this->session->get('user'),
         ];
 
 
-        return $this->twig->render($response, 'web/mergeDetail.twig', $viewData); 
+        return $this->twig->render($response, 'web/mergeDetail.twig', $viewData);
     }
 }

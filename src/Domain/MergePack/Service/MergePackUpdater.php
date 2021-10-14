@@ -89,6 +89,11 @@ final class MergePackUpdater
         $this->repository->deleteMergePackApi($labelId);
     }
 
+    public function deleteMergePack(int $mergeId): void
+    {
+        $this->repository->deleteMergePack($mergeId);
+    }
+
     public function updatePackMerge(string $mergeId, array $data): void
     {
 
