@@ -48,7 +48,7 @@
                         <td>{{ label.quantity }}</td>
                         <td>{{ label.status }}</td>
                         <td>
-                        <button type="button" id="deleteBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteLabel" name="{{ label|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-trash"></i></button>
+                        <button type="button" id="deleteDetailBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteDetail" name="{{ label|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-trash"></i></button>
                         </td>
                     </tr>
                     {% endfor %}
@@ -63,6 +63,32 @@
         </div>
     </div>
 
+<!-- Modal Detail -->
+<div class="modal fade" id="deleteDetail">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form id="form-deleteLot" action="delete_merge_detail" method="post">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Delete Lot</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">          
+          <div class="form-product">
+            <input type="hidden" id="deleteLabelID" name="label_id">
+            <input type="hidden" id="deleteMergeID" name="merge_pack_id">
+            <label for="lotNo">Do you want to delete label: <span id="deleteLabelNo"></span></label>
+          </div>                 
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-danger">Delete</button>
+          <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 
 
 

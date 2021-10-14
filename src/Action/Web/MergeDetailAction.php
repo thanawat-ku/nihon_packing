@@ -58,17 +58,16 @@ final class MergeDetailAction
             for($i=0;$i<sizeof($mergeDetail);$i++){
                 $labelId['label_id'] = $mergeDetail[$i]['label_id'];
                 $label = $this->labelFinder->findLabels($labelId);
+
                 if($label[0]['merge_pack_id'] != "0"){
                     $data2['merge_pack_id'] = $label[0]['merge_pack_id'];
                     $mergePack2 = $this->mergeFinder->findMergePacks($data2);
                     $label[0]['merge_no'] = $mergePack2[0]['merge_no'];
                 }
+                $label[0]['from_merge_id'] = $mergePack[0]['id'];
                 array_push($labels, $label[0]);
             }
         }
-        
-        
-        // $mergeNo = $mergePack[0]['merge_no'];
 
         $viewData = [
             'labels' => $labels,

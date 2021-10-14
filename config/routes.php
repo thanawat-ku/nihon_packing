@@ -34,7 +34,8 @@ return function (App $app) {
     $app->get('/merges', \App\Action\Web\MergeAction::class)->add(UserAuthMiddleware::class);
     $app->post('/add_merges', \App\Action\Web\MergeAddAction::class)->add(UserAuthMiddleware::class);
     $app->get('/label_merges', \App\Action\Web\MergeLabelAction::class)->add(UserAuthMiddleware::class);
-    $app->get('/merge_detail', \App\Action\Web\MergeDetailAction::class)->add(UserAuthMiddleware::class); //page2
+    $app->get('/merge_detail', \App\Action\Web\MergeDetailAction::class)->add(UserAuthMiddleware::class);
+    $app->post('/delete_merge_detail', \App\Action\Web\MergeDetailDeleteAction::class)->add(UserAuthMiddleware::class); //page2
     
     $app->post('/edit_lot', \App\Action\Web\LotEditAction::class)->add(UserAuthMiddleware::class);
     $app->post('/delete_lot', \App\Action\Web\LotDeleteAction::class)->add(UserAuthMiddleware::class);
