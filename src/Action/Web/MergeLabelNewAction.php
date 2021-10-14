@@ -10,6 +10,7 @@ use Slim\Views\Twig;
 use Symfony\Component\HttpFoundation\Session\Session;
 use App\Domain\Product\Service\ProductFinder;
 use App\Domain\Label\Service\LabelFinder;
+use App\Domain\LabelVoidReason\Service\LabelVoidReasonFinder;
 
 /**
  * Action.
@@ -25,6 +26,7 @@ final class MergeLabelNewAction
     private $session;
     private $productFinder;
     private $labelFinder;
+    private $voidReasonFinder;
 
 
     /**
@@ -39,6 +41,7 @@ final class MergeLabelNewAction
         Responder $responder,
         ProductFinder $productFinder,
         LabelFinder $labelFinder,
+        LabelVoidReasonFinder $voidReasonFinder,
     ) {
         $this->twig = $twig;
         $this->finder = $finder;
@@ -46,6 +49,7 @@ final class MergeLabelNewAction
         $this->responder = $responder;
         $this->productFinder = $productFinder;
         $this->labelFinder = $labelFinder;
+        $this->voidReasonFinder = $voidReasonFinder;
     }
 
     /**
@@ -71,6 +75,7 @@ final class MergeLabelNewAction
         $viewData = [
             'labels' =>  $labels,
             'mergePack' => $mergePack,
+            'void_reasons' => $this->voidReasonFinder->findLabelVoidReasonsForVoidLabel($params),
             'user_login' => $this->session->get('user'),
         ];
 

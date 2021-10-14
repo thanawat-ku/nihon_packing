@@ -57,6 +57,7 @@ return function (App $app) {
     $app->post('/delete_lot_defect', \App\Action\Web\LotDefectDeleteAction::class)->add(UserAuthMiddleware::class);
 
     $app->get('/labels', \App\Action\Web\LabelAction::class)->add(UserAuthMiddleware::class);
+    $app->post('/void_label', \App\Action\Web\LabelVoidAction::class)->add(UserAuthMiddleware::class);
     $app->post('/split_label', \App\Action\Web\LabelSplitAction::class)->add(UserAuthMiddleware::class);
     $app->post('/add_label', \App\Action\Web\LabelAddAction::class)->add(UserAuthMiddleware::class);
     $app->post('/edit_label', \App\Action\Web\LabelEditAction::class)->add(UserAuthMiddleware::class);

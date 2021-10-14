@@ -84,16 +84,16 @@
           </div>                            
           <div class="form-voidReason">
             <label for="email">Reason Name</label>
-            <select class="form-control"  id="voidReasonName" name="reason_name">
+            <select class="form-control"  id="voidReasonName" name="label_void_reason_id">
             {% for v in void_reasons %}
               <option value={{ v.id }}>{{v.reason_name}} </option>
             {% endfor %}
             </select>
           </div> 
-          <div class="form-voidReason">
+          {# <div class="form-voidReason">
             <label for="labelNo">Description</label>
             <input type="text" autocomplete="off" class="form-control" id="voidDescription" name="description" required>
-          </div>
+          </div> #}
         </div>
         <div class="modal-footer">
           <button type="submit" class="btn btn-primary">Save</button>

@@ -26,13 +26,19 @@ function splitLabel(event) {
     console.log(labels);
     var obj = JSON.parse(labels);
     $("#SPLabelID").val(obj.id);
-    $("#SPLabelNo").text(obj.label_no);  
+    $("#SPLabelNo").text(obj.label_no);
 }
 
+function voidLabel(event) {
+    let labels = event.currentTarget.name;
+    console.log(labels);
+    var obj = JSON.parse(labels);
+    $("#voidLabelID").val(obj.id);
+}
 
 $(document).on(
     "click",
-    "#editBt, #deleteBt, #SplitBt",
+    "#editBt, #deleteBt, #SplitBt ,#voidBt",
     (event) => {
         let id = event.currentTarget.id;
         switch (id) {
@@ -44,6 +50,9 @@ $(document).on(
                 break;
             case "SplitBt":
                 splitLabel(event);
+                break;
+            case "voidBt":
+                voidLabel(event);
                 break;
             default:
                 console.log("no any events click");
