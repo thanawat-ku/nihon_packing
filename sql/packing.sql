@@ -256,7 +256,7 @@ INSERT INTO `defects` (`id`, `defect_code`, `defect_description`, `oqc_check`, `
 (14, 'L T under', 'Length turning under spec', 'Diamension', '2021-09-18 13:46:42', 1, '2021-09-18 13:46:42', 1),
 (15, 'Di T over', 'Dimeter over spec', 'Diamension', '2021-09-18 13:46:42', 1, '2021-09-18 13:46:42', 1),
 (16, 'Di T under', 'Dimeter under spec', 'Diamension', '2021-09-18 13:46:42', 1, '2021-09-18 13:46:42', 1),
-(17, 'Di B T over', 'Dimeter Black turning over spec', 'Diamension', '2021-09-18 13:46:42', 1, '2021-09-18 13:46:42', 1),
+(17, 'Di B T over', 'Dimeter Back turning over spec', 'Diamension', '2021-09-18 13:46:42', 1, '2021-09-18 13:46:42', 1),
 (18, 'Di B T under', 'Dimerter black turning under spec', 'Diamension', '2021-09-18 13:46:42', 1, '2021-09-18 13:46:42', 1),
 (19, 'Di Body over', 'Dimeter body over spec', 'Diamension', '2021-09-18 13:46:42', 1, '2021-09-18 13:46:42', 1),
 (20, 'Di Body under', 'Dimeter body under spec', 'Diamension', '2021-09-18 13:46:42', 1, '2021-09-18 13:46:42', 1),

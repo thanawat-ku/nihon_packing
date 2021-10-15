@@ -27,8 +27,8 @@
                     <tr>
                         <th>Lot No</th>
                         <th>Product</th>
-                        <th>Qty</th>
-                        <th>Real Qty</th>
+                        <th>Quantity</th>
+                        <th>Real Quantity</th>
                         <th>Std Pack/Box</th>
                         <th>Status</th>
                         <th>Operation</th>
@@ -81,14 +81,14 @@
     <form id="form-printLot" name ="confirm" action="{{ confirm|json_encode }}">
         <!-- Modal Header -->
         <div class="modal-header">
-          <h4 class="modal-title">Input Real Qty</h4>
+          <h4 class="modal-title">Input real quantity</h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         <!-- Modal body -->
         <div class="modal-body">          
           <div class="form-product">
             <input type="hidden" id="printLotID">
-            <label for="lotNo">Real Qty</label>
+            <label for="lotNo">Real Quantity</label>
             <input type="text" autocomplete="off" class="form-control" id="realQTY" required>
           </div>              
         </div>
