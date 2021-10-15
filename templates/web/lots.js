@@ -22,6 +22,7 @@ function deleteLot(event) {
     console.log(lot);
     var obj = JSON.parse(lot);
     $("#deleteLotID").val(obj.id);
+    $("#deleteLotNo").text(obj.lot_no); //show lot_no
     $("#deleteLotNoLabelStatus").val(obj.status);
 }
 function printLot(event) {
