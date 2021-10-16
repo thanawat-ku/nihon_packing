@@ -47,12 +47,12 @@
                         {% if (merge.merge_status == "MERGING") and (merge.merge_confirm == "Y") %}
                         <button type="button" id="confirmBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#confirmMerge" name="{{ merge|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-check-circle"></i></button>
                         {% endif %}
+                        <a href="merge_detail?id={{merge.id}}"><button type="button" class="btn btn-success btn-sm" data-toggle="modal" ><i style="font-size:15px; width:20px;" class="fas fa-folder-open"></i></button></a>
                         {% if (merge.merge_status == "REGISTERING") or (merge.merge_status == "COMPLETE") or (merge.merge_status == "MERGED") %}
-                        <a href="label_merge_news?id={{merge.id}}"><button type="button" class="btn btn-success btn-sm" data-toggle="modal" ><i style="font-size:15px; width:20px;" class="fas fa-info-circle"></i></button></a> 
-                        {% endif %}
-                        <a href="merge_detail?id={{merge.id}}"><button type="button" class="btn btn-success btn-sm" data-toggle="modal" ><i style="font-size:15px; width:20px;" class="fas fa-plus-square"></i></button></a> 
+                        <a href="label_merge_news?id={{merge.id}}"><button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" ><i style="font-size:15px; width:20px; " class="fas fa-info-circle"></i></button></a>  <!-- detail icon color:gray; -->
+                        {% endif %} 
                         {% if merge.merge_status == "CREATED" %}
-                        <button type="button" id="editBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editMerge" name="{{ merge|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-edit"></i></button>
+                        <button type="button" id="editBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editMerge" name="{{ merge|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-edit"></i></button> 
                         {% endif %}
                         {% if (merge.merge_status == "CREATED") or (merge.merge_status == "MERGING") %}                   
                         <button type="button" id="deleteBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteMerge" name="{{ merge|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-trash"></i></button>    
@@ -85,7 +85,7 @@
             <input type="hidden" id="registerMergeId" name="id">
           </div>
           <div class="form-realQty">
-          <label for="lotNo">Do you want to register Merge: <span id="registerMergeNo"></span></label>
+          <label for="lotNo">Do you want to register merge: <span id="registerMergeNo"></span> ?</label>
           </div>                            
         </div>
         <div class="modal-footer">
@@ -112,7 +112,7 @@
           <div class="form-product">
             <input type="hidden" id="confirmMergeId" name="id">
             <input type="hidden" id="stdPack" name="std_pack">
-            <label for="MergeNo">Do you want to Merge: <span id="confirmMergeNo"></span></label>
+            <label for="MergeNo">Do you want to merge: <span id="confirmMergeNo"></span> ?</label>
           </div>                 
         </div>
         <div class="modal-footer">

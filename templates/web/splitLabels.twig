@@ -42,7 +42,7 @@
                         <button type="button" id="registerBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#registerSp" name="{{ splitLabel|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-check-circle"></i></button>
                         <button type="button" id="deleteBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteSplitLabel" name="{{ splitLabel|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-trash"></i></button>
                         {% endif %}
-                        <a href="label_splitlabel?id={{splitLabel.id}}"><button type="button" class="btn btn-success btn-sm" data-toggle="modal" ><i style="font-size:15px; width:20px;" class="fas fa-info-circle"></i></button></a> 
+                        <a href="label_splitlabel?id={{splitLabel.id}}"><button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" ><i style="font-size:15px; width:20px;" class="fas fa-info-circle"></i></button></a> 
                         </td>
                     </tr>
                     {% endfor %}
