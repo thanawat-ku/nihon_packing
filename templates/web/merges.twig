@@ -42,10 +42,10 @@
                         <td>{{ merge.std_pack ~ '/' ~ merge.std_box }}</td>
                         <td>
                         {% if merge.merge_status == "MERGED"%}
-                        <button type="button" id="registerBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#registerMerge" name="{{ merge|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-check-square"></i></button>
+                        <button type="button" id="registerBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#registerMerge" name="{{ merge|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-check-circle"></i></button>
                         {% endif %}
                         {% if (merge.merge_status == "MERGING") and (merge.merge_confirm == "Y") %}
-                        <button type="button" id="confirmBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#confirmMerge" name="{{ merge|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-check-circle"></i></button>
+                        <button type="button" id="confirmBt" class="btn btn-success btn-sm" data-toggle="modal" data-target="#confirmMerge" name="{{ merge|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-check-circle"></i></button>
                         {% endif %}
                         <a href="merge_detail?id={{merge.id}}"><button type="button" class="btn btn-success btn-sm" data-toggle="modal" ><i style="font-size:15px; width:20px;" class="fas fa-folder-open"></i></button></a>
                         {% if (merge.merge_status == "REGISTERING") or (merge.merge_status == "COMPLETE") or (merge.merge_status == "MERGED") %}
