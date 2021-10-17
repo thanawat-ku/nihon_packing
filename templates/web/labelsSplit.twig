@@ -41,9 +41,6 @@
                         <td>{{ label.quantity }}</td>
                         <td>{{ label.status }}</td>
                         <td>
-                        {% if label.status  == "CREATED" %}
-                        <button type="button" id="printBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#printLot" name="{{ label|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-print"></i></button>
-                        {% endif %}
                         {% if label.status  == "PACKED" %}
                         <button type="button" id="SplitBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#splitLabel" name="{{ label|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-object-ungroup"></i></button>
                         <button type="button" id="voidBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#voidLabel" name="{{ label|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-exclamation-triangle"></i></button>
