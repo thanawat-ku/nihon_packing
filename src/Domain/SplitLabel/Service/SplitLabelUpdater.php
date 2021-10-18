@@ -33,32 +33,29 @@ final class SplitLabelUpdater
         $this->validator->validateSplitLabelInsert($data);
 
         $Row = $this->mapToSplitLabelRow($data);
+        $Row['split_date'] = date('Y-m-d');
 
         $id = $this->repository->insertSplitLabelApi($Row, $user_id);
 
-        return $id;
-    }
-    public function insertSplitLabelDeatilApi(array $data, $user_id): int
-    {
-        $this->validator->validateSplitLabelInsert($data);
+        //add split no
+        $data1['split_label_no'] = "S" . str_pad($id, 11, "0", STR_PAD_LEFT);
 
-        $Row = $this->mapToSplitLabelDeatilRow($data);
 
-        $id = $this->repository->insertSplitLabelDeatilApi($Row, $user_id);
+        $this->repository->updateSplitLabelApi($id, $data1, $user_id);
 
         return $id;
     }
 
-    public function updateSplitLabel(int $labelID, array $data): void
+    public function updateSplitLabel(int $splitLabelID, array $data): void
     {
         // Input validation
-        $this->validator->validateSplitLabelUpdate($labelID, $data);
+        $this->validator->validateSplitLabelUpdate($splitLabelID, $data);
 
 
         $storeRow = $this->mapToSplitLabelRow($data);
 
         // Insert store
-        $this->repository->updateSplitLabel($labelID, $storeRow);
+        $this->repository->updateSplitLabel($splitLabelID, $storeRow);
     }
 
     public function updateSplitLabelApi(array $data, int $splitID, $user_id): void
@@ -87,9 +84,9 @@ final class SplitLabelUpdater
 
 
 
-    public function deleteSplitLabel(int $labelID, array $data): void
+    public function deleteSplitLabel(int $SplitLabelId, array $data): void
     {
-        $this->repository->deleteSplitLabel($labelID);
+        $this->repository->deleteSplitLabel($SplitLabelId);
     }
 
 
@@ -105,20 +102,6 @@ final class SplitLabelUpdater
         }
         if (isset($data['status'])) {
             $result['status'] = (string)$data['status'];
-        }
-
-        return $result;
-    }
-
-    private function mapToSplitLabelDeatilRow(array $data): array
-    {
-        $result = [];
-
-        if (isset($data['split_label_id'])) {
-            $result['split_label_id'] = (string)$data['split_label_id'];
-        }
-        if (isset($data['label_id'])) {
-            $result['label_id'] = (string)$data['label_id'];
         }
 
         return $result;

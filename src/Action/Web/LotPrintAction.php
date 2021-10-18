@@ -9,6 +9,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use App\Domain\Lot\Service\LotFinder;
 use App\Domain\Lot\Service\LotUpdater;
 use App\Domain\Label\Service\LabelUpdater;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * Action.
@@ -19,10 +20,15 @@ final class LotPrintAction
     private $updater;
     private $finder;
     private $labelUpdater;
-    public function __construct(Responder $responder, LotUpdater $updater,
-        LotFinder $finder,LabelUpdater $labelUpdater
-    )
-    {
+    private $session;
+    public function __construct(
+        Session $session,
+        Responder $responder,
+        LotUpdater $updater,
+        LotFinder $finder,
+        LabelUpdater $labelUpdater,
+    ) {
+        $this->session = $session;
         $this->responder = $responder;
         $this->updater = $updater;
         $this->finder = $finder;
@@ -38,38 +44,27 @@ final class LotPrintAction
         // Extract the form data from the request body
         $data = (array)$request->getParsedBody();
         $lotId = $data["id"];
+        $realQty = $data['real_qty'];
 
         // generate labels
-        $params["lot_id"]=$lotId;
+        $params["lot_id"] = $lotId;
         $lots = $this->finder->findLots($params);
-        if($lots[0]['status']=="CREATED"){
-            // Invoke the Domain with inputs and retain the result
-            $this->updater->printLot($lotId);
 
-            $quantity=$lots[0]["quantity"];
-            $std_pack=$lots[0]["std_pack"];
-            $num_packs=ceil($quantity/$std_pack);
+        if ($lots[0]['status'] == "CREATED") {
+            $data['user_id']=$this->session->get('user')["id"];
+            $data['lot_id']=$lotId;
+            $data['real_qty']=$realQty;
+            $data['std_pack']=$lots[0]['std_pack'];
+            $this->labelUpdater->genLabelNo($data);
+            $dataLot['status']='PRINTED';
+            $dataLot['real_qty']=$realQty;
+            $dataLot['generate_lot_no'] = "L" . str_pad($lotId, 11, "0", STR_PAD_LEFT);
 
-
-            
-            for($i=0; $i < $num_packs; $i++){
-                $data1['lot_id']=$lots[0]['id'];
-                $data1['label_no']=$lots[0]['lot_no'].str_pad( $i, 3, "0", STR_PAD_LEFT);
-                $data1['label_type']="FULLY";
-                $data1['quantity']=$std_pack;
-                $data1['status']="CREATED";
-                $this->labelUpdater->insertLabel($data1);
-            }
-            $data1['lot_id']=$lots[0]['id'];
-            $data1['label_no']=$lots[0]['lot_no'].str_pad( $i, 3, "0", STR_PAD_LEFT);
-            $data1['label_type']="NONFULLY";
-            $data1['quantity']=0;
-            $data1['status']="CREATED";
-            $this->labelUpdater->insertLabel($data1);
+            $this->updater->updateLot($lotId, $dataLot);
         }
-        
+
 
         // Build the HTTP response
-        return $this->responder->withRedirect($response,"lots");
+        return $this->responder->withRedirect($response, "lots");
     }
 }

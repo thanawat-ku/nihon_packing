@@ -20,6 +20,22 @@ final class LabelFinder
     {
         return $this->repository->findLabels($params);
     }
+    public function findLabelForLotZero(array $params): array
+    {
+        return $this->repository->findLabelForLotZero($params);
+    }
+    public function findLabelsForScan(array $params): array
+    {
+        return $this->repository->findLabelsForScan($params);
+    }
+    public function findLabelForMerge(array $params): array
+    {
+        return $this->repository->findLabelForMerge($params);
+    }
+    public function findLabelForMergeLotZero(array $params): array
+    {
+        return $this->repository->findLabelForMergeLotZero($params);
+    }
     public function findLabelNonfullys(array $params): array
     {
         return $this->repository->findLabelNonfullys($params);

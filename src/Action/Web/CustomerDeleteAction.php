@@ -29,9 +29,11 @@ final class CustomerDeleteAction
         // Extract the form data from the request body
         $data = (array)$request->getParsedBody();
         $customerId = $data["id"];
+        
 
         // Invoke the Domain with inputs and retain the result
-        $this->updater->deleteCustomer($customerId, $data);
+        $data2['is_delete'] = "Y"; 
+        $this->updater->updateCustomer($customerId, $data2);
 
         // Build the HTTP response
         return $this->responder->withRedirect($response,"customers");

@@ -40,6 +40,8 @@ final class LabelUpdater
         return $id;
     }
 
+
+
     public function insertLabelerror(array $data, $user_id): int
     {
 
@@ -54,9 +56,12 @@ final class LabelUpdater
 
         return $id;
     }
-    
+
+
     public function insertLabelApi(array $data, $user_id): int //สร้าง labels จาก splitlabel
     {
+
+        $data['label_no'] = "X" . str_pad(1, 11, "0", STR_PAD_LEFT);
 
         $this->validator->validateLabelInsert($data);
 
@@ -64,8 +69,46 @@ final class LabelUpdater
 
         $id = $this->repository->insertLabelApi($Row, $user_id);
 
+        $data1['label_no'] = "P" . str_pad($id, 11, "0", STR_PAD_LEFT);
+        $this->updateLabelApi($id, $data1, $user_id);
 
         return $id;
+    }
+
+    public function registerLabel(int $lot_id, array $data): void
+    {
+        // Input validation
+        $this->validator->validateLabelUpdate($lot_id, $data);
+
+        //     // Map form data to row
+        $storeRow = $this->mapToLabelRow($data);
+
+        // Insert store
+        $this->repository->registerLabel($lot_id, $storeRow);
+    }
+
+    public function registerLabelApi(int $lot_id, array $data, $user_id): void
+    {
+        // Input validation
+        $this->validator->validateLabelUpdate($lot_id, $data);
+
+        //     // Map form data to row
+        $storeRow = $this->mapToLabelRow($data);
+
+        // Insert store
+        $this->repository->registerLabelApi($lot_id, $storeRow, $user_id);
+    }
+
+    public function registerMerge(int $mergeId, array $data): void
+    {
+        // Input validation
+        $this->validator->validateLabelUpdate($mergeId, $data);
+
+        //     // Map form data to row
+        $storeRow = $this->mapToLabelRow($data);
+
+        // Insert store
+        $this->repository->registerMerge($mergeId, $storeRow);
     }
 
     public function updateLabelApi(int $labelID, array $data, $user_id): void
@@ -79,6 +122,7 @@ final class LabelUpdater
         // Insert store
         $this->repository->updateLabelApi($labelID, $storeRow, $user_id);
     }
+
     public function updateLabel(int $labelID, array $data): void
     {
         // Input validation
@@ -90,6 +134,8 @@ final class LabelUpdater
         // Insert store
         $this->repository->updateLabel($labelID, $storeRow);
     }
+
+
 
 
     public function deleteLabel(int $labelID, array $data): void
@@ -117,18 +163,6 @@ final class LabelUpdater
         return $id;
     }
 
-    public function updateLabelMergePackApi(int $labelId, array $data, $user_id): void
-    {
-        // Input validation
-        $this->validator->validateLabelUpdate($labelId, $data);
-
-        // Map form data to row
-        $storeRow = $this->mapToLabelRow($data);
-
-        // Insert store
-        $this->repository->updateLabelMergePackApi($labelId, $storeRow, $user_id);
-    }
-
     private function mapToLabelRow(array $data): array
     {
         $result = [];
@@ -154,6 +188,10 @@ final class LabelUpdater
         if (isset($data['split_label_id'])) {
             $result['split_label_id'] = (string)$data['split_label_id'];
         }
+        if (isset($data['label_void_reason_id'])) {
+            $result['label_void_reason_id'] = (string)$data['label_void_reason_id'];
+        }
+        
         return $result;
     }
 
@@ -181,44 +219,31 @@ final class LabelUpdater
         $real_qty = (int)$data['real_qty'] ?? 1;
         $std_pack = (int)$data['std_pack'] ?? 1;
         $user_id = (int)$data['user_id'] ?? 1;
-        $num_packs=ceil($real_qty/$std_pack);
-        $num_full_packs=floor($real_qty/$std_pack);
+        $num_packs = ceil($real_qty / $std_pack);
+        $num_full_packs = floor($real_qty / $std_pack);
 
-        $labels=[];
-        for($i=0; $i < $num_full_packs; $i++){
-            $data1['lot_id']=$lot_id;
-            $data1['label_no']="X".str_pad( $i, 11, "0", STR_PAD_LEFT);
-            $data1['label_type']="FULLY";
-            $data1['quantity']=$std_pack;
-            $data1['status']="CREATED";
-            $id=$this->insertLabelApi($data1,$user_id);
-            $data1['label_no']="P".str_pad( $id, 11, "0", STR_PAD_LEFT);
-            $this->updateLabelApi($id, $data1,$user_id);
-            $label['id']=$id;
-            $label['label_no']=$data1['label_no'];
-            $label['label_type']=$data1['label_type'];
-            $label['quantity']=$data1['quantity'];
-            array_push($labels,$label);
+        $labels = [];
+        for ($i = 0; $i < $num_full_packs; $i++) {
+            $data1['lot_id'] = $lot_id;
+            $data1['label_type'] = "FULLY";
+            $data1['quantity'] = $std_pack;
+            $data1['status'] = "CREATED";
+            $id = $this->insertLabelApi($data1, $user_id);
+            $params2['label_id'] = $id;
+            $rt1 = $this->finder->findLabels($params2);
+            array_push($labels, $rt1[0]);
         }
-        if($num_full_packs!=$num_packs){
-            $data1['lot_id']=$lot_id;
-            $data1['label_no']="X".str_pad( $i, 11, "0", STR_PAD_LEFT);
-            $data1['label_type']="NONFULLY";
-            $data1['quantity']=$real_qty - ($num_full_packs * $std_pack);
-            $data1['status']="CREATED";
-            $id=$this->insertLabelApi($data1,$user_id);
-            $data1['label_no']="P".str_pad( $id, 11, "0", STR_PAD_LEFT);
-            $this->updateLabelApi($id, $data1,$user_id);
-            $label['id']=$id;
-            $label['label_no']=$data1['label_no'];
-            $label['label_type']=$data1['label_type'];
-            $label['quantity']=$data1['quantity'];
-            array_push($labels,$label);
+        if ($num_full_packs != $num_packs) {
+            $data1['lot_id'] = $lot_id;
+            $data1['label_type'] = "NONFULLY";
+            $data1['quantity'] = $real_qty - ($num_full_packs * $std_pack);
+            $data1['status'] = "CREATED";
+            $id = $this->insertLabelApi($data1, $user_id);
+            $params2['label_id'] = $id;
+            $rt1 = $this->finder->findLabels($params2);
+            array_push($labels, $rt1[0]);
         }
-        $rtdata['message']="Gen Labels Successful";
-        $rtdata['error']=false;
-        $rtdata['labels']=$labels;
-        return $rtdata;
+        return $labels;
     }
 
     public function genMergeLabel(array $data): array
@@ -227,47 +252,35 @@ final class LabelUpdater
         $quantity = (int)$data['quantity'] ?? 1;
         $std_pack = (int)$data['std_pack'] ?? 1;
         $user_id = (int)$data['user_id'] ?? 1;
-        $num_packs=ceil($quantity/$std_pack);
-        $num_full_packs=floor($quantity/$std_pack);
+        $num_packs = ceil($quantity / $std_pack);
+        $num_full_packs = floor($quantity / $std_pack);
 
-        $labels=[];
-        for($i=0; $i < $num_full_packs; $i++){
-            $data1['merge_pack_id']=$merge_pack_id;
-            $data1['label_no']="X".str_pad( $i, 11, "0", STR_PAD_LEFT);
-            $data1['label_type']="MERGE_FULLY";
-            $data1['quantity']=$std_pack;
-            $data1['status']="CREATED";
-            $id=$this->insertLabelApi($data1,$user_id);
-            $data1['label_no']="P".str_pad( $id, 11, "0", STR_PAD_LEFT);
-            $this->updateLabelApi($id, $data1,$user_id);
-            $label['id']=$id;
-            $label['label_no']=$data1['label_no'];
-            $label['label_type']=$data1['label_type'];
-            $label['quantity']=$data1['quantity'];
-            array_push($labels,$label);
+        $labels = [];
+        for ($i = 0; $i < $num_full_packs; $i++) {
+            $data1['merge_pack_id'] = $merge_pack_id;
+            $data1['label_type'] = "MERGE_FULLY";
+            $data1['quantity'] = $std_pack;
+            $data1['status'] = "CREATED";
+            $id = $this->insertLabelApi($data1, $user_id);
+            $params2['label_id'] = $id;
+            $rt1 = $this->finder->findLabels($params2);
+            array_push($labels, $rt1[0]);
         }
-        if($num_full_packs!=$num_packs){
-            $data1['merge_pack_id']=$merge_pack_id;
-            $data1['label_no']="X".str_pad( $i, 11, "0", STR_PAD_LEFT);
-            $data1['label_type']="MERGE_NONFULLY";
-            $data1['quantity']=$quantity - ($num_full_packs * $std_pack);
-            $data1['status']="CREATED";
-            $id=$this->insertLabelApi($data1,$user_id);
-            $data1['label_no']="P".str_pad( $id, 11, "0", STR_PAD_LEFT);
-            $this->updateLabelApi($id, $data1,$user_id);
-            $label['id']=$id;
-            $label['label_no']=$data1['label_no'];
-            $label['label_type']=$data1['label_type'];
-            $label['quantity']=$data1['quantity'];
-            array_push($labels,$label);
+        if ($num_full_packs != $num_packs) {
+            $data1['merge_pack_id'] = $merge_pack_id;
+            $data1['label_type'] = "MERGE_NONFULLY";
+            $data1['quantity'] = $quantity - ($num_full_packs * $std_pack);
+            $data1['status'] = "CREATED";
+            $id = $this->insertLabelApi($data1, $user_id);
+            $params2['label_id'] = $id;
+            $rt1 = $this->finder->findLabels($params2);
+            array_push($labels, $rt1[0]);
         }
-        $rtdata['message']="Gen Merge Labels Successful";
-        $rtdata['error']=false;
-        $rtdata['labels']=$labels;
-        return $rtdata;
+        
+        return $labels;
     }
 
-    public function genSplitLabel(array $data):array
+    public function genSplitLabel(array $data): array
     {
         $label_type = $data['label_type'] ?? "FULLY";
         $lot_id = (int)($data['lot_id'] ?? 1);
@@ -276,68 +289,45 @@ final class LabelUpdater
         $quantity2 = (int)$data['quantity2'] ?? 1;
         $user_id = (int)$data['user_id'] ?? 1;
 
-        $labels=[];
-        if($label_type=="FULLY"||$label_type=="NONFULLY"){
-            $data1['lot_id']=$lot_id;
-            $data1['label_no']="X".str_pad( 1, 11, "0", STR_PAD_LEFT);
-            $data1['label_type']="NONFULLY";
-            $data1['quantity']=$quantity1;
-            $data1['status']="CREATED";
-            $id=$this->insertLabelApi($data1,$user_id);
-            $data1['label_no']="P".str_pad( $id, 11, "0", STR_PAD_LEFT);
-            $this->updateLabelApi($id, $data1,$user_id);
-            $label['id']=$id;
-            $label['label_no']=$data1['label_no'];
-            $label['label_type']=$data1['label_type'];
-            $label['quantity']=$data1['quantity'];
-            array_push($labels,$label);
+        $labels = [];
+        if ($label_type == "FULLY" || $label_type == "NONFULLY") {
+            $data1['lot_id'] = $lot_id;
+            $data1['label_type'] = "NONFULLY";
+            $data1['quantity'] = $quantity1;
+            $data1['status'] = "CREATED";
+            $id = $this->insertLabelApi($data1, $user_id);
+            $params2['label_id'] = $id;
+            $rt1 = $this->finder->findLabels($params2);
+            array_push($labels, $rt1[0]);
 
-            $data1['lot_id']=$lot_id;
-            $data1['label_no']="X".str_pad( 2, 11, "0", STR_PAD_LEFT);
-            $data1['label_type']="NONFULLY";
-            $data1['quantity']=$quantity2;
-            $data1['status']="CREATED";
-            $id=$this->insertLabelApi($data1,$user_id);
-            $data1['label_no']="P".str_pad( $id, 11, "0", STR_PAD_LEFT);
-            $this->updateLabelApi($id, $data1,$user_id);
-            $label['id']=$id;
-            $label['label_no']=$data1['label_no'];
-            $label['label_type']=$data1['label_type'];
-            $label['quantity']=$data1['quantity'];
-            array_push($labels,$label);
-        }
-        else if($label_type=="MERGE_FULLY"||$label_type=="MERGE_NONFULLY"){
-            $data1['merge_pack_id']=$merge_pack_id;
-            $data1['label_no']="X".str_pad( 1, 11, "0", STR_PAD_LEFT);
-            $data1['label_type']="MERGE_NONFULLY";
-            $data1['quantity']=$quantity1;
-            $data1['status']="CREATED";
-            $id=$this->insertLabelApi($data1,$user_id);
-            $data1['label_no']="P".str_pad( $id, 11, "0", STR_PAD_LEFT);
-            $this->updateLabelApi($id, $data1,$user_id);
-            $label['id']=$id;
-            $label['label_no']=$data1['label_no'];
-            $label['label_type']=$data1['label_type'];
-            $label['quantity']=$data1['quantity'];
-            array_push($labels,$label);
+            $data1['lot_id'] = $lot_id;
+            $data1['label_type'] = "NONFULLY";
+            $data1['quantity'] = $quantity2;
+            $data1['status'] = "CREATED";
+            $id = $this->insertLabelApi($data1, $user_id);
+            $params2['label_id'] = $id;
+            $rt1 = $this->finder->findLabels($params2);
+            array_push($labels, $rt1[0]);
+        } else if ($label_type == "MERGE_FULLY" || $label_type == "MERGE_NONFULLY") {
+            $data1['merge_pack_id'] = $merge_pack_id;
+            $data1['label_type'] = "MERGE_NONFULLY";
+            $data1['quantity'] = $quantity1;
+            $data1['status'] = "CREATED";
+            $id = $this->insertLabelApi($data1, $user_id);
+            $params2['label_id'] = $id;
+            $rt1 = $this->finder->findLabels($params2);
+            array_push($labels, $rt1[0]);
 
-            $data1['merge_pack_id']=$merge_pack_id;
-            $data1['label_no']="X".str_pad( 2, 11, "0", STR_PAD_LEFT);
-            $data1['label_type']="MERGE_NONFULLY";
-            $data1['quantity']=$quantity2;
-            $data1['status']="CREATED";
-            $id=$this->insertLabelApi($data1,$user_id);
-            $data1['label_no']="P".str_pad( $id, 11, "0", STR_PAD_LEFT);
-            $this->updateLabelApi($id, $data1,$user_id);
-            $label['id']=$id;
-            $label['label_no']=$data1['label_no'];
-            $label['label_type']=$data1['label_type'];
-            $label['quantity']=$data1['quantity'];
-            array_push($labels,$label);
+            $data1['merge_pack_id'] = $merge_pack_id;
+            $data1['label_type'] = "MERGE_NONFULLY";
+            $data1['quantity'] = $quantity2;
+            $data1['status'] = "CREATED";
+            $id = $this->insertLabelApi($data1, $user_id);
+            $params2['label_id'] = $id;
+            $rt1 = $this->finder->findLabels($params2);
+            array_push($labels, $rt1[0]);
         }
-        $rtdata['message']="Gen Split Labels Successful";
-        $rtdata['error']=false;
-        $rtdata['labels']=$labels;
-        return $rtdata;
+
+        return $labels;
     }
 }

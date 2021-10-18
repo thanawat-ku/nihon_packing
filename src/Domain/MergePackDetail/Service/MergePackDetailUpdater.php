@@ -23,56 +23,98 @@ final class MergePackDetailUpdater
         $this->validator = $validator;
         $this->finder = $finder;
         //$this->logger = $loggerFactory
-            //->addFileHandler('store_updater.log')
-            //->createInstance();
+        //->addFileHandler('store_updater.log')
+        //->createInstance();
     }
 
-    public function insertMergePackDetailApi( array $data, $user_id): int
+    public function insertMergePackDetailCheckApi(array $data, $user_id): int
     {
-        // Input validation
         $this->validator->validateMergePackDetailInsert($data);
 
-        // Map form data to row
-        $lotRow = $this->mapToMergePackDetailRow($data);
+        $Row = $this->mapToRow($data);
+        $Row['merge_pack_id'] = $data['check_mp_id'];
+        $Row['label_id'] = $data[0]['id'];
 
-        // Insert transferStore
-        $id=$this->repository->insertMergePackDetailApi($lotRow, $user_id);
+        $id = $this->repository->insertMergePackDetailApi($Row, $user_id);
 
-        // Logging
-        //$this->logger->info(sprintf('TransferStore updated successfully: %s', $id));
         return $id;
     }
+
+    public function insertMergePackDetail(array $data): int
+    {
+        $this->validator->validateMergePackDetailInsert($data);
+
+        $Row = $this->mapToRow($data);
+
+        $id = $this->repository->insertMergePackDetail($data);
+
+        return $id;
+    }
+
+    public function insertMergePackDetailApi(array $data, $user_id): int
+    {
+        $this->validator->validateMergePackDetailInsert($data);
+
+        $Row = $this->mapToRow($data);
+
+        $count_data = count($data);
+
+        for ($i = 0; $i < count($data); $i++) {
+            $Row['merge_pack_id'] = $data['labels'][$i]['merge_pack_id'];
+            $Row['label_id'] = $data['labels'][$i]['id'];
+            $id = $this->repository->insertMergePackDetailApi($Row, $user_id);
+        }
+
+        return $id;
+    }
+
     public function updateMergePackDetailApi(int $labelId, array $data, $user_id): void
     {
         // Input validation
         $this->validator->validateMergePackDetailUpdate($labelId, $data);
 
         // Map form data to row
-        $storeRow = $this->mapToMergePackDetailRow($data);
+        $storeRow = $this->mapToRow($data);
 
         // Insert store
         $this->repository->updateMergePackDetailApi($labelId, $storeRow, $user_id);
     }
 
-    public function updateLabelMergePackApi(int $labelId, array $data, $user_id): void
+    // public function updateMergePackDetail(int $mergeId, array $data): void
+    // {
+    //     // Input validation
+    //     $this->validator->validateMergePackDetailUpdate($mergeId, $data);
+
+    //     // Map form data to row
+    //     $storeRow = $this->mapToRow($data);
+
+    //     // Insert store
+    //     $this->repository->updateMergePackDetail($mergeId, $storeRow);
+    // }
+
+    public function deleteLabelMergePackDetailApi(int $id): void
     {
-        // Input validation
-        $this->validator->validateMergePackDetailUpdate($labelId, $data);
-
-        // Map form data to row
-        $storeRow = $this->mapToLabelRow($data);
-
-        // Insert store
-        $this->repository->updateLabelApi($labelId, $storeRow, $user_id);
+        $this->repository->deleteLabelMergePackApi($id);
     }
-    
-    
-    public function deleteLabelMergePackApi(int $labelId, array $data): void
+
+    public function deleteMergePackDetailApi(int $id): void
     {
-        $this->repository->deleteLabelMergePackApi($labelId);
+        $this->repository->deleteMergePackDetailApi($id);
     }
 
-    private function mapToMergePackDetailRow(array $data): array
+    public function deleteMergePackDetail(int $mergeId): void
+    {
+        $this->repository->deleteMergePackDetail($mergeId);
+    }
+
+    public function deleteMergePackDetailFromLabel(int $labelId): void
+    {
+        $this->repository->deleteMergePackDetailFromLabel($labelId);
+    }
+
+
+
+    private function mapToRow(array $data): array
     {
         $result = [];
 
@@ -82,36 +124,37 @@ final class MergePackDetailUpdater
         if (isset($data['label_id'])) {
             $result['label_id'] = (string)$data['label_id'];
         }
-        
-
+        if (isset($data['is_error'])) {
+            $result['is_error'] = (string)$data['is_error'];
+        }
 
         return $result;
     }
 
-    private function mapToLabelRow(array $data): array
-    {
-        $result = [];
+    // private function mapToLabelRow(array $data): array
+    // {
+    //     $result = [];
 
-        if (isset($data['lot_id'])) {
-            $result['lot_id'] = (string)$data['lot_id'];
-        }
-        if (isset($data['merge_pack_id'])) {
-            $result['merge_pack_id'] = (string)$data['merge_pack_id'];
-        }
-        if (isset($data['label_no'])) {
-            $result['label_no'] = (string)$data['label_no'];
-        }
-        if (isset($data['label_type'])) {
-            $result['label_type'] = (string)$data['label_type'];
-        }
-        if (isset($data['quantity'])) {
-            $result['quantity'] = (string)$data['quantity'];
-        }
-        if (isset($data['status'])) {
-            $result['status'] = (string)$data['status'];
-        }
-        return $result;
-    }
+    //     if (isset($data['lot_id'])) {
+    //         $result['lot_id'] = (string)$data['lot_id'];
+    //     }
+    //     if (isset($data['merge_pack_id'])) {
+    //         $result['merge_pack_id'] = (string)$data['merge_pack_id'];
+    //     }
+    //     if (isset($data['label_no'])) {
+    //         $result['label_no'] = (string)$data['label_no'];
+    //     }
+    //     if (isset($data['label_type'])) {
+    //         $result['label_type'] = (string)$data['label_type'];
+    //     }
+    //     if (isset($data['quantity'])) {
+    //         $result['quantity'] = (string)$data['quantity'];
+    //     }
+    //     if (isset($data['status'])) {
+    //         $result['status'] = (string)$data['status'];
+    //     }
+    //     return $result;
+    // }
 
     // private function mapToMergePackDetailRow(array $data): array
     // {

@@ -38,9 +38,16 @@ final class SplitLabelAction
     {
         $params = (array)$request->getQueryParams();
 
+        if(!isset($params['startDate'])){
+            $params['startDate']=date('Y-m-d',strtotime('-7 days',strtotime(date('Y-m-d'))));
+            $params['endDate']=date('Y-m-d');
+        }
+
         $viewData = [
             'splitLabels' => $this->finder->findSplitLabels($params),
             'user_login' => $this->session->get('user'),
+            'startDate' => $params['startDate'],
+            'endDate' => $params['endDate'],
         ];
 
 

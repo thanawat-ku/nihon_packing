@@ -1,40 +1,61 @@
-$(function() { //dont finish!!!!!
-    $('#my-data-table').DataTable();
+$(function () {
+    $('#my-data-table').DataTable({ "order": [[0, "desc"]] });
+    $('#searchIssueStartDate, #searchIssueEndDate').datepicker({
+        format: 'yyyy-mm-dd'
+    });
 });
-$( "#form-editUser" ).on("submit", function( event ) {
-    if ( $( "#editPassword" ).val() ==  $( "#editConfirmPassword" ).val()) {
-        if($("#editPassword").val()==""){
-            $("#editUser").modal('toggle');
-            $("#editPassword").remove();
-        }
-        return;
-    }else{
-        alert("Password not match");
-        event.preventDefault();
-    }
-  }
-);
-function editUser(event){
-    let user = event.currentTarget.name;
-    console.log(user);
-    var obj = JSON.parse(user);
+
+function editMerge(event) {
+    let lot = event.currentTarget.name;
+    console.log(lot);
+    var obj = JSON.parse(lot);
+    $("#editMergeID").val(obj.id);
+    $("#editProductID").val(obj.product_id);
 }
-function mergeDetail(event){
-    let merge = event.currentTarget.name;
-    console.log(merge);
-    var obj = JSON.parse(merge);
-    $("#detail_mergeID").val(obj.id);
-    $("#detail_merge_NO").val(obj.merge_no);
-    $("#detail_mergeQTY").val(obj.quantity);
+
+function deleteMerge(event) {
+    let lot = event.currentTarget.name;
+    console.log(lot);
+    var obj = JSON.parse(lot);
+    $("#deleteMergeId").val(obj.id);
+    $("#deleteMergeNo").text(obj.merge_no);
 }
+
+function confirmMerge(event) {
+    let lot = event.currentTarget.name;
+    console.log(lot);
+    var obj = JSON.parse(lot);
+    $("#confirmMergeId").val(obj.id);
+    $("#stdPack").val(obj.std_pack);
+    $("#confirmMergeNo").text(obj.merge_no);
+}
+
+function registerMerge(event) {
+    let lot = event.currentTarget.name;
+    console.log(lot);
+    var obj = JSON.parse(lot);
+    $("#registerMergeId").val(obj.id);
+    $("#registerMergeNo").text(obj.merge_no);
+
+}
+
 $(document).on(
     "click",
-    "#detailBt",
+    "#editBt ,#deleteBt ,#confirmBt ,#registerBt",
     (event) => {
         let id = event.currentTarget.id;
         switch (id) {
-            case "detailBt":
-                mergeDetail(event);
+            case "editBt":
+                editMerge(event);
+                break;
+            case "deleteBt":
+                deleteMerge(event);
+                break;
+            case "confirmBt":
+                confirmMerge(event);
+                break;
+            case "registerBt":
+                registerMerge(event);
                 break;
             default:
                 console.log("no any events click");

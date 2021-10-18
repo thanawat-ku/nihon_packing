@@ -27,4 +27,9 @@ final class MergePackFinder
     {
         return $this->repository->findMergePacks($params);
     }
+
+    public function findLabelPackMerges(array $params): array
+    {
+        return $this->repository->findLabelPackMerges($params);
+    }
 }

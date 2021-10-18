@@ -19,11 +19,11 @@ final class LotDefectUpdater
         $this->repository = $repository;
         $this->validator = $validator;
         //$this->logger = $loggerFactory
-            //->addFileHandler('store_updater.log')
-            //->createInstance();
+        //->addFileHandler('store_updater.log')
+        //->createInstance();
     }
 
-    public function insertLotDefectApi( array $data, $user_id): int
+    public function insertLotDefect(array $data): int
     {
         // Input validation
         $this->validator->validateLotDefectInsert($data);
@@ -32,36 +32,73 @@ final class LotDefectUpdater
         $lotDefectRow = $this->mapToLotDefectRow($data);
 
         // Insert transferStore
-        $id=$this->repository->insertLotDefectApi($lotDefectRow, $user_id);
+        $id = $this->repository->insertLotDefect($lotDefectRow);
 
         // Logging
         //$this->logger->info(sprintf('TransferStore updated successfully: %s', $id));
         return $id;
     }
-    public function updateLotDefectApi(int $lotDefect, $user_id ,array $data): void
+
+    public function updateLotDefect(int $lotDefectId, array $data): void
     {
         // Input validation
-        $this->validator->validateLotDefectUpdate($lotDefect, $data);
+        $this->validator->validateLotDefectUpdate($lotDefectId, $data);
 
         // Map form data to row
         $storeRow = $this->mapToLotDefectRow($data);
 
         // Insert store
-        $this->repository->updateLotDefectApi($lotDefect, $storeRow,$user_id);
+        $this->repository->updateLotDefect($lotDefectId, $storeRow);
 
         // Logging
         //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));
     }
-    
 
-    public function deleteLotDefect(int $lotDefect): void
+    public function insertLotDefectApi(array $data, $user_id): int
     {
+        // Input validation
+        $this->validator->validateLotDefectInsert($data);
+
+        // Map form data to row
+        $lotDefectRow = $this->mapToLotDefectRow($data);
+
+        // Insert transferStore
+        $id = $this->repository->insertLotDefectApi($lotDefectRow, $user_id);
+
+        // Logging
+        //$this->logger->info(sprintf('TransferStore updated successfully: %s', $id));
+        return $id;
+    }
+    public function updateLotDefectApi(int $lotDefectId, array $data, $user_id): void
+    {
+        // Input validation
+        $this->validator->validateLotDefectUpdate($lotDefectId, $data);
+
+        // Map form data to row
+        $storeRow = $this->mapToLotDefectRow($data);
 
         // Insert store
-        $this->repository->deleteLotDefect($lotDefect);
+        $this->repository->updateLotDefectApi($lotDefectId, $storeRow, $user_id);
 
         // Logging
         //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));
+    }
+
+    public function deleteLotDefectApi(int $lotDefectId): void
+    {
+        $this->repository->deleteLotDefect($lotDefectId);
+    }
+
+    public function deleteLotDefect(int $lotDefectId): void
+    {
+        $this->repository->deleteLotDefect($lotDefectId);
+
+    }
+    
+    public function deleteLotDefectAll($lotId): void
+    {
+
+        $this->repository->deleteLotDefectAll($lotId);
     }
 
     /**

@@ -2,7 +2,9 @@
 
 namespace App\Action\Web;
 
-use App\Domain\MergeDetail\Service\MergeDetailFinder;
+use App\Domain\MergePackDetail\Service\MergePackDetailFinder;
+use App\Domain\MergePack\Service\MergePackFinder;
+use App\Domain\Label\Service\LabelFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -12,49 +14,77 @@ use Symfony\Component\HttpFoundation\Session\Session;
 /**
  * Action.
  */
-final class MergeDetailAction  
+final class MergeDetailAction
 {
     /**
      * @var Responder
      */
     private $responder;
     private $twig;
-    private $mergeFinder;
     private $session;
+    private $finder;
+    private $mergeFinder;
+    private $labelFinder;
+    private $mergePackDetailFinder;
 
-    /**
-     * The constructor.
-     *
-     * @param Responder $responder The responder
-     */
-    public function __construct(Twig $twig,MergeDetailFinder $mergeFinder,Session $session,Responder $responder)
-    {
+    public function __construct(
+        Twig $twig,
+        MergePackDetailFinder $finder,
+        Session $session,
+        Responder $responder,
+        MergePackFinder $mergeFinder,
+        LabelFinder $labelFinder,
+        MergePackDetailFinder $mergePackDetailFinder,
+    ) {
         $this->twig = $twig;
-        $this->mergeFinder=$mergeFinder;
-        $this->session=$session;
+        $this->finder = $finder;
+        $this->mergeFinder = $mergeFinder;
+        $this->session = $session;
         $this->responder = $responder;
+        $this->labelFinder = $labelFinder;
+        $this->mergePackDetailFinder = $mergePackDetailFinder;
     }
 
-    /**
-     * Action.
-     *
-     * @param ServerRequestInterface $request The request
-     * @param ResponseInterface $response The response
-     *
-     * @return ResponseInterface The response
-     */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $params = (array)$request->getQueryParams();
-        
-        $viewData = [
-            
-            'merge_pack_details' => $this->mergeFinder->findMerges($params), //Focus that!!!!!!
-            'user_login' => $this->session->get('user'),
-            
-        ];
-        
+        $data1['merge_pack_id'] = $params['id'];
+        $mergeDetail = $this->finder->findMergePackDetailsForMerge($data1);
+        $mergePack =  $this->mergeFinder->findMergePacks($data1);
 
-        return $this->twig->render($response, 'web/merge_detail.twig',$viewData); //-----edit twig
+        if (($mergePack[0]['merge_status'] == "CREATED") or ($mergePack[0]['merge_status'] == "MERGING")) {
+            $mergePack[0]['select_label'] = "Y";
+        } else {
+            $mergePack[0]['select_label'] = "N";
+        }
+
+
+        $labels = [];
+        if (isset($mergeDetail[0])) {
+            for ($i = 0; $i < sizeof($mergeDetail); $i++) {
+                $labelId['label_id'] = $mergeDetail[$i]['label_id'];
+                $label = $this->labelFinder->findLabels($labelId);
+                $label[0]['from_merge_id'] = $mergePack[0]['id'];
+                array_push($labels, $label[0]);
+            }
+
+            for ($i = 0; $i < sizeof($mergeDetail); $i++) {
+                $labelId['label_id'] = $mergeDetail[$i]['label_id'];
+                $label2 = $this->labelFinder->findLabelForLotZero($labelId);
+                if (isset($label2[0])) {
+                    $label2[0]['from_merge_id'] = $mergePack[0]['id'];
+                    array_push($labels, $label2[0]);
+                }
+            }
+        }
+
+        $viewData = [
+            'labels' => $labels,
+            'mergePack' => $mergePack[0],
+            'user_login' => $this->session->get('user'),
+        ];
+
+
+        return $this->twig->render($response, 'web/mergeDetail.twig', $viewData);
     }
 }

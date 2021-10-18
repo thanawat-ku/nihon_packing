@@ -90,7 +90,7 @@ final class SplitLabelRepository
                 'split_labels.status',
                 'label_no',
                 'label_type',
-                'quantity',
+                'l.quantity',
                 'merge_pack_id',
                 'split_label_id',
             ]
@@ -102,12 +102,26 @@ final class SplitLabelRepository
                 'conditions' => 'l.id = split_labels.label_id',
             ]
         ]);
-
-        
+        $query->join([
+            'lot' => [
+                'table' => 'lots',
+                'type' => 'INNER',
+                'conditions' => 'lot.id = l.lot_id',
+            ]
+        ]);
 
         if (isset($params['label_id'])) {
-            $query->andWhere(['label_id' => $params['label_id']]);
+            $query->andWhere(['split_labels.label_id' => $params['label_id']]);
+        } else if (isset($params['split_label_id'])) {
+            $query->andWhere(['split_labels.id' => $params['split_label_id']]);
+        } else if (isset($params["startDate"])) {
+            $query->andWhere(['split_labels.split_date <=' => $params['endDate'], 'split_labels.split_date >=' => $params['startDate']]);
         }
+
+
+        $query->andWhere(['lot.is_delete' => 'N']);
+
+
 
         return $query->execute()->fetchAll('assoc') ?: [];
     }

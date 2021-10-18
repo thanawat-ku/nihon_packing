@@ -12,10 +12,10 @@ final class LotRepository
     private $queryFactory;
     private $session;
 
-    public function __construct(Session $session,QueryFactory $queryFactory)
+    public function __construct(Session $session, QueryFactory $queryFactory)
     {
         $this->queryFactory = $queryFactory;
-        $this->session=$session;
+        $this->session = $session;
     }
 
     public function insertLot(array $row): int
@@ -27,23 +27,51 @@ final class LotRepository
 
         return (int)$this->queryFactory->newInsert('lots', $row)->execute()->lastInsertId();
     }
-    public function updateLotApi(int $lotID, array $data ,$user_id): void
+
+    public function registerLotApi(int $lotID, array $data, $user_id): void
     {
         $data['updated_at'] = Chronos::now()->toDateTimeString();
         $data['updated_user_id'] = $user_id;
         $data['packed_user_id'] = $user_id;
 
         $this->queryFactory->newUpdate('lots', $data)->andWhere(['id' => $lotID])->execute();
-    } 
+    }
+
+    public function updateLotApi(int $lotID, array $data ,$user_id): void
+    {
+        $data['updated_user_id'] = $user_id;
+        $data['packed_user_id'] = $user_id;
+
+        $this->queryFactory->newUpdate('lots', $data)->andWhere(['id' => $lotID])->execute();
+    }
+
+    public function registerLot(int $lotID, array $data): void
+    {
+        $data['updated_at'] = Chronos::now()->toDateTimeString();
+        $data['updated_user_id'] = $this->session->get('user')["id"];
+        $data['packed_user_id'] = $this->session->get('user')["id"];
+
+        $this->queryFactory->newUpdate('lots', $data)->andWhere(['id' => $lotID])->execute();
+    }
     
+
+    public function confirmLotApi(int $lotID, array $data, $user_id): void
+    {
+        $data['updated_at'] = Chronos::now()->toDateTimeString();
+        $data['updated_user_id'] = $user_id;
+        $data['printed_user_id'] = $user_id;
+
+        $this->queryFactory->newUpdate('lots', $data)->andWhere(['id' => $lotID])->execute();
+    }
+
     public function updateLot(int $lotID, array $data): void
     {
         $data['updated_at'] = Chronos::now()->toDateTimeString();
         $data['updated_user_id'] = $this->session->get('user')["id"];
 
         $this->queryFactory->newUpdate('lots', $data)->andWhere(['id' => $lotID])->execute();
-    }    
-    public function printLot(int $lotID): void
+    }
+    public function printLot(int $lotID,array $data): void
     {
         $data['updated_at'] = Chronos::now()->toDateTimeString();
         $data['updated_user_id'] = $this->session->get('user')["id"];
@@ -64,6 +92,7 @@ final class LotRepository
             [
                 'lots.id',
                 'lot_no',
+                'generate_lot_no',
                 'product_id',
                 'quantity',
                 'part_code',
@@ -71,7 +100,8 @@ final class LotRepository
                 'std_pack',
                 'std_box',
                 'status',
-                
+                'real_qty',
+
             ]
         );
         $query->join([
@@ -79,16 +109,21 @@ final class LotRepository
                 'table' => 'products',
                 'type' => 'INNER',
                 'conditions' => 'p.id = lots.product_id',
-            ]]);
+            ]
+        ]);
 
-        if(isset($params['lot_id'])){
-            $query->andWhere(['lots.id'=>$params["lot_id"]]);
+        if (isset($params['lot_id'])) {
+            $query->andWhere(['lots.id' => $params["lot_id"]]);
         }
-        if(isset($params['lot_no'])){
-            $query->andWhere(['lot_no'=>$params['lot_no']]);
+        else if (isset($params['lot_no'])) {
+            $query->andWhere(['lot_no' => $params['lot_no']]);
         }
-        
+        else if (isset($params["startDate"])) {
+            $query->andWhere(['issue_date <=' => $params['endDate'], 'issue_date >=' => $params['startDate']]);
+        }
+
+        $query->andWhere(['lots.is_delete' => 'N']);
+
         return $query->execute()->fetchAll('assoc') ?: [];
     }
-
 }

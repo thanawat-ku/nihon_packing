@@ -1,7 +1,15 @@
-$(function() {
-    $('#my-data-table').DataTable();
+// $(function () {
+//     $('#my-data-table').DataTable();
+// });
+
+$(function () {
+    $('#my-data-table').DataTable({ "order": [[0, "desc"]] });
+    $('#searchIssueStartDate, #searchIssueEndDate').datepicker({
+        format: 'yyyy-mm-dd'
+    });
 });
-function editLabels(event){
+
+function editLabels(event) {
     let labels = event.currentTarget.name;
     console.log(labels);
     var obj = JSON.parse(labels);
@@ -13,16 +21,33 @@ function editLabels(event){
     $("#editStatus").val(obj.status);
 }
 
-  function deleteLabels(event){
+function deleteLabels(event) {
     let labels = event.currentTarget.name;
     console.log(labels);
     var obj = JSON.parse(labels);
     $("#deleteLabelID").val(obj.id);
-    $("#deleteLabelNo").text(obj.label_no);
+    $("#deleteLotNo").text(obj.label_no);
 }
+
+function splitLabel(event) {
+    let labels = event.currentTarget.name;
+    console.log(labels);
+    var obj = JSON.parse(labels);
+    $("#SPLabelID").val(obj.id);
+    $("#SPLabelNo").text(obj.label_no);
+}
+
+function voidLabel(event) {
+    let labels = event.currentTarget.name;
+    console.log(labels);
+    var obj = JSON.parse(labels);
+    $("#voidLabelID").val(obj.id);
+}
+
+
 $(document).on(
     "click",
-    "#editBt, #deleteBt",
+    "#editBt, #deleteBt, #SplitBt ,#voidBt",
     (event) => {
         let id = event.currentTarget.id;
         switch (id) {
@@ -31,6 +56,12 @@ $(document).on(
                 break;
             case "deleteBt":
                 deleteLabels(event);
+                break;
+            case "SplitBt":
+                splitLabel(event);
+                break;
+            case "voidBt":
+                voidLabel(event);
                 break;
             default:
                 console.log("no any events click");

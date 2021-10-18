@@ -17,7 +17,16 @@ final class LotDefectRepository
         $this->queryFactory = $queryFactory;
         $this->session=$session;
     }
-  
+    
+    public function insertLotDefect(array $row): int
+    {
+        $row['created_at'] = Chronos::now()->toDateTimeString();
+        $row['created_user_id'] = $this->session->get('user')["id"];
+        $row['updated_at'] = Chronos::now()->toDateTimeString();
+        $row['updated_user_id'] = $this->session->get('user')["id"];
+
+        return (int)$this->queryFactory->newInsert('lot_defects', $row)->execute()->lastInsertId();
+    }
     public function printLot(int $lotID): void
     {
         $data['updated_at'] = Chronos::now()->toDateTimeString();
@@ -26,6 +35,14 @@ final class LotDefectRepository
         $data['status'] = "PRINTED";
 
         $this->queryFactory->newUpdate('lots', $data)->andWhere(['id' => $lotID])->execute();
+    }
+
+    public function updateLotDefect(int $id, array $data): void
+    {
+        $data['updated_at'] = Chronos::now()->toDateTimeString();
+        $data['updated_user_id'] =  $this->session->get('user')["id"];
+
+        $this->queryFactory->newUpdate('lot_defects', $data)->andWhere(['id' => $id])->execute();
     }
     
     public function insertLotDefectApi(array $row, $user_id): int
@@ -48,6 +65,11 @@ final class LotDefectRepository
     {
         $this->queryFactory->newDelete('lot_defects')->andWhere(['id' => $id])->execute();
     } 
+
+    public function deleteLotDefectAll($lotId): void
+    {
+        $this->queryFactory->newDelete('lot_defects')->andWhere(['lot_id' => $lotId])->execute();
+    } 
     
     public function findLotDefects(array $params): array
     {
@@ -59,6 +81,8 @@ final class LotDefectRepository
                 'defect_id',
                 'defect_code',
                 'quantity',
+                // 'lot_defects.quantity',
+                // 'lot_no',
             ]
         );
 
@@ -69,9 +93,18 @@ final class LotDefectRepository
                 'conditions' => 'd.id = lot_defects.defect_id',
             ]
         ]);
+        // $query->join([
+        //     'l' => [
+        //         'table' => 'lots',
+        //         'type' => 'INNER',
+        //         'conditions' => 'l.id = lot_defects.lot_id',
+        //     ]
+        // ]);
 
         if(isset($params['lot_id'])){
             $query->andWhere(['lot_id' => $params['lot_id']]);
+        }else if(isset($params['lot_defect_id'])){
+            $query->andWhere(['lot_defects.id' => $params['lot_defect_id']]);
         }
         
 

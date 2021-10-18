@@ -28,6 +28,10 @@ final class DefectRepository
             ]
         );
 
+        if (isset($params['defect_code'])) {
+            $query->andWhere(['defects.defect_code' => $params['defect_code']]);
+        }
+
         return $query->execute()->fetchAll('assoc') ?: [];
     }
 
