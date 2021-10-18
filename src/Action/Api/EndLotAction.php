@@ -42,8 +42,6 @@ final class EndLotAction
         $rtdata['message']="Get EndLot Successful";
         $rtdata['error']=false;
         $rtdata['lots']=$this->finder->findLots($params);
-
-
         
         return $this->responder->withJson($response, $rtdata);
     }

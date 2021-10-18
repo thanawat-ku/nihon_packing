@@ -1,0 +1,160 @@
+{% extends "layout/layout.twig" %}
+
+{% block css %}
+    {% webpack_entry_css 'layout/datatables' %}
+{% endblock %}
+
+{% block js %}
+    {% webpack_entry_js 'layout/datatables' %}
+    {% webpack_entry_js 'web/cpoItemSelects' %}
+{% endblock %}
+
+{% block content %}
+  <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <h2><i class="fas fa-tasks"></i> CpoItem Select list</h2>
+               
+                <hr>
+                <div>
+                  <h5>{{ sellRow.sell_no  ~ '(' ~ sellRow.sell_status ~ ')'}} </h5>
+                  <span>{{'Sell Date' ~ sellRow.sell_date}}</span><br>
+                  <span>{{'Total Quantity:' ~ sellRow.total_qty}}</span>
+                  
+                </div>
+                <hr>
+                <table id="my-data-table" class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline collapsed">
+                    <thead>
+                    <tr>
+                        <th>Cpo No</th>
+                        <th>Quantity</th>
+                        {# <th>Sell Quantity</th> #}
+                        <th>Due Date</th>
+                        <th>Operation</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for cpo in CpoItemSelects %}                    
+                    <tr>
+                        <td>{{ '(' ~ cpo.PONo ~ ') ' ~ cpo.CpoNo}}</td>
+                        <td>{{ cpo.Quantity - cpo.PackingQty }}</td>
+                        {# <td>{{ cpo.sell_qty }}</td> #}
+                        <td>{{ cpo.DueDate}}</td>
+                        {# <td>{{ cpo.Quantity}}</td>
+                        <td>{{ cpo.PackingQty}}</td> #}
+                        <td>
+                        <button type="button" id="addBt" class="btn btn-success btn-sm" data-toggle="modal" data-target="#addSellCpoItem" name="{{ cpo|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-plus-circle"></i></button>
+                        
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                    <tfoot></tfoot>
+                </table>
+                <p></p>
+            </div>
+        </div>
+    </div>
+<!-- Modal Add sell -->
+{# <div class="modal fade" id="addCpoItemSelect">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form id="form-addCpoItemSelect" action="add_sell" method="post">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Add CpoItemSelect</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">          
+          <div class="form-sell">
+            <label for="AddCode">Code</label>
+            <input type="text" autocomplete="off" class="form-control" id="addCpoItemSelect_code" name="part_code" required>
+          </div>          
+          <div class="form-sell">
+            <label for="addName">Name</label>
+            <input type="text" autocomplete="off" class="form-control" id="addCpoItemSelect_name" name="part_name" required>
+          </div>      
+          <div class="form-sell">
+            <label for="addStdPack">Std Pack</label>
+            <input type="text" autocomplete="off" class="form-control" id="addStdPack" name="std_pack" required>
+          </div>     
+          <div class="form-sell">
+            <label for="addStdPack">Std Pack</label>
+            <input type="text" autocomplete="off" class="form-control" id="addStdBox" name="std_box" required>
+          </div>             
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Save</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div> #}
+
+<!-- Modal Add CpoItem -->
+<div class="modal fade" id="addSellCpoItem">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form id="form-editCpoItemSelect" action="add_CpoItem" method="post">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Add Cpo Item For Sell</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">          
+          <div class="form-sell">
+            <input type="hidden" id="addCpoItemID" name="CpoItemID">
+            <input type="hidden" id="addSellID" name="sell_id" value="{{sellRow.id}}">
+            <input type="hidden"  name="sell_gg" value="gg">
+            <label for="CpoNo">Cpo No:<span id="addCpoNo"></span></label>
+          </div>          
+          <div class="form-sell">
+            <label for="editName">Remain Qty:</label><br>
+            <input type="text" autocomplete="off" class="form-control" id="addRemainQty" name="remain_qty" readOnly>
+          </div>       
+          <div class="form-sell">
+            <label for="editStdPack">Sell Qty</label>
+            <input type="number" max="{{cpo.Quantity}}" autocomplete="off" class="form-control" id="addSellQty" name="sell_qty" required>
+          </div> 
+           {# <div class="form-sell">
+            <label for="CpoItemID">gg</label>
+            <input type="text" autocomplete="off" class="form-control" id="addCpoItemID" name="CpoItemID" required>
+          </div>              #}
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Add</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Detail CpoItem -->
+<div class="modal fade" id="detailCpoItem">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form id="form-deleteCpoItemSelect" action="delete_sell" method="post">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Detail CpoItem</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">          
+          <div class="form-sell">
+            <label for="CpoNo">Cpo No:<span id="detailCpoNo"></span></label>
+          </div>                 
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

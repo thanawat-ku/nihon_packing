@@ -36,9 +36,9 @@ final class CpoItemFinder
         return $this->repository->findCpoItem($params);
     }
 
-    public function findCpoItems(array $rtdata): array
+    public function findCpoItemSelect(array $rtdata): array
     {
-        return $this->repository->findCpoItems($rtdata);
+        return $this->repository->findCpoItemSelect($rtdata);
     }
 
     public function findIDFromProductName(array $params, int $ProductID)

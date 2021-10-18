@@ -3,7 +3,7 @@
 namespace App\Domain\SellCpoItem\Service;
 
 use App\Domain\SellCpoItem\Repository\SellCpoItemRepository;
-
+use Symfony\Component\HttpFoundation\Session\Session;
 /**
  * Service.
  */
@@ -11,13 +11,16 @@ final class SellCpoItemUpdater
 {
     private $repository;
     private $validator;
+    private $session;
 
     public function __construct(
         SellCpoItemRepository $repository,
-        SellCpoItemValidator $validator
+        SellCpoItemValidator $validator,
+        Session $session,
     ) {
         $this->repository = $repository;
         $this->validator = $validator;
+        $this->session=$session;
         //$this->logger = $loggerFactory
             //->addFileHandler('store_updater.log')
             //->createInstance();
@@ -25,17 +28,25 @@ final class SellCpoItemUpdater
 
     public function insertSellCpoItemApi(array $data, $user_id): int
     {
-        // Input validation
         $this->validator->validateSellCpoItemInsert($data);
 
-        // Map form data to row
         $Row = $this->mapToRow($data);
 
-        // Insert transferStore
         $id=$this->repository->insertSellCpoItemApi($Row, $user_id);
 
-        // Logging
-        //$this->logger->info(sprintf('TransferStore updated successfully: %s', $id));
+        return $id;
+    }
+    public function insertSellCpoItem(array $data): int
+    {
+        $this->validator->validateSellCpoItemInsert($data);
+
+        $Row = $this->mapToRow($data);
+        $user_id=$this->session->get('user')["id"];
+
+
+        $id=$this->repository->insertSellCpoItemApi($Row, $user_id);
+        
+
         return $id;
     }
     public function updateSellCpoItemApi(int $productId, array $data): void
@@ -70,8 +81,8 @@ final class SellCpoItemUpdater
         if (isset($data['sell_id'])) {
             $result['sell_id'] = (int)$data['sell_id'];
         }
-        if (isset($data['cpo_item_id'])) {
-            $result['cpo_item_id'] = (int)$data['cpo_item_id'];
+        if (isset($data['CpoItemID'])) {
+            $result['cpo_item_id'] = (int)$data['CpoItemID'];
         }
         if (isset($data['remain_qty'])) {
             $result['remain_qty'] = (int)$data['remain_qty'];

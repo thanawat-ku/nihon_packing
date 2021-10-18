@@ -20,9 +20,14 @@ final class LabelFinder
     {
         return $this->repository->findLabels($params);
     }
-    public function findLabelNonfullys(array $params): array
+
+    public function findCheckLabels(array $params): array
     {
-        return $this->repository->findLabelNonfullys($params);
+        return $this->repository->findLabels($params);
+    }
+    public function findLabelSingleTable(array $params): array
+    {
+        return $this->repository->findLabelSingleTable($params);
     }
 
 
@@ -38,9 +43,13 @@ final class LabelFinder
         return $this->repository->findCreateMergeNoFromLabels($params);
     }
 
-    public function findLabelPackMerges(array $params): array
+    public function findLabelCreateFromMerges(array $params): array
     {
-        return $this->repository->findLabelPackMerges($params);
+        return $this->repository->findLabelCreateFromMerges($params);
+    }
+    public function findLabelFromMergePacks(array $params): array
+    {
+        return $this->repository->findLabelFromMergePacks($params);
     }
 }
 

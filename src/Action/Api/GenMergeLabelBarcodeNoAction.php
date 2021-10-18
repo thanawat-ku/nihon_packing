@@ -3,7 +3,10 @@
 namespace App\Action\Api;
 
 use App\Domain\Label\Service\LabelFinder;
+use App\Domain\MergePackDetail\Service\MergePackDetailFinder;
 use App\Domain\Label\Service\LabelUpdater;
+use App\Domain\MergePackDetail\Service\MergePackDetailUpdater;
+use App\Domain\MergePack\Service\MergePackUpdater;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -21,63 +24,53 @@ final class GenMergeLabelBarcodeNoAction
     private $responder;
     private $finder;
     private $updater;
+    private $upmergepackdetail;
+    private $upmergepack;
+    private $findermpdetail;
 
-    public function __construct(Twig $twig,LabelFinder $finder, LabelUpdater $updater,
-    Session $session,Responder $responder)
-    {
+
+    public function __construct(
+        Twig $twig,
+        LabelFinder $finder,
+        LabelUpdater $updater,
+        Session $session,
+        Responder $responder,
+        MergePackDetailUpdater $upmergepackdetail,
+        MergePackUpdater $upmergepack,
+        MergePackDetailFinder $findermpdetail
+    ) {
         $this->twig = $twig;
-        $this->finder=$finder;
-        $this->updater=$updater;
-        $this->session=$session;
+        $this->finder = $finder;
+        $this->updater = $updater;
+        $this->session = $session;
         $this->responder = $responder;
+        $this->upmergepackdetail = $upmergepackdetail;
+        $this->upmergepack = $upmergepack;
+        $this->findermpdetail = $findermpdetail;
     }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $data = (array)$request->getParsedBody();
-        // $merge_status = (string)($data['merge_status'] ?? '');
-        $merge_pack_id = (int)($data['merge_pack_id'] ?? 1);
-        $quantity = (int)$data['quantity'] ?? 1;
-        $std_pack = (int)$data['std_pack'] ?? 1;
-        $user_id = (int)$data['user_id'] ?? 1;
-        $num_packs=ceil($quantity/$std_pack);
-        $num_full_packs=floor($quantity/$std_pack);
+        $user_id = (int)$data['user_id'];
+        $merge_pack_id = (int)$data['merge_pack_id'];
 
-        $labels=[];
-        for($i=0; $i < $num_full_packs; $i++){
-            $data1['merge_pack_id']=$merge_pack_id;
-            $data1['label_no']="X".str_pad( $i, 11, "0", STR_PAD_LEFT);
-            $data1['label_type']="MERGE_FULLY";
-            $data1['quantity']=$std_pack;
-            $data1['status']="CREATED";
-            $id=$this->updater->insertLabelApi($data1,$user_id);
-            $data1['label_no']="P".str_pad( $id, 11, "0", STR_PAD_LEFT);
-            $this->updater->updateLabelApi($id, $data1,$user_id);
-            $label['id']=$id;
-            $label['label_no']=$data1['label_no'];
-            $label['label_type']=$data1['label_type'];
-            $label['quantity']=$data1['quantity'];
-            array_push($labels,$label);
-        }
-        if($num_full_packs!=$num_packs){
-            $data1['merge_pack_id']=$merge_pack_id;
-            $data1['label_no']="X".str_pad( $i, 11, "0", STR_PAD_LEFT);
-            $data1['label_type']="MERGE_NONFULLY";
-            $data1['quantity']=$quantity - ($num_full_packs * $std_pack);
-            $data1['status']="CREATED";
-            $id=$this->updater->insertLabelApi($data1,$user_id);
-            $data1['label_no']="P".str_pad( $id, 11, "0", STR_PAD_LEFT);
-            $this->updater->updateLabelApi($id, $data1,$user_id);
-            $label['id']=$id;
-            $label['label_no']=$data1['label_no'];
-            $label['label_type']=$data1['label_type'];
-            $label['quantity']=$data1['quantity'];
-            array_push($labels,$label);
-        }
-        
-        $rtdata['message']="Gen Merge Labels Successful";
-        $rtdata['error']=false;
-        $rtdata['labels']=$labels;
+        $labels = $this->findermpdetail->findMergePackDetails($data);
+        for ($i = 0; $i < count($labels); $i++) {
+            $dataupdate['id']=$labels[$i]['lb_id'];
+            $dataupdate['up_status']="VOID";
+            $dataupdate['void']="MERGED";
+            $this->updater->updateLabelStatus($dataupdate['id'], $dataupdate, $user_id);
+        } 
+        $labels = $this->updater->genMergeLabel($data);
+
+        // $this->upmergepackdetail->deleteLabelMergePackDetailApi($merge_pack_id);
+        // $this->upmergepackdetail->insertMergePackDetailApi($labels, $user_id);
+        $this->upmergepack->updateStatusMergeApi($merge_pack_id, $data, $user_id);
+
+        $rtdata['message'] = "Gen Merge Labels Successful";
+        $rtdata['error'] = false;
+        $rtdata['labels'] = $labels;
         return $this->responder->withJson($response, $rtdata);
     }
 }

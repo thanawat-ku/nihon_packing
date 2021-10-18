@@ -3,6 +3,7 @@
 namespace App\Domain\Sell\Service;
 
 use App\Domain\Sell\Repository\SellRepository;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * Service.
@@ -11,55 +12,129 @@ final class SellUpdater
 {
     private $repository;
     private $validator;
+    private $session;
 
     public function __construct(
         SellRepository $repository,
-        SellValidator $validator
+        SellValidator $validator,
+        Session $session
     ) {
         $this->repository = $repository;
         $this->validator = $validator;
+        $this->session = $session;
         //$this->logger = $loggerFactory
-            //->addFileHandler('store_updater.log')
-            //->createInstance();
+        //->addFileHandler('store_updater.log')
+        //->createInstance();
+    }
+
+    public function insertSell( array $data): int
+    {
+        $this->validator->validateSellInsert($data);
+
+        $Row = $this->mapToRow($data);
+
+        $id=$this->repository->insertSell($Row);
+        $data1['sell_no']="C".str_pad($id, 10, "0", STR_PAD_LEFT);
+        $user_id=$this->session->get('user')["id"];
+        $this->repository->updateSellApi($id, $data1, $user_id);
+        return $id;
     }
 
     public function insertSellApi(array $data, $user_id): int
     {
-        // Input validation
         $this->validator->validateSellInsert($data);
 
-        // Map form data to row
-        $productRow = $this->mapToRow($data);
+        $Row = $this->mapToRow($data);
+        $Row['product_id']=$data['ProductID'];
 
-        // Insert transferStore
-        $id=$this->repository->insertSellApi($productRow, $user_id);
-
-        // Logging
-        //$this->logger->info(sprintf('TransferStore updated successfully: %s', $id));
+        $id = $this->repository->insertSellApi($Row, $user_id);
+        $data1['sell_no']="C".str_pad($id, 10, "0", STR_PAD_LEFT);
+        $this->repository->updateSellApi($id, $data1, $user_id);
         return $id;
     }
-    public function updateSellApi(int $sellId, array $data): void
+
+    public function updateSellStatus(int $sellId, array $data, $user_id): void
     {
-        // Input validation
         $this->validator->validateSellUpdate($sellId, $data);
 
-        // Map form data to row
-        $storeRow = $this->mapToRow($data);
+        $Row = $this->mapToRow($data);
+        if($data['up_status'] == "SELECTED_CPO"){
+            $Row['sell_status'] = "SELECTED_CPO";
+        }else if($data['up_status'] == "SELECTED_LABEL"){
+            $Row['sell_status'] = "SELECTED_LABEL";
+        }
+        
 
-        // Insert store
-        $this->repository->updateSellApi($sellId, $storeRow);
+        $this->repository->updateSellApi($sellId, $Row, $user_id);
     }
+    public function updateSellApi(int $sellId, array $data, $user_id): void
+    {
+        $this->validator->validateSellUpdate($sellId, $data, $user_id);
+
+        $totalQty = 0;
+        for ($i = 0; $i < count($data); $i++) {
+            $totalQty += $data[$i]['sell_qty'];
+        }
+        
+        $Row = $this->mapToRow($data);
+        $Row['total_qty'] = $totalQty;
+
+        $this->repository->updateSellApi($sellId, $Row, $user_id);
+    }
+    public function updateSellStatusSelectedCpoApi(int $sellId, array $data, $user_id): void
+    {
+        $this->validator->validateSellUpdate($sellId, $data);
+
+        $Row = $this->mapToRow($data);
+        $Row['sell_status'] = "SELECTED_CPO";
+
+        $this->repository->updateSellApi($sellId, $Row, $user_id);
+    }
+
+    public function updateSellSelectingLabelApi(int $sellId, array $data, $user_id): void
+    {
+        $this->validator->validateSellUpdate($sellId, $data);
+
+        $Row = $this->mapToRow($data);
+        $Row['sell_status'] = "SELECTING_Label";
+
+        $this->repository->updateSellApi($sellId, $Row, $user_id);
+    }
+    public function updateSellSelectingApi(int $sellId, array $data, $user_id): void
+    {
+        $this->validator->validateSellUpdate($sellId, $data);
+        $Row = $this->mapToRow($data);
+        $Row['sell_status'] = "SELECTING_CPO";
+
+        $this->repository->updateSellApi($sellId, $Row, $user_id);
+    }
+    public function updateSellSelectedLabelApi(int $sellId, array $data, $user_id): void
+    {
+        $this->validator->validateSellUpdate($sellId, $data);
+        $Row = $this->mapToRow($data);
+        $Row['sell_status'] = "SELECTED_LABEL";
+
+        $this->repository->updateSellApi($sellId, $Row, $user_id);
+    }
+    public function updateSellStatusSelectingCpo(int $productId, array $data): void
+    {
+        $this->validator->validateSellUpdate($productId, $data);
+
+        $Row = $this->mapToRow($data);
+        $Row['sell_status']="SELECTING_CPO";
+        $Row['total_qty']=$data['total_qty'];
+        $user_id=$this->session->get('user')["id"];
+
+        $this->repository->updateSellApi($productId, $Row, $user_id);
+
+    }
+
     public function deleteSellApi(int $productId, array $data): void
     {
-
-        // Insert store
         $this->repository->deleteSell($productId);
-
-        // Logging
-        //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));
     }
 
-    
+
     private function mapToRow(array $data): array
     {
         $result = [];

@@ -71,7 +71,7 @@ final class SellCpoItemRepository
         ]);
 
         if(isset($params['sell_id'])){
-            $query->andWhere(['p.sell_id ' => $params['sell_id']]);
+            $query->andWhere(['sell_cpo_items.sell_id ' => $params['sell_id']]);
         }
 
         return $query->execute()->fetchAll('assoc') ?: [];

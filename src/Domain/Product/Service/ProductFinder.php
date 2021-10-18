@@ -40,9 +40,9 @@ final class ProductFinder
     //     return $this->repository->findIDFromProductName($params);
     // }
 
-    public function findIDFromProductName(string $ProductName)
+    public function findIDFromProductCode(string $ProductCode)
     {
-        $userRow = $this->repository->findIDFromProductName($ProductName);
+        $userRow = $this->repository->findIDFromProductCode($ProductCode);
 
         return $userRow;
     }

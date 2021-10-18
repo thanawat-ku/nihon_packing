@@ -3,6 +3,7 @@
 namespace App\Action\Api;
 
 use App\Domain\Sell\Service\SellFinder;
+use App\Domain\SellCpoItem\Service\SellCpoItemFinder;
 use App\Domain\Sell\Service\SellUpdater;
 use App\Domain\Product\Service\ProductFinder;
 use App\Responder\Responder;
@@ -23,6 +24,7 @@ final class SellRowAction
      */
     private $responder;
     private $finder;
+    private $findersct;
     private $updater;
 
     public function __construct(
@@ -31,7 +33,8 @@ final class SellRowAction
         ProductFinder $productFinder,
         SellUpdater $updater,
         Session $session,
-        Responder $responder
+        Responder $responder,
+        SellCpoItemFinder $findersct,
     ) {
         $this->twig = $twig;
         $this->finder = $finder;
@@ -39,27 +42,19 @@ final class SellRowAction
         $this->productFinder = $productFinder;
         $this->session = $session;
         $this->responder = $responder;
+        $this->findersct = $findersct;
     }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $data = (array)$request->getParsedBody();
-        // $merge_status = (string)($data['merge_status'] ?? '');
-        $part_code = (string)($data['part_code'] ?? '');
-        // $user_id = (int)($data['user_id'] ?? '');
-        // $merge_pack_ID = $data['id'];
+        $sell_id=$data['sell_id'];
+        $user_is=$data['user_id'];
 
-
-
-        $sell = null;
-
-        // $merge_pack_id = $this->finder->findSells($data);
-
-        $sellRow = $this->finder->findSellProductID($part_code);
-
-        // if ($sellRow) {
-        //     $sell = $sellRow;
-        // }
+        $sells = $this->findersct->findSellCpoItems($data);
+        $this->updater->updateSellApi($sell_id, $sells, $user_is);
+        // $this->updater->updateSellSelectingApi($sell_id, $sells, $user_is);
+        $sellRow = $this->finder->findSellRow($sell_id);
 
         if ($sellRow) {
             $rtdata['message'] = 'Login successfully';

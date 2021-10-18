@@ -43,23 +43,6 @@ final class ProductRepository
     }
     
 
-    public function findProduct(array $params): array
-    {
-        $query = $this->queryFactory->newSelect('products');
-        
-        $query->select(
-            [
-                'id',
-                'part_code',
-                'part_name',
-                'std_pack',
-                'std_box',
-            ]
-        );
-
-        return $query->execute()->fetchAll('assoc') ?: [];
-    }
-
     public function findProducts(array $params): array
     {
         $query = $this->queryFactory2->newSelect('product');
@@ -71,25 +54,17 @@ final class ProductRepository
                 'part_name'=>'PartName',
                 'std_pack'=>'PackingStd',
                 'std_box'=>'BoxStd',
-                // 'cpo.ProductID',
-                // 'CpoID'
-                // 'CpoItemID',
             ]
         );
-
-        // $query->Where(['product.ProductID' => 1]);
-
-        // $query->join([
-        //     'cpo' => [
-        //         'table' => 'cpo_item',
-        //         'type' => 'INNER',
-        //         'conditions' => 'product.ProductID = cpo.CpoIDID',
-        //     ]
-        // ]);
 
         if(isset($params['PartCode'])){
             $query->andWhere(['PartCode ' => $params['PartCode']]);
         }
+        if(isset($params['ProductID'])){
+            $query->andWhere(['ProductID' => $params['ProductID']]);
+        }
+
+        $query->orderAsc('part_code');
 
         return $query->execute()->fetchAll('assoc') ?: [];
     }
@@ -144,35 +119,6 @@ final class ProductRepository
         else{
             return $row;
         }
-        return false;
-    }
-
-    public function findIDFromProductName(String $ProductName)
-    {
-        $query = $this->queryFactory2->newSelect('product');
-        
-        $query->select(
-            [
-                'id'=>'ProductID',
-                'part_code'=>'PartCode',
-                'part_name'=>'PartName',
-                'std_pack'=>'PackingStd',
-                'std_box'=>'BoxStd',
-            ]
-        );
-
-        $query->Where(['PartName' => $ProductName]);
-
-        $row = $query->execute()->fetch('assoc');
-
-
-        if (!$row) {
-            return null;
-        }
-        else{
-            return $row;
-        }
-
         return false;
     }
 

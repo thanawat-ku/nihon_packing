@@ -20,6 +20,20 @@ final class SellRepository
         $this->queryFactory2 = $queryFactory2;
         $this->session = $session;
     }
+    public function insertSell(array $row): int
+    {
+        $row['created_at'] = Chronos::now()->toDateTimeString();
+        $row['created_user_id'] = $this->session->get('user')["id"];
+        $row['updated_at'] = Chronos::now()->toDateTimeString();
+        $row['updated_user_id'] = $this->session->get('user')["id"];
+
+        $row['sell_status']="CREATED";
+        $row['sell_date']=date('Y-m-d');
+        $row['total_qty']=0;
+
+
+        return (int)$this->queryFactory->newInsert('sells', $row)->execute()->lastInsertId();
+    }
     public function insertSellApi(array $row, $user_id): int
     {
         $row['created_at'] = Chronos::now()->toDateTimeString();
@@ -27,12 +41,16 @@ final class SellRepository
         $row['updated_at'] = Chronos::now()->toDateTimeString();
         $row['updated_user_id'] = $user_id;
 
+        $row['sell_date']= Chronos::now()->toDateTimeString();
+        $row['total_qty']=0;
+        $row['sell_status']="CREATED";
+
         return (int)$this->queryFactory->newInsert('sells', $row)->execute()->lastInsertId();
     }
-    public function updateSellApi(int $sellID, array $data): void
+    public function updateSellApi(int $sellID, array $data, $user_id): void
     {
         $data['updated_at'] = Chronos::now()->toDateTimeString();
-        $data['updated_user_id'] = $this->session->get('user')["id"];
+        $data['updated_user_id'] = $user_id;
 
         $this->queryFactory->newUpdate('sells', $data)->andWhere(['id' => $sellID])->execute();
     }
@@ -60,6 +78,13 @@ final class SellRepository
             ]
         );
 
+        if(isset($params['sell_id'])){
+            $query->andWhere(['sells.id' => $params['sell_id']]);
+        }
+        if(isset($params['id'])){
+            $query->andWhere(['sells.id' => $params['id']]);
+        }
+
         $query->join([
             'p' => [
                 'table' => 'products',
@@ -68,12 +93,10 @@ final class SellRepository
             ]
         ]);
 
-
-
         return $query->execute()->fetchAll('assoc') ?: [];
     }
 
-    public function findSellProductID(string $part_code)
+    public function findSellRow(int $sellID)
     {
         $query = $this->queryFactory->newSelect('sells');
         $query->select(
@@ -97,7 +120,7 @@ final class SellRepository
             ]
         ]);
 
-        $query->where(['part_code' => $part_code]);
+        $query->where(['sells.id' => $sellID]);
 
         $row = $query->execute()->fetch('assoc');
 

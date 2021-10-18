@@ -28,36 +28,48 @@ final class MergePackUpdater
         $this->validator->validateMergePackInsert($data);
 
         $row = $this->mapToMergePackRow($data);
-        $row['merge_no'] = "M".str_pad(0, 11, "0", STR_PAD_LEFT);
+        
         $id=$this->repository->insertMergePackApi($row,$user_id);
+
+        $data1['merge_no'] = "M".str_pad($id, 10, "0", STR_PAD_LEFT);
+        $data1['merge_date']=date('Y-m-d');
+
+        $this->repository->updateMergePackApi($id, $data1,$user_id);
 
         return $id;
     }
+    
     public function updateMergePackApi(int $id, array $data, $user_id): void
     {
         $this->validator->validateMergePackUpdate($id, $data);
 
         $Row = $this->mapToMergePackRow($data);
-        $Row['merge_no']= "M".str_pad($id, 11, "0", STR_PAD_LEFT);
 
         $this->repository->updateMergePackApi($id, $Row,$user_id);
 
         //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));
     }
 
-    public function updateMergingApi(string $mergeNO, array $data,$user_id): void
+    public function updateMergingApi(int $id, array $data, $user_id): void
     {
-        // Input validation
-        $this->validator->validateMergePackUpdate($mergeNO, $data);
+        $this->validator->validateMergePackUpdate($id, $data);
 
-        // Map form data to row
-        $storeRow = $this->mapToMergePackRow($data);
+        $Row = $this->mapToMergePackRow($data);
+        $Row['merge_status']="MERGING";
 
-        // Insert store
-        $this->repository->updateMergingApi($mergeNO, $storeRow,$user_id);
+        $this->repository->updateMergingApi($id, $Row,$user_id);
 
-        // Logging
-        //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));
+    }
+
+    public function updateStatusMergeApi(int $id, array $data, $user_id): void
+    {
+        
+        $this->validator->validateMergePackUpdate($id, $data);
+
+        $Row = $this->mapToMergePackRow($data);
+        $Row['merge_status']="MERGED";
+
+        $this->repository->updateMergingApi($id, $Row,$user_id);
     }
 
     public function updateLabelPackMergeApi(string $labelNo, array $data,$user_id): void
@@ -71,6 +83,17 @@ final class MergePackUpdater
 
         // Insert store
         $this->repository->updateLabelPackMergeApi($labelNo, $storeRow, $user_id);
+    }
+
+    public function updateCompleteApi(int $id, array $data, $user_id): void
+    {
+        $this->validator->validateMergePackUpdate($id, $data);
+
+        $Row = $this->mapToMergePackRow($data);
+        $Row['merge_status']="COMPLETE";
+
+        $this->repository->updateMergingApi($id, $Row,$user_id);
+
     }
 
      public function deleteMergePackApi(int $labelId, array $data): void

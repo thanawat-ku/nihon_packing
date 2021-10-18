@@ -19,6 +19,11 @@ module.exports = {
       'web/splitLabels': './templates/web/splitLabels.js',
       'web/merges': './templates/web/merges.js',
       'web/merge_detail': './templates/web/merge_detail.js', // <-- add this line
+      'web/sells': './templates/web/sells.js', 
+      'web/cpoItem': './templates/web/cpoItem.js',
+      'web/cpoItemSelects': './templates/web/cpoItemSelects.js',
+      'web/selectLabelForSells': './templates/web/selectLabelForSells.js',
+      'web/sellLabels': './templates/web/sellLabels.js',
     },
     output: {
       path: path.resolve(__dirname, 'public/assets'),

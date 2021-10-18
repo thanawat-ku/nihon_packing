@@ -4,7 +4,7 @@ namespace App\Action\Api;
 
 use App\Domain\Label\Service\LabelFinder;
 use App\Domain\MergePack\Service\MergePackFinder;
-use App\Domain\Product\Service\ProductFinder;
+use App\Domain\MergePackDetail\Service\MergePackDetailFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -19,72 +19,78 @@ final class GetQtyScanAction
      */
     private $responder;
     private $finder;
+    private $findermergepackdetail;
     private $findermergepack;
-    private $updater;
 
-    public function __construct(LabelFinder $finder,ProductFinder $productFinder, 
-    Responder $responder, MergePackFinder $findermergepack)
-    {
-       
-        $this->finder=$finder;
-        $this->findermergepack=$findermergepack;
-        // $this->updater=$updater;
-        $this->productFinder=$productFinder;
-        
+    public function __construct(
+        LabelFinder $finder,
+        MergePackDetailFinder $findermergepackdetail,
+        Responder $responder,
+        MergePackFinder $findermergepack
+    ) {
+
+        $this->finder = $finder;
+        $this->findermergepackdetail = $findermergepackdetail;
+        $this->findermergepack = $findermergepack;
+        // $this->productFinder=$productFinder;
+
         $this->responder = $responder;
     }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $data = (array)$request->getParsedBody();
-        $mrege_pack_id = (int)($data['merge_pack_id'] ?? '');
         $product_id = $data['product_id'];
-        $user_id = $data['user_id'];
+        $merge_pack_id = $data['merge_pack_id'];
 
-        $label = $this->finder->findLabelNonfullys($data);
-        $mergepack = $this->findermergepack->findMergePacks($data);
-        
-        $countlb = count($label);
+        $product = $this->findermergepack->findMergePacks($data);
+
+        $rtdata['mpd_from_lots'] = $this->findermergepackdetail->findMergePackDetailFromLots($data);
+        $rtdata['mpd_from_merges'] = $this->findermergepackdetail->findMergePackDetailFromMergePacks($data);
+
+        $std_pack = (int)$product[0]['std_pack'];
         $sum_qty = 0;
-        $countmp = count($mergepack);
-        $std_pack = 0;
+        $check_label_error = 0;
+        $number_label = 0;
+        $merge_status = "MERGING";
 
-        $merge_pack_id = $this->findermergepack->findMergePacks($data);
-
-        if ($mrege_pack_id == 0) {
-
-            $countmp = count($merge_pack_id);
-
-            for($i=0; $i<$countmp;$i++){
-                if ($merge_pack_id[$i]["product_id"] == $product_id && $merge_pack_id[$i]["merge_status"] == "CREATED" && $merge_pack_id[$i]["created_user_id"] == $user_id) {
-
-                    $std_pack = $mergepack[$i]['std_pack'];
-                    break;
-
-                }
-
-            }
-        }else{
-
-            for($i=0; $i<$countlb;$i++) {
-                if($label[$i]['merge_pack_id'] == $mrege_pack_id && $label[$i]['status'] == "MERGING" && $label[$i]['label_type'] == "NONFULLY"){
-                    $qty = $label[$i]['quantity'];
-                    $sum_qty += $qty;   
+        if ($rtdata['mpd_from_lots'] != null && $rtdata['mpd_from_merges'] == null) { //lot
+            for ($i = 0; $i < count($rtdata['mpd_from_lots']); $i++) {
+                $sum_qty += $rtdata['mpd_from_lots'][$i]['quantity'];
+                $number_label += 1;
+                if ($rtdata['mpd_from_lots'][$i]['product_id'] != $product_id  || ($rtdata['mpd_from_lots'][$i]['status'] != "MERGING") || ($rtdata['mpd_from_lots'][$i]['label_type'] == "FULLY" || $rtdata['mpd_from_lots'][$i]['label_type'] == "MERGE_FULLY") || $rtdata['mpd_from_lots'][$i]['status'] == "MERGED") {
+                    $check_label_error += 1;
                 }
             }
-            for($i=0; $i<$countmp;$i++) {
-                if($mergepack[$i]['id'] == $mrege_pack_id){
-                    $std_pack = $mergepack[$i]['std_pack'];
-                    break;
+            $array_labels = array($sum_qty,  $std_pack, $check_label_error, $number_label, $merge_status);
+        } else if ($rtdata['mpd_from_merges'] != null &&  $rtdata['mpd_from_lots'] == null) { //merge
+            for ($i = 0; $i < count($rtdata['mpd_from_merges']); $i++) {
+                $sum_qty += $rtdata['mpd_from_merges'][$i]['quantity'];
+                $number_label += 1;
+                if ($rtdata['mpd_from_merges'][$i]['merge_pack_id'] != $merge_pack_id || $rtdata['mpd_from_merges'][$i]['product_id'] != $product_id  || ($rtdata['mpd_from_merges'][$i]['status'] != "MERGING") || ($rtdata['mpd_from_merges'][$i]['label_type'] == "FULLY" || $rtdata['mpd_from_merges'][$i]['label_type'] == "MERGE_FULLY")) {
+                    $check_label_error += 1;
                 }
             }
-    
-           
+            $array_labels = array($sum_qty,  $std_pack, $check_label_error, $number_label, $merge_status);
+        } else if ($rtdata['mpd_from_lots'] != null && $rtdata['mpd_from_merges'] != null) { //lot and merge
+            for ($i = 0; $i < count($rtdata['mpd_from_lots']); $i++) {
+                $sum_qty += $rtdata['mpd_from_lots'][$i]['quantity'];
+                $number_label += 1;
+                if ($rtdata['mpd_from_lots'][$i]['product_id'] != $product_id  || ($rtdata['mpd_from_lots'][$i]['status'] != "MERGING") || ($rtdata['mpd_from_lots'][$i]['label_type'] == "FULLY" || $rtdata['mpd_from_lots'][$i]['label_type'] == "MERGE_FULLY") || $rtdata['mpd_from_lots'][$i]['status'] == "MERGED") {
+                    $check_label_error += 1;
+                }
+            }
+            for ($i = 0; $i < count($rtdata['mpd_from_merges']); $i++) {
+                $sum_qty += $rtdata['mpd_from_merges'][$i]['quantity'];
+                $number_label += 1;
+                if ($rtdata['mpd_from_merges'][$i]['merge_pack_id'] != $merge_pack_id || $rtdata['mpd_from_merges'][$i]['product_id'] != $product_id  || ($rtdata['mpd_from_merges'][$i]['status'] != "MERGING") || ($rtdata['mpd_from_merges'][$i]['label_type'] == "FULLY" || $rtdata['mpd_from_merges'][$i]['label_type'] == "MERGE_FULLY")) {
+                    $check_label_error += 1;
+                }
+            }
+            $array_labels = array($sum_qty,  $std_pack, $check_label_error,$number_label, $merge_status);
         }
-        $array_labels = array($sum_qty,  $std_pack);
-    
-        $rtdata['labels'] = $array_labels;
         
-        return $this->responder->withJson($response, $rtdata);
+        $qtyscan = $array_labels;
+        return $this->responder->withJson($response, $qtyscan);
     }
 }

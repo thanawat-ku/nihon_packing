@@ -46,14 +46,16 @@ final class MergePackRepository
         $this->queryFactory->newUpdate('labels', $data)->andWhere(['label_no' => $labelNo])->execute();
     } 
 
-    public function updateMergingApi(string $mergeNO, array $data, $user_id): void
+    public function updateMergingApi(int $id, array $data, $user_id): void
     {
         $data['updated_at'] = Chronos::now()->toDateTimeString();
         $data['updated_user_id'] = $user_id;
 
 
-        $this->queryFactory->newUpdate('merge_packs', $data)->andWhere(['merge_no' => $mergeNO])->execute();
+        $this->queryFactory->newUpdate('merge_packs', $data)->andWhere(['id' => $id])->execute();
     }  
+
+    
 
 
     // public function printMergePack(int $lotID): void
@@ -86,9 +88,9 @@ final class MergePackRepository
                 'part_code',
                 'part_name',
                 'merge_status',
-                // 'label_no',
                 'merge_packs.created_user_id',
-                'std_pack'
+                'std_pack',
+                'std_box',
                 
             ]
         );
@@ -102,57 +104,60 @@ final class MergePackRepository
             ]
             ]
         );
-        
-        return $query->execute()->fetchAll('assoc') ?: [];
-    }
 
-    public function findLabelPackMerges(array $params): array
-    {
-        $query = $this->queryFactory->newSelect('labels');
-        $query->select(
-            [
-                'labels.id',
-                'lot_id',
-                'merge_pack_id',
-                'label_no',
-                'label_type',
-                'labels.quantity',
-                'labels.status',
-                'part_code',
-                'part_name'
-              
-            ]
-        );
-       
-
-        $query->join([
-            'mp' => [
-                'table' => 'merge_packs',
-                'type' => 'INNER',
-                'conditions' => 'mp.id = labels.merge_pack_id',
-            ]]);
-
-        $query->join([
-            'p' => [
-                'table' => 'products',
-                'type' => 'INNER',
-                'conditions' => 'p.id = mp.product_id',
-            ]]);
-       
-        $query->where(
-            ['label_type !=' => "FULLY"]  
-        );
-
-        $query->group([
-            'labels.label_no'
-            ]);
-       
+        if(isset($params['id'])){
+            $query->andWhere(['merge_packs.id' => $params['id']]);
+        }
         if(isset($params['merge_pack_id'])){
-            $query->andWhere(['merge_pack_id' => $params['merge_pack_id']]);
+            $query->andWhere(['merge_packs.id' => $params['merge_pack_id']]);
         }
         
         return $query->execute()->fetchAll('assoc') ?: [];
     }
+
+    // public function findLabelPackMerges(array $params): array
+    // {
+    //     $query = $this->queryFactory->newSelect('labels');
+    //     $query->select(
+    //         [
+    //             'labels.id',
+    //             'lot_id',
+    //             'merge_pack_id',
+    //             'label_no',
+    //             'label_type',
+    //             'labels.quantity',
+    //             'labels.status',
+    //             'part_code',
+    //             'part_name'
+
+    //         ]
+    //     );
+
+
+    //     $query->join([
+    //         'mp' => [
+    //             'table' => 'merge_packs',
+    //             'type' => 'INNER',
+    //             'conditions' => 'mp.id = labels.merge_pack_id',
+    //         ]
+    //     ]);
+
+    //     $query->join([
+    //         'p' => [
+    //             'table' => 'products',
+    //             'type' => 'INNER',
+    //             'conditions' => 'p.id = mp.product_id',
+    //         ]
+    //     ]);
+
+       
+    //     $query->where(['OR' => [['label_type' => "MERGE_FULLY"], ['label_type' => "MERGE_NONFULLY"]]]); 
+    //     if(isset($params['merge_pack_id'])){
+    //         $query->andWhere(['merge_pack_id' => $params['merge_pack_id']]);
+    //     }
+        
+    //     return $query->execute()->fetchAll('assoc') ?: [];
+    // }
 
     
 }

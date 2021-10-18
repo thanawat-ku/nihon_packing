@@ -44,27 +44,10 @@ final class SellAddAction
 
         $user_id=$params['user_id'];
 
-        $selldata=$this->finder->findSells($params);
-        $countsell = count($selldata);
-        $countID = $countsell -1;
-
-        if($countsell == 0){
-            $params["sell_no"]="S00000000001";
-        }else{
-            $sell_id = $selldata[$countID]['id'];
-            $sell_id += 1;
-            $params["sell_no"]="S".str_pad( $sell_id, 11, "0", STR_PAD_LEFT);
-        }
-
-        $params["sell_date"]=Chronos::now()->toDateTimeString();
-
-        $rtdata=$this->findproduct->findProducts($params);
-
-        $params["product_id"]=$rtdata[0]['id'];
-        $params["total_qty"]=0;
-        $params["sell_status"]="CREATED";
+        $id=$this->updater->insertSellApi($params, $user_id);
+        $params['id']=$id;
         
-        $this->updater->insertSellApi($params, $user_id);
+        // $rtdata=$this->findproduct->findProducts($params);
 
         $rtdata['message']="Get Lot Defect Successful";
         $rtdata['error']=false;

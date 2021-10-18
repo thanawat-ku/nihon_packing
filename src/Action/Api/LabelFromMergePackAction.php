@@ -9,11 +9,12 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Views\Twig;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Cake\Chronos\Chronos;
 
 /**
  * Action.
  */
-final class LabelPackMergeAction
+final class LabelFromMergePackAction
 {
     /**
      * @var Responder
@@ -21,13 +22,9 @@ final class LabelPackMergeAction
     private $responder;
     private $finder;
 
-    public function __construct(Twig $twig,LabelFinder $finder,ProductFinder $productFinder,
-    Session $session,Responder $responder)
+    public function __construct(Twig $twig,LabelFinder $finder,Responder $responder)
     {
-        $this->twig = $twig;
         $this->finder=$finder;
-        $this->productFinder=$productFinder;
-        $this->session=$session;
         $this->responder = $responder;
     }
 
@@ -37,8 +34,7 @@ final class LabelPackMergeAction
         
         $rtdata['message']="Get Label Successful";
         $rtdata['error']=false;
-        $rtdata['labels']=$this->finder->findLabelPackMerges($params);
-
+        $rtdata['labels']=$this->finder->findLabelCreateFromMerges($params);
 
         
         return $this->responder->withJson($response, $rtdata);

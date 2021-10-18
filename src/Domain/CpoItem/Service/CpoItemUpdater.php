@@ -40,17 +40,11 @@ final class CpoItemUpdater
     // }
     public function updateCpoItem(int $cpo_item, array $data): void
     {
-        // Input validation
         $this->validator->validateCpoItemUpdate($cpo_item, $data);
 
-        // Map form data to row
         $storeRow = $this->mapToCpoItemRow($data);
 
-        // Insert store
         $this->repository->updateCpoItem($cpo_item, $storeRow);
-
-        // Logging
-        //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));
     }
     public function deleteCpoItem(int $cpo_item, array $data): void
     {

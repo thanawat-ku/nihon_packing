@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 /**
  * Action.
  */
-final class CancelAllLabelAction
+final class CancelLabelAction
 {
     /**
      * @var Responder
@@ -24,42 +24,33 @@ final class CancelAllLabelAction
     private $finder;
     private $findermpd;
     private $updater;
+    private $upmergepackdetail;
 
     public function __construct(LabelFinder $finder,ProductFinder $productFinder, LabelUpdater $updater,
-    Responder $responder, MergePackDetailUpdater $findermpd )
+    Responder $responder, MergePackDetailUpdater $findermpd,MergePackDetailUpdater $upmergepackdetail)
     {
         $this->finder=$finder;
         $this->updater=$updater;
         $this->productFinder=$productFinder;
         $this->responder = $responder;
         $this->findermpd = $findermpd;
+        $this->upmergepackdetail = $upmergepackdetail;
     }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $data = (array)$request->getParsedBody();
-        // $merge_status=$params["merge_status"];
         $user_id=$data["user_id"];
-        $id=$data["merge_pack_id"];
-        // $this->updater->updateLabelPackMergeApi($id, $params, $user_id);
+        $label_id=$data['label_id'];
+        $mpd_data_id=$data['id'];
+        $data1['label_id']=$label_id;
 
-        // $rtdata['message']="Get MergePack Successful";
-        // $rtdata['error']=false;
-        $rtdata['labels']=$this->finder->findLabelPackMerges($data);
-        $countlabel=count($rtdata["labels"]);
-        for ($i=0; $i < $countlabel; $i++) {
-            if ($rtdata["labels"][$i]['merge_pack_id'] == $id) {
-                $data1['merge_pack_id'] = 0;
-                $data1['status'] = "PACKED";
-                $label_no = $rtdata["labels"][$i]['label_no'];
-                $label_id = $rtdata["labels"][$i]['id'];
+        $label = $this->finder->findLabelSingleTable($data1);
+        $label['check_mp_id']=$data['merge_pack_id'];
 
-
-                $this->updater->updateLabelStrApi($label_no, $data1, $user_id);
-
-                $this->findermpd->deleteLabelMergePackApi($label_id, $data);
-            }            
-        }
-        return $this->responder->withJson($response, $rtdata);
+        $this->updater->updateCancelLabelApi($label_id, $label, $user_id);
+        $this->upmergepackdetail->deleteLabelMergePackDetailApi($mpd_data_id);
+        
+        return $this->responder->withJson($response, $data);
     }
 }
