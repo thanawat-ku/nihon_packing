@@ -7,12 +7,14 @@ use App\Domain\Product\Service\ProductFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-
+use Slim\Views\Twig;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Cake\Chronos\Chronos;
 
 /**
  * Action.
  */
-final class LabelNonfullyAction
+final class LabelFromMergePackAction
 {
     /**
      * @var Responder
@@ -20,23 +22,20 @@ final class LabelNonfullyAction
     private $responder;
     private $finder;
 
-    public function __construct(LabelFinder $finder,ProductFinder $productFinder,
-    Responder $responder)
+    public function __construct(Twig $twig,LabelFinder $finder,Responder $responder)
     {
-        
         $this->finder=$finder;
-        $this->productFinder=$productFinder;
         $this->responder = $responder;
-        
     }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $params = (array)$request->getQueryParams();
         
-        $rtdata['message']="Get LabelNonfully Successful";
+        $rtdata['message']="Get Label Successful";
         $rtdata['error']=false;
-        $rtdata['labels']=$this->finder->findLabelNonfullys($params);
+        $rtdata['labels']=$this->finder->findLabelCreateFromMerges($params);
+
         
         return $this->responder->withJson($response, $rtdata);
     }

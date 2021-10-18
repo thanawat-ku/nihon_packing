@@ -36,22 +36,35 @@ final class LabelFinder
     {
         return $this->repository->findLabelForMergeLotZero($params);
     }
-    public function findLabelNonfullys(array $params): array
-    {
-        return $this->repository->findLabelNonfullys($params);
-    }
-}
 
-final class LabelPackMergeFinder
-{
-    private $repository;
-    public function __construct(LabelRepository $repository)
+    public function findCheckLabels(array $params): array
     {
-        $this->repository = $repository;
+        return $this->repository->findLabels($params);
+    }
+    public function findLabelSingleTable(array $params): array
+    {
+        return $this->repository->findLabelSingleTable($params);
     }
 
-    // public function findLabelPackMerges(array $params): array
-    // {
-    //     return $this->repository->findLabelPackMerges($params);
-    // }
+
+    public function checklabel(string $labelNO)
+    {
+        $userRow = $this->repository->checklabel($labelNO);
+
+        return $userRow;
+    }
+
+    public function findCreateMergeNoFromLabels(array $params): array
+    {
+        return $this->repository->findCreateMergeNoFromLabels($params);
+    }
+
+    public function findLabelCreateFromMerges(array $params): array
+    {
+        return $this->repository->findLabelCreateFromMerges($params);
+    }
+    public function findLabelFromMergePacks(array $params): array
+    {
+        return $this->repository->findLabelFromMergePacks($params);
+    }
 }

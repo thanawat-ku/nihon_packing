@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Action\Api;
+namespace App\Action\Web;
 
-use App\Domain\Merge\Service\MergeFinder;
+use App\Domain\Sell\Service\SellFinder;
 use App\Domain\Product\Service\ProductFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
@@ -13,15 +13,18 @@ use Symfony\Component\HttpFoundation\Session\Session;
 /**
  * Action.
  */
-final class MergeAction
+final class SellAction
 {
     /**
      * @var Responder
      */
     private $responder;
+    private $twig;
     private $finder;
+    private $productFinder;
+    private $session;
 
-    public function __construct(Twig $twig,MergeFinder $finder,ProductFinder $productFinder,
+    public function __construct(Twig $twig,SellFinder $finder,ProductFinder $productFinder,
     Session $session,Responder $responder)
     {
         $this->twig = $twig;
@@ -35,12 +38,13 @@ final class MergeAction
     {
         $params = (array)$request->getQueryParams();
         
-        $rtdata['message']="Get Merge Successful";
-        $rtdata['error']=false;
-        $rtdata['merges']=$this->finder->findMerges($params);
-
-
         
-        return $this->responder->withJson($response, $rtdata);
+        $viewData = [
+            'products'=>$this->productFinder->findProducts($params),
+            'sells' => $this->finder->findSells($params),
+            'user_login' => $this->session->get('user'),
+        ];
+        
+        return $this->twig->render($response, 'web/sells.twig',$viewData);
     }
 }

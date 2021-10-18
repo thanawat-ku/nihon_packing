@@ -37,9 +37,20 @@ final class MergePackDetailAction
         
         $rtdata['message']="Get MergePackDetail Successful";
         $rtdata['error']=false;
-        $rtdata['merge_pack_details']=$this->finder->findMergePackDetails($params);
 
+        $rtdata['mpd_from_lots']=$this->finder->findMergePackDetailFromLots($params);
+        $rtdata['mpd_from_merges']=$this->finder->findMergePackDetailFromMergePacks($params);
 
-        return $this->responder->withJson($response, $rtdata);
+        if ($rtdata['mpd_from_lots'] != null && $rtdata['mpd_from_merges'] == null) {
+            $rtdata['check_label_from_mpd']="lot";
+        }else if($rtdata['mpd_from_merges'] != null &&  $rtdata['mpd_from_lots'] == null){
+            $rtdata['check_label_from_mpd']="merge";
+
+        }else if($rtdata['mpd_from_lots'] != null && $rtdata['mpd_from_merges'] != null) {
+            $rtdata['check_label_from_mpd']="lot_and_merge";
+        }
+
+        return $this->responder->withJson($response, $rtdata);  
+
     }
 }

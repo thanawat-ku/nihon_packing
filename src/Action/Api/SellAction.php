@@ -2,45 +2,52 @@
 
 namespace App\Action\Api;
 
-use App\Domain\CheckLabel\Service\CheckLabelFinder;
-use App\Domain\Product\Service\ProductFinder;
+use App\Domain\Sell\Service\SellFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Slim\Views\Twig;
-use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * Action.
  */
-final class CheckLabelAction
+final class SellAction
 {
     /**
      * @var Responder
      */
     private $responder;
-    private $finder;
+    private $productFinder;
+    
 
-    public function __construct(Twig $twig,CheckLabelFinder $finder,ProductFinder $productFinder,
-    Session $session,Responder $responder)
+    /**
+     * The constructor.
+     *
+     * @param Responder $responder The responder
+     */
+    public function __construct(SellFinder $productFinder,Responder $responder)
     {
-        $this->twig = $twig;
-        $this->finder=$finder;
+        
         $this->productFinder=$productFinder;
-        $this->session=$session;
         $this->responder = $responder;
     }
 
+    /**
+     * Action.
+     *
+     * @param ServerRequestInterface $request The request
+     * @param ResponseInterface $response The response
+     *
+     * @return ResponseInterface The response
+     */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
+
         $params = (array)$request->getQueryParams();
         
-        $rtdata['message']="Get CheckLabel Successful";
+        $rtdata['message']="Get Sell Successful";
         $rtdata['error']=false;
-        $rtdata['labels']=$this->finder->findCheckLabels($params);
+        $rtdata['sells']=$this->productFinder->findSells($params);        
 
-
-        
         return $this->responder->withJson($response, $rtdata);
     }
 }

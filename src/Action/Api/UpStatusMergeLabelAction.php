@@ -2,14 +2,11 @@
 
 namespace App\Action\Api;
 
-use App\Domain\LabelPackMerge\Service\LabelPackMergeFinder;
-use App\Domain\LabelPackMerge\Service\LabelPackMergeUpdater;
-use App\Domain\Product\Service\ProductFinder;
+use App\Domain\Label\Service\LabelFinder;
+use App\Domain\Label\Service\LabelUpdater;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Slim\Views\Twig;
-use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * Action.
@@ -23,29 +20,29 @@ final class UpStatusMergeLabelAction
     private $finder;
     private $updater;
 
-    public function __construct(Twig $twig,LabelPackMergeFinder $finder,ProductFinder $productFinder, LabelPackMergeUpdater $updater,
-    Session $session,Responder $responder)
+    public function __construct(LabelFinder $finder, LabelUpdater $updater,
+    Responder $responder)
     {
-        $this->twig = $twig;
         $this->finder=$finder;
         $this->updater=$updater;
-        $this->productFinder=$productFinder;
-        $this->session=$session;
         $this->responder = $responder;
     }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $params = (array)$request->getParsedBody();
-        $merge_status=$params["merge_status"];
         $user_id=$params["user_id"];
-        $id=$params["label_no"];
+        $label_no=$params["label_no"];
 
-        $this->updater->updateLabelPackMergeApi($id, $params, $user_id);
+        // $rtdata=$this->finder->findLabels($params);
+        // $params['status']=$rtdata[0]['status'];
+        // $id=$rtdata[0]['id'];
+
+        $this->updater->updateLabelStringApi($label_no, $params, $user_id);
 
         $rtdata['message']="Get MergePack Successful";
         $rtdata['error']=false;
-        $rtdata['merge_packs']=$this->finder->findLabelPackMerges($params);
+        $rtdata['labels']=$this->finder->findLabels($params);
 
 
         return $this->responder->withJson($response, $rtdata);

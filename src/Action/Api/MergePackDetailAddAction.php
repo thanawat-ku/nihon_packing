@@ -39,34 +39,38 @@ final class MergePackDetailAddAction
     {
         $data = (array)$request->getParsedBody();
         $user_id=$data["user_id"];
-        $merge_pack_id=$data["merge_pack_id"];
-        $label_no=$data["label_no"];
+        // $merge_pack_id=$data["merge_pack_id"];
+        // $label_no=$data["label_no"];
+
+        $rtdata=$this->finder->findLabelNonfully($data);
+        $data['label_id']=$rtdata[0]['id'];
+
+        $this->updater->insertMergePackDetailApi($data, $user_id);
+
+        // $data['label_id']=$id;
+        // $this->updater->updateMergePackDetailApi($id, $data, $user_id);
         
 
 
 
-        $rtdata['message']="Get MergePackDetail Successful";
-        $rtdata['error']=false;
-        $rtdata['labels']=$this->finder->findLabelNonfully($data);
+        // $rtdata['message']="Get MergePackDetail Successful";
+        // $rtdata['error']=false;
+        // $rtdata['labels']=$this->finder->findLabelNonfully($data);
         
 
-        $countlabel = count($rtdata["labels"]);
+        // $countlabel = count($rtdata["labels"]);
 
-        for ($i=0; $i < $countlabel; $i++) {
-            if ($rtdata["labels"][$i]['merge_pack_id'] == $merge_pack_id && $rtdata["labels"][$i]['label_no'] == $label_no) {
-                $data1['label_id']=$rtdata["labels"][$i]['id'];
-                $data1['merge_pack_id'] = $merge_pack_id; 
-                // $data1['status']="MERGING";
+        // for ($i=0; $i < $countlabel; $i++) {
+        //     if ($rtdata["labels"][$i]['merge_pack_id'] == $merge_pack_id && $rtdata["labels"][$i]['label_no'] == $label_no) {
+        //         $data1['label_id']=$rtdata["labels"][$i]['id'];
+        //         $data1['merge_pack_id'] = $merge_pack_id; 
+        //         // $data1['status']="MERGING";
 
-                $this->updater->insertMergePackDetailApi($data1, $user_id);
-                break;
-            }
-        }
-
-
-        return $this->responder->withJson($response, $data1);
-
-        
+        //         $this->updater->insertMergePackDetailApi($data1, $user_id);
+        //         break;
+        //     }
+        // }
+        return $this->responder->withJson($response, $data);
 
     }
 }

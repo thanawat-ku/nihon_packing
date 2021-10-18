@@ -45,23 +45,6 @@ final class ProductRepository
 
     public function findProducts(array $params): array
     {
-        $query = $this->queryFactory->newSelect('products');
-        
-        $query->select(
-            [
-                'id',
-                'part_code',
-                'part_name',
-                'std_pack',
-                'std_box',
-            ]
-        );
-
-        return $query->execute()->fetchAll('assoc') ?: [];
-    }
-
-    public function findProduct(array $params): array
-    {
         $query = $this->queryFactory2->newSelect('product');
         
         $query->select(
@@ -74,7 +57,67 @@ final class ProductRepository
             ]
         );
 
+        if(isset($params['PartCode'])){
+            $query->andWhere(['PartCode ' => $params['PartCode']]);
+        }
+        if(isset($params['ProductID'])){
+            $query->andWhere(['ProductID' => $params['ProductID']]);
+        }
+
+        $query->orderAsc('part_code');
+
         return $query->execute()->fetchAll('assoc') ?: [];
+    }
+
+    public function findProduct(array $params): array
+    {
+        $query = $this->queryFactory->newSelect('labels');
+        $query->select(
+            [
+                'labels.id',
+                'label_no',
+                'product_id',
+                'label_type',
+                'labels.quantity',
+                'lot_id',
+                'labels.merge_pack_id',
+                'labels.status',
+                'part_code',
+                'part_name',
+                'std_pack',
+                'std_box',
+                'lot_no'
+                
+            ]
+        );
+        $query->join([
+            'l' => [
+                'table' => 'lots',
+                'type' => 'INNER',
+                'conditions' => 'l.id = labels.lot_id',
+            ]]);
+        $query->join([
+            'p' => [
+                'table' => 'products',
+                'type' => 'INNER',
+                'conditions' => 'p.id = l.product_id',
+            ]]);
+        $query->group([
+            'labels.id'
+            ]);
+
+        // $query->Where(['label_no' => $labelNO]);
+
+        $row = $query->execute()->fetch('assoc');
+
+
+        if (!$row) {
+            return null;
+        }
+        else{
+            return $row;
+        }
+        return false;
     }
 
 }

@@ -7,6 +7,8 @@ use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Views\Twig;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Cake\Chronos\Chronos;
 
 /**
  * Action.
@@ -33,6 +35,7 @@ final class LabelAction
         $rtdata['error']=false;
         $rtdata['labels']=$this->finder->findLabels($params);
 
+        
         return $this->responder->withJson($response, $rtdata);
     }
 }

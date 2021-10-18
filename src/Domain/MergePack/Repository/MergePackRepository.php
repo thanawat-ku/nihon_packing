@@ -104,7 +104,6 @@ final class MergePackRepository
                 'merge_packs.created_user_id',
                 'std_pack',
                 'std_box',
-
             ]
         );
 

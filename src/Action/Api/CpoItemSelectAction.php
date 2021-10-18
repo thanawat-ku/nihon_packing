@@ -2,8 +2,7 @@
 
 namespace App\Action\Api;
 
-use App\Domain\LabelPackMerge\Service\LabelPackMergeFinder;
-use App\Domain\Product\Service\ProductFinder;
+use App\Domain\CpoItem\Service\CpoItemFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -13,7 +12,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 /**
  * Action.
  */
-final class LabelPackMergeAction
+final class CpoItemSelectAction
 {
     /**
      * @var Responder
@@ -21,12 +20,11 @@ final class LabelPackMergeAction
     private $responder;
     private $finder;
 
-    public function __construct(Twig $twig,LabelPackMergeFinder $finder,ProductFinder $productFinder,
+    public function __construct(Twig $twig,CpoItemFinder $finder,
     Session $session,Responder $responder)
     {
         $this->twig = $twig;
         $this->finder=$finder;
-        $this->productFinder=$productFinder;
         $this->session=$session;
         $this->responder = $responder;
     }
@@ -35,11 +33,9 @@ final class LabelPackMergeAction
     {
         $params = (array)$request->getQueryParams();
         
-        $rtdata['message']="Get Label Successful";
+        $rtdata['message']="Get CpoItem Successful";
         $rtdata['error']=false;
-        $rtdata['labels']=$this->finder->findLabelPackMerges($params);
-
-
+        $rtdata['cpo_items']=$this->finder->findCpoItemSelect($params);
         
         return $this->responder->withJson($response, $rtdata);
     }

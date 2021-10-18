@@ -68,16 +68,22 @@ final class MergePackDetailUpdater
         return $id;
     }
 
-    public function updateMergePackDetailApi(int $labelId, array $data, $user_id): void
+    public function updateMergePackDetailApi(int $labelId, array $data, $user_id): int
     {
-        // Input validation
-        $this->validator->validateMergePackDetailUpdate($labelId, $data);
+        $this->validator->validateMergePackDetailInsert($data);
 
         // Map form data to row
         $storeRow = $this->mapToRow($data);
 
-        // Insert store
-        $this->repository->updateMergePackDetailApi($labelId, $storeRow, $user_id);
+        $count_data = count($data);
+
+        for ($i=0; $i < count($data); $i++) { 
+            $Row['merge_pack_id'] = $data['labels'][$i]['merge_pack_id'];
+            $Row['label_id'] = $data['labels'][$i]['id'];
+            $id = $this->repository->insertMergePackDetailApi($Row, $user_id);
+        }
+
+        return $id;
     }
 
     // public function updateMergePackDetail(int $mergeId, array $data): void

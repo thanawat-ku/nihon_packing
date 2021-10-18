@@ -2,15 +2,15 @@
 
 namespace App\Action\Api;
 
-use App\Domain\CreateMergeNoFromLabel\Service\CreateMergeNoFromLabelFinder;
-use App\Domain\CreateMergeNoFromLabel\Service\CreateMergeNoFromLabelUpdater;
+use App\Domain\MergePack\Service\MergePackFinder;
+use App\Domain\Label\Service\LabelFinder;
+use App\Domain\Label\Service\LabelUpdater;
 use App\Domain\MergePackDetail\Service\MergePackDetailUpdater;
+use App\Domain\MergePack\Service\MergePackUpdater;
 use App\Domain\Product\Service\ProductFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Slim\Views\Twig;
-use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * Action.
@@ -24,15 +24,19 @@ final class AddMergeNoFromLabelAction
     private $finder;
     private $updater;
     private $updatermergepackdetail;
+    private $finLabel;
+    private $updaterlabel;
 
-    public function __construct(CreateMergeNoFromLabelFinder $finder,ProductFinder $productFinder, CreateMergeNoFromLabelUpdater $updater,
-    Responder $responder,  MergePackDetailUpdater $updatermergepackdetail)
+    public function __construct(MergePackFinder $finder,ProductFinder $productFinder, MergePackUpdater $updater,
+    Responder $responder,  MergePackDetailUpdater $updatermergepackdetail,LabelFinder $finLabel, LabelUpdater $updaterlabel)
     {
         $this->finder=$finder;
         $this->updater=$updater;
         $this->productFinder=$productFinder;
         $this->responder = $responder;
         $this->updatermergepackdetail=$updatermergepackdetail;
+        $this->finLabel = $finLabel;
+        $this->updaterlabel=$updaterlabel;
     }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
@@ -43,7 +47,7 @@ final class AddMergeNoFromLabelAction
 
         $params["label_no"]=$label_no;
 
-        $rtdata['labels']=$this->finder->findCreateMergeNoFromLabels($params);
+        $rtdata['labels']=$this->finLabel->findCreateMergeNoFromLabels($params);
         $mpdata['merge_packs']=$this->finder->findMergePacks($params);
 
         $countlabel=count($rtdata["labels"]);
@@ -66,7 +70,7 @@ final class AddMergeNoFromLabelAction
                 $data2['merge_pack_id'] = $merpack_id;
                 $data2['status'] = "MERGING";
 
-                $this->updater->updateCreateMergeNoFromLabelMergePackApi($labelID, $data2, $user_id);
+                $this->updaterlabel->updateLabelApi($labelID, $data2, $user_id);
 
                 $data_mpd['merge_pack_id'] = $merpack_id;
                 $data_mpd['label_id'] = $rtdata["labels"][$i]['id'];

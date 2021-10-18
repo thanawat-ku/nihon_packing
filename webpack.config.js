@@ -24,7 +24,16 @@ module.exports = {
       'web/splitLabels': './templates/web/splitLabels.js',
       'web/lotDefects': './templates/web/lotDefects.js',
       'web/merges': './templates/web/merges.js',
+<<<<<<< HEAD
       'web/mergeDetail': './templates/web/mergeDetail.js', // <-- add this line
+=======
+      'web/merge_detail': './templates/web/merge_detail.js', // <-- add this line
+      'web/sells': './templates/web/sells.js', 
+      'web/cpoItem': './templates/web/cpoItem.js',
+      'web/cpoItemSelects': './templates/web/cpoItemSelects.js',
+      'web/selectLabelForSells': './templates/web/selectLabelForSells.js',
+      'web/sellLabels': './templates/web/sellLabels.js',
+>>>>>>> racha05
     },
     output: {
       path: path.resolve(__dirname, 'public/assets'),

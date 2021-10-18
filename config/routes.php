@@ -73,10 +73,25 @@ return function (App $app) {
     $app->post('/edit_label_void_reason', \App\Action\Web\LabelVoidReasonEditAction::class)->add(UserAuthMiddleware::class);
     $app->post('/delete_label_void_reason', \App\Action\Web\LabelVoidReasonDeleteAction::class)->add(UserAuthMiddleware::class);
 
-    //---------------------------Api-------------------------------
+    $app->get('/sells', \App\Action\Web\SellAction::class)->add(UserAuthMiddleware::class);
+    $app->get('/select_label_for_sells', \App\Action\Web\SelectLabelForSellAction::class)->add(UserAuthMiddleware::class);
+    $app->post('/add_sell', \App\Action\Web\SellAddAction::class)->add(UserAuthMiddleware::class);
+    
+    $app->get('/sell_labels', \App\Action\Web\SellLabelAction::class)->add(UserAuthMiddleware::class);
+    $app->post('/add_sell_label', \App\Action\Web\SellLabelAddAction::class)->add(UserAuthMiddleware::class);
+    $app->post('/cancel_sell_label', \App\Action\Web\SellLabelCancelAction::class)->add(UserAuthMiddleware::class);
+    $app->post('/remove_sell_label', \App\Action\Web\SellLabelRemoveAction::class)->add(UserAuthMiddleware::class);
+    $app->post('/confirm_sell', \App\Action\Web\SellConfirmAction::class)->add(UserAuthMiddleware::class);
+    $app->post('/confirm_sell_label', \App\Action\Web\SellLabelConfirmAction::class)->add(UserAuthMiddleware::class);
+    
 
     $app->post('/api/login', \App\Action\ApiLoginSubmitAction::class);
     $app->get('/api/merges', \App\Action\Api\MergeAction::class);
+    $app->get('/CpoItem', \App\Action\Web\CpoItemAction::class)->add(UserAuthMiddleware::class);
+    $app->get('/CpoItemSelects', \App\Action\Web\CpoItemSelectAction::class)->add(UserAuthMiddleware::class);
+    $app->post('/add_CpoItem', \App\Action\Web\CpoItemAddAction::class)->add(UserAuthMiddleware::class);
+
+    //---------------------------Api-------------------------------
 
     $app->get('/api/lots', \App\Action\Api\LotAction::class);
     $app->post('/api/confirm_lot_check', \App\Action\Api\LotConfirmCheckAction::class);
@@ -103,6 +118,12 @@ return function (App $app) {
     $app->get('/api/find_labels_scan', \App\Action\Api\LabelFindForScanAction::class);
     $app->post('/api/register_label', \App\Action\Api\LabelRegisterAction::class);
     $app->post('/api/gen_merge_labels', \App\Action\Api\GenMergeLabelBarcodeNoAction::class);
+    $app->post('/api/up_status_merge_label', \App\Action\Api\UpStatusMergeLabelAction::class);
+    $app->post('/api/check_label_scan', \App\Action\Api\CheckLabelScanAction::class);
+    // $app->get('/api/check_label_scan', \App\Action\Api\CheckLabelScanAction::class);
+    $app->get('/api/label_merge_packs', \App\Action\Api\LabelFromMergepackAction::class);
+    $app->post('/api/check_lb_scan_rm', \App\Action\Api\CheckLabelScanRegisMergeAction::class);
+    // $app->post('/api/check_lb_scan_rm', \App\Action\Api\CheckLabelScanAction::class);
 
     
     $app->get('/api/tags', \App\Action\Api\TagAction::class);
@@ -117,33 +138,44 @@ return function (App $app) {
     $app->post('/api/add_split_label_detail', \App\Action\Api\SplitLabelDetailAddAction::class);
     
     $app->get('/api/merge_packs', \App\Action\Api\MergePackAction::class);
-    $app->post('/api/merge_label', \App\Action\Api\MergeLabelAction::class);
-    $app->get('/api/merge_pack_details', \App\Action\Api\MergePackDetailAction::class);
-
-    $app->get('/api/label_nonfullys', \App\Action\Api\LabelNonfullyAction::class);
-    $app->post('/api/update_label_non_to_merge', \App\Action\Api\UpdateLabelNonToMergeAction::class);
     
-    $app->get('/api/label_pack_merges', \App\Action\Api\LabelPackMergeAction::class);
-    $app->get('/api/check_labels', \App\Action\Api\CheckLabelAction::class);
     $app->get('/api/select_merge_pack_id', \App\Action\Api\SelectMergePackIDAction::class);
-    $app->get('/api/create_mn_from_lb', \App\Action\Api\CreateMergeNoFromLabelAction::class);
 
-    $app->post('/api/add_merge_packs', \App\Action\Api\MergePackAddAction::class);
-    $app->post('/api/up_status_merge_packs', \App\Action\Api\UpStatusMergePackAction::class);
-    $app->post('/api/up_status_merge_labels', \App\Action\Api\UpStatusMergeLabelAction::class);
-    $app->post('/api/up_status_mergings', \App\Action\Api\UpStatusMergingAction::class);
-    $app->post('/api/up_status_merged', \App\Action\Api\UpStatusMergedAction::class);
+    $app->post('/api/add_merge_pack', \App\Action\Api\MergePackAddAction::class);
     $app->post('/api/add_merge_pack_detail', \App\Action\Api\MergePackDetailAddAction::class);
-    $app->post('/api/print_label_merge_packs', \App\Action\Api\PrintLabelMergePackAction::class);
+    $app->post('/api/gen_label_merge_packs', \App\Action\Api\GenMergeLabelBarcodeNoAction::class);
     $app->post('/api/add_mn_from_lb', \App\Action\Api\AddMergeNoFromLabelAction::class);
     $app->post('/api/check_merge_pack_id', \App\Action\Api\CheckMergePackIDAction::class);
-    $app->post('/api/cancel_all_labels', \App\Action\Api\CancelAllLabelAction::class);
-    $app->post('/api/get_qty_mp_labels', \App\Action\Api\GetQtyMpLabelAction::class);
+    $app->post('/api/cancel_label', \App\Action\Api\CancelLabelAction::class);
     $app->post('/api/delete_merge_pack_detail', \App\Action\Api\MergePackDetailDeleteAction::class);
     $app->post('/api/get_qty_scan', \App\Action\Api\GetQtyScanAction::class);
     
 
 
-    $app->get('binary_search', \App\Action\Api\Binary_search::class);
+    $app->post('/api/label_search', \App\Action\Api\LabelsearchAction::class);
+
+    $app->get('/api/cpo_item', \App\Action\Api\CpoItemAction::class);
+    $app->get('/api/cpo_item_select', \App\Action\Api\CpoItemSelectAction::class);
+
+    $app->get('/api/sells', \App\Action\Api\SellAction::class);
+    $app->post('/api/add_sell', \App\Action\Api\SellAddAction::class);
+    $app->post('/api/sell_row', \App\Action\Api\SellRowAction::class);
+    $app->post('/api/up_status_sell', \App\Action\Api\SellUpStatusAction::class);
+    $app->post('/api/get_qty_sell_scan', \App\Action\Api\GetQtySellScanAction::class);
+
+    $app->get('/api/product_for_sells', \App\Action\Api\ProductForSellAction::class);
+
+    $app->get('/api/sell_cpo_items', \App\Action\Api\SellCpoItemAction::class);
+    $app->post('/api/add_sell_cpo_item', \App\Action\Api\SellCpoItemAddAction::class);
+
+    $app->get('/api/merge_pack_details', \App\Action\Api\MergePackDetailAction::class);
+    $app->get('/api/merge_pack_detail_for_registers', \App\Action\Api\MergePackDetailForRegisterAction::class);
+    $app->post('/api/complete_merge_pack', \App\Action\Api\CompleteMergePackAction::class);
+    
+
+    $app->get('/api/sell_labels', \App\Action\Api\SellLabelAction::class);
+    $app->post('/api/check_sell_label_scan', \App\Action\Api\CheckSellLabelScanAction::class);
+    $app->post('/api/cancel_sell_label', \App\Action\Api\CancelSellLabelAction::class);
+    $app->post('/api/confirm_sell_label', \App\Action\Api\ConfirmSellLabelAction::class);
     
 };
