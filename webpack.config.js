@@ -18,13 +18,13 @@ module.exports = {
       'web/labels': './templates/web/labels.js',
       'web/labelsLot': './templates/web/labelsLot.js',
       'web/labelsSplit': './templates/web/labelsSplit.js', 
-      'web/labelsMerge': './templates/web/labelsMerge.js', 
+      'web/labelsSelectMerge': './templates/web/labelsSelectMerge.js', 
+      'web/labelsMerge': './templates/web/labelsMerge.js',
       'web/labelVoidReasons': './templates/web/labelVoidReasons.js',     
       'web/splitLabels': './templates/web/splitLabels.js',
       'web/lotDefects': './templates/web/lotDefects.js',
       'web/merges': './templates/web/merges.js',
-      'web/mergeDetail': './templates/web/mergeDetail.js',
-      'web/labelsMergeNew': './templates/web/labelsMergeNew.js', // <-- add this line
+      'web/mergeDetail': './templates/web/mergeDetail.js', // <-- add this line
     },
     output: {
       path: path.resolve(__dirname, 'public/assets'),

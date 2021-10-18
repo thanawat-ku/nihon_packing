@@ -13,14 +13,12 @@
   <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <h2><i class="fas fa-folder-plus"></i> Select label in merge no: {{mergePack['merge_no']}}</h2>
+                <h2><i class="fas fa-folder-plus"></i> Labels in merge no: {{ mergePack['merge_no'] }}</h2>  <!--dont show merge no -->    
                 <hr>
                 <table id="my-data-table" class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline collapsed">
                     <thead>
                      <tr>
                         <th>Label No</th>
-                        <th>Lot No</th>
-                        <th>Mergre No</th>
                         <th>Name</th>
                         <th>Type</th>
                         <th>Quantity</th>
@@ -29,54 +27,96 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for label in labels %}                      
+                    {% for label in labels %}                    
                     <tr>
-                      <td>{{ label.label_no }}</td>
-                        {% if label.status  == "CREATED" %}
-                        <td>{{ label.lot_no }}</td>
-                        {% endif %}
-                        {% if label.status  != "CREATED" %}
-                        <td>{{ label.generate_lot_no	 }}</td>
-                        {% endif %}
-                        <td>{{ label.merge_no}}</td>
+                        <td>{{ label.label_no }}</td>
                         <td>{{ '(' ~ label.part_code ~ ') ' ~ label.part_name }}</td>
                         <td>{{ label.label_type }}</td>
                         <td>{{ label.quantity }}</td>
                         <td>{{ label.status }}</td>
                         <td>
-                        <button type="button" id="selectBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#selectLabel" name="{{ label|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-plus-square"></i></button>
+                        {% if label.status  == "PACKED" %}
+                        <button type="button" id="SplitBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#splitLabel" name="{{ label|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-object-ungroup"></i></button>
+                        <button type="button" id="voidBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#voidLabel" name="{{ label|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-exclamation-triangle"></i></button>
+                        {% endif %}
                         </td>
                     </tr>
                     {% endfor %}
                     </tbody>
                     <tfoot></tfoot>
                 </table>
-                <a href="merge_detail?id={{mergePack['id']}} "><button type="button" id="addLabelBt" class="btn btn-primary" data-toggle="modal" data-target="#addLabel"><i style="font-size:15px; width:20px;" class="fas fa-arrow-left"></i>Back</button></a>
+                <form id="form-black" class="form-inline float-none" action="merges" method="get">
+                  <button type="submit" class="btn btn-primary" id="black"><i class="fas fa-arrow-left"></i> Back</button>
+                </form>
                 <p></p>
             </div>
         </div>
     </div>
 
-<!-- Modal Select Label -->
-<div class="modal fade" id="selectLabel">
+<!-- Modal void label -->
+<div class="modal fade" id="voidLabel">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
-      <form id="form-deleteMerge" action="add_label_merge" method="post">
+      <form id="form-voidLabel" action="void_label" method="post">
         <!-- Modal Header -->
         <div class="modal-header">
-          <h4 class="modal-title">Select Label</h4>
+          <h4 class="modal-title">Void Label</h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         <!-- Modal body -->
         <div class="modal-body">          
           <div class="form-product">
-            <input type="hidden" id="selectLabelId" name="label_id">
-            <input type="hidden" id="mergePackId" name="merge_pack_id">
-            <label for="MergeNo">Do you want to select label: <span id="selectLabelNo"></span> ?</label>
-          </div>                 
+            <input type="hidden" id="voidLabelID" name="id">
+          </div>                            
+          <div class="form-voidReason">
+            <label for="email">Reason Name</label>
+            <select class="form-control"  id="voidReasonName" name="label_void_reason_id">
+            {% for v in void_reasons %}
+              <option value={{ v.id }}>{{v.reason_name}} </option>
+            {% endfor %}
+            </select>
+          </div> 
+          {# <div class="form-voidReason">
+            <label for="labelNo">Description</label>
+            <input type="text" autocomplete="off" class="form-control" id="voidDescription" name="description" required>
+          </div> #}
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-primary">Yes</button>
+          <button type="submit" class="btn btn-warning">Void</button>
+          <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Modal split label -->
+<div class="modal fade" id="splitLabel">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form id="form-splitLabel" action="split_label" method="post">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Split Label </h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">          
+          <div class="form-product">
+            <input type="hidden" id="SPLabelID" name="label_id">
+            <label for="lotNo">Label are you splitting is: <span id="SPLabelNo">xxx</span></label>
+          </div> 
+          <div class="form-product">
+            <label for="labelNo">Add Quantity</label>
+            <input type="text" autocomplete="off" class="form-control" id="qty1" name="qty1" required>
+          </div>
+          <div class="form-product">
+            <label for="labelNo">Add Quantity</label>
+            <input type="text" autocomplete="off" class="form-control" id="qty2" name="qty2" required>
+          </div>  
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Add</button>
           <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
         </div>
       </form>

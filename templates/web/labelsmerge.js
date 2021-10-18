@@ -1,27 +1,36 @@
-$(function () {
-    $('#my-data-table').DataTable({ "order": [[0, "desc"]] });
-    $('#searchIssueStartDate, #searchIssueEndDate').datepicker({
-        format: 'yyyy-mm-dd'
-    });
+$(function () { //dont finish!!!!!
+    $('#my-data-table').DataTable();
 });
 
-function selectLabel(event) {
-    let lot = event.currentTarget.name;
-    console.log(lot);
-    var obj = JSON.parse(lot);
-    $("#selectLabelId").val(obj.id);
-    $("#mergePackId").val(obj.from_merge_id);
-    $("#selectLabelNo").text(obj.label_no);
+function splitLabel(event) {
+    let labels = event.currentTarget.name;
+    console.log(labels);
+    var obj = JSON.parse(labels);
+    $("#SPLabelID").val(obj.id);
+    $("#SPLabelNo").text(obj.label_no);
+}
+
+function voidLabel(event) {
+    let labels = event.currentTarget.name;
+    console.log(labels);
+    var obj = JSON.parse(labels);
+    $("#voidLabelID").val(obj.id);
 }
 
 $(document).on(
     "click",
-    "#selectBt",
+    "#deleteDetailBt ,#SplitBt,#voidBt",
     (event) => {
         let id = event.currentTarget.id;
         switch (id) {
-            case "selectBt":
-                selectLabel(event);
+            case "deleteDetailBt":
+                deleteDetail(event);
+                break;
+            case "SplitBt":
+                splitLabel(event);
+                break;
+            case "voidBt":
+                voidLabel(event);
                 break;
             default:
                 console.log("no any events click");

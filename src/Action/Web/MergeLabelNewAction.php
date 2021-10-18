@@ -80,6 +80,6 @@ final class MergeLabelNewAction
         ];
 
 
-        return $this->twig->render($response, 'web/labelsMergeNew.twig', $viewData); //-----edit twig
+        return $this->twig->render($response, 'web/labelsMerge.twig', $viewData); //-----edit twig
     }
 }
