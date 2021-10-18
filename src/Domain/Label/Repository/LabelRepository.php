@@ -235,8 +235,11 @@ final class LabelRepository
             $query->andWhere(['labels.id' => $params['label_id']]);
         } else if (isset($params['merge_pack_id'])) {
             $query->andWhere(['merge_pack_id' => $params['merge_pack_id']]);
-        } else if (isset($params["startDate"])) {
-            $query->andWhere(['m.merge_date <=' => $params['endDate'], 'ท.merge_date >=' => $params['startDate']]);
+        }else if(isset($params["lot_zero"])) {
+            $query->andWhere(['lot_id' => $params['lot_zero']]);
+        }
+        else if (isset($params["startDate"])) {
+            $query->andWhere(['m.merge_date <=' => $params['endDate'], 'm.merge_date >=' => $params['startDate']]);
         }
 
         $getdata = $query->execute()->fetchAll('assoc') ?: [];

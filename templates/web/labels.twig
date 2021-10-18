@@ -27,6 +27,7 @@
                      <tr>
                         <th>Label No</th>
                         <th>Lot No</th>
+                        <th>Merge No</th>
                         <th>Name</th>
                         <th>Type</th>
                         <th>Quantity</th>
@@ -44,6 +45,7 @@
                         {% if label.status  != "CREATED" %}
                         <td>{{ label.generate_lot_no	 }}</td>
                         {% endif %}
+                        <td>{{ label.merge_no }}</td>
                         <td>{{ '(' ~ label.part_code ~ ') ' ~ label.part_name }}</td>
                         <td>{{ label.label_type }}</td>
                         <td>{{ label.quantity }}</td>
