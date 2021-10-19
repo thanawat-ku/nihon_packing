@@ -36,14 +36,14 @@ final class MergePackAddAction
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        $params = (array)$request->getParsedBody();
-        $ProductCode = (string)$params['PartCode'];
-        $user_id=$params["user_id"];
+        $data = (array)$request->getParsedBody();
+        // $ProductID = (string)$data['product_id'];
+        $user_id=$data["user_id"];
 
-        $product_row = $this->productFinder->findIDFromProductCode($ProductCode);
-        $params['product_id']=$product_row['id'];
+        // $product_row = $this->productFinder->findIDFromProductCode($ProductCode);
+        // $params['product_id']=$product_row['id'];
 
-        $id=$this->updater->insertMergePackApi($params, $user_id);
+        $id=$this->updater->insertMergePackApi($data, $user_id);
 
         $params1['id']=$id;
         $rtdata=$this->finder->findMergePacks($params1);
