@@ -53,6 +53,9 @@ final class  SplitLabelRegisterAction
         for ($i = 0; $i < sizeof($labelDetail); $i++) {
             $labelId['label_id'] = $labelDetail[$i]['label_id'];
             $label = $this->finder->findLabels($labelId);
+            if(!isset($label[0])){
+                $label = $this->finder->findLabelForLotZero($labelId);
+            }
             $labelId2 = $label[0]['id'];
             $data2['status'] = "PACKED";
             $this->labelUpdater->updateLabel($labelId2,$data2);

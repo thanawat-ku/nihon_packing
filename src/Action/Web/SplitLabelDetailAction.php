@@ -54,6 +54,9 @@ final class  SplitLabelDetailAction
 
             $labelId['label_id'] = $labelDetail[$i]['label_id'];
             $label = $this->labelFinder->findLabels($labelId);
+            if(!isset($label[0])){
+                $label = $this->labelFinder->findLabelForLotZero($labelId);
+            }
             array_push($labels, $label[0]);
         }
         $findSplitNo['split_label_id'] = $SplitLabelId;

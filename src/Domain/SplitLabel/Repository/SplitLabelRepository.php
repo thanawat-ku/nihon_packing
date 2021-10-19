@@ -102,13 +102,7 @@ final class SplitLabelRepository
                 'conditions' => 'l.id = split_labels.label_id',
             ]
         ]);
-        $query->join([
-            'lot' => [
-                'table' => 'lots',
-                'type' => 'INNER',
-                'conditions' => 'lot.id = l.lot_id',
-            ]
-        ]);
+
 
         if (isset($params['label_id'])) {
             $query->andWhere(['split_labels.label_id' => $params['label_id']]);
@@ -117,11 +111,6 @@ final class SplitLabelRepository
         } else if (isset($params["startDate"])) {
             $query->andWhere(['split_labels.split_date <=' => $params['endDate'], 'split_labels.split_date >=' => $params['startDate']]);
         }
-
-
-        $query->andWhere(['lot.is_delete' => 'N']);
-
-
 
         return $query->execute()->fetchAll('assoc') ?: [];
     }

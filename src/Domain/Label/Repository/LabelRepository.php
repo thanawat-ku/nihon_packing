@@ -430,7 +430,6 @@ final class LabelRepository
         if (isset($params['merge_pack_id'])) {
             $query->andWhere(['labels.merge_pack_id' => $params['merge_pack_id']]);
         }
-
         return $query->execute()->fetchAll('assoc') ?: [];
     }
 
