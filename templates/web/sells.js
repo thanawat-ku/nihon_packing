@@ -1,5 +1,8 @@
 $(function() {
     $('#my-data-table').DataTable();
+    $('#, #seasearchIssueStartDaterchIssueEndDate').datepicker({
+        format: 'yyyy-mm-dd'
+    });
 });
 function editSell(event){
     let sell = event.currentTarget.name;
