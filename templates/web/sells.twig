@@ -103,21 +103,18 @@
         <div class="modal-body">          
           <div class="form-sell">
             <input type="hidden" id="editSellID" name="id">
-            <label for="AddCode">Code</label>
-            <input type="text" autocomplete="off" class="form-control" id="editSell_code" name="part_code" required>
+            <label for="labelNo">Sell NO:<span id="editSellNo"></span></label>
+            <label for="labelNo">Prodcut Name:<span id="editProductCode"></span></label>
+            <label for="labelNo"> <span id="editProductName"></span></label>
+            {# <input type="text" autocomplete="off" class="form-control" id="editSell_code" name="part_code" readOnly> #}
           </div>          
           <div class="form-sell">
-            <label for="editName">Name</label>
-            <input type="text" autocomplete="off" class="form-control" id="editSell_name" name="part_name" required>
+            <select class="form-control"  id="editSellStatus" name="sell_status">
+            {% for sell in sells %}
+              <option value={{ s.id }}>{{s.sell_status}}</option>
+            {% endfor %}
+            </select>
           </div>       
-          <div class="form-sell">
-            <label for="editStdPack">Std Pack</label>
-            <input type="text" autocomplete="off" class="form-control" id="editStdPack" name="std_pack" required>
-          </div>     
-          <div class="form-sell">
-            <label for="editStdPack">Std Box</label>
-            <input type="text" autocomplete="off" class="form-control" id="editStdBox" name="std_box" required>
-          </div>             
         </div>
         <div class="modal-footer">
           <button type="submit" class="btn btn-primary">Save</button>

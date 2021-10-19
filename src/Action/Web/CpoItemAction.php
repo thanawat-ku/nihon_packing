@@ -72,9 +72,6 @@ final class CpoItemAction
         if($sellRow) {
             $sell = $sellRow;
         }
-        // else{
-        //     $cpoItemRow = $cpoitemcheck[0];
-        // }
 
         $param_search['uuid']=$uuid;
         $param_search['sell_id']=$sell_id;

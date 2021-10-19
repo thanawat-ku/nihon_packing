@@ -63,7 +63,15 @@ final class SellUpdater
         }else if($data['up_status'] == "SELECTED_LABEL"){
             $Row['sell_status'] = "SELECTED_LABEL";
         }
-        
+
+        $this->repository->updateSellApi($sellId, $Row, $user_id);
+    }
+    public function updateSell(int $sellId, array $data): void
+    {
+        $this->validator->validateSellUpdate($sellId, $data);
+
+        $Row = $this->mapToRow($data);
+        $user_id=$this->session->get('user')["id"];
 
         $this->repository->updateSellApi($sellId, $Row, $user_id);
     }

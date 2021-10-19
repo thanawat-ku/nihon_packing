@@ -42,7 +42,7 @@ final class CpoItemRepository
     
     public function deleteCpoItem(int $cpo_itemID): void
     {
-        // $this->queryFactory->newDelete('cpo_item')->andWhere(['id' => $cpo_itemID])->execute();
+        $this->queryFactory->newDelete('cpo_item')->andWhere(['id' => $cpo_itemID])->execute();
     }
     
 

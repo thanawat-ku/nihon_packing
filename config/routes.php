@@ -83,13 +83,16 @@ return function (App $app) {
     $app->post('/remove_sell_label', \App\Action\Web\SellLabelRemoveAction::class)->add(UserAuthMiddleware::class);
     $app->post('/confirm_sell', \App\Action\Web\SellConfirmAction::class)->add(UserAuthMiddleware::class);
     $app->post('/confirm_sell_label', \App\Action\Web\SellLabelConfirmAction::class)->add(UserAuthMiddleware::class);
-    
+    $app->post('/edit_sell', \App\Action\Web\SellEditAction::class)->add(UserAuthMiddleware::class);
+    $app->post('/delete_sell', \App\Action\Web\SellDeleteAction::class)->add(UserAuthMiddleware::class);
 
     $app->post('/api/login', \App\Action\ApiLoginSubmitAction::class);
     $app->get('/api/merges', \App\Action\Api\MergeAction::class);
     $app->get('/CpoItem', \App\Action\Web\CpoItemAction::class)->add(UserAuthMiddleware::class);
     $app->get('/CpoItemSelects', \App\Action\Web\CpoItemSelectAction::class)->add(UserAuthMiddleware::class);
     $app->post('/add_CpoItem', \App\Action\Web\CpoItemAddAction::class)->add(UserAuthMiddleware::class);
+    $app->post('/edit_cpoidtem', \App\Action\Web\CpoItemEditAction::class)->add(UserAuthMiddleware::class);
+    $app->post('/delete_CpoItem', \App\Action\Web\CpoItemDeleteAction::class)->add(UserAuthMiddleware::class);
 
     //---------------------------Api-------------------------------
 

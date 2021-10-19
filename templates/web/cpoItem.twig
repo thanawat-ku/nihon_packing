@@ -54,48 +54,12 @@
         </div>
     </div>
 <!-- Modal Add sell -->
-{# <div class="modal fade" id="addCpoItem">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <form id="form-addCpoItem" action="add_sell" method="post">
-        <!-- Modal Header -->
-        <div class="modal-header">
-          <h4 class="modal-title">Add CpoItem</h4>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-        </div>
-        <!-- Modal body -->
-        <div class="modal-body">          
-          <div class="form-sell">
-            <label for="AddCode">Code</label>
-            <input type="text" autocomplete="off" class="form-control" id="addCpoItem_code" name="part_code" required>
-          </div>          
-          <div class="form-sell">
-            <label for="addName">Name</label>
-            <input type="text" autocomplete="off" class="form-control" id="addCpoItem_name" name="part_name" required>
-          </div>      
-          <div class="form-sell">
-            <label for="addStdPack">Std Pack</label>
-            <input type="text" autocomplete="off" class="form-control" id="addStdPack" name="std_pack" required>
-          </div>     
-          <div class="form-sell">
-            <label for="addStdPack">Std Pack</label>
-            <input type="text" autocomplete="off" class="form-control" id="addStdBox" name="std_box" required>
-          </div>             
-        </div>
-        <div class="modal-footer">
-          <button type="submit" class="btn btn-primary">Save</button>
-          <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div> #}
 
 <!-- Modal Edit sell -->
 <div class="modal fade" id="editCpoItem">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
-      <form id="form-editCpoItem" action="edit_sell" method="post">
+      <form id="form-editCpoItem" action="edit_cpoidtem" method="post">
         <!-- Modal Header -->
         <div class="modal-header">
           <h4 class="modal-title">Edit CpoItem</h4>
@@ -105,21 +69,12 @@
         <div class="modal-body">          
           <div class="form-sell">
             <input type="hidden" id="editCpoItemID" name="id">
-            <label for="AddCode">Code</label>
-            <input type="text" autocomplete="off" class="form-control" id="editCpoItem_code" name="part_code" required>
+            <label for="labelNo">Cpo NO:<span id="editCpoNo"></span></label>
           </div>          
           <div class="form-sell">
-            <label for="editName">Name</label>
-            <input type="text" autocomplete="off" class="form-control" id="editCpoItem_name" name="part_name" required>
-          </div>       
-          <div class="form-sell">
-            <label for="editStdPack">Std Pack</label>
-            <input type="text" autocomplete="off" class="form-control" id="editStdPack" name="std_pack" required>
-          </div>     
-          <div class="form-sell">
-            <label for="editStdPack">Std Box</label>
-            <input type="text" autocomplete="off" class="form-control" id="editStdBox" name="std_box" required>
-          </div>             
+            <label for="editName">Sell Quantity</label>
+            <input type="number"  max="" autocomplete="off" class="form-control" id="editSellQty" name="sell_qty" required>
+          </div>                   
         </div>
         <div class="modal-footer">
           <button type="submit" class="btn btn-primary">Save</button>
@@ -134,7 +89,7 @@
 <div class="modal fade" id="deleteCpoItem">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
-      <form id="form-deleteCpoItem" action="delete_sell" method="post">
+      <form id="form-deleteCpoItem" action="delete_cpo_item" method="post">
         <!-- Modal Header -->
         <div class="modal-header">
           <h4 class="modal-title">Delete CpoItem</h4>
@@ -144,7 +99,7 @@
         <div class="modal-body">          
           <div class="form-sell">
             <input type="hidden" id="deleteCpoItemID" name="id">
-            <label for="sellNo">Do you want to delete sell: <span id="deleteCpoItemCode"></span><span> </span><span id="deleteCpoItemName"></span></label>
+            <label for="sellNo">Do you want to delete Cpo No: <span id="deleteCpoNo"></span><span> </span><span id="deleteCpoItemName"></span></label>
           </div>                 
           
         </div>

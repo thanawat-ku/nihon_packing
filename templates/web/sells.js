@@ -9,8 +9,10 @@ function editSell(event){
     console.log(sell);
     var obj = JSON.parse(sell);
     $("#editSellID").val(obj.id);
-    $("#editSell_code").val(obj.part_code);
-    $("#editSell_name").val(obj.part_name);
+    $("#editSellNo").text(obj.sell_no);
+    $("#editProductCode").text(obj.part_code);
+    $("#editProductName").text(obj.part_name);
+    $("#editSellStatus").text(obj.sell_status);
     $("#editStdPack").val(obj.std_pack);
     $("#editStdBox").val(obj.std_box);
 }

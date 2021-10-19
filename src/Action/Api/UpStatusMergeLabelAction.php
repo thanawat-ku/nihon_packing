@@ -30,19 +30,20 @@ final class UpStatusMergeLabelAction
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        $params = (array)$request->getParsedBody();
-        $user_id=$params["user_id"];
-        $label_no=$params["label_no"];
+        $data = (array)$request->getParsedBody();
+        $user_id=$data["user_id"];
+        // $labelNo=$params["label_no"];
 
-        // $rtdata=$this->finder->findLabels($params);
-        // $params['status']=$rtdata[0]['status'];
-        // $id=$rtdata[0]['id'];
+        $arrLabel=$this->finder->findLabelSingleTable($data);
+        $labelID=(int)$arrLabel['id'];
 
-        $this->updater->updateLabelStringApi($label_no, $params, $user_id);
+        $dataUpdate['up_status'] = "VOID";
+        $dataUpdate['void'] = "MERGED";
+        $this->updater->updateLabelStatus($labelID, $dataUpdate, $user_id);
 
         $rtdata['message']="Get MergePack Successful";
         $rtdata['error']=false;
-        $rtdata['labels']=$this->finder->findLabels($params);
+        $rtdata['labels']=$this->finder->findLabels($data);
 
 
         return $this->responder->withJson($response, $rtdata);

@@ -46,14 +46,9 @@ final class CpoItemUpdater
 
         $this->repository->updateCpoItem($cpo_item, $storeRow);
     }
-    public function deleteCpoItem(int $cpo_item, array $data): void
+    public function deleteCpoItem(int $cpoItemID): void
     {
-
-        // Insert store
-        $this->repository->deleteCpoItem($cpo_item);
-
-        // Logging
-        //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));
+        $this->repository->deleteCpoItem($cpoItemID);
     }
 
     /**

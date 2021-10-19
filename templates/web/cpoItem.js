@@ -6,10 +6,8 @@ function editCpoItem(event) {
     console.log(sell);
     var obj = JSON.parse(sell);
     $("#editCpoItemID").val(obj.id);
-    $("#editCpoItem_code").val(obj.part_code);
-    $("#editCpoItem_name").val(obj.part_name);
-    $("#editStdPack").val(obj.std_pack);
-    $("#editStdBox").val(obj.std_box);
+    $("#editCpoNo").text(obj.cpo_no);
+    $("#editSellQty").val(obj.sell_qty);
 }
 
 function deleteCpoItem(event) {
@@ -17,8 +15,7 @@ function deleteCpoItem(event) {
     console.log(sell);
     var obj = JSON.parse(sell);
     $("#deleteCpoItemID").val(obj.id);
-    $("#deleteCpoItemCode").text(obj.part_code);
-    $("#deleteCpoItemName").text(obj.part_name);
+    $("#deleteCpoNo").text(obj.cpo_no);
 }
 
 function comfirmCpoItem(event) {
