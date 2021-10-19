@@ -41,8 +41,8 @@
                         <td>{{ cpo.sell_qty }}</td>
                         <td>{{ cpo.due_date}}</td>
                         <td>
-                        <button type="button" id="editBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editCpoItem" name="{{ sell|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-edit"></i></button>
-                        <button type="button" id="deleteBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteCpoItem" name="{{ sell|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-trash"></i></button>
+                        <button type="button" id="editBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editCpoItem" name="{{ cpo|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-edit"></i></button>
+                        <button type="button" id="deleteBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteCpoItem" name="{{ cpo|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-trash"></i></button>
                         </td>
                     </tr>
                     {% endfor %}
@@ -69,6 +69,7 @@
         <div class="modal-body">          
           <div class="form-sell">
             <input type="hidden" id="editCpoItemID" name="id">
+            <input type="hidden" id="#" name="sell_id" value="{{sellRow.id}}">
             <label for="labelNo">Cpo NO:<span id="editCpoNo"></span></label>
           </div>          
           <div class="form-sell">
@@ -89,16 +90,18 @@
 <div class="modal fade" id="deleteCpoItem">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
-      <form id="form-deleteCpoItem" action="delete_cpo_item" method="post">
+      <form id="form-deleteCpoItem" action="delete_CpoItem" method="post">
         <!-- Modal Header -->
         <div class="modal-header">
           <h4 class="modal-title">Delete CpoItem</h4>
+          
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         <!-- Modal body -->
         <div class="modal-body">          
           <div class="form-sell">
             <input type="hidden" id="deleteCpoItemID" name="id">
+            <input type="hidden" id="#" name="sell_id" value="{{sellRow.id}}">
             <label for="sellNo">Do you want to delete Cpo No: <span id="deleteCpoNo"></span><span> </span><span id="deleteCpoItemName"></span></label>
           </div>                 
           

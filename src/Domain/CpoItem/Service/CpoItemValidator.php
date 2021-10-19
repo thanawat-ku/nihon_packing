@@ -23,10 +23,10 @@ final class CpoItemValidator
         $validator = $this->validationFactory->createValidator();
 
         return $validator
-            ->notEmptyString('part_code', 'Input required')
-            ->notEmptyString('part_name', 'Input required')
-            ->notEmptyString('std_pack', 'Input required')
-            ->notEmptyString('std_box', 'Input required');
+            ->notEmptyString('sell_id', 'Input required')
+            ->notEmptyString('cpo_item_id', 'Input required')
+            ->notEmptyString('remain_qty', 'Input required')
+            ->notEmptyString('sell_qty', 'Input required');
     }
     public function validateCpoItem(array $data): void
     {

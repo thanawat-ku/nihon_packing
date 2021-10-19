@@ -84,6 +84,9 @@ final class SellRepository
         if(isset($params['id'])){
             $query->andWhere(['sells.id' => $params['id']]);
         }
+        else if (isset($params["startDate"])) {
+            $query->andWhere(['sell_date <=' => $params['endDate'], 'sell_date >=' => $params['startDate']]);
+        }
 
         $query->join([
             'p' => [
@@ -92,6 +95,7 @@ final class SellRepository
                 'conditions' => 'p.id = sells.product_id',
             ]
         ]);
+
 
         return $query->execute()->fetchAll('assoc') ?: [];
     }

@@ -7,6 +7,8 @@ use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
+use function DI\string;
+
 /**
  * Action.
  */
@@ -28,10 +30,14 @@ final class CpoItemEditAction
     ): ResponseInterface {
         // Extract the form data from the request body
         $data = (array)$request->getParsedBody();
-        $cpoItemID = $data["id"];
-        
-        $this->updater->updateCpoItem($cpoItemID, $data);
+        $sellID = (string)$data["sell_id"];
+        $id = $data["id"];
 
-        return $this->responder->withRedirect($response,"cpoItem");
+        $sellRow = $this->sellFinder->findSellRow($sellID);
+        $productID = (string)$sellRow['product_id'];
+        
+        $this->updater->updateCpoItem($id, $data);
+
+        return $this->responder->withRedirect($response,"CpoItem?ProductID=$productID&sell_id=$sellID");
     }
 }

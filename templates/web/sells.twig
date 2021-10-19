@@ -48,7 +48,9 @@
                         {% else %}
                         {% endif %}
                         <button type="button" id="editBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editSell" name="{{ sell|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-edit"></i></button>
-                        <button type="button" id="deleteBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteSell" name="{{ sell|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-trash"></i></button>
+                        {% if sell.sell_status == "CREATED" %}
+                          <button type="button" id="deleteBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteSell" name="{{ sell|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-trash"></i></button>
+                        {% endif %}
                         </td>
                     </tr>
                     {% endfor %}
@@ -104,15 +106,22 @@
           <div class="form-sell">
             <input type="hidden" id="editSellID" name="id">
             <label for="labelNo">Sell NO:<span id="editSellNo"></span></label>
-            <label for="labelNo">Prodcut Name:<span id="editProductCode"></span></label>
             <label for="labelNo"> <span id="editProductName"></span></label>
             {# <input type="text" autocomplete="off" class="form-control" id="editSell_code" name="part_code" readOnly> #}
           </div>          
           <div class="form-sell">
+          <label for="email">Select Sell Status</label>
             <select class="form-control"  id="editSellStatus" name="sell_status">
-            {% for sell in sells %}
-              <option value={{ s.id }}>{{s.sell_status}}</option>
-            {% endfor %}
+              <option value="CREATED">CREATED</option>
+              <option value="SELECTING_CPO">SELECTING_CPO</option>
+              <option value="SELECTED_CPO">SELECTED_CPO</option>
+              <option value="SELECTING_LABEL">SELECTING_LABEL</option>
+              <option value="SELECTED_LABEL">SELECTED_LABEL</option>
+              <option value="TAGGED">TAGGED</option>
+              <option value="INVOICED">INVOICED</option>
+            {# {% for sell in sells %}
+              <option value={{ sell.sell_status }}>{{sell.sell_status}}</option>
+            {% endfor %} #}
             </select>
           </div>       
         </div>
@@ -139,7 +148,7 @@
         <div class="modal-body">          
           <div class="form-sell">
             <input type="hidden" id="deleteSellID" name="id">
-            <label for="sellNo">Do you want to delete sell: <span id="deleteSellCode"></span><span> </span><span id="deleteSellName"></span></label>
+            <label for="sellNo">Do you want to delete sell: <span id="deleteSellNo"></span><span> </span><span id="deleteSellName"></span></label>
           </div>                 
           
         </div>

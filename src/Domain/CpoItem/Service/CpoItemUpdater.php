@@ -4,6 +4,8 @@ namespace App\Domain\CpoItem\Service;
 
 use App\Domain\CpoItem\Repository\CpoItemRepository;
 
+use function DI\string;
+
 /**
  * Service.
  */
@@ -38,17 +40,17 @@ final class CpoItemUpdater
     //     //$this->logger->info(sprintf('TransferStore updated successfully: %s', $id));
     //     return $id;
     // }
-    public function updateCpoItem(int $cpo_item, array $data): void
+    public function updateCpoItem(int $id, array $data): void
     {
-        $this->validator->validateCpoItemUpdate($cpo_item, $data);
+        $this->validator->validateCpoItemUpdate($id, $data);
 
         $storeRow = $this->mapToCpoItemRow($data);
 
-        $this->repository->updateCpoItem($cpo_item, $storeRow);
+        $this->repository->updateCpoItem($id, $storeRow);
     }
-    public function deleteCpoItem(int $cpoItemID): void
+    public function deleteCpoItem(int $id): void
     {
-        $this->repository->deleteCpoItem($cpoItemID);
+        $this->repository->deleteCpoItem($id);
     }
 
     /**
@@ -62,17 +64,17 @@ final class CpoItemUpdater
     {
         $result = [];
 
-        if (isset($data['part_code'])) {
-            $result['part_code'] = (string)$data['part_code'];
+        if (isset($data['sell_id'])) {
+            $result['sell_id'] = (string)$data['sell_id'];
         }
-        if (isset($data['part_name'])) {
-            $result['part_name'] = (string)$data['part_name'];
+        if (isset($data['cpo_item_id'])) {
+            $result['cpo_item_id'] = (string)$data['cpo_item_id'];
         }
-        if (isset($data['std_pack'])) {
-            $result['std_pack'] = (string)$data['std_pack'];
+        if (isset($data['remain_qty'])) {
+            $result['remain_qty'] = (string)$data['remain_qty'];
         }
-        if (isset($data['std_box'])) {
-            $result['std_box'] = (string)$data['std_box'];
+        if (isset($data['sell_qty'])) {
+            $result['sell_qty'] = (string)$data['sell_qty'];
         }
 
         return $result;

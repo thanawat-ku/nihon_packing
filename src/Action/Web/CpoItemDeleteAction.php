@@ -3,6 +3,7 @@
 namespace App\Action\Web;
 
 use App\Domain\CpoItem\Service\CpoItemUpdater;
+use App\Domain\Sell\Service\SellFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -14,10 +15,12 @@ final class CpoItemDeleteAction
 {
     private $responder;
     private $updater;
-    public function __construct(Responder $responder, CpoItemUpdater $updater)
+    private $finder;
+    public function __construct(Responder $responder, CpoItemUpdater $updater, SellFinder $finder)
     {
         $this->responder = $responder;
         $this->updater = $updater;
+        $this->finder = $finder;
     }
 
 
@@ -28,10 +31,15 @@ final class CpoItemDeleteAction
     ): ResponseInterface {
         // Extract the form data from the request body
         $data = (array)$request->getParsedBody();
-        $cpoItemID = $data["id"];
-        
-        $this->updater->deleteCpoItem($cpoItemID);
+        $sellID = (string)$data["sell_id"];
+        $id = $data["id"];
 
-        return $this->responder->withRedirect($response,"cpoItem");
+        $sellRow = $this->finder->findSellRow($sellID);
+        $productID = (string)$sellRow['product_id'];
+        
+        $this->updater->deleteCpoItem($id);
+
+        return $this->responder->withRedirect($response,"CpoItem?ProductID=$productID&sell_id=$sellID");
+
     }
 }

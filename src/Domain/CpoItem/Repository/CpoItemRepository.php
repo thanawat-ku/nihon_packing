@@ -32,17 +32,17 @@ final class CpoItemRepository
 
     //     return (int)$this->queryFactory->newInsert('cpo_item', $row)->execute()->lastInsertId();
     // }
-    public function updateCpoItem(int $cpo_itemID, array $data): void
+    public function updateCpoItem(int $id, array $data): void
     {
-        // $data['updated_at'] = Chronos::now()->toDateTimeString();
-        // $data['updated_user_id'] = $this->session->get('user')["id"];
+        $data['updated_at'] = Chronos::now()->toDateTimeString();
+        $data['updated_user_id'] = $this->session->get('user')["id"];
 
-        // $this->queryFactory->newUpdate('cpo_item', $data)->andWhere(['id' => $cpo_itemID])->execute();
+        $this->queryFactory->newUpdate('sell_cpo_items', $data)->andWhere(['id' => $id])->execute();
     }
     
-    public function deleteCpoItem(int $cpo_itemID): void
+    public function deleteCpoItem(int $id): void
     {
-        $this->queryFactory->newDelete('cpo_item')->andWhere(['id' => $cpo_itemID])->execute();
+        $this->queryFactory->newDelete('sell_cpo_items')->andWhere(['id' => $id])->execute();
     }
     
 
