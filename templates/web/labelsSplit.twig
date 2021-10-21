@@ -30,13 +30,8 @@
                     <tbody>
                     {% for label in labels %}                    
                     <tr>
-                      <td>{{ label.label_no }}</td>
-                        {% if label.status  == "CREATED" %}
-                        <td>{{ label.lot_no }}</td>
-                        {% endif %}
-                        {% if label.status  != "CREATED" %}
+                        <td>{{ label.label_no }}</td>
                         <td>{{ label.generate_lot_no	 }}</td>
-                        {% endif %}
                         <td>{{ label.merge_no }}</td>
                         <td>{{ '(' ~ label.part_code ~ ') ' ~ label.part_name }}</td>
                         <td>{{ label.label_type }}</td>

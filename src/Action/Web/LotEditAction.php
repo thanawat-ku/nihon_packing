@@ -26,14 +26,11 @@ final class LotEditAction
         ResponseInterface $response,
         array $args
     ): ResponseInterface {
-        // Extract the form data from the request body
         $data = (array)$request->getParsedBody();
         $lotId = $data["id"];
 
-        // Invoke the Domain with inputs and retain the result
         $this->updater->updateLot($lotId, $data);
 
-        // Build the HTTP response
         return $this->responder->withRedirect($response,"lots");
     }
 }

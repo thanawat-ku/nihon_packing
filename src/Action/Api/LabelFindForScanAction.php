@@ -53,8 +53,9 @@ final class LabelFindForScanAction
                 $rtdata['message'] = "find Label for scan Successful";
                 $rtdata['error'] = false;
                 $rtdata['labels'] = $findlabel;
-
-            } else if ($findlabel[0]['status'] == "CREATED" && $findlabel[0]['label_type']  == "NONFULLY" && $status == "PACKED") {
+            } else if (($findlabel[0]['status'] == "CREATED"  && $status == "PACKED") &&
+                ($findlabel[0]['label_type']  == "NONFULLY" || $findlabel[0]['label_type']  == "MERGE_NONFULLY")
+            ) {
 
                 $dataSPDetrail['label_id'] = $findlabel[0]['id'];
                 $SPDetrail = $this->splitDetailFinder->findSplitLabelDetailsForscan($dataSPDetrail);
