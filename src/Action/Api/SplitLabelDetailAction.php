@@ -36,9 +36,13 @@ final class SplitLabelDetailAction
 
         $labels = [];  
         for ($i = 0; $i < sizeof($findD); $i++) {
-            $LabelId['label_id'] = $findD[$i]['label_id'];
-            $findLabel = $this->labelFinder->findLabels($LabelId);
-            array_push($labels, $findLabel[0]);
+            $labelId['label_id'] = $findD[$i]['label_id'];
+            $label = $this->labelFinder->findLabels($labelId);
+            
+            if(!isset($label[0])){
+                $label = $this->labelFinder->findLabelForLotZero($labelId);
+            }
+            array_push($labels, $label[0]);
         }
 
         $rtdata['message'] = "Get SplitLabelDetail Successful";

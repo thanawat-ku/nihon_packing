@@ -67,7 +67,7 @@ final class MergeAction
         $mergePack = $this->finder->findMergePacks($params);
 
         for($i=0;$i<sizeof($mergePack);$i++){
-            if($mergePack[$i]['status'] = "MERGING"){
+            if($mergePack[$i]['status'] == "MERGING"){
                 $mergePackId['merge_pack_id']=  $mergePack[$i]['id'];
                 $gerMergeDetail = $this->mergeDetailFinder->findMergePackDetailsForMerge($mergePackId);
 
