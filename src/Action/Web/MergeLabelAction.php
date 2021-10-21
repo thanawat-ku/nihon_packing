@@ -25,7 +25,7 @@ final class MergeLabelAction
     private $session;
     private $productFinder;
     private $labelFinder;
- 
+
 
     /**
      * The constructor.
@@ -66,23 +66,17 @@ final class MergeLabelAction
         $getLabels = $this->labelFinder->findLabelForMerge($productId);
         $getLabels2 =  $this->labelFinder->findLabelForMergeLotZero($productId);
 
-        $labels = [];
-        if (isset($getLabels[0])) {      
-            for($i=0;$i<sizeof($getLabels);$i++){
-                $getLabels[$i]['from_merge_id'] = $mergePack[0]['id'];
-                array_push($labels,  $getLabels[$i]);
-            }
 
-        }
-        if(isset($getLabels2[0])){
-            for($i=0;$i<sizeof($getLabels2);$i++){
-                $getLabels2[$i]['from_merge_id'] = $mergePack[0]['id'];
-                array_push($labels,  $getLabels2[$i]);
-            }
+        if (isset($getLabels[0])) {
+            $labels = $getLabels;
+        } else if (isset($getLabels[0]) && isset($getLabels2[0])) {
+            $labels = array_merge($getLabels, $getLabels2);
+        } else {
+            $labels = $getLabels2;
         }
 
         $viewData = [
-            'labels' =>  $labels, 
+            'labels' =>  $labels,
             'mergePack' => $mergePack[0],
             'user_login' => $this->session->get('user'),
         ];

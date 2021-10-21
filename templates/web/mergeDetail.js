@@ -8,7 +8,6 @@ function deleteDetail(event) {
     console.log(lot);
     var obj = JSON.parse(lot);
     $("#deleteLabelID").val(obj.id);
-    $("#deleteMergeID").val(obj.from_merge_id);
     $("#deleteLabelNo").text(obj.label_no);
 }
 

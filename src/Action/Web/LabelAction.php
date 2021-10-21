@@ -43,7 +43,10 @@ final class  LabelAction
             $params['endDate'] = date('Y-m-d');
             $data2['startDate'] = $params['startDate'];
             $data2['endDate'] = $params['endDate'];
-        }  
+        }else{
+            $data2['startDate'] = $params['startDate'];
+            $data2['endDate'] = $params['endDate'];
+        }
 
         
         $labels1 = $this->finder->findLabels($params);

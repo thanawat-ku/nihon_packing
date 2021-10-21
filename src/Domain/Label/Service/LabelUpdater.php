@@ -75,7 +75,7 @@ final class LabelUpdater
 
         return $id;
     }
-    
+
     // public function updateLabelStatusApi(int $labelID, array $data, $user_id): void
     // {
     //     $this->validator->validateLabelUpdate($labelID, $data);
@@ -96,16 +96,19 @@ final class LabelUpdater
         $Row = $this->mapToLabelRow($data);
 
         //web
-        if ($data['up_status']=="SELLING") {
+        if ($data['up_status'] == "SELLING") {
             $Row['status'] = "SELLING";
-        }else if ($data['up_status']=="PACKED"){
+        }
+        if ($data['up_status'] == "PACKED") {
             $Row['status'] = "PACKED";
-        }else if($data['up_status']=="VOID"){
-            if ($data['void']=="MERGED") {
+        }
+        if ($data['up_status'] == "VOID") {
+            if ($data['void'] == "MERGED") {
                 $Row['status'] = "VOID";
                 $Row['label_void_reason_id'] = 2;
             }
-        }else if($data['up_status']=="USED"){
+        }
+        if ($data['up_status'] == "USED") {
             $Row['status'] = "USED";
         }
 
@@ -185,7 +188,7 @@ final class LabelUpdater
 
         $this->repository->updateLabel($labelID, $Row);
     }
-    
+
     public function deleteLabel(int $labelID, array $data): void
     {
         $this->repository->deleteLabel($labelID);
@@ -295,7 +298,7 @@ final class LabelUpdater
         if (isset($data['label_void_reason_id'])) {
             $result['label_void_reason_id'] = (string)$data['label_void_reason_id'];
         }
-        
+
         if (isset($data['scan_no'])) {
             $result['scan_no'] = (string)$data['scan_no'];
         }
@@ -431,6 +434,4 @@ final class LabelUpdater
 
         return $labels;
     }
-
-    
 }

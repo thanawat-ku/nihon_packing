@@ -64,17 +64,11 @@ final class MergeDetailAction
             for ($i = 0; $i < sizeof($mergeDetail); $i++) {
                 $labelId['label_id'] = $mergeDetail[$i]['label_id'];
                 $label = $this->labelFinder->findLabels($labelId);
-                $label[0]['from_merge_id'] = $mergePack[0]['id'];
-                array_push($labels, $label[0]);
-            }
 
-            for ($i = 0; $i < sizeof($mergeDetail); $i++) {
-                $labelId['label_id'] = $mergeDetail[$i]['label_id'];
-                $label2 = $this->labelFinder->findLabelForLotZero($labelId);
-                if (isset($label2[0])) {
-                    $label2[0]['from_merge_id'] = $mergePack[0]['id'];
-                    array_push($labels, $label2[0]);
+                if(!isset($label[0])){
+                    $label = $this->labelFinder->findLabelForLotZero($labelId);
                 }
+                array_push($labels, $label[0]);
             }
         }
 

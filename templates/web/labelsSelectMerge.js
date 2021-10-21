@@ -10,7 +10,6 @@ function selectLabel(event) {
     console.log(lot);
     var obj = JSON.parse(lot);
     $("#selectLabelId").val(obj.id);
-    $("#mergePackId").val(obj.from_merge_id);
     $("#selectLabelNo").text(obj.label_no);
 }
 
