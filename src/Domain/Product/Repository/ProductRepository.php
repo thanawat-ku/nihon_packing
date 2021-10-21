@@ -43,7 +43,7 @@ final class ProductRepository
     }
     
 
-    public function findProducts(array $params): array
+    public function findProducts_(array $params): array
     {
         $query = $this->queryFactory2->newSelect('product');
         
@@ -68,6 +68,34 @@ final class ProductRepository
 
         return $query->execute()->fetchAll('assoc') ?: [];
     }
+
+    //
+    public function findProducts(array $params): array
+    {
+        $query = $this->queryFactory->newSelect('products');
+        
+        $query->select(
+            [
+                'id',
+                'part_code',
+                'part_name',
+                'std_pack',
+                'std_box',
+            ]
+        );
+
+        if(isset($params['PartCode'])){
+            $query->andWhere(['part_code ' => $params['PartCode']]);
+        }
+        if(isset($params['ProductID'])){
+            $query->andWhere(['id' => $params['ProductID']]);
+        }
+
+        $query->orderAsc('part_code');
+
+        return $query->execute()->fetchAll('assoc') ?: [];
+    }
+    //
 
     public function findProduct(array $params): array
     {
