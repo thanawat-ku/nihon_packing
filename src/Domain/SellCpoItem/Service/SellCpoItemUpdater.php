@@ -30,9 +30,9 @@ final class SellCpoItemUpdater
     {
         $this->validator->validateSellCpoItemInsert($data);
 
-        $Row = $this->mapToRow($data);
+        $row = $this->mapToRow($data);
 
-        $id=$this->repository->insertSellCpoItemApi($Row, $user_id);
+        $id=$this->repository->insertSellCpoItemApi($row, $user_id);
 
         return $id;
     }
@@ -40,11 +40,11 @@ final class SellCpoItemUpdater
     {
         $this->validator->validateSellCpoItemInsert($data);
 
-        $Row = $this->mapToRow($data);
+        $row = $this->mapToRow($data);
         $user_id=$this->session->get('user')["id"];
 
 
-        $id=$this->repository->insertSellCpoItemApi($Row, $user_id);
+        $id=$this->repository->insertSellCpoItemApi($row, $user_id);
         
 
         return $id;

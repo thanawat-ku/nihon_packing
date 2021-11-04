@@ -31,11 +31,11 @@ final class MergePackDetailUpdater
     {
         $this->validator->validateMergePackDetailInsert($data);
 
-        $Row = $this->mapToRow($data);
-        $Row['merge_pack_id'] = $data['check_mp_id'];
-        $Row['label_id'] = $data[0]['id'];
+        $row = $this->mapToRow($data);
+        $row['merge_pack_id'] = $data['check_mp_id'];
+        $row['label_id'] = $data[0]['id'];
 
-        $id = $this->repository->insertMergePackDetailApi($Row, $user_id);
+        $id = $this->repository->insertMergePackDetailApi($row, $user_id);
 
         return $id;
     }
@@ -44,7 +44,7 @@ final class MergePackDetailUpdater
     {
         $this->validator->validateMergePackDetailInsert($data);
 
-        $Row = $this->mapToRow($data);
+        $row = $this->mapToRow($data);
 
         $id = $this->repository->insertMergePackDetail($data);
 
@@ -55,14 +55,14 @@ final class MergePackDetailUpdater
     {
         $this->validator->validateMergePackDetailInsert($data);
 
-        $Row = $this->mapToRow($data);
+        $row = $this->mapToRow($data);
 
         $count_data = count($data);
 
         for ($i = 0; $i < count($data); $i++) {
-            $Row['merge_pack_id'] = $data['labels'][$i]['merge_pack_id'];
-            $Row['label_id'] = $data['labels'][$i]['id'];
-            $id = $this->repository->insertMergePackDetailApi($Row, $user_id);
+            $row['merge_pack_id'] = $data['labels'][$i]['merge_pack_id'];
+            $row['label_id'] = $data['labels'][$i]['id'];
+            $id = $this->repository->insertMergePackDetailApi($row, $user_id);
         }
 
         return $id;
@@ -78,9 +78,9 @@ final class MergePackDetailUpdater
         $count_data = count($data);
 
         for ($i=0; $i < count($data); $i++) { 
-            $Row['merge_pack_id'] = $data['labels'][$i]['merge_pack_id'];
-            $Row['label_id'] = $data['labels'][$i]['id'];
-            $id = $this->repository->insertMergePackDetailApi($Row, $user_id);
+            $row['merge_pack_id'] = $data['labels'][$i]['merge_pack_id'];
+            $row['label_id'] = $data['labels'][$i]['id'];
+            $id = $this->repository->insertMergePackDetailApi($row, $user_id);
         }
 
         return $id;

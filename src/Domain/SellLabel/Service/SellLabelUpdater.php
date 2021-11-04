@@ -31,11 +31,11 @@ final class SellLabelUpdater
     {
         $this->validator->validateSellLabelInsert($data);
 
-        $Row = $this->mapToRow($data);
-        $Row['label_id'] = $data[0]['id'];
-        $Row['sell_id'] = $data[0]['sell_id'];
+        $row = $this->mapToRow($data);
+        $row['label_id'] = $data[0]['id'];
+        $row['sell_id'] = $data[0]['sell_id'];
 
-        $id = $this->repository->insertSellLabelApi($Row, $user_id);
+        $id = $this->repository->insertSellLabelApi($row, $user_id);
 
         return $id;
     }
@@ -43,12 +43,12 @@ final class SellLabelUpdater
     {
         $this->validator->validateSellLabelInsert($data);
 
-        $Row = $this->mapToRow($data);
-        $Row['label_id'] = $data['id'];
-        $Row['sell_id'] = $data['sell_id'];
+        $row = $this->mapToRow($data);
+        $row['label_id'] = $data['id'];
+        $row['sell_id'] = $data['sell_id'];
         $user_id=(int)$this->session->get('user')["id"];
 
-        $id = $this->repository->insertSellLabelApi($Row, $user_id);
+        $id = $this->repository->insertSellLabelApi($row, $user_id);
 
         return $id;
     }

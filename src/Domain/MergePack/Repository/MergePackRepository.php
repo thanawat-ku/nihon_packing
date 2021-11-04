@@ -62,24 +62,6 @@ final class MergePackRepository
 
         $this->queryFactory->newUpdate('merge_packs', $data)->andWhere(['id' => $id])->execute();
     }
-
-
-
-
-    // public function printMergePack(int $lotID): void
-    // {
-    //     $data['updated_at'] = Chronos::now()->toDateTimeString();
-    //     $data['updated_user_id'] = $this->session->get('user')["id"];
-    //     $data['printed_user_id'] = $this->session->get('user')["id"];
-    //     $data['status'] = "PRINTED";
-
-    //     $this->queryFactory->newUpdate('lots', $data)->andWhere(['id' => $lotID])->execute();
-    // }
-    // public function deleteMergePack(int $lotID): void
-    // {
-    //     $this->queryFactory->newDelete('lots')->andWhere(['id' => $lotID])->execute();
-    // }
-
     public function deleteMergePackApi(int $labelID): void
     {
         $this->queryFactory->newDelete('labels')->andWhere(['id' => $labelID])->execute();
@@ -104,6 +86,7 @@ final class MergePackRepository
                 'merge_packs.created_user_id',
                 'std_pack',
                 'std_box',
+                'merge_date',
             ]
         );
 
@@ -119,9 +102,11 @@ final class MergePackRepository
 
         if (isset($params['id'])) {
             $query->andWhere(['merge_packs.id' => $params['id']]);
-        } else if (isset($params['merge_pack_id'])) {
+        }
+        if (isset($params['merge_pack_id'])) {
             $query->andWhere(['merge_packs.id' => $params['merge_pack_id']]);
-        } else if (isset($params["startDate"])) {
+        }
+        if (isset($params["startDate"])) {
             $query->andWhere(['merge_date <=' => $params['endDate'], 'merge_date >=' => $params['startDate']]);
         }
 

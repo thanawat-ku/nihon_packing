@@ -31,9 +31,9 @@ final class SellUpdater
     {
         $this->validator->validateSellInsert($data);
 
-        $Row = $this->mapToRow($data);
+        $row = $this->mapToRow($data);
 
-        $id=$this->repository->insertSell($Row);
+        $id=$this->repository->insertSell($row);
         $data1['sell_no']="C".str_pad($id, 10, "0", STR_PAD_LEFT);
         $user_id=$this->session->get('user')["id"];
         $this->repository->updateSellApi($id, $data1, $user_id);
@@ -44,10 +44,10 @@ final class SellUpdater
     {
         $this->validator->validateSellInsert($data);
 
-        $Row = $this->mapToRow($data);
-        $Row['product_id']=$data['ProductID'];
+        $row = $this->mapToRow($data);
+        $row['product_id']=$data['ProductID'];
 
-        $id = $this->repository->insertSellApi($Row, $user_id);
+        $id = $this->repository->insertSellApi($row, $user_id);
         $data1['sell_no']="C".str_pad($id, 10, "0", STR_PAD_LEFT);
         $this->repository->updateSellApi($id, $data1, $user_id);
         return $id;
@@ -57,23 +57,23 @@ final class SellUpdater
     {
         $this->validator->validateSellUpdate($sellId, $data);
 
-        $Row = $this->mapToRow($data);
+        $row = $this->mapToRow($data);
         if($data['up_status'] == "SELECTED_CPO"){
-            $Row['sell_status'] = "SELECTED_CPO";
+            $row['sell_status'] = "SELECTED_CPO";
         }else if($data['up_status'] == "SELECTED_LABEL"){
-            $Row['sell_status'] = "SELECTED_LABEL";
+            $row['sell_status'] = "SELECTED_LABEL";
         }
 
-        $this->repository->updateSellApi($sellId, $Row, $user_id);
+        $this->repository->updateSellApi($sellId, $row, $user_id);
     }
     public function updateSell(int $sellId, array $data): void
     {
         $this->validator->validateSellUpdate($sellId, $data);
 
-        $Row = $this->mapToRow($data);
+        $row = $this->mapToRow($data);
         $user_id=$this->session->get('user')["id"];
 
-        $this->repository->updateSellApi($sellId, $Row, $user_id);
+        $this->repository->updateSellApi($sellId, $row, $user_id);
     }
     public function updateSellApi(int $sellId, array $data, $user_id): void
     {
@@ -84,56 +84,56 @@ final class SellUpdater
             $totalQty += $data[$i]['sell_qty'];
         }
         
-        $Row = $this->mapToRow($data);
-        $Row['total_qty'] = $totalQty;
+        $row = $this->mapToRow($data);
+        $row['total_qty'] = $totalQty;
 
-        $this->repository->updateSellApi($sellId, $Row, $user_id);
+        $this->repository->updateSellApi($sellId, $row, $user_id);
     }
     public function updateSellStatusSelectedCpoApi(int $sellId, array $data, $user_id): void
     {
         $this->validator->validateSellUpdate($sellId, $data);
 
-        $Row = $this->mapToRow($data);
-        $Row['sell_status'] = "SELECTED_CPO";
+        $row = $this->mapToRow($data);
+        $row['sell_status'] = "SELECTED_CPO";
 
-        $this->repository->updateSellApi($sellId, $Row, $user_id);
+        $this->repository->updateSellApi($sellId, $row, $user_id);
     }
 
     public function updateSellSelectingLabelApi(int $sellId, array $data, $user_id): void
     {
         $this->validator->validateSellUpdate($sellId, $data);
 
-        $Row = $this->mapToRow($data);
-        $Row['sell_status'] = "SELECTING_Label";
+        $row = $this->mapToRow($data);
+        $row['sell_status'] = "SELECTING_Label";
 
-        $this->repository->updateSellApi($sellId, $Row, $user_id);
+        $this->repository->updateSellApi($sellId, $row, $user_id);
     }
     public function updateSellSelectingApi(int $sellId, array $data, $user_id): void
     {
         $this->validator->validateSellUpdate($sellId, $data);
-        $Row = $this->mapToRow($data);
-        $Row['sell_status'] = "SELECTING_CPO";
+        $row = $this->mapToRow($data);
+        $row['sell_status'] = "SELECTING_CPO";
 
-        $this->repository->updateSellApi($sellId, $Row, $user_id);
+        $this->repository->updateSellApi($sellId, $row, $user_id);
     }
     public function updateSellSelectedLabelApi(int $sellId, array $data, $user_id): void
     {
         $this->validator->validateSellUpdate($sellId, $data);
-        $Row = $this->mapToRow($data);
-        $Row['sell_status'] = "SELECTED_LABEL";
+        $row = $this->mapToRow($data);
+        $row['sell_status'] = "SELECTED_LABEL";
 
-        $this->repository->updateSellApi($sellId, $Row, $user_id);
+        $this->repository->updateSellApi($sellId, $row, $user_id);
     }
     public function updateSellStatusSelectingCpo(int $productId, array $data): void
     {
         $this->validator->validateSellUpdate($productId, $data);
 
-        $Row = $this->mapToRow($data);
-        $Row['sell_status']="SELECTING_CPO";
-        $Row['total_qty']=$data['total_qty'];
+        $row = $this->mapToRow($data);
+        $row['sell_status']="SELECTING_CPO";
+        $row['total_qty']=$data['total_qty'];
         $user_id=$this->session->get('user')["id"];
 
-        $this->repository->updateSellApi($productId, $Row, $user_id);
+        $this->repository->updateSellApi($productId, $row, $user_id);
 
     }
 
