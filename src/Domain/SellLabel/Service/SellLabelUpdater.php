@@ -58,7 +58,7 @@ final class SellLabelUpdater
     }
     public function deleteSellLabelIDApi(int $labelId): void
     {
-        $this->repository->deleteSellLabel($labelId);
+        $this->repository->deleteSellLabelID($labelId);
     }
     public function deleteLabelInSellLabel(int $id): void
     {

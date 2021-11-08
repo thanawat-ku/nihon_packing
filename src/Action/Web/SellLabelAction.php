@@ -36,7 +36,7 @@ final class SellLabelAction
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        $params = (array)$request->getQueryParams();
+        $params = (array)$request->getParsedBody();
         $sellID=(int)$params['sell_id'];
 
         $sellLabels=[];

@@ -62,6 +62,8 @@ final class CpoItemAddAction
         $totalQty=0;
 
         $sellCpoItem = $this->tempQueryFinder->findTempQuery($param_search);
+
+        
         for ($i=0; $i < count($sellCpoItem); $i++) { 
             $totalQty += (int)$sellCpoItem[$i]['sell_qty'];
             $arrTotalQty['total_qty']=$totalQty;

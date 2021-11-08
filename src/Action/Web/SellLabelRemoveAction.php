@@ -3,11 +3,9 @@
 namespace App\Action\Web;
 
 use App\Domain\SellLabel\Service\SellLabelFinder;
-use App\Domain\TempQuery\Service\TempQueryFinder;
 use App\Domain\Sell\Service\SellFinder;
 use App\Domain\SellLabel\Service\SellLabelUpdater;
 use App\Domain\Label\Service\LabelUpdater;
-use App\Domain\Sell\Service\SellUpdater;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -22,6 +20,7 @@ use function DI\string;
 final class SellLabelRemoveAction
 {
     private $responder;
+    private $twig;
     private $updater;
     private $labelUpdater;
     private $sellFinder;
@@ -29,6 +28,7 @@ final class SellLabelRemoveAction
     private $session;
 
     public function __construct(
+        Twig $twig,
         SellLabelUpdater $updater,
         Responder $responder,
         SellFinder $sellFinder,
@@ -36,6 +36,7 @@ final class SellLabelRemoveAction
         Session $session,
         SellLabelFinder $sellLabelFinder,
     ) {
+        $this->twig = $twig;
         $this->responder = $responder;
         $this->updater = $updater;
         $this->labelUpdater = $labelUpdater;
@@ -47,12 +48,8 @@ final class SellLabelRemoveAction
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $data = (array)$request->getParsedBody();
-        $SellID = (int)$data['sell_id'];
+        $sellID = (int)$data['sell_id'];
         $SelllbID = (int)$data['id'];
-
-        $sellRow = $this->sellFinder->findSellRow($SellID);
-        $productID = (string)$sellRow['product_id'];
-        $sellID = (string)$sellRow['id'];
 
         $user_id = $this->session->get('user')["id"];
 
@@ -64,6 +61,41 @@ final class SellLabelRemoveAction
         $this->updater->deleteLabelInSellLabel($SelllbID);
 
 
-        return $this->responder->withRedirect($response, "sell_labels?ProductID=$productID&sell_id=$sellID");
+        $sellRow = $this->sellFinder->findSellRow($sellID);
+
+        $sellLabels=[];
+
+        $totalQty=0;
+        $arrtotalQty=[];
+
+        $rtdata['mpd_from_lots'] = $this->sellLabelFinder->findSellLabelForlots($data);
+        array_push($sellLabels,$rtdata['mpd_from_lots']);
+        if ($rtdata['mpd_from_lots']) {
+            for ($i=0; $i < count($sellLabels[0]); $i++) { 
+                $totalQty += (int)$sellLabels[0][$i]['quantity'];
+            }
+        }
+        
+        $rtdata['mpd_from_merges'] = $this->sellLabelFinder->findSellLabelForMergePacks($data);
+        array_push($sellLabels,$rtdata['mpd_from_merges']);
+        if ($rtdata['mpd_from_merges'] != null) {
+            for ($i=0; $i < count($sellLabels[1]); $i++) { 
+                $totalQty += (int)$sellLabels[1][$i]['quantity'];
+            }
+        }
+        if ($totalQty == 0) {
+            $arrtotalQty=["0"];
+        }else{
+            array_push($arrtotalQty,$totalQty);
+        }
+
+        $viewData = [
+            'totalQtyLabelsell'=>$arrtotalQty,
+            'sellRow'=>$sellRow,
+            'sellLabels' => $sellLabels,
+            'user_login' => $this->session->get('user'),
+        ];
+        
+        return $this->twig->render($response, 'web/sellLabels.twig',$viewData);
     }
 }

@@ -33,7 +33,8 @@ final class SellConfirmAction
         $sellID=(int)$data['sell_id'];
         $user_id=$this->session->get('user')["id"];
 
-        $this->updater->updateSellStatusSelectedCpoApi($sellID, $data,$user_id);
+        $date['up_status'] = "SELECTED_CPO";
+        $this->updater->updateSellStatus($sellID, $data,$user_id);
 
         return $this->responder->withRedirect($response,"sells");
     }

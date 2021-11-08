@@ -61,10 +61,14 @@ final class ConfirmSellLabelAction
             $dataUpdate['up_status']="USED";
             $this->updatelabel->updateLabelStatus($labelID, $dataUpdate, $user_id);
         }
-
-        $this->updater->updateSellSelectedLabelApi($SellID, $data, $user_id);
+        $date['up_status'] = "SELECTED_LABEL";
+        $this->updater->updateSellStatus($SellID, $data, $user_id);
         $allData=[''];
-        
+
+        if (isset($params['start_date'])) {
+            $params['startDate'] = $params['start_date'];
+            $params['endDate'] = $params['end_date'];
+        }
 
         $rtdata['message']="Get Sell Successful";
         $rtdata['error']=false;

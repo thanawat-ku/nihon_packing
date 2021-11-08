@@ -29,17 +29,17 @@ final class SellCpoItemRepository
 
         return (int)$this->queryFactory->newInsert('sell_cpo_items', $row)->execute()->lastInsertId();
     }
-    public function updateSellCpoItem(int $productID, array $data): void
+    public function updateSellCpoItem(int $id, array $data): void
     {
         $data['updated_at'] = Chronos::now()->toDateTimeString();
         $data['updated_user_id'] = $this->session->get('user')["id"];
 
-        $this->queryFactory->newUpdate('sells', $data)->andWhere(['id' => $productID])->execute();
+        $this->queryFactory->newUpdate('sell_cpo_items', $data)->andWhere(['id' => $id])->execute();
     }
 
-    public function deleteSellCpoItem(int $productID): void
+    public function deleteSellCpoItem(int $id): void
     {
-        $this->queryFactory->newDelete('sells')->andWhere(['id' => $productID])->execute();
+        $this->queryFactory->newDelete('sell_cpo_items')->andWhere(['id' => $id])->execute();
     }
 
 

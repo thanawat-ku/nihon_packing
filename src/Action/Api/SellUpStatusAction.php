@@ -45,7 +45,13 @@ final class SellUpStatusAction
         $user_id=$data['user_id'];
         $sell_id=$data['sell_id'];
 
-        $this->updater->updateSellSelectedApi($sell_id, $data, $user_id);
+        if (isset($params['start_date'])) {
+            $params['startDate'] = $params['start_date'];
+            $params['endDate'] = $params['end_date'];
+        }
+
+        $data['up_status'] = "SELECTED_CPO";
+        $this->updater->updateSellStatus($sell_id, $data, $user_id);
         $dataAll=[''];
 
         $rtdata['message']="Get Lot Defect Successful";

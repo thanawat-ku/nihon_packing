@@ -29,9 +29,9 @@ final class SellAddAction
     {
         $this->responder = $responder;
         $this->updater = $updater;
-        $this->finder=$finder;
-        $this->findproduct=$findproduct;
-        $this->findcpo_item=$findcpo_item;
+        $this->finder = $finder;
+        $this->findproduct = $findproduct;
+        $this->findcpo_item = $findcpo_item;
     }
 
     public function __invoke(
@@ -39,20 +39,34 @@ final class SellAddAction
         ResponseInterface $response,
         array $args
     ): ResponseInterface {
-       
-        $params = (array)$request->getParsedBody();
 
-        $user_id=$params['user_id'];
+        $data = (array)$request->getParsedBody();
 
-        $id=$this->updater->insertSellApi($params, $user_id);
-        $params['id']=$id;
-        
-        // $rtdata=$this->findproduct->findProducts($params);
+        $user_id = $data['user_id'];
+        $prodcutID = $data['ProductID'];
 
-        $rtdata['message']="Get Lot Defect Successful";
-        $rtdata['error']=false;
-        $rtdata['sells']=$this->finder->findSells($params);
-        
+        $checkCreateSell = true;
+
+        $rtSell = $this->finder->findSells($data);
+        for ($i = 0; $i < count($rtSell); $i++) {
+            if ($rtSell[$i]['product_id'] == $prodcutID && $rtSell[$i]['sell_status'] != "SELECTED_LABEL") {
+
+                $checkCreateSell = ["Sell Not Empty"];
+                $rtdata['message'] = "Get Lot Defect Successful";
+                $rtdata['error'] = true;
+                $rtdata['sells'] = $checkCreateSell;
+                $checkCreateSell = false;
+                break;
+            }
+        }
+
+        if($checkCreateSell == true) {
+            $id = $this->updater->insertSellApi($data, $user_id);
+            $data['id'] = $id;
+            $rtdata['message'] = "Get Lot Defect Successful";
+            $rtdata['error'] = false;
+            $rtdata['sells'] = $this->finder->findSells($data);
+        }
         return $this->responder->withJson($response, $rtdata);
     }
 }

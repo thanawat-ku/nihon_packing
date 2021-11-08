@@ -43,15 +43,15 @@ final class CpoItemAction
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        $params = (array)$request->getQueryParams();
-        $sell_id=(int)$params['sell_id'];
+        $data = (array)$request->getParsedBody();
+        $sellID=(int)$data['sell_id'];
 
-        $cpodata = $this->finder->findCpoItem($params);
+        $cpodata = $this->finder->findCpoItem($data);
         $uuid=uniqid();
 
         $sell = null;
 
-        $cpoitemcheck = $this->tempQueryFinder->findTempQueryCheck($params);
+        $cpoitemcheck = $this->tempQueryFinder->findTempQueryCheck($data);
 
         if(!$cpoitemcheck){
             foreach($cpodata as $cpo){
@@ -67,14 +67,14 @@ final class CpoItemAction
             }
         }
 
-        $sellRow = $this->sellFinder->findSellRow($sell_id);
+        $sellRow = $this->sellFinder->findSellRow($sellID);
 
         if($sellRow) {
             $sell = $sellRow;
         }
 
         $param_search['uuid']=$uuid;
-        $param_search['sell_id']=$sell_id;
+        $param_search['sell_id']=$sellID;
       
         $viewData = [
             'sellRow'=>$sell,
