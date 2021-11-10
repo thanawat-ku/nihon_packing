@@ -21,14 +21,6 @@ function deleteMerge(event) {
     $("#deleteMergeNo").text(obj.merge_no);
 }
 
-function confirmMerge(event) {
-    let lot = event.currentTarget.name;
-    console.log(lot);
-    var obj = JSON.parse(lot);
-    $("#confirmMergeId").val(obj.id);
-    $("#stdPack").val(obj.std_pack);
-    $("#confirmMergeNo").text(obj.merge_no);
-}
 
 function registerMerge(event) {
     let lot = event.currentTarget.name;
@@ -41,7 +33,7 @@ function registerMerge(event) {
 
 $(document).on(
     "click",
-    "#editBt ,#deleteBt ,#confirmBt ,#registerBt",
+    "#editBt ,#deleteBt ,#registerBt",
     (event) => {
         let id = event.currentTarget.id;
         switch (id) {
@@ -50,9 +42,6 @@ $(document).on(
                 break;
             case "deleteBt":
                 deleteMerge(event);
-                break;
-            case "confirmBt":
-                confirmMerge(event);
                 break;
             case "registerBt":
                 registerMerge(event);

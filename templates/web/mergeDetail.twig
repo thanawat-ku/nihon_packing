@@ -16,6 +16,9 @@
                 <h2><i class="fas fa-folder-plus"></i> Merge label detail of: {{ mergePack['merge_no'] }}</h2>  <!--dont show merge no -->    
                 {% if mergePack.select_label  == "Y" %}
                 <a href="label_merges?id={{mergePack['id']}} "><button type="button" id="addLabelBt" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#addLabel"><i style="font-size:15px; width:20px;" class="fas fa-newspaper"></i> Select Label</button></a>
+                {% if mergePack.merge_confirm  == "Y" %}
+                <button type="button" id="confirmBt" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#confirmMerge" name="{{ mergePack|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-check-circle"></i> Confirm Merge</button> 
+                {% endif %}
                 {% endif %}
                 {% if mergePack.select_label  == "N" %}
                 <label for=" ">     <span ></span></label>
@@ -66,6 +69,33 @@
             </div>
         </div>
     </div>
+
+<!-- Modal  Merge confirm-->
+<div class="modal fade" id="confirmMerge">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form id="form-confirmMerge" action="confirm_merges" method="post">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Confirm Merge</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">          
+          <div class="form-product">
+            <input type="hidden" id="confirmMergeId" name="id">
+            <input type="hidden" id="stdPack" name="std_pack">
+            <label for="MergeNo">Do you want to merge: <span id="confirmMergeNo"></span> ?</label>
+          </div>                 
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Yes</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 
 <!-- Modal Detail -->
 <div class="modal fade" id="deleteDetail">

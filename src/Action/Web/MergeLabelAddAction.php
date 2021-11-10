@@ -77,6 +77,6 @@ final class MergeLabelAddAction
             'id' => $mergeId,
         ];
 
-        return $this->responder->withRedirect($response, "label_merges", $viewData);
+        return $this->responder->withRedirect($response, "merge_detail", $viewData);
     }
 }

@@ -66,20 +66,6 @@ final class MergeAction
 
         $mergePack = $this->finder->findMergePacks($params);
 
-        for($i=0;$i<sizeof($mergePack);$i++){
-            if($mergePack[$i]['merge_status'] == "MERGING"){
-                $mergePackId['merge_pack_id']=  $mergePack[$i]['id'];
-                $gerMergeDetail = $this->mergeDetailFinder->findMergePackDetailsForMerge($mergePackId);
-
-                if(isset($gerMergeDetail[1])){
-                    $mergePack[$i]['merge_confirm'] = "Y";
-                }
-                else{
-                    $mergePack[$i]['merge_confirm'] = "N";
-                }
-            }
-        }
-
         $viewData = [
             'mergePacks' => $mergePack, 
             'products' => $this->productFinder->findProducts($params),

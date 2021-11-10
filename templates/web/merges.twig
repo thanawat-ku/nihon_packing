@@ -44,9 +44,6 @@
                         {% if merge.merge_status == "MERGED"%}
                         <button type="button" id="registerBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#registerMerge" name="{{ merge|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-check-circle"></i></button>
                         {% endif %}
-                        {% if (merge.merge_status == "MERGING") and (merge.merge_confirm == "Y") %}
-                        <button type="button" id="confirmBt" class="btn btn-success btn-sm" data-toggle="modal" data-target="#confirmMerge" name="{{ merge|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-check-circle"></i></button>
-                        {% endif %}
                         <a href="merge_detail?id={{merge.id}}"><button type="button" class="btn btn-success btn-sm" data-toggle="modal" ><i style="font-size:15px; width:20px;" class="fas fa-folder-open"></i></button></a>
                         {% if (merge.merge_status == "REGISTERING") or (merge.merge_status == "COMPLETE") or (merge.merge_status == "MERGED") %}
                         <a href="label_merge_news?id={{merge.id}}"><button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" ><i style="font-size:15px; width:20px; " class="fas fa-info-circle"></i></button></a>  <!-- detail icon color:gray; -->
@@ -87,33 +84,6 @@
           <div class="form-realQty">
           <label for="lotNo">Do you want to register merge: <span id="registerMergeNo"></span> ?</label>
           </div>                            
-        </div>
-        <div class="modal-footer">
-          <button type="submit" class="btn btn-primary">Yes</button>
-          <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
-
-<!-- Modal  Merge confirm-->
-<div class="modal fade" id="confirmMerge">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <form id="form-confirmMerge" action="confirm_merges" method="post">
-        <!-- Modal Header -->
-        <div class="modal-header">
-          <h4 class="modal-title">Confirm Merge</h4>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-        </div>
-        <!-- Modal body -->
-        <div class="modal-body">          
-          <div class="form-product">
-            <input type="hidden" id="confirmMergeId" name="id">
-            <input type="hidden" id="stdPack" name="std_pack">
-            <label for="MergeNo">Do you want to merge: <span id="confirmMergeNo"></span> ?</label>
-          </div>                 
         </div>
         <div class="modal-footer">
           <button type="submit" class="btn btn-primary">Yes</button>
@@ -202,7 +172,7 @@
           </div>                 
           <div class="form-product">
             <label for="email">Product</label>
-            <select class="form-control"  id="addProductID" name="product_id">
+            <select class="selectpicker form-control"  id="addProductID" name="product_id" data-live-search="true">
             {% for p in products %}
               <option value={{ p.id }}>({{p.part_code}}) {{ p.part_name}} </option>
             {% endfor %}

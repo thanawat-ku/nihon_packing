@@ -72,6 +72,13 @@ final class MergeDetailAction
             }
         }
 
+        if(isset($mergeDetail[1])){
+            $mergePack[0]['merge_confirm'] = "Y";
+        }
+        else{
+            $mergePack[0]['merge_confirm'] = "N";
+        }
+
         $viewData = [
             'labels' => $labels,
             'mergePack' => $mergePack[0],
