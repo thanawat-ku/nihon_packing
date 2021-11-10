@@ -24,12 +24,12 @@ module.exports = {
       'web/splitLabels': './templates/web/splitLabels.js',
       'web/lotDefects': './templates/web/lotDefects.js',
       'web/merges': './templates/web/merges.js',
-      'web/mergeDetail': './templates/web/mergeDetail.js', // <-- add this line
+      'web/mergeDetail': './templates/web/mergeDetail.js',
       'web/sells': './templates/web/sells.js', 
       'web/cpoItem': './templates/web/cpoItem.js',
       'web/cpoItemSelects': './templates/web/cpoItemSelects.js',
       'web/selectLabelForSells': './templates/web/selectLabelForSells.js',
-      'web/sellLabels': './templates/web/sellLabels.js',
+      'web/sellLabels': './templates/web/sellLabels.js', // <-- add this line
     },
     output: {
       path: path.resolve(__dirname, 'public/assets'),

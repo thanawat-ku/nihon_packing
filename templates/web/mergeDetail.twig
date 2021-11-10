@@ -53,7 +53,7 @@
                         <td>{{ label.quantity }}</td>
                         <td>{{ label.status }}</td>
                         <td>
-                        {% if (label.status  == "PACKED") or (label.status  == "MERGING") %}
+                        {% if label.status  == "MERGING" %}
                         <button type="button" id="deleteDetailBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteDetail" name="{{ label|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-trash"></i></button>
                         {% endif %}
                         </td>

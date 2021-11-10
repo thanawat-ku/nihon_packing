@@ -93,7 +93,7 @@
           </div>                 
           <div class="form-product">
             <label for="email">Defect Code</label>
-            <select class="form-control"  id="editDefectId" name="defect_id">
+            <select class="selectpicker form-control"  id="editDefectId" name="defect_id" data-live-search="true">
             {% for d in defects %}
               <option value={{ d.id }}>{{d.defect_code}} </option>
             {% endfor %}
@@ -130,7 +130,7 @@
           </div>                 
           <div class="form-product">
             <label for="email">Defect Code</label>
-            <select class="form-control"  id="defectID" name="defect_id">
+            <select class="selectpicker form-control"  id="defectID" name="defect_id" data-live-search="true">
             {% for d in defects %}
               <option value={{ d.id }}>{{d.defect_code}} </option>
             {% endfor %}
@@ -138,7 +138,7 @@
           </div>           
           <div class="form-product">
             <label for="lotNo">Quantity</label>
-            <input type="text" autocomplete="off" class="form-control" id="addQuantity" name="quantity" required>
+            <input type="number" autocomplete="off" class="form-control" id="addQuantity" name="quantity" required>
           </div> 
         </div>
         <div class="modal-footer">

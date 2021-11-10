@@ -138,7 +138,7 @@
           </div>                 
           <div class="form-product">
             <label for="email">Product</label>
-            <select class="form-control"  id="editProductID" name="product_id">
+            <select class="selectpicker form-control"  id="editProductID" name="product_id" data-live-search="true">
             {% for p in products %}
               <option value={{ p.id }}>({{p.part_code}}) {{ p.part_name}} </option>
             {% endfor %}
