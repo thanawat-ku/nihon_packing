@@ -82,7 +82,7 @@
           <div class="form-sell">
             <input type="hidden" id="removeLabelID" name="id">
             <input type="hidden" id="addSellID" name="sell_id" value="{{sellRow.id}}">
-            <label for="sellNo">Do you want to remove label no: <span id="removeLabelNo"></span>
+            <label for="sellNo">Do you want to remove Label No: <span id="removeLabelNo"></span>  <!-- add "?" -->
           </div>                 
           
         </div>
@@ -108,7 +108,7 @@
         <div class="modal-body">          
           <div class="form-sell">
             <input type="hidden" id="addSellID" name="sell_id" value="{{sellRow.id}}">
-            <label for="sellNo">Do you want to confirm sell no: {{sellRow.sell_no}} <span id="removeLabelNo"></span>
+            <label for="sellNo">Do you want to confirm Sell No: {{sellRow.sell_no}} <span id="removeLabelNo"></span> <!-- add "?" -->
           </div>  
           <div class="form-sell">
             <label for="sellNo">Total Quantity: {{sellRow.total_qty}} <span id="removeLabelNo"></span>
