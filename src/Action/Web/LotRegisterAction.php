@@ -41,6 +41,7 @@ final class LotRegisterAction
         $data = (array)$request->getParsedBody();
         $lotId = $data['lot_id'];
         $dataPack['status'] = "PACKED";
+        
 
         $this->labelUpdater->registerLabel($lotId, $dataPack);
         $this->updater->registerLot($lotId, $dataPack);

@@ -133,7 +133,7 @@ final class LabelUpdater
         $this->validator->validateLabelUpdate($labelID, $data);
 
         $row = $this->mapToLabelRow($data);
-        $row['merge_pack_id']=$data['merge_pack_id'];
+        // $row['merge_pack_id']=$data['merge_pack_id'];
 
         $this->repository->updateLabelApi($labelID, $row, $user_id);
     }
@@ -387,7 +387,7 @@ final class LabelUpdater
             $data1['status'] = "CREATED";
             $id = $this->insertLabelApi($data1, $user_id);
             $params2['label_id'] = $id;
-            $rt1 = $this->finder->findLabelForLotZero($params2);
+            $rt1 = $this->finder->findLabels($params2);
             array_push($labels, $rt1[0]);
         } else if ($label_type == "MERGE_FULLY" || $label_type == "MERGE_NONFULLY") {
             $data1['merge_pack_id'] = $merge_pack_id;
