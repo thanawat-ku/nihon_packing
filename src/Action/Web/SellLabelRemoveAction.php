@@ -55,47 +55,50 @@ final class SellLabelRemoveAction
 
         $arrSellLabel = $this->sellLabelFinder->findSellLabels($data);
 
-        $dataUpdate['up_status'] = "PACKED";
-        $this->labelUpdater->updateLabelStatus((int)$arrSellLabel[0]['label_id'], $dataUpdate, $user_id);
+        if ($arrSellLabel) {
+            $id = (int)$arrSellLabel[0]['label_id'];
+            $dataUpdate['up_status'] = "PACKED";
+            $this->labelUpdater->updateLabelStatus($id, $dataUpdate, $user_id);
+        }
 
         $this->updater->deleteLabelInSellLabel($SelllbID);
 
 
         $sellRow = $this->sellFinder->findSellRow($sellID);
 
-        $sellLabels=[];
+        $sellLabels = [];
 
-        $totalQty=0;
-        $arrtotalQty=[];
+        $totalQty = 0;
+        $arrtotalQty = [];
 
         $rtdata['mpd_from_lots'] = $this->sellLabelFinder->findSellLabelForlots($data);
-        array_push($sellLabels,$rtdata['mpd_from_lots']);
+        array_push($sellLabels, $rtdata['mpd_from_lots']);
         if ($rtdata['mpd_from_lots']) {
-            for ($i=0; $i < count($sellLabels[0]); $i++) { 
+            for ($i = 0; $i < count($sellLabels[0]); $i++) {
                 $totalQty += (int)$sellLabels[0][$i]['quantity'];
             }
         }
-        
+
         $rtdata['mpd_from_merges'] = $this->sellLabelFinder->findSellLabelForMergePacks($data);
-        array_push($sellLabels,$rtdata['mpd_from_merges']);
+        array_push($sellLabels, $rtdata['mpd_from_merges']);
         if ($rtdata['mpd_from_merges'] != null) {
-            for ($i=0; $i < count($sellLabels[1]); $i++) { 
+            for ($i = 0; $i < count($sellLabels[1]); $i++) {
                 $totalQty += (int)$sellLabels[1][$i]['quantity'];
             }
         }
         if ($totalQty == 0) {
-            $arrtotalQty=["0"];
-        }else{
-            array_push($arrtotalQty,$totalQty);
+            $arrtotalQty = ["0"];
+        } else {
+            array_push($arrtotalQty, $totalQty);
         }
 
         $viewData = [
-            'totalQtyLabelsell'=>$arrtotalQty,
-            'sellRow'=>$sellRow,
+            'totalQtyLabelsell' => $arrtotalQty,
+            'sellRow' => $sellRow,
             'sellLabels' => $sellLabels,
             'user_login' => $this->session->get('user'),
         ];
-        
-        return $this->twig->render($response, 'web/sellLabels.twig',$viewData);
+
+        return $this->twig->render($response, 'web/sellLabels.twig', $viewData);
     }
 }

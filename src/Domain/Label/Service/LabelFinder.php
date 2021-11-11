@@ -26,17 +26,8 @@ final class LabelFinder
     }
     public function findLabelsForScan(array $params): array
     {
-        $label = $this->repository->findLabelsForScan($params);
-        if ($label) {
-            return $label;
-        } else {
-            $label = $this->repository->findLabelForLotZero($params);
-            if ($label) {
-                return $label;
-            } else {
-                return null;
-            }
-        }
+        return $this->repository->findLabelsForScan($params);
+        
     }
     public function findLabelForMerge(array $params): array
     {

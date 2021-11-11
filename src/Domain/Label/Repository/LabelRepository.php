@@ -259,63 +259,23 @@ final class LabelRepository
         $query->select(
             [
                 'labels.id',
-                'label_no',
+                'lot_id',
                 'merge_pack_id',
                 'split_label_id',
-                'lot_id',
-                'product_id',
+                'label_no',
                 'label_type',
-                'labels.quantity',
-                'lot_no',
-                'generate_lot_no',
-                'part_name',
-                'part_code',
-                'labels.status',
-                'std_pack',
-                'std_box',
-                'labels.split_label_id',
-                'real_qty',
+                'quantity',
+                'status',
             ]
         );
-        $query->join([
-            'l' => [
-                'table' => 'lots',
-                'type' => 'INNER',
-                'conditions' => 'l.id = labels.lot_id',
-            ]
-        ]);
-        $query->join([
-            'p' => [
-                'table' => 'products',
-                'type' => 'INNER',
-                'conditions' => 'p.id = l.product_id',
-            ]
-        ]);
-        //find label from lot
-        if (isset($params['lot_id'])) {
-            $query->andWhere(['lot_id' => $params['lot_id']]);
-        }
-        //find label from label_no
-        else if (isset($params['label_no'])) {
+        if (isset($params['label_no'])) {
             $query->andWhere(['labels.label_no' => $params['label_no']]);
-        }
-        //find label from splitLabel
-        else if (isset($params['split_label_id'])) {
-            $query->andWhere(['split_label_id' => $params['split_label_id']]);
         }
         //find label from LabelId 
         else if (isset($params['label_id'])) {
             $query->andWhere(['labels.id' => $params['label_id']]);
         }
-
-        $query->andWhere(['l.is_delete' => 'N']);
-
-        $getdata = $query->execute()->fetchAll('assoc') ?: [];
-        if ($getdata) {
-            return  $getdata;
-        } else {
-            return null;
-        }
+        return $query->execute()->fetchAll('assoc') ?: [];
     }
 
     public function findLabelForMerge(array $params): array
