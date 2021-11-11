@@ -10,7 +10,7 @@ use App\Domain\Label\Repository\LabelRepository;
 final class LabelFinder
 {
     private $repository;
-    
+
     public function __construct(LabelRepository $repository)
     {
         $this->repository = $repository;
@@ -26,7 +26,17 @@ final class LabelFinder
     }
     public function findLabelsForScan(array $params): array
     {
-        return $this->repository->findLabelsForScan($params);
+        $label = $this->repository->findLabelsForScan($params);
+        if ($label) {
+            return $label;
+        } else {
+            $label = $this->repository->findLabelForLotZero($params);
+            if ($label) {
+                return $label;
+            } else {
+                return null;
+            }
+        }
     }
     public function findLabelForMerge(array $params): array
     {
@@ -45,7 +55,6 @@ final class LabelFinder
     {
         return $this->repository->findLabelSingleTable($params);
     }
-
 
     public function checklabel(string $labelNO)
     {

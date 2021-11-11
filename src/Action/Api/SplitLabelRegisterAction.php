@@ -3,6 +3,7 @@
 namespace App\Action\Api;
 
 use App\Domain\SplitLabelDetail\Service\SplitLabelDetailFinder;
+use App\Domain\Label\Service\LabelFinder;
 use App\Domain\Label\Service\LabelUpdater;
 use App\Responder\Responder;
 use App\Domain\SplitLabel\Service\SplitLabelUpdater;
@@ -21,6 +22,7 @@ final class SplitLabelRegisterAction
     private $finder;
     private $updater;
     private $labelsUpdater;
+    private $labelsFinder;
     private $SpDetailFinder;
 
 
@@ -30,10 +32,12 @@ final class SplitLabelRegisterAction
         SplitLabelUpdater $updater,
         LabelUpdater $labelsUpdater,
         Responder $responder,
+        LabelFinder $labelsFinder,
     ) {
         $this->finder = $finder;
         $this->responder = $responder;
         $this->labelsUpdater = $labelsUpdater;
+        $this->labelsFinder = $labelsFinder;
         $this->updater = $updater;
     }
 
@@ -41,28 +45,40 @@ final class SplitLabelRegisterAction
     {
         $params = (array)$request->getParsedBody();
         $user_id = $params["user_id"];
-        $fDetail['split_label_id'] = $params['split_label_id'];
+        $data['split_label_id'] = $params['split_label_id'];
         $DataLabel['label_id'] = $params['label_id'];
-        if ($fDetail['split_label_id'] == "0") {
+        if ($data['split_label_id'] == "0") {
             $getSpID =  $this->finder->findSplitLabelDetailsForscan($DataLabel);
-            $fDetail['split_label_id'] = $getSpID[0]['split_label_id'];
-            $findDetail = $this->finder->findSplitLabelDetails($fDetail);
+            $data['split_label_id'] = $getSpID[0]['split_label_id'];
+            $findDetail = $this->finder->findSplitLabelDetails($data);
         } else {
-            $findDetail = $this->finder->findSplitLabelDetails($fDetail);
+            $findDetail = $this->finder->findSplitLabelDetails($data);
         }
-
 
         $labels = [];
 
+        $data2['status'] = "PACKED";
+        $labelID =  $DataLabel['label_id'];
+        $this->labelsUpdater->updateLabelApi($labelID, $data2, $user_id);
+
+        $count = 0;
         for ($i = 0; $i < sizeof($findDetail); $i++) {
-            $dataL['status'] = "PACKED";
-            $labelID = $findDetail[$i]['label_id'];
-            $splitID = $fDetail['split_label_id'];
-            $label = $this->labelsUpdater->updateLabelApi($labelID, $dataL, $user_id);
+            $DataLabel2['label_id'] = $findDetail[$i]['label_id'];
+            $label = $this->labelsFinder->findLabelsForScan($DataLabel2);
             array_push($labels, $label[0]);
-            $this->updater->updateSplitLabelApi($dataL, $splitID, $user_id);
+
+            if ($label[0]['status'] == "PACKED") {
+                $count++;
+            }
         }
 
+        $splitID = $data['split_label_id'];
+        $data3['status'] = "PACKING";
+        if ($count == 2) {
+            $this->updater->updateSplitLabelApi($data2, $splitID, $user_id);
+        } else if ($count == 1) {
+            $this->updater->updateSplitLabelApi($data3, $splitID, $user_id);
+        }
 
         $rtdata['message'] = "Get SplitLabel Register Successful";
         $rtdata['error'] = false;

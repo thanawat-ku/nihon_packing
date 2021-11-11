@@ -131,7 +131,7 @@ final class LabelRepository
     }
 
 
-    
+
 
     public function findLabels(array $params): array
     {
@@ -243,10 +243,9 @@ final class LabelRepository
             $query->andWhere(['labels.id' => $params['label_id']]);
         } else if (isset($params['merge_pack_id'])) {
             $query->andWhere(['merge_pack_id' => $params['merge_pack_id']]);
-        }else if(isset($params["lot_zero"])) {
+        } else if (isset($params["lot_zero"])) {
             $query->andWhere(['lot_id' => $params['lot_zero']]);
-        }
-        else if (isset($params["startDate"])) {
+        } else if (isset($params["startDate"])) {
             $query->andWhere(['m.merge_date <=' => $params['endDate'], 'm.merge_date >=' => $params['startDate']]);
         }
 
@@ -303,6 +302,10 @@ final class LabelRepository
         //find label from splitLabel
         else if (isset($params['split_label_id'])) {
             $query->andWhere(['split_label_id' => $params['split_label_id']]);
+        }
+        //find label from LabelId 
+        else if (isset($params['label_id'])) {
+            $query->andWhere(['labels.id' => $params['label_id']]);
         }
 
         $query->andWhere(['l.is_delete' => 'N']);
@@ -568,7 +571,7 @@ final class LabelRepository
                 $query->andWhere(['OR' => [['labels.status' => 'PACKED'], ['labels.status' => 'SELLING']]]);
             }
         }
-        
+
 
         return $query->execute()->fetchAll('assoc') ?: [];
     }
@@ -611,11 +614,11 @@ final class LabelRepository
         if (isset($params['merge_pack_id'])) {
             $query->andWhere(['merge_pack_id' => $params['merge_pack_id']]);
         }
-        
+
         if (isset($params['label_id'])) {
             $query->andWhere(['labels.id' => $params['label_id']]);
         }
-     
+
 
         return $query->execute()->fetchAll('assoc') ?: [];
     }
@@ -665,7 +668,8 @@ final class LabelRepository
         }
         if (isset($params['id'])) {
             $query->andWhere(['labels.id' => $params['id']]);
-        }if (isset($params['check_sell_label'])) {
+        }
+        if (isset($params['check_sell_label'])) {
             if (isset($params['ProductID'])) {
                 $query->andWhere(['mp.product_id' => $params['ProductID']]);
                 $query->andWhere(['OR' => [['labels.status' => 'PACKED'], ['labels.status' => 'SELLING']]]);

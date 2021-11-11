@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 10, 2021 at 05:54 PM
+-- Generation Time: Nov 11, 2021 at 06:48 AM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.6
 
@@ -362,6 +362,7 @@ CREATE TABLE `labels` (
   `label_type` enum('FULLY','NONFULLY','MERGE_FULLY','MERGE_NONFULLY') COLLATE utf8mb4_unicode_ci NOT NULL,
   `quantity` int(11) NOT NULL,
   `status` enum('CREATED','PACKED','USED','VOID','MERGED','MERGING') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `is_print` enum('N','Y') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N',
   `label_void_reason_id` int(11) NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `created_user_id` int(11) NOT NULL,
@@ -410,7 +411,7 @@ CREATE TABLE `lots` (
   `packed_user_id` int(11) NOT NULL,
   `status` enum('CREATED','PRINTED','PACKING','PACKED') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'CREATED',
   `issue_date` date NOT NULL,
-  `is_delete` enum('N','Y') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `is_delete` enum('N','Y') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N',
   `created_at` datetime DEFAULT NULL,
   `created_user_id` int(11) NOT NULL,
   `updated_at` datetime DEFAULT NULL,
