@@ -297,8 +297,7 @@ final class MergePackDetailRepository
             [
                 'merge_pack_details.id',
                 'merge_pack_details.merge_pack_id', 
-                'label_id',
-                'lot_id',           
+                'label_id',         
             ]
         );
         $query->join([      
@@ -308,20 +307,9 @@ final class MergePackDetailRepository
                 'conditions' => 'lb.id = merge_pack_details.label_id',
             ],
         ]);
-        $query->join([
-            'l' => [
-                'table' => 'lots',
-                'type' => 'INNER',
-                'conditions' => 'l.id = lb.lot_id',
-            ]
-        ]);
         if(isset($params['merge_pack_id'])){
             $query->Where(['merge_pack_details.merge_pack_id' => $params["merge_pack_id"]]);
         }
-
-        $query->andWhere(['l.is_delete' => 'N']);
-        
-        
 
         return $query->execute()->fetchAll('assoc') ?: [];
     }

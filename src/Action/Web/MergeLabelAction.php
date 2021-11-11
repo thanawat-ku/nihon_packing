@@ -67,10 +67,10 @@ final class MergeLabelAction
         $getLabels2 =  $this->labelFinder->findLabelForMergeLotZero($productId);
 
 
-        if (isset($getLabels[0])) {
-            $labels = $getLabels;
-        } else if (isset($getLabels[0]) && isset($getLabels2[0])) {
+        if (isset($getLabels[0]) && isset($getLabels2[0])) {
             $labels = array_merge($getLabels, $getLabels2);
+        } else if (isset($getLabels[0])) {
+            $labels = $getLabels;
         } else {
             $labels = $getLabels2;
         }
