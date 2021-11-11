@@ -34,11 +34,15 @@ final class MergePackAction
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $params = (array)$request->getQueryParams();
+
+        if (isset($params['start_date'])) {
+            $params['startDate'] = $params['start_date'];
+            $params['endDate'] = $params['end_date'];
+        }
         
         $rtdata['message']="Get MergePack Successful";
         $rtdata['error']=false;
         $rtdata['merge_packs']=$this->finder->findMergePacks($params);
-
 
         return $this->responder->withJson($response, $rtdata);
 

@@ -33,9 +33,9 @@ final class SplitLabelDetailUpdater
     {
         $this->validator->validateSplitLabelDetailInsert($data);
 
-        $Row = $this->mapToSplitLabelDetailDeatilRow($data);
+        $row = $this->mapToSplitLabelDetailDeatilRow($data);
 
-        $id = $this->repository->insertSplitLabelDetailDeatilApi($Row, $user_id);
+        $id = $this->repository->insertSplitLabelDetailDeatilApi($row, $user_id);
 
         return $id;
     }

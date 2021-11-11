@@ -81,7 +81,7 @@ final class SellLabelRepository
         ]);
 
         if(isset($params['sell_id'])){
-            $query->Where(['sell_labels.sell_id' => $params["sell_id"]]);
+            $query->Where(['s.id' => $params["sell_id"]]);
         }if(isset($params['id'])){
             $query->Where(['sell_labels.id' => $params["id"]]);
         }

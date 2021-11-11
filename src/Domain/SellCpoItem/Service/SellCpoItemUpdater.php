@@ -30,9 +30,9 @@ final class SellCpoItemUpdater
     {
         $this->validator->validateSellCpoItemInsert($data);
 
-        $Row = $this->mapToRow($data);
+        $row = $this->mapToRow($data);
 
-        $id=$this->repository->insertSellCpoItemApi($Row, $user_id);
+        $id=$this->repository->insertSellCpoItemApi($row, $user_id);
 
         return $id;
     }
@@ -40,55 +40,42 @@ final class SellCpoItemUpdater
     {
         $this->validator->validateSellCpoItemInsert($data);
 
-        $Row = $this->mapToRow($data);
+        $row = $this->mapToRow($data);
         $user_id=$this->session->get('user')["id"];
 
-
-        $id=$this->repository->insertSellCpoItemApi($Row, $user_id);
-        
+        $id=$this->repository->insertSellCpoItemApi($row, $user_id);
 
         return $id;
     }
-    public function updateSellCpoItemApi(int $productId, array $data): void
+    public function updateSellCpoItemApi(int $id, array $data): void
     {
-        // Input validation
-        $this->validator->validateSellCpoItemUpdate($productId, $data);
+        $this->validator->validateSellCpoItemUpdate($id, $data);
 
-        // Map form data to row
-        $storeRow = $this->mapToRow($data);
+        $row = $this->mapToRow($data);
 
-        // Insert store
-        $this->repository->updateSellCpoItem($productId, $storeRow);
+        $this->repository->updateSellCpoItem($id, $row);
 
-        // Logging
-        //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));
     }
-    public function deleteSellCpoItemApi(int $productId, array $data): void
+    public function deleteSellCpoItemApi(int $id): void
     {
-
-        // Insert store
-        $this->repository->deleteSellCpoItem($productId);
-
-        // Logging
-        //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));
+        $this->repository->deleteSellCpoItem($id);
     }
 
-    
     private function mapToRow(array $data): array
     {
         $result = [];
 
         if (isset($data['sell_id'])) {
-            $result['sell_id'] = (int)$data['sell_id'];
+            $result['sell_id'] = $data['sell_id'];
         }
-        if (isset($data['CpoItemID'])) {
-            $result['cpo_item_id'] = (int)$data['CpoItemID'];
+        if (isset($data['cpo_item_id'])) {
+            $result['cpo_item_id'] = $data['cpo_item_id'];
         }
         if (isset($data['remain_qty'])) {
-            $result['remain_qty'] = (int)$data['remain_qty'];
+            $result['remain_qty'] = $data['remain_qty'];
         }
         if (isset($data['sell_qty'])) {
-            $result['sell_qty'] = (int)$data['sell_qty'];
+            $result['sell_qty'] = $data['sell_qty'];
         }
 
         return $result;

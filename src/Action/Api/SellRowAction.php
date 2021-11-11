@@ -48,13 +48,13 @@ final class SellRowAction
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $data = (array)$request->getParsedBody();
-        $sell_id=$data['sell_id'];
-        $user_is=$data['user_id'];
+        $sellID=$data['sell_id'];
+        $user_id=$data['user_id'];
 
         $sells = $this->findersct->findSellCpoItems($data);
-        $this->updater->updateSellApi($sell_id, $sells, $user_is);
-        // $this->updater->updateSellSelectingApi($sell_id, $sells, $user_is);
-        $sellRow = $this->finder->findSellRow($sell_id);
+        $this->updater->updateSellApi($sellID, $sells, $user_id);
+        // $this->updater->updateSellSelectingApi($sellID, $sells, $user_id);
+        $sellRow = $this->finder->findSellRow($sellID);
 
         if ($sellRow) {
             $rtdata['message'] = 'Login successfully';

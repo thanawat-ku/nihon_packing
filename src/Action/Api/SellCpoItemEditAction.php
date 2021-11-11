@@ -16,7 +16,7 @@ use function DI\string;
 /**
  * Action.
  */
-final class SellCpoItemAddAction
+final class SellCpoItemEditAction
 {
     private $responder;
     private $updater;
@@ -45,11 +45,13 @@ final class SellCpoItemAddAction
 
         $user_id = $data['user_id'];
         $sellID = $data['sell_id'];
+        $sellCpoItemID = $data['id'];
 
-        $date['up_status'] = "SELECTING_CPO";
-        $this->updatesell->updateSellStatus($sellID, $data, $user_id);
+        
 
-        $this->updater->insertSellCpoItemApi($data, $user_id);
+        $this->updater->updateSellCpoItemApi($sellCpoItemID, $data, $user_id);
+        $sells = $this->finder->findSellCpoItems($data);
+        $this->updatesell->updateSellApi($sellID, $sells, $user_id);
 
         $rtdata['message'] = "Get Sell Cpo Item Successful";
         $rtdata['error'] = false;

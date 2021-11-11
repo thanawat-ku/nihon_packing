@@ -6,7 +6,6 @@ use App\Domain\CpoItem\Service\CpoItemFinder;
 use App\Domain\TempQuery\Service\TempQueryFinder;
 use App\Domain\Sell\Service\SellFinder;
 use App\Responder\Responder;
-use PhpParser\Node\Expr\Cast\Array_;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Views\Twig;
@@ -45,7 +44,7 @@ final class CpoItemSelectAction
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        $params = (array)$request->getQueryParams();
+        $params = (array)$request->getParsedBody();
         $sell_id = (int)$params['sell_id'];
 
         $uuid = uniqid();

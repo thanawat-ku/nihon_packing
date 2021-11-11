@@ -51,25 +51,29 @@ final class ConfirmSellLabelAction
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $data = (array)$request->getParsedBody();
-        $user_id=(int)$data['user_id'];
-        $SellID =(int)$data['sell_id'];
+        $user_id = (int)$data['user_id'];
+        $SellID = (int)$data['sell_id'];
 
-        $sellLabel=$this->finder->findSellLabels($data);
+        $sellLabel = $this->finder->findSellLabels($data);
 
-        for ($i=0; $i < count($sellLabel); $i++) { 
-            $labelID=(int)$sellLabel[$i]['label_id'];
-            $dataUpdate['up_status']="USED";
+        for ($i = 0; $i < count($sellLabel); $i++) {
+            $labelID = (int)$sellLabel[$i]['label_id'];
+            $dataUpdate['up_status'] = "USED";
             $this->updatelabel->updateLabelStatus($labelID, $dataUpdate, $user_id);
         }
+        $data['up_status'] = "SELECTED_LABEL";
+        $this->updater->updateSellStatus($SellID, $data, $user_id);
+        $allData = [''];
 
-        $this->updater->updateSellSelectedLabelApi($SellID, $data, $user_id);
-        $allData=[''];
-        
+        if (isset($data['start_date'])) {
+            $allData['startDate'] = $data['start_date'];
+            $allData['endDate'] = $data['end_date'];
+        }
 
-        $rtdata['message']="Get Sell Successful";
-        $rtdata['error']=false;
-        $rtdata['sells']=$this->findersell->findSells($allData);
-        
+        $rtdata['message'] = "Get Sell Successful";
+        $rtdata['error'] = false;
+        $rtdata['sells'] = $this->findersell->findSells($allData);
+
         return $this->responder->withJson($response, $rtdata);
     }
 }

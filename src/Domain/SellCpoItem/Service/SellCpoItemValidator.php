@@ -44,11 +44,6 @@ final class SellCpoItemValidator
 
     public function validateSellCpoItemUpdate(string $part_code, array $data): void
     {
-        /*
-        if (!$this->repository->existsSellCpoItemNo($productNo)) {
-            throw new ValidationException(sprintf('Store not found: %s', $stoproductNoreId));
-        }
-        */
         $this->validateSellCpoItem($data);
     }
     public function validateSellCpoItemInsert( array $data): void

@@ -43,6 +43,11 @@ final class SellAction
     {
 
         $params = (array)$request->getQueryParams();
+
+        if (isset($params['start_date'])) {
+            $params['startDate'] = $params['start_date'];
+            $params['endDate'] = $params['end_date'];
+        }
         
         $rtdata['message']="Get Sell Successful";
         $rtdata['error']=false;

@@ -31,26 +31,20 @@ final class  SelectLabelForSellAction
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        $params = (array)$request->getQueryParams();
-        $sell_id=(int)$params['sell_id'];
-        $params['check_sell_label']=true;
+        $data = (array)$request->getParsedBody();
+        $sellID=(int)$data['sell_id'];
+        $data['check_sell_label']=true;
 
         $labels=[];
-        $labelFromLot = $this->finder->findCreateMergeNoFromLabels($params);
+        $labelFromLot = $this->finder->findCreateMergeNoFromLabels($data);
         array_push($labels,$labelFromLot);
-        $labelFromMerge = $this->finder->findLabelFromMergePacks($params);
+        $labelFromMerge = $this->finder->findLabelFromMergePacks($data);
         array_push($labels,$labelFromMerge);
 
-        $sell = null;
-
-        $sellRow = $this->sellFinder->findSellRow($sell_id);
-
-        if($sellRow) {
-            $sell = $sellRow;
-        }
+        $sellRow = $this->sellFinder->findSellRow($sellID);
 
         $viewData = [
-            'sellRow'=>$sell,
+            'sellRow'=>$sellRow,
             'labels' => $labels,
             'user_login' => $this->session->get('user'),
         ];

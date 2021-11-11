@@ -45,6 +45,8 @@ final class TempQueryRepository
                 'part_name',
                 'sci.sell_qty',
                 'sci.id',
+                'sci.id',
+                's.total_qty',
                 
                 
             ]
@@ -74,13 +76,47 @@ final class TempQueryRepository
             ]
         ]);
 
-        // if(isset($params['uuid'])){
-        //     $query->Where(['merge_pack_details.merge_pack_id' => $params["uuid"]]);
-        // }
+        $query->group(['sci.id']);
+
+        if(isset($params['sell_id'])){
+            $query->Where(['sell_id' => $params["sell_id"]]);
+        }
 
         return $query->execute()->fetchAll('assoc') ?: [];
     }
 
+
+    // public function findTempQueryCheck(array $params): array
+    // {
+    //     $query = $this->queryFactory->newSelect('temp_query');
+        
+    //     $query->select(
+    //         [
+
+    //             'temp_query.cpo_item_id',
+    //             'cpo_id',
+    //             'cpo_no',
+    //             'quantity',
+    //             'packing_qty',
+    //             'due_date',
+    //             // 'sell_no',
+    //             // 'part_code',
+    //             // 'part_name',
+    //             // 'quantity',
+    //             // 'sci.sell_qty',
+    //             // 'sci.id'
+                
+    //         ]
+    //     );
+
+    //     if(isset($params['ProductID'])){
+    //         $query->Where(['product_id' => $params["ProductID"]]);
+    //     }
+
+
+
+    //     return $query->execute()->fetchAll('assoc') ?: [];
+    // }
 
     public function findTempQueryCheck(array $params): array
     {
@@ -95,21 +131,43 @@ final class TempQueryRepository
                 'quantity',
                 'packing_qty',
                 'due_date',
-                // 'sell_no',
-                // 'part_code',
-                // 'part_name',
-                // 'quantity',
-                // 'sci.sell_qty',
-                // 'sci.id'
+                'sell_no',
+                'part_code',
+                'part_name',
+                'quantity',
+                'sci.sell_qty',
+                'sci.id'
                 
             ]
         );
 
+        $query->join([
+            'p' => [
+                'table' => 'products',
+                'type' => 'INNER',
+                'conditions' => 'p.id = temp_query.product_id',
+            ]
+        ]);
+
+        $query->join([
+            's' => [
+                'table' => 'sells',
+                'type' => 'INNER',
+                'conditions' => 's.id = \''.$params['sell_id'].'\'',
+            ]
+        ]);
+
+        $query->join([
+            'sci' => [
+                'table' => 'sell_cpo_items',
+                'type' => 'INNER',
+                'conditions' => 'sci.sell_id = s.id and temp_query.cpo_item_id=sci.cpo_item_id',
+            ]
+        ]);
+
         if(isset($params['ProductID'])){
-            $query->Where(['product_id' => $params["ProductID"]]);
+            $query->Where(['p.id' => $params["ProductID"]]);
         }
-
-
 
         return $query->execute()->fetchAll('assoc') ?: [];
     }

@@ -45,30 +45,16 @@ final class LabelUpdater
     }
 
 
-    // public function insertLabelApi(array $data, $user_id): int //สร้าง labels จาก splitlabel
-    // {
-
-    //     $this->validator->validateLabelInsert($data);
-
-    //     $Row = $this->mapToLabelRow($data);
-
-    //     $id = $this->repository->insertLabelApi($Row, $user_id);
-
-
-    //     return $id;
-    // }
-
-
     public function insertLabelApi(array $data, $user_id): int //สร้าง labels จาก splitlabel
     {
+        $this->validator->validateLabelInsert($data);
+        $row = $this->mapToLabelRow($data);
 
         $data['label_no'] = "X" . str_pad(1, 11, "0", STR_PAD_LEFT);
 
         $this->validator->validateLabelInsert($data);
 
-        $Row = $this->mapToLabelRow($data);
-
-        $id = $this->repository->insertLabelApi($Row, $user_id);
+        $id = $this->repository->insertLabelApi($row, $user_id);
 
         $data1['label_no'] = "P" . str_pad($id, 11, "0", STR_PAD_LEFT);
         $this->updateLabelApi($id, $data1, $user_id);
@@ -80,11 +66,11 @@ final class LabelUpdater
     // {
     //     $this->validator->validateLabelUpdate($labelID, $data);
 
-    //     $Row = $this->mapToLabelRow($data);
-    //     $Row['status'] = "VOID";
-    //     $Row['label_void_reason_id'] = 2;
+    //     $row = $this->mapToLabelRow($data);
+    //     $row['status'] = "VOID";
+    //     $row['label_void_reason_id'] = 2;
 
-    //     $this->repository->updateLabelmergeApi($labelID, $Row, $user_id);
+    //     $this->repository->updateLabelmergeApi($labelID, $row, $user_id);
     // }
 
     public function updateLabelStatus(int $labelID, array $data, $user_id): void
@@ -93,50 +79,41 @@ final class LabelUpdater
 
         // $data1['label_no'] = "P" . str_pad($id, 11, "0", STR_PAD_LEFT);
         // $this->updateLabelApi($id, $data1, $user_id);
-        $Row = $this->mapToLabelRow($data);
+        $row = $this->mapToLabelRow($data);
 
         //web
-        if ($data['up_status'] == "SELLING") {
-            $Row['status'] = "SELLING";
-        }
-        if ($data['up_status'] == "PACKED") {
-            $Row['status'] = "PACKED";
-        }
-        if ($data['up_status'] == "VOID") {
-            if ($data['void'] == "MERGED") {
-                $Row['status'] = "VOID";
-                $Row['label_void_reason_id'] = 2;
+        if ($data['up_status']=="SELLING") {
+            $row['status'] = "SELLING";
+        }else if ($data['up_status']=="PACKED"){
+            $row['status'] = "PACKED";
+        }else if($data['up_status']=="VOID"){
+            if ($data['void']=="MERGED") {
+                $row['status'] = "VOID";
+                $row['label_void_reason_id'] = 2;
             }
-        }
-        if ($data['up_status'] == "USED") {
-            $Row['status'] = "USED";
+        }else if($data['up_status']=="USED"){
+            $row['status'] = "USED";
         }
 
-        $this->repository->updateLabelApi($labelID, $Row, $user_id);
+        $this->repository->updateLabelApi($labelID, $row, $user_id);
     }
 
     public function registerLabel(int $lot_id, array $data): void
     {
-        // Input validation
         $this->validator->validateLabelUpdate($lot_id, $data);
 
-        //     // Map form data to row
-        $storeRow = $this->mapToLabelRow($data);
+        $row = $this->mapToLabelRow($data);
 
-        // Insert store
-        $this->repository->registerLabel($lot_id, $storeRow);
+        $this->repository->registerLabel($lot_id, $row);
     }
 
     public function registerLabelApi(int $lot_id, array $data, $user_id): void
     {
-        // Input validation
         $this->validator->validateLabelUpdate($lot_id, $data);
 
-        //     // Map form data to row
-        $storeRow = $this->mapToLabelRow($data);
+        $row = $this->mapToLabelRow($data);
 
-        // Insert store
-        $this->repository->registerLabelApi($lot_id, $storeRow, $user_id);
+        $this->repository->registerLabelApi($lot_id, $row, $user_id);
     }
 
     public function registerMerge(int $mergeId, array $data): void
@@ -145,48 +122,48 @@ final class LabelUpdater
         $this->validator->validateLabelUpdate($mergeId, $data);
 
         //     // Map form data to row
-        $storeRow = $this->mapToLabelRow($data);
+        $row = $this->mapToLabelRow($data);
 
         // Insert store
-        $this->repository->registerMerge($mergeId, $storeRow);
+        $this->repository->registerMerge($mergeId, $row);
     }
 
     public function updateLabelApi(int $labelID, array $data, $user_id): void
     {
         $this->validator->validateLabelUpdate($labelID, $data);
 
-        $Row = $this->mapToLabelRow($data);
-        // $Row['merge_pack_id']=$data['merge_pack_id'];
+        $row = $this->mapToLabelRow($data);
+        $row['merge_pack_id']=$data['merge_pack_id'];
 
-        $this->repository->updateLabelApi($labelID, $Row, $user_id);
+        $this->repository->updateLabelApi($labelID, $row, $user_id);
     }
 
     public function updateCancelLabelApi(int $id, array $data, $user_id): void
     {
         $this->validator->validateLabelUpdate($id, $data);
 
-        $Row = $this->mapToLabelRow($data);
+        $row = $this->mapToLabelRow($data);
         if ($data[0]['merge_pack_id'] == $data['check_mp_id'] && ($data[0]['label_type'] == "NONFULLY" || $data[0]['label_type'] == "MERGE_NONFULLY")) {
-            $Row['status'] = "PACKED";
+            $row['status'] = "PACKED";
         } else {
             if (($data[0]['label_type'] == "NONFULLY" || $data[0]['label_type'] == "MERGE_NONFULLY") && $data[0]['status'] != "MERGED") {
-                $Row['merge_pack_id'] = $data[0]['merge_pack_id'];
-                $Row['status'] = "PACKED";
+                $row['merge_pack_id'] = $data[0]['merge_pack_id'];
+                $row['status'] = "PACKED";
             } else {
-                $Row['merge_pack_id'] = $data[0]['merge_pack_id'];
-                $Row['status'] = $data[0]['status'];
+                $row['merge_pack_id'] = $data[0]['merge_pack_id'];
+                $row['status'] = $data[0]['status'];
             }
         }
-        $this->repository->updateLabelApi($id, $Row, $user_id);
+        $this->repository->updateLabelApi($id, $row, $user_id);
     }
 
     public function updateLabel(int $labelID, array $data): void
     {
         $this->validator->validateLabelUpdate($labelID, $data);
 
-        $Row = $this->mapToLabelRow($data);
+        $row = $this->mapToLabelRow($data);
 
-        $this->repository->updateLabel($labelID, $Row);
+        $this->repository->updateLabel($labelID, $row);
     }
 
     public function deleteLabel(int $labelID, array $data): void
@@ -215,59 +192,59 @@ final class LabelUpdater
 
         $this->validator->validateLabelUpdate($labelId, $data);
 
-        $storeRow = $this->mapToLabelRow($data);
+        $row = $this->mapToLabelRow($data);
 
-        $this->repository->updateLabelMergePackApi($labelId, $storeRow, $user_id);
+        $this->repository->updateLabelMergePackApi($labelId, $row, $user_id);
     }
 
     public function updateLabelStatusMerging(int $ID, array $data, $user_id): void
     {
         $this->validator->validateLabelUpdate($ID, $data);
 
-        $Row = $this->mapToLabelRow($data);
+        $row = $this->mapToLabelRow($data);
         $ID = $data[0]['id'];
-        // $Row['merge_pack_id']=$data['check_mp_id'];
+        // $row['merge_pack_id']=$data['check_mp_id'];
         if ($data[0]['status'] == "PACKED" && ($data[0]['label_type'] == "NONFULLY" || $data[0]['label_type'] == "MERGE_NONFULLY")) {
             if ($data[0]['merge_pack_id'] == 0) {
                 if ($data[0]['status'] == "MERGED") {
-                    $Row['status'] = $data[0]['status'];
-                    $Row['merge_pack_id'] = $data[0]['merge_pack_id'];
+                    $row['status'] = $data[0]['status'];
+                    $row['merge_pack_id'] = $data[0]['merge_pack_id'];
                 } else if ($data[0]['status'] == "PACKED") {
-                    $Row['status'] = "MERGING";
-                    $Row['merge_pack_id'] = $data[0]['merge_pack_id'];
+                    $row['status'] = "MERGING";
+                    $row['merge_pack_id'] = $data[0]['merge_pack_id'];
                 }
             } else {
-                $Row['status'] = $data[0]['status'];
-                $Row['merge_pack_id'] = $data[0]['merge_pack_id'];
+                $row['status'] = $data[0]['status'];
+                $row['merge_pack_id'] = $data[0]['merge_pack_id'];
             }
             if ($data[0]['label_type'] == "MERGE_NONFULLY") {
-                $Row['status'] = "MERGING";
-                $Row['merge_pack_id'] = $data[0]['merge_pack_id'];
+                $row['status'] = "MERGING";
+                $row['merge_pack_id'] = $data[0]['merge_pack_id'];
             }
         }
 
-        $this->repository->updateLabelMerging($ID, $Row, $user_id);
+        $this->repository->updateLabelMerging($ID, $row, $user_id);
     }
 
     public function updateLabelDefalt(int $ID, array $data, $user_id): void
     {
         $this->validator->validateLabelUpdate($ID, $data);
 
-        $Row = $this->mapToLabelRow($data);
-        $Row['status'] = "PACKED";
-        $Row['merge_pack_id'] = 0;
+        $row = $this->mapToLabelRow($data);
+        $row['status'] = "PACKED";
+        $row['merge_pack_id'] = 0;
 
-        $this->repository->updateLabeldefault($ID, $Row, $user_id);
+        $this->repository->updateLabeldefault($ID, $row, $user_id);
     }
 
     // public function updateLabelStatusPackedApi(int $labelID, array $data, $user_id): void
     // {
     //     $this->validator->validateLabelUpdate($labelID, $data);
 
-    //     $Row = $this->mapToLabelRow($data);
-    //     $Row['status'] = "PACKED";
+    //     $row = $this->mapToLabelRow($data);
+    //     $row['status'] = "PACKED";
 
-    //     $this->repository->updateLabelmergeApi($labelID, $Row, $user_id);
+    //     $this->repository->updateLabelmergeApi($labelID, $row, $user_id);
     // }
 
     private function mapToLabelRow(array $data): array

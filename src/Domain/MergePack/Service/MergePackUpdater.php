@@ -43,9 +43,9 @@ final class MergePackUpdater
     {
         $this->validator->validateMergePackUpdate($id, $data);
 
-        $Row = $this->mapToMergePackRow($data);
+        $row = $this->mapToMergePackRow($data);
 
-        $this->repository->updateMergePackApi($id, $Row, $user_id);
+        $this->repository->updateMergePackApi($id, $row, $user_id);
 
         //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));
     }
@@ -54,10 +54,10 @@ final class MergePackUpdater
     {
         $this->validator->validateMergePackUpdate($id, $data);
 
-        $Row = $this->mapToMergePackRow($data);
-        $Row['merge_status'] = "MERGING";
+        $row = $this->mapToMergePackRow($data);
+        $row['merge_status'] = "MERGING";
 
-        $this->repository->updateMergingApi($id, $Row, $user_id);
+        $this->repository->updateMergingApi($id, $row, $user_id);
     }
 
     public function updateStatusMergeApi(int $id, array $data, $user_id): void
@@ -65,22 +65,18 @@ final class MergePackUpdater
 
         $this->validator->validateMergePackUpdate($id, $data);
 
-        $Row = $this->mapToMergePackRow($data);
-        $Row['merge_status'] = "MERGED";
+        $row = $this->mapToMergePackRow($data);
+        $row['merge_status'] = "MERGED";
 
-        $this->repository->updateMergingApi($id, $Row, $user_id);
+        $this->repository->updateMergingApi($id, $row, $user_id);
     }
 
     public function updateLabelPackMergeApi(string $labelNo, array $data, $user_id): void
     {
-
-        // Input validation
         $this->validator->validateMergePackUpdate($labelNo, $data);
 
-        // Map form data to row
         $storeRow = $this->mapToMergePackRow($data);
 
-        // Insert store
         $this->repository->updateLabelPackMergeApi($labelNo, $storeRow, $user_id);
     }
 
@@ -103,7 +99,6 @@ final class MergePackUpdater
 
         $this->repository->updatePackMerge($mergeId, $storeRow);
         
-        //Write by tae01
     }
 
 

@@ -2,23 +2,36 @@
 
 namespace App\Action\Web;
 
+
+use App\Domain\Sell\Service\SellFinder;
+use App\Domain\TempQuery\Service\TempQueryFinder;
 use App\Domain\Sell\Service\SellUpdater;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Slim\Views\Twig;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * Action.
  */
 final class SellAddAction
 {
+    private $twig;
+    private $finder;
+    private $tempQueryFinder;
     private $responder;
     private $updater;
+    private $session;
 
-    public function __construct(Responder $responder, SellUpdater $updater)
+    public function __construct(Twig $twig, Responder $responder, SellFinder $finder, SellUpdater $updater, TempQueryFinder $tempQueryFinder,Session $session,)
     {
+        $this->twig=$twig;
+        $this->finder = $finder;
         $this->responder = $responder;
         $this->updater = $updater;
+        $this->tempQueryFinder = $tempQueryFinder;
+        $this->session=$session;
     }
 
     public function __invoke(
@@ -28,8 +41,27 @@ final class SellAddAction
     ): ResponseInterface {
         $data = (array)$request->getParsedBody();
 
-        $this->updater->insertSell($data);
+        $id = $this->updater->insertSell($data);
 
-        return $this->responder->withRedirect($response,"sells");
+        $rtSell['sell_id'] = $id;
+
+        // $this->finder->findSells($rtSell);
+
+        $sellRow = $this->finder->findSellRow($id);
+
+        // if ($sellRow) {
+        //     $sell = $sellRow;
+        // }
+
+        $param_search['sell_id'] = $id;
+
+        $viewData = [
+            'sellRow' => $sellRow,
+            'CpoItem' => $this->tempQueryFinder->findTempQuery($param_search),
+            'user_login' => $this->session->get('user'),
+        ];
+
+        return $this->twig->render($response, 'web/cpoItem.twig', $viewData);
+        // return $this->responder->withRedirect($response,"sells");
     }
 }

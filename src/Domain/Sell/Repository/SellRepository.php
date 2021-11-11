@@ -77,6 +77,7 @@ final class SellRepository
                 'part_code'
             ]
         );
+        $query->andWhere(['sells.is_delete' => 'N']);
 
         if(isset($params['sell_id'])){
             $query->andWhere(['sells.id' => $params['sell_id']]);
@@ -84,7 +85,7 @@ final class SellRepository
         if(isset($params['id'])){
             $query->andWhere(['sells.id' => $params['id']]);
         }
-        else if (isset($params["startDate"])) {
+        if (isset($params["startDate"])) {
             $query->andWhere(['sell_date <=' => $params['endDate'], 'sell_date >=' => $params['startDate']]);
         }
 
