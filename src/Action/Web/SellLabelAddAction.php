@@ -4,6 +4,7 @@ namespace App\Action\Web;
 
 use App\Domain\SellLabel\Service\SellLabelFinder;
 use App\Domain\Sell\Service\SellFinder;
+use App\Domain\Sell\Service\SellUpdater;
 use App\Domain\SellLabel\Service\SellLabelUpdater;
 use App\Domain\Label\Service\LabelUpdater;
 use App\Responder\Responder;
@@ -23,6 +24,7 @@ final class SellLabelAddAction
     private $twig;
     private $updater;
     private $finder;
+    private $updateSell;
     private $labelUpdater;
     private $sellFinder;
     private $session;
@@ -31,6 +33,7 @@ final class SellLabelAddAction
         Twig $twig,
         SellLabelFinder $finder,
         SellLabelUpdater $updater,
+        SellUpdater $updateSell,
         Session $session,
         Responder $responder,
         SellFinder $sellFinder,
@@ -44,6 +47,7 @@ final class SellLabelAddAction
         $this->labelUpdater = $labelUpdater;
         $this->sellFinder = $sellFinder;
         $this->session=$session;
+        $this->updateSell=$updateSell;
     }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
@@ -52,6 +56,8 @@ final class SellLabelAddAction
         $sellID = (int)$data['sell_id'];
         $labelID = (int)$data['id'];
 
+        $upstatus['sell_status'] = "SELECTING_LABEL"; 
+        $this->updateSell->updateSell($sellID,$upstatus);
 
         $this->updater->insertSellLabel($data);
         $user_id=$this->session->get('user')["id"];
@@ -88,6 +94,8 @@ final class SellLabelAddAction
         $sellRow = $this->sellFinder->findSellRow($sellID);
 
         
+        $sellRow = $this->sellFinder->findSellRow($sellID);
+
         $viewData = [
             'totalQtyLabelsell'=>$arrtotalQty,
             'sellRow'=>$sellRow,
@@ -95,6 +103,6 @@ final class SellLabelAddAction
             'user_login' => $this->session->get('user'),
         ];
         
-        return $this->twig->render($response, 'web/selectLabelForSells.twig',$viewData);
+        return $this->twig->render($response, 'web/sellLabels.twig',$viewData);
     }
 }

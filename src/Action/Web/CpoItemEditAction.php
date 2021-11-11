@@ -4,6 +4,7 @@ namespace App\Action\Web;
 
 use App\Domain\CpoItem\Service\CpoItemUpdater;
 use App\Domain\Sell\Service\SellFinder;
+use App\Domain\Sell\Service\SellUpdater;
 use App\Domain\TempQuery\Service\TempQueryFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
@@ -22,13 +23,15 @@ final class CpoItemEditAction
     private $twig;
     private $finder;
     private $updater;
+    private $updateSell;
     private $session;
     private $tempQueryFinder;
 
-    public function __construct(Twig $twig, Responder $responder, SellFinder $finder,TempQueryFinder $tempQueryFinder, CpoItemUpdater $updater,Session $session)
+    public function __construct(Twig $twig, Responder $responder, SellFinder $finder,TempQueryFinder $tempQueryFinder, CpoItemUpdater $updater,SellUpdater $updateSell, Session $session)
     {
         $this->responder = $responder;
         $this->updater = $updater;
+        $this->updateSell = $updateSell;
         $this->session=$session;
         $this->twig = $twig;
         $this->finder = $finder;
@@ -45,11 +48,20 @@ final class CpoItemEditAction
         $data = (array)$request->getParsedBody();
         $sellID = (string)$data["sell_id"];
         $id = $data["id"];
-
-        $sellRow = $this->finder->findSellRow($sellID);
         
         $this->updater->updateCpoItem($id, $data);
 
+        $rtSellCpoItem = $this->tempQueryFinder->findTempQuery($data);
+
+        $totalQty = 0;
+        for ($i=0; $i < count($rtSellCpoItem); $i++) { 
+            $totalQty += $rtSellCpoItem[$i]['sell_qty'];
+        }
+
+        $rtSell['total_qty'] = $totalQty; 
+        $this->updateSell->updateSell($sellID, $rtSell);
+        $sellRow = $this->finder->findSellRow($sellID);
+        
         $viewData = [
             'sellRow'=>$sellRow,
             'CpoItem' => $this->tempQueryFinder->findTempQuery($data),

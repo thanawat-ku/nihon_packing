@@ -67,10 +67,12 @@
 										</button>
 										{% else %}
 									{% endif %}
-									<button type="button" id="editBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editSell" name="{{ sell|json_encode }}">
-										<i style="font-size:15px; width:20px;" class="fas fa-edit"></i>
-									</button>
-									{% if sell.sell_status == "CREATED" %}
+									{% if sell.sell_status == "SELECTED_CPO" or sell.sell_status == "SELECTING_LABEL"  %}
+										<button type="button" id="editBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editSell" name="{{ sell|json_encode }}">
+											<i style="font-size:15px; width:20px;" class="fas fa-edit"></i>
+										</button>
+									{% endif %}
+									{% if sell.sell_status == "CREATED" or sell.sell_status == "SELECTING_CPO" or sell.sell_status == "SELECTED_CPO" %}
 										<button type="button" id="deleteBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteSell" name="{{ sell|json_encode }}">
 											<i style="font-size:15px; width:20px;" class="fas fa-trash"></i>
 										</button>
@@ -81,7 +83,7 @@
 					</tbody>
 					<tfoot></tfoot>
 				</table>
-				
+
 				<p></p>
 			</div>
 		</div>
@@ -101,7 +103,7 @@
 					<div class="modal-body">
 						<div class="form-sell">
 							<label for="email">Select Product</label>
-							<select class="form-control" id="addProductID" name="product_id">
+							<select class="selectpicker form-control" id="addProductID" name="product_id" data-live-search="true">
 								{% for p in products %}
 									<option value={{ p.id }}>({{p.part_code}})
 										{{ p.part_name}}
@@ -139,21 +141,11 @@
 							<label for="labelNo">
 								<span id="editProductName"></span>
 							</label>
-							{# <input type="text" autocomplete="off" class="form-control" id="editSell_code" name="part_code" readOnly> #}
 						</div>
 						<div class="form-sell">
 							<label for="email">Select Sell Status</label>
 							<select class="form-control" id="editSellStatus" name="sell_status">
-								<option value="CREATED">CREATED</option>
 								<option value="SELECTING_CPO">SELECTING_CPO</option>
-								<option value="SELECTED_CPO">SELECTED_CPO</option>
-								<option value="SELECTING_LABEL">SELECTING_LABEL</option>
-								<option value="SELECTED_LABEL">SELECTED_LABEL</option>
-								<option value="TAGGED">TAGGED</option>
-								<option value="INVOICED">INVOICED</option>
-								{# {% for sell in sells %}
-																																																																              <option value={{ sell.sell_status }}>{{sell.sell_status}}</option>
-																																																																            {% endfor %} #}
 							</select>
 						</div>
 					</div>

@@ -33,7 +33,7 @@ final class SellConfirmAction
         $sellID=(int)$data['sell_id'];
         $user_id=$this->session->get('user')["id"];
 
-        $date['up_status'] = "SELECTED_CPO";
+        $data['up_status'] = "SELECTED_CPO";
         $this->updater->updateSellStatus($sellID, $data,$user_id);
 
         return $this->responder->withRedirect($response,"sells");

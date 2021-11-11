@@ -69,15 +69,11 @@ final class CpoItemAction
 
         $sellRow = $this->sellFinder->findSellRow($sellID);
 
-        if($sellRow) {
-            $sell = $sellRow;
-        }
-
         $param_search['uuid']=$uuid;
         $param_search['sell_id']=$sellID;
       
         $viewData = [
-            'sellRow'=>$sell,
+            'sellRow'=>$sellRow,
             'CpoItem' => $this->tempQueryFinder->findTempQuery($param_search),
             'user_login' => $this->session->get('user'),
         ];

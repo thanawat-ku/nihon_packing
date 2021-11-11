@@ -77,6 +77,7 @@ final class SellRepository
                 'part_code'
             ]
         );
+        $query->andWhere(['sells.is_delete' => 'N']);
 
         if(isset($params['sell_id'])){
             $query->andWhere(['sells.id' => $params['sell_id']]);

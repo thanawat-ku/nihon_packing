@@ -46,6 +46,7 @@ final class TempQueryRepository
                 'sci.sell_qty',
                 'sci.id',
                 'sci.id',
+                's.total_qty',
                 
                 
             ]
@@ -165,7 +166,7 @@ final class TempQueryRepository
         ]);
 
         if(isset($params['ProductID'])){
-            $query->Where(['product_id' => $params["ProductID"]]);
+            $query->Where(['p.id' => $params["ProductID"]]);
         }
 
         return $query->execute()->fetchAll('assoc') ?: [];

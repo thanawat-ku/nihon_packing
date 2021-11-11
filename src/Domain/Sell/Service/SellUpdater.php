@@ -102,7 +102,7 @@ final class SellUpdater
         $this->repository->updateSellApi($productId, $row, $user_id);
     }
 
-    public function deleteSellApi(int $productId, array $data): void
+    public function deleteSellApi(int $productId): void
     {
         $this->repository->deleteSell($productId);
     }
@@ -125,6 +125,9 @@ final class SellUpdater
         }
         if (isset($data['sell_status'])) {
             $result['sell_status'] = (string)$data['sell_status'];
+        }
+        if (isset($data['is_delete'])) {
+            $result['is_delete'] = (string)$data['is_delete'];
         }
 
         return $result;

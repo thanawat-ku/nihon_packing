@@ -55,11 +55,22 @@ final class CompleteMergePackAction
             $labelID=(int)$label_row[0]['id'];
 
             $dataUpdate['up_status'] = "PACKED"; 
-            $this->updatelabel->updateLabelStatusPackedApi($labelID, $dataUpdate, $user_id);
+            $this->updatelabel->updateLabelStatus($labelID, $dataUpdate, $user_id);
         }
-        $this->updater->updateCompleteApi($mergepackID, $label_row, $user_id);
+        $upStatus['merge_status']="COMPLETE";
+        $this->updater->updateMergePackApi($mergepackID, $upStatus, $user_id);
+
+        if (isset($params['start_date'])) {
+            $params['startDate'] = $params['start_date'];
+            $params['endDate'] = $params['end_date'];
+        }
         
         $allData=[''];
+
+        if (isset($data['start_date'])) {
+            $allData['startDate'] = $data['start_date'];
+            $allData['endDate'] = $data['end_date'];
+        }
 
         $rtdata['message']="Get MergePack Successful";
         $rtdata['error']=false;

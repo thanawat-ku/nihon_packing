@@ -14,11 +14,15 @@ final class SellEditAction
 {
     private $responder;
     private $updater;
+    private $updateLabel;
 
     public function __construct(Responder $responder, SellUpdater $updater)
     {
+       
         $this->responder = $responder;
         $this->updater = $updater;
+        
+        
     }
 
     public function __invoke(
@@ -27,10 +31,10 @@ final class SellEditAction
         array $args
     ): ResponseInterface {
         $data = (array)$request->getParsedBody();
-        $sellID =(int)$data['id'];
+        $sellID = (int)$data['id'];
 
-        $this->updater->updateSell($sellID,$data);
+        $this->updater->updateSell($sellID, $data);
 
-        return $this->responder->withRedirect($response,"sells");
+        return $this->responder->withRedirect($response, "sells");
     }
 }

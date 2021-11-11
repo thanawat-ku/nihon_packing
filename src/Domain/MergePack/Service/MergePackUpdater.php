@@ -73,14 +73,10 @@ final class MergePackUpdater
 
     public function updateLabelPackMergeApi(string $labelNo, array $data, $user_id): void
     {
-
-        // Input validation
         $this->validator->validateMergePackUpdate($labelNo, $data);
 
-        // Map form data to row
         $storeRow = $this->mapToMergePackRow($data);
 
-        // Insert store
         $this->repository->updateLabelPackMergeApi($labelNo, $storeRow, $user_id);
     }
 
@@ -103,7 +99,6 @@ final class MergePackUpdater
 
         $this->repository->updatePackMerge($mergeId, $storeRow);
         
-        //Write by tae01
     }
 
 

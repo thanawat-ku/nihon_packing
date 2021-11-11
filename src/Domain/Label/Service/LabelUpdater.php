@@ -45,20 +45,6 @@ final class LabelUpdater
     }
 
 
-    // public function insertLabelApi(array $data, $user_id): int //สร้าง labels จาก splitlabel
-    // {
-
-    //     $this->validator->validateLabelInsert($data);
-
-    //     $row = $this->mapToLabelRow($data);
-
-    //     $id = $this->repository->insertLabelApi($row, $user_id);
-
-
-    //     return $id;
-    // }
-
-
     public function insertLabelApi(array $data, $user_id): int //สร้าง labels จาก splitlabel
     {
         $this->validator->validateLabelInsert($data);
@@ -111,26 +97,20 @@ final class LabelUpdater
 
     public function registerLabel(int $lot_id, array $data): void
     {
-        // Input validation
         $this->validator->validateLabelUpdate($lot_id, $data);
 
-        //     // Map form data to row
-        $storeRow = $this->mapToLabelRow($data);
+        $row = $this->mapToLabelRow($data);
 
-        // Insert store
-        $this->repository->registerLabel($lot_id, $storeRow);
+        $this->repository->registerLabel($lot_id, $row);
     }
 
     public function registerLabelApi(int $lot_id, array $data, $user_id): void
     {
-        // Input validation
         $this->validator->validateLabelUpdate($lot_id, $data);
 
-        //     // Map form data to row
-        $storeRow = $this->mapToLabelRow($data);
+        $row = $this->mapToLabelRow($data);
 
-        // Insert store
-        $this->repository->registerLabelApi($lot_id, $storeRow, $user_id);
+        $this->repository->registerLabelApi($lot_id, $row, $user_id);
     }
 
     public function registerMerge(int $mergeId, array $data): void
@@ -139,10 +119,10 @@ final class LabelUpdater
         $this->validator->validateLabelUpdate($mergeId, $data);
 
         //     // Map form data to row
-        $storeRow = $this->mapToLabelRow($data);
+        $row = $this->mapToLabelRow($data);
 
         // Insert store
-        $this->repository->registerMerge($mergeId, $storeRow);
+        $this->repository->registerMerge($mergeId, $row);
     }
 
     public function updateLabelApi(int $labelID, array $data, $user_id): void
@@ -209,9 +189,9 @@ final class LabelUpdater
 
         $this->validator->validateLabelUpdate($labelId, $data);
 
-        $storeRow = $this->mapToLabelRow($data);
+        $row = $this->mapToLabelRow($data);
 
-        $this->repository->updateLabelMergePackApi($labelId, $storeRow, $user_id);
+        $this->repository->updateLabelMergePackApi($labelId, $row, $user_id);
     }
 
     public function updateLabelStatusMerging(int $ID, array $data, $user_id): void

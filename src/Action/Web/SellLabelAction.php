@@ -68,7 +68,6 @@ final class SellLabelAction
 
         $sellRow = $this->sellFinder->findSellRow($sellID);
 
-        
         $viewData = [
             'totalQtyLabelsell'=>$arrtotalQty,
             'sellRow'=>$sellRow,

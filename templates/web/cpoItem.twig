@@ -23,15 +23,15 @@
 				<button type="submit" form="{{ sellRow.id }}" id="addBt" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#addCpoItem">
 					<i style="font-size:15px; width:20px;" class="fas fa-tasks"></i>
 					Add CpoItem</button>
-				{# <a href="CpoItemSelects?ProductID={{sellRow.product_id}}&sell_id={{sellRow.id}}"></a>        #}
 				<button type="button" id="conBt" class="btn btn-success btn-sm" data-toggle="modal" data-target="#confirmCpoItem" name "{{ sellRow|json_encode }}">
 					<i style="font-size:15px; width:20px;" class="#"></i>Confirm</button>
 				<hr>
 				<div>
 					<h5>{{ sellRow.sell_no  ~ '(' ~ sellRow.sell_status ~ ')'}}
 					</h5>
-					<span>{{'Sell Date' ~ sellRow.sell_date}}</span><br>
-					<span>{{'Total Quantity:' ~ sellRow.total_qty}}</span>
+					<span>{{sellRow.part_name ~ '(' ~ sellRow.part_code ~ ')'}}</span><br>
+					<span>{{'Sell Date: ' ~ sellRow.sell_date}}</span><br>
+					<span>{{'Total Quantity: ' ~ sellRow.total_qty}}</span>
 				</div>
 				<hr>
 				<table id="my-data-table" class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline collapsed">
@@ -149,7 +149,7 @@
 					id="form-deleteCpoItem" action="confirm_sell" method="post">
 					<!-- Modal Header -->
 					<div class="modal-header">
-						<h4 class="modal-title">Delete CpoItem</h4>
+						<h4 class="modal-title">Confirm CpoItem</h4>
 						<button type="button" class="close" data-dismiss="modal">&times;</button>
 					</div>
 					<!-- Modal body -->

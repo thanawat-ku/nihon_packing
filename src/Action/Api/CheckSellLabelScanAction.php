@@ -29,6 +29,8 @@ final class CheckSellLabelScanAction
     private $upmergepack;
     private $upmergepackdetail;
     private $mergepackDetailFinder;
+    private $updatesell;
+    private  $updateselllabel;
 
     public function __construct(
         Twig $twig,
@@ -58,8 +60,8 @@ final class CheckSellLabelScanAction
         $sellID = $data['sell_id'];
         // $product_id = $data['product_id'];
 
-
-        $this->updatesell->updateSellSelectingLabelApi($sellID, $data, $user_id);
+        $upstatus['up_status'] = "SELECTING_LABEL";
+        $this->updatesell->updateSellStatus($sellID, $upstatus, $user_id);
         $this->updateselllabel->deleteSellLabelApi($sellID);
         // $this->updater->updateSellLabelDefalt($merge_pack_id, $data, $user_id);
 
