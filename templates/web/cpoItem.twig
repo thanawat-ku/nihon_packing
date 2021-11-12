@@ -23,8 +23,10 @@
 				<button type="submit" form="{{ sellRow.id }}" id="addBt" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#addCpoItem">
 					<i style="font-size:15px; width:20px;" class="fas fa-tasks"></i>
 					Add CpoItem</button>
-				<button type="button" id="conBt" class="btn btn-success btn-sm" data-toggle="modal" data-target="#confirmCpoItem" name "{{ sellRow|json_encode }}">
-					<i style="font-size:15px; width:20px;" class="#"></i style="font-size:15px; width:20px;" class="fas fa-check">Confirm</button>
+				{% if sellRow.total_qty != 0 %}
+					<button type="button" id="conBt" class="btn btn-success btn-sm" data-toggle="modal" data-target="#confirmCpoItem" name "{{ sellRow|json_encode }}">
+						<istyle= style="font-size:15px; width:20px;" class="#"></istyle="font-size:15px;width:20px;"class="fasfa-check">Confirm</button>
+				{% endif %}
 				<hr>
 				<div>
 					<h5>{{ sellRow.sell_no  ~ '(' ~ sellRow.sell_status ~ ')'}}
@@ -38,9 +40,9 @@
 					<thead>
 						<tr>
 							<th>Cpo No</th>
+							<th>Due Date</th>
 							<th>Remain Quantity</th>
 							<th>Sell Quantity</th>
-							<th>Due Date</th>
 							<th>Operation</th>
 						</tr>
 					</thead>
@@ -48,9 +50,9 @@
 						{% for cpo in CpoItem %}
 							<tr>
 								<td>{{ cpo.cpo_no }}</td>
+								<td>{{ cpo.due_date}}</td>
 								<td>{{ cpo.quantity }}</td>
 								<td>{{ cpo.sell_qty }}</td>
-								<td>{{ cpo.due_date}}</td>
 								<td>
 									<button type="button" id="editBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editCpoItem" name="{{ cpo|json_encode }}">
 										<i style="font-size:15px; width:20px;" class="fas fa-edit"></i>

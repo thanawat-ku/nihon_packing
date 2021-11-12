@@ -16,18 +16,20 @@
 				<h2>
 					<i class="fas fa-cart-arrow-down"></i>
 					SellLabels list</h2>
-				<form action="select_label_for_sells" method="post" id="{{ sellRow.id }}">
-					<input type="hidden" id="productID" name="ProductID" value="{{ sellRow.product_id }}">
-					<input type="hidden" id="sellID" name="sell_id" value="{{ sellRow.id }}">
-				</form>
-				<button type="submit" id="addBt" form="{{ sellRow.id }}" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#addSellLabels">
-					<i style="font-size:15px; width:20px;" class="fas fa-cart-plus"></i>
-					Add SellLabels</button>
+				{% if sellRow.sell_status != "SELECTED_LABEL" %}
+					<form action="select_label_for_sells" method="post" id="{{ sellRow.id }}">
+						<input type="hidden" id="productID" name="ProductID" value="{{ sellRow.product_id }}">
+						<input type="hidden" id="sellID" name="sell_id" value="{{ sellRow.id }}">
+					</form>
+					<button type="submit" id="addBt" form="{{ sellRow.id }}" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#addSellLabels">
+						<i style="font-size:15px; width:20px;" class="fas fa-cart-plus"></i>
+						Add SellLabels</button>
 
-				{% if sellRow.total_qty == totalQtyLabelsell[0] and sellRow.total_qty != 0 %}
-					<button type="button" id="conBt" class="btn btn-success btn-sm" data-toggle="modal" data-target="#conFirmSellLabel" name="{{ label|json_encode }}">
-						<i style="font-size:15px; width:20px;" class="fas fa-check"></i>Confirm
-					</button>
+					{% if sellRow.total_qty == totalQtyLabelsell[0] and sellRow.total_qty != "0" %}
+						<button type="button" id="conBt" class="btn btn-success btn-sm" data-toggle="modal" data-target="#conFirmSellLabel" name="{{ label|json_encode }}">
+							<i style="font-size:15px; width:20px;" class="fas fa-check"></i>Confirm
+						</button>
+					{% endif %}
 				{% endif %}
 				<hr>
 				<div>
@@ -42,10 +44,13 @@
 					<thead>
 						<tr>
 							<th>Label No</th>
+							<th>Due Date</th>
+							<th>LotNO/MergeNo</th>
 							<th>Quantity</th>
-							{# <th>Sell Quantity</th> #}
 							<th>Label Type</th>
-							<th>Operation</th>
+							{% if sellRow.sell_status != "SELECTED_LABEL" %}
+								<th>Operation</th>
+							{% endif %}
 						</tr>
 					</thead>
 					<tbody>
@@ -53,25 +58,33 @@
 							<tr>
 
 								<td>{{ selllabel.label_no }}</td>
+								<td>{{ selllabel.issue_date }}</td>
+								<td>{{ selllabel.lot_no }}</td>
 								<td>{{ selllabel.quantity}}</td>
 								<td>{{ selllabel.label_type}}</td>
-								<td>
-									<button type="button" id="removeBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#removeSellLabels" name="{{ selllabel|json_encode }}">
-										<i style="font-size:15px; width:20px;" class="fas fa-trash"></i>
-									</button>
-								</td>
+								{% if sellRow.sell_status != "SELECTED_LABEL" %}
+									<td>
+										<button type="button" id="removeBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#removeSellLabels" name="{{ selllabel|json_encode }}">
+											<i style="font-size:15px; width:20px;" class="fas fa-trash"></i>
+										</button>
+									</td>
+								{% endif %}
 							</tr>
 						{% endfor %}
 						{% for selllabel in sellLabels[1] %}
 							<tr>
 								<td>{{ selllabel.label_no }}</td>
+								<td>{{ selllabel.merge_date }}</td>
+								<td>{{ selllabel.merge_no }}</td>
 								<td>{{ selllabel.quantity}}</td>
 								<td>{{ selllabel.label_type}}</td>
-								<td>
-									<button type="button" id="removeBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#removeSellLabels" name="{{ selllabel|json_encode }}">
-										<i style="font-size:15px; width:20px;" class="fas fa-trash"></i>
-									</button>
-								</td>
+								{% if sellRow.sell_status != "SELECTED_LABEL" %}
+									<td>
+										<button type="button" id="removeBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#removeSellLabels" name="{{ selllabel|json_encode }}">
+											<i style="font-size:15px; width:20px;" class="fas fa-trash"></i>
+										</button>
+									</td>
+								{% endif %}
 							</tr>
 						{% endfor %}
 					</tbody>

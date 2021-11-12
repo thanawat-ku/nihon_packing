@@ -54,13 +54,13 @@ final class CheckLabelScanAction
         $data = (array)$request->getParsedBody();
         $user_id = $data['user_id'];
         $label = $data['label'];
-        $merge_pack_id = $data['id'];
-        $product_id = $data['product_id'];
+        $mergePackID = $data['id'];
+        $productID = $data['product_id'];
 
 
-        $this->upmergepack->updateMergingApi($merge_pack_id, $data, $user_id);
-        $this->upmergepackdetail->deleteMergePackDetailApi($merge_pack_id);
-        // $this->updater->updateLabelDefalt($merge_pack_id, $data, $user_id);
+        $this->upmergepack->updateMergingApi($mergePackID, $data, $user_id);
+        $this->upmergepackdetail->deleteMergePackDetailApi($mergePackID);
+        // $this->updater->updateLabelDefalt($mergePackID, $data, $user_id);
 
         $arrlabel = explode("#", $label);
 
@@ -71,18 +71,18 @@ final class CheckLabelScanAction
 
             if ($label_row) {
                 if ($label_row[0]['mergo_pack_id'] == 0) {
-                    $label_row['check_mp_id'] = $merge_pack_id;
-                    $label_row['check_product_id'] = $product_id;
+                    $label_row['check_mp_id'] = $mergePackID;
+                    $label_row['check_product_id'] = $productID;
                     $id = $this->upmergepackdetail->insertMergePackDetailCheckApi($label_row, $user_id);
                     $this->updater->updateLabelStatusMerging($id, $label_row, $user_id);
 
                     if ($label_row[0]['lot_id'] != 0) {
-                        $data["merge_pack_id"] = $merge_pack_id;
+                        $data["merge_pack_id"] = $mergePackID;
                         $rtdata['message'] = "Get Label Successful";
                         $rtdata['error'] = false;
                         $rtdata['mpd_from_lots'] = $this->mergepackDetailFinder->findMergePackDetailFromLots($data);
                     } else {
-                        $data["merge_pack_id"] = $merge_pack_id;
+                        $data["merge_pack_id"] = $mergePackID;
                         $rtdata['message'] = "Get Label Successful";
                         $rtdata['error'] = false;
                         $rtdata['mpd_from_merges'] = $this->mergepackDetailFinder->findMergePackDetailFromMergePacks($data);

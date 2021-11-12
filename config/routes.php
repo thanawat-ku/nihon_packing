@@ -123,7 +123,7 @@ return function (App $app) {
     $app->post('/api/gen_merge_labels', \App\Action\Api\GenMergeLabelBarcodeNoAction::class);
     $app->post('/api/up_status_merge_label', \App\Action\Api\UpStatusMergeLabelAction::class);
     $app->post('/api/check_label_scan', \App\Action\Api\CheckLabelScanAction::class);
-    // $app->get('/api/check_label_scan', \App\Action\Api\CheckLabelScanAction::class);
+    $app->post('/api/label_scan_merge', \App\Action\Api\LabelScanMergeAction::class);
     $app->get('/api/label_merge_packs', \App\Action\Api\LabelFromMergepackAction::class);
     $app->post('/api/check_lb_scan_rm', \App\Action\Api\CheckLabelScanRegisMergeAction::class);
     // $app->post('/api/check_lb_scan_rm', \App\Action\Api\CheckLabelScanAction::class);

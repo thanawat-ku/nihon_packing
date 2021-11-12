@@ -96,7 +96,7 @@ final class MergePackDetailRepository
             [
                 'merge_pack_details.id',
                 'merge_pack_details.merge_pack_id',     
-                'label_no',  
+                'label_no', /// 
                 'lot_no',
                 'lb.quantity',
                 'l.product_id',
@@ -108,8 +108,6 @@ final class MergePackDetailRepository
                 'std_pack',
                 'std_box',
          
-                
-                
             ]
         );
 
@@ -141,9 +139,13 @@ final class MergePackDetailRepository
             'merge_pack_details.id'
         );
 
+        // if(isset($params['merge_pack_id'])){
+        //     $query->Where(['merge_pack_details.id' => $params["merge_pack_id"]]);
+        // }
         if(isset($params['merge_pack_id'])){
             $query->Where(['merge_pack_details.merge_pack_id' => $params["merge_pack_id"]]);
         }
+        
         
         return $query->execute()->fetchAll('assoc') ?: [];
     }
@@ -206,7 +208,10 @@ final class MergePackDetailRepository
         // }
 
         if(isset($params['merge_pack_id'])){
-            $query->Where(['merge_pack_details.merge_pack_id' => $params["merge_pack_id"]]);
+            $query->Where(['merge_pack_details.id' => $params["merge_pack_id"]]);
+        }
+        if(isset($params['merge_pack_id'])){
+            $query->Where(['mp.id' => $params["merge_pack_id"]]);
         }
         
         return $query->execute()->fetchAll('assoc') ?: [];
