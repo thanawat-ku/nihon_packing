@@ -15,14 +15,14 @@
 			<div class="col-md-12">
 				<h2>
 					<i class="fa fa-list-ul"></i>
-					CpoItem list</h2>
+					Cpo Item list</h2>
 				<form action="cpo_item_selects" method="post" id="{{ sellRow.id }}">
 					<input type="hidden" id="productID" name="ProductID" value="{{ sellRow.product_id }}">
 					<input type="hidden" id="sellID" name="sell_id" value="{{ sellRow.id }}">
 				</form>
 				<button type="submit" form="{{ sellRow.id }}" id="addBt" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#addCpoItem">
 					<i style="font-size:15px; width:20px;" class="fas fa-tasks"></i>
-					Add CpoItem</button>
+					Add Cpo Item</button>
 				<button type="button" id="conBt" class="btn btn-success btn-sm" data-toggle="modal" data-target="#confirmCpoItem" name "{{ sellRow|json_encode }}">
 					<i style="font-size:15px; width:20px;" class="#"></i style="font-size:15px; width:20px;" class="fas fa-check">Confirm</button>
 				<hr>
@@ -83,7 +83,7 @@
 					id="form-editCpoItem" action="edit_cpoidtem" method="post">
 					<!-- Modal Header -->
 					<div class="modal-header">
-						<h4 class="modal-title">Edit CpoItem</h4>
+						<h4 class="modal-title">Edit Cpo Item</h4>
 						<button type="button" class="close" data-dismiss="modal">&times;</button>
 					</div>
 					<!-- Modal body -->
@@ -91,7 +91,7 @@
 						<div class="form-sell">
 							<input type="hidden" id="editCpoItemID" name="id">
 							<input type="hidden" id="#" name="sell_id" value="{{sellRow.id}}">
-							<label for="labelNo">Cpo NO:<span id="editCpoNo"></span>
+							<label for="labelNo">Cpo No: <span id="editCpoNo"></span>
 							</label>
 						</div>
 						<div class="form-sell">
@@ -116,7 +116,7 @@
 					id="form-deleteCpoItem" action="delete_CpoItem" method="post">
 					<!-- Modal Header -->
 					<div class="modal-header">
-						<h4 class="modal-title">Delete CpoItem</h4>
+						<h4 class="modal-title">Delete Cpo Item</h4>
 
 						<button type="button" class="close" data-dismiss="modal">&times;</button>
 					</div>
@@ -149,15 +149,15 @@
 					id="form-deleteCpoItem" action="confirm_sell" method="post">
 					<!-- Modal Header -->
 					<div class="modal-header">
-						<h4 class="modal-title">Confirm CpoItem</h4>
+						<h4 class="modal-title">Confirm Cpo Item</h4>
 						<button type="button" class="close" data-dismiss="modal">&times;</button>
 					</div>
 					<!-- Modal body -->
 					<div class="modal-body">
 						<div class="form-sell">
 							<input type="hidden" id="conSellID" name="sell_id" value="{{sellRow.id}}">
-							<label for="sellNo">Are you sure confirm
-								{{sellRow.sell_no}}<span id="conSellNo"></span>
+							<label for="sellNo">Are you sure to confirm
+								{{sellRow.sell_no}}<span id="conSellNo"></span> ?
 							</label>
 							{# <label for="sellNo">Are you sure confirm: <span id="conSellNo"></span> #}
 							{# <span> </span><span id="deleteCpoItemName"></span></label> #}

@@ -13,7 +13,7 @@
   <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <h2><i class="fas fa-folder-plus"></i> Merge label detail of: {{ mergePack['merge_no'] }}</h2>  <!--dont show merge no -->    
+                <h2><i class="fas fa-folder-plus"></i> Merge Label detail of: {{ mergePack['merge_no'] }}</h2>  <!--dont show merge no -->    
                 {% if mergePack.select_label  == "Y" %}
                 <a href="label_merges?id={{mergePack['id']}} "><button type="button" id="addLabelBt" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#addLabel"><i style="font-size:15px; width:20px;" class="fas fa-newspaper"></i> Select Label</button></a>
                 {% if mergePack.merge_confirm  == "Y" %}
@@ -112,7 +112,7 @@
           <div class="form-product">
             <input type="hidden" id="deleteLabelID" name="label_id">
             <input type="hidden" id="deleteMergeID" name="merge_pack_id" value ="{{mergePack['id']}}">
-            <label for="lotNo">Do you want to delete label: <span id="deleteLabelNo"></span> ?</label>
+            <label for="lotNo">Do you want to delete Label: <span id="deleteLabelNo"></span> ?</label>
           </div>                 
         </div>
         <div class="modal-footer">

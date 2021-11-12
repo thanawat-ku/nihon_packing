@@ -13,8 +13,8 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <h2><i class="fas fa-object-ungroup"></i> Lot defect in lot: {{lot['lot_no']}}</h2>
-                <button type="button" id="addDefectBt" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#defectLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-plus fa-lg"></i> Add lot defect</button>
+                <h2><i class="fas fa-object-ungroup"></i> Lot Defect in Lot: {{lot['lot_no']}}</h2>
+                <button type="button" id="addDefectBt" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#defectLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-plus fa-lg"></i> Add Lot Defect</button>
                 <hr>      
                 <table id="my-data-table" class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline collapsed">     
                     <thead>
@@ -63,7 +63,7 @@
           <div class="form-product">
             <input type="hidden" id="deleteLotDefectID" name="id">
             <input type="hidden" id="deleteDefectLotID" name="lot_id">
-            <label for="lotNo">Do you want to delete lot defect: <span id="deleteDefectCode"></span> ?</label>
+            <label for="lotNo">Do you want to delete Lot Defect: <span id="deleteDefectCode"></span> ?</label>
           </div>                 
         </div>
         <div class="modal-footer">
@@ -120,7 +120,7 @@
       <form id="form-defectLot" action="add_lot_defect" method="post">
         <!-- Modal Header -->
         <div class="modal-header">
-          <h4 class="modal-title">Add lot defect</h4>
+          <h4 class="modal-title">Add Lot Defect</h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         <!-- Modal body -->

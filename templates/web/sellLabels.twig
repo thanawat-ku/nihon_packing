@@ -15,14 +15,14 @@
 			<div class="col-md-12">
 				<h2>
 					<i class="fas fa-cart-arrow-down"></i>
-					SellLabels list</h2>
+					Sell Labels list</h2>
 				<form action="select_label_for_sells" method="post" id="{{ sellRow.id }}">
 					<input type="hidden" id="productID" name="ProductID" value="{{ sellRow.product_id }}">
 					<input type="hidden" id="sellID" name="sell_id" value="{{ sellRow.id }}">
 				</form>
 				<button type="submit" id="addBt" form="{{ sellRow.id }}" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#addSellLabels">
 					<i style="font-size:15px; width:20px;" class="fas fa-cart-plus"></i>
-					Add SellLabels</button>
+					Add Sell Labels</button>
 
 				{% if sellRow.total_qty == totalQtyLabelsell[0] and sellRow.total_qty != 0 %}
 					<button type="button" id="conBt" class="btn btn-success btn-sm" data-toggle="modal" data-target="#conFirmSellLabel" name="{{ label|json_encode }}">
@@ -34,8 +34,8 @@
 					<h5>{{ sellRow.sell_no  ~ '(' ~ sellRow.sell_status ~ ')'}}
 					</h5>
 					<span>{{sellRow.part_name ~ '(' ~ sellRow.part_code ~ ')'}}</span><br>
-					<span>{{'Sell Date' ~ sellRow.sell_date}}</span><br>
-					<span>{{'Total Quantity:' ~ sellRow.total_qty ~ '/' ~ totalQtyLabelsell[0]}}</span>
+					<span>{{'Sell Date: ' ~ sellRow.sell_date}}</span><br>
+					<span>{{'Total Quantity: ' ~ sellRow.total_qty ~ '/' ~ totalQtyLabelsell[0]}}</span>
 				</div>
 				<hr>
 				<table id="my-data-table" class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline collapsed">
@@ -87,7 +87,7 @@
 		</div>
 	</div>
 
-	<!-- Modal Remove Label NO Sell -->
+	<!-- Modal Remove Label No Sell -->
 	<div class="modal fade" id="removeSellLabels">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
@@ -103,7 +103,7 @@
 						<div class="form-sell">
 							<input type="hidden" id="removeLabelID" name="id">
 							<input type="hidden" id="addSellID" name="sell_id" value="{{sellRow.id}}">
-							<label for="sellNo">Do you want to remove label no:
+							<label for="sellNo">Do you want to remove Label No:
 								<span id="removeLabelNo"></span>
 							</div>
 
@@ -131,11 +131,11 @@
 						<div class="modal-body">
 							<div class="form-sell">
 								<input type="hidden" id="addSellID" name="sell_id" value="{{sellRow.id}}">
-								<label for="sellNo">Do you want to confirm sell no:{{sellRow.sell_no}}
+								<label for="sellNo">Do you want to confirm Sell No: {{sellRow.sell_no}}
 									<span id="removeLabelNo"></span>
 								</div>
 								<div class="form-sell">
-									<label for="sellNo">Total Quantity:{{sellRow.total_qty}}
+									<label for="sellNo">Total Quantity: {{sellRow.total_qty}}
 										<span id="removeLabelNo"></span>
 									</div>
 								</div>
