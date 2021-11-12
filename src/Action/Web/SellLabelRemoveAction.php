@@ -93,12 +93,10 @@ final class SellLabelRemoveAction
         }
 
         $viewData = [
-            'totalQtyLabelsell' => $arrtotalQty,
-            'sellRow' => $sellRow,
-            'sellLabels' => $sellLabels,
-            'user_login' => $this->session->get('user'),
+            'sell_id'=> $sellRow['id'],
+            'product_id'=> $sellRow['product_id'],
         ];
-
-        return $this->twig->render($response, 'web/sellLabels.twig', $viewData);
+        
+        return $this->responder->withRedirect($response, "sell_labels",$viewData);
     }
 }
