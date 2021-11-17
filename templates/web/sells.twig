@@ -50,7 +50,7 @@
 								<td>{{ sell.sell_status }}</td>
 								<td>
 									{% if sell.sell_status == "CREATED" or sell.sell_status == "SELECTING_CPO"%}
-										<form action="cpo_items" method="post" id="{{ sell.id }}">
+										<form action="cpo_items" method="get" id="{{ sell.id }}">
 											<input type="hidden" id="productID" name="product_id" value="{{ sell.product_id }}">
 											<input type="hidden" id="sellID" name="sell_id" value="{{ sell.id }}">
 										</form>
@@ -58,7 +58,7 @@
 											<i style="font-size:15px; width:20px;" class="fa fa-list-ul"></i>
 										</button>
 									{%  elseif sell.sell_status == "SELECTING_LABEL" or sell.sell_status == "SELECTED_CPO"%}
-										<form action="sell_labels" method="post" id="{{ sell.id }}">
+										<form action="sell_labels" method="get" id="{{ sell.id }}">
 											<input type="hidden" id="productID" name="product_id" value="{{ sell.product_id }}">
 											<input type="hidden" id="sellID" name="sell_id" value="{{ sell.id }}">
 										</form>
