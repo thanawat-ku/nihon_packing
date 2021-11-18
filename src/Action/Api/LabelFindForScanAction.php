@@ -5,6 +5,7 @@ namespace App\Action\Api;
 use App\Domain\Label\Service\LabelFinder;
 use App\Domain\Label\Service\LabelUpdater;
 use App\Domain\SplitLabelDetail\Service\SplitLabelDetailFinder;
+use App\Domain\Lot\Service\LotFinder;
 use App\Domain\Product\Service\ProductFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
@@ -22,9 +23,11 @@ final class LabelFindForScanAction
     private $finder;
     private $updater;
     private $splitDetailFinder;
+    private $lotFinder;
 
     public function __construct(
         LabelFinder $finder,
+        LotFinder $lotFinder,
         ProductFinder $productFinder,
         LabelUpdater $updater,
         Responder $responder,
@@ -32,6 +35,7 @@ final class LabelFindForScanAction
     ) {
 
         $this->finder = $finder;
+        $this->lotFinder = $lotFinder;
         $this->updater = $updater;
         $this->productFinder = $productFinder;
         $this->responder = $responder;
@@ -46,10 +50,13 @@ final class LabelFindForScanAction
         $labelNO['label_no'] = $data['label_no'];
         $status =  $data['status'];
         $findlabel = $this->finder->findLabelsForScan($labelNO);
-
+        $lotId['lot_id'] = $findlabel['lot_id'];
+        $lot = $this->lotFinder->findLots($lotId);
+        $findlabel['generate_lot_no'] = "None";
         if ($findlabel) {
 
             if ($findlabel[0]['status'] == $status) {
+                $findlabel['generate_lot_no'] = $lot['generate_lot_no'];
                 $rtdata['message'] = "find Label for scan Successful";
                 $rtdata['error'] = false;
                 $rtdata['labels'] = $findlabel;
