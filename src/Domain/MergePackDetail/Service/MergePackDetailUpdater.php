@@ -34,6 +34,7 @@ final class MergePackDetailUpdater
         $row = $this->mapToRow($data);
         $row['merge_pack_id'] = $data['check_mp_id'];
         $row['label_id'] = $data[0]['id'];
+        // $row['label_id'] = $data['id'];
 
         $id = $this->repository->insertMergePackDetailApi($row, $user_id);
 
@@ -130,10 +131,6 @@ final class MergePackDetailUpdater
         if (isset($data['label_id'])) {
             $result['label_id'] = (string)$data['label_id'];
         }
-        if (isset($data['is_error'])) {
-            $result['is_error'] = (string)$data['is_error'];
-        }
-
         return $result;
     }
 

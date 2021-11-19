@@ -108,6 +108,7 @@ final class SellLabelRepository
                 'l.product_id',
                 'p.std_pack',
                 'p.std_box',
+                'issue_date',
             ]
         );
 
@@ -162,6 +163,8 @@ final class SellLabelRepository
                 'product_id',
                 'p.std_pack',
                 'p.std_box',
+                'merge_no',
+                'merge_date',
             ]
         );
 

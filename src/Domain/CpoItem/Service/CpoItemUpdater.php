@@ -25,21 +25,7 @@ final class CpoItemUpdater
             //->createInstance();
     }
 
-    // public function insertCpoItem( array $data): int
-    // {
-    //     // Input validation
-    //     $this->validator->validateCpoItemInsert($data);
-
-    //     // Map form data to row
-    //     $cpo_itemRow = $this->mapToCpoItemRow($data);
-
-    //     // Insert transferStore
-    //     $id=$this->repository->insertCpoItem($cpo_itemRow);
-
-    //     // Logging
-    //     //$this->logger->info(sprintf('TransferStore updated successfully: %s', $id));
-    //     return $id;
-    // }
+    
     public function updateCpoItem(int $id, array $data): void
     {
         $this->validator->validateCpoItemUpdate($id, $data);
@@ -48,6 +34,8 @@ final class CpoItemUpdater
 
         $this->repository->updateCpoItem($id, $storeRow);
     }
+
+    
     public function deleteCpoItem(int $id): void
     {
         $this->repository->deleteCpoItem($id);

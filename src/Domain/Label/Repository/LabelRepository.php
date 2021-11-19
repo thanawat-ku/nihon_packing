@@ -531,6 +531,9 @@ final class LabelRepository
                 $query->andWhere(['OR' => [['labels.status' => 'PACKED'], ['labels.status' => 'SELLING']]]);
             }
         }
+        if(isset($params['lot_id'])){
+            $query->Where(['l.id' => $params["lot_id"]]);
+        }
 
 
         return $query->execute()->fetchAll('assoc') ?: [];
@@ -549,7 +552,8 @@ final class LabelRepository
                 'labels.quantity',
                 'labels.status',
                 'part_code',
-                'part_name'
+                'part_name',
+                'mp.product_id'
 
             ]
         );
@@ -577,6 +581,9 @@ final class LabelRepository
 
         if (isset($params['label_id'])) {
             $query->andWhere(['labels.id' => $params['label_id']]);
+        }
+        if(isset($params['lot_id'])){
+            $query->Where(['l.id' => $params["lot_id"]]);
         }
 
 
