@@ -50,13 +50,13 @@ final class LabelFindForScanAction
         $labelNO['label_no'] = $data['label_no'];
         $status =  $data['status'];
         $findlabel = $this->finder->findLabelsForScan($labelNO);
-        $lotId['lot_id'] = $findlabel['lot_id'];
-        $findlabel['generate_lot_no'] = "None";
+        $lotId['lot_id'] = $findlabel[0]['lot_id'];
+        $findlabel[0]['generate_lot_no'] = "None";
         if ($findlabel) {
 
             if ($findlabel[0]['status'] == $status) {
                 $lot = $this->lotFinder->findLots($lotId);
-                $findlabel['generate_lot_no'] = $lot['generate_lot_no'];
+                $findlabel[0]['generate_lot_no'] = $lot[0]['generate_lot_no'];
                 $rtdata['message'] = "find Label for scan Successful";
                 $rtdata['error'] = false;
                 $rtdata['labels'] = $findlabel;
