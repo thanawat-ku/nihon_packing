@@ -43,7 +43,7 @@ final class CpoItemAction
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        $data = (array)$request->getParsedBody();
+        $data = (array)$request->getQueryParams();
         $sellID=(int)$data['sell_id'];
 
         $cpodata = $this->finder->findCpoItem($data);

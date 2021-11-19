@@ -37,11 +37,7 @@ final class MergePackAddAction
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $data = (array)$request->getParsedBody();
-        // $ProductID = (string)$data['product_id'];
         $user_id=$data["user_id"];
-
-        // $product_row = $this->productFinder->findIDFromProductCode($ProductCode);
-        // $params['product_id']=$product_row['id'];
 
         $id=$this->updater->insertMergePackApi($data, $user_id);
 

@@ -17,7 +17,7 @@
 					<i class="fa fa-shopping-cart"></i>
 					Sell list</h2>
 				<button type="button" id="addBt" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#addSell">
-					<i style="font-size:15px; width:20px;" class="fa fa-shopping-cart"></i>
+					<i style="font-size:15px; width:20px;" class="fas fa-plus"></i>
 					Add Sell</button>
 				<label for=" ">
 					<span></span>
@@ -50,7 +50,7 @@
 								<td>{{ sell.sell_status }}</td>
 								<td>
 									{% if sell.sell_status == "CREATED" or sell.sell_status == "SELECTING_CPO"%}
-										<form action="cpo_items" method="post" id="{{ sell.id }}">
+										<form action="cpo_items" method="get" id="{{ sell.id }}">
 											<input type="hidden" id="productID" name="product_id" value="{{ sell.product_id }}">
 											<input type="hidden" id="sellID" name="sell_id" value="{{ sell.id }}">
 										</form>
@@ -58,7 +58,7 @@
 											<i style="font-size:15px; width:20px;" class="fa fa-list-ul"></i>
 										</button>
 									{%  elseif sell.sell_status == "SELECTING_LABEL" or sell.sell_status == "SELECTED_CPO"%}
-										<form action="sell_labels" method="post" id="{{ sell.id }}">
+										<form action="sell_labels" method="get" id="{{ sell.id }}">
 											<input type="hidden" id="productID" name="product_id" value="{{ sell.product_id }}">
 											<input type="hidden" id="sellID" name="sell_id" value="{{ sell.id }}">
 										</form>
@@ -75,18 +75,6 @@
 									{% if sell.sell_status == "CREATED" or sell.sell_status == "SELECTING_CPO" or sell.sell_status == "SELECTED_CPO" %}
 										<button type="button" id="deleteBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteSell" name="{{ sell|json_encode }}">
 											<i style="font-size:15px; width:20px;" class="fas fa-trash"></i>
-										</button>
-									{% endif %}
-									{% if sell.sell_status == "SELECTED_LABEL" %}
-										<form action="sell_labels" method="post" id="{{ sell.id }}">
-											<input type="hidden" id="productID" name="product_id" value="{{ sell.product_id }}">
-											<input type="hidden" id="sellID" name="sell_id" value="{{ sell.id }}">
-										</form>
-										{# <button type="submit" form="{{ sell.id }}" class="btn btn-success btn-sm" data-toggle="modal">
-											<i style="font-size:15px; width:20px;" class="fas fa-cart-arrow-down"></i>
-										</button> #}
-										<button type="submit" form="{{ sell.id }}" class="btn btn-info btn-sm" data-toggle="modal" >
-											<i style="font-size:15px; width:20px;" class="fas fa-info-circle"></i>
 										</button>
 									{% endif %}
 								</td>
@@ -148,7 +136,8 @@
 					<div class="modal-body">
 						<div class="form-sell">
 							<input type="hidden" id="editSellID" name="id">
-							<label for="labelNo">Sell NO:<span id="editSellNo"></span>
+							<label for="labelNo">Sell No:
+								<span id="editSellNo"></span>
 							</label>
 							<label for="labelNo">
 								<span id="editProductName"></span>
@@ -185,7 +174,7 @@
 					<div class="modal-body">
 						<div class="form-sell">
 							<input type="hidden" id="deleteSellID" name="id">
-							<label for="sellNo">Do you want to delete sell:
+							<label for="sellNo">Do you want to delete Sell:
 								<span id="deleteSellNo"></span>
 								<span></span>
 								<span id="deleteSellName"></span>

@@ -203,7 +203,7 @@ final class LabelUpdater
 
         $row = $this->mapToLabelRow($data);
         $ID = $data[0]['id'];
-        $ID = $data['id'];
+        // $ID = $data['id'];
         // $row['merge_pack_id']=$data['check_mp_id'];
         if ($data[0]['status'] == "PACKED" && ($data[0]['label_type'] == "NONFULLY" || $data[0]['label_type'] == "MERGE_NONFULLY")) {
             if ($data[0]['merge_pack_id'] == 0) {
@@ -302,7 +302,7 @@ final class LabelUpdater
             $data1['quantity'] = $std_pack;
             $data1['status'] = "CREATED";
             $id = $this->insertLabelApi($data1, $user_id);
-            $data1['label_no'] = "P" . str_pad($id, 10, "0", STR_PAD_LEFT);
+            $data1['label_no'] = "P" . str_pad($id, 11, "0", STR_PAD_LEFT);
             $this->updateLabelApi($id, $data1, $user_id);
             $params2['label_id'] = $id;
             $rt1 = $this->finder->findLabelCreateFromMerges($params2);
@@ -314,7 +314,7 @@ final class LabelUpdater
             $data1['quantity'] = $quantity - ($num_full_packs * $std_pack);
             $data1['status'] = "CREATED";
             $id = $this->insertLabelApi($data1, $user_id);
-            $data1['label_no'] = "P" . str_pad($id, 10, "0", STR_PAD_LEFT);
+            $data1['label_no'] = "P" . str_pad($id, 11, "0", STR_PAD_LEFT);
             $this->updateLabelApi($id, $data1, $user_id);
             $params2['label_id'] = $id;
             $rt1 = $this->finder->findLabelCreateFromMerges($params2);

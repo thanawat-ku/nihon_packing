@@ -103,12 +103,12 @@ final class CpoItemAddAction
             return $arrCpoItemSelect;
         }
        
+        
         $viewData = [
-            'sellRow'=>$sellRow,
-            'CpoItem' => $this->tempQueryFinder->findTempQuery($param_search),
-            'user_login' => $this->session->get('user'),
+            'sell_id'=> $sellRow['id'],
+            'product_id'=> $sellRow['product_id'],
         ];
         
-        return $this->twig->render($response, 'web/cpoItem.twig',$viewData);
+        return $this->responder->withRedirect($response, "cpo_items",$viewData);
     }
 }

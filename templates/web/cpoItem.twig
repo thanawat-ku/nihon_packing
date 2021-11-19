@@ -15,17 +15,19 @@
 			<div class="col-md-12">
 				<h2>
 					<i class="fa fa-list-ul"></i>
-					CpoItem list</h2>
-				<form action="cpo_item_selects" method="post" id="{{ sellRow.id }}">
+					Cpo Item list</h2>
+				<form action="cpo_item_selects" method="get" id="{{ sellRow.id }}">
 					<input type="hidden" id="productID" name="ProductID" value="{{ sellRow.product_id }}">
 					<input type="hidden" id="sellID" name="sell_id" value="{{ sellRow.id }}">
 				</form>
 				<button type="submit" form="{{ sellRow.id }}" id="addBt" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#addCpoItem">
-					<i style="font-size:15px; width:20px;" class="fas fa-tasks"></i>
-					Add CpoItem</button>
+					<i style="font-size:15px; width:20px;" class="fas fa-plus"></i>
+					Add Cpo Item</button>
 				{% if sellRow.total_qty != 0 %}
 					<button type="button" id="conBt" class="btn btn-success btn-sm" data-toggle="modal" data-target="#confirmCpoItem" name "{{ sellRow|json_encode }}">
-						<istyle= style="font-size:15px; width:20px;" class="#"></istyle="font-size:15px;width:20px;"class="fasfa-check">Confirm</button>
+						<istyle= style="font-size:15px; width:20px;" class="#"></istyle="font-size:15px;width:20px;"class="fasfa-check">
+						<i style="font-size:15px; width:20px;" class="fas fa-check"></i>
+						Confirm</button>
 				{% endif %}
 				<hr>
 				<div>
@@ -85,7 +87,7 @@
 					id="form-editCpoItem" action="edit_cpoidtem" method="post">
 					<!-- Modal Header -->
 					<div class="modal-header">
-						<h4 class="modal-title">Edit CpoItem</h4>
+						<h4 class="modal-title">Edit Cpo Item</h4>
 						<button type="button" class="close" data-dismiss="modal">&times;</button>
 					</div>
 					<!-- Modal body -->
@@ -93,12 +95,17 @@
 						<div class="form-sell">
 							<input type="hidden" id="editCpoItemID" name="id">
 							<input type="hidden" id="#" name="sell_id" value="{{sellRow.id}}">
-							<label for="labelNo">Cpo NO:<span id="editCpoNo"></span>
+							<label for="labelNo">Cpo No:
+								<span id="editCpoNo"></span>
 							</label>
 						</div>
 						<div class="form-sell">
 							<label for="editName">Sell Quantity</label>
-							<input type="number" max="" autocomplete="off" class="form-control" id="editSellQty" name="sell_qty" required>
+							<input type="number" autocomplete="off" class="form-control" id="editSellQty" readonly>
+						</div>
+						<div class="form-sell">
+							<label for="editName">Edit Sell Quantity</label>
+							<input type="number" autocomplete="off" class="form-control" id="editSellQtyMax" name="sell_qty" max="0" min="0">
 						</div>
 					</div>
 					<div class="modal-footer">
@@ -118,7 +125,7 @@
 					id="form-deleteCpoItem" action="delete_CpoItem" method="post">
 					<!-- Modal Header -->
 					<div class="modal-header">
-						<h4 class="modal-title">Delete CpoItem</h4>
+						<h4 class="modal-title">Delete Cpo Item</h4>
 
 						<button type="button" class="close" data-dismiss="modal">&times;</button>
 					</div>
@@ -137,7 +144,7 @@
 					</div>
 					<div class="modal-footer">
 						<button type="submit" class="btn btn-danger">Delete</button>
-						<button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
 					</div>
 				</form>
 			</div>
@@ -151,15 +158,16 @@
 					id="form-deleteCpoItem" action="confirm_sell" method="post">
 					<!-- Modal Header -->
 					<div class="modal-header">
-						<h4 class="modal-title">Confirm CpoItem</h4>
+						<h4 class="modal-title">Confirm Cpo Item</h4>
 						<button type="button" class="close" data-dismiss="modal">&times;</button>
 					</div>
 					<!-- Modal body -->
 					<div class="modal-body">
 						<div class="form-sell">
 							<input type="hidden" id="conSellID" name="sell_id" value="{{sellRow.id}}">
-							<label for="sellNo">Are you sure confirm
+							<label for="sellNo">Are you sure to confirm
 								{{sellRow.sell_no}}<span id="conSellNo"></span>
+								?
 							</label>
 							{# <label for="sellNo">Are you sure confirm: <span id="conSellNo"></span> #}
 							{# <span> </span><span id="deleteCpoItemName"></span></label> #}

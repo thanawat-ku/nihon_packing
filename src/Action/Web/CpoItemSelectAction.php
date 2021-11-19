@@ -44,7 +44,7 @@ final class CpoItemSelectAction
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        $params = (array)$request->getParsedBody();
+        $params = (array)$request->getQueryParams();
         $sell_id = (int)$params['sell_id'];
 
         $uuid = uniqid();
@@ -89,6 +89,8 @@ final class CpoItemSelectAction
             'CpoItemSelects' =>  CheckCpoItemSelect($arrTemQuery, $arrCpoItem),
             'user_login' => $this->session->get('user'),
         ];
+
+        // return $this->responder->withRedirect($response, "cpo_items",$viewData);
 
         return $this->twig->render($response, 'web/cpoItemSelects.twig', $viewData);
     }

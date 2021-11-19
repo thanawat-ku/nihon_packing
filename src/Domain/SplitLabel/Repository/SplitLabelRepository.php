@@ -93,6 +93,7 @@ final class SplitLabelRepository
                 'l.quantity',
                 'merge_pack_id',
                 'split_label_id',
+                'split_date',
             ]
         );
         $query->join([

@@ -208,11 +208,11 @@ final class MergePackDetailRepository
         // }
 
         if(isset($params['merge_pack_id'])){
-            $query->Where(['merge_pack_details.id' => $params["merge_pack_id"]]);
+            $query->Where(['merge_pack_details.merge_pack_id' => $params["merge_pack_id"]]);
         }
-        if(isset($params['merge_pack_id'])){
-            $query->Where(['mp.id' => $params["merge_pack_id"]]);
-        }
+        // if(isset($params['merge_pack_id'])){
+        //     $query->Where(['mp.id' => $params["merge_pack_id"]]);
+        // }
         
         return $query->execute()->fetchAll('assoc') ?: [];
     }
