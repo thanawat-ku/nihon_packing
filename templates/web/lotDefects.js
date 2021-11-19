@@ -17,6 +17,7 @@ function editDefectLot(event) {
     $("#lotDefectID").val(obj.id);
     $("#editDefectId").val(obj.defect_id);
     $("#editQuantity").val(obj.quantity); 
+    $("#editQuantityMax").attr({"max":obj.quantity});
     $("#editdefectLotID").val(obj.lot_id);
 }
 
