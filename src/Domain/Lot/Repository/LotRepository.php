@@ -3,6 +3,7 @@
 namespace App\Domain\Lot\Repository;
 
 use App\Factory\QueryFactory;
+use App\Factory\QueryFactory2;
 use DomainException;
 use Cake\Chronos\Chronos;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -10,11 +11,13 @@ use Symfony\Component\HttpFoundation\Session\Session;
 final class LotRepository
 {
     private $queryFactory;
+    private $queryFactory2;
     private $session;
 
-    public function __construct(Session $session, QueryFactory $queryFactory)
+    public function __construct(Session $session, QueryFactory $queryFactory, QueryFactory2 $queryFactory2)
     {
         $this->queryFactory = $queryFactory;
+        $this->queryFactory2 = $queryFactory2;
         $this->session = $session;
     }
 
@@ -124,6 +127,28 @@ final class LotRepository
 
         $query->andWhere(['lots.is_delete' => 'N']);
 
+        return $query->execute()->fetchAll('assoc') ?: [];
+    }
+    public function getMaxID(): array
+    {
+        $query = $this->queryFactory->newSelect('lots');
+        $query->select(
+            [
+                'max_id'=> $query->func()->max('id'),
+            ]);
+        return $query->execute()->fetchAll('assoc') ?: [];
+    }
+    public function getSyncLots(int $max_id): array
+    {
+        $query = $this->queryFactory2->newSelect('lot');
+        $query->select(
+            [
+                'LotID',
+                'ProductID',
+                'LotNo',
+                'PackingQty',
+            ]);
+        $query->andWhere(['LotID >=' => $max_id]);
         return $query->execute()->fetchAll('assoc') ?: [];
     }
 }

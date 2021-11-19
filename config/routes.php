@@ -182,5 +182,9 @@ return function (App $app) {
     $app->post('/api/check_sell_label_scan', \App\Action\Api\CheckSellLabelScanAction::class);
     $app->post('/api/cancel_sell_label', \App\Action\Api\CancelSellLabelAction::class);
     $app->post('/api/confirm_sell_label', \App\Action\Api\ConfirmSellLabelAction::class);
+
+
+    
+    $app->get('/api/mis_sync_lots', \App\Action\Api\LotSyncAction::class);
     
 };

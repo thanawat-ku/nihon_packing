@@ -15,6 +15,7 @@
             <div class="col-md-12">
                 <h2><i class="fas fa-dolly"></i> Lot list</h2>
                 <label for=" ">     <span ></span></label>
+                <button type="button" id="syncBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#syncDb" name="{{ tool|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-sync"></i> Sync DB</button>
                 <form id="form-searchIssue" class="form-inline float-right" action="" method="get">
                   Issue Date From:&nbsp;&nbsp;
                   <input type="text" autocomplete="off" class="form-control" id="searchIssueStartDate" name="startDate" value="{{startDate}}">&nbsp;&nbsp;To&nbsp;&nbsp; 
@@ -230,5 +231,26 @@
   </div>
 </div>
 
-
+<div class="modal fade" id="syncDb">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form id="form-syncDb">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Sync Database in progress</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">        
+          <div class="form-tool_layout_standard">
+            <label for="syncTable">Sync table: <span id="syncTable"></span></label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 {% endblock %}
