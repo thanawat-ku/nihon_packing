@@ -136,10 +136,11 @@ return function (App $app) {
     $app->get('/api/split_labels',  \App\Action\Api\SplitLabelAction::class);
     $app->post('/api/add_split_label', \App\Action\Api\SplitLabelAddAction::class);
     $app->post('/api/register_split_label', \App\Action\Api\SplitLabelRegisterAction::class);
+    $app->post('/api/delete_split_label', \App\Action\Api\SplitLabelDeleteAction::class);
 
     $app->get('/api/split_label_detail',  \App\Action\Api\SplitLabelDetailAction::class);
     $app->post('/api/add_split_label_detail', \App\Action\Api\SplitLabelDetailAddAction::class);
-
+   
     $app->get('/api/merge_packs', \App\Action\Api\MergePackAction::class);
 
     $app->get('/api/select_merge_pack_id', \App\Action\Api\SelectMergePackIDAction::class);
