@@ -54,7 +54,6 @@ final class LabelSearchAction
         }
         else{
             $array_label = array("error");
-
             $rtdata['error']=true;
             $rtdata['labels'] = $array_label;
         }

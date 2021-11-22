@@ -8,6 +8,7 @@ function addSellCpoItem(event) {
     $("#addCpoNo").text(obj.CpoNo);
     $("#addCpoItemID").val(obj.CpoItemID);
     $("#addRemainQty").val(obj.Quantity - obj.PackingQty);
+    $("#addRemainMax").attr({"max":obj.Quantity - obj.PackingQty});
 }
 
 function detailCpoItem(event) {
@@ -22,19 +23,9 @@ function detailCpoItem(event) {
     
 }
 
-function gg(event) {
-    let sellRow = event.currentTarget.name;
-    console.log(sellRow);
-    var obj = JSON.parse(sellRow);
-    $("#ggSellID").text(obj.id);
-    // $("#detailCpoNo").text(obj.CpoNo);
-    // $("#detailCpoItemID").val(obj.CpoItemID);
-    $("#ggRemainQty").val(obj.remain_qyt);
-    $("#ggSellQty").val(obj.sell_qty);
-}
 $(document).on(
     "click",
-    "#addBt, #detailBt, #gg",
+    "#addBt, #detailBt",
     (event) => {
         let id = event.currentTarget.id;
         switch (id) {

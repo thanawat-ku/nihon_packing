@@ -40,6 +40,7 @@
 						{% for label in labels[0] %}
 							<tr>
 								<td>{{ label.label_no }}</td>
+								<td>{{ selllabel.issue_date }}</td>
 								<td>{{ label.lot_no }}</td>
 								<td>{{ label.label_type }}</td>
 								<td>{{ label.status }}</td>
@@ -59,6 +60,7 @@
 								{% for label in labels[1] %}
 									<tr>
 										<td>{{ label.label_no }}</td>
+										<td>{{ selllabel.merge_date }}</td>
 										<td>{{ label.merge_no }}</td>
 										<td>{{ label.label_type }}</td>
 										<td>{{ label.status }}</td>
@@ -81,7 +83,7 @@
 					</tbody>
 					<tfoot></tfoot>
 				</table>
-				<form action="sell_labels" method="post" id="formCpoItem">
+				<form action="sell_labels" method="get" id="formCpoItem">
 					<input type="hidden" id="productID" name="product_id" value="{{sellRow.product_id}}">
 					<input type="hidden" id="sellID" name="sell_id" value="{{sellRow.id}}">
 					<button type="submit" class="btn btn-primary" id="black">

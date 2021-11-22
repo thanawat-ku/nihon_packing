@@ -14,7 +14,7 @@ final class LotUpdater
 
     public function __construct(
         LotRepository $repository,
-        LotValidator $validator,
+        LotValidator $validator
     ) {
         $this->repository = $repository;
         $this->validator = $validator;
