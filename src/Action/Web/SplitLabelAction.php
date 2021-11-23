@@ -39,7 +39,7 @@ final class SplitLabelAction
         $params = (array)$request->getQueryParams();
 
         if(!isset($params['startDate'])){
-            $params['startDate']=date('Y-m-d',strtotime('-7 days',strtotime(date('Y-m-d'))));
+            $params['startDate']=date('Y-m-d',strtotime('-30 days',strtotime(date('Y-m-d'))));
             $params['endDate']=date('Y-m-d');
         }
 

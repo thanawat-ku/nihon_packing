@@ -16,7 +16,7 @@ use function DI\string;
 /**
  * Action.
  */
-final class MergePackAddAction
+final class MergePackDeleteAction
 {
     /**
      * @var Responder
@@ -37,15 +37,15 @@ final class MergePackAddAction
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $data = (array)$request->getParsedBody();
+        $mergePackID = $data['merge_pack_id'];
         $user_id=$data["user_id"];
 
-        $id=$this->updater->insertMergePackApi($data, $user_id);
+        $data['is_delete']="Y";
+        $this->updater->updateMergePackApi($mergePackID,$data, $user_id);
 
-        $params1['id']=$id;
-        $rtdata=$this->finder->findMergePacks($params1);
+        $rtdata=$this->finder->findMergePacks($data);
        
         return $this->responder->withJson($response, $rtdata[0]);
-
         
 
     }

@@ -32,7 +32,7 @@ final class MergePackUpdater
 
         $id = $this->repository->insertMergePackApi($row, $user_id);
 
-        $data1['merge_no'] = "M" . str_pad($id, 10, "0", STR_PAD_LEFT);
+        $data1['merge_no'] = "M" . str_pad($id, 11, "0", STR_PAD_LEFT);
 
         $this->repository->updateMergePackApi($id, $data1, $user_id);
 
@@ -46,8 +46,6 @@ final class MergePackUpdater
         $row = $this->mapToMergePackRow($data);
 
         $this->repository->updateMergePackApi($id, $row, $user_id);
-
-        //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));
     }
 
     public function updateMergingApi(int $id, array $data, $user_id): void

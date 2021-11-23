@@ -56,6 +56,29 @@ function registerLot(event) {
 
 }
 
+function syncLots(){
+    $('#syncTable').text("lot start");
+    $.ajax ({
+        type: "GET",
+        url: "api/mis_sync_lots",
+        success: function (data) { 
+            var obj=JSON.parse(data);
+            var code = '';            
+            for(var i=0; i<obj.length; i++) { // Loop through the data & construct the options
+                code = obj[i].InvNo+' ';
+            }
+            // Append to the html
+            $('#syncTable').text("lot last code: "+code);
+        }
+   });
+}
+$(document).on(
+    "click",
+    "#syncBt",
+    (event) => {
+        syncLots();
+    }
+);
 $(document).on(
     "click",
     "#editBt, #deleteBt, #printBt, #addDefectBt, #registerBt, #confirmPrintLotBt",
