@@ -75,7 +75,6 @@ return function (App $app) {
     $app->post('/delete_label_void_reason', \App\Action\Web\LabelVoidReasonDeleteAction::class)->add(UserAuthMiddleware::class);
 
     $app->get('/sells', \App\Action\Web\SellAction::class)->add(UserAuthMiddleware::class);
-    $app->post('/select_label_for_sells', \App\Action\Web\SelectLabelForSellAction::class)->add(UserAuthMiddleware::class);
     $app->post('/add_sell', \App\Action\Web\SellAddAction::class)->add(UserAuthMiddleware::class);
 
     $app->get('/sell_labels', \App\Action\Web\SellLabelAction::class)->add(UserAuthMiddleware::class);
@@ -99,6 +98,8 @@ return function (App $app) {
     $app->post('/add_scrap', \App\Action\Web\ScrapAddAction::class)->add(UserAuthMiddleware::class);
     $app->post('/delete_scrap', \App\Action\Web\ScrapDeleteAction::class)->add(UserAuthMiddleware::class);
     $app->post('/edit_scrap', \App\Action\Web\ScrapEditAction::class)->add(UserAuthMiddleware::class);
+    $app->post('/confirm_scrap', \App\Action\Web\ScrapConfirmAction::class)->add(UserAuthMiddleware::class);
+    $app->post('/reject_scrap', \App\Action\Web\ScrapRejectAction::class)->add(UserAuthMiddleware::class);
 
     $app->get('/scrap_details', \App\Action\Web\ScrapDetailAction::class)->add(UserAuthMiddleware::class);
     $app->post('/delete_scrap_detail', \App\Action\Web\ScrapDetailDeleteAction::class)->add(UserAuthMiddleware::class);

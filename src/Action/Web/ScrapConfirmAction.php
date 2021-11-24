@@ -3,11 +3,9 @@
 namespace App\Action\Web;
 
 
-use App\Domain\LotDefect\Service\LotDefectFinder;
-use App\Domain\LotDefect\Service\LotDefectUpdater;
 use App\Domain\Scrap\Service\ScrapFinder;
 use App\Domain\ScrapDetail\Service\ScrapDetailUpdater;
-use App\Domain\ScrapDetail\Service\ScrapDetailFinder;
+use App\Domain\Scrap\Service\ScrapUpdater;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -17,26 +15,22 @@ use Symfony\Component\HttpFoundation\Session\Session;
 /**
  * Action.
  */
-final class ScrapDetailAddAction
+final class ScrapConfirmAction
 {
     private $twig;
     private $finder;
-    private $updater;
-    private $scrapFinder;
     private $updateScrapDetail;
-    private $scrapDetailFinder;
     private $responder;
+    private $updater;
     private $session;
 
-    public function __construct(Twig $twig, Responder $responder, LotDefectFinder $finder, LotDefectUpdater $updater, ScrapFinder $scrapFinder, ScrapDetailUpdater $updateScrapDetail, ScrapDetailFinder $scrapDetailFinder, Session $session,)
+    public function __construct(Twig $twig, Responder $responder, ScrapFinder $finder, ScrapUpdater $updater, ScrapDetailUpdater $updateScrapDetail, Session $session,)
     {
         $this->twig = $twig;
         $this->finder = $finder;
-        $this->scrapFinder = $scrapFinder;
         $this->responder = $responder;
         $this->updater = $updater;
         $this->updateScrapDetail = $updateScrapDetail;
-        $this->scrapDetailFinder = $scrapDetailFinder;
         $this->session = $session;
     }
 
@@ -46,15 +40,23 @@ final class ScrapDetailAddAction
         array $args
     ): ResponseInterface {
         $data = (array)$request->getParsedBody();
-        $scrapID = $data['scrap_id'];
+        $scrapID = $data['id'];
 
-        $this->updateScrapDetail->insertScrapDetail($data);
+        $data['scrap_status'] = "CONFIRMED";
+        $this->updater->updateScrap($scrapID, $data);
+
+        if (!isset($data['startDate'])) {
+            $data['startDate'] = date('Y-m-d', strtotime('-30 days', strtotime(date('Y-m-d'))));
+            $data['endDate'] = date('Y-m-d');
+        }
 
         $viewData = [
-            'scrap_id' => $scrapID,
+            'scraps' => $this->finder->findScraps($data),
             'user_login' => $this->session->get('user'),
+            'startDate' => $data['startDate'],
+            'endDate' => $data['endDate'],
         ];
 
-        return $this->responder->withRedirect($response, "scrap_details", $viewData);
+        return $this->twig->render($response, 'web/scraps.twig', $viewData);
     }
 }

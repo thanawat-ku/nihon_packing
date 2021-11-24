@@ -4,6 +4,9 @@ namespace App\Action\Web;
 
 use App\Domain\ScrapDetail\Service\ScrapDetailFinder;
 use App\Domain\Scrap\Service\ScrapFinder;
+use App\Domain\Defect\Service\DefectFinder;
+use App\Domain\Section\Service\SectionFinder;
+use App\Domain\Product\Service\ProductFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -22,18 +25,27 @@ final class ScrapDetailAction
     private $twig;
     private $finder;
     private $scrapFinder;
+    private $sectionFinder;
+    private $productFinder;
+    private $defectFinder;
     private $session;
 
     public function __construct(
         Twig $twig,
         ScrapDetailFinder $finder,
         ScrapFinder $scrapFinder,
+        SectionFinder $sectionFinder,
+        ProductFinder $productFinder,
+        DefectFinder $defectFinder,
         Session $session,
         Responder $responder
     ) {
         $this->twig = $twig;
         $this->finder = $finder;
         $this->scrapFinder = $scrapFinder;
+        $this->sectionFinder = $sectionFinder;
+        $this->productFinder = $productFinder;
+        $this->defectFinder = $defectFinder;
         $this->session = $session;
         $this->responder = $responder;
     }
@@ -46,9 +58,20 @@ final class ScrapDetailAction
         $rtScrap['scrap_id'] = $scrapID;
 
         $scrapRow = $this->scrapFinder->findScraps($rtScrap);
+
+        $rtScrapDetail = $this->finder->findScrapDetails($params);
+        if (!$rtScrapDetail) {
+            $scrapRow[0]['check_scrap']="false";
+        }else{
+            $scrapRow[0]['check_scrap']="true";
+        }
+
         $viewData = [
             'scrapRow' => $scrapRow[0],
-            'scrap_details' => $this->finder->findScrapDetails($params),
+            'sections' => $this->sectionFinder->findSections($params),
+            'products' => $this->productFinder->findProducts($params),
+            'defects' => $this->defectFinder->findDefects($params),
+            'scrapDetails' => $this->finder->findScrapDetails($params),
             'user_login' => $this->session->get('user'),
         ];
 

@@ -16,13 +16,6 @@ final class ScrapDetailFinder
         $this->repository = $repository;
     }
 
-    /**
-     * Find customers.
-     *
-     * @param array<mixed> $params The parameters
-     *
-     * @return array<mixed> The result
-     */
     public function findScrapDetails(array $params): array
     {
         return $this->repository->findScrapDetails($params);

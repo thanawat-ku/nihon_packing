@@ -6,10 +6,14 @@ $(function () {
 });
 
 function deleteScrapDetail(event){
-    let scrap_detail = event.currentTarget.name;
-    console.log(scrap_detail);
-    var obj = JSON.parse(scrap_detail);
+    let scrapDetail = event.currentTarget.name;
+    console.log(scrapDetail);
+    var obj = JSON.parse(scrapDetail);
     $("#deleteScrapDetailID").val(obj.id);
+    $("#deleteDefectCode").val(obj.defect_code);
+    $("#deleteDefectDescription").val(obj.defect_description);
+    $("#deleteSectionName").val(obj.section_name);
+    $("#deleteQuantity").val(obj.scrap_detail_qty);
     
 }
 

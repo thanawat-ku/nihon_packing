@@ -80,6 +80,7 @@ final class LotDefectRepository
                 'lot_id',
                 'defect_id',
                 'defect_code',
+                'defect_description',
                 'lot_defects.quantity',
                 'part_code',
                 'part_name',
@@ -113,7 +114,6 @@ final class LotDefectRepository
             ]
         ]);
 
-        $query->andWhere(['lot_defect_status' => 'CREATED']);
 
         if(isset($params['lot_id'])){
             $query->andWhere(['lot_id' => $params['lot_id']]);

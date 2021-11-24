@@ -12,12 +12,12 @@ final class ScrapDetailRepository
     private $queryFactory;
     private $session;
 
-    public function __construct(Session $session,QueryFactory $queryFactory)
+    public function __construct(Session $session, QueryFactory $queryFactory)
     {
         $this->queryFactory = $queryFactory;
-        $this->session=$session;
+        $this->session = $session;
     }
-    
+
     public function insertScrapDetail(array $row): int
     {
         $row['created_at'] = Chronos::now()->toDateTimeString();
@@ -27,7 +27,7 @@ final class ScrapDetailRepository
 
         return (int)$this->queryFactory->newInsert('scrap_details', $row)->execute()->lastInsertId();
     }
-    
+
     public function updateScrapDetail(int $id, array $data): void
     {
         $data['updated_at'] = Chronos::now()->toDateTimeString();
@@ -35,7 +35,7 @@ final class ScrapDetailRepository
 
         $this->queryFactory->newUpdate('scrap_details', $data)->andWhere(['id' => $id])->execute();
     }
-    
+
     public function insertScrapDetailApi(array $row, $user_id): int
     {
         $row['created_at'] = Chronos::now()->toDateTimeString();
@@ -45,49 +45,52 @@ final class ScrapDetailRepository
 
         return (int)$this->queryFactory->newInsert('scrap_details', $row)->execute()->lastInsertId();
     }
-    public function updateScrapDetailApi(int $id, array $data,$user_id): void
+    public function updateScrapDetailApi(int $id, array $data, $user_id): void
     {
         $data['updated_at'] = Chronos::now()->toDateTimeString();
         $data['updated_user_id'] = $user_id;
 
         $this->queryFactory->newUpdate('scrap_details', $data)->andWhere(['id' => $id])->execute();
-    } 
+    }
 
     public function deleteScrapDetail(int $id): void
     {
         $this->queryFactory->newDelete('scrap_details')->andWhere(['id' => $id])->execute();
-    } 
+    }
     public function deleteScrapDetailAll(int $scrapID): void
     {
         $this->queryFactory->newDelete('scrap_details')->andWhere(['scrap_id' => $scrapID])->execute();
-    } 
+    }
     public function findScrapDetails(array $params): array
     {
+
         $query = $this->queryFactory->newSelect('scrap_details');
         $query->select(
             [
                 'scrap_details.id',
+                'scrap_no',
                 'scrap_id',
                 'section_id',
                 'product_id',
                 'scrap_details.defect_id',
-                'scrap_detail_qty'=>'scrap_details.quantity',
+                'scrap_detail_qty' => 'scrap_details.quantity',
                 'part_code',
                 'part_name',
                 'section_name',
-                'defect_qty'=>'d.quantity'
-                
+                'defect_code',
+                'defect_description',
+
+
             ]
         );
 
         $query->join([
             'd' => [
-                'table' => 'lot_defects',
+                'table' => 'defects',
                 'type' => 'INNER',
                 'conditions' => 'd.id = scrap_details.defect_id',
             ]
         ]);
-
         $query->join([
             'p' => [
                 'table' => 'products',
@@ -111,13 +114,12 @@ final class ScrapDetailRepository
                 'conditions' => 'sr.id = scrap_details.scrap_id',
             ]
         ]);
-        if(isset($params['scrap_id'])){
+
+        $query->group(['scrap_details.id']);
+        if (isset($params['scrap_id'])) {
             $query->andWhere(['scrap_id' => $params['scrap_id']]);
         }
-        
+
         return $query->execute()->fetchAll('assoc') ?: [];
     }
-
-   
-
 }
