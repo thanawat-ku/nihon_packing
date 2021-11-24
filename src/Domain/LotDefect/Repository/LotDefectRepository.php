@@ -80,7 +80,12 @@ final class LotDefectRepository
                 'lot_id',
                 'defect_id',
                 'defect_code',
-                'quantity',
+                'lot_defects.quantity',
+                'part_code',
+                'part_name',
+                'defect_description',
+                'oqc_check',
+                'product_id',
                 // 'lot_defects.quantity',
                 // 'lot_no',
             ]
@@ -93,13 +98,22 @@ final class LotDefectRepository
                 'conditions' => 'd.id = lot_defects.defect_id',
             ]
         ]);
-        // $query->join([
-        //     'l' => [
-        //         'table' => 'lots',
-        //         'type' => 'INNER',
-        //         'conditions' => 'l.id = lot_defects.lot_id',
-        //     ]
-        // ]);
+        $query->join([
+            'l' => [
+                'table' => 'lots',
+                'type' => 'INNER',
+                'conditions' => 'l.id = lot_defects.lot_id',
+            ]
+        ]);
+        $query->join([
+            'p' => [
+                'table' => 'products',
+                'type' => 'INNER',
+                'conditions' => 'p.id = l.product_id',
+            ]
+        ]);
+
+        $query->andWhere(['lot_defect_status' => 'CREATED']);
 
         if(isset($params['lot_id'])){
             $query->andWhere(['lot_id' => $params['lot_id']]);
@@ -107,10 +121,7 @@ final class LotDefectRepository
             $query->andWhere(['lot_defects.id' => $params['lot_defect_id']]);
         }
         
-
         return $query->execute()->fetchAll('assoc') ?: [];
     }
-
-   
 
 }

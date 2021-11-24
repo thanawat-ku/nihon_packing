@@ -37,19 +37,23 @@ final class LotConfirmAction
         $params = (array)$request->getQueryParams();
         $user_id = $params["user_id"];
         $lotID = $params["lot_id"];
- 
-        $genLabelSuccess = $this->labelUpdater->genLabelNo($params);
-        
-        $params['generate_lot_no'] = "L" . str_pad( $lotID, 11, "0", STR_PAD_LEFT);
-        $this->updater->confirmLotApi($lotID, $params, $user_id);
-
         $findlot['lot_id'] = $lotID;
-        
-        $rtdata['message'] = "Get EndLot Successful";
-        $rtdata['error'] = false;
-        $rtdata['lots'] = $this->finder->findLots($findlot);
+        $lot = $this->finder->findLots($findlot);
 
+        if ($lot[0]['status'] == "CREATED") {
+            $genLabelSuccess = $this->labelUpdater->genLabelNo($params);
 
+            $params['generate_lot_no'] = "L" . str_pad($lotID, 11, "0", STR_PAD_LEFT);
+            $this->updater->confirmLotApi($lotID, $params, $user_id);
+
+            $rtdata['message'] = "Confirm Lot Successful";
+            $rtdata['error'] = false;
+            $rtdata['lots'] = $this->finder->findLots($findlot);
+        } else {
+            $rtdata['message'] = "Confirm Lot Fail";
+            $rtdata['error'] = true;
+            $rtdata['lots'] = $this->finder->findLots($findlot);
+        }
 
         return $this->responder->withJson($response, $rtdata);
     }

@@ -99,6 +99,7 @@ final class MergePackRepository
                 ]
             ]
         );
+        $query->andWhere(['merge_packs.is_delete' => 'N']);
 
         if (isset($params['id'])) {
             $query->andWhere(['merge_packs.id' => $params['id']]);

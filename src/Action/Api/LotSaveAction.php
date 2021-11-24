@@ -37,16 +37,18 @@ final class LotSaveAction
         $params = (array)$request->getParsedBody();
         $user_id = $params["user_id"];
         $lotID = $params["lot_id"];
-        
-        $this->updater->updateLotApi($lotID, $params, $user_id);
-
         $findlot['lot_id'] = $lotID;
-        
-        $rtdata['message'] = "Get EndLot Successful";
-        $rtdata['error'] = false;
-        $rtdata['lots'] = $this->finder->findLots($findlot);
-
-
+        $lot = $this->finder->findLots($findlot);
+        if ($lot[0]['status'] == "CREATED") {
+            $this->updater->updateLotApi($lotID, $params, $user_id);
+            $rtdata['message'] = "Save lot Successful";
+            $rtdata['error'] = false;
+            $rtdata['lots'] = $this->finder->findLots($findlot);
+        } else {
+            $rtdata['message'] = "Save lot fail";
+            $rtdata['error'] = true;
+            $rtdata['lots'] = $this->finder->findLots($findlot);
+        }
 
         return $this->responder->withJson($response, $rtdata);
     }

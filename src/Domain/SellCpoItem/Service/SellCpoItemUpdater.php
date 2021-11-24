@@ -60,6 +60,10 @@ final class SellCpoItemUpdater
     {
         $this->repository->deleteSellCpoItem($id);
     }
+    public function deleteCpoItemInSellCpoItemApi(int $sellID): void
+    {
+        $this->repository->deleteCpoItemInSellCpoItemApi($sellID);
+    }
 
     private function mapToRow(array $data): array
     {

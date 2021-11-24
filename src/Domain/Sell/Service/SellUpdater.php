@@ -102,6 +102,15 @@ final class SellUpdater
         $this->repository->updateSellApi($productId, $row, $user_id);
     }
 
+    public function updateSellDeleteApi(int $sellId, array $data, $user_id): void
+    {
+        $this->validator->validateSellUpdate($sellId, $data, $user_id);
+
+        $row = $this->mapToRow($data);
+
+        $this->repository->updateSellApi($sellId, $row, $user_id);
+    }
+
     public function deleteSellApi(int $productId): void
     {
         $this->repository->deleteSell($productId);

@@ -284,10 +284,6 @@ final class MergePackDetailRepository
         //     'merge_pack_details.id'
         // );
 
-        // $query->andWhere(['lot_id'=>0]);
-        // $query->andWhere(['OR' => [['label_type' => "MERGE_FULLY"], ['label_type' => "MERGE_NONFULLY"]]]);
-        // $query->andWhere(['status'=>"PACKED"]);
-
         if(isset($params['merge_pack_id'])){
             $query->Where(['merge_pack_details.merge_pack_id' => $params["merge_pack_id"]]);
         }

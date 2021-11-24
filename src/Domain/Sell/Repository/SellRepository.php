@@ -27,9 +27,9 @@ final class SellRepository
         $row['updated_at'] = Chronos::now()->toDateTimeString();
         $row['updated_user_id'] = $this->session->get('user')["id"];
 
-        $row['sell_status']="CREATED";
-        $row['sell_date']=date('Y-m-d');
-        $row['total_qty']=0;
+        $row['sell_status'] = "CREATED";
+        $row['sell_date'] = date('Y-m-d');
+        $row['total_qty'] = 0;
 
 
         return (int)$this->queryFactory->newInsert('sells', $row)->execute()->lastInsertId();
@@ -41,9 +41,9 @@ final class SellRepository
         $row['updated_at'] = Chronos::now()->toDateTimeString();
         $row['updated_user_id'] = $user_id;
 
-        $row['sell_date']= Chronos::now()->toDateTimeString();
-        $row['total_qty']=0;
-        $row['sell_status']="CREATED";
+        $row['sell_date'] = Chronos::now()->toDateTimeString();
+        $row['total_qty'] = 0;
+        $row['sell_status'] = "CREATED";
 
         return (int)$this->queryFactory->newInsert('sells', $row)->execute()->lastInsertId();
     }
@@ -74,20 +74,12 @@ final class SellRepository
                 'total_qty',
                 'sell_status',
                 'part_name',
-                'part_code'
+                'part_code',
+                'std_pack',
+                'std_box'
+
             ]
         );
-        $query->andWhere(['sells.is_delete' => 'N']);
-
-        if(isset($params['sell_id'])){
-            $query->andWhere(['sells.id' => $params['sell_id']]);
-        }
-        if(isset($params['id'])){
-            $query->andWhere(['sells.id' => $params['id']]);
-        }
-        if (isset($params["startDate"])) {
-            $query->andWhere(['sell_date <=' => $params['endDate'], 'sell_date >=' => $params['startDate']]);
-        }
 
         $query->join([
             'p' => [
@@ -96,6 +88,18 @@ final class SellRepository
                 'conditions' => 'p.id = sells.product_id',
             ]
         ]);
+
+        $query->andWhere(['sells.is_delete' => 'N']);
+
+        if (isset($params['sell_id'])) {
+            $query->andWhere(['sells.id' => $params['sell_id']]);
+        }
+        if (isset($params['id'])) {
+            $query->andWhere(['sells.id' => $params['id']]);
+        }
+        if (isset($params["startDate"])) {
+            $query->andWhere(['sell_date <=' => $params['endDate'], 'sell_date >=' => $params['startDate']]);
+        }
 
 
         return $query->execute()->fetchAll('assoc') ?: [];

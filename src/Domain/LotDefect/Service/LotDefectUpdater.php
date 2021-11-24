@@ -18,9 +18,9 @@ final class LotDefectUpdater
     ) {
         $this->repository = $repository;
         $this->validator = $validator;
-        //$this->logger = $loggerFactory
-        //->addFileHandler('store_updater.log')
-        //->createInstance();
+        // $this->logger = $loggerFactory
+        // ->addFileHandler('store_updater.log')
+        // ->createInstance();
     }
 
     public function insertLotDefect(array $data): int

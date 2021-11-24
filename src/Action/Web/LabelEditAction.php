@@ -2,6 +2,7 @@
 
 namespace App\Action\Web;
 
+use App\Domain\Label\Service\LabelFinder;
 use App\Domain\Label\Service\LabelUpdater;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
@@ -14,10 +15,12 @@ final class LabelEditAction
 {
     private $responder;
     private $updater;
-    public function __construct(Responder $responder, LabelUpdater $updater)
+    private $finder;
+    public function __construct(Responder $responder, LabelUpdater $updater, LabelFinder $finder)
     {
         $this->responder = $responder;
         $this->updater = $updater;
+        $this->finder = $finder;
     }
 
 
@@ -30,10 +33,13 @@ final class LabelEditAction
         $data = (array)$request->getParsedBody();
         $labelId = $data["id"];
 
-        // Invoke the Domain with inputs and retain the result
-        $this->updater->updateLabel($labelId, $data);
+        $findLabel['label_id'] = $labelId;
+        $label = $this->finder->findLabelSingleTable($findLabel);
 
+        if ($label[0]['status'] == "CREATED") {
+            $this->updater->updateLabel($labelId, $data);
+        }
         // Build the HTTP response
-        return $this->responder->withRedirect($response,"labels");
+        return $this->responder->withRedirect($response, "labels");
     }
 }

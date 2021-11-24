@@ -27,7 +27,6 @@ final class LabelFinder
     public function findLabelsForScan(array $params): array
     {
         return $this->repository->findLabelsForScan($params);
-        
     }
     public function findLabelForMerge(array $params): array
     {
@@ -67,4 +66,5 @@ final class LabelFinder
     {
         return $this->repository->findLabelFromMergePacks($params);
     }
+
 }
