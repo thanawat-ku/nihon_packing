@@ -20,7 +20,7 @@
 					{% if scrapRow.scrap_status == "CREATED" %}
 						<button type="button" id="addBt" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#addScrapDetail">
 							<i style="font-size:15px; width:20px;" class="fas fa-plus"></i>
-							Add Sell</button>
+							Add Defect in Scrap</button>
 					{% endif %}
 					{% if scrapRow.check_scrap == "true" %}
 						<button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#confirmScrap">
@@ -122,7 +122,7 @@
 							</select>
 						</div>
 						<div class="form-scrap">
-							<label for="email">Select Section</label>
+							<label for="email">Select Defect</label>
 							<select class="selectpicker form-control" id="addProductID" name="defect_id" data-live-search="true"  required>
 								{% for d in defects %}
 									<option value={{ d.id }}>{{d.defect_code}}</option>
@@ -205,7 +205,7 @@
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="submit" class="btn btn-danger">Delete</button>
+						<button type="submit" class="btn btn-success">Confirm</button>
 						<button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
 					</div>
 				</form>
@@ -234,7 +234,7 @@
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="submit" class="btn btn-danger">Delete</button>
+						<button type="submit" class="btn btn-danger">Reject</button>
 						<button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
 					</div>
 				</form>

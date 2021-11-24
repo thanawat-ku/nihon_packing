@@ -32,7 +32,6 @@ module.exports = {
     'web/sellLabels': './templates/web/sellLabels.js', 
     'web/scraps': './templates/web/scrap.js',
     'web/scrapDetails': './templates/web/scrapDetails.js', 
-    'web/selectDefectForScraps': './templates/web/selectDefectForScraps.js', // <-- add this line
   },
   output: {
     path: path.resolve(__dirname, 'public/assets'),
