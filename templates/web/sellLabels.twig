@@ -16,7 +16,7 @@
 				<h2>
 					<i class="fas fa-cart-arrow-down"></i>
 					Sell Labels list</h2>
-				<form action="select_label_for_sells" method="post" id="{{ sellRow.id }}">
+				<form action="select_label_for_sells" method="get" id="{{ sellRow.id }}">
 					<input type="hidden" id="productID" name="ProductID" value="{{ sellRow.product_id }}">
 					<input type="hidden" id="sellID" name="sell_id" value="{{ sellRow.id }}">
 				</form>
