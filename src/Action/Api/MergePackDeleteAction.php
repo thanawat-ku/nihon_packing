@@ -50,21 +50,28 @@ final class MergePackDeleteAction
         $mergePackID = $data['merge_pack_id'];
         $user_id = $data["user_id"];
 
-        $data['is_delete'] = "Y";
-        $this->updater->updateMergePackApi($mergePackID, $data, $user_id);
+        $trMergePack = $this->finder->findMergePacks($data);
 
-        $rtMergePackDetail = $this->findMergePackDetail->findMergePackDetails($data);
+        if ($trMergePack[0]['merge_status'] == "MERGING" || $trMergePack[0]['merge_status'] == "CREATED") {
+            $data['is_delete'] = "Y";
+            $this->updater->updateMergePackApi($mergePackID, $data, $user_id);
 
-        $upStatusLabel['status'] = "PACKED";
-        for ($i = 0; $i < count($rtMergePackDetail); $i++) {
-            $labelID = $rtMergePackDetail[$i]['label_id'];
-            $this->updateLabel->updateLabel($labelID, $upStatusLabel);
+            $rtMergePackDetail = $this->findMergePackDetail->findMergePackDetails($data);
+
+            $upStatusLabel['status'] = "PACKED";
+            for ($i = 0; $i < count($rtMergePackDetail); $i++) {
+                $labelID = $rtMergePackDetail[$i]['label_id'];
+                $this->updateLabel->updateLabel($labelID, $upStatusLabel);
+            }
+
+            $this->updateMergePackDetail->deleteMergePackDetail($mergePackID);
+
+            // $data['find_is_delete'] = 'Y'; 
+            // $rtdata = $this->finder->findMergePacks($data);
+
+            return $this->responder->withJson($response, $trMergePack[0]);
+        }else{
+            return $this->responder->withJson($response, null);
         }
-
-        $this->updateMergePackDetail->deleteMergePackDetail($mergePackID);
-
-        $rtdata = $this->finder->findMergePacks($data);
-
-        return $this->responder->withJson($response, $rtdata[0]);
     }
 }

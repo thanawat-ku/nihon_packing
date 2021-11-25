@@ -40,18 +40,18 @@ final class SellDeleteAction
 
         $rtSell =  $this->finder->findSells($data);
 
-        $rtSell['sell_id']=$sellID; 
-        $rtSellLabel =  $this->findSellLabel->findSellLabels($rtSell);
+        if ($rtSell[0]['sell_status'] == "SELECTED_LABEL" || $rtSell[0]['sell_status'] == "TAGGED" || $rtSell[0]['sell_status'] == "INVOICED") {
+        } else {
+            $rtSell['sell_id'] = $sellID;
+            $rtSellLabel =  $this->findSellLabel->findSellLabels($rtSell);
 
-
-        for ($i = 0; $i < count($rtSellLabel); $i++) {
-            $upStatus['status'] = "PACKED";
-            $this->updateLabel->updateLabel($rtSellLabel[$i]['label_id'], $upStatus);
+            for ($i = 0; $i < count($rtSellLabel); $i++) {
+                $upStatus['status'] = "PACKED";
+                $this->updateLabel->updateLabel($rtSellLabel[$i]['label_id'], $upStatus);
+            }
+            $data['is_delete'] = 'Y';
+            $this->updater->updateSell($sellID, $data);
         }
-
-
-        $data['is_delete'] = 'Y';
-        $this->updater->updateSell($sellID, $data);
 
         return $this->responder->withRedirect($response, "sells");
     }

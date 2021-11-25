@@ -2,6 +2,7 @@
 
 namespace App\Action\Api;
 
+use App\Domain\Sell\Service\SellFinder;
 use App\Domain\SellLabel\Service\SellLabelFinder;
 use App\Domain\SellLabel\Service\SellLabelUpdater;
 use App\Domain\Label\Service\LabelUpdater;
@@ -22,6 +23,7 @@ final class SellDeleteAction
 {
     private $responder;
     private $updater;
+    private $finder;
     private $findSellLabel;
     private $updateSellLabel;
     private $updateLabel;
@@ -29,9 +31,10 @@ final class SellDeleteAction
     private $updateSellCpoItem;
 
 
-    public function __construct(Responder $responder,  SellUpdater $updater, SellLabelFinder $findSellLabel, SellLabelUpdater $updateSellLabel, LabelUpdater $updateLabel, SellCpoItemFinder $findSellCpoItem, SellCpoItemUpdater $updateSellCpoItem)
+    public function __construct(Responder $responder, SellFinder $finder,  SellUpdater $updater, SellLabelFinder $findSellLabel, SellLabelUpdater $updateSellLabel, LabelUpdater $updateLabel, SellCpoItemFinder $findSellCpoItem, SellCpoItemUpdater $updateSellCpoItem)
     {
         $this->responder = $responder;
+        $this->finder = $finder;
         $this->updater = $updater;
         $this->findSellLabel = $findSellLabel;
         $this->updateSellLabel = $updateSellLabel;
@@ -50,20 +53,25 @@ final class SellDeleteAction
         $sellID = $data['sell_id'];
         $user_id = $data['user_id'];
 
-        $data['is_delete'] = "Y";
-        $this->updater->updateSellDeleteApi($sellID, $data, $user_id);
+        $rtSell = $this->finder->findSells($data);
+        if ($rtSell[0]['sell_status'] == "SELECTED_LABEL" || $rtSell[0]['sell_status'] == "TAGGED" || $rtSell[0]['sell_status'] == "INVOICED") {
+            return $this->responder->withJson($response, null);
+        } else {
+            $data['is_delete'] = "Y";
+            $this->updater->updateSellDeleteApi($sellID, $data, $user_id);
 
-        $rtSellLabel = $this->findSellLabel->findSellLabels($data);
-        $upStatus['status'] = "PACKED";
-        for ($i = 0; $i < count($rtSellLabel); $i++) {
-            $labelID = $rtSellLabel[$i]['label_id'];
-            $this->updateLabel->updateLabelApi($labelID, $upStatus, $user_id);
+            $rtSellLabel = $this->findSellLabel->findSellLabels($data);
+            $upStatus['status'] = "PACKED";
+            for ($i = 0; $i < count($rtSellLabel); $i++) {
+                $labelID = $rtSellLabel[$i]['label_id'];
+                $this->updateLabel->updateLabelApi($labelID, $upStatus, $user_id);
+            }
+
+            $this->updateSellLabel->deleteSellLabelApi($sellID);
+
+            $this->updateSellCpoItem->deleteCpoItemInSellCpoItemApi($sellID);
+
+            return $this->responder->withJson($response, $data);
         }
-
-        $this->updateSellLabel->deleteSellLabelApi($sellID);
-
-        $this->updateSellCpoItem->deleteCpoItemInSellCpoItemApi($sellID);
-
-        return $this->responder->withJson($response, $data);
     }
 }
