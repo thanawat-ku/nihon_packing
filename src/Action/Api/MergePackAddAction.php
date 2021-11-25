@@ -70,6 +70,7 @@ final class MergePackAddAction
             return $this->responder->withJson($response, $rtdata[0]);
         }else{
             $rtdata = null;
+            return $this->responder->withJson($response, $rtdata[0]);
         }
     }
 }
