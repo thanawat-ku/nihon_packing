@@ -110,6 +110,9 @@ final class MergePackRepository
         if (isset($params["startDate"])) {
             $query->andWhere(['merge_date <=' => $params['endDate'], 'merge_date >=' => $params['startDate']]);
         }
+        if (isset($params['check_notcomplete'])) {
+            $query->andWhere(['merge_status !=' => 'COMPLETE']);
+        }
 
         return $query->execute()->fetchAll('assoc') ?: [];
     }

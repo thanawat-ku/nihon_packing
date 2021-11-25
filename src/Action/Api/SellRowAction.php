@@ -53,8 +53,14 @@ final class SellRowAction
 
         $sells = $this->findersct->findSellCpoItems($data);
         $this->updater->updateSellApi($sellID, $sells, $user_id);
-        // $this->updater->updateSellSelectingApi($sellID, $sells, $user_id);
         $sellRow = $this->finder->findSellRow($sellID);
+
+        $totalQty = (int)$sellRow['total_qty'];
+
+        if ($totalQty == 0) {
+            $upStatus['up_status']="CREATED";
+            $this->updater->updateSellStatus($sellID, $upStatus, $user_id);
+        }
 
         if ($sellRow) {
             $rtdata['message'] = 'Login successfully';

@@ -45,9 +45,9 @@ final class SellUpStatusAction
         $user_id=$data['user_id'];
         $sell_id=$data['sell_id'];
 
-        if (isset($params['start_date'])) {
-            $params['startDate'] = $params['start_date'];
-            $params['endDate'] = $params['end_date'];
+        if (isset($data['start_date'])) {
+            $data['startDate'] =$data['start_date'];
+            $data['endDate'] = $data['end_date'];
         }
 
         $data['up_status'] = "SELECTED_CPO";

@@ -171,7 +171,7 @@ return function (App $app) {
 
     $app->post('/api/label_search', \App\Action\Api\LabelsearchAction::class);
 
-    $app->get('/api/cpo_item', \App\Action\Api\CpoItemAction::class);
+    $app->get('/api/cpo_items', \App\Action\Api\CpoItemAction::class);
     $app->get('/api/cpo_item_select', \App\Action\Api\CpoItemSelectAction::class);
 
     $app->get('/api/sells', \App\Action\Api\SellAction::class);

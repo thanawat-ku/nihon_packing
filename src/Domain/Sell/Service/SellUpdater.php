@@ -63,6 +63,8 @@ final class SellUpdater
             $row['sell_status'] = "SELECTING_LABEL";
         } else if ($data['up_status'] == "SELECTED_LABEL") {
             $row['sell_status'] = "SELECTED_LABEL";
+        }else if ($data['up_status'] == "CREATED") {
+            $row['sell_status'] = "CREATED";
         }
 
         $this->repository->updateSellApi($sellId, $row, $user_id);
