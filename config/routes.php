@@ -108,6 +108,8 @@ return function (App $app) {
 
     //---------------------------Api-------------------------------
 
+    $app->get('/api/users', \App\Action\Api\UserAction::class);
+
     $app->get('/api/lots', \App\Action\Api\LotAction::class);
     $app->post('/api/confirm_lot_check', \App\Action\Api\LotConfirmCheckAction::class);
     $app->post('/api/confirm_lot', \App\Action\Api\LotConfirmAction::class);
