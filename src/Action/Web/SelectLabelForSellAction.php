@@ -31,7 +31,7 @@ final class  SelectLabelForSellAction
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        $data = (array)$request->getParsedBody();
+        $data = (array)$request->getQueryParams();
         $sellID=(int)$data['sell_id'];
         $data['check_sell_label']=true;
 

@@ -41,6 +41,10 @@ final class SellCpoItemRepository
     {
         $this->queryFactory->newDelete('sell_cpo_items')->andWhere(['id' => $id])->execute();
     }
+    public function deleteCpoItemInSellCpoItemApi(int $sellID): void
+    {
+        $this->queryFactory->newDelete('sell_cpo_items')->andWhere(['sell_id' => $sellID])->execute();
+    }
 
 
     public function findSellCpoItems(array $params): array

@@ -41,6 +41,18 @@ final class MergePackDetailUpdater
         return $id;
     }
 
+    public function insertMergePackDetailFromScanApi(array $data, $user_id): int
+    {
+        $this->validator->validateMergePackDetailInsert($data);
+
+        $row = $this->mapToRow($data);
+        
+
+        $id = $this->repository->insertMergePackDetailApi($row, $user_id);
+
+        return $id;
+    }
+
     public function insertMergePackDetail(array $data): int
     {
         $this->validator->validateMergePackDetailInsert($data);

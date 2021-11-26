@@ -40,6 +40,7 @@ final class LotDefectAddAction
 
         $params = (array)$request->getParsedBody();
         $user_id = $params["user_id"];
+        // find from defect code
         $data = $this->defectFinder->findDefects($params);
         $defectId['defect_id'] = $data[0]['id'];
         $defectId['lot_id'] = $params['lot_id'];

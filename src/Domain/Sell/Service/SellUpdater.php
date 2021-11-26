@@ -63,6 +63,8 @@ final class SellUpdater
             $row['sell_status'] = "SELECTING_LABEL";
         } else if ($data['up_status'] == "SELECTED_LABEL") {
             $row['sell_status'] = "SELECTED_LABEL";
+        }else if ($data['up_status'] == "CREATED") {
+            $row['sell_status'] = "CREATED";
         }
 
         $this->repository->updateSellApi($sellId, $row, $user_id);
@@ -100,6 +102,15 @@ final class SellUpdater
         $user_id = $this->session->get('user')["id"];
 
         $this->repository->updateSellApi($productId, $row, $user_id);
+    }
+
+    public function updateSellDeleteApi(int $sellId, array $data, $user_id): void
+    {
+        $this->validator->validateSellUpdate($sellId, $data, $user_id);
+
+        $row = $this->mapToRow($data);
+
+        $this->repository->updateSellApi($sellId, $row, $user_id);
     }
 
     public function deleteSellApi(int $productId): void

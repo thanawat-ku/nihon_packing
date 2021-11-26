@@ -16,13 +16,6 @@ final class LotDefectFinder
         $this->repository = $repository;
     }
 
-    /**
-     * Find customers.
-     *
-     * @param array<mixed> $params The parameters
-     *
-     * @return array<mixed> The result
-     */
     public function findLotDefects(array $params): array
     {
         return $this->repository->findLotDefects($params);

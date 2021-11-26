@@ -57,10 +57,8 @@ final class CheckLabelScanAction
         $mergePackID = $data['id'];
         $productID = $data['product_id'];
 
-
         $this->upmergepack->updateMergingApi($mergePackID, $data, $user_id);
         $this->upmergepackdetail->deleteMergePackDetailApi($mergePackID);
-        // $this->updater->updateLabelDefalt($mergePackID, $data, $user_id);
 
         $arrlabel = explode("#", $label);
 

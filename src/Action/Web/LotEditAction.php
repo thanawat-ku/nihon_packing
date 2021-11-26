@@ -2,6 +2,7 @@
 
 namespace App\Action\Web;
 
+use App\Domain\Lot\Service\LotFinder;
 use App\Domain\Lot\Service\LotUpdater;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
@@ -14,12 +15,14 @@ final class LotEditAction
 {
     private $responder;
     private $updater;
-    public function __construct(Responder $responder, LotUpdater $updater)
+    private $finder;
+
+    public function __construct(Responder $responder, LotUpdater $updater, LotFinder $finder)
     {
         $this->responder = $responder;
         $this->updater = $updater;
+        $this->finder = $finder;
     }
-
 
     public function __invoke(
         ServerRequestInterface $request,
@@ -28,9 +31,14 @@ final class LotEditAction
     ): ResponseInterface {
         $data = (array)$request->getParsedBody();
         $lotId = $data["id"];
+        $findLot['lot_id'] = $lotId;
+        $lot = $this->finder->findLots($findLot);
 
-        $this->updater->updateLot($lotId, $data);
+        if ($lot[0]['status'] == "CREATED") {
+            $this->updater->updateLot($lotId, $data);
+        }
 
-        return $this->responder->withRedirect($response,"lots");
+
+        return $this->responder->withRedirect($response, "lots");
     }
 }

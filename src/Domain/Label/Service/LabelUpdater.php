@@ -62,17 +62,6 @@ final class LabelUpdater
         return $id;
     }
 
-    // public function updateLabelStatusApi(int $labelID, array $data, $user_id): void
-    // {
-    //     $this->validator->validateLabelUpdate($labelID, $data);
-
-    //     $row = $this->mapToLabelRow($data);
-    //     $row['status'] = "VOID";
-    //     $row['label_void_reason_id'] = 2;
-
-    //     $this->repository->updateLabelmergeApi($labelID, $row, $user_id);
-    // }
-
     public function updateLabelStatus(int $labelID, array $data, $user_id): void
     {
         $this->validator->validateLabelUpdate($labelID, $data);
@@ -203,8 +192,7 @@ final class LabelUpdater
 
         $row = $this->mapToLabelRow($data);
         $ID = $data[0]['id'];
-        // $ID = $data['id'];
-        // $row['merge_pack_id']=$data['check_mp_id'];
+        $row['merge_pack_id']=$data['check_mp_id'];
         if ($data[0]['status'] == "PACKED" && ($data[0]['label_type'] == "NONFULLY" || $data[0]['label_type'] == "MERGE_NONFULLY")) {
             if ($data[0]['merge_pack_id'] == 0) {
                 if ($data[0]['status'] == "MERGED") {

@@ -5,6 +5,7 @@ namespace App\Action\Web;
 use App\Domain\MergePack\Service\MergePackFinder;
 use App\Domain\MergePack\Service\MergePackUpdater;
 use App\Domain\MergePackDetail\Service\MergePackDetailUpdater;
+use App\Domain\Label\Service\LabelFinder;
 use App\Domain\Label\Service\LabelUpdater;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
@@ -27,6 +28,7 @@ final class MergeLabelAddAction
     private $updater;
     private $session;
     private $mergeDetailUpdater;
+    private $labelFinder;
     private $labelUpdater;
 
     /**
@@ -39,6 +41,7 @@ final class MergeLabelAddAction
         MergePackFinder $finder,
         Session $session,
         Responder $responder,
+        LabelFinder $labelFinder,
         MergePackUpdater  $updater,
         MergePackDetailUpdater $mergeDetailUpdater,
         LabelUpdater $labelUpdater,
@@ -48,6 +51,7 @@ final class MergeLabelAddAction
         $this->updater = $updater;
         $this->session = $session;
         $this->responder = $responder;
+        $this->labelFinder = $labelFinder;
         $this->labelUpdater = $labelUpdater;
         $this->mergeDetailUpdater = $mergeDetailUpdater;
     }
@@ -66,13 +70,18 @@ final class MergeLabelAddAction
         $mergeId = $data['merge_pack_id'];
         $labelId = $data['label_id'];
 
-        $this->mergeDetailUpdater->insertMergePackDetail($data);
-        
-        $dataLabel['status'] = "MERGING";
-        $this->labelUpdater->updateLabel($labelId, $dataLabel);
-        $data2['merge_status'] = "MERGING";
-        $this->updater->updatePackMerge($mergeId,$data2);
+        $findLabel['label_id'] =  $labelId;
+        $label = $this->labelFinder->findLabelSingleTable($findLabel);
 
+        if($label[0]['status'] == "PACKED"){
+            $this->mergeDetailUpdater->insertMergePackDetail($data);
+
+            $dataLabel['status'] = "MERGING";
+            $this->labelUpdater->updateLabel($labelId, $dataLabel);
+            $data2['merge_status'] = "MERGING";
+            $this->updater->updatePackMerge($mergeId, $data2);
+        }
+       
         $viewData = [
             'id' => $mergeId,
         ];

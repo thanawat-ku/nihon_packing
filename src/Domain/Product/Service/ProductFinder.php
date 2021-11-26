@@ -35,19 +35,4 @@ final class ProductFinder
     {
         return $this->repository->findProducts($params);
     }
-    // public function findIDFromProductName(array $params): array
-    // {
-    //     return $this->repository->findIDFromProductName($params);
-    // }
-
-    public function findIDFromProductCode(string $ProductCode)
-    {
-        $userRow = $this->repository->findIDFromProductCode($ProductCode);
-
-        return $userRow;
-    }
-
-  
-
-    
 }

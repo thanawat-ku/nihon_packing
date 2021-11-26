@@ -96,7 +96,6 @@ final class MergePackUpdater
         $storeRow = $this->mapToMergePackRow($data);
 
         $this->repository->updatePackMerge($mergeId, $storeRow);
-        
     }
 
 
@@ -123,18 +122,19 @@ final class MergePackUpdater
         $result = [];
 
         if (isset($data['product_id'])) {
-            $result['product_id'] = (string)$data['product_id'];
+            $result['product_id'] = $data['product_id'];
         }
         if (isset($data['merge_no'])) {
-            $result['merge_no'] = (string)$data['merge_no'];
+            $result['merge_no'] = $data['merge_no'];
         }
         if (isset($data['merge_status'])) {
-            $result['merge_status'] = (string)$data['merge_status'];
+            $result['merge_status'] = $data['merge_status'];
+        }
+        if (isset($data['is_delete'])) {
+            $result['is_delete'] = $data['is_delete'];
         }
 
 
         return $result;
     }
-
-
 }

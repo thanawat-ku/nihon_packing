@@ -69,20 +69,23 @@ final class MergeDeleteAction
     {
         $data = (array)$request->getParsedBody();
         $mergeId = $data['id'];
+        $mergePack = $this->finder->findMergePacks($data);
 
-        $data2['merge_pack_id'] = $data['id'];
-        $mergeDetail = $this->mergeDetailFinder->findMergePackDetailsForMerge($data2);
+        if ($mergePack[0]['merge_status'] == "CREATED") {
+            $data2['merge_pack_id'] = $data['id'];
+            $mergeDetail = $this->mergeDetailFinder->findMergePackDetailsForMerge($data2);
 
-        if (isset($mergeDetail[0])) {
-            for ($i = 0; $i < sizeof($mergeDetail); $i++) {
-                $labelId = $mergeDetail[$i]['label_id'];
+            if (isset($mergeDetail[0])) {
                 $dataLabel['status'] = "PACKED";
-                $this->labelUpdater->updateLabel($labelId, $dataLabel);
+                for ($i = 0; $i < sizeof($mergeDetail); $i++) {
+                    $labelId = $mergeDetail[$i]['label_id'];
+                    $this->labelUpdater->updateLabel($labelId, $dataLabel);
+                }
             }
-        }
 
-        $this->mergeDetailUpdater->deleteMergePackDetail($mergeId);
-        $this->updater->deleteMergePack($mergeId);
+            $this->mergeDetailUpdater->deleteMergePackDetail($mergeId);
+            $this->updater->deleteMergePack($mergeId);
+        }
 
         return $this->responder->withRedirect($response, "merges");
     }
