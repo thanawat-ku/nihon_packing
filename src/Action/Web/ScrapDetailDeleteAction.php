@@ -5,7 +5,7 @@ namespace App\Action\Web;
 
 use App\Domain\Scrap\Service\ScrapFinder;
 use App\Domain\ScrapDetail\Service\ScrapDetailFinder;
-use App\Domain\Scrap\Service\ScrapUpdater;
+use App\Domain\ScrapDetail\Service\ScrapDetailUpdater;
 use App\Domain\LotDefect\Service\LotDefectUpdater;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
@@ -26,7 +26,7 @@ final class ScrapDetailDeleteAction
     private $updater;
     private $session;
 
-    public function __construct(Twig $twig, Responder $responder, ScrapFinder $finder, ScrapUpdater $updater,LotDefectUpdater $updateLotDefect, ScrapDetailFinder $scrapDetailFinder,Session $session,)
+    public function __construct(Twig $twig, Responder $responder, ScrapFinder $finder, ScrapDetailUpdater $updater,LotDefectUpdater $updateLotDefect, ScrapDetailFinder $scrapDetailFinder,Session $session,)
     {
         $this->twig=$twig;
         $this->finder = $finder;
@@ -46,7 +46,7 @@ final class ScrapDetailDeleteAction
         $scrapID = $data['scrap_id'];
         $scrapDetailID = $data['id'];
 
-        $this->updater->deleteScrap($scrapDetailID);
+        $this->updater->deleteScrapDetail($scrapDetailID);
 
         $viewData = [
             'scrap_id' => $scrapID, 

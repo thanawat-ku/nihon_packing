@@ -54,13 +54,13 @@ final class ScrapDetailUpdater
 
         return $id;
     }
-    public function updateScrapDetailApi(int $lotDefectId, array $data, $user_id): void
+    public function updateScrapDetailApi(int $sdID, array $data, $user_id): void
     {
-        $this->validator->validateScrapDetailUpdate($lotDefectId, $data);
+        $this->validator->validateScrapDetailUpdate($sdID, $data);
 
         $row = $this->mapToScrapDetailRow($data);
 
-        $this->repository->updateScrapDetailApi($lotDefectId, $row, $user_id);
+        $this->repository->updateScrapDetailApi($sdID, $row, $user_id);
 
     }
 
@@ -69,9 +69,9 @@ final class ScrapDetailUpdater
         $this->repository->deleteScrapDetail($id);
     }
 
-    public function deleteScrapDetailAll(int $scrapID): void
+    public function deleteScrapDetailAll(int $sdID): void
     {
-        $this->repository->deleteScrapDetailAll($scrapID);
+        $this->repository->deleteScrapDetailAll($sdID);
     }
     
 
