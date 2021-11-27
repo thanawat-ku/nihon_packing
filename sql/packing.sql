@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 27, 2021 at 01:11 PM
+-- Generation Time: Nov 27, 2021 at 01:39 PM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 8.0.3
 
@@ -4669,6 +4669,7 @@ CREATE TABLE `scraps` (
   `scrap_no` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
   `scrap_date` date NOT NULL,
   `scrap_status` enum('CREATED','CONFIRMED','REJECTED') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `is_delete` enum('N','Y') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N',
   `created_at` datetime NOT NULL,
   `created_user_id` int(11) NOT NULL,
   `updated_at` datetime NOT NULL,
@@ -4679,9 +4680,9 @@ CREATE TABLE `scraps` (
 -- Dumping data for table `scraps`
 --
 
-INSERT INTO `scraps` (`id`, `scrap_no`, `scrap_date`, `scrap_status`, `created_at`, `created_user_id`, `updated_at`, `updated_user_id`) VALUES
-(2, 'SC0000000002', '2021-11-27', 'REJECTED', '2021-11-27 15:15:23', 1, '2021-11-27 15:19:29', 1),
-(3, 'SC0000000003', '2021-11-27', 'CREATED', '2021-11-27 15:22:16', 1, '2021-11-27 15:22:16', 1);
+INSERT INTO `scraps` (`id`, `scrap_no`, `scrap_date`, `scrap_status`, `is_delete`, `created_at`, `created_user_id`, `updated_at`, `updated_user_id`) VALUES
+(2, 'SC0000000002', '2021-11-27', 'REJECTED', 'N', '2021-11-27 15:15:23', 1, '2021-11-27 15:19:29', 1),
+(3, 'SC0000000003', '2021-11-27', 'CREATED', 'N', '2021-11-27 15:22:16', 1, '2021-11-27 15:22:16', 1);
 
 -- --------------------------------------------------------
 
@@ -4910,6 +4911,7 @@ CREATE TABLE `split_labels` (
   `label_id` int(11) NOT NULL,
   `status` enum('CREATED','PRINTED','PACKING','PACKED') COLLATE utf8mb4_unicode_ci NOT NULL,
   `split_date` date NOT NULL,
+  `is_delete` enum('N','Y') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N',
   `created_at` datetime NOT NULL,
   `created_user_id` int(11) NOT NULL,
   `updated_at` datetime NOT NULL,
@@ -4943,6 +4945,8 @@ CREATE TABLE `tags` (
   `tag_no` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
   `sell_id` int(11) NOT NULL,
   `quantity` int(11) NOT NULL,
+  `box_no` int(11) NOT NULL,
+  `total_box` int(11) NOT NULL,
   `is_print` enum('N','Y') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N',
   `status` enum('CREATED','BOXED','SHIPPED','VOID') COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` datetime NOT NULL,
