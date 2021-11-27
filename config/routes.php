@@ -199,4 +199,7 @@ return function (App $app) {
     $app->post('/api/cancel_sell_label', \App\Action\Api\CancelSellLabelAction::class);
     $app->post('/api/confirm_sell_label', \App\Action\Api\ConfirmSellLabelAction::class);
     $app->get('/api/mis_sync_lots', \App\Action\Api\LotSyncAction::class);
+    $app->get('/api/mis_sync_products', \App\Action\Api\ProductSyncAction::class);
+    $app->get('/api/mis_sync_customers', \App\Action\Api\CustomerSyncAction::class);
+    $app->get('/api/mis_sync_sections', \App\Action\Api\SectionSyncAction::class);
 };

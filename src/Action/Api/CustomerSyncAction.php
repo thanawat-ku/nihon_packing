@@ -2,15 +2,15 @@
 
 namespace App\Action\Api;
 
-use App\Domain\Lot\Service\LotFinder;
-use App\Domain\Lot\Service\LotUpdater;
+use App\Domain\Customer\Service\CustomerFinder;
+use App\Domain\Customer\Service\CustomerUpdater;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Views\Twig;
 use Symfony\Component\HttpFoundation\Session\Session;
 
-final class LotSyncAction
+final class CustomerSyncAction
 {
     /**
      * @var Responder
@@ -21,8 +21,8 @@ final class LotSyncAction
 
     public function __construct(
         Twig $twig,
-        LotFinder $finder,
-        LotUpdater $updater,
+        CustomerFinder $finder,
+        CustomerUpdater $updater,
         Responder $responder
     ) {
         $this->twig = $twig;
@@ -35,21 +35,18 @@ final class LotSyncAction
     {
         $params = (array)$request->getQueryParams();
 
-        $max_id=$this->finder->getLocalMaxLotId();
+        $max_id=$this->finder->getLocalMaxCustomerId();
 
-        $lots = $this->finder->getSyncLots($max_id);
+        $customers = $this->finder->getSyncCustomers($max_id);
         $rtData=[];
-        
-        for($i=0;$i<count($lots);$i++)
+        for($i=0;$i<count($customers);$i++)
         {
-            $params1['id']=$lots[$i]["LotID"];
-            $params1['lot_no']=$lots[$i]["LotNo"];
-            $params1['product_id']=$lots[$i]["ProductID"];
-            $params1['quantity']=$lots[$i]["StartQty"];
-            $params1['issue_date']=substr($lots[$i]["IssueDate"],0,10);
-            $this->updater->insertLot($params1);
+            $params1['id']=$customers[$i]["CustomerID"];
+            $params1['customer_code']=$customers[$i]["CustomerCode"];
+            $params1['customer_name']=$customers[$i]["CustomerName"];
+            $this->updater->insertCustomer($params1);
             $rtData=[];
-            array_push($rtData, $lots[$i]);
+            array_push($rtData, $customers[$i]);
         }
 
         return $this->responder->withJson($response, $rtData);

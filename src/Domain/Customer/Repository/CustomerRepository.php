@@ -3,6 +3,7 @@
 namespace App\Domain\Customer\Repository;
 
 use App\Factory\QueryFactory;
+use App\Factory\QueryFactory2;
 use DomainException;
 use Cake\Chronos\Chronos;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -12,9 +13,10 @@ final class CustomerRepository
     private $queryFactory;
     private $session;
 
-    public function __construct(Session $session,QueryFactory $queryFactory)
+    public function __construct(Session $session,QueryFactory $queryFactory, QueryFactory2 $queryFactory2)
     {
         $this->queryFactory = $queryFactory;
+        $this->queryFactory2 = $queryFactory2;
         $this->session=$session;
     }
     public function insertCustomer(array $row): int
@@ -53,4 +55,36 @@ final class CustomerRepository
         return $query->execute()->fetchAll('assoc') ?: [];
     }
 
+
+    
+    public function getMaxID(): array
+    {
+        $query = $this->queryFactory->newSelect('customers');
+        $query->select(
+            [
+                'max_id'=> $query->func()->max('id'),
+            ]);
+        return $query->execute()->fetchAll('assoc') ?: [];
+    }
+    public function getSyncCustomers(int $max_id): array
+    {
+        $query = $this->queryFactory2->newSelect('customer');
+        $query->select(
+            [
+                'CustomerID',
+                'CustomerCode',
+                'CustomerName',
+            ]);
+        $query->andWhere(['CustomerID >' => $max_id]);
+        return $query->execute()->fetchAll('assoc') ?: [];
+    }
+    public function getLocalMaxCustomerId():array
+    {
+        $query = $this->queryFactory->newSelect('customers');
+        $query->select(
+            [
+                'max_id' => $query->func()->max('id'),
+            ]);
+        return $query->execute()->fetchAll('assoc') ?: [];
+    }
 }

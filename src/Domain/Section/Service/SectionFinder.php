@@ -27,4 +27,19 @@ final class SectionFinder
     {
         return $this->repository->findSections($params);
     }
+    
+    public function getLocalMaxSectionId():int
+    {
+        $data=$this->repository->getLocalMaxSectionId()[0]["max_id"];
+        if(is_null($data)){
+            return 0;
+        }
+        else{
+            return $data;
+        }
+    }
+    public function getSyncSections(int $maxId):array
+    {
+        return $this->repository->getSyncSections($maxId);
+    }
 }
