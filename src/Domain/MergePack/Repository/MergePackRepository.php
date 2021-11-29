@@ -99,6 +99,7 @@ final class MergePackRepository
                 ]
             ]
         );
+        $query->andWhere(['merge_packs.is_delete' => 'N']);
 
         if (isset($params['id'])) {
             $query->andWhere(['merge_packs.id' => $params['id']]);
@@ -108,6 +109,9 @@ final class MergePackRepository
         }
         if (isset($params["startDate"])) {
             $query->andWhere(['merge_date <=' => $params['endDate'], 'merge_date >=' => $params['startDate']]);
+        }
+        if (isset($params['check_notcomplete'])) {
+            $query->andWhere(['merge_status !=' => 'COMPLETE']);
         }
 
         return $query->execute()->fetchAll('assoc') ?: [];

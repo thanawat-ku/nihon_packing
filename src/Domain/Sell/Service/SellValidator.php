@@ -27,7 +27,8 @@ final class SellValidator
             ->notEmptyString('sell_date', 'Input required')
             ->notEmptyString('product_id', 'Input required')
             ->notEmptyString('total_qty', 'Input required')
-            ->notEmptyString('sell_status', 'Input required');
+            ->notEmptyString('sell_status', 'Input required')
+            ->notEmptyString('is_delete', 'Input required');
     }
     public function validateSell(array $data): void
     {
@@ -51,7 +52,7 @@ final class SellValidator
         */
         $this->validateSell($data);
     }
-    public function validateSellInsert( array $data): void
+    public function validateSellInsert(array $data): void
     {
         $this->validateSell($data);
     }

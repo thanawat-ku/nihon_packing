@@ -35,19 +35,19 @@ final class ProductFinder
     {
         return $this->repository->findProducts($params);
     }
-    // public function findIDFromProductName(array $params): array
-    // {
-    //     return $this->repository->findIDFromProductName($params);
-    // }
-
-    public function findIDFromProductCode(string $ProductCode)
-    {
-        $userRow = $this->repository->findIDFromProductCode($ProductCode);
-
-        return $userRow;
-    }
-
-  
-
     
+    public function getLocalMaxProductId():int
+    {
+        $data=$this->repository->getLocalMaxProductId()[0]["max_id"];
+        if(is_null($data)){
+            return 0;
+        }
+        else{
+            return $data;
+        }
+    }
+    public function getSyncProducts(int $maxId):array
+    {
+        return $this->repository->getSyncProducts($maxId);
+    }
 }

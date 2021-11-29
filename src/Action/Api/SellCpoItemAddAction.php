@@ -46,8 +46,8 @@ final class SellCpoItemAddAction
         $user_id = $data['user_id'];
         $sellID = $data['sell_id'];
 
-        $date['up_status'] = "SELECTING_CPO";
-        $this->updatesell->updateSellStatus($sellID, $data, $user_id);
+        $uptatus['sell_status'] = "SELECTING_CPO";
+        $this->updatesell->updateSellStatus($sellID, $uptatus, $user_id);
 
         $this->updater->insertSellCpoItemApi($data, $user_id);
 

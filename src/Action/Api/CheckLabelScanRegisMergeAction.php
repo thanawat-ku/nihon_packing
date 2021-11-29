@@ -55,41 +55,47 @@ final class CheckLabelScanRegisMergeAction
     {
         $data = (array)$request->getParsedBody();
         $label = $data['label'];
-        
+
         $arrlabel = explode("#", $label);
 
-        $rtdata['mpd_from_lots']=[];
-        $rtdata['mpd_from_merges'] =[];
+        $rtdata['mpd_from_lots'] = [];
+        $rtdata['mpd_from_merges'] = [];
+        $rtdata['label_no'] = "Null";
 
         for ($i = 1; $i < count($arrlabel); $i++) {
             $label_no = $arrlabel[$i];
-            $data1['label_no'] = explode(",", $label_no)[0];
-            $label_row = $this->finder->findLabelSingleTable($data1);
-            $labelID['id']=$label_row[0]['id'];
+            $labelNo['label_no'] = explode(",", $label_no)[0];
+            $labelRow = $this->finder->findLabelSingleTable($labelNo);
 
-            if ($label_row != null) {
-                if ($label_row[0]['merge_pack_id'] == 0) {
-                    if ($label_row[0]['lot_id'] != 0) {
+
+            if ($labelRow != null) {
+                $labelID['id'] = $labelRow[0]['id'];
+                if ($labelRow[0]['merge_pack_id'] == 0) {
+                    if ($labelRow[0]['lot_id'] != 0) {
                         $rtdata['message'] = "Get Label Successful";
                         $rtdata['error'] = false;
                         $labelLots = $this->finder->findCreateMergeNoFromLabels($labelID);
                         array_push($rtdata['mpd_from_lots'], $labelLots[0]);
-                    } 
-                } 
-                else {
+                    }
+                } else {
                     $rtdata['message'] = "Get Label Successful";
                     $rtdata['error'] = false;
                     $labelMergePacks = $this->finder->findLabelFromMergePacks($labelID);
                     array_push($rtdata['mpd_from_merges'], $labelMergePacks[0]);
-                    
                 }
             } else {
                 $rtdata['message'] = "Get Label Successful";
+                $rtdata['label_no'] = $labelNo['label_no'];
                 $rtdata['error'] = true;
                 break;
             }
         }
-
-        return $this->responder->withJson($response, $rtdata);
+        if ($rtdata['mpd_from_lots'] == null && $rtdata['mpd_from_merges'] == null) {
+            $rtdata['message'] = "Get Label Successful";
+            $rtdata['error'] = true;
+            return $this->responder->withJson($response, $rtdata);
+        } else {
+            return $this->responder->withJson($response, $rtdata);
+        }
     }
 }

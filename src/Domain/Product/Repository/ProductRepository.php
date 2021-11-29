@@ -148,4 +148,40 @@ final class ProductRepository
         return false;
     }
 
+    
+    public function getMaxID(): array
+    {
+        $query = $this->queryFactory->newSelect('products');
+        $query->select(
+            [
+                'max_id'=> $query->func()->max('id'),
+            ]);
+        return $query->execute()->fetchAll('assoc') ?: [];
+    }
+    public function getSyncProducts(int $max_id): array
+    {
+        $query = $this->queryFactory2->newSelect('product');
+        $query->select(
+            [
+                'ProductID',
+                'PartNo',
+                'PartName',
+                'PartCode',
+                'CustomerID',
+                'PackingStd',
+                'BoxStd',
+            ]);
+        $query->andWhere(['ProductID >' => $max_id]);
+        return $query->execute()->fetchAll('assoc') ?: [];
+    }
+    public function getLocalMaxProductId():array
+    {
+        $query = $this->queryFactory->newSelect('products');
+        $query->select(
+            [
+                'max_id' => $query->func()->max('id'),
+            ]);
+        return $query->execute()->fetchAll('assoc') ?: [];
+    }
+
 }

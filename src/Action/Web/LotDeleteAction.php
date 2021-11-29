@@ -2,12 +2,14 @@
 
 namespace App\Action\Web;
 
+use App\Domain\Lot\Service\LotFinder;
 use App\Domain\Lot\Service\LotUpdater;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use App\Domain\Label\Service\LabelUpdater;
 use App\Domain\LotDefect\Service\LotDefectUpdater;
+
 /**
  * Action.
  */
@@ -17,9 +19,11 @@ final class LotDeleteAction
     private $updater;
     private $updaterLabel;
     private $updaterLotDefect;
-    public function __construct(Responder $responder, LotUpdater $updater , LabelUpdater $updaterLabel,LotDefectUpdater $updaterLotDefect ,)
+    private $finder;
+    public function __construct(Responder $responder, LotUpdater $updater, LabelUpdater $updaterLabel, LotDefectUpdater $updaterLotDefect, LotFinder $finder)
     {
         $this->responder = $responder;
+        $this->finder = $finder;
         $this->updater = $updater;
         $this->updaterLabel = $updaterLabel;
         $this->updaterLotDefect = $updaterLotDefect;
@@ -34,15 +38,16 @@ final class LotDeleteAction
         // Extract the form data from the request body
         $data = (array)$request->getParsedBody();
         $lotId = $data["id"];
+        $findLot['lot_id'] = $lotId;
+        $lot = $this->finder->findLots($findLot);
 
-        // Invoke the Domain with inputs and retain the result
+        if ($lot[0]['status'] == "CREATED") {
+            $this->updater->IsdeleteLot($lotId, $data);
+            // $this->updaterLabel->deleteLabelAll($lotId , $data);
+            // $this->updaterLotDefect->deleteLotDefectAll($lotId);
+        }
 
-        $this->updater->IsdeleteLot($lotId, $data);
-        
-        // $this->updaterLabel->deleteLabelAll($lotId , $data);
-        // $this->updaterLotDefect->deleteLotDefectAll($lotId);
 
-        // Build the HTTP response
-        return $this->responder->withRedirect($response,"lots");
+        return $this->responder->withRedirect($response, "lots");
     }
 }

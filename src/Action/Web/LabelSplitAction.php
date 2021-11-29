@@ -2,6 +2,7 @@
 
 namespace App\Action\Web;
 
+
 use App\Domain\Label\Service\LabelUpdater;
 use App\Domain\Label\Service\LabelFinder;
 use App\Domain\SplitLabel\Service\SplitLabelUpdater;
@@ -57,44 +58,59 @@ final class LabelSplitAction
         $data = (array)$request->getParsedBody();
         $data['status'] = "VOID";
         $data['label_void_reason_id'] = "1";
-        $labelID = $data['label_id'];
-       
-        $dataSP['status'] = "CREATED";
-        $dataSP['label_id'] = $labelID;
-        $user_id = $this->session->get('user')["id"];
-        $splitID = $this->splitupdater->insertSplitLabelApi($dataSP, $user_id);
+        $labelId = $data['label_id'];
 
-        $data2['label_id'] = $data['label_id'];
-        $findLabel = $this->finder->findLabels($data2);
+        $findLabel['label_id'] = $labelId;
+        $label = $this->finder->findLabelSingleTable($findLabel);
+        if ($label[0]['status' == "PACKED"]) {
+            $dataSP['status'] = "CREATED";
+            $dataSP['label_id'] = $labelId;
+            $user_id = $this->session->get('user')["id"];
+            $splitID = $this->splitupdater->insertSplitLabelApi($dataSP, $user_id);
 
-        $findSplitLabel['label_id'] =   $labelID;
-        if(isset($findLabel[0])){
-            $dataLabel = $findLabel;
-            $dataSplit= $this->splitLabelFinder->findSplitLabels($findSplitLabel);
-        }else{
-            $dataLabel = $this->finder->findLabelForLotZero($data2);
-            $dataSplit= $this->splitLabelFinder->findSplitLabels($findSplitLabel);
+            $data2['label_id'] = $data['label_id'];
+            $findLabel = $this->finder->findLabels($data2);
+
+            $findSplitLabel['label_id'] = $labelId;
+
+            if (isset($findLabel[0])) {
+                $dataLabel = $findLabel;
+                $dataSplit = $this->splitLabelFinder->findSplitLabels($findSplitLabel);
+            } else {
+                $dataLabel = $this->finder->findLabelForLotZero($data2);
+                $dataSplit = $this->splitLabelFinder->findSplitLabels($findSplitLabel);
+            }
+
+            $dataDeatail['label_type'] = $dataLabel[0]['label_type'];
+            $dataDeatail['lot_id'] = $dataLabel[0]['lot_id'];
+            $dataDeatail['user_id']  = $user_id;
+            $dataDeatail['merge_pack_id'] = $dataLabel[0]['merge_pack_id'];
+            $dataDeatail['quantity1'] = $data['qty1'];
+            $dataDeatail['quantity2'] = $data['qty2'];
+            $labelDetail = $this->updater->genSplitLabel($dataDeatail);
+
+            $this->updater->updateLabel($labelId, $data);
+
+            for ($i = 0; $i < sizeof($labelDetail); $i++) {
+                $dataDetailSL['label_id'] = $labelDetail[$i]['id'];
+                $dataDetailSL['split_label_id'] = $splitID;
+                $this->updaterSpiteLabelDetail->insertSplitLabelDetailDeatilApi($dataDetailSL, $user_id);
+            }
+
+        } else {
+            $data2['label_id'] = $data['label_id'];
+            $findLabel = $this->finder->findLabels($data2);
+
+            $findSplitLabel['label_id'] = $labelId;
+
+            if (isset($findLabel[0])) {
+                $dataLabel = $findLabel;
+                $dataSplit = $this->splitLabelFinder->findSplitLabels($findSplitLabel);
+            } else {
+                $dataLabel = $this->finder->findLabelForLotZero($data2);
+                $dataSplit = $this->splitLabelFinder->findSplitLabels($findSplitLabel);
+            }
         }
-
-        $dataDeatail['label_type'] = $dataLabel[0]['label_type'];
-        $dataDeatail['lot_id'] = $dataLabel[0]['lot_id'];
-        $dataDeatail['user_id']  = $user_id;
-        $dataDeatail['merge_pack_id'] = $dataLabel[0]['merge_pack_id'];
-        $dataDeatail['quantity1'] = $data['qty1'];
-        $dataDeatail['quantity2'] = $data['qty2'];
-        $labelDetail = $this->updater->genSplitLabel($dataDeatail);
-
-        $this->updater->updateLabel($labelID, $data);
-
-        for ($i = 0; $i < sizeof($labelDetail); $i++) {
-            $dataDetailSL['label_id'] = $labelDetail[$i]['id'];
-            $dataDetailSL['split_label_id'] = $splitID;
-            $this->updaterSpiteLabelDetail->insertSplitLabelDetailDeatilApi($dataDetailSL, $user_id);
-        }
-
-    
-
-        
         $viewData = [
             'splitLabels' => $dataSplit,
             'user_login' => $this->session->get('user'),

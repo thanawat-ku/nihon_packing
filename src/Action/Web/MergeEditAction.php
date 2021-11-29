@@ -56,7 +56,11 @@ final class MergeEditAction
     {
         $data = (array)$request->getParsedBody();
         $mergeId = $data['id'];
-        $this->updater->updatePackMerge($mergeId, $data);
+        $mergePack = $this->finder->findMergePacks($data);
+
+        if ($mergePack[0]['merge_status'] == "CREATED") {
+            $this->updater->updatePackMerge($mergeId, $data);
+        }
 
         return $this->responder->withRedirect($response, "merges");
     }

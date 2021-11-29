@@ -55,6 +55,7 @@ return function (App $app) {
     $app->post('/add_lot_defect', \App\Action\Web\LotDefectAddAction::class)->add(UserAuthMiddleware::class);
     $app->post('/edit_lot_defect', \App\Action\Web\LotDefectEditAction::class)->add(UserAuthMiddleware::class);
     $app->post('/delete_lot_defect', \App\Action\Web\LotDefectDeleteAction::class)->add(UserAuthMiddleware::class);
+    $app->get('/lot_defect_for_scrap', \App\Action\Web\LotdefectForScrapAction::class)->add(UserAuthMiddleware::class);
 
     $app->get('/labels', \App\Action\Web\LabelAction::class)->add(UserAuthMiddleware::class);
     $app->post('/void_label', \App\Action\Web\LabelVoidAction::class)->add(UserAuthMiddleware::class);
@@ -74,8 +75,8 @@ return function (App $app) {
     $app->post('/delete_label_void_reason', \App\Action\Web\LabelVoidReasonDeleteAction::class)->add(UserAuthMiddleware::class);
 
     $app->get('/sells', \App\Action\Web\SellAction::class)->add(UserAuthMiddleware::class);
-    $app->post('/select_label_for_sells', \App\Action\Web\SelectLabelForSellAction::class)->add(UserAuthMiddleware::class);
     $app->post('/add_sell', \App\Action\Web\SellAddAction::class)->add(UserAuthMiddleware::class);
+    $app->get('/select_label_for_sells', \App\Action\Web\SelectLabelForSellAction::class)->add(UserAuthMiddleware::class);
 
     $app->get('/sell_labels', \App\Action\Web\SellLabelAction::class)->add(UserAuthMiddleware::class);
     $app->post('/add_sell_label', \App\Action\Web\SellLabelAddAction::class)->add(UserAuthMiddleware::class);
@@ -93,6 +94,17 @@ return function (App $app) {
     $app->post('/add_cpo_item', \App\Action\Web\CpoItemAddAction::class)->add(UserAuthMiddleware::class);
     $app->post('/edit_cpoidtem', \App\Action\Web\CpoItemEditAction::class)->add(UserAuthMiddleware::class);
     $app->post('/delete_CpoItem', \App\Action\Web\CpoItemDeleteAction::class)->add(UserAuthMiddleware::class);
+
+    $app->get('/scraps', \App\Action\Web\ScrapAction::class)->add(UserAuthMiddleware::class);
+    $app->post('/add_scrap', \App\Action\Web\ScrapAddAction::class)->add(UserAuthMiddleware::class);
+    $app->post('/delete_scrap', \App\Action\Web\ScrapDeleteAction::class)->add(UserAuthMiddleware::class);
+    $app->post('/edit_scrap', \App\Action\Web\ScrapEditAction::class)->add(UserAuthMiddleware::class);
+    $app->post('/confirm_scrap', \App\Action\Web\ScrapConfirmAction::class)->add(UserAuthMiddleware::class);
+    $app->post('/reject_scrap', \App\Action\Web\ScrapRejectAction::class)->add(UserAuthMiddleware::class);
+
+    $app->get('/scrap_details', \App\Action\Web\ScrapDetailAction::class)->add(UserAuthMiddleware::class);
+    $app->post('/delete_scrap_detail', \App\Action\Web\ScrapDetailDeleteAction::class)->add(UserAuthMiddleware::class);
+    $app->post('/add_scrap_detail', \App\Action\Web\ScrapDetailAddAction::class)->add(UserAuthMiddleware::class);
 
     //---------------------------Api-------------------------------
 
@@ -159,7 +171,7 @@ return function (App $app) {
 
     $app->post('/api/label_search', \App\Action\Api\LabelsearchAction::class);
 
-    $app->get('/api/cpo_item', \App\Action\Api\CpoItemAction::class);
+    $app->get('/api/cpo_items', \App\Action\Api\CpoItemAction::class);
     $app->get('/api/cpo_item_select', \App\Action\Api\CpoItemSelectAction::class);
 
     $app->get('/api/sells', \App\Action\Api\SellAction::class);
@@ -187,4 +199,8 @@ return function (App $app) {
     $app->post('/api/cancel_sell_label', \App\Action\Api\CancelSellLabelAction::class);
     $app->post('/api/confirm_sell_label', \App\Action\Api\ConfirmSellLabelAction::class);
     $app->get('/api/mis_sync_lots', \App\Action\Api\LotSyncAction::class);
+    $app->get('/api/mis_sync_products', \App\Action\Api\ProductSyncAction::class);
+    $app->get('/api/mis_sync_customers', \App\Action\Api\CustomerSyncAction::class);
+    $app->get('/api/mis_sync_sections', \App\Action\Api\SectionSyncAction::class);
+    $app->get('/api/mis_sync_defects', \App\Action\Api\DefectSyncAction::class);
 };
