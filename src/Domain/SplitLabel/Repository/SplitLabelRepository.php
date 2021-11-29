@@ -113,6 +113,8 @@ final class SplitLabelRepository
             $query->andWhere(['split_labels.split_date <=' => $params['endDate'], 'split_labels.split_date >=' => $params['startDate']]);
         }
 
+        $query->andWhere(['split_labels.is_delete' => 'N']);
+
         return $query->execute()->fetchAll('assoc') ?: [];
     }
 }
