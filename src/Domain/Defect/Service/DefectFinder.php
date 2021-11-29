@@ -27,4 +27,19 @@ final class DefectFinder
     {
         return $this->repository->findDefects($params);
     }
+    
+    public function getLocalMaxDefectId():int
+    {
+        $data=$this->repository->getLocalMaxDefectId()[0]["max_id"];
+        if(is_null($data)){
+            return 0;
+        }
+        else{
+            return $data;
+        }
+    }
+    public function getSyncDefects(int $maxId):array
+    {
+        return $this->repository->getSyncDefects($maxId);
+    }
 }

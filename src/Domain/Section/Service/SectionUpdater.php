@@ -14,7 +14,7 @@ final class SectionUpdater
 
     public function __construct(
         SectionRepository $repository,
-        SectionValidator $validator,
+        SectionValidator $validator
     ) {
         $this->repository = $repository;
         $this->validator = $validator;

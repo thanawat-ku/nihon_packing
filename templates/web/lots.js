@@ -101,6 +101,22 @@ function syncSections(){
                 code="";
             }
             $('#syncTable').text("section last code: "+code);
+            syncDefects();
+        }
+   });
+}
+function syncDefects(){
+    $('#syncTable').text("Defect start");
+    $.ajax ({
+        type: "GET",
+        url: "api/mis_sync_defects",
+        success: function (data) { 
+            if(data.length>0){
+                code = data[0].CuaseName+' ';
+            }else{
+                code="";
+            }
+            $('#syncTable').text("defect last code: "+code);
             syncLots();
         }
    });

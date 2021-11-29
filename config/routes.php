@@ -202,4 +202,5 @@ return function (App $app) {
     $app->get('/api/mis_sync_products', \App\Action\Api\ProductSyncAction::class);
     $app->get('/api/mis_sync_customers', \App\Action\Api\CustomerSyncAction::class);
     $app->get('/api/mis_sync_sections', \App\Action\Api\SectionSyncAction::class);
+    $app->get('/api/mis_sync_defects', \App\Action\Api\DefectSyncAction::class);
 };
