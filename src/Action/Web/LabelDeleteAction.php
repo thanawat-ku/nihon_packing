@@ -2,6 +2,7 @@
 
 namespace App\Action\Web;
 
+use App\Domain\Label\Service\LabelFinder;
 use App\Domain\Label\Service\LabelUpdater;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
@@ -14,10 +15,11 @@ final class LabelDeleteAction
 {
     private $responder;
     private $updater;
-    public function __construct(Responder $responder, LabelUpdater $updater)
+    public function __construct(Responder $responder, LabelUpdater $updater, LabelFinder $finder)
     {
         $this->responder = $responder;
         $this->updater = $updater;
+        $this->finder = $finder;
     }
 
 
@@ -29,11 +31,16 @@ final class LabelDeleteAction
         // Extract the form data from the request body
         $data = (array)$request->getParsedBody();
         $labelId = $data["id"];
+        $findLabel['label_id'] = $labelId;
+        $label = $this->finder->findLabelSingleTable($findLabel);
 
-        // Invoke the Domain with inputs and retain the result
-        $this->updater->deleteLabel($labelId, $data);
+        if ($label[0]['status'] == "CREATED") {
+            $dataLabel['is_delete'] = "Y";
+            $this->updater->updateLabel($labelId, $dataLabel);
+        }
+
 
         // Build the HTTP response
-        return $this->responder->withRedirect($response,"labels");
+        return $this->responder->withRedirect($response, "labels");
     }
 }
