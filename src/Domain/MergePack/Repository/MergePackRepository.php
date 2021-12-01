@@ -152,7 +152,7 @@ final class MergePackRepository
             ]
         ]);
 
-
+        $query->andWhere(['merge_packs.is_delete' => 'N']);
         $query->where(['OR' => [['label_type' => "MERGE_FULLY"], ['label_type' => "MERGE_NONFULLY"]]]);
 
         // $query->group([

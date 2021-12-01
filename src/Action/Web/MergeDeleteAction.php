@@ -71,7 +71,7 @@ final class MergeDeleteAction
         $mergeId = $data['id'];
         $mergePack = $this->finder->findMergePacks($data);
 
-        if ($mergePack[0]['merge_status'] == "CREATED") {
+        if ($mergePack[0]['merge_status'] == "CREATED" || $mergePack[0]['merge_status'] == "MERGING") {
             $data2['merge_pack_id'] = $data['id'];
             $mergeDetail = $this->mergeDetailFinder->findMergePackDetailsForMerge($data2);
 
@@ -83,8 +83,10 @@ final class MergeDeleteAction
                 }
             }
 
-            $this->mergeDetailUpdater->deleteMergePackDetail($mergeId);
-            $this->updater->deleteMergePack($mergeId);
+            // $this->mergeDetailUpdater->deleteMergePackDetail($mergeId);
+            // $this->updater->deleteMergePack($mergeId);
+            $dataMerge['is_delete'] = "Y";
+            $this->updater->updatePackMerge($mergeId, $dataMerge);
         }
 
         return $this->responder->withRedirect($response, "merges");
