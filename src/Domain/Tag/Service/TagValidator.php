@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Domain\Section\Service;
+namespace App\Domain\Tag\Service;
 
-use App\Domain\Section\Repository\SectionRepository;
+use App\Domain\Tag\Repository\TagRepository;
 use App\Factory\ValidationFactory;
 use Cake\Validation\Validator;
 use Selective\Validation\Exception\ValidationException;
 
-final class SectionValidator
+final class TagValidator
 {
     private $repository;
     private $validationFactory;
 
-    public function __construct(SectionRepository $repository, ValidationFactory $validationFactory)
+    public function __construct(TagRepository $repository, ValidationFactory $validationFactory)
     {
         $this->repository = $repository;
         $this->validationFactory = $validationFactory;
@@ -23,9 +23,12 @@ final class SectionValidator
         $validator = $this->validationFactory->createValidator();
 
         return $validator
-            ->notEmptyString('section_name', 'Input required');
+            ->notEmptyString('tag_no', 'Input required')
+            ->notEmptyString('product_id', 'Input required')
+            ->notEmptyString('quantity', 'Input required');
     }
-    public function validateSection(array $data): void
+    
+    public function validateTag(array $data): void
     {
         $validator = $this->createValidator();
 
@@ -38,12 +41,17 @@ final class SectionValidator
         }
     }
 
-    public function validateSectionUpdate(string $lotNo, array $data): void
+    public function validateTagUpdate(string $tagNo, array $data): void
     {
-        $this->validateSection($data);
+        /*
+        if (!$this->repository->existsTagNo($tagNo)) {
+            throw new ValidationException(sprintf('Store not found: %s', $stotagNoreId));
+        }
+        */
+        $this->validateTag($data);
     }
-    public function validateSectionInsert(array $data): void
+    public function validateTagInsert( array $data): void
     {
-        $this->validateSection($data);
+        $this->validateTag($data);
     }
 }

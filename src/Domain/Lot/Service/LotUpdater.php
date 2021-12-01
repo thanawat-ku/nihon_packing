@@ -155,6 +155,9 @@ final class LotUpdater
         if (isset($data['packed_user_id'])) {
             $result['packed_user_id'] = (string)$data['packed_user_id'];
         }
+        if (isset($data['issue_date'])) {
+            $result['issue_date'] = (string)$data['issue_date'];
+        }
         if (isset($data['status'])) {
             $result['status'] = (string)$data['status'];
         }

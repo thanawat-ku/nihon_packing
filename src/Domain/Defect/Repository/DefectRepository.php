@@ -25,6 +25,8 @@ final class DefectRepository
             [
                 'id',
                 'defect_code',
+                'defect_description',
+                'oqc_check'
             ]
         );
 

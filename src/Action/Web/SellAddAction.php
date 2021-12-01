@@ -45,13 +45,8 @@ final class SellAddAction
 
         $rtSell['sell_id'] = $id;
 
-        // $this->finder->findSells($rtSell);
-
         $sellRow = $this->finder->findSellRow($id);
 
-        // if ($sellRow) {
-        //     $sell = $sellRow;
-        // }
 
         $param_search['sell_id'] = $id;
 
@@ -62,6 +57,5 @@ final class SellAddAction
         ];
 
         return $this->twig->render($response, 'web/cpoItem.twig', $viewData);
-        // return $this->responder->withRedirect($response,"sells");
     }
 }

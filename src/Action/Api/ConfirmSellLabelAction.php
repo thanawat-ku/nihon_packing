@@ -7,11 +7,11 @@ use App\Domain\Label\Service\LabelUpdater;
 use App\Domain\SellLabel\Service\SellLabelFinder;
 use App\Domain\Sell\Service\SellFinder;
 use App\Domain\Sell\Service\SellUpdater;
+use App\Domain\Tag\Service\TagUpdater;
 use App\Responder\Responder;
 use PhpParser\Node\Stmt\Label;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Slim\Views\Twig;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
@@ -26,23 +26,24 @@ final class ConfirmSellLabelAction
     private $finder;
     private $updater;
     private $updatelabel;
-    private $findersell;
+    private $findSell;
+    private $updateTag;
 
     public function __construct(
-        Twig $twig,
         SellLabelFinder $finder,
         LabelUpdater $updatelabel,
-        LabelFinder $finderlabel,
-        SellFinder $findersell,
+        LabelFinder $findLabel,
+        SellFinder $findSell,
+        TagUpdater $updateTag,
         Session $session,
         Responder $responder,
         SellUpdater $updater,
     ) {
-        $this->twig = $twig;
         $this->finder = $finder;
-        $this->finderlabel = $finderlabel;
+        $this->findLabel = $findLabel;
         $this->updatelabel = $updatelabel;
-        $this->findersell = $findersell;
+        $this->findSell = $findSell;
+        $this->updateTag = $updateTag;
         $this->updater = $updater;
         $this->session = $session;
         $this->responder = $responder;
@@ -52,9 +53,10 @@ final class ConfirmSellLabelAction
     {
         $data = (array)$request->getParsedBody();
         $user_id = (int)$data['user_id'];
-        $SellID = (int)$data['sell_id'];
+        $sellID = (int)$data['sell_id'];
 
         $sellLabel = $this->finder->findSellLabels($data);
+
 
         for ($i = 0; $i < count($sellLabel); $i++) {
             $labelID = (int)$sellLabel[$i]['label_id'];
@@ -62,8 +64,13 @@ final class ConfirmSellLabelAction
             $this->updatelabel->updateLabelStatus($labelID, $dataUpdate, $user_id);
         }
         $data['up_status'] = "SELECTED_LABEL";
-        $this->updater->updateSellStatus($SellID, $data, $user_id);
+        $this->updater->updateSellStatus($sellID, $data, $user_id);
         $allData = [''];
+
+        $rtSell = $this->findSell->findSells($data);
+
+        $rtTag = $this->updateTag->genTagsApi($sellID, $rtSell, $user_id);
+
 
         if (isset($data['start_date'])) {
             $allData['startDate'] = $data['start_date'];
@@ -72,7 +79,7 @@ final class ConfirmSellLabelAction
 
         $rtdata['message'] = "Get Sell Successful";
         $rtdata['error'] = false;
-        $rtdata['sells'] = $this->findersell->findSells($allData);
+        $rtdata['sells'] = $this->findSell->findSells($allData);
 
         return $this->responder->withJson($response, $rtdata);
     }

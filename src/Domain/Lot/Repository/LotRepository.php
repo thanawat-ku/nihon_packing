@@ -146,9 +146,20 @@ final class LotRepository
                 'LotID',
                 'ProductID',
                 'LotNo',
+                'IssueDate',
+                'StartQty',
                 'PackingQty',
             ]);
-        $query->andWhere(['LotID >=' => $max_id]);
+        $query->andWhere(['LotID >' => $max_id]);
+        return $query->execute()->fetchAll('assoc') ?: [];
+    }
+    public function getLocalMaxLotId():array
+    {
+        $query = $this->queryFactory->newSelect('lots');
+        $query->select(
+            [
+                'max_id' => $query->func()->max('id'),
+            ]);
         return $query->execute()->fetchAll('assoc') ?: [];
     }
 }

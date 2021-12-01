@@ -10,6 +10,9 @@ function editScrapDetail(event){
     console.log(scrapDetail);
     var obj = JSON.parse(scrapDetail);
     $("#editScrapDetailID").val(obj.id);
+    $("#editSectionID").val(obj.section_id);
+    $("#editProductID").val(obj.product_id);
+    $("#editDefectID").val(obj.defact_id);
     $("#editDefectCode").val(obj.defect_code);
     $("#editDefectDescription").val(obj.defect_description);
     $("#editSectionName").val(obj.section_name);

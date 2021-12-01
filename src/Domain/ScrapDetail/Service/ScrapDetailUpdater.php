@@ -34,13 +34,13 @@ final class ScrapDetailUpdater
         return $id;
     }
 
-    public function updateScrapDetail(int $lotDefectId, array $data): void
+    public function updateScrapDetail(int $id, array $data): void
     {
-        $this->validator->validateScrapDetailUpdate($lotDefectId, $data);
+        $this->validator->validateScrapDetailUpdate($id, $data);
 
         $row = $this->mapToScrapDetailRow($data);
 
-        $this->repository->updateScrapDetail($lotDefectId, $row);
+        $this->repository->updateScrapDetail($id, $row);
 
     }
 
