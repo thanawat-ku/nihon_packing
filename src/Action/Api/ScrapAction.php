@@ -2,7 +2,7 @@
 
 namespace App\Action\Api;
 
-use App\Domain\Product\Service\ProductFinder;
+use App\Domain\Scrap\Service\ScrapFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -10,24 +10,24 @@ use Psr\Http\Message\ServerRequestInterface;
 /**
  * Action.
  */
-final class ProductAction
+final class ScrapAction
 {
     /**
      * @var Responder
      */
     private $responder;
     private $productFinder;
-    
+
 
     /**
      * The constructor.
      *
      * @param Responder $responder The responder
      */
-    public function __construct(ProductFinder $productFinder,Responder $responder)
+    public function __construct(ScrapFinder $productFinder, Responder $responder)
     {
-        
-        $this->productFinder=$productFinder;
+
+        $this->productFinder = $productFinder;
         $this->responder = $responder;
     }
 
@@ -44,13 +44,15 @@ final class ProductAction
 
         $params = (array)$request->getQueryParams();
 
-        
-        
-        $rtdata['message']="Get Product Successful";
-        $rtdata['error']=false;
-        $rtdata['products']=$this->productFinder->findProducts($params);
+        if (isset($params['start_date'])) {
+            $params['startDate'] = $params['start_date'];
+            $params['endDate'] = $params['end_date'];
+        }
+
+        $rtdata['message'] = "Get Scrap Successful";
+        $rtdata['error'] = false;
+        $rtdata['scraps'] = $this->productFinder->findScraps($params);
 
         return $this->responder->withJson($response, $rtdata);
-
     }
 }

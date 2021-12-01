@@ -2,7 +2,7 @@
 
 namespace App\Action\Api;
 
-use App\Domain\Product\Service\ProductFinder;
+use App\Domain\Section\Service\SectionFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -10,13 +10,13 @@ use Psr\Http\Message\ServerRequestInterface;
 /**
  * Action.
  */
-final class ProductAction
+final class SectionAction
 {
     /**
      * @var Responder
      */
     private $responder;
-    private $productFinder;
+    private $sectionFinder;
     
 
     /**
@@ -24,10 +24,10 @@ final class ProductAction
      *
      * @param Responder $responder The responder
      */
-    public function __construct(ProductFinder $productFinder,Responder $responder)
+    public function __construct(SectionFinder $sectionFinder,Responder $responder)
     {
         
-        $this->productFinder=$productFinder;
+        $this->sectionFinder=$sectionFinder;
         $this->responder = $responder;
     }
 
@@ -43,12 +43,10 @@ final class ProductAction
     {
 
         $params = (array)$request->getQueryParams();
-
         
-        
-        $rtdata['message']="Get Product Successful";
+        $rtdata['message']="Get Section Successful";
         $rtdata['error']=false;
-        $rtdata['products']=$this->productFinder->findProducts($params);
+        $rtdata['sections']=$this->sectionFinder->findSections($params);
 
         return $this->responder->withJson($response, $rtdata);
 

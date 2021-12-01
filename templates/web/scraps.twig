@@ -62,9 +62,7 @@
 											<i style="font-size:15px; width:20px;" class="fa fa-info"></i>
 										</button>
 									{% endif %}
-									<button type="button" id="editBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editScrap" name="{{ scrap|json_encode }}">
-										<i style="font-size:15px; width:20px;" class="fas fa-edit"></i>
-									</button>
+
 									<button type="button" id="deleteBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteScrap" name="{{ scrap|json_encode }}">
 										<i style="font-size:15px; width:20px;" class="fas fa-trash"></i>
 									</button>
@@ -104,35 +102,6 @@
 			</div>
 		</div>
 	</div>
-
-	<!-- Modal Edit scrap -->
-	<div class="modal fade" id="editScrap">
-		<div class="modal-dialog modal-dialog-centered">
-			<div class="modal-content">
-				<form
-					id="form-editScrap" action="edit_scrap" method="post">
-					<!-- Modal Header -->
-					<div class="modal-header">
-						<h4 class="modal-title">Edit Scrap</h4>
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-					</div>
-					<!-- Modal body -->
-					<div class="modal-body">
-						<div class="form-scrap">
-							<input type="hidden" id="editScrapID" name="id">
-							<label for="customerCode">Scrap No</label>
-							<input type="text" autocomplete="off" class="form-control" id="editScrapNo" name="scrap_no" required>
-						</div>
-					</div>
-					<div class="modal-footer">
-						<button type="submit" class="btn btn-primary">Save</button>
-						<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-
 	<!-- Modal Delete scrap -->
 	<div class="modal fade" id="deleteScrap">
 		<div class="modal-dialog modal-dialog-centered">

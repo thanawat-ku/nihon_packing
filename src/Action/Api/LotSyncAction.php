@@ -52,6 +52,7 @@ final class LotSyncAction
             array_push($rtData, $lots[$i]);
         }
 
+
         return $this->responder->withJson($response, $rtData);
     }
 }

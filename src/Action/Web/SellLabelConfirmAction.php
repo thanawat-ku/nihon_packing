@@ -7,6 +7,8 @@ use App\Domain\Sell\Service\SellUpdater;
 use App\Domain\Label\Service\LabelUpdater;
 use App\Responder\Responder;
 use PhpParser\Node\Stmt\Label;
+use App\Domain\Sell\Service\SellFinder;
+use App\Domain\Tag\Service\TagUpdater;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -21,14 +23,25 @@ final class SellLabelConfirmAction
     private $updater;
     private $labelUpdater;
     private $session;
+    private $sellFinder;
+    private $updateTag;
 
-    public function __construct(Responder $responder,SellLabelFinder $finder,  SellUpdater $updater,LabelUpdater $labelUpdater, Session $session)
-    {
+    public function __construct(
+        Responder $responder,
+        SellLabelFinder $finder,
+        SellUpdater $updater,
+        LabelUpdater $labelUpdater,
+        SellFinder $sellFinder,
+        TagUpdater $updateTag,
+        Session $session
+    ) {
         $this->responder = $responder;
-        $this->finder=$finder;
+        $this->finder = $finder;
         $this->updater = $updater;
         $this->labelUpdater = $labelUpdater;
-        $this->session=$session;
+        $this->sellFinder = $sellFinder;
+        $this->updateTag = $updateTag;
+        $this->session = $session;
     }
 
     public function __invoke(
@@ -37,19 +50,23 @@ final class SellLabelConfirmAction
         array $args
     ): ResponseInterface {
         $data = (array)$request->getParsedBody();
-        $sellID=(int)$data['sell_id'];
+        $sellID = (int)$data['sell_id'];
 
-        $user_id=$this->session->get('user')["id"];
+        $user_id = $this->session->get('user')["id"];
 
-        $data['up_status']="SELECTED_LABEL";
-        $this->updater-> updateSellStatus($sellID, $data,$user_id);
+        $data['up_status'] = "SELECTED_LABEL";
+        $this->updater->updateSellStatus($sellID, $data, $user_id);
         $arrSellLabel = $this->finder->findSellLabels($data);
-        $dataUpdate['up_status']="USED";
-        $user_id=$this->session->get('user')["id"];
-        for ($i=0; $i < count($arrSellLabel); $i++) { 
-            $this->labelUpdater->updateLabelStatus($arrSellLabel[$i]['label_id'],$dataUpdate, $user_id);
+        $dataUpdate['up_status'] = "USED";
+        $user_id = $this->session->get('user')["id"];
+        for ($i = 0; $i < count($arrSellLabel); $i++) {
+            $this->labelUpdater->updateLabelStatus($arrSellLabel[$i]['label_id'], $dataUpdate, $user_id);
         }
 
-        return $this->responder->withRedirect($response,"sells");
+        $rtSell = $this->sellFinder->findSells($data);
+
+        $rtTag = $this->updateTag->genTags($sellID, $rtSell);
+
+        return $this->responder->withRedirect($response, "sells");
     }
 }

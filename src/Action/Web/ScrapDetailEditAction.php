@@ -3,10 +3,11 @@
 namespace App\Action\Web;
 
 
-use App\Domain\Scrap\Service\ScrapFinder;
-use App\Domain\ScrapDetail\Service\ScrapDetailFinder;
-use App\Domain\ScrapDetail\Service\ScrapDetailUpdater;
+use App\Domain\LotDefect\Service\LotDefectFinder;
 use App\Domain\LotDefect\Service\LotDefectUpdater;
+use App\Domain\Scrap\Service\ScrapFinder;
+use App\Domain\ScrapDetail\Service\ScrapDetailUpdater;
+use App\Domain\ScrapDetail\Service\ScrapDetailFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -16,25 +17,27 @@ use Symfony\Component\HttpFoundation\Session\Session;
 /**
  * Action.
  */
-final class ScrapDetailDeleteAction
+final class ScrapDetailEditAction
 {
     private $twig;
     private $finder;
-    private $scrapDetailFinder;
-    private $updateLotDefect;
-    private $responder;
     private $updater;
+    private $scrapFinder;
+    private $updateScrapDetail;
+    private $scrapDetailFinder;
+    private $responder;
     private $session;
 
-    public function __construct(Twig $twig, Responder $responder, ScrapFinder $finder, ScrapDetailUpdater $updater,LotDefectUpdater $updateLotDefect, ScrapDetailFinder $scrapDetailFinder,Session $session,)
+    public function __construct(Twig $twig, Responder $responder, LotDefectFinder $finder, LotDefectUpdater $updater, ScrapFinder $scrapFinder, ScrapDetailUpdater $updateScrapDetail, ScrapDetailFinder $scrapDetailFinder, Session $session,)
     {
-        $this->twig=$twig;
+        $this->twig = $twig;
         $this->finder = $finder;
+        $this->scrapFinder = $scrapFinder;
         $this->responder = $responder;
         $this->updater = $updater;
-        $this->updateLotDefect = $updateLotDefect;
+        $this->updateScrapDetail = $updateScrapDetail;
         $this->scrapDetailFinder = $scrapDetailFinder;
-        $this->session=$session;
+        $this->session = $session;
     }
 
     public function __invoke(
@@ -45,14 +48,13 @@ final class ScrapDetailDeleteAction
         $data = (array)$request->getParsedBody();
         $scrapID = $data['scrap_id'];
         $scrapDetailID = $data['id'];
-
-        $this->updater->deleteScrapDetail($scrapDetailID);
+        $this->updateScrapDetail->updateScrapDetail($scrapDetailID, $data);
 
         $viewData = [
-            'scrap_id' => $scrapID, 
+            'scrap_id' => $scrapID,
             'user_login' => $this->session->get('user'),
         ];
 
-        return $this->responder->withRedirect($response, "scrap_details",$viewData);
+        return $this->responder->withRedirect($response, "scrap_details", $viewData);
     }
 }

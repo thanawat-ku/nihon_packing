@@ -97,6 +97,9 @@ final class SellRepository
         if (isset($params['id'])) {
             $query->andWhere(['sells.id' => $params['id']]);
         }
+        if (isset($params['ProductID'])) {
+            $query->andWhere(['sells.product_id' => $params['ProductID']]);
+        }
         if (isset($params["startDate"])) {
             $query->andWhere(['sell_date <=' => $params['endDate'], 'sell_date >=' => $params['startDate']]);
         }

@@ -39,6 +39,8 @@ final class SectionRepository
                 'sections.id',
                 'section_name',
                 'section_description',
+                'is_vendor',
+                'is_scrap'
                 
             ]
         );

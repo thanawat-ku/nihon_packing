@@ -101,15 +101,19 @@ return function (App $app) {
     $app->post('/edit_scrap', \App\Action\Web\ScrapEditAction::class)->add(UserAuthMiddleware::class);
     $app->post('/confirm_scrap', \App\Action\Web\ScrapConfirmAction::class)->add(UserAuthMiddleware::class);
     $app->post('/reject_scrap', \App\Action\Web\ScrapRejectAction::class)->add(UserAuthMiddleware::class);
+    $app->post('/accept_scrap', \App\Action\Web\ScrapAcceptAction::class)->add(UserAuthMiddleware::class);
 
     $app->get('/scrap_details', \App\Action\Web\ScrapDetailAction::class)->add(UserAuthMiddleware::class);
     $app->post('/delete_scrap_detail', \App\Action\Web\ScrapDetailDeleteAction::class)->add(UserAuthMiddleware::class);
     $app->post('/add_scrap_detail', \App\Action\Web\ScrapDetailAddAction::class)->add(UserAuthMiddleware::class);
+    $app->post('/edit_scrap_detail', \App\Action\Web\ScrapDetailEditAction::class)->add(UserAuthMiddleware::class);
 
     $app->get('/defects', \App\Action\Web\DefectAction::class)->add(UserAuthMiddleware::class);
     $app->get('/sections', \App\Action\Web\SectionAction ::class)->add(UserAuthMiddleware::class);
 
     //---------------------------Api-------------------------------
+
+    $app->get('/api/users', \App\Action\Api\UserAction::class);
 
     $app->get('/api/lots', \App\Action\Api\LotAction::class);
     $app->post('/api/confirm_lot_check', \App\Action\Api\LotConfirmCheckAction::class);
@@ -131,7 +135,6 @@ return function (App $app) {
 
     $app->get('/api/customers', \App\Action\Api\CustomerAction::class);
 
-
     $app->get('/api/labels', \App\Action\Api\LabelAction::class);
     $app->get('/api/find_labels_scan', \App\Action\Api\LabelFindForScanAction::class);
     $app->post('/api/register_label', \App\Action\Api\LabelRegisterAction::class);
@@ -142,11 +145,8 @@ return function (App $app) {
     $app->get('/api/label_merge_packs', \App\Action\Api\LabelFromMergepackAction::class);
     $app->post('/api/check_lb_scan_rm', \App\Action\Api\CheckLabelScanRegisMergeAction::class);
 
-
-
     $app->get('/api/tags', \App\Action\Api\TagAction::class);
-    $app->post('/api/register_tag', \App\Action\Api\TagRegisterAction::class);
-    $app->post('/api/gen_tags', \App\Action\Api\GenTagBarcodeNoAction::class);
+    $app->post('/api/register_tags', \App\Action\Api\TagRegisterAction::class);
 
     $app->get('/api/split_labels',  \App\Action\Api\SplitLabelAction::class);
     $app->post('/api/add_split_label', \App\Action\Api\SplitLabelAddAction::class);
@@ -169,8 +169,6 @@ return function (App $app) {
     $app->post('/api/delete_merge_pack_detail', \App\Action\Api\MergePackDetailDeleteAction::class);
     $app->post('/api/get_qty_scan', \App\Action\Api\GetQtyScanAction::class);
     $app->post('/api/delete_merge_pack', \App\Action\Api\MergePackDeleteAction::class);
-
-
 
     $app->post('/api/label_search', \App\Action\Api\LabelsearchAction::class);
 
@@ -195,13 +193,25 @@ return function (App $app) {
     $app->get('/api/merge_pack_detail_for_registers', \App\Action\Api\MergePackDetailForRegisterAction::class);
     $app->post('/api/complete_merge_pack', \App\Action\Api\CompleteMergePackAction::class);
 
-
-
     $app->get('/api/sell_labels', \App\Action\Api\SellLabelAction::class);
     $app->post('/api/check_sell_label_scan', \App\Action\Api\CheckSellLabelScanAction::class);
     $app->post('/api/cancel_sell_label', \App\Action\Api\CancelSellLabelAction::class);
     $app->post('/api/confirm_sell_label', \App\Action\Api\ConfirmSellLabelAction::class);
     $app->get('/api/mis_sync_lots', \App\Action\Api\LotSyncAction::class);
+
+    $app->get('/api/scraps', \App\Action\Api\ScrapAction::class);
+    $app->post('/api/add_scrap', \App\Action\Api\ScrapAddAction::class);
+    $app->post('/api/delete_scrap', \App\Action\Api\ScrapDeleteAction::class);
+    $app->post('/api/confirm_scrap', \App\Action\Api\ScrapConfirmAction::class);
+    $app->post('/api/reject_scrap', \App\Action\Api\ScrapRejectAction::class);
+    $app->post('/api/accept_scrap', \App\Action\Api\ScrapAcceptAction::class);
+
+    $app->get('/api/scrap_details', \App\Action\Api\ScrapDetailAction::class);
+    $app->post('/api/add_scrap_detail', \App\Action\Api\ScrapDetailAddAction::class);
+    $app->post('/api/delete_scrap_detail', \App\Action\Api\ScrapDetailDeleteAction::class);
+    $app->post('/api/edit_scrap_detail', \App\Action\Api\ScrapDetailEditAction::class);
+
+    $app->get('/api/sections', \App\Action\Api\SectionAction::class);
     $app->get('/api/mis_sync_products', \App\Action\Api\ProductSyncAction::class);
     $app->get('/api/mis_sync_customers', \App\Action\Api\CustomerSyncAction::class);
     $app->get('/api/mis_sync_sections', \App\Action\Api\SectionSyncAction::class);
