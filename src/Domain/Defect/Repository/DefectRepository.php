@@ -21,25 +21,6 @@ final class DefectRepository
         $this->session=$session;
     }
 
-    public function findDefects(array $params): array
-    {
-        $query = $this->queryFactory->newSelect('defects');
-        $query->select(
-            [
-                'id',
-                'defect_code',
-                'defect_description',
-                'oqc_check',
-            ]
-        );
-
-        if (isset($params['defect_code'])) {
-            $query->andWhere(['defects.defect_code' => $params['defect_code']]);
-        }
-
-        return $query->execute()->fetchAll('assoc') ?: [];
-    }
-
     public function insertDefect(array $row): int
     {
         $row['created_at'] = Chronos::now()->toDateTimeString();
@@ -66,6 +47,25 @@ final class DefectRepository
 
         // Logging
         //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));
+    }
+
+    public function findDefects(array $params): array
+    {
+        $query = $this->queryFactory->newSelect('defects');
+        $query->select(
+            [
+                'id',
+                'defect_code',
+                'defect_description',
+                'oqc_check',
+            ]
+        );
+
+        if (isset($params['defect_code'])) {
+            $query->andWhere(['defects.defect_code' => $params['defect_code']]);
+        }
+
+        return $query->execute()->fetchAll('assoc') ?: [];
     }
 
     

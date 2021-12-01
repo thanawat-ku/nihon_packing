@@ -29,9 +29,11 @@ module.exports = {
     'web/cpoItem': './templates/web/cpoItem.js',
     'web/cpoItemSelects': './templates/web/cpoItemSelects.js',
     'web/selectLabelForSells': './templates/web/selectLabelForSells.js',
-    'web/sellLabels': './templates/web/sellLabels.js', 
+    'web/sellLabels': './templates/web/sellLabels.js',
     'web/scraps': './templates/web/scrap.js',
-    'web/scrapDetails': './templates/web/scrapDetails.js', 
+    'web/scrapDetails': './templates/web/scrapDetails.js',
+    'web/defects': './templates/web/defects.js',
+    'web/sections': './templates/web/sections.js',
   },
   output: {
     path: path.resolve(__dirname, 'public/assets'),

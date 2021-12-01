@@ -106,6 +106,9 @@ return function (App $app) {
     $app->post('/delete_scrap_detail', \App\Action\Web\ScrapDetailDeleteAction::class)->add(UserAuthMiddleware::class);
     $app->post('/add_scrap_detail', \App\Action\Web\ScrapDetailAddAction::class)->add(UserAuthMiddleware::class);
 
+    $app->get('/defects', \App\Action\Web\DefectAction::class)->add(UserAuthMiddleware::class);
+    $app->get('/sections', \App\Action\Web\SectionAction ::class)->add(UserAuthMiddleware::class);
+
     //---------------------------Api-------------------------------
 
     $app->get('/api/lots', \App\Action\Api\LotAction::class);
@@ -152,7 +155,7 @@ return function (App $app) {
 
     $app->get('/api/split_label_detail',  \App\Action\Api\SplitLabelDetailAction::class);
     $app->post('/api/add_split_label_detail', \App\Action\Api\SplitLabelDetailAddAction::class);
-   
+
     $app->get('/api/merge_packs', \App\Action\Api\MergePackAction::class);
 
     $app->get('/api/select_merge_pack_id', \App\Action\Api\SelectMergePackIDAction::class);
