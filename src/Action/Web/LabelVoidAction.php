@@ -36,7 +36,7 @@ final class LabelVoidAction
         $findLabel['label_id'] = $labelId;
         $label = $this->finder->findLabelSingleTable($findLabel);
 
-        if ($label[0]['status' == "PACKED"]) {
+        if ($label[0]['status'] == "PACKED") {
             $dataLabel['label_void_reason_id'] = $data['label_void_reason_id'];
             $dataLabel['status'] = "VOID";
             $this->updater->updateLabel($labelId, $dataLabel);
