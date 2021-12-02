@@ -36,9 +36,18 @@ function voidLabel(event) {
     $("#voidLabelID").val(obj.id);
 }
 
+function registerMerge(event) {
+    let lot = event.currentTarget.name;
+    console.log(lot);
+    var obj = JSON.parse(lot);
+    $("#registerMergeId").val(obj.id);
+    $("#registerMergeNo").text(obj.merge_no);
+
+}
+
 $(document).on(
     "click",
-    "#editBt, #deleteBt, #SplitBt ,#voidBt",
+    "#editBt, #deleteBt, #SplitBt ,#voidBt ,#registerBt",
     (event) => {
         let id = event.currentTarget.id;
         switch (id) {
@@ -53,6 +62,9 @@ $(document).on(
                 break;
             case "voidBt":
                 voidLabel(event);
+                break;
+            case "registerBt":
+                registerMerge(event);
                 break;
             default:
                 console.log("no any events click");

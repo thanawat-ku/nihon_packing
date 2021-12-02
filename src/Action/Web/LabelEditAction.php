@@ -65,7 +65,7 @@ final class LabelEditAction
             $viewData = [
                 'id' => $mergeId,
             ];
-            return $this->responder->withRedirect($response, "merge_detail", $viewData);
+            return $this->responder->withRedirect($response, "label_merge_news", $viewData);
         } else {
             return $this->responder->withRedirect($response, "labels");
         }
