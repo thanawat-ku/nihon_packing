@@ -23,8 +23,7 @@ final class SectionValidator
         $validator = $this->validationFactory->createValidator();
 
         return $validator
-            ->notEmptyString('section_name', 'Input required')
-            ->notEmptyString('section_description', 'Input required');
+            ->notEmptyString('section_name', 'Input required');
     }
     public function validateSection(array $data): void
     {

@@ -14,7 +14,7 @@ final class SectionUpdater
 
     public function __construct(
         SectionRepository $repository,
-        SectionValidator $validator,
+        SectionValidator $validator
     ) {
         $this->repository = $repository;
         $this->validator = $validator;
@@ -22,7 +22,21 @@ final class SectionUpdater
         //->addFileHandler('store_updater.log')
         //->createInstance();
     }
+    public function insertSection( array $data): int
+    {
+        // Input validation
+        $this->validator->validateSectionInsert($data);
 
+        // Map form data to row
+        $productRow = $this->mapToSectionRow($data);
+
+        // Insert transferStore
+        $id=$this->repository->insertSection($productRow);
+
+        // Logging
+        //$this->logger->info(sprintf('TransferStore updated successfully: %s', $id));
+        return $id;
+    }
     /**
      * Map data to row.
      *
@@ -34,11 +48,20 @@ final class SectionUpdater
     {
         $result = [];
 
+        if (isset($data['id'])) {
+            $result['id'] = (string)$data['id'];
+        }
         if (isset($data['section_name'])) {
             $result['section_name'] = (string)$data['section_name'];
         }
         if (isset($data['section_description'])) {
             $result['section_description'] = (string)$data['section_description'];
+        }
+        if (isset($data['is_vendor'])) {
+            $result['is_vendor'] = (string)$data['is_vendor'];
+        }
+        if (isset($data['is_scrap'])) {
+            $result['is_scrap'] = (string)$data['is_scrap'];
         }
         
         return $result;

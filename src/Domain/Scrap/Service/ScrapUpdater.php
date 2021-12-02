@@ -51,28 +51,29 @@ final class ScrapUpdater
     public function insertScrapApi(array $data, $user_id): int
     {
         $this->validator->validateScrapInsert($data);
-
+        
         $row = $this->mapToScrapRow($data);
-
+        $row['scrap_date'] = date('Y-m-d');
 
         $id = $this->repository->insertScrapApi($row, $user_id);
 
+        $row['scrap_no'] = "SC" . str_pad($id, 10, "0", STR_PAD_LEFT);
+        $this->repository->updateScrapApi($id , $row, $user_id);
 
         return $id;
     }
-    public function updateScrapApi(int $lotDefectId, array $data, $user_id): void
+    public function updateScrapApi(int $id, array $data, $user_id): void
     {
-        $this->validator->validateScrapUpdate($lotDefectId, $data);
-
+        $this->validator->validateScrapUpdate($id, $data);
 
         $row = $this->mapToScrapRow($data);
 
-        $this->repository->updateScrapApi($lotDefectId, $row, $user_id);
+        $this->repository->updateScrapApi($id, $row, $user_id);
     }
 
-    public function deleteScrapApi(int $lotDefectId): void
+    public function deleteScrapApi(int $id): void
     {
-        $this->repository->deleteScrap($lotDefectId);
+        $this->repository->deleteScrap($id);
     }
 
     public function deleteScrap(int $id): void

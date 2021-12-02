@@ -271,6 +271,9 @@ final class LabelUpdater
         if (isset($data['is_error'])) {
             $result['is_error'] = (string)$data['is_error'];
         }
+        if (isset($data['is_delete'])) {
+            $result['is_delete'] = (string)$data['is_delete'];
+        }
         return $result;
     }
 

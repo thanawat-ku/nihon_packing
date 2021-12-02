@@ -54,7 +54,7 @@ final class ScrapRepository
     }
     public function deleteScrap(int $id): void
     {
-        $this->queryFactory->newDelete('scrap_details')->andWhere(['id' => $id])->execute();
+        $this->queryFactory->newDelete('scraps')->andWhere(['id' => $id])->execute();
     }
 
     public function findScraps(array $params): array

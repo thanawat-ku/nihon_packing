@@ -49,8 +49,7 @@ final class SellAddAction
 
         $rtSell = $this->finder->findSells($data);
         for ($i = 0; $i < count($rtSell); $i++) {
-            if ($rtSell[$i]['product_id'] == $prodcutID && $rtSell[$i]['sell_status'] != "SELECTED_LABEL") {
-
+            if ($rtSell[$i]['product_id'] == $prodcutID && ($rtSell[$i]['sell_status'] == "CREATED" || $rtSell[$i]['sell_status'] == "SLECTING_CPO" || $rtSell[$i]['sell_status'] == "SLECTED_CPO" || $rtSell[$i]['sell_status'] == "SLECTING_LABEL")) {
                 $checkCreateSell = ["Sell Not Empty"];
                 $rtdata['message'] = "Get Lot Defect Successful";
                 $rtdata['error'] = true;
@@ -60,7 +59,7 @@ final class SellAddAction
             }
         }
 
-        if($checkCreateSell == true) {
+        if ($checkCreateSell == true) {
             $id = $this->updater->insertSellApi($data, $user_id);
             $data['id'] = $id;
             $rtdata['message'] = "Get Lot Defect Successful";

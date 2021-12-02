@@ -72,7 +72,9 @@ final class CustomerUpdater
     private function mapToCustomerRow(array $data): array
     {
         $result = [];
-
+        if (isset($data['id'])) {
+            $result['id'] = (string)$data['id'];
+        }
         if (isset($data['customer_name'])) {
             $result['customer_name'] = (string)$data['customer_name'];
         }

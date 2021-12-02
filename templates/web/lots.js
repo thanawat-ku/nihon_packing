@@ -55,17 +55,82 @@ function registerLot(event) {
     $("#registerLotNo").text(obj.generate_lot_no);
 
 }
+function syncCustomers(){
+    $('#syncTable').text("customer start");
+    $.ajax ({
+        type: "GET",
+        url: "api/mis_sync_customers",
+        success: function (data) { 
+            if(data.length>0){
+                code = data[0].CustomerCode+' ';
+            }else{
+                code="";
+            }
+            // Append to the html
+            $('#syncTable').text("customer last code: "+code);
+            syncProducts();
+        }
+   });
+}
+function syncProducts(){
+    $('#syncTable').text("product start");
+    $.ajax ({
+        type: "GET",
+        url: "api/mis_sync_products",
+        success: function (data) { 
+            if(data.length>0){
+                code = data[0].PartCode+' ';
+            }else{
+                code="";
+            }
+            $('#syncTable').text("Product last code: "+code);
+            syncSections();
+        }
+   });
+}
 
+function syncSections(){
+    $('#syncTable').text("Section start");
+    $.ajax ({
+        type: "GET",
+        url: "api/mis_sync_sections",
+        success: function (data) { 
+            if(data.length>0){
+                code = data[0].SectionName+' ';
+            }else{
+                code="";
+            }
+            $('#syncTable').text("section last code: "+code);
+            syncDefects();
+        }
+   });
+}
+function syncDefects(){
+    $('#syncTable').text("Defect start");
+    $.ajax ({
+        type: "GET",
+        url: "api/mis_sync_defects",
+        success: function (data) { 
+            if(data.length>0){
+                code = data[0].CuaseName+' ';
+            }else{
+                code="";
+            }
+            $('#syncTable').text("defect last code: "+code);
+            syncLots();
+        }
+   });
+}
 function syncLots(){
     $('#syncTable').text("lot start");
     $.ajax ({
         type: "GET",
         url: "api/mis_sync_lots",
         success: function (data) { 
-            var obj=JSON.parse(data);
-            var code = '';            
-            for(var i=0; i<obj.length; i++) { // Loop through the data & construct the options
-                code = obj[i].InvNo+' ';
+            if(data.length>0){
+                code = data[0].LotNo+' ';
+            }else{
+                code="";
             }
             // Append to the html
             $('#syncTable').text("lot last code: "+code);
@@ -76,7 +141,7 @@ $(document).on(
     "click",
     "#syncBt",
     (event) => {
-        syncLots();
+        syncCustomers();
     }
 );
 $(document).on(

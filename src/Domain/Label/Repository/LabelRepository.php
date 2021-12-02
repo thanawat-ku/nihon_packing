@@ -190,7 +190,7 @@ final class LabelRepository
         }
 
         $query->andWhere(['l.is_delete' => 'N']);
-
+        $query->andWhere(['labels.is_delete' => 'N']);
 
 
         $get =  $query->execute()->fetchAll('assoc') ?: [];
@@ -249,6 +249,7 @@ final class LabelRepository
             $query->andWhere(['m.merge_date <=' => $params['endDate'], 'm.merge_date >=' => $params['startDate']]);
         }
 
+        $query->andWhere(['labels.is_delete' => 'N']);
         $getdata = $query->execute()->fetchAll('assoc') ?: [];
         return $getdata;
     }
@@ -275,6 +276,7 @@ final class LabelRepository
         else if (isset($params['label_id'])) {
             $query->andWhere(['labels.id' => $params['label_id']]);
         }
+        $query->andWhere(['labels.is_delete' => 'N']);
         return $query->execute()->fetchAll('assoc') ?: [];
     }
 
@@ -327,7 +329,7 @@ final class LabelRepository
         $query->andWhere(['label_type in' => ['NONFULLY', 'MERGE_NONFULLY']]);
         // $query->andWhere(['label_type' => 'MERGE_NONFULLY']);
         $query->andWhere(['l.is_delete' => 'N']);
-
+        $query->andWhere(['labels.is_delete' => 'N']);
         $getdata = $query->execute()->fetchAll('assoc') ?: [];
         return $getdata;
     }
@@ -393,6 +395,7 @@ final class LabelRepository
         if (isset($params['merge_pack_id'])) {
             $query->andWhere(['labels.merge_pack_id' => $params['merge_pack_id']]);
         }
+        $query->andWhere(['labels.is_delete' => 'N']);
         return $query->execute()->fetchAll('assoc') ?: [];
     }
 
@@ -421,7 +424,7 @@ final class LabelRepository
         if (isset($params['label_id'])) {
             $query->andWhere(['id' => $params['label_id']]);
         }
-
+        $query->andWhere(['labels.is_delete' => 'N']);
         return $query->execute()->fetchAll('assoc') ?: [];
     }
 
@@ -472,7 +475,7 @@ final class LabelRepository
             $query->andWhere(['product_id' => $params['product_id']]);
         }
         $query->Where(['label_no' => $labelNO]);
-
+        $query->andWhere(['labels.is_delete' => 'N']);
         $row = $query->execute()->fetch('assoc');
 
 
@@ -531,11 +534,11 @@ final class LabelRepository
                 $query->andWhere(['OR' => [['labels.status' => 'PACKED'], ['labels.status' => 'SELLING']]]);
             }
         }
-        if(isset($params['lot_id'])){
+        if (isset($params['lot_id'])) {
             $query->Where(['l.id' => $params["lot_id"]]);
         }
 
-
+        $query->andWhere(['labels.is_delete' => 'N']);
         return $query->execute()->fetchAll('assoc') ?: [];
     }
 
@@ -582,11 +585,11 @@ final class LabelRepository
         if (isset($params['label_id'])) {
             $query->andWhere(['labels.id' => $params['label_id']]);
         }
-        if(isset($params['lot_id'])){
+        if (isset($params['lot_id'])) {
             $query->Where(['l.id' => $params["lot_id"]]);
         }
 
-
+        $query->andWhere(['labels.is_delete' => 'N']);
         return $query->execute()->fetchAll('assoc') ?: [];
     }
 
@@ -642,7 +645,7 @@ final class LabelRepository
                 $query->andWhere(['OR' => [['labels.status' => 'PACKED'], ['labels.status' => 'SELLING']]]);
             }
         }
-
+        $query->andWhere(['labels.is_delete' => 'N']);
         return $query->execute()->fetchAll('assoc') ?: [];
     }
 }

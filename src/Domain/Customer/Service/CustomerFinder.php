@@ -20,4 +20,19 @@ final class CustomerFinder
     {
         return $this->repository->findCustomers($params);
     }
+    
+    public function getLocalMaxCustomerId():int
+    {
+        $data=$this->repository->getLocalMaxCustomerId()[0]["max_id"];
+        if(is_null($data)){
+            return 0;
+        }
+        else{
+            return $data;
+        }
+    }
+    public function getSyncCustomers(int $maxId):array
+    {
+        return $this->repository->getSyncCustomers($maxId);
+    }
 }

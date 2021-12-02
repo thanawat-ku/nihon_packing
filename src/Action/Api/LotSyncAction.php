@@ -3,16 +3,13 @@
 namespace App\Action\Api;
 
 use App\Domain\Lot\Service\LotFinder;
-use App\Domain\Product\Service\ProductFinder;
+use App\Domain\Lot\Service\LotUpdater;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Views\Twig;
 use Symfony\Component\HttpFoundation\Session\Session;
 
-/**
- * Action.
- */
 final class LotSyncAction
 {
     /**
@@ -20,16 +17,17 @@ final class LotSyncAction
      */ 
     private $responder;
     private $finder;
+    private $updater;
 
     public function __construct(
         Twig $twig,
         LotFinder $finder,
-        ProductFinder $productFinder,
+        LotUpdater $updater,
         Responder $responder
     ) {
         $this->twig = $twig;
         $this->finder = $finder;
-        $this->productFinder = $productFinder;
+        $this->updater = $updater;
         $this->responder = $responder;
     }
 
@@ -37,15 +35,24 @@ final class LotSyncAction
     {
         $params = (array)$request->getQueryParams();
 
-        if(isset($params['start_date'])){
-            $params['startDate']=$params['start_date'];
-            $params['endDate']=$params['end_date'];
+        $max_id=$this->finder->getLocalMaxLotId();
+
+        $lots = $this->finder->getSyncLots($max_id);
+        $rtData=[];
+        
+        for($i=0;$i<count($lots);$i++)
+        {
+            $params1['id']=$lots[$i]["LotID"];
+            $params1['lot_no']=$lots[$i]["LotNo"];
+            $params1['product_id']=$lots[$i]["ProductID"];
+            $params1['quantity']=$lots[$i]["StartQty"];
+            $params1['issue_date']=substr($lots[$i]["IssueDate"],0,10);
+            $this->updater->insertLot($params1);
+            $rtData=[];
+            array_push($rtData, $lots[$i]);
         }
 
-        $rtdata['message'] = "Get Lot Successful";
-        $rtdata['error'] = false;
-        $rtdata['lots'] = $this->finder->findLots($params);
 
-        return $this->responder->withJson($response, $rtdata);
+        return $this->responder->withJson($response, $rtData);
     }
 }

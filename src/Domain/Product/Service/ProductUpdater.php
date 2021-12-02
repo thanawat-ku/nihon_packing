@@ -73,11 +73,20 @@ final class ProductUpdater
     {
         $result = [];
 
+        if (isset($data['id'])) {
+            $result['id'] = (string)$data['id'];
+        }
         if (isset($data['part_code'])) {
             $result['part_code'] = (string)$data['part_code'];
         }
+        if (isset($data['part_no'])) {
+            $result['part_no'] = (string)$data['part_no'];
+        }
         if (isset($data['part_name'])) {
             $result['part_name'] = (string)$data['part_name'];
+        }
+        if (isset($data['customer_id'])) {
+            $result['customer_id'] = (string)$data['customer_id'];
         }
         if (isset($data['std_pack'])) {
             $result['std_pack'] = (string)$data['std_pack'];

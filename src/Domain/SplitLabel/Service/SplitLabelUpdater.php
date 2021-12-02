@@ -103,6 +103,9 @@ final class SplitLabelUpdater
         if (isset($data['status'])) {
             $result['status'] = (string)$data['status'];
         }
+        if (isset($data['is_delete'])) {
+            $result['is_delete'] = (string)$data['is_delete'];
+        }
 
         return $result;
     }

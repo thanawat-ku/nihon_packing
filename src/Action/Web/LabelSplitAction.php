@@ -62,7 +62,7 @@ final class LabelSplitAction
 
         $findLabel['label_id'] = $labelId;
         $label = $this->finder->findLabelSingleTable($findLabel);
-        if ($label[0]['status' == "PACKED"]) {
+        if ($label[0]['status'] == "PACKED") {
             $dataSP['status'] = "CREATED";
             $dataSP['label_id'] = $labelId;
             $user_id = $this->session->get('user')["id"];

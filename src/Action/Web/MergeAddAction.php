@@ -56,8 +56,13 @@ final class MergeAddAction
     {
         $data = (array)$request->getParsedBody(); 
         $user_id = $this->session->get('user')["id"];
-        $this->updater->insertMergePackApi($data,$user_id);
+        $mergeId = $this->updater->insertMergePackApi($data,$user_id);
+
+        $viewData = [
+            'id' => $mergeId,
+        ];
         
-        return $this->responder->withRedirect($response, "merges");
+        // return $this->responder->withRedirect($response, "merges");
+        return $this->responder->withRedirect($response, "merge_detail", $viewData);
     }
 }

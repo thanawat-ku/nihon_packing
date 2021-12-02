@@ -43,6 +43,8 @@ final class ProductAction
     {
 
         $params = (array)$request->getQueryParams();
+
+        
         
         $rtdata['message']="Get Product Successful";
         $rtdata['error']=false;
@@ -50,14 +52,5 @@ final class ProductAction
 
         return $this->responder->withJson($response, $rtdata);
 
-        // $params = (array)$request->getQueryParams();
-        
-        // $viewData = [
-        //     'products' => $this->productFinder->findProducts($params),
-        //     'user_login' => $this->session->get('user'),
-        // ];
-        
-
-        // return $this->twig->render($response, 'web/products.twig',$viewData);
     }
 }

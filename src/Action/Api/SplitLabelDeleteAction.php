@@ -53,17 +53,18 @@ final class SplitLabelDeleteAction
 
         $splitLabel = $this->finder->findSplitLabels($params);
         if ($splitLabel[0]['status'] == "CREATED") {
-            $dataLabel['status'] = "PACKED";
-            $this->updaterLabel->updateLabelApi($labelID, $dataLabel, $user_id);
 
             $dataFindSplit['split_label_id'] = $splitID;
             $splitDetail = $this->finderSpiteLabelDetail->findSplitLabelDetails($dataFindSplit);
-
+            $dataDelete['is_delete'] = "Y";
             for ($i = 0; $i < sizeof($splitDetail); $i++) {
                 $labelID2 = $splitDetail[$i]['label_id'];
-                $this->updaterLabel->deleteLabel($labelID2, $params);
+                $this->updaterLabel->updateLabelApi($labelID2, $dataDelete, $user_id);
             }
-            $this->updater->deleteSplitLabel($splitID, $params);
+            $this->updater->updateSplitLabelApi($dataDelete, $splitID, $user_id);
+
+            $dataLabel['status'] = "PACKED";
+            $this->updaterLabel->updateLabelApi($labelID, $dataLabel, $user_id);
 
             $rtdata['message'] = "Delete Splitlabel Successful";
             $rtdata['error'] = false;
