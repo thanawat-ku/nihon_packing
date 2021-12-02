@@ -62,14 +62,14 @@ final class  SplitLabelDetailAction
         $findSplitNo['split_label_id'] = $SplitLabelId;
         $splitLabel = $this->finder->findSplitLabels($findSplitNo);
 
-        if (isset($splitLabel[0]['split_label_no'])) {
-            $splitNo =  $splitLabel[0]['split_label_no'];
+        if (isset($splitLabel[0])) {
+            $split =  $splitLabel[0];
         } else {
-            $splitNo = "ERROR";
+            $split = "ERROR";
         }
 
         $viewData = [
-            'split_no' => $splitNo,
+            'split' => $split,
             'labels' => $labels,
             'void_reasons' => $this->voidReasonFinder->findLabelVoidReasonsForVoidLabel($data),
             'user_login' => $this->session->get('user'),

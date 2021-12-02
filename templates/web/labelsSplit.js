@@ -1,6 +1,14 @@
+// $(function () {
+//     $('#my-data-table').DataTable();
+// });
+
 $(function () {
-    $('#my-data-table').DataTable();
+    $('#my-data-table').DataTable({ "order": [[0, "desc"]] });
+    $('#searchIssueStartDate, #searchIssueEndDate').datepicker({
+        format: 'yyyy-mm-dd'
+    });
 });
+
 function editLabels(event) {
     let labels = event.currentTarget.name;
     console.log(labels);
@@ -21,14 +29,6 @@ function deleteLabels(event) {
     $("#deleteLotNo").text(obj.label_no);
 }
 
-function splitLabel(event) {
-    let labels = event.currentTarget.name;
-    console.log(labels);
-    var obj = JSON.parse(labels);
-    $("#SPLabelID").val(obj.id);
-    $("#SPLabelNo").text(obj.label_no);
-}
-
 function voidLabel(event) {
     let labels = event.currentTarget.name;
     console.log(labels);
@@ -36,12 +36,42 @@ function voidLabel(event) {
     $("#voidLabelID").val(obj.id);
 }
 
+function splitLabel(event) {
+    let labels = event.currentTarget.name;
+    console.log(labels);
+    var obj = JSON.parse(labels);
+    $("#SPLabelID").val(obj.id);
+    $("#SPLabelNo").text(obj.label_no);
+    $("#confirmSplitLabelNo").text(obj.label_no);
+}
+
+
+function confirmSplit(event) {
+    $("#confirmSPLabelID").val($("#SPLabelID").val());
+    $("#qtyConfirm1").val($("#qty1").val());
+    $("#qtyConfirm2").val($("#qty1").val());
+    $("#confirmSplitQty1").text($("#qty1").val());
+    $("#confirmSplitQty2").text($("#qty2").val());
+}
+
+function registerLabel(event) {
+    let lot = event.currentTarget.name;
+    console.log(lot);
+    var obj = JSON.parse(lot);
+    $("#registerSpId").val(obj.id);
+    $("#registerSpNo").text(obj.split_label_no);
+
+}
+
 $(document).on(
     "click",
-    "#editBt, #deleteBt, #SplitBt,#voidBt",
+    "#editBt, #deleteBt, #SplitBt ,#voidBt ,#confirmSplitBt ,#registerBt" ,
     (event) => {
         let id = event.currentTarget.id;
         switch (id) {
+            case "registerBt":
+                registerLabel(event);
+                break;
             case "editBt":
                 editLabels(event);
                 break;
@@ -53,6 +83,9 @@ $(document).on(
                 break;
             case "voidBt":
                 voidLabel(event);
+                break;
+            case "confirmSplitBt":
+                confirmSplit(event);
                 break;
             default:
                 console.log("no any events click");

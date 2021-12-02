@@ -39,7 +39,35 @@ final class LabelEditAction
         if ($label[0]['status'] == "CREATED") {
             $this->updater->updateLabel($labelId, $data);
         }
-        // Build the HTTP response
-        return $this->responder->withRedirect($response, "labels");
+
+
+
+        if ($data['from'] == "label_lot") {
+            $lotId = $label[0]['lot_id'];
+            $viewData = [
+                'id' => $lotId,
+            ];
+            return $this->responder->withRedirect($response, "label_lot", $viewData);
+        } else if ($data['from'] == "label_split") {
+            $splitId = $data['split_id'];
+            $viewData = [
+                'id' => $splitId,
+            ];
+            return $this->responder->withRedirect($response, "label_splitlabel", $viewData);
+        } else if ($data['from'] == "label_split") {
+            $splitId = $data['split_id'];
+            $viewData = [
+                'id' => $splitId,
+            ];
+            return $this->responder->withRedirect($response, "label_splitlabel", $viewData);
+        } else if ($data['from'] == "label_merge") {
+            $mergeId = $data['merge_id'];
+            $viewData = [
+                'id' => $mergeId,
+            ];
+            return $this->responder->withRedirect($response, "merge_detail", $viewData);
+        } else {
+            return $this->responder->withRedirect($response, "labels");
+        }
     }
 }

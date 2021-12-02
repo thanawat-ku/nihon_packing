@@ -62,6 +62,7 @@ final class LabelSplitAction
 
         $findLabel['label_id'] = $labelId;
         $label = $this->finder->findLabelSingleTable($findLabel);
+        $productId = $label[0]['product_id'];
         if ($label[0]['status'] == "PACKED") {
             $dataSP['status'] = "CREATED";
             $dataSP['label_id'] = $labelId;
@@ -87,6 +88,7 @@ final class LabelSplitAction
             $dataDeatail['merge_pack_id'] = $dataLabel[0]['merge_pack_id'];
             $dataDeatail['quantity1'] = $data['qty1'];
             $dataDeatail['quantity2'] = $data['qty2'];
+            $dataDeatail['product_id'] = $productId;
             $labelDetail = $this->updater->genSplitLabel($dataDeatail);
 
             $this->updater->updateLabel($labelId, $data);
@@ -96,27 +98,11 @@ final class LabelSplitAction
                 $dataDetailSL['split_label_id'] = $splitID;
                 $this->updaterSpiteLabelDetail->insertSplitLabelDetailDeatilApi($dataDetailSL, $user_id);
             }
-
-        } else {
-            $data2['label_id'] = $data['label_id'];
-            $findLabel = $this->finder->findLabels($data2);
-
-            $findSplitLabel['label_id'] = $labelId;
-
-            if (isset($findLabel[0])) {
-                $dataLabel = $findLabel;
-                $dataSplit = $this->splitLabelFinder->findSplitLabels($findSplitLabel);
-            } else {
-                $dataLabel = $this->finder->findLabelForLotZero($data2);
-                $dataSplit = $this->splitLabelFinder->findSplitLabels($findSplitLabel);
-            }
         }
         $viewData = [
-            'splitLabels' => $dataSplit,
-            'user_login' => $this->session->get('user'),
+            'id' => $dataSplit[0]['id'],
         ];
 
-
-        return $this->twig->render($response, 'web/splitLabels.twig', $viewData);
+        return $this->responder->withRedirect($response, "label_splitlabel", $viewData);
     }
 }

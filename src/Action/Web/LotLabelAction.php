@@ -46,13 +46,13 @@ final class  LotLabelAction
         $labels = $this->finder->findLabels($params);
 
         if (isset($lot[0]['lot_no'])) {
-            $lotNo = $lot[0]['generate_lot_no'];
+            $lot = $lot[0];
         } else {
-            $lotNo = "error";
+            $lot = "error";
         }
 
         $viewData = [
-            'lot_no' => $lotNo,
+            'lot' => $lot,
             'labels' => $labels,
             'void_reasons' => $this->voidReasonFinder->findLabelVoidReasonsForVoidLabel($data),
             'user_login' => $this->session->get('user'),

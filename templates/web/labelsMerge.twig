@@ -71,6 +71,8 @@
         <div class="modal-body">          
           <div class="form-product">
             <input type="hidden" id="voidLabelID" name="id">
+            <input type="hidden" id="from" name="from" value ="label_merge">
+            <input type="hidden" id="from" name="merge_id" value ="{{mergePack['id']}}">
           </div>                            
           <div class="form-voidReason">
             <label for="email">Reason Name</label>
@@ -143,6 +145,8 @@
           <div class="form-product">
             <input type="hidden" id="editLabelID" name="id">
             <input type="hidden" id="editLotId" name="lot_id">
+            <input type="hidden" id="from" name="from" value ="label_merge">
+            <input type="hidden" id="from" name="merge_id" value ="{{mergePack['id']}}">
             {# <label for="labelNo">Label No</label>
             <input type="text" autocomplete="off" class="form-control" id="editLabelNo" name="label_no" required> #}
           </div>                            
@@ -193,6 +197,8 @@
         <div class="modal-body">          
           <div class="form-product">
             <input type="hidden" id="deleteLabelID" name="id">
+            <input type="hidden" id="from" name="from" value ="label_merge">
+            <input type="hidden" id="from" name="merge_id" value ="{{mergePack['id']}}">
             <label for="lotNo">Do you want to delete Label: <span id="deleteLotNo"></span> ?</label>
           </div>                 
         </div>
