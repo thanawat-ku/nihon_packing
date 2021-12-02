@@ -192,23 +192,23 @@ final class LabelUpdater
 
         $row = $this->mapToLabelRow($data);
         $ID = $data[0]['id'];
-        $row['merge_pack_id']=$data['check_mp_id'];
+        // $row['merge_pack_id']=$data['check_mp_id'];
         if ($data[0]['status'] == "PACKED" && ($data[0]['label_type'] == "NONFULLY" || $data[0]['label_type'] == "MERGE_NONFULLY")) {
             if ($data[0]['merge_pack_id'] == 0) {
                 if ($data[0]['status'] == "MERGED") {
                     $row['status'] = $data[0]['status'];
-                    $row['merge_pack_id'] = $data[0]['merge_pack_id'];
+                    // $row['merge_pack_id'] = $data[0]['merge_pack_id'];
                 } else if ($data[0]['status'] == "PACKED") {
                     $row['status'] = "MERGING";
-                    $row['merge_pack_id'] = $data[0]['merge_pack_id'];
+                    // $row['merge_pack_id'] = $data[0]['merge_pack_id'];
                 }
             } else {
                 $row['status'] = $data[0]['status'];
-                $row['merge_pack_id'] = $data[0]['merge_pack_id'];
+                // $row['merge_pack_id'] = $data[0]['merge_pack_id'];
             }
             if ($data[0]['label_type'] == "MERGE_NONFULLY") {
                 $row['status'] = "MERGING";
-                $row['merge_pack_id'] = $data[0]['merge_pack_id'];
+                // $row['merge_pack_id'] = $data[0]['merge_pack_id'];
             }
         }
 

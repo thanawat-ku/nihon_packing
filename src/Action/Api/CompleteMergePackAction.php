@@ -28,53 +28,59 @@ final class CompleteMergePackAction
     private $updater;
     private $updatelabel;
 
-    public function __construct(MergePackFinder $finder,ProductFinder $productFinder, MergePackUpdater $updater,
-    Session $session,Responder $responder, LabelFinder $finderlabel, LabelUpdater $updatelabel)
-    {
-        $this->finder=$finder;
-        $this->finderlabel=$finderlabel;
-        $this->updater=$updater;
-        $this->updatelabel=$updatelabel;
-        $this->productFinder=$productFinder;
+    public function __construct(
+        MergePackFinder $finder,
+        ProductFinder $productFinder,
+        MergePackUpdater $updater,
+        Session $session,
+        Responder $responder,
+        LabelFinder $finderlabel,
+        LabelUpdater $updatelabel
+    ) {
+        $this->finder = $finder;
+        $this->finderlabel = $finderlabel;
+        $this->updater = $updater;
+        $this->updatelabel = $updatelabel;
+        $this->productFinder = $productFinder;
         $this->responder = $responder;
     }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $data = (array)$request->getParsedBody();
-        $user_id=$data['user_id'];
-        $mergepackID=$data['merge_pack_id'];
+        $user_id = $data['user_id'];
+        $mergepackID = $data['merge_pack_id'];
         $label = $data['labels'];
-        
+
         $arrlabel = explode("#", $label);
 
         for ($i = 1; $i < count($arrlabel); $i++) {
             $label_no = $arrlabel[$i];
             $data1['label_no'] = explode(",", $label_no)[0];
             $label_row = $this->finderlabel->findLabelSingleTable($data1);
-            $labelID=(int)$label_row[0]['id'];
+            $labelID = (int)$label_row[0]['id'];
 
-            $dataUpdate['up_status'] = "PACKED"; 
+            $dataUpdate['up_status'] = "PACKED";
             $this->updatelabel->updateLabelStatus($labelID, $dataUpdate, $user_id);
         }
-        $upStatus['merge_status']="COMPLETE";
+        $upStatus['merge_status'] = "COMPLETE";
         $this->updater->updateMergePackApi($mergepackID, $upStatus, $user_id);
 
         if (isset($params['start_date'])) {
             $params['startDate'] = $params['start_date'];
             $params['endDate'] = $params['end_date'];
         }
-        
-        $allData=[''];
+
+        $allData = [''];
 
         if (isset($data['start_date'])) {
             $allData['startDate'] = $data['start_date'];
             $allData['endDate'] = $data['end_date'];
         }
 
-        $rtdata['message']="Get MergePack Successful";
-        $rtdata['error']=false;
-        $rtdata['merge_packs']=$this->finder->findMergePacks($allData);
+        $rtdata['message'] = "Get MergePack Successful";
+        $rtdata['error'] = false;
+        $rtdata['merge_packs'] = $this->finder->findMergePacks($allData);
 
         return $this->responder->withJson($response, $rtdata);
     }

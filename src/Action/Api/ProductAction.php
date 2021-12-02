@@ -43,8 +43,6 @@ final class ProductAction
     {
 
         $params = (array)$request->getQueryParams();
-
-        
         
         $rtdata['message']="Get Product Successful";
         $rtdata['error']=false;
