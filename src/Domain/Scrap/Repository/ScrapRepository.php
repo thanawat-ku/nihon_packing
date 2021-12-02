@@ -69,6 +69,8 @@ final class ScrapRepository
 
             ]
         );
+        $query->andWhere(['is_delete' => 'N']);
+        
         if (isset($params["startDate"])) {
             $query->andWhere(['scrap_date <=' => $params['endDate'], 'scrap_date >=' => $params['startDate']]);
         }

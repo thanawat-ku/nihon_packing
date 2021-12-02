@@ -101,6 +101,9 @@ final class ScrapUpdater
         if (isset($data['scrap_status'])) {
             $result['scrap_status'] = (string)$data['scrap_status'];
         }
+        if (isset($data['is_delete'])) {
+            $result['is_delete'] = (string)$data['is_delete'];
+        }
 
         return $result;
     }

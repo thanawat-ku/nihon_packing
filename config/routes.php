@@ -109,7 +109,10 @@ return function (App $app) {
     $app->post('/edit_scrap_detail', \App\Action\Web\ScrapDetailEditAction::class)->add(UserAuthMiddleware::class);
 
     $app->get('/defects', \App\Action\Web\DefectAction::class)->add(UserAuthMiddleware::class);
-    $app->get('/sections', \App\Action\Web\SectionAction ::class)->add(UserAuthMiddleware::class);
+    $app->get('/sections', \App\Action\Web\SectionAction::class)->add(UserAuthMiddleware::class);
+
+    $app->get('/tags', \App\Action\Web\TagAction::class)->add(UserAuthMiddleware::class);
+    $app->post('/register_tags', \App\Action\Web\TagRegisterAction::class)->add(UserAuthMiddleware::class);
 
     //---------------------------Api-------------------------------
 
@@ -216,4 +219,9 @@ return function (App $app) {
     $app->get('/api/mis_sync_customers', \App\Action\Api\CustomerSyncAction::class);
     $app->get('/api/mis_sync_sections', \App\Action\Api\SectionSyncAction::class);
     $app->get('/api/mis_sync_defects', \App\Action\Api\DefectSyncAction::class);
+
+    $app->get('/api/label_void_reasons', \App\Action\Api\LabelVoidReasonAction::class);
+    $app->post('/api/add_label_void_reason', \App\Action\Api\LabelVoidReasonAddAction::class);
+    $app->post('/api/edit_label_void_reason', \App\Action\Api\LabelVoidReasonEditAction::class);
+    $app->post('/api/delete_label_void_reason', \App\Action\Api\LabelVoidReasonDeleteAction::class);
 };

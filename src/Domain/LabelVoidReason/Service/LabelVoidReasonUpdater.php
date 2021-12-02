@@ -19,47 +19,50 @@ final class LabelVoidReasonUpdater
         $this->repository = $repository;
         $this->validator = $validator;
         //$this->logger = $loggerFactory
-            //->addFileHandler('store_updater.log')
-            //->createInstance();
+        //->addFileHandler('store_updater.log')
+        //->createInstance();
     }
 
-    public function insertLabelVoidReason( array $data): int
+    public function insertLabelVoidReason(array $data): int
     {
-        // Input validation
         $this->validator->validateLabelVoidReasonInsert($data);
 
-        // Map form data to row
-        $customerRow = $this->mapToLabelVoidReasonRow($data);
+        $row = $this->mapToLabelVoidReasonRow($data);
 
-        // Insert transferStore
-        $id=$this->repository->insertLabelVoidReason($customerRow);
+        $id = $this->repository->insertLabelVoidReason($row);
 
-        // Logging
-        //$this->logger->info(sprintf('TransferStore updated successfully: %s', $id));
+        return $id;
+    }
+    public function insertLabelVoidReasonApi(array $data, $user_id): int
+    {
+        $this->validator->validateLabelVoidReasonInsert($data);
+
+        $row = $this->mapToLabelVoidReasonRow($data);
+
+        $id = $this->repository->insertLabelVoidReasonApi($row, $user_id);
+
         return $id;
     }
     public function updateLabelVoidReason(int $voidReasonId, array $data): void
     {
-        // Input validation
         $this->validator->validateLabelVoidReasonUpdate($voidReasonId, $data);
 
-        // Map form data to row
-        $storeRow = $this->mapToLabelVoidReasonRow($data);
+        $row = $this->mapToLabelVoidReasonRow($data);
 
-        // Insert store
-        $this->repository->updateLabelVoidReason($voidReasonId, $storeRow);
+        $this->repository->updateLabelVoidReason($voidReasonId, $row);
+    }
+    public function updateLabelVoidReasonApi(int $voidReasonId, array $data, $user_id): void
+    {
+        $this->validator->validateLabelVoidReasonUpdate($voidReasonId, $data);
 
-        // Logging
-        //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));
+        $row = $this->mapToLabelVoidReasonRow($data);
+
+        $this->repository->updateLabelVoidReasonApi($voidReasonId, $row, $user_id);
     }
 
     public function deleteLabelVoidReason(int $voidReasonId): void
     {
-        // Insert store
         $this->repository->deleteLabelVoidReason($voidReasonId);
-
-        // Logging
-        //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));
     }
 
     /**

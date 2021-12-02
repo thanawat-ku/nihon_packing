@@ -523,6 +523,9 @@ final class LabelRepository
                 'conditions' => 'p.id = l.product_id',
             ]
         ]);
+        if (isset($params['find_label_for_sell'])) {
+            $query->andWhere(['labels.status' => $params['find_label_for_sell']]);
+        }
 
         if (isset($params['id'])) {
             $query->andWhere(['labels.id' => $params['id']]);
@@ -539,6 +542,7 @@ final class LabelRepository
         }
 
         $query->andWhere(['labels.is_delete' => 'N']);
+
         return $query->execute()->fetchAll('assoc') ?: [];
     }
 
@@ -632,6 +636,9 @@ final class LabelRepository
                 'conditions' => 'p.id = mp.product_id',
             ]
         ]);
+        if (isset($params['find_label_for_sell'])) {
+            $query->andWhere(['labels.status' => $params['find_label_for_sell']]);
+        }
 
         if (isset($params['merge_pack_id'])) {
             $query->andWhere(['merge_pack_id' => $params['merge_pack_id']]);

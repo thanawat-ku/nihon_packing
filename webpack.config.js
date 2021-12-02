@@ -34,6 +34,7 @@ module.exports = {
     'web/scrapDetails': './templates/web/scrapDetails.js',
     'web/defects': './templates/web/defects.js',
     'web/sections': './templates/web/sections.js',
+    'web/tags': './templates/web/tags.js',
   },
   output: {
     path: path.resolve(__dirname, 'public/assets'),

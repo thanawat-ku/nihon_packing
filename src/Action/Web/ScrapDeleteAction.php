@@ -42,8 +42,9 @@ final class ScrapDeleteAction
         $data = (array)$request->getParsedBody();
         $scrapID = $data['id'];
 
-        $this->updater->deleteScrap($scrapID);
-        $this->updateScrapDetail->deleteScrapDetailAll($scrapID);
+        $delete['is_delete'] = "Y";
+        $this->updater->updateScrap($scrapID, $delete);
+        // $this->updateScrapDetail->deleteScrapDetailAll($scrapID);
 
         if (!isset($data['startDate'])) {
             $data['startDate'] = date('Y-m-d', strtotime('-30 days', strtotime(date('Y-m-d'))));

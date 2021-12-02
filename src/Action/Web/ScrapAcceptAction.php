@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 /**
  * Action.
  */
-final class ScrapRejectAction
+final class ScrapAcceptAction
 {
     private $twig;
     private $finder;
