@@ -47,6 +47,15 @@
 								<td>{{ scrap.scrap_date }}</td>
 								<td>{{ scrap.scrap_status }}</td>
 								<td>
+									{% if scrap.scrap_status == "CONFIRMED" %}
+										<button type="button" id="acceptBt" class="btn btn-success btn-sm" data-toggle="modal" data-target="#acceptScrap" name="{{ scrap|json_encode }}">
+											<i style="font-size:15px; width:20px;" class="far fa-check-square"></i>
+										</button>
+
+										<button type="button" id="rejectBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#rejectScrap" name="{{ scrap|json_encode }}">
+											<i style="font-size:15px; width:20px;" class="far fa-window-close"></i>
+										</button>
+									{% endif %}
 									{% if scrap.scrap_status != "ACCEPTED" %}
 										<a href="scrap_details?scrap_id={{scrap.id}}">
 											<button type="button" class="btn btn-secondary btn-sm" data-toggle="modal">
@@ -160,6 +169,64 @@
 					<div class="modal-footer">
 						<button type="submit" class="btn btn-info">Save</button>
 						<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modal Reject Scrap -->
+	<div class="modal fade" id="rejectScrap">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<form
+					id="form-deleteScrapDetail" action="reject_scrap" method="post">
+					<!-- Modal Header -->
+					<div class="modal-header">
+						<h4 class="modal-title">Reject Scrap</h4>
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					<!-- Modal body -->
+					<div class="modal-body">
+						<div class="form-scrap_detail">
+							<input type="hidden" id="rejectScrapID" name="id">
+							<label for="scrap_detailNo">Do you want reject scrap no
+								<span id="rejectScrapNo">?</span>
+							</label>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-danger">Canfrim</button>
+						<button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modal Accept Scrap -->
+	<div class="modal fade" id="acceptScrap">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<form
+					id="form-deleteScrapDetail" action="accept_scrap" method="post">
+					<!-- Modal Header -->
+					<div class="modal-header">
+						<h4 class="modal-title">Accept Scrap</h4>
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					<!-- Modal body -->
+					<div class="modal-body">
+						<div class="form-scrap_detail">
+							<input type="hidden" id="acceptScrapID" name="id">
+							<label for="scrap_detailNo">Do you want reject scrap no
+								<span id="acceptScrapNo">?</span>
+							</label>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-success">Canfrim</button>
+						<button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
 					</div>
 				</form>
 			</div>

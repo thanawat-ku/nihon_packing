@@ -24,9 +24,27 @@ function deleteScrap(event) {
 
 }
 
+function rejectScrap(event) {
+    let scrap = event.currentTarget.name;
+    console.log(scrap);
+    var obj = JSON.parse(scrap);
+    $("#rejectScrapID").val(obj.id);
+    $("#rejectScrapNo").text(obj.scrap_no);
+
+}
+
+function acceptScrap(event) {
+    let scrap = event.currentTarget.name;
+    console.log(scrap);
+    var obj = JSON.parse(scrap);
+    $("#acceptScrapID").val(obj.id);
+    $("#acceptScrapNo").text(obj.scrap_no);
+
+}
+
 $(document).on(
     "click",
-    "#editBt, #deleteBt",
+    "#editBt, #deleteBt, #rejectBt, #acceptBt",
     (event) => {
         let id = event.currentTarget.id;
         switch (id) {
@@ -35,6 +53,12 @@ $(document).on(
                 break;
             case "deleteBt":
                 deleteScrap(event);
+                break;
+            case "rejectBt":
+                rejectScrap(event);
+                break;
+            case "acceptBt":
+                acceptScrap(event);
                 break;
             default:
                 console.log("no any events click");
