@@ -8,7 +8,7 @@ function removeSellLabels(event) {
     var obj = JSON.parse(selllabel);
     $("#removeLabelID").val(obj.id);
     $("#removeLabelNo").text(obj.label_no);
-    
+    $("#removeQuantity").text(obj.quantity);   
 }
 
 $(document).on(
