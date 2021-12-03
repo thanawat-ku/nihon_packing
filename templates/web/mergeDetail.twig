@@ -23,6 +23,9 @@
                 {% if mergePack.select_label  == "N" %}
                 <label for=" ">     <span ></span></label>
                 {% endif %}
+                {% if mergePack['merge_no'] == "Error" %}
+                <label for=" "> Pleas check your Label<span ></span></label>
+                {% endif %}
                 <hr>
                 <table id="my-data-table" class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline collapsed">
                     <thead>

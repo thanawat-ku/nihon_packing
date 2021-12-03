@@ -15,6 +15,7 @@
             <div class="col-md-12">
                 <h2><i class="fas fa-folder-plus"></i> Merge Label </h2>    
                 <button type="button" id="addMergeBt" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#addMerge"><i style="font-size:15px; width:20px;" class="fas fa-plus"></i> Add Merge</button> 
+                <button type="button" id="addMergeFromlabelBt" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#addMergeFromlabel"><i style="font-size:15px; width:20px;" class="fas fa-plus"></i> Add Merge From Label</button>
                 <form id="form-searchIssue" class="form-inline float-right" action="" method="get">
                   Issue Date From:&nbsp;&nbsp;
                   <input type="text" autocomplete="off" class="form-control" id="searchIssueStartDate" name="startDate" value="{{startDate}}">&nbsp;&nbsp;To&nbsp;&nbsp; 
@@ -64,6 +65,34 @@
             </div>
         </div>
     </div>
+
+<!-- Modal add merge -->
+<div class="modal fade" id="addMergeFromlabel">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form id="form-addLot" action="add_merges_from_label" method="post">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Add Merge From Label</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">          
+          <div class="form-product">
+            <label for="email"> Input LabelNo</label>
+          </div>
+          <div class="form-product">
+            <input type="text" autocomplete="off" class="form-control" id="labelNo" name="label_no" required>
+          </div>            
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success">Add</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 
 
 <!-- Modal Register Merge -->

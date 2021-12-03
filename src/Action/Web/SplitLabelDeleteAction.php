@@ -65,7 +65,7 @@ final class  SplitLabelDeleteAction
             for ($i = 0; $i < sizeof($labelDetail); $i++) {
                 $dataDelete['is_delete'] = "Y";
                 $labelId['label_id'] = $labelDetail[$i]['label_id'];
-                $label = $this->labelFinder->findLabels($labelId);
+                $label = $this->labelFinder->findLabelSingleTable($labelId);
                 $labelId2 = $label[0]['id'];
 
                 $this->labelUpdater->updateLabel($labelId2, $dataDelete);
