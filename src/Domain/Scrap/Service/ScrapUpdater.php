@@ -28,7 +28,6 @@ final class ScrapUpdater
         $this->validator->validateScrapInsert($data);
 
         $row = $this->mapToScrapRow($data);
-        $row['scrap_date'] = date('Y-m-d');
 
         $id = $this->repository->insertScrap($row);
 
@@ -43,22 +42,22 @@ final class ScrapUpdater
 
         $this->validator->validateScrapUpdate($scrapID, $data);
 
-        $storeRow = $this->mapToScrapRow($data);
+        $row = $this->mapToScrapRow($data);
 
-        $this->repository->updateScrap($scrapID, $storeRow);
+        $this->repository->updateScrap($scrapID, $row);
     }
 
     public function insertScrapApi(array $data, $user_id): int
     {
         $this->validator->validateScrapInsert($data);
-        
+
         $row = $this->mapToScrapRow($data);
         $row['scrap_date'] = date('Y-m-d');
 
         $id = $this->repository->insertScrapApi($row, $user_id);
 
         $row['scrap_no'] = "SC" . str_pad($id, 10, "0", STR_PAD_LEFT);
-        $this->repository->updateScrapApi($id , $row, $user_id);
+        $this->repository->updateScrapApi($id, $row, $user_id);
 
         return $id;
     }

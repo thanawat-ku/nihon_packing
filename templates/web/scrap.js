@@ -4,22 +4,24 @@ $(function () {
         format: 'yyyy-mm-dd'
     });
 });
-function editScrap(event){
+function editScrap(event) {
     let scrap = event.currentTarget.name;
     console.log(scrap);
     var obj = JSON.parse(scrap);
     $("#editScrapID").val(obj.id);
-    $("#editScrapNo").val(obj.scrap_no);
-    
+    $("#editScrapDate").datepicker({
+        format: 'yyyy-mm-dd'
+    }, 'val', obj.scrap_date);
+
 }
 
-function deleteScrap(event){
+function deleteScrap(event) {
     let scrap = event.currentTarget.name;
     console.log(scrap);
     var obj = JSON.parse(scrap);
     $("#deleteScrapID").val(obj.id);
     $("#deleteScrapNo").text(obj.scrap_no);
-    
+
 }
 
 $(document).on(

@@ -5,31 +5,32 @@ $(function () {
     });
 });
 
-function editScrapDetail(event){
+function editScrapDetail(event) {
     let scrapDetail = event.currentTarget.name;
     console.log(scrapDetail);
     var obj = JSON.parse(scrapDetail);
     $("#editScrapDetailID").val(obj.id);
-    $("#editSectionID").selectpicker('val',obj.section_id);
-    $("#editProductID").selectpicker('val',obj.product_id);
-    $("#editDefectID").selectpicker('val',obj.defact_id);
-    $("#editDefectCode").selectpicker('val',obj.defect_code);
+    $("#editSectionID").selectpicker('val', obj.section_id);
+    $("#editProductID").selectpicker('val', obj.product_id);
+    $("#editDefectID").selectpicker('val', obj.defect_id);
+    $("#editDefectCode").selectpicker('val', obj.defect_code);
     $("#editDefectDescription").val(obj.defect_description);
+    $("#editSellDate").val(obj.sell_date);
     $("#editSectionName").val(obj.section_name);
     $("#editQuantity").val(obj.scrap_detail_qty);
-    
+
 }
 
-function deleteScrapDetail(event){
+function deleteScrapDetail(event) {
     let scrapDetail = event.currentTarget.name;
     console.log(scrapDetail);
     var obj = JSON.parse(scrapDetail);
     $("#deleteScrapDetailID").val(obj.id);
-    $("#deleteDefectCode").val(obj.defect_code);
-    $("#deleteDefectDescription").val(obj.defect_description);
-    $("#deleteSectionName").val(obj.section_name);
+    $("#deleteDefectCode").val('(' + obj.defect_code + ')' + obj.defect_description);
+    $("#deleteProductName").val('(' + obj.part_code + ')' + obj.part_name);
+    $("#deleteSectionName").val('(' + obj.section_name + ')' + obj.defect_description);
     $("#deleteQuantity").val(obj.scrap_detail_qty);
-    
+
 }
 
 $(document).on(

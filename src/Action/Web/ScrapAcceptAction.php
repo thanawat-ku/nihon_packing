@@ -42,7 +42,7 @@ final class ScrapAcceptAction
         $data = (array)$request->getParsedBody();
         $scrapID = $data['id'];
 
-        $data['scrap_status']="ACCECTED";
+        $data['scrap_status']="ACCEPTED";
         $this->updater->updateScrap($scrapID, $data);
 
         if (!isset($data['startDate'])) {
@@ -57,6 +57,6 @@ final class ScrapAcceptAction
             'endDate' => $data['endDate'],
         ];
 
-        return $this->twig->render($response, 'web/scraps.twig', $viewData);
+        return $this->responder->withRedirect($response, "scraps", $viewData);
     }
 }
