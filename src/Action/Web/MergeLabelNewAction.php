@@ -71,6 +71,13 @@ final class MergeLabelNewAction
 
         $mergePack['id'] = $mergePackId;
         $mergePack['merge_no'] = $labels[0]['merge_no'];
+        $mergePack['register'] = "N";
+
+        for ($i = 0; $i < sizeof($labels); $i++) {
+            if ($labels[$i]['status'] == "PRINTED") {
+                $mergePack['register'] = "Y";
+            }
+        }
 
         $viewData = [
             'labels' =>  $labels,

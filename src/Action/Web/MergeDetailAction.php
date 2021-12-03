@@ -48,42 +48,54 @@ final class MergeDetailAction
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $params = (array)$request->getQueryParams();
-        $data1['merge_pack_id'] = $params['id'];
-        $mergeDetail = $this->finder->findMergePackDetailsForMerge($data1);
-        $mergePack =  $this->mergeFinder->findMergePacks($data1);
+        
+        
+        if (!isset($params['None_label'])) {
+            $data1['merge_pack_id'] = $params['id'];
+            $mergeDetail = $this->finder->findMergePackDetailsForMerge($data1);
+            $mergePack =  $this->mergeFinder->findMergePacks($data1);
 
-        if (($mergePack[0]['merge_status'] == "CREATED") or ($mergePack[0]['merge_status'] == "MERGING")) {
-            $mergePack[0]['select_label'] = "Y";
-        } else {
-            $mergePack[0]['select_label'] = "N";
-        }
-
-
-        $labels = [];
-        if (isset($mergeDetail[0])) {
-            for ($i = 0; $i < sizeof($mergeDetail); $i++) {
-                $labelId['label_id'] = $mergeDetail[$i]['label_id'];
-                $label = $this->labelFinder->findLabels($labelId);
-
-                if(!isset($label[0])){
-                    $label = $this->labelFinder->findLabelForLotZero($labelId);
-                }
-                array_push($labels, $label[0]);
+            if (($mergePack[0]['merge_status'] == "CREATED") or ($mergePack[0]['merge_status'] == "MERGING")) {
+                $mergePack[0]['select_label'] = "Y";
+            } else {
+                $mergePack[0]['select_label'] = "N";
             }
+
+
+            $labels = [];
+            if (isset($mergeDetail[0])) {
+                for ($i = 0; $i < sizeof($mergeDetail); $i++) {
+                    $labelId['label_id'] = $mergeDetail[$i]['label_id'];
+                    $label = $this->labelFinder->findLabels($labelId);
+
+                    if (!isset($label[0])) {
+                        $label = $this->labelFinder->findLabelForLotZero($labelId);
+                    }
+                    array_push($labels, $label[0]);
+                }
+            }
+
+            if (isset($mergeDetail[1])) {
+                $mergePack[0]['merge_confirm'] = "Y";
+            } else {
+                $mergePack[0]['merge_confirm'] = "N";
+            }
+
+            $viewData = [
+                'labels' => $labels,
+                'mergePack' => $mergePack[0],
+                'user_login' => $this->session->get('user'),
+            ];
+        }else{
+            $mergePack2['merge_no'] = "Error";
+            $labels = [];
+            $viewData = [
+                'mergePack' => $mergePack2,
+                'labels' => $labels,
+                'user_login' => $this->session->get('user'),
+            ];
         }
 
-        if(isset($mergeDetail[1])){
-            $mergePack[0]['merge_confirm'] = "Y";
-        }
-        else{
-            $mergePack[0]['merge_confirm'] = "N";
-        }
-
-        $viewData = [
-            'labels' => $labels,
-            'mergePack' => $mergePack[0],
-            'user_login' => $this->session->get('user'),
-        ];
 
 
         return $this->twig->render($response, 'web/mergeDetail.twig', $viewData);

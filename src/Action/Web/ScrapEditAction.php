@@ -56,6 +56,6 @@ final class ScrapEditAction
             'endDate' => $data['endDate'],
         ];
 
-        return $this->twig->render($response, 'web/scraps.twig', $viewData);
+        return $this->responder->withRedirect($response, "scraps", $viewData);
     }
 }

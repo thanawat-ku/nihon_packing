@@ -49,6 +49,7 @@
 								<td>{{ sell.total_qty }}</td>
 								<td>{{ sell.sell_status }}</td>
 								<td>
+									
 									{% if sell.sell_status == "CREATED" or sell.sell_status == "SELECTING_CPO"%}
 										<form action="cpo_items" method="get" id="{{ sell.id }}">
 											<input type="hidden" id="productID" name="product_id" value="{{ sell.product_id }}">
@@ -74,6 +75,11 @@
 										</button>
 										{% else %}
 									{% endif %}
+									{# {% if sell.sell_status == "CREATED" %} #}
+									{# <button type="button" id="registerBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#registerLot" name="{{ lot|json_encode }}">
+										<i style="font-size:15px; width:20px;" class="fas fa-check-circle"></i>
+									</button>
+									{% endif %} #}
 									{% if sell.sell_status == "SELECTED_CPO" or sell.sell_status == "SELECTING_LABEL"  %}
 										<button type="button" id="editBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editSell" name="{{ sell|json_encode }}">
 											<i style="font-size:15px; width:20px;" class="fas fa-edit"></i>
@@ -84,6 +90,7 @@
 											<i style="font-size:15px; width:20px;" class="fas fa-trash"></i>
 										</button>
 									{% endif %}
+
 								</td>
 							</tr>
 						{% endfor %}

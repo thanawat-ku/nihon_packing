@@ -4,27 +4,47 @@ $(function () {
         format: 'yyyy-mm-dd'
     });
 });
-function editScrap(event){
+function editScrap(event) {
     let scrap = event.currentTarget.name;
     console.log(scrap);
     var obj = JSON.parse(scrap);
     $("#editScrapID").val(obj.id);
-    $("#editScrapNo").val(obj.scrap_no);
-    
+    $("#editScrapDate").datepicker({
+        format: 'yyyy-mm-dd'
+    }, 'val', obj.scrap_date);
+
 }
 
-function deleteScrap(event){
+function deleteScrap(event) {
     let scrap = event.currentTarget.name;
     console.log(scrap);
     var obj = JSON.parse(scrap);
     $("#deleteScrapID").val(obj.id);
     $("#deleteScrapNo").text(obj.scrap_no);
-    
+
+}
+
+function rejectScrap(event) {
+    let scrap = event.currentTarget.name;
+    console.log(scrap);
+    var obj = JSON.parse(scrap);
+    $("#rejectScrapID").val(obj.id);
+    $("#rejectScrapNo").text(obj.scrap_no);
+
+}
+
+function acceptScrap(event) {
+    let scrap = event.currentTarget.name;
+    console.log(scrap);
+    var obj = JSON.parse(scrap);
+    $("#acceptScrapID").val(obj.id);
+    $("#acceptScrapNo").text(obj.scrap_no);
+
 }
 
 $(document).on(
     "click",
-    "#editBt, #deleteBt",
+    "#editBt, #deleteBt, #rejectBt, #acceptBt",
     (event) => {
         let id = event.currentTarget.id;
         switch (id) {
@@ -33,6 +53,12 @@ $(document).on(
                 break;
             case "deleteBt":
                 deleteScrap(event);
+                break;
+            case "rejectBt":
+                rejectScrap(event);
+                break;
+            case "acceptBt":
+                acceptScrap(event);
                 break;
             default:
                 console.log("no any events click");
