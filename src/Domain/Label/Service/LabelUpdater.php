@@ -192,23 +192,23 @@ final class LabelUpdater
 
         $row = $this->mapToLabelRow($data);
         $ID = $data[0]['id'];
-        $row['merge_pack_id']=$data['check_mp_id'];
+        // $row['merge_pack_id']=$data['check_mp_id'];
         if ($data[0]['status'] == "PACKED" && ($data[0]['label_type'] == "NONFULLY" || $data[0]['label_type'] == "MERGE_NONFULLY")) {
             if ($data[0]['merge_pack_id'] == 0) {
                 if ($data[0]['status'] == "MERGED") {
                     $row['status'] = $data[0]['status'];
-                    $row['merge_pack_id'] = $data[0]['merge_pack_id'];
+                    // $row['merge_pack_id'] = $data[0]['merge_pack_id'];
                 } else if ($data[0]['status'] == "PACKED") {
                     $row['status'] = "MERGING";
-                    $row['merge_pack_id'] = $data[0]['merge_pack_id'];
+                    // $row['merge_pack_id'] = $data[0]['merge_pack_id'];
                 }
             } else {
                 $row['status'] = $data[0]['status'];
-                $row['merge_pack_id'] = $data[0]['merge_pack_id'];
+                // $row['merge_pack_id'] = $data[0]['merge_pack_id'];
             }
             if ($data[0]['label_type'] == "MERGE_NONFULLY") {
                 $row['status'] = "MERGING";
-                $row['merge_pack_id'] = $data[0]['merge_pack_id'];
+                // $row['merge_pack_id'] = $data[0]['merge_pack_id'];
             }
         }
 
@@ -242,6 +242,9 @@ final class LabelUpdater
 
         if (isset($data['lot_id'])) {
             $result['lot_id'] = (string)$data['lot_id'];
+        }
+        if (isset($data['product_id'])) {
+            $result['product_id'] = (string)$data['product_id'];
         }
         if (isset($data['merge_pack_id'])) {
             $result['merge_pack_id'] = (string)$data['merge_pack_id'];
@@ -283,6 +286,7 @@ final class LabelUpdater
         $quantity = (int)$data['quantity'] ?? 1;
         $std_pack = (int)$data['std_pack'] ?? 1;
         $user_id = (int)$data['user_id'] ?? 1;
+        $productId = (int)$data['product_id'] ?? 0;
         $num_packs = ceil($quantity / $std_pack);
         $num_full_packs = floor($quantity / $std_pack);
 
@@ -292,6 +296,7 @@ final class LabelUpdater
             $data1['label_type'] = "MERGE_FULLY";
             $data1['quantity'] = $std_pack;
             $data1['status'] = "CREATED";
+            $data1['product_id'] = $productId;
             $id = $this->insertLabelApi($data1, $user_id);
             $data1['label_no'] = "P" . str_pad($id, 11, "0", STR_PAD_LEFT);
             $this->updateLabelApi($id, $data1, $user_id);
@@ -304,6 +309,7 @@ final class LabelUpdater
             $data1['label_type'] = "MERGE_NONFULLY";
             $data1['quantity'] = $quantity - ($num_full_packs * $std_pack);
             $data1['status'] = "CREATED";
+            $data1['product_id'] = $productId;
             $id = $this->insertLabelApi($data1, $user_id);
             $data1['label_no'] = "P" . str_pad($id, 11, "0", STR_PAD_LEFT);
             $this->updateLabelApi($id, $data1, $user_id);
@@ -324,6 +330,7 @@ final class LabelUpdater
         $lot_id = (int)($data['lot_id'] ?? 1);
         $real_qty = (int)$data['real_qty'] ?? 1;
         $std_pack = (int)$data['std_pack'] ?? 1;
+        $productId = (int)$data['product_id'] ?? 0;
         $user_id = (int)$data['user_id'] ?? 1;
         $num_packs = ceil($real_qty / $std_pack);
         $num_full_packs = floor($real_qty / $std_pack);
@@ -334,6 +341,7 @@ final class LabelUpdater
             $data1['label_type'] = "FULLY";
             $data1['quantity'] = $std_pack;
             $data1['status'] = "CREATED";
+            $data1['product_id'] = $productId;
             $id = $this->insertLabelApi($data1, $user_id);
             $params2['label_id'] = $id;
             $rt1 = $this->finder->findLabels($params2);
@@ -344,6 +352,7 @@ final class LabelUpdater
             $data1['label_type'] = "NONFULLY";
             $data1['quantity'] = $real_qty - ($num_full_packs * $std_pack);
             $data1['status'] = "CREATED";
+            $data1['product_id'] = $productId;
             $id = $this->insertLabelApi($data1, $user_id);
             $params2['label_id'] = $id;
             $rt1 = $this->finder->findLabels($params2);
@@ -361,6 +370,7 @@ final class LabelUpdater
         $quantity1 = (int)$data['quantity1'] ?? 1;
         $quantity2 = (int)$data['quantity2'] ?? 1;
         $user_id = (int)$data['user_id'] ?? 1;
+        $productId = (int)$data['product_id'] ?? 0;
 
         $labels = [];
         if ($label_type == "FULLY" || $label_type == "NONFULLY") {
@@ -368,6 +378,7 @@ final class LabelUpdater
             $data1['label_type'] = "NONFULLY";
             $data1['quantity'] = $quantity1;
             $data1['status'] = "CREATED";
+            $data1['product_id'] = $productId;
             $id = $this->insertLabelApi($data1, $user_id);
             $params2['label_id'] = $id;
             $rt1 = $this->finder->findLabels($params2);
@@ -377,6 +388,7 @@ final class LabelUpdater
             $data1['label_type'] = "NONFULLY";
             $data1['quantity'] = $quantity2;
             $data1['status'] = "CREATED";
+            $data1['product_id'] = $productId;
             $id = $this->insertLabelApi($data1, $user_id);
             $params2['label_id'] = $id;
             $rt1 = $this->finder->findLabels($params2);
@@ -386,6 +398,7 @@ final class LabelUpdater
             $data1['label_type'] = "MERGE_NONFULLY";
             $data1['quantity'] = $quantity1;
             $data1['status'] = "CREATED";
+            $data1['product_id'] = $productId;
             $id = $this->insertLabelApi($data1, $user_id);
             $params2['label_id'] = $id;
             $rt1 = $this->finder->findLabelForLotZero($params2);
@@ -395,6 +408,7 @@ final class LabelUpdater
             $data1['label_type'] = "MERGE_NONFULLY";
             $data1['quantity'] = $quantity2;
             $data1['status'] = "CREATED";
+            $data1['product_id'] = $productId;
             $id = $this->insertLabelApi($data1, $user_id);
             $params2['label_id'] = $id;
             $rt1 = $this->finder->findLabelForLotZero($params2);

@@ -268,6 +268,7 @@ final class MergePackDetailRepository
                 'lb.status',
                 'lb.label_type',
                 'lb_id'=>'lb.id',
+                'lb.product_id',  
             
                 
             ]

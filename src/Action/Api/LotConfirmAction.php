@@ -41,6 +41,7 @@ final class LotConfirmAction
         $lot = $this->finder->findLots($findlot);
 
         if ($lot[0]['status'] == "CREATED") {
+            $params['product_id'] = $lot[0]['product_id'];
             $genLabelSuccess = $this->labelUpdater->genLabelNo($params);
 
             $params['generate_lot_no'] = "L" . str_pad($lotID, 11, "0", STR_PAD_LEFT);

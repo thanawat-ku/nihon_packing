@@ -78,6 +78,7 @@ final class MergeConfirmAction
         $datalabel['std_pack'] = $data['std_pack'];
         $datalabel['quantity'] = $totalQty;
         $datalabel['user_id'] = $user_id;
+        $datalabel['product_id'] = $getMergeDeatil['product_id'];
 
         $this->labelUpdater->genMergeLabel($datalabel);
 

@@ -32,10 +32,10 @@ final class LabelFinder
     {
         return $this->repository->findLabelForMerge($params);
     }
-    public function findLabelForMergeLotZero(array $params): array
-    {
-        return $this->repository->findLabelForMergeLotZero($params);
-    }
+    // public function findLabelForMergeLotZero(array $params): array
+    // {
+    //     return $this->repository->findLabelForMergeLotZero($params);
+    // }
 
     public function findCheckLabels(array $params): array
     {

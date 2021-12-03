@@ -106,6 +106,7 @@ final class TagRepository
                 'tags.status',
                 'part_code',
                 'part_name',
+                'sell_status'
 
 
             ]

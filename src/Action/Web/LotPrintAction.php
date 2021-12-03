@@ -51,13 +51,14 @@ final class LotPrintAction
         $lots = $this->finder->findLots($params);
 
         if ($lots[0]['status'] == "CREATED") {
-            $data['user_id']=$this->session->get('user')["id"];
-            $data['lot_id']=$lotId;
-            $data['real_qty']=$realQty;
-            $data['std_pack']=$lots[0]['std_pack'];
+            $data['user_id'] = $this->session->get('user')["id"];
+            $data['lot_id'] = $lotId;
+            $data['product_id'] = $lots[0]['product_id'];
+            $data['real_qty'] = $realQty;
+            $data['std_pack'] = $lots[0]['std_pack'];
             $this->labelUpdater->genLabelNo($data);
-            $dataLot['status']='PRINTED';
-            $dataLot['real_qty']=$realQty;
+            $dataLot['status'] = "CONFIRM";
+            $dataLot['real_qty'] = $realQty;
             $dataLot['generate_lot_no'] = "L" . str_pad($lotId, 11, "0", STR_PAD_LEFT);
             $dataLot['printed_user_id'] =  $data['user_id'];
 

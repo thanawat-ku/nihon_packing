@@ -1,8 +1,9 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.1.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
+<<<<<<< HEAD
 <<<<<<< HEAD
 -- Generation Time: Dec 01, 2021 at 03:43 PM
 =======
@@ -10,6 +11,11 @@
 >>>>>>> main
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.12
+=======
+-- Generation Time: Dec 02, 2021 at 04:48 PM
+-- Server version: 10.4.19-MariaDB
+-- PHP Version: 8.0.6
+>>>>>>> main
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -361,13 +367,14 @@ INSERT INTO `defects` (`id`, `defect_code`, `defect_description`, `oqc_check`, `
 
 CREATE TABLE `labels` (
   `id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
   `lot_id` int(11) NOT NULL,
   `merge_pack_id` int(11) NOT NULL,
   `split_label_id` int(11) NOT NULL,
   `label_no` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `label_type` enum('FULLY','NONFULLY','MERGE_FULLY','MERGE_NONFULLY') COLLATE utf8mb4_unicode_ci NOT NULL,
   `quantity` int(11) NOT NULL,
-  `status` enum('CREATED','PACKED','USED','VOID','MERGED','MERGING','SELLING') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` enum('CREATED','PACKED','USED','VOID','MERGED','MERGING','SELLING','PRINTED') COLLATE utf8mb4_unicode_ci NOT NULL,
   `is_delete` enum('N','Y') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N',
   `is_print` enum('N','Y') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N',
   `label_void_reason_id` int(11) NOT NULL,
@@ -376,18 +383,6 @@ CREATE TABLE `labels` (
   `updated_at` datetime DEFAULT NULL,
   `updated_user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `labels`
---
-
-INSERT INTO `labels` (`id`, `lot_id`, `merge_pack_id`, `split_label_id`, `label_no`, `label_type`, `quantity`, `status`, `is_delete`, `is_print`, `label_void_reason_id`, `created_at`, `created_user_id`, `updated_at`, `updated_user_id`) VALUES
-(15, 3, 0, 0, 'P00000000015', 'FULLY', 400, 'PACKED', 'N', 'N', 0, '2021-12-01 18:59:28', 1, '2021-12-01 19:07:46', 1),
-(16, 3, 0, 0, 'P00000000016', 'NONFULLY', 200, 'PACKED', 'N', 'N', 0, '2021-12-01 18:59:28', 1, '2021-12-01 19:07:46', 1),
-(17, 1, 0, 0, 'P00000000017', 'FULLY', 150, 'PACKED', 'N', 'N', 0, '2021-12-01 19:29:23', 1, '2021-12-01 19:29:57', 1),
-(18, 1, 0, 0, 'P00000000018', 'FULLY', 150, 'PACKED', 'N', 'N', 0, '2021-12-01 19:29:23', 1, '2021-12-01 19:29:57', 1),
-(19, 1, 0, 0, 'P00000000019', 'FULLY', 150, 'PACKED', 'N', 'N', 0, '2021-12-01 19:29:23', 1, '2021-12-01 19:29:57', 1),
-(20, 1, 0, 0, 'P00000000020', 'NONFULLY', 100, 'PACKED', 'N', 'N', 0, '2021-12-01 19:29:23', 1, '2021-12-01 19:29:57', 1);
 
 -- --------------------------------------------------------
 
@@ -412,11 +407,7 @@ CREATE TABLE `label_void_reasons` (
 INSERT INTO `label_void_reasons` (`id`, `reason_name`, `description`, `created_at`, `created_user_id`, `updated_at`, `updated_user_id`) VALUES
 (1, 'split', 'VOID from split', '2021-10-09 07:44:55', 1, '2021-10-09 07:44:55', 1),
 (2, 'merge', 'VOID from merge', '2021-10-09 07:44:55', 1, '2021-10-09 07:44:55', 1),
-(5, 'Burn merge', 'Burn from merge', '2021-12-01 19:10:41', 1, '2021-12-01 19:14:01', 1),
-(6, 'Burn split', 'Burn from split', '2021-12-01 19:13:52', 1, '2021-12-01 19:22:14', 1),
-(7, 'Broke merge', 'Broke from merge', '2021-12-01 19:21:58', 1, '2021-12-01 19:21:58', 1),
-(8, 'Broke split', 'Broke from split', '2021-12-01 19:23:39', 1, '2021-12-01 19:23:39', 1),
-(9, 'Broke split', 'Broke from split', '2021-12-01 19:23:40', 1, '2021-12-01 19:23:40', 1);
+(5, 'GG', 'EZ', '2021-12-01 22:48:00', 1, '2021-12-01 22:48:00', 1);
 
 -- --------------------------------------------------------
 
@@ -433,7 +424,7 @@ CREATE TABLE `lots` (
   `real_qty` int(11) NOT NULL,
   `printed_user_id` int(11) DEFAULT NULL,
   `packed_user_id` int(11) NOT NULL,
-  `status` enum('CREATED','PRINTED','PACKING','PACKED') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'CREATED',
+  `status` enum('CREATED','CONFIRM','PRINTED','PACKING','PACKED') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'CREATED',
   `issue_date` date NOT NULL,
   `is_delete` enum('N','Y') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N',
   `created_at` datetime DEFAULT NULL,
@@ -447,9 +438,7 @@ CREATE TABLE `lots` (
 --
 
 INSERT INTO `lots` (`id`, `lot_no`, `generate_lot_no`, `product_id`, `quantity`, `real_qty`, `printed_user_id`, `packed_user_id`, `status`, `issue_date`, `is_delete`, `created_at`, `created_user_id`, `updated_at`, `updated_user_id`) VALUES
-(1, 'TL001', 'L00000000001', 174, 600, 550, 1, 1, 'PACKED', '2021-11-30', 'N', '2021-11-30 16:52:10', 1, '2021-12-01 19:29:57', 1),
-(2, 'tl002', NULL, 1, 1000, 0, NULL, 0, 'CREATED', '2021-11-30', 'N', '2021-11-30 17:28:03', 1, '2021-12-01 11:38:51', 1),
-(3, 'tl003', 'L00000000003', 1, 500, 600, 1, 1, 'PACKED', '2021-11-30', 'N', '2021-11-30 17:36:36', 1, '2021-12-01 19:07:46', 1);
+(1, 'GG', 'L00000000001', 1, 20, 20, 1, 1, 'CONFIRM', '2021-12-01', 'N', '2021-12-01 16:48:36', 0, '2021-12-02 22:33:10', 1);
 
 -- --------------------------------------------------------
 
@@ -467,14 +456,6 @@ CREATE TABLE `lot_defects` (
   `updated_at` datetime NOT NULL,
   `updated_user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `lot_defects`
---
-
-INSERT INTO `lot_defects` (`id`, `lot_id`, `defect_id`, `quantity`, `created_at`, `created_user_id`, `updated_at`, `updated_user_id`) VALUES
-(4, 3, 8, 0, '2021-12-01 11:46:22', 1, '2021-12-01 11:46:22', 1),
-(5, 1, 15, 4, '2021-12-01 19:28:56', 1, '2021-12-01 19:28:56', 1);
 
 -- --------------------------------------------------------
 
@@ -494,6 +475,13 @@ CREATE TABLE `merge_packs` (
   `updated_at` datetime DEFAULT NULL,
   `updated_user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `merge_packs`
+--
+
+INSERT INTO `merge_packs` (`id`, `merge_no`, `product_id`, `merge_status`, `merge_date`, `is_delete`, `created_at`, `created_user_id`, `updated_at`, `updated_user_id`) VALUES
+(1, 'M00000000001', 2909, 'CREATED', '2021-12-01', 'N', '2021-12-01 23:06:34', 1, '2021-12-01 23:06:39', 1);
 
 -- --------------------------------------------------------
 
@@ -4695,20 +4683,13 @@ CREATE TABLE `scraps` (
   `id` int(11) NOT NULL,
   `scrap_no` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
   `scrap_date` date NOT NULL,
-  `scrap_status` enum('CREATED','CONFIRMED','REJECTED','ACCEPTED') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `scrap_status` enum('CREATED','CONFIRMED','REJECTED') COLLATE utf8mb4_unicode_ci NOT NULL,
   `is_delete` enum('N','Y') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N',
   `created_at` datetime NOT NULL,
   `created_user_id` int(11) NOT NULL,
   `updated_at` datetime NOT NULL,
   `updated_user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `scraps`
---
-
-INSERT INTO `scraps` (`id`, `scrap_no`, `scrap_date`, `scrap_status`, `is_delete`, `created_at`, `created_user_id`, `updated_at`, `updated_user_id`) VALUES
-(1, 'SC0000000001', '2021-12-01', 'CREATED', 'N', '2021-12-01 19:51:38', 1, '2021-12-01 19:51:38', 1);
 
 -- --------------------------------------------------------
 
@@ -4728,13 +4709,6 @@ CREATE TABLE `scrap_details` (
   `updated_at` datetime NOT NULL,
   `updated_user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `scrap_details`
---
-
-INSERT INTO `scrap_details` (`id`, `scrap_id`, `section_id`, `product_id`, `defect_id`, `quantity`, `created_at`, `created_user_id`, `updated_at`, `updated_user_id`) VALUES
-(1, 1, 12, 2913, 17, 5, '2021-12-01 19:52:04', 1, '2021-12-01 19:52:04', 1);
 
 -- --------------------------------------------------------
 
@@ -4962,7 +4936,7 @@ CREATE TABLE `tags` (
   `is_print` enum('N','Y') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N',
   `status` enum('CREATED','BOXED','SHIPPED','VOID') COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` datetime NOT NULL,
-  `created_user_id` int(11) NOT NULL,
+  `create_user_id` int(11) NOT NULL,
   `updated_at` datetime NOT NULL,
   `updated_user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -5154,31 +5128,31 @@ ALTER TABLE `defects`
 -- AUTO_INCREMENT for table `labels`
 --
 ALTER TABLE `labels`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `label_void_reasons`
 --
 ALTER TABLE `label_void_reasons`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `lots`
 --
 ALTER TABLE `lots`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `lot_defects`
 --
 ALTER TABLE `lot_defects`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `merge_packs`
 --
 ALTER TABLE `merge_packs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `merge_pack_details`
@@ -5190,13 +5164,13 @@ ALTER TABLE `merge_pack_details`
 -- AUTO_INCREMENT for table `scraps`
 --
 ALTER TABLE `scraps`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `scrap_details`
 --
 ALTER TABLE `scrap_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `sections`

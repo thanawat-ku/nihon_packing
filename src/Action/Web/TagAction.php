@@ -1,33 +1,37 @@
 <?php
 
-namespace App\Action\Api;
+namespace App\Action\Web;
 
-use App\Domain\Product\Service\ProductFinder;
+use App\Domain\Tag\Service\TagFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Slim\Views\Twig;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * Action.
  */
-final class ProductAction
+final class TagAction
 {
     /**
      * @var Responder
      */
     private $responder;
-    private $productFinder;
-    
+    private $twig;
+    private $tagFinder;
+    private $session;
 
     /**
      * The constructor.
      *
      * @param Responder $responder The responder
      */
-    public function __construct(ProductFinder $productFinder,Responder $responder)
+    public function __construct(Twig $twig,TagFinder $tagFinder,Session $session,Responder $responder)
     {
-        
-        $this->productFinder=$productFinder;
+        $this->twig = $twig;
+        $this->tagFinder=$tagFinder;
+        $this->session=$session;
         $this->responder = $responder;
     }
 
@@ -41,14 +45,13 @@ final class ProductAction
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-
         $params = (array)$request->getQueryParams();
         
-        $rtdata['message']="Get Product Successful";
-        $rtdata['error']=false;
-        $rtdata['products']=$this->productFinder->findProducts($params);
+        $viewData = [
+            'tags' => $this->tagFinder->findTags($params),
+            'user_login' => $this->session->get('user'),
+        ];
 
-        return $this->responder->withJson($response, $rtdata);
-
+        return $this->twig->render($response, 'web/tags.twig',$viewData);
     }
 }

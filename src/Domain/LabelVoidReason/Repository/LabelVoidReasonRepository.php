@@ -27,11 +27,27 @@ final class LabelVoidReasonRepository
 
         return (int)$this->queryFactory->newInsert('label_void_reasons', $row)->execute()->lastInsertId();
     }
+    public function insertLabelVoidReasonApi(array $row, $user_id): int
+    {
+        $row['created_at'] = Chronos::now()->toDateTimeString();
+        $row['created_user_id'] = $user_id;
+        $row['updated_at'] = Chronos::now()->toDateTimeString();
+        $row['updated_user_id'] = $user_id;
+
+        return (int)$this->queryFactory->newInsert('label_void_reasons', $row)->execute()->lastInsertId();
+    }
 
     public function updateLabelVoidReason(int $voidReasonId, array $data): void
     {
         $data['updated_at'] = Chronos::now()->toDateTimeString();
         $data['updated_user_id'] = $this->session->get('user')["id"];
+
+        $this->queryFactory->newUpdate('label_void_reasons', $data)->andWhere(['id' => $voidReasonId])->execute();
+    }
+    public function updateLabelVoidReasonApi(int $voidReasonId, array $data,  $user_id): void
+    {
+        $data['updated_at'] = Chronos::now()->toDateTimeString();
+        $data['updated_user_id'] =  $user_id;
 
         $this->queryFactory->newUpdate('label_void_reasons', $data)->andWhere(['id' => $voidReasonId])->execute();
     }

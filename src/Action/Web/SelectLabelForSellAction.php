@@ -35,6 +35,8 @@ final class  SelectLabelForSellAction
         $sellID=(int)$data['sell_id'];
         $data['check_sell_label']=true;
 
+        $data['find_label_for_sell'] = "PACKED"; 
+
         $labels=[];
         $labelFromLot = $this->finder->findCreateMergeNoFromLabels($data);
         array_push($labels,$labelFromLot);

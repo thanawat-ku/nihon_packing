@@ -10,10 +10,10 @@ function editScrapDetail(event){
     console.log(scrapDetail);
     var obj = JSON.parse(scrapDetail);
     $("#editScrapDetailID").val(obj.id);
-    $("#editSectionID").val(obj.section_id);
-    $("#editProductID").val(obj.product_id);
-    $("#editDefectID").val(obj.defact_id);
-    $("#editDefectCode").val(obj.defect_code);
+    $("#editSectionID").selectpicker('val',obj.section_id);
+    $("#editProductID").selectpicker('val',obj.product_id);
+    $("#editDefectID").selectpicker('val',obj.defact_id);
+    $("#editDefectCode").selectpicker('val',obj.defect_code);
     $("#editDefectDescription").val(obj.defect_description);
     $("#editSectionName").val(obj.section_name);
     $("#editQuantity").val(obj.scrap_detail_qty);

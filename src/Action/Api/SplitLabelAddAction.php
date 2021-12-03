@@ -51,6 +51,7 @@ final class SplitLabelAddAction
         $labelID = $params['label_id'];
 
         $label =  $this->labelFinder->findLabelSingleTable($params);
+        
         //validate data for split
         if ($label[0]['status'] == "PACKED") {
             $splitID = $this->updater->insertSplitLabelApi($params, $user_id);
@@ -60,7 +61,7 @@ final class SplitLabelAddAction
             $dataLabel['status'] = "VOID";
 
             $this->updaterLabel->updateLabelApi($labelID, $dataLabel, $user_id);
-
+            $params['product_id'] = $label[0]['product_id'];
             $labelDetail = $this->updaterLabel->genSplitLabel($params);
 
             for ($i = 0; $i < sizeof($labelDetail); $i++) {
