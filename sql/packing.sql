@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.0
+-- version 5.0.4
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 02, 2021 at 04:48 PM
--- Server version: 10.4.19-MariaDB
--- PHP Version: 8.0.6
+-- Generation Time: Dec 04, 2021 at 08:38 AM
+-- Server version: 10.4.17-MariaDB
+-- PHP Version: 8.0.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -396,8 +396,7 @@ CREATE TABLE `label_void_reasons` (
 
 INSERT INTO `label_void_reasons` (`id`, `reason_name`, `description`, `created_at`, `created_user_id`, `updated_at`, `updated_user_id`) VALUES
 (1, 'split', 'VOID from split', '2021-10-09 07:44:55', 1, '2021-10-09 07:44:55', 1),
-(2, 'merge', 'VOID from merge', '2021-10-09 07:44:55', 1, '2021-10-09 07:44:55', 1),
-(5, 'GG', 'EZ', '2021-12-01 22:48:00', 1, '2021-12-01 22:48:00', 1);
+(2, 'merge', 'VOID from merge', '2021-10-09 07:44:55', 1, '2021-10-09 07:44:55', 1);
 
 -- --------------------------------------------------------
 
@@ -422,13 +421,6 @@ CREATE TABLE `lots` (
   `updated_at` datetime DEFAULT NULL,
   `updated_user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `lots`
---
-
-INSERT INTO `lots` (`id`, `lot_no`, `generate_lot_no`, `product_id`, `quantity`, `real_qty`, `printed_user_id`, `packed_user_id`, `status`, `issue_date`, `is_delete`, `created_at`, `created_user_id`, `updated_at`, `updated_user_id`) VALUES
-(1, 'GG', 'L00000000001', 1, 20, 20, 1, 1, 'CONFIRM', '2021-12-01', 'N', '2021-12-01 16:48:36', 0, '2021-12-02 22:33:10', 1);
 
 -- --------------------------------------------------------
 
@@ -465,13 +457,6 @@ CREATE TABLE `merge_packs` (
   `updated_at` datetime DEFAULT NULL,
   `updated_user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `merge_packs`
---
-
-INSERT INTO `merge_packs` (`id`, `merge_no`, `product_id`, `merge_status`, `merge_date`, `is_delete`, `created_at`, `created_user_id`, `updated_at`, `updated_user_id`) VALUES
-(1, 'M00000000001', 2909, 'CREATED', '2021-12-01', 'N', '2021-12-01 23:06:34', 1, '2021-12-01 23:06:39', 1);
 
 -- --------------------------------------------------------
 
@@ -4661,7 +4646,11 @@ INSERT INTO `products` (`id`, `part_no`, `part_name`, `part_code`, `customer_id`
 (5061, 'FA1-F665-001', 'SHAFT', 'CHTF665-S', 3, 5, 10, 'N', '2021-11-27 18:44:24', 1, '2021-11-27 18:44:24', 1),
 (5062, 'FA1-G223-001', 'SHAFT', 'CHTG223-S', 3, 5, 10, 'N', '2021-11-27 18:44:24', 1, '2021-11-27 18:44:24', 1),
 (5063, 'STA02 11301', 'PLUNGER', 'ATA11301-1', 137, 100, 1000, 'N', '2021-11-27 18:44:24', 1, '2021-11-27 18:44:24', 1),
-(5064, 'FE2-T019-000 (REV.002)', 'SHAFT_PAPER PICK-UP DRIVE', 'NSTT019', 207, 100, 1000, 'N', '2021-11-27 18:44:24', 1, '2021-11-27 18:44:24', 1);
+(5064, 'FE2-T019-000 (REV.002)', 'SHAFT_PAPER PICK-UP DRIVE', 'NSTT019', 207, 100, 1000, 'N', '2021-11-27 18:44:24', 1, '2021-11-27 18:44:24', 1),
+(5065, 'FL4-6960-000 (REV.003)', 'SHAFT_PAPER PICK-UP DRIVE_FL', 'CPT6960', 148, 100, 1000, 'N', '2021-12-03 16:10:46', 1, '2021-12-03 16:10:46', 1),
+(5067, 'QC6-8771-000 (ER1-3444)', 'BATTERY LOCK SCREW C201', 'CRA8771-S2', 128, 100, 2000, 'N', '2021-12-03 16:10:46', 1, '2021-12-03 16:10:46', 1),
+(5068, 'FC1M20-0028/04-1', 'BUSH', 'MTC0028-S1', 25, 0, 0, 'N', '2021-12-03 16:10:46', 1, '2021-12-03 16:10:46', 1),
+(5069, 'QC7-3583-000 (HIS007)', 'DRIVE SHAFT HOLD LEVER J216', 'CHT3583-S3', 3, 5, 5, 'N', '2021-12-03 16:10:46', 1, '2021-12-03 16:10:46', 1);
 
 -- --------------------------------------------------------
 
@@ -4673,13 +4662,26 @@ CREATE TABLE `scraps` (
   `id` int(11) NOT NULL,
   `scrap_no` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
   `scrap_date` date NOT NULL,
-  `scrap_status` enum('CREATED','CONFIRMED','REJECTED') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `scrap_status` enum('CREATED','CONFIRMED','REJECTED','ACCEPTED') COLLATE utf8mb4_unicode_ci NOT NULL,
   `is_delete` enum('N','Y') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N',
   `created_at` datetime NOT NULL,
   `created_user_id` int(11) NOT NULL,
   `updated_at` datetime NOT NULL,
   `updated_user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `scraps`
+--
+
+INSERT INTO `scraps` (`id`, `scrap_no`, `scrap_date`, `scrap_status`, `is_delete`, `created_at`, `created_user_id`, `updated_at`, `updated_user_id`) VALUES
+(1, 'SC0000000001', '2021-12-03', 'ACCEPTED', 'N', '2021-12-03 16:48:50', 1, '2021-12-03 17:48:48', 1),
+(2, 'SC0000000002', '2021-12-24', 'REJECTED', 'N', '2021-12-03 17:20:52', 1, '2021-12-03 18:54:56', 1),
+(3, 'SC0000000003', '2021-12-02', 'CREATED', 'Y', '2021-12-03 17:52:10', 1, '2021-12-03 18:26:27', 1),
+(4, 'SC0000000004', '2022-01-05', 'CONFIRMED', 'N', '2021-12-03 17:52:31', 1, '2021-12-03 18:04:29', 1),
+(5, 'SC0000000005', '0000-00-00', 'CREATED', 'N', '2021-12-03 18:12:40', 1, '2021-12-03 18:25:01', 1),
+(6, 'SC0000000006', '2021-12-03', 'ACCEPTED', 'N', '2021-12-03 18:26:31', 1, '2021-12-03 18:30:47', 1),
+(7, 'SC0000000007', '2021-11-30', 'ACCEPTED', 'N', '2021-12-03 18:36:51', 1, '2021-12-03 18:57:52', 1);
 
 -- --------------------------------------------------------
 
@@ -4924,9 +4926,9 @@ CREATE TABLE `tags` (
   `box_no` int(11) NOT NULL,
   `total_box` int(11) NOT NULL,
   `is_print` enum('N','Y') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N',
-  `status` enum('CREATED','BOXED','SHIPPED','VOID') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` enum('CREATED','PRINTED','BOXED') COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` datetime NOT NULL,
-  `create_user_id` int(11) NOT NULL,
+  `created_user_id` int(11) NOT NULL,
   `updated_at` datetime NOT NULL,
   `updated_user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -5130,7 +5132,7 @@ ALTER TABLE `label_void_reasons`
 -- AUTO_INCREMENT for table `lots`
 --
 ALTER TABLE `lots`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `lot_defects`
@@ -5142,7 +5144,7 @@ ALTER TABLE `lot_defects`
 -- AUTO_INCREMENT for table `merge_packs`
 --
 ALTER TABLE `merge_packs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `merge_pack_details`
@@ -5154,7 +5156,7 @@ ALTER TABLE `merge_pack_details`
 -- AUTO_INCREMENT for table `scraps`
 --
 ALTER TABLE `scraps`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `scrap_details`
