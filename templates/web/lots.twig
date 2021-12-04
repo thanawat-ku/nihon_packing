@@ -54,9 +54,9 @@
                         <a href="lot_defect_detail?id={{lot.id}}"><button type="button" class="btn btn-info btn-sm" data-toggle="modal" ><i style="font-size:15px; width:20px;" class="fas fa-tools"></i></button></a>
                         <button type="button" id="printBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#printLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-print"></i></button>
                         {% endif %}
-                        {% if lot.status == "PRINTED" %}
-                        <button type="button" id="registerBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#registerLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-check-circle"></i></button>
-                        {% endif %}
+                        {# {% if lot.status == "PRINTED" %}
+                          <button type="button" id="registerBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#registerLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-check-circle"></i></button>
+                        {% endif %} #}
                         {% if lot.status != "CREATED" %}
                         <a href="label_lot?id={{lot.id}}"><button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" ><i style="font-size:15px; width:20px;" class="fas fa-info-circle"></i></button></a> 
                         {% endif %}
@@ -136,7 +136,7 @@
   </div>
 </div>
 
-<!--regiserLot-->
+{# <!--regiserLot-->
 <div class="modal fade" id="registerLot">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
@@ -162,7 +162,7 @@
       </form>
     </div>
   </div>
-</div>
+</div> #}
 
 <!-- Modal edit lot -->
 <div class="modal fade" id="editLot">

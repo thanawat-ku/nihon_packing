@@ -398,6 +398,9 @@ final class LabelRepository
         if (isset($params['label_id'])) {
             $query->andWhere(['id' => $params['label_id']]);
         }
+        if (isset($params['lot_id'])) {
+            $query->andWhere(['lot_id' => $params['lot_id']]);
+        }
         $query->andWhere(['labels.is_delete' => 'N']);
         return $query->execute()->fetchAll('assoc') ?: [];
     }

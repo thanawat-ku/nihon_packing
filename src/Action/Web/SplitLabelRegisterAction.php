@@ -61,7 +61,7 @@ final class  SplitLabelRegisterAction
 
             if ($label[0]['status'] == "PRINTED") {
                 $checkLabelPrinted++;
-                array_push($labels, $label[$i]);
+                array_push($labels, $label[0]);
             }
         }
 

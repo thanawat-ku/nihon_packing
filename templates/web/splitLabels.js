@@ -18,14 +18,14 @@ function deleteSplitLabel(event) {
     $("#deleteSplitNo").text(obj.split_label_no);
 }
 
-function registerLabel(event) {
-    let lot = event.currentTarget.name;
-    console.log(lot);
-    var obj = JSON.parse(lot);
-    $("#registerSpId").val(obj.id);
-    $("#registerSpNo").text(obj.split_label_no);
+// function registerLabel(event) {
+//     let lot = event.currentTarget.name;
+//     console.log(lot);
+//     var obj = JSON.parse(lot);
+//     $("#registerSpId").val(obj.id);
+//     $("#registerSpNo").text(obj.split_label_no);
 
-}
+// }
 
 $(document).on(
     "click",

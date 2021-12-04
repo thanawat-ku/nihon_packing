@@ -45,8 +45,20 @@ final class  LotLabelAction
         $lot =  $this->lotFinder->findLots($params);
         $labels = $this->finder->findLabels($params);
 
+        $checkLabelPrinted = 0;
+        for ($i = 0; $i < sizeof($labels); $i++) {
+            if ($labels[$i]['status'] == "PRINTED") {
+                $checkLabelPrinted++;
+            }
+        }
+
         if (isset($lot[0]['lot_no'])) {
             $lot = $lot[0];
+            if (sizeof($labels) ==  $checkLabelPrinted) {
+                $lot['register'] = "Y";
+            } else {
+                $lot['register'] = "N";
+            }
         } else {
             $lot = "error";
         }
