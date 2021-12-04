@@ -45,15 +45,12 @@ final class SplitLabelRegisterAction
     {
         $params = (array)$request->getParsedBody();
         $user_id = $params["user_id"];
-        $data['split_label_id'] = $params['split_label_id'];
         $DataLabel['label_id'] = $params['label_id'];
-        if ($data['split_label_id'] == "0") {
-            $getSpID =  $this->finder->findSplitLabelDetailsForscan($DataLabel);
-            $data['split_label_id'] = $getSpID[0]['split_label_id'];
-            $findDetail = $this->finder->findSplitLabelDetails($data);
-        } else {
-            $findDetail = $this->finder->findSplitLabelDetails($data);
-        }
+
+        $getSpID =  $this->finder->findSplitLabelDetailsForscan($DataLabel);
+        $data['split_label_id'] = $getSpID[0]['split_label_id'];
+        $findDetail = $this->finder->findSplitLabelDetails($data);
+
 
         $labels = [];
 
