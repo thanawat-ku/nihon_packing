@@ -29,95 +29,116 @@
 						<i style="font-size:15px; width:20px;" class="fas fa-check"></i>Confirm
 					</button>
 				{% endif %}
-			<hr>
-			<div>
-				<h5>{{ sellRow.sell_no  ~ '(' ~ sellRow.sell_status ~ ')'}}
-				</h5>
-				<span>{{sellRow.part_name ~ '(' ~ sellRow.part_code ~ ')'}}</span><br>
-				<span>{{'Sell Date: ' ~ sellRow.sell_date}}</span><br>
-				<span>{{'Total Quantity: ' ~ sellRow.total_qty ~ '/' ~ totalQtyLabelsell[0]}}</span>
-			</div>
-			<hr>
-			<table id="my-data-table" class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline collapsed">
-				<thead>
-					<tr>
-						<th>Label No</th>
-						<th>Due Date</th>
-						<th>LotNO/MergeNo</th>
-						<th>Quantity</th>
-						<th>Label Type</th>
-						{% if sellRow.sell_status != "SELECTED_LABEL" %}
-							<th>Operation</th>
-						{% endif %}
-					</tr>
-				</thead>
-				<tbody>
-					{% for selllabel in sellLabels[0] %}
-						<tr>
+				<hr>
+				<div>
+					<h5>{{ sellRow.sell_no  ~ '(' ~ sellRow.sell_status ~ ')'}}
+					</h5>
+					<span>{{sellRow.part_name ~ '(' ~ sellRow.part_code ~ ')'}}</span><br>
+					<span>{{'Sell Date: ' ~ sellRow.sell_date}}</span><br>
+					{% if checkSellQty == "lesser" %}
+						<span>Total Quantity: </span>
+						<span>{{sellRow.total_qty}}</span>
+						<span>/</span>
+						<span>{{totalQtyLabelsell[0]}}</span>
+					{% elseif checkSellQty == "aqual" %}
+						<span>Total Quantity: </span>
+						<span style="color:Chartreuse">{{sellRow.total_qty}}</span>
+						<span style="color:Chartreuse">/</span>
+						<span style="color:Chartreuse">{{totalQtyLabelsell[0]}}</span>
+					{% elseif checkSellQty == "over" %}
+						<span>Total Quantity: </span>
+						<span>{{sellRow.total_qty}}</span>
+						<span>/</span>
+						<span style="color:red">{{totalQtyLabelsell[0]}}</span>
+					{% endif %}
 
-							<td>{{ selllabel.label_no }}</td>
-							<td>{{ selllabel.issue_date }}</td>
-							<td>{{ selllabel.lot_no }}</td>
-							<td>{{ selllabel.quantity}}</td>
-							<td>{{ selllabel.label_type}}</td>
-							{% if sellRow.sell_status != "SELECTED_LABEL" %}
-								<td>
-									<button type="button" id="removeBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#removeSellLabels" name="{{ selllabel|json_encode }}">
-										<i style="font-size:15px; width:20px;" class="fas fa-trash"></i>
-									</button>
-								</td>
-							{% endif %}
-						</tr>
-					{% endfor %}
-					{% for selllabel in sellLabels[1] %}
+				</div>
+				<hr>
+				<table id="my-data-table" class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline collapsed">
+					<thead>
 						<tr>
-							<td>{{ selllabel.label_no }}</td>
-							<td>{{ selllabel.merge_date }}</td>
-							<td>{{ selllabel.merge_no }}</td>
-							<td>{{ selllabel.quantity}}</td>
-							<td>{{ selllabel.label_type}}</td>
+							<th>Label No</th>
+							<th>Due Date</th>
+							<th>LotNO/MergeNo</th>
+							<th>Quantity</th>
+							<th>Label Type</th>
 							{% if sellRow.sell_status != "SELECTED_LABEL" %}
-								<td>
-									<button type="button" id="removeBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#removeSellLabels" name="{{ selllabel|json_encode }}">
-										<i style="font-size:15px; width:20px;" class="fas fa-trash"></i>
-									</button>
-								</td>
+								<th>Operation</th>
 							{% endif %}
 						</tr>
-					{% endfor %}
-				</tbody>
-				<tfoot></tfoot>
-			</table>
-			<form id="form-black" class="form-inline float-none" action="sells" method="get">
-				<button type="submit" class="btn btn-primary" id="black">
-					<i class="fas fa-arrow-left"></i>
-					Back</button>
-			</form>
-			<p></p>
+					</thead>
+					<tbody>
+						{% for selllabel in sellLabels[0] %}
+							<tr>
+
+								<td>{{ selllabel.label_no }}</td>
+								<td>{{ selllabel.issue_date }}</td>
+								<td>{{ selllabel.lot_no }}</td>
+								<td>{{ selllabel.quantity}}</td>
+								<td>{{ selllabel.label_type}}</td>
+								{% if sellRow.sell_status != "SELECTED_LABEL" %}
+									<td>
+										<button type="button" id="removeBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#removeSellLabels" name="{{ selllabel|json_encode }}">
+											<i style="font-size:15px; width:20px;" class="fas fa-trash"></i>
+										</button>
+									</td>
+								{% endif %}
+							</tr>
+						{% endfor %}
+						{% for selllabel in sellLabels[1] %}
+							<tr>
+								<td>{{ selllabel.label_no }}</td>
+								<td>{{ selllabel.merge_date }}</td>
+								<td>{{ selllabel.merge_no }}</td>
+								<td>{{ selllabel.quantity}}</td>
+								<td>{{ selllabel.label_type}}</td>
+								{% if sellRow.sell_status != "SELECTED_LABEL" %}
+									<td>
+										<button type="button" id="removeBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#removeSellLabels" name="{{ selllabel|json_encode }}">
+											<i style="font-size:15px; width:20px;" class="fas fa-trash"></i>
+										</button>
+									</td>
+								{% endif %}
+							</tr>
+						{% endfor %}
+					</tbody>
+					<tfoot></tfoot>
+				</table>
+				<form id="form-black" class="form-inline float-none" action="sells" method="get">
+					<button type="submit" class="btn btn-primary" id="black">
+						<i class="fas fa-arrow-left"></i>
+						Back</button>
+				</form>
+				<p></p>
+			</div>
 		</div>
 	</div>
-</div>
 
-<!-- Modal Remove Label No Sell -->
-<div class="modal fade" id="removeSellLabels">
-	<div class="modal-dialog modal-dialog-centered">
-		<div class="modal-content">
-			<form
-				id="form-removeSellLabels" action="remove_sell_label" method="post">
-				<!-- Modal Header -->
-				<div class="modal-header">
-					<h4 class="modal-title">Delete label</h4>
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-				</div>
-				<!-- Modal body -->
-				<div class="modal-body">
-					<div class="form-sell">
-						<input type="hidden" id="removeLabelID" name="id">
-						<input type="hidden" id="addSellID" name="sell_id" value="{{sellRow.id}}">
-						<label for="sellNo">Do you want to delete Label No:
-							<span id="removeLabelNo"></span>
+	<!-- Modal Remove Label No Sell -->
+	<div class="modal fade" id="removeSellLabels">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<form
+					id="form-removeSellLabels" action="remove_sell_label" method="post">
+					<!-- Modal Header -->
+					<div class="modal-header">
+						<h4 class="modal-title">Delete label</h4>
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					<!-- Modal body -->
+					<div class="modal-body">
+						<div class="form-sell">
+							<input type="hidden" id="removeLabelID" name="id">
+							<input type="hidden" id="addSellID" name="sell_id" value="{{sellRow.id}}">
+							<label for="sellNo">Do you want to delete Label No:
+								<span id="removeLabelNo"></span>
+							</label>
 						</div>
-
+						<div class="form-sell">
+							<label for="sellNo">Quantity:
+								<span id="removeQuantity"></span>
+							</label>
+						</div>
 					</div>
 					<div class="modal-footer">
 						<button type="submit" class="btn btn-danger">Delete</button>
@@ -147,18 +168,20 @@
 								<span id="removeLabelNo"></span>
 							</div>
 							<div class="form-sell">
-								<label for="sellNo">Total Quantity:
+								<label for="sellNo">Total Quantity: 
 									{{sellRow.total_qty}}
 									<span id="removeLabelNo"></span>
-								</div>
+								</label>
 							</div>
-							<div class="modal-footer">
-								<button type="submit" class="btn btn-success">Confirm</button>
-								<button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
-							</div>
-						</form>
-					</div>
+						</div>
+						<div class="modal-footer">
+							<button type="submit" class="btn btn-success">Confirm</button>
+							<button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+						</div>
+					</form>
 				</div>
 			</div>
+		</div>
 
-		{% endblock %}
+
+	{% endblock %}

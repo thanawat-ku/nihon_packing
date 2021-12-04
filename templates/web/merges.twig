@@ -42,9 +42,9 @@
                         <td>{{ merge.merge_status }}</td>
                         <td>{{ merge.std_pack ~ '/' ~ merge.std_box }}</td>
                         <td>
-                        {% if merge.merge_status == "MERGED"%}
+                        {# {% if merge.merge_status == "MERGED"%}
                         <button type="button" id="registerBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#registerMerge" name="{{ merge|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-check-circle"></i></button>
-                        {% endif %}
+                        {% endif %} #}
                         <a href="merge_detail?id={{merge.id}}"><button type="button" class="btn btn-success btn-sm" data-toggle="modal" ><i style="font-size:15px; width:20px;" class="fas fa-folder-open"></i></button></a>
                         {% if (merge.merge_status == "REGISTERING") or (merge.merge_status == "COMPLETE") or (merge.merge_status == "MERGED") %}
                         <a href="label_merge_news?id={{merge.id}}"><button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" ><i style="font-size:15px; width:20px; " class="fas fa-info-circle"></i></button></a>  <!-- detail icon color:gray; -->
@@ -79,7 +79,7 @@
         <!-- Modal body -->
         <div class="modal-body">          
           <div class="form-product">
-            <label for="email"> Input LabelNo</label>
+            <label for="email"> Input Label No</label>
           </div>
           <div class="form-product">
             <input type="text" autocomplete="off" class="form-control" id="labelNo" name="label_no" required>
@@ -95,7 +95,7 @@
 </div>
 
 
-<!-- Modal Register Merge -->
+{# <!-- Modal Register Merge -->
 <div class="modal fade" id="registerMerge">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
@@ -121,7 +121,7 @@
       </form>
     </div>
   </div>
-</div>
+</div> #}
 
 <!-- Modal Delete Merge -->
 <div class="modal fade" id="deleteMerge">

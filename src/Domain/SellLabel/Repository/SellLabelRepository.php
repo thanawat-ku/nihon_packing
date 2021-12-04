@@ -59,6 +59,8 @@ final class SellLabelRepository
                 'sell_date',
                 'lb.quantity',
                 'label_type',
+                'std_pack',
+                'std_box',
                 // 'part_name',
                 // 'part_code'
             ]
@@ -80,9 +82,18 @@ final class SellLabelRepository
             ]
         ]);
 
-        if(isset($params['sell_id'])){
+        $query->join([
+            'p' => [
+                'table' => 'products',
+                'type' => 'INNER',
+                'conditions' => 'p.id = lb.product_id',
+            ]
+        ]);
+
+        if (isset($params['sell_id'])) {
             $query->Where(['s.id' => $params["sell_id"]]);
-        }if(isset($params['id'])){
+        }
+        if (isset($params['id'])) {
             $query->Where(['sell_labels.id' => $params["id"]]);
         }
 
@@ -138,7 +149,7 @@ final class SellLabelRepository
 
         $query->andWhere(['l.is_delete' => 'N']);
 
-        if(isset($params['sell_id'])){
+        if (isset($params['sell_id'])) {
             $query->Where(['sell_labels.sell_id' => $params["sell_id"]]);
         }
 
@@ -160,7 +171,7 @@ final class SellLabelRepository
                 'label_type',
                 'p.part_name',
                 'part_code',
-                'product_id',
+                'mp.product_id',
                 'p.std_pack',
                 'p.std_box',
                 'merge_no',
@@ -192,7 +203,7 @@ final class SellLabelRepository
             ]
         ]);
 
-        if(isset($params['sell_id'])){
+        if (isset($params['sell_id'])) {
             $query->Where(['sell_labels.sell_id' => $params["sell_id"]]);
         }
 

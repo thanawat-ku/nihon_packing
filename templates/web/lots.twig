@@ -39,7 +39,7 @@
                     {% for lot in lots %}                    
                     <tr>
                         {% if lot.status == "CREATED" %}
-                        <td>{{ lot.lot_no }}</td>
+                        <td>{{ lot.generate_lot_no }}</td>
                         {% endif %}
                         {% if lot.status != "CREATED" %}
                         <td>{{ lot.generate_lot_no }}</td>
@@ -54,9 +54,9 @@
                         <a href="lot_defect_detail?id={{lot.id}}"><button type="button" class="btn btn-info btn-sm" data-toggle="modal" ><i style="font-size:15px; width:20px;" class="fas fa-tools"></i></button></a>
                         <button type="button" id="printBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#printLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-print"></i></button>
                         {% endif %}
-                        {% if lot.status == "PRINTED" %}
-                        <button type="button" id="registerBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#registerLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-check-circle"></i></button>
-                        {% endif %}
+                        {# {% if lot.status == "PRINTED" %}
+                          <button type="button" id="registerBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#registerLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-check-circle"></i></button>
+                        {% endif %} #}
                         {% if lot.status != "CREATED" %}
                         <a href="label_lot?id={{lot.id}}"><button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" ><i style="font-size:15px; width:20px;" class="fas fa-info-circle"></i></button></a> 
                         {% endif %}
@@ -94,7 +94,7 @@
           </div>              
         </div>
         <div class="modal-footer">
-          <button type="submit" id="confirmPrintLotBt" class="btn btn-info " data-toggle="modal" data-target="#confirmPrintLot" data-dismiss="modal" ></i> Comfirm</button> 
+          <button type="submit" id="confirmPrintLotBt" class="btn btn-info " data-toggle="modal" data-target="#confirmPrintLot" data-dismiss="modal" ></i> Confirm</button> 
           <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
         </div>
       </form>
@@ -121,7 +121,7 @@
             <label for="lotNo">Real Quantity is: <span id="confirmRealQty">xxx</span></label></label>
           </div>
           <div>
-            <label for="lotNo">Do you want to print Labels of Lot: <span id="printLotNo">xxx</span> ?</label>   
+            <label for="lotNo">Do you want to create Labels of Lot: <span id="printLotNo">xxx</span> ?</label>   
           </div> 
           <div class="form-spec">
           <label for="lotNo">    <span id="spec">  </span></label>
@@ -136,7 +136,7 @@
   </div>
 </div>
 
-<!--regiserLot-->
+{# <!--regiserLot-->
 <div class="modal fade" id="registerLot">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
@@ -162,7 +162,7 @@
       </form>
     </div>
   </div>
-</div>
+</div> #}
 
 <!-- Modal edit lot -->
 <div class="modal fade" id="editLot">

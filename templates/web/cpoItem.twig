@@ -136,8 +136,12 @@
 							<input type="hidden" id="#" name="sell_id" value="{{sellRow.id}}">
 							<label for="sellNo">Do you want to delete Cpo No:
 								<span id="deleteCpoNo"></span>
-								<span></span>
 								<span id="deleteCpoItemName"></span>
+							</label>
+						</div>
+						<div class="form-sell">
+							<label for="sellNo">Sell qty:
+								<span id="deleteSellQty"></span>
 							</label>
 						</div>
 
@@ -169,10 +173,7 @@
 								{{sellRow.sell_no}}<span id="conSellNo"></span>
 								?
 							</label>
-							{# <label for="sellNo">Are you sure confirm: <span id="conSellNo"></span> #}
-							{# <span> </span><span id="deleteCpoItemName"></span></label> #}
 						</div>
-
 					</div>
 					<div class="modal-footer">
 						<button type="submit" class="btn btn-success">Confirm</button>

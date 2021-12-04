@@ -145,7 +145,7 @@
 						</div>
 						<div>
 							<label for="email">Quantity</label>
-							<input type="number" min="0" autocomplete="off" class="form-control" name="quantity" required>
+							<input type="number" min="1" autocomplete="off" class="form-control" name="quantity" required>
 						</div>
 						<div class="modal-footer">
 							<button type="submit" class="btn btn-success">Add</button>
@@ -206,7 +206,7 @@
 						</div>
 						<div>
 							<label for="email">Quantity</label>
-							<input type="number" min="0" autocomplete="off" class="form-control" id="editQuantity" name="quantity" required>
+							<input type="number" min="1" autocomplete="off" class="form-control" id="editQuantity" name="quantity" required>
 						</div>
 						<div class="modal-footer">
 							<button type="submit" class="btn btn-primary">Save</button>
@@ -303,13 +303,13 @@
 					<div class="modal-body">
 						<div class="form-scrap_detail">
 							<input type="hidden" name="id" value="{{scrapRow.id}}">
-							<label for="scrap_detailNo">Do you want reject scrap no
+							<label for="scrap_detailNo">Do you want reject Scrap No:
 								<span>{{ scrapRow.scrap_no }}</span>
 							</label>
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="submit" class="btn btn-danger">Canfrim</button>
+						<button type="submit" class="btn btn-danger">Confirm</button>
 						<button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
 					</div>
 				</form>
@@ -332,14 +332,14 @@
 					<div class="modal-body">
 						<div class="form-scrap_detail">
 							<input type="hidden" name="id" value="{{scrapRow.id}}">
-							<label for="scrap_detailNo">Do you want reject scrap no
+							<label for="scrap_detailNo">Do you want to accept Scrap No:
 								<span>{{ scrapRow.scrap_no }}</span>
 							</label>
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="submit" class="btn btn-success">Canfrim</button>
-						<button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+						<button type="submit" class="btn btn-success">Confirm</button>
+						<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
 					</div>
 				</form>
 			</div>

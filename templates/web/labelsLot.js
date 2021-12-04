@@ -42,14 +42,23 @@ function splitLabel(event) {
 function confirmSplit(event) {
     $("#confirmSPLabelID").val($("#SPLabelID").val());
     $("#qtyConfirm1").val($("#qty1").val());
-    $("#qtyConfirm2").val($("#qty1").val());
+    $("#qtyConfirm2").val($("#qty2").val());
     $("#confirmSplitQty1").text($("#qty1").val());
     $("#confirmSplitQty2").text($("#qty2").val());
 }
 
+function registerLot(event) {
+    let lot = event.currentTarget.name;
+    console.log(lot);
+    var obj = JSON.parse(lot);
+    $("#registerLotID").val(obj.id);
+    $("#registerLotNo").text(obj.generate_lot_no);
+
+}
+
 $(document).on(
     "click",
-    "#editBt, #deleteBt, #SplitBt ,#voidBt ,#confirmSplitBt",
+    "#editBt, #deleteBt, #SplitBt ,#voidBt ,#confirmSplitBt ,#registerBt",
     (event) => {
         let id = event.currentTarget.id;
         switch (id) {
@@ -67,6 +76,9 @@ $(document).on(
                 break;
             case "confirmSplitBt":
                 confirmSplit(event);
+                break;
+            case "registerBt":
+                registerLot(event);
                 break;
             default:
                 console.log("no any events click");

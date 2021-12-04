@@ -102,7 +102,7 @@
 					<!-- Modal body -->
 					<div class="modal-body">
 						<div>
-							<label for="email">Enter scrap data</label>
+							<label for="email">Enter scrap date</label>
 							<input type="text" autocomplete="off" class="form-control" id="searchIssueStartDate" name="scrap_date" value="{{ "now"|date("Y-m-d") }}">
 						</div>
 					</div>
@@ -190,13 +190,13 @@
 					<div class="modal-body">
 						<div class="form-scrap_detail">
 							<input type="hidden" id="rejectScrapID" name="id">
-							<label for="scrap_detailNo">Do you want reject scrap no
+							<label for="scrap_detailNo">Do you want reject Scrap No:
 								<span id="rejectScrapNo">?</span>
 							</label>
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="submit" class="btn btn-danger">Canfrim</button>
+						<button type="submit" class="btn btn-danger">Confirm</button>
 						<button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
 					</div>
 				</form>
@@ -219,14 +219,14 @@
 					<div class="modal-body">
 						<div class="form-scrap_detail">
 							<input type="hidden" id="acceptScrapID" name="id">
-							<label for="scrap_detailNo">Do you want reject scrap no
+							<label for="scrap_detailNo">Do you want to accept Scrap No:
 								<span id="acceptScrapNo">?</span>
 							</label>
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="submit" class="btn btn-success">Canfrim</button>
-						<button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+						<button type="submit" class="btn btn-success">Confirm</button>
+						<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
 					</div>
 				</form>
 			</div>

@@ -286,7 +286,7 @@ final class LabelUpdater
         $quantity = (int)$data['quantity'] ?? 1;
         $std_pack = (int)$data['std_pack'] ?? 1;
         $user_id = (int)$data['user_id'] ?? 1;
-        $productId = (int)$data['product_id'] ?? 0;
+        $productID = (int)$data['product_id'] ?? 0;
         $num_packs = ceil($quantity / $std_pack);
         $num_full_packs = floor($quantity / $std_pack);
 
@@ -296,7 +296,7 @@ final class LabelUpdater
             $data1['label_type'] = "MERGE_FULLY";
             $data1['quantity'] = $std_pack;
             $data1['status'] = "CREATED";
-            $data1['product_id'] = $productId;
+            $data1['product_id'] = $productID;
             $id = $this->insertLabelApi($data1, $user_id);
             $data1['label_no'] = "P" . str_pad($id, 11, "0", STR_PAD_LEFT);
             $this->updateLabelApi($id, $data1, $user_id);
@@ -309,7 +309,7 @@ final class LabelUpdater
             $data1['label_type'] = "MERGE_NONFULLY";
             $data1['quantity'] = $quantity - ($num_full_packs * $std_pack);
             $data1['status'] = "CREATED";
-            $data1['product_id'] = $productId;
+            $data1['product_id'] = $productID;
             $id = $this->insertLabelApi($data1, $user_id);
             $data1['label_no'] = "P" . str_pad($id, 11, "0", STR_PAD_LEFT);
             $this->updateLabelApi($id, $data1, $user_id);
