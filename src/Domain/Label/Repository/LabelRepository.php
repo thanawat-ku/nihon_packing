@@ -385,6 +385,7 @@ final class LabelRepository
                 'lot_id',
                 'labels.merge_pack_id',
                 'labels.status',
+                'split_label_id',
 
             ]
         );

@@ -141,6 +141,8 @@ return function (App $app) {
 
     $app->get('/api/labels', \App\Action\Api\LabelAction::class);
     $app->get('/api/find_labels_scan', \App\Action\Api\LabelFindForScanAction::class);
+    $app->get('/api/find_labels_scan_split', \App\Action\Api\LabelScanSplitAction::class);
+    $app->get('/api/find_labels_scan_split_register', \App\Action\Api\LabelScanSplitRegisterAction::class);
     $app->post('/api/register_label', \App\Action\Api\LabelRegisterAction::class);
     $app->post('/api/gen_merge_labels', \App\Action\Api\GenMergeLabelBarcodeNoAction::class);
     $app->post('/api/up_status_merge_label', \App\Action\Api\UpStatusMergeLabelAction::class);

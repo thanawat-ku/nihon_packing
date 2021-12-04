@@ -14,7 +14,7 @@ use Psr\Http\Message\ServerRequestInterface;
 /**
  * Action.
  */
-final class LabelFindForScanAction
+final class LabelScanSplitRegisterAction
 {
     /**
      * @var Responder
@@ -48,21 +48,32 @@ final class LabelFindForScanAction
 
         $data = (array)$request->getQueryParams();
         $labelNO['label_no'] = $data['label_no'];
-        $status =  $data['status'];
-        $findlabel = $this->finder->findLabelsForScan($labelNO);
-        $lotId['lot_id'] = $findlabel[0]['lot_id'];
-        $findlabel[0]['generate_lot_no'] = "None";
 
-        if ($findlabel[0]['status'] == $status) {
-            $lot = $this->lotFinder->findLots($lotId);
-            $findlabel[0]['generate_lot_no'] = $lot[0]['generate_lot_no'];
-            $rtdata['message'] = "find Label for scan Successful";
-            $rtdata['error'] = false;
-            $rtdata['labels'] = $findlabel;
+        if ($data['split_label_id'] == "0") {
+            $label = $this->finder->findLabelSingleTable($labelNO);
+
+            if ($label[0]['status'] == "PRINTED") {
+                $rtdata['message'] = "find Label for split Successful";
+                $rtdata['error'] = false;
+                $rtdata['labels'] = $label;
+            } else {
+                $rtdata['message'] = "find Label for scan fail";
+                $rtdata['error'] = true;
+                $rtdata['labels'] = "error";
+            }
         } else {
-            $rtdata['message'] = "find Label for scan fail";
-            $rtdata['error'] = true;
-            $rtdata['labels'] = "error";
+            $splitId1 = $data['split_label_id'];
+            $splitDetail = $this->splitDetailFinder->findSplitLabelDetailsForscan($labelNO);
+
+            if ($splitDetail['split_label_id'] == $splitId1) {
+                $rtdata['message'] = "find Label for split Successful";
+                $rtdata['error'] = false;
+                $rtdata['labels'] = $splitDetail;
+            } else {
+                $rtdata['message'] = "find Label for scan fail";
+                $rtdata['error'] = true;
+                $rtdata['labels'] = "error";
+            }
         }
 
 

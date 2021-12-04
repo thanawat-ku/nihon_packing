@@ -14,7 +14,7 @@ use Psr\Http\Message\ServerRequestInterface;
 /**
  * Action.
  */
-final class LabelFindForScanAction
+final class LabelScanSplitAction
 {
     /**
      * @var Responder
@@ -48,24 +48,19 @@ final class LabelFindForScanAction
 
         $data = (array)$request->getQueryParams();
         $labelNO['label_no'] = $data['label_no'];
-        $status =  $data['status'];
-        $findlabel = $this->finder->findLabelsForScan($labelNO);
-        $lotId['lot_id'] = $findlabel[0]['lot_id'];
-        $findlabel[0]['generate_lot_no'] = "None";
 
-        if ($findlabel[0]['status'] == $status) {
-            $lot = $this->lotFinder->findLots($lotId);
-            $findlabel[0]['generate_lot_no'] = $lot[0]['generate_lot_no'];
-            $rtdata['message'] = "find Label for scan Successful";
+        $label = $this->finder->findLabelSingleTable($labelNO);
+
+        if ($label[0]['status'] == "PACKED") {
+            $rtdata['message'] = "find Label for split Successful";
             $rtdata['error'] = false;
-            $rtdata['labels'] = $findlabel;
+            $rtdata['labels'] = $label;
         } else {
             $rtdata['message'] = "find Label for scan fail";
             $rtdata['error'] = true;
             $rtdata['labels'] = "error";
         }
-
-
+        
         return $this->responder->withJson($response, $rtdata);
     }
 }
