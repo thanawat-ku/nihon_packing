@@ -10,7 +10,7 @@ function editMerge(event) {
     console.log(lot);
     var obj = JSON.parse(lot);
     $("#editMergeID").val(obj.id);
-    $("#editProductID").val(obj.product_id);
+    $("#editProductID").selectpicker('val', obj.product_id);
 }
 
 function deleteMerge(event) {
