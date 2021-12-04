@@ -39,7 +39,7 @@
                     {% for lot in lots %}                    
                     <tr>
                         {% if lot.status == "CREATED" %}
-                        <td>{{ lot.lot_no }}</td>
+                        <td>{{ lot.generate_lot_no }}</td>
                         {% endif %}
                         {% if lot.status != "CREATED" %}
                         <td>{{ lot.generate_lot_no }}</td>
@@ -121,7 +121,7 @@
             <label for="lotNo">Real Quantity is: <span id="confirmRealQty">xxx</span></label></label>
           </div>
           <div>
-            <label for="lotNo">Do you want to print Labels of Lot: <span id="printLotNo">xxx</span> ?</label>   
+            <label for="lotNo">Do you want to create Labels of Lot: <span id="printLotNo">xxx</span> ?</label>   
           </div> 
           <div class="form-spec">
           <label for="lotNo">    <span id="spec">  </span></label>

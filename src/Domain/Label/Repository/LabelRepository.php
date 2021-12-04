@@ -483,6 +483,7 @@ final class LabelRepository
                 'part_code',
                 'part_name',
                 'lot_no',
+                'generate_lot_no',
             ]
         );
 
