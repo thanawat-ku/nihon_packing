@@ -45,22 +45,33 @@ final class TagRegisterAction
 
             $sellID = $rtTags[0]['sell_id'];
 
-            $upStatus['up_status'] = "TAGGED";
-            $this->updateSell->updateSellStatus($sellID, $upStatus, $user_id);
+            $checkTagPrinted = true;
+            for ($i = 0; $i < count($rtTags); $i++) {
+                if ($rtTags[$i]['status'] != "PRINTED") {
+                    $checkTagPrinted = false;
+                }
+            }
 
-            $upStatus['status'] = "BOXED";
-            $this->updater->updateTagAllFromSellIDApi($sellID, $upStatus,  $user_id);
+            if ($checkTagPrinted == true) {
+                $upStatus['up_status'] = "TAGGED";
+                $this->updateSell->updateSellStatus($sellID, $upStatus, $user_id);
 
-            $rtdata['message'] = "Get Tag Defect Successful";
-            $rtdata['error'] = false;
-            $rtdata['tags'] = $this->finder->findTags($data);
+                $upStatus['status'] = "BOXED";
+                $this->updater->updateTagAllFromSellIDApi($sellID, $upStatus,  $user_id);
+
+                $rtdata['message'] = "Get Tag Successful";
+                $rtdata['error'] = false;
+                $rtdata['tags'] = $this->finder->findTags($data);
+            } else {
+                $rtdata['message'] = "Get Tag Successful";
+                $rtdata['error'] = true;
+                $rtdata['tag_no'] = $data['tag_no'];
+            }
         } else {
-            $rtdata['message'] = "Get Tag Defect Successful";
+            $rtdata['message'] = "Get Tag Successful";
             $rtdata['error'] = true;
             $rtdata['tag_no'] = $data['tag_no'];
         }
-
-
 
         return $this->responder->withJson($response, $rtdata);
     }

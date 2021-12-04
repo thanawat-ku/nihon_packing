@@ -75,13 +75,22 @@ final class TagUpdater
         $this->repository->updateTagAllFromSellIDApi($SellID, $row, $user_id);
     }
 
-    public function updateTag(int $tagId, array $data): void
+    public function updateTag(int $tagID, array $data): void
     {
-        $this->validator->validateTagUpdate($tagId, $data);
+        $this->validator->validateTagUpdate($tagID, $data);
 
         $storeRow = $this->mapToTagRow($data);
 
-        $this->repository->updateTag($tagId, $storeRow);
+        $this->repository->updateTag($tagID, $storeRow);
+    }
+
+    public function updateTagFronSellID(int $sellID, array $data): void
+    {
+        $this->validator->validateTagUpdate($sellID, $data);
+
+        $row = $this->mapToTagRow($data);
+
+        $this->repository->updateTagFronSellID($sellID, $row);
     }
 
     private function mapToTagRow(array $data): array
@@ -123,7 +132,7 @@ final class TagUpdater
         $tags = [];
 
         for ($i = 0; $i < $totalBox; $i++) {
-            if ($i != ($totalBox - 1 && $totalBox > 1)) {
+            if ($i != $totalBox - 1 && $totalBox > 1) {
                 $quantity = $totalBox - (($totalBox - 1) * $stdBox);
                 $dataTag['sell_id'] = $sellID;
                 $dataTag['quantity'] = $stdBox;
@@ -165,7 +174,7 @@ final class TagUpdater
         $tags = [];
 
         for ($i = 0; $i < $totalBox; $i++) {
-            if ($i != ($totalBox - 1 && $totalBox > 1)) {
+            if ($i != $totalBox - 1 && $totalBox > 1) {
                 $quantity = $totalBox - (($totalBox - 1) * $stdBox);
                 $dataTag['sell_id'] = $sellID;
                 $dataTag['quantity'] = $stdBox;

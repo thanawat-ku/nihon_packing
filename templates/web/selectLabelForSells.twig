@@ -22,7 +22,7 @@
 					</h5>
 					<span>{{sellRow.part_name ~ '(' ~ sellRow.part_code ~ ')'}}</span><br>
 					<span>{{'Sell Date: ' ~ sellRow.sell_date}}</span><br>
-					<span>{{'Total Quantity: ' ~ sellRow.total_qty}}</span>
+					<span>{{'Quantity Balance: ' ~ sellQtyBalance }}</span>
 				</div>
 				<hr>
 				<table id="my-data-table" class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline collapsed">
@@ -40,7 +40,6 @@
 						{% for label in labels[0] %}
 							<tr>
 								<td>{{ label.label_no }}</td>
-								{# <td>{{ selllabel.issue_date }}</td> #}
 								<td>{{ label.lot_no }}</td>
 								<td>{{ label.label_type }}</td>
 								<td>{{ label.status }}</td>
@@ -60,7 +59,6 @@
 								{% for label in labels[1] %}
 									<tr>
 										<td>{{ label.label_no }}</td>
-										<td>{{ selllabel.merge_date }}</td>
 										<td>{{ label.merge_no }}</td>
 										<td>{{ label.label_type }}</td>
 										<td>{{ label.status }}</td>
@@ -95,35 +93,6 @@
 		</div>
 	</div>
 
-	<!-- Cancel Sell Label -->
-	<div class="modal fade" id="cancelSelectLabelForSell">
-		<div class="modal-dialog modal-dialog-centered">
-			<div class="modal-content">
-				<form
-					id="form-deleteSelectLabelForSell" action="cancel_sell_label" method="post">
-					<!-- Modal Header -->
-					<div class="modal-header">
-						<h4 class="modal-title">Cancel Sell Label</h4>
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-					</div>
-					<!-- Modal body -->
-					<div class="modal-body">
-						<div class="form-sell">
-							<input type="hidden" id="cancelLabelID" name="id">
-							<input type="hidden" id="addSellID" name="sell_id" value="{{sellRow.id}}">
-							<label for="labelNo">Cancel Label No: <span id="cancelLabelNo"></span> ?
-							</label>
-						</div>
-					</div>
-					<div class="modal-footer">
-						<button type="submit" class="btn btn-danger">Confirm</button>
-						<button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-
 	<!-- Modal Add Sell Label -->
 	<div class="modal fade" id="addSelectLabelForSell">
 		<div class="modal-dialog modal-dialog-centered">
@@ -140,7 +109,13 @@
 						<div class="form-sell">
 							<input type="hidden" id="addLabelID" name="id">
 							<input type="hidden" id="addSellID" name="sell_id" value="{{sellRow.id}}">
-							<label for="labelNo">Label No: <span id="addLabelNo"></span>
+							<label for="labelNo">Label No:
+								<span id="addLabelNo"></span>
+							</label>
+						</div>
+						<div class="form-sell">
+							<label for="labelNo">Quantity:
+								<span id="addQuantity"></span>
 							</label>
 						</div>
 						<div class="modal-footer">
@@ -151,5 +126,6 @@
 				</div>
 			</div>
 		</div>
+	</div>
 
-	{% endblock %}
+{% endblock %}

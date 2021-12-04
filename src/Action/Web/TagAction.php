@@ -3,6 +3,7 @@
 namespace App\Action\Web;
 
 use App\Domain\Tag\Service\TagFinder;
+use App\Domain\Sell\Service\SellFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -20,6 +21,7 @@ final class TagAction
     private $responder;
     private $twig;
     private $tagFinder;
+    private $sellFinder;
     private $session;
 
     /**
@@ -27,11 +29,12 @@ final class TagAction
      *
      * @param Responder $responder The responder
      */
-    public function __construct(Twig $twig,TagFinder $tagFinder,Session $session,Responder $responder)
+    public function __construct(Twig $twig, TagFinder $tagFinder, SellFinder $sellFinder, Session $session, Responder $responder)
     {
         $this->twig = $twig;
-        $this->tagFinder=$tagFinder;
-        $this->session=$session;
+        $this->tagFinder = $tagFinder;
+        $this->sellFinder = $sellFinder;
+        $this->session = $session;
         $this->responder = $responder;
     }
 
@@ -46,12 +49,26 @@ final class TagAction
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $params = (array)$request->getQueryParams();
-        
+        $sellID = $params['sell_id'];
+
+        $checkTagPrinted = "true";
+
+        $rtTags = $this->tagFinder->findTags($params);
+        for ($i = 0; $i < count($rtTags); $i++) {
+            if ($rtTags[$i]['status'] != "PRINTED") {
+                $checkTagPrinted = "false";
+            }
+        }
+
+        $sellRow = $this->sellFinder->findSellRow($sellID);
+
         $viewData = [
-            'tags' => $this->tagFinder->findTags($params),
+            'checkTagPrinted' => $checkTagPrinted,
+            'sellRow' => $sellRow,
+            'tags' => $rtTags,
             'user_login' => $this->session->get('user'),
         ];
 
-        return $this->twig->render($response, 'web/tags.twig',$viewData);
+        return $this->twig->render($response, 'web/tags.twig', $viewData);
     }
 }

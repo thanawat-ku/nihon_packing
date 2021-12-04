@@ -16,6 +16,7 @@ function deleteCpoItem(event) {
     console.log(sell);
     var obj = JSON.parse(sell);
     $("#deleteCpoItemID").val(obj.id);
+    $("#deleteSellQty").text(obj.sell_qty);
     $("#deleteCpoNo").text(obj.cpo_no);
 }
 
