@@ -6,6 +6,7 @@ use App\Domain\Label\Service\LabelFinder;
 use App\Domain\MergePackDetail\Service\MergePackDetailFinder;
 use App\Domain\Label\Service\LabelUpdater;
 use App\Domain\MergePackDetail\Service\MergePackDetailUpdater;
+use App\Domain\MergePack\Service\MergePackFinder;
 use App\Domain\MergePack\Service\MergePackUpdater;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
@@ -25,6 +26,7 @@ final class GenMergeLabelBarcodeNoAction
     private $finder;
     private $updater;
     private $upmergepackdetail;
+    private $findMergePack;
     private $upmergepack;
     private $findermpdetail;
 
@@ -36,6 +38,7 @@ final class GenMergeLabelBarcodeNoAction
         Session $session,
         Responder $responder,
         MergePackDetailUpdater $upmergepackdetail,
+        MergePackFinder $findMergePack,
         MergePackUpdater $upmergepack,
         MergePackDetailFinder $findermpdetail
     ) {
@@ -45,6 +48,7 @@ final class GenMergeLabelBarcodeNoAction
         $this->session = $session;
         $this->responder = $responder;
         $this->upmergepackdetail = $upmergepackdetail;
+        $this->findMergePack = $findMergePack;
         $this->upmergepack = $upmergepack;
         $this->findermpdetail = $findermpdetail;
     }
@@ -53,7 +57,11 @@ final class GenMergeLabelBarcodeNoAction
     {
         $data = (array)$request->getParsedBody();
         $user_id = (int)$data['user_id'];
-        $merge_pack_id = (int)$data['merge_pack_id'];
+        $mergePackID = (int)$data['merge_pack_id'];
+
+        $rtMergePack = $this->findMergePack->findMergePacks($data );
+
+        $data['product_id'] = $rtMergePack[0]['product_id']; 
 
         $labels = $this->findermpdetail->findMergePackDetails($data);
         for ($i = 0; $i < count($labels); $i++) {
@@ -64,9 +72,9 @@ final class GenMergeLabelBarcodeNoAction
         } 
         $labels = $this->updater->genMergeLabel($data);
 
-        // $this->upmergepackdetail->deleteLabelMergePackDetailApi($merge_pack_id);
+        // $this->upmergepackdetail->deleteLabelMergePackDetailApi($mergePackID);
         // $this->upmergepackdetail->insertMergePackDetailApi($labels, $user_id);
-        $this->upmergepack->updateStatusMergeApi($merge_pack_id, $data, $user_id);
+        $this->upmergepack->updateStatusMergeApi($mergePackID, $data, $user_id);
 
         $rtdata['message'] = "Gen Merge Labels Successful";
         $rtdata['error'] = false;
