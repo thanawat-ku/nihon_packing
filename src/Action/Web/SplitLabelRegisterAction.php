@@ -50,19 +50,32 @@ final class  SplitLabelRegisterAction
 
         $Finddetail["split_label_id"] = $SplitLabelId;
         $labelDetail = $this->splitDetailFinder->findSplitLabelDetails($Finddetail);
+
+
+        // check printed label
+        $labels = [];
+        $checkLabelPrinted = 0;
         for ($i = 0; $i < sizeof($labelDetail); $i++) {
             $labelId['label_id'] = $labelDetail[$i]['label_id'];
-            $label = $this->finder->findLabels($labelId);
-            if(!isset($label[0])){
-                $label = $this->finder->findLabelForLotZero($labelId);
-            }
-            $labelId2 = $label[0]['id'];
-            $data2['status'] = "PACKED";
-            $this->labelUpdater->updateLabel($labelId2,$data2);
-        }
-        $data3['status'] = "PACKED";
-        $this->updater->updateSplitLabel($SplitLabelId ,$data3);
+            $label = $this->finder->findLabelSingleTable($labelId);
 
-        return $this->responder->withRedirect($response,"splitLabels");
+            if ($label[0]['status'] == "PRINTED") {
+                $checkLabelPrinted++;
+                array_push($labels, $label[$i]);
+            }
+        }
+
+        if (sizeof($labelDetail) == $checkLabelPrinted) {
+            for ($i = 0; $i < sizeof($labels); $i++) {
+                $labelId2 = $labels[$i]['id'];
+                $data2['status'] = "PACKED";
+                $this->labelUpdater->updateLabel($labelId2, $data2);
+            }
+            $data3['status'] = "PACKED";
+            $this->updater->updateSplitLabel($SplitLabelId, $data3);
+        }
+
+
+        return $this->responder->withRedirect($response, "splitLabels");
     }
 }

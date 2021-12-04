@@ -49,7 +49,7 @@ function splitLabel(event) {
 function confirmSplit(event) {
     $("#confirmSPLabelID").val($("#SPLabelID").val());
     $("#qtyConfirm1").val($("#qty1").val());
-    $("#qtyConfirm2").val($("#qty1").val());
+    $("#qtyConfirm2").val($("#qty2").val());
     $("#confirmSplitQty1").text($("#qty1").val());
     $("#confirmSplitQty2").text($("#qty2").val());
 }
