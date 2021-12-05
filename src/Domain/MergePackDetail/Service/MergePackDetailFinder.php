@@ -39,4 +39,10 @@ final class MergePackDetailFinder
     {
         return $this->repository->findMergePackDetailsForMerge($params);
     }
+    public function checkLabelInMergePackDetail(string $labelNo)
+    {
+        $row = $this->repository->checkLabelInMergePackDetail($labelNo);
+
+        return $row;
+    }
 }

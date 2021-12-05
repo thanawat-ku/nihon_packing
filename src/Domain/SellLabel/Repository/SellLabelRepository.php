@@ -209,4 +209,32 @@ final class SellLabelRepository
 
         return $query->execute()->fetchAll('assoc') ?: [];
     }
+    public function checkLabelInSellLabel(string $labelNo)
+    {
+        $query = $this->queryFactory->newSelect('sell_labels');
+        $query->select(
+            [
+                'id',
+                'label_id',
+                'label_no',
+            ]
+        );
+
+        $query->join([
+            'lb' => [
+                'table' => 'labels',
+                'type' => 'INNER',
+                'conditions' => 'lb.id = sell_labels.label_id',
+            ]
+        ]);
+        $query->andWhere(['label_no' => $labelNo]);
+
+        $row = $query->execute()->fetch('assoc');
+        if (!$row) {
+            return null;
+        } else {
+            return $row;
+        }
+        return false;
+    }
 }

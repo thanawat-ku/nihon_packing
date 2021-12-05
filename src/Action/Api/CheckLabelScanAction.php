@@ -63,33 +63,41 @@ final class CheckLabelScanAction
         $arrlabel = explode("#", $label);
 
         for ($i = 1; $i < count($arrlabel); $i++) {
-            $label_no = $arrlabel[$i];
-            $data1['label_no'] = explode(",", $label_no)[0];
-            $label_row = $this->finder->findLabelSingleTable($data1);
+            $labelNo = $arrlabel[$i];
+            $data1['label_no'] = explode(",", $labelNo)[0];
 
-            if ($label_row) {
-                if ($label_row[0]['mergo_pack_id'] == 0) {
-                    $label_row['check_mp_id'] = $mergePackID;
-                    $label_row['check_product_id'] = $productID;
-                    $id = $this->upmergepackdetail->insertMergePackDetailCheckApi($label_row, $user_id);
-                    $this->updater->updateLabelStatusMerging($id, $label_row, $user_id);
+            $arrMpDetail = $this->mergepackDetailFinder->checkLabelInMergePackDetail($labelNo);
+            if ($arrMpDetail == null) {
+                $label_row = $this->finder->findLabelSingleTable($data1);
 
-                    if ($label_row[0]['lot_id'] != 0) {
-                        $data["merge_pack_id"] = $mergePackID;
-                        $rtdata['message'] = "Get Label Successful";
-                        $rtdata['error'] = false;
-                        $rtdata['mpd_from_lots'] = $this->mergepackDetailFinder->findMergePackDetailFromLots($data);
+                if ($label_row) {
+                    if ($label_row[0]['mergo_pack_id'] == 0) {
+                        $label_row['check_mp_id'] = $mergePackID;
+                        $label_row['check_product_id'] = $productID;
+                        $id = $this->upmergepackdetail->insertMergePackDetailCheckApi($label_row, $user_id);
+                        $this->updater->updateLabelStatusMerging($id, $label_row, $user_id);
+
+                        if ($label_row[0]['lot_id'] != 0) {
+                            $data["merge_pack_id"] = $mergePackID;
+                            $rtdata['message'] = "Get Label Successful";
+                            $rtdata['error'] = false;
+                            $rtdata['mpd_from_lots'] = $this->mergepackDetailFinder->findMergePackDetailFromLots($data);
+                        } else {
+                            $data["merge_pack_id"] = $mergePackID;
+                            $rtdata['message'] = "Get Label Successful";
+                            $rtdata['error'] = false;
+                            $rtdata['mpd_from_merges'] = $this->mergepackDetailFinder->findMergePackDetailFromMergePacks($data);
+                        }
                     } else {
-                        $data["merge_pack_id"] = $mergePackID;
                         $rtdata['message'] = "Get Label Successful";
-                        $rtdata['error'] = false;
-                        $rtdata['mpd_from_merges'] = $this->mergepackDetailFinder->findMergePackDetailFromMergePacks($data);
+                        $rtdata['error'] = true;
                     }
-                } else {
-                    $rtdata['message'] = "Get Label Successful";
-                    $rtdata['error'] = true;
                 }
             } else {
+                $rtdata['message'] = "Get SellLabel Successful";
+                $rtdata['error'] = true;
+                $rtdata['label_no'] = $arrMpDetail['label_no'];
+                break;
             }
         }
 
