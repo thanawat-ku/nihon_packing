@@ -65,7 +65,8 @@ final class LabelScanSplitRegisterAction
             $splitId1 = $data['split_label_id'];
             $splitDetail = $this->splitDetailFinder->findSplitLabelDetailsForscan($labelNO);
 
-            if ($splitDetail['split_label_id'] == $splitId1) {
+            if ($splitDetail[0]['split_label_id'] == $splitId1 && $splitDetail[0]['status'] == "PRINTED") {
+                $splitDetail[0]['id'] = $splitDetail[0]['label_id'];
                 $rtdata['message'] = "find Label for split Successful";
                 $rtdata['error'] = false;
                 $rtdata['labels'] = $splitDetail;

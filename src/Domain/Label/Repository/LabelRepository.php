@@ -264,6 +264,7 @@ final class LabelRepository
                 'merge_pack_id',
                 'split_label_id',
                 'label_no',
+                'product_id',
                 'label_type',
                 'quantity',
                 'status',

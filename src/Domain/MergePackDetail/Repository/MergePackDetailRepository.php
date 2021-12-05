@@ -91,7 +91,7 @@ final class MergePackDetailRepository
 
     public function findMergePackDetailFromLots(array $params): array
     {
-        $query = $this->queryFactory->newSelect('merge_pack_details'); // focus that
+        $query = $this->queryFactory->newSelect('merge_pack_details'); 
         $query->select(
             [
                 'merge_pack_details.id',

@@ -57,7 +57,7 @@ final class LotPrintAction
             $data['real_qty'] = $realQty;
             $data['std_pack'] = $lots[0]['std_pack'];
             $this->labelUpdater->genLabelNo($data);
-            $dataLot['status'] = "CONFIRM";
+            $dataLot['status'] = "CONFIRMED";
             $dataLot['real_qty'] = $realQty;
             $dataLot['generate_lot_no'] = "L" . str_pad($lotId, 11, "0", STR_PAD_LEFT);
             $dataLot['printed_user_id'] =  $data['user_id'];

@@ -39,7 +39,7 @@
                     {% for lot in lots %}                    
                     <tr>
                         {% if lot.status == "CREATED" %}
-                        <td>{{ lot.generate_lot_no }}</td>
+                        <td>{{ lot.lot_no }}</td>
                         {% endif %}
                         {% if lot.status != "CREATED" %}
                         <td>{{ lot.generate_lot_no }}</td>

@@ -70,10 +70,10 @@ final class SplitLabelRegisterAction
         }
 
         $splitID = $data['split_label_id'];
-        $data3['status'] = "PACKING";
         if ($count == 2) {
             $this->updater->updateSplitLabelApi($data2, $splitID, $user_id);
         } else if ($count == 1) {
+            $data3['status'] = "PACKING";
             $this->updater->updateSplitLabelApi($data3, $splitID, $user_id);
         }
 

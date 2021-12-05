@@ -107,12 +107,12 @@ final class SplitLabelDetailRepository
                 'split_label_details.id',
                 'split_label_details.split_label_id',
                 'split_label_details.label_id',
-                'lot_id',
                 'label_no',
                 'label_type',
                 'merge_pack_id',
                 'quantity',
                 'status',
+                'product_id'
 
             ]
         );
@@ -126,13 +126,14 @@ final class SplitLabelDetailRepository
 
         if (isset($params['label_id'])) {
             $query->andWhere(['split_label_details.label_id' => $params['label_id']]);
+        } else if (isset($params['label_no'])) {
+            $query->andWhere(['label_no' => $params['label_no']]);
         }
 
         $get = $query->execute()->fetchAll('assoc') ?: [];
-        if($get){
+        if ($get) {
             return $get;
-        }
-        else{
+        } else {
             return null;
         }
     }
