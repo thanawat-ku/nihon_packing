@@ -52,7 +52,7 @@ final class ScrapUpdater
         $this->validator->validateScrapInsert($data);
 
         $row = $this->mapToScrapRow($data);
-        $row['scrap_date'] = date('Y-m-d');
+        // $row['scrap_date'] = date('Y-m-d');
 
         $id = $this->repository->insertScrapApi($row, $user_id);
 

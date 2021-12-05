@@ -207,6 +207,7 @@ return function (App $app) {
 
     $app->get('/api/scraps', \App\Action\Api\ScrapAction::class);
     $app->post('/api/add_scrap', \App\Action\Api\ScrapAddAction::class);
+    $app->post('/api/edit_scrap', \App\Action\Api\ScrapEditAction::class);
     $app->post('/api/delete_scrap', \App\Action\Api\ScrapDeleteAction::class);
     $app->post('/api/confirm_scrap', \App\Action\Api\ScrapConfirmAction::class);
     $app->post('/api/reject_scrap', \App\Action\Api\ScrapRejectAction::class);
