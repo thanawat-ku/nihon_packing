@@ -128,7 +128,7 @@ final class TagRepository
         ]);
 
         $query->join([
-            'P' => [
+            'p' => [
                 'table' => 'products',
                 'type' => 'INNER',
                 'conditions' => 'p.id = s.product_id',
