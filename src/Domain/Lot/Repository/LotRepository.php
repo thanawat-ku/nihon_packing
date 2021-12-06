@@ -104,6 +104,7 @@ final class LotRepository
                 'std_box',
                 'status',
                 'real_qty',
+                'issue_date',
 
             ]
         );

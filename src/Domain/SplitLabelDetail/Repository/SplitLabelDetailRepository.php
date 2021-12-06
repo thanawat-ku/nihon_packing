@@ -94,6 +94,7 @@ final class SplitLabelDetailRepository
         if (isset($params['split_label_id'])) {
             $query->andWhere(['split_label_details.split_label_id' => $params['split_label_id']]);
         }
+        $query->andWhere(['l.is_delete' => 'N']);
 
         $get = $query->execute()->fetchAll('assoc') ?: [];
         return $get;
@@ -129,6 +130,7 @@ final class SplitLabelDetailRepository
         } else if (isset($params['label_no'])) {
             $query->andWhere(['label_no' => $params['label_no']]);
         }
+        $query->andWhere(['l.is_delete' => 'N']);
 
         $get = $query->execute()->fetchAll('assoc') ?: [];
         if ($get) {

@@ -114,6 +114,7 @@ final class SplitLabelRepository
         }
 
         $query->andWhere(['split_labels.is_delete' => 'N']);
+        $query->andWhere(['l.is_delete' => 'N']);
 
         return $query->execute()->fetchAll('assoc') ?: [];
     }
