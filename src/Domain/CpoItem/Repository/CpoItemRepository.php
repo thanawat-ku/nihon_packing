@@ -78,8 +78,8 @@ final class CpoItemRepository
         //         'conditions' => 'p.ProductID = cpo_item.ProductID',
         //     ]
         // ]);
-        if(isset($params['ProductID'])){
-            $query->andWhere(['cpo_item.ProductID'=>$params['ProductID']]);
+        if(isset($params['product_id'])){
+            $query->andWhere(['cpo_item.ProductID'=>$params['product_id']]);
         }
         
 
