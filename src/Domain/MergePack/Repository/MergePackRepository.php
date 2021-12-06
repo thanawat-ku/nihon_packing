@@ -123,7 +123,6 @@ final class MergePackRepository
         $query->select(
             [
                 'labels.id',
-                'lot_id',
                 'merge_pack_id',
                 'label_no',
                 'label_type',

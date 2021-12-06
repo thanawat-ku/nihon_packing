@@ -49,7 +49,6 @@ final class  SplitLabelDetailAction
         $dataDetail["split_label_id"] = $SplitLabelId;
         $labelDetail = $this->splitDetailFinder->findSplitLabelDetails($dataDetail);
 
-        $checkLabelPrinted = 0;
         $labels = [];
         for ($i = 0; $i < sizeof($labelDetail); $i++) {
 
@@ -58,10 +57,6 @@ final class  SplitLabelDetailAction
             if (!isset($label[0])) {
                 $label = $this->labelFinder->findLabelForLotZero($labelId);
             }
-
-            if ($label[0]['status'] == "PRINTED") {
-                $checkLabelPrinted++;
-            }
             array_push($labels, $label[0]);
         }
         $findSplitNo['split_label_id'] = $SplitLabelId;
@@ -69,7 +64,7 @@ final class  SplitLabelDetailAction
 
         if (isset($splitLabel[0])) {
             $split =  $splitLabel[0];
-            if (sizeof($labels) == $checkLabelPrinted) {
+            if ($split['status'] == "PRINTED") {
                 $split['register'] = "Y";
             } else {
                 $split['register'] = "N";

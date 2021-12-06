@@ -212,6 +212,7 @@
   </div>
 </div>
 
+
 <!-- Modal split label -->
 <div class="modal fade" id="splitLabel">
   <div class="modal-dialog modal-dialog-centered">
@@ -226,8 +227,12 @@
         <div class="modal-body">          
           <div class="form-product">
             <input type="hidden" id="SPLabelID" name="label_id">
+            <input type="hidden" id="SPLabelID" name="label_id">
             <label for="split">Label are you splitting is: <span id="SPLabelNo">xxx</span></label>
           </div> 
+          <div class="form-product">
+             <label for="split">Quantity: <span id="QtySystem">xxx</span></label>
+          </div>
           <div class="form-product">
             <label for="labelNo">1st QTY</label>
             <input type="number" autocomplete="off" class="form-control" id="qty1" name="qty1" min="1" required>
@@ -257,11 +262,14 @@
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         <!-- Modal body -->
-        <div class="modal-body"> 
-        <div>
-            <input type="hidden" id="confirmSPLabelID" name ="label_id">
+        <div class="modal-body">
+        <div class="form-product">
+        <input type="hidden" id="confirmSPLabelID" name ="label_id">
             <input type="hidden" id="qtyConfirm1" name ="qty1">
             <input type="hidden" id="qtyConfirm2" name ="qty2">
+            <label for="split">Quantity: <span id="QtySystem2">xxx</span></label>
+          </div> 
+        <div>
             <label for="split">Do you want to split Label No: <span id="confirmSplitLabelNo">xxx</span></label>  
           </div>          
           <div class="form-product">

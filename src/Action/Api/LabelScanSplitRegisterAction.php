@@ -4,6 +4,7 @@ namespace App\Action\Api;
 
 use App\Domain\Label\Service\LabelFinder;
 use App\Domain\Label\Service\LabelUpdater;
+use App\Domain\SplitLabel\Service\SplitLabelFinder;
 use App\Domain\SplitLabelDetail\Service\SplitLabelDetailFinder;
 use App\Domain\Lot\Service\LotFinder;
 use App\Domain\Product\Service\ProductFinder;
@@ -23,6 +24,7 @@ final class LabelScanSplitRegisterAction
     private $finder;
     private $updater;
     private $splitDetailFinder;
+    private $splitFinder;
     private $lotFinder;
 
     public function __construct(
@@ -32,6 +34,7 @@ final class LabelScanSplitRegisterAction
         LabelUpdater $updater,
         Responder $responder,
         SplitLabelDetailFinder $splitDetailFinder,
+        SplitLabelFinder $splitFinder,
     ) {
 
         $this->finder = $finder;
@@ -40,6 +43,7 @@ final class LabelScanSplitRegisterAction
         $this->productFinder = $productFinder;
         $this->responder = $responder;
         $this->splitDetailFinder = $splitDetailFinder;
+        $this->splitFinder = $splitFinder;
     }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
@@ -50,9 +54,12 @@ final class LabelScanSplitRegisterAction
         $labelNO['label_no'] = $data['label_no'];
 
         if ($data['split_label_id'] == "0") {
-            $label = $this->finder->findLabelSingleTable($labelNO);
-
-            if ($label[0]['status'] == "PRINTED") {
+            $label = $this->splitDetailFinder->findSplitLabelDetailsForscan($labelNO);
+            $label[0]['id'] = $label[0]['label_id'];
+            $splitId1 = $label[0]['split_label_id'];
+            $data2['split_label_id'] = $splitId1;
+            $split = $this->splitFinder->findSplitLabels($data2);
+            if ($label[0]['status'] == "PRINTED" && $split[0]['status'] == "PRINTED") {
                 $rtdata['message'] = "find Label for split Successful";
                 $rtdata['error'] = false;
                 $rtdata['labels'] = $label;
@@ -64,8 +71,9 @@ final class LabelScanSplitRegisterAction
         } else {
             $splitId1 = $data['split_label_id'];
             $splitDetail = $this->splitDetailFinder->findSplitLabelDetailsForscan($labelNO);
-
-            if ($splitDetail[0]['split_label_id'] == $splitId1 && $splitDetail[0]['status'] == "PRINTED") {
+            $data2['split_label_id'] = $splitId1;
+            $split = $this->splitFinder->findSplitLabels($data2);
+            if (($splitDetail[0]['split_label_id'] == $splitId1 && $splitDetail[0]['status'] == "PRINTED") && ($split[0]['status'] == "PRINTED" || $split[0]['status'] == "PACKING")) {
                 $splitDetail[0]['id'] = $splitDetail[0]['label_id'];
                 $rtdata['message'] = "find Label for split Successful";
                 $rtdata['error'] = false;

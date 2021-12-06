@@ -48,16 +48,9 @@ final class LotRegisterAction
         $lotId = $data['lot_id'];
         $dataPack['status'] = "PACKED";
 
-        $checkLabelPrinted = 0;
         $dataLot['lot_id'] = $lotId;
-        $labels = $this->labelFinder->findLabelSingleTable($dataLot);
-
-        for ($i = 0; $i < sizeof($labels); $i++) {
-            if ($labels[$i]['status'] == "PRINTED") {
-                $checkLabelPrinted++;
-            }
-        }
-        if (sizeof($labels) ==  $checkLabelPrinted) {
+        $lot = $this->finder->findLots($dataLot);
+        if ($lot[0]['status'] ==  "PRINTED") {
             $this->labelUpdater->registerLabel($lotId, $dataPack);
             $this->updater->registerLot($lotId, $dataPack);
         }

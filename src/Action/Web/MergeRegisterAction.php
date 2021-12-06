@@ -64,14 +64,18 @@ final class MergeRegisterAction
     {
         $data = (array)$request->getParsedBody();
         $mergeId = $data['id'];
-        
-        $dataLaebl['status'] = "PACKED";
-        $this->labelUpdater->registerMerge($mergeId, $dataLaebl);
+        $data['merge_pack_id'] = $mergeId;
+        $mergePack = $this->finder->findMergePacks($data);
+        if ($mergePack[0]['merge_status'] == "PRINTED") {
+            $dataLaebl['status'] = "PACKED";
+            $this->labelUpdater->registerMerge($mergeId, $dataLaebl);
 
-        $dataMergePack['merge_status'] = "COMPLETE";
-        $this->updater->updatePackMerge($mergeId,$dataMergePack);
+            $dataMergePack['merge_status'] = "COMPLETE";
+            $this->updater->updatePackMerge($mergeId, $dataMergePack);
+        }
 
-        
+
+
         return $this->responder->withRedirect($response, "merges");
     }
 }

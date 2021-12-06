@@ -15,10 +15,10 @@
             <div class="col-md-12">
                 <h2><i class="fas fa-folder-plus"></i> Merge Label detail of: {{ mergePack['merge_no'] }}</h2>  <!--dont show merge no -->    
                 {% if mergePack.select_label  == "Y" %}
-                <a href="label_merges?id={{mergePack['id']}} "><button type="button" id="addLabelBt" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#addLabel"><i style="font-size:15px; width:20px;" class="fas fa-newspaper"></i> Select Label</button></a>
-                {% if mergePack.merge_confirm  == "Y" %}
-                <button type="button" id="confirmBt" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#confirmMerge" name="{{ mergePack|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-check-circle"></i> Confirm Merge</button> 
-                {% endif %}
+                  <a href="label_merges?id={{mergePack['id']}} "><button type="button" id="addLabelBt" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#addLabel"><i style="font-size:15px; width:20px;" class="fas fa-newspaper"></i> Select Label</button></a>
+                  {% if mergePack.merge_confirm  == "Y" %}
+                    <button type="button" id="confirmBt" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#confirmMerge" name="{{ mergePack|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-check-circle"></i> Confirm Merge</button> 
+                  {% endif %}
                 {% endif %}
                 {% if mergePack.select_label  == "N" %}
                 <label for=" ">     <span ></span></label>

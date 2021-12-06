@@ -42,19 +42,12 @@ final class  LotLabelAction
         $data = (array)$request->getQueryParams();
         $lotId = $data["id"];
         $params["lot_id"] = $lotId;
-        $lot =  $this->lotFinder->findLots($params);
-        $labels = $this->finder->findLabels($params);
+        $lots =  $this->lotFinder->findLots($params);
 
-        $checkLabelPrinted = 0;
-        for ($i = 0; $i < sizeof($labels); $i++) {
-            if ($labels[$i]['status'] == "PRINTED") {
-                $checkLabelPrinted++;
-            }
-        }
-
-        if (isset($lot[0]['lot_no'])) {
-            $lot = $lot[0];
-            if (sizeof($labels) ==  $checkLabelPrinted) {
+        if (isset($lots[0]['lot_no'])) {
+            $labels = $this->finder->findLabels($params);
+            $lot = $lots[0];
+            if ($lot['status'] == "PRINTED") {
                 $lot['register'] = "Y";
             } else {
                 $lot['register'] = "N";

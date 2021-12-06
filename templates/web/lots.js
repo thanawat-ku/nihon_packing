@@ -31,6 +31,9 @@ function printLot(event) {
     var obj = JSON.parse(lot);
     $("#printLotID").val(obj.id);
     $("#printLotNo").text(obj.lot_no);
+    $("#realQTY").val(obj.quantity);
+    $("#qtySystem").text(obj.quantity);
+    
 
 }
 
@@ -47,14 +50,14 @@ function addDefectLot(event) {
     $("#defectLotID").val(obj.id);
 }
 
-// function registerLot(event) {
-//     let lot = event.currentTarget.name;
-//     console.log(lot);
-//     var obj = JSON.parse(lot);
-//     $("#registerLotID").val(obj.id);
-//     $("#registerLotNo").text(obj.generate_lot_no);
+function registerLot(event) {
+    let lot = event.currentTarget.name;
+    console.log(lot);
+    var obj = JSON.parse(lot);
+    $("#registerLotID").val(obj.id);
+    $("#registerLotNo").text(obj.generate_lot_no);
 
-// }
+}
 
 function syncCustomers(){
     $('#syncTable').text("customer start");
@@ -163,9 +166,9 @@ $(document).on(
             case "addDefectBt":
                 addDefectLot(event);
                 break;
-            // case "registerBt":
-            //     registerLot(event);
-            //     break;
+            case "registerBt":
+                registerLot(event);
+                break;
             case "confirmPrintLotBt":
                 confirmPrintLot(event)
                 break;

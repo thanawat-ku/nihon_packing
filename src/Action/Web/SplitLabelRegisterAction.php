@@ -5,6 +5,7 @@ namespace App\Action\Web;
 use App\Domain\Label\Service\LabelFinder;
 use App\Domain\Label\Service\LabelUpdater;
 use App\Domain\SplitLabelDetail\Service\SplitLabelDetailFinder;
+use App\Domain\SplitLabel\Service\SplitLabelFinder;
 use App\Domain\SplitLabel\Service\SplitLabelUpdater;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
@@ -20,6 +21,7 @@ final class  SplitLabelRegisterAction
     private $finder;
     private $session;
     private $splitDetailFinder;
+    private $splitFinder;
     private $labelUpdater;
     private $updater;
 
@@ -30,6 +32,7 @@ final class  SplitLabelRegisterAction
         Session $session,
         Responder $responder,
         SplitLabelDetailFinder $splitDetailFinder,
+        SplitLabelFinder $splitFinder,
         LabelUpdater $labelUpdater,
         SplitLabelUpdater $updater,
 
@@ -40,6 +43,7 @@ final class  SplitLabelRegisterAction
         $this->responder = $responder;
         $this->updater = $updater;
         $this->splitDetailFinder = $splitDetailFinder;
+        $this->splitFinder = $splitFinder;
         $this->labelUpdater = $labelUpdater;
     }
 
@@ -52,29 +56,16 @@ final class  SplitLabelRegisterAction
         $labelDetail = $this->splitDetailFinder->findSplitLabelDetails($Finddetail);
 
 
-        // check printed label
-        $labels = [];
-        $checkLabelPrinted = 0;
-        for ($i = 0; $i < sizeof($labelDetail); $i++) {
-            $labelId['label_id'] = $labelDetail[$i]['label_id'];
-            $label = $this->finder->findLabelSingleTable($labelId);
-
-            if ($label[0]['status'] == "PRINTED") {
-                $checkLabelPrinted++;
-                array_push($labels, $label[0]);
-            }
-        }
-
-        if (sizeof($labelDetail) == $checkLabelPrinted) {
-            for ($i = 0; $i < sizeof($labels); $i++) {
-                $labelId2 = $labels[$i]['id'];
-                $data2['status'] = "PACKED";
+        $split = $this->splitFinder->findSplitLabels($Finddetail);
+        if ($split[0]['status'] == "PRINTED") {
+            $data2['status'] = "PACKED";
+            for ($i = 0; $i < sizeof($labelDetail); $i++) {
+                $labelId2 = $labelDetail[$i]['label_id'];
+                
                 $this->labelUpdater->updateLabel($labelId2, $data2);
             }
-            $data3['status'] = "PACKED";
-            $this->updater->updateSplitLabel($SplitLabelId, $data3);
+            $this->updater->updateSplitLabel($SplitLabelId, $data2);
         }
-
 
         return $this->responder->withRedirect($response, "splitLabels");
     }

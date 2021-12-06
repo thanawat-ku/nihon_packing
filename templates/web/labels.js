@@ -43,6 +43,8 @@ function splitLabel(event) {
     $("#SPLabelID").val(obj.id);
     $("#SPLabelNo").text(obj.label_no);
     $("#confirmSplitLabelNo").text(obj.label_no);
+    $("#QtySystem").text(obj.quantity);
+    $("#QtySystem2").text(obj.quantity);
 }
 
 

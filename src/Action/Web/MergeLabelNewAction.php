@@ -65,19 +65,20 @@ final class MergeLabelNewAction
         $params = (array)$request->getQueryParams();
         $mergePackId =  $params['id'];
 
-        $dataLabel['merge_pack_id'] = $mergePackId;
+        $data['merge_pack_id'] = $mergePackId;
 
-        $labels = $this->labelFinder->findLabelForLotZero($dataLabel);
+        $labels = $this->labelFinder->findLabelForLotZero($data);
 
         $mergePack['id'] = $mergePackId;
         $mergePack['merge_no'] = $labels[0]['merge_no'];
         $mergePack['register'] = "N";
 
-        for ($i = 0; $i < sizeof($labels); $i++) {
-            if ($labels[$i]['status'] == "PRINTED") {
-                $mergePack['register'] = "Y";
-            }
+        $merge = $this->finder->findMergePacks($data);
+
+        if($merge[0]['merge_status'] == "PRINTED"){
+            $mergePack['register'] = "Y";
         }
+        
 
         $viewData = [
             'labels' =>  $labels,
