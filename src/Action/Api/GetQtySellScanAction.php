@@ -53,7 +53,7 @@ final class GetQtySellScanAction
             for ($i = 0; $i < count($rtdata['mpd_from_lots']); $i++) {
                 $quantity+= $rtdata['mpd_from_lots'][$i]['quantity'];
                 $numberLabel += 1;
-                if ($rtdata['mpd_from_lots'][$i]['product_id'] != $productID  || ($rtdata['mpd_from_lots'][$i]['status'] != "PACKED") ) {
+                if ($rtdata['mpd_from_lots'][$i]['product_id'] != $productID  || ($rtdata['mpd_from_lots'][$i]['status'] != "PACKED") && $rtdata['mpd_from_lots'][$i]['status'] != "SELLING") {
                     $checklabelError += 1;
                 }
             }

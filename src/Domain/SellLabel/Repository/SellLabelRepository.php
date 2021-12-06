@@ -214,7 +214,7 @@ final class SellLabelRepository
         $query = $this->queryFactory->newSelect('sell_labels');
         $query->select(
             [
-                'id',
+                'sell_labels.id',
                 'label_id',
                 'label_no',
             ]

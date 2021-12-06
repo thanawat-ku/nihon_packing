@@ -24,7 +24,7 @@ final class CheckSellLabelScanAction
      */
     private $responder;
     private $finder;
-    // private $updater;
+    private $updateLabel;
     // private $upmergepack;
     // private $upmergepackdetail;
     // private $mergepackDetailFinder;
@@ -40,6 +40,7 @@ final class CheckSellLabelScanAction
         Responder $responder,
         SellLabelUpdater $updateselllabel,
         SellLabelFinder $findSellLabel,
+        LabelUpdater $updateLabel,
     ) {
         $this->finder = $finder;
         // $this->updater = $updater;
@@ -47,6 +48,7 @@ final class CheckSellLabelScanAction
         $this->updateselllabel = $updateselllabel;
         $this->responder = $responder;
         $this->findSellLabel = $findSellLabel;
+        $this->updateLabel = $updateLabel;
     }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
@@ -62,52 +64,73 @@ final class CheckSellLabelScanAction
 
         $arrlabel = explode("#", $labels);
 
+        $listLabelFronLot = [];
+        $listLabelFronMerge = [];
+        $checkLabel = [];
+
         for ($i = 1; $i < count($arrlabel); $i++) {
             $labelNo = $arrlabel[$i];
             $data1['label_no'] = explode(",", $labelNo)[0];
+            array_push($checkLabel, $data1['label_no']);
 
-            $arrSellLabel = $this->findSellLabel->checkLabelInSellLabel($labelNo);
+            $labelvalue = array_count_values($checkLabel);
 
-            if ($arrSellLabel == null) {
-                $label_row = $this->finder->findLabelSingleTable($data1);
-
-                if ($label_row) {
-                    $label_row[0]['sell_id'] = $sellID;
-                    // $label_row['check_product_id'] = $product_id;
-                    $this->updateselllabel->insertSellLabelApi($label_row, $user_id);
-                    // $this->updater->updateSellLabelStatusMerging($id, $label_row, $user_id);
-                    if ($label_row[0]['lot_id'] != 0) {
-                        // $data["merge_pack_id"] = $merge_pack_id;
-                        $rtdata['message'] = "Get SellLabel Successful";
-                        $rtdata['error'] = false;
-                        $rtdata['mpd_from_lots'] = $this->finderselllabel->findSellLabelForlots($data);
-                    } else {
-                        // $data["merge_pack_id"] = $merge_pack_id;
-                        $rtdata['message'] = "Get SellLabel Successful";
-                        $rtdata['error'] = false;
-                        $rtdata['mpd_from_merges'] = $this->finderselllabel->findSellLabelForMergePacks($data);
-                    }
-                } else {
+            foreach ($labelvalue as $key => $value) {
+                if ($value > 1) {
+                    $arrSellLabel = $this->findSellLabel->checkLabelInSellLabel($data1['label_no']);
                     $rtdata['message'] = "Get SellLabel Successful";
                     $rtdata['error'] = true;
-                    break;
+                    $rtdata['label_no'] = $arrSellLabel['label_no'];
+
+                    return $this->responder->withJson($response, $rtdata);
+                }
+            }
+            $labelRow = $this->finder->findLabelSingleTable($data1);
+
+            if ($labelRow) {
+
+                $insertSellLabel['label_id'] = $labelRow[0]['id'];
+                $insertSellLabel['sell_id'] = $sellID;
+                $this->updateselllabel->insertSellLabelApi($insertSellLabel, $user_id);
+
+                if ($labelRow[0]['lot_id'] != 0) {
+
+                    $upStatus['status'] = "SELLING";
+                    $this->updateLabel->updateLabelApi((int)$labelRow[0]['id'], $upStatus, $user_id);
+
+                    $rtdata['message'] = "Get SellLabel Successful";
+                    $rtdata['error'] = false;
+                    $rtLabel = $this->findSellLabel->findSellLabelForlots($data);
+
+                    array_push($listLabelFronLot, $rtLabel[0]);
+                } else {
+                    $upStatus['status'] = "SELLING";
+                    $this->updateLabel->updateLabelApi((int)$labelRow[0]['id'], $upStatus, $user_id);
+
+                    $rtdata['message'] = "Get SellLabel Successful";
+                    $rtdata['error'] = false;
+                    $rtLabel = $this->findSellLabel->findSellLabelForMergePacks($data);
+
+                    array_push($listLabelFronMerge, $rtLabel[0]);
                 }
             } else {
                 $rtdata['message'] = "Get SellLabel Successful";
                 $rtdata['error'] = true;
-                $rtdata['label_no'] = $arrSellLabel['label_no'];
                 break;
             }
-        }
 
-        if ($rtdata['mpd_from_lots'] != null && $rtdata['mpd_from_merges'] == null) {
-            $rtdata['check_label_from_sl'] = "lot";
-        } else if ($rtdata['mpd_from_merges'] != null &&  $rtdata['mpd_from_lots'] == null) {
-            $rtdata['check_label_from_sl'] = "merge";
-        } else if ($rtdata['mpd_from_lots'] != null && $rtdata['mpd_from_merges'] != null) {
-            $rtdata['check_label_from_sl'] = "lot_and_merge";
+            if ($listLabelFronLot != null && $listLabelFronMerge == null) {
+                $rtdata['check_label_from_sl'] = "lot";
+                $rtdata['mpd_from_lots'] = $listLabelFronLot;
+            } else if ($listLabelFronMerge != null &&  $listLabelFronLot == null) {
+                $rtdata['check_label_from_sl'] = "merge";
+                $rtdata['mpd_from_merges'] = $listLabelFronMerge;
+            } else if ($listLabelFronLot != null && $listLabelFronMerge  != null) {
+                $rtdata['check_label_from_sl'] = "lot_and_merge";
+                $rtdata['mpd_from_lots'] = $listLabelFronLot;
+                $rtdata['mpd_from_merges'] = $listLabelFronMerge;
+            }
         }
-
         return $this->responder->withJson($response, $rtdata);
     }
 }

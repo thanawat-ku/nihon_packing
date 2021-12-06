@@ -323,7 +323,7 @@ final class MergePackDetailRepository
         $query = $this->queryFactory->newSelect('merge_pack_details');
         $query->select(
             [
-                'id',
+                'merge_pack_details.id',
                 'label_id',
                 'label_no',
             ]

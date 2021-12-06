@@ -32,8 +32,8 @@ final class MergePackDetailUpdater
         $this->validator->validateMergePackDetailInsert($data);
 
         $row = $this->mapToRow($data);
-        $row['merge_pack_id'] = $data['check_mp_id'];
-        $row['label_id'] = $data[0]['id'];
+        // $row['merge_pack_id'] = $data['check_mp_id'];
+        // $row['label_id'] = $data[0]['id'];
         // $row['label_id'] = $data['id'];
 
         $id = $this->repository->insertMergePackDetailApi($row, $user_id);
