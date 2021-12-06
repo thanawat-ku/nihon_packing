@@ -402,7 +402,7 @@ CREATE TABLE `label_void_reasons` (
   `created_user_id` int NOT NULL,
   `updated_at` datetime NOT NULL,
   `updated_user_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `label_void_reasons`
@@ -5033,7 +5033,7 @@ CREATE TABLE `temp_query` (
   `quantity` int NOT NULL,
   `packing_qty` int NOT NULL,
   `due_date` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `temp_query`
