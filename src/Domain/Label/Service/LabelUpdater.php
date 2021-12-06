@@ -122,7 +122,6 @@ final class LabelUpdater
         $this->validator->validateLabelUpdate($labelID, $data);
 
         $row = $this->mapToLabelRow($data);
-        // $row['merge_pack_id']=$data['merge_pack_id'];
 
         $this->repository->updateLabelApi($labelID, $row, $user_id);
     }

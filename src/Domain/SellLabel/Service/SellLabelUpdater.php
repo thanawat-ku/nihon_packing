@@ -32,8 +32,8 @@ final class SellLabelUpdater
         $this->validator->validateSellLabelInsert($data);
 
         $row = $this->mapToRow($data);
-        $row['label_id'] = $data[0]['id'];
-        $row['sell_id'] = $data[0]['sell_id'];
+        // $row['label_id'] = $data[0]['id'];
+        // $row['sell_id'] = $data[0]['sell_id'];
 
         $id = $this->repository->insertSellLabelApi($row, $user_id);
 

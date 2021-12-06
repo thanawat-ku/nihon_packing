@@ -51,7 +51,7 @@ final class MergePackDetailRepository
         return (int)$this->queryFactory->newInsert('merge_pack_details', $row)->execute()->lastInsertId();
     }
 
-    
+
 
     public function updateMergePackDetailApi(int $labelID, array $data, $user_id): void
     {
@@ -59,15 +59,15 @@ final class MergePackDetailRepository
         $data['updated_user_id'] = $user_id;
 
         $this->queryFactory->newUpdate('labels', $data)->andWhere(['id' => $labelID])->execute();
-    }   
-    
+    }
+
     public function updateLabelApi(int $labelID, array $data, $user_id): void
     {
         $data['updated_at'] = Chronos::now()->toDateTimeString();
         $data['updated_user_id'] = $user_id;
 
         $this->queryFactory->newUpdate('labels', $data)->andWhere(['id' => $labelID])->execute();
-    } 
+    }
 
     public function deleteLabelMergePackApi(int $id): void
     {
@@ -91,11 +91,11 @@ final class MergePackDetailRepository
 
     public function findMergePackDetailFromLots(array $params): array
     {
-        $query = $this->queryFactory->newSelect('merge_pack_details'); 
+        $query = $this->queryFactory->newSelect('merge_pack_details');
         $query->select(
             [
                 'merge_pack_details.id',
-                'merge_pack_details.merge_pack_id',     
+                'merge_pack_details.merge_pack_id',
                 'label_no', /// 
                 'lot_no',
                 'lb.quantity',
@@ -107,25 +107,25 @@ final class MergePackDetailRepository
                 'lb.label_type',
                 'std_pack',
                 'std_box',
-         
+
             ]
         );
 
-        $query->join([  
+        $query->join([
             'lb' => [
                 'table' => 'labels',  //table name
                 'type' => 'INNER',
                 'conditions' => 'lb.id = merge_pack_details.label_id',
             ],
         ]);
-        $query->join([ 
+        $query->join([
             'l' => [
                 'table' => 'lots',  //table name
                 'type' => 'INNER',
                 'conditions' => 'l.id = lb.lot_id',
             ],
         ]);
-        $query->join([   
+        $query->join([
             'p' => [
                 'table' => 'products',  //table name
                 'type' => 'INNER',
@@ -133,7 +133,7 @@ final class MergePackDetailRepository
             ],
         ]);
 
-        $query->andWhere(['lot_id !='=>0]);
+        $query->andWhere(['lot_id !=' => 0]);
 
         $query->group(
             'merge_pack_details.id'
@@ -142,11 +142,11 @@ final class MergePackDetailRepository
         // if(isset($params['merge_pack_id'])){
         //     $query->Where(['merge_pack_details.id' => $params["merge_pack_id"]]);
         // }
-        if(isset($params['merge_pack_id'])){
+        if (isset($params['merge_pack_id'])) {
             $query->Where(['merge_pack_details.merge_pack_id' => $params["merge_pack_id"]]);
         }
-        
-        
+
+
         return $query->execute()->fetchAll('assoc') ?: [];
     }
 
@@ -156,8 +156,8 @@ final class MergePackDetailRepository
         $query->select(
             [
                 'merge_pack_details.id',
-                'merge_pack_details.merge_pack_id',  
-                'label_no',  
+                'merge_pack_details.merge_pack_id',
+                'label_no',
                 'lb.quantity',
                 'mp.product_id',
                 'label_id',
@@ -165,13 +165,13 @@ final class MergePackDetailRepository
                 'lb.label_type',
                 'p.part_name',
                 'p.part_code',
-                'mid_from_mp'=>'mp.id',
+                'mid_from_mp' => 'mp.id',
                 'mp.merge_no',
                 'mp.merge_status',
                 'std_pack',
                 'std_box',
-                
-                
+
+
             ]
         );
         $query->join([      //focus that!!!!!!!!!!!!
@@ -186,8 +186,9 @@ final class MergePackDetailRepository
                 'table' => 'merge_packs',
                 'type' => 'INNER',
                 'conditions' => 'mp.id = lb.merge_pack_id',
-            ]]);
-        $query->join([   
+            ]
+        ]);
+        $query->join([
             'p' => [
                 'table' => 'products',  //table name
                 'type' => 'INNER',
@@ -199,7 +200,7 @@ final class MergePackDetailRepository
             'merge_pack_details.id'
         );
 
-        $query->andWhere(['lot_id'=>0]);
+        $query->andWhere(['lot_id' => 0]);
 
         // if(isset($params['register_mp'])){
         //     if($params['register_mp'] == true){
@@ -207,13 +208,13 @@ final class MergePackDetailRepository
         //     }
         // }
 
-        if(isset($params['merge_pack_id'])){
+        if (isset($params['merge_pack_id'])) {
             $query->Where(['merge_pack_details.merge_pack_id' => $params["merge_pack_id"]]);
         }
         // if(isset($params['merge_pack_id'])){
         //     $query->Where(['mp.id' => $params["merge_pack_id"]]);
         // }
-        
+
         return $query->execute()->fetchAll('assoc') ?: [];
     }
     public function findMergePackDetailForRegisters(array $params): array
@@ -222,14 +223,14 @@ final class MergePackDetailRepository
         $query->select(
             [
                 'merge_pack_details.id',
-                'merge_pack_details.merge_pack_id',  
-                'label_no',  
+                'merge_pack_details.merge_pack_id',
+                'label_no',
                 'lb.quantity',
                 'label_id',
                 'lb.status',
                 'lb.label_type',
-            
-                
+
+
             ]
         );
         $query->join([      //focus that!!!!!!!!!!!!
@@ -244,14 +245,14 @@ final class MergePackDetailRepository
             'merge_pack_details.id'
         );
 
-        $query->andWhere(['lot_id'=>0]);
+        $query->andWhere(['lot_id' => 0]);
         $query->andWhere(['OR' => [['label_type' => "MERGE_FULLY"], ['label_type' => "MERGE_NONFULLY"]]]);
-        $query->andWhere(['status'=>"PACKED"]);
+        $query->andWhere(['status' => "PACKED"]);
 
-        if(isset($params['merge_pack_id'])){
+        if (isset($params['merge_pack_id'])) {
             $query->Where(['merge_pack_details.merge_pack_id' => $params["merge_pack_id"]]);
         }
-        
+
         return $query->execute()->fetchAll('assoc') ?: [];
     }
 
@@ -261,17 +262,17 @@ final class MergePackDetailRepository
         $query->select(
             [
                 'merge_pack_details.id',
-                'merge_pack_details.merge_pack_id',  
-                'label_no',  
+                'merge_pack_details.merge_pack_id',
+                'label_no',
                 'lb.quantity',
                 'label_id',
                 'lb.status',
                 'lb.label_type',
-                'lb.product_id', 
-                'lb_id'=>'lb.id',
-                 
-            
-                
+                'lb.product_id',
+                'lb_id' => 'lb.id',
+
+
+
             ]
         );
         $query->join([      //focus that!!!!!!!!!!!!
@@ -286,10 +287,10 @@ final class MergePackDetailRepository
         //     'merge_pack_details.id'
         // );
 
-        if(isset($params['merge_pack_id'])){
+        if (isset($params['merge_pack_id'])) {
             $query->Where(['merge_pack_details.merge_pack_id' => $params["merge_pack_id"]]);
         }
-        
+
         return $query->execute()->fetchAll('assoc') ?: [];
     }
 
@@ -299,21 +300,50 @@ final class MergePackDetailRepository
         $query->select(
             [
                 'merge_pack_details.id',
-                'merge_pack_details.merge_pack_id', 
-                'label_id',         
+                'merge_pack_details.merge_pack_id',
+                'label_id',
             ]
         );
-        $query->join([      
+        $query->join([
             'lb' => [
-                'table' => 'labels',  
+                'table' => 'labels',
                 'type' => 'INNER',
                 'conditions' => 'lb.id = merge_pack_details.label_id',
             ],
         ]);
-        if(isset($params['merge_pack_id'])){
+        if (isset($params['merge_pack_id'])) {
             $query->Where(['merge_pack_details.merge_pack_id' => $params["merge_pack_id"]]);
         }
 
         return $query->execute()->fetchAll('assoc') ?: [];
+    }
+
+    public function checkLabelInMergePackDetail(string $labelNo)
+    {
+        $query = $this->queryFactory->newSelect('merge_pack_details');
+        $query->select(
+            [
+                'merge_pack_details.id',
+                'label_id',
+                'label_no',
+            ]
+        );
+
+        $query->join([
+            'lb' => [
+                'table' => 'labels',
+                'type' => 'INNER',
+                'conditions' => 'lb.id = merge_pack_details.label_id',
+            ]
+        ]);
+        $query->andWhere(['label_no' => $labelNo]);
+
+        $row = $query->execute()->fetch('assoc');
+        if (!$row) {
+            return null;
+        } else {
+            return $row;
+        }
+        return false;
     }
 }

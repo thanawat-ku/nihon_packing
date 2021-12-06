@@ -186,6 +186,7 @@ return function (App $app) {
     $app->post('/api/sell_row', \App\Action\Api\SellRowAction::class);
     $app->post('/api/up_status_sell', \App\Action\Api\SellUpStatusAction::class);
     $app->post('/api/get_qty_sell_scan', \App\Action\Api\GetQtySellScanAction::class);
+    $app->post('/api/edit_sell', \App\Action\Api\SellEditAction::class);
     $app->post('/api/delete_sell', \App\Action\Api\SellDeleteAction::class);
 
     $app->get('/api/product_for_sells', \App\Action\Api\ProductForSellAction::class);

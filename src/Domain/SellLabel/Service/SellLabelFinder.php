@@ -44,4 +44,10 @@ final class SellLabelFinder
     {
         return $this->repository->findSellLabelForMergePacks($params);
     }
+    public function checkLabelInSellLabel(string $labelNo)
+    {
+        $row = $this->repository->checkLabelInSellLabel($labelNo);
+
+        return $row;
+    }
 }
