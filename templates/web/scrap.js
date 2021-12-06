@@ -12,6 +12,7 @@ function editScrap(event) {
     $("#editScrapDate").datepicker({
         format: 'yyyy-mm-dd'
     }, 'val', obj.scrap_date);
+    $("#editScrapDate").val(obj.scrap_date);
 
 }
 

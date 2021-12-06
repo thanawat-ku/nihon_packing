@@ -9,6 +9,7 @@ function editCpoItem(event) {
     $("#editCpoNo").text(obj.cpo_no);
     $("#editSellQty").val(obj.sell_qty);
     $("#editSellQtyMax").attr({"max":obj.quantity-obj.packing_qty});
+    $("#editSellQtyMax").val(obj.quantity-obj.packing_qty);
 }
 
 function deleteCpoItem(event) {
