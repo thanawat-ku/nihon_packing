@@ -60,7 +60,7 @@ function registerLot(event) {
 }
 
 function syncCustomers(){
-    $('#syncTable').text("customer start");
+    $('#syncTable').text("Customer start");
     $.ajax ({
         type: "GET",
         url: "api/mis_sync_customers",
@@ -71,13 +71,13 @@ function syncCustomers(){
                 code="";
             }
             // Append to the html
-            $('#syncTable').text("customer last code: "+code);
+            $('#syncTable').text("Customer last code: "+code);
             syncProducts();
         }
    });
 }
 function syncProducts(){
-    $('#syncTable').text("product start");
+    $('#syncTable').text("Product start");
     $.ajax ({
         type: "GET",
         url: "api/mis_sync_products",
@@ -104,7 +104,7 @@ function syncSections(){
             }else{
                 code="";
             }
-            $('#syncTable').text("section last code: "+code);
+            $('#syncTable').text("Section last code: "+code);
             syncDefects();
         }
    });
@@ -120,13 +120,13 @@ function syncDefects(){
             }else{
                 code="";
             }
-            $('#syncTable').text("defect last code: "+code);
+            $('#syncTable').text("Defect last code: "+code);
             syncLots();
         }
    });
 }
 function syncLots(){
-    $('#syncTable').text("lot start");
+    $('#syncTable').text("Lot start");
     $.ajax ({
         type: "GET",
         url: "api/mis_sync_lots",
