@@ -42,7 +42,7 @@ final class SellUpdater
         $this->validator->validateSellInsert($data);
 
         $row = $this->mapToRow($data);
-        $row['product_id'] = $data['ProductID'];
+        $row['product_id'] = $data['product_id'];
 
         $id = $this->repository->insertSellApi($row, $user_id);
         $data1['sell_no'] = "C" . str_pad($id, 11, "0", STR_PAD_LEFT);
@@ -55,7 +55,7 @@ final class SellUpdater
         $this->validator->validateSellUpdate($sellId, $data);
 
         $row = $this->mapToRow($data);
-        if($data['up_status'] == "SELECTING_CPO") {
+        if ($data['up_status'] == "SELECTING_CPO") {
             $row['sell_status'] = "SELECTING_CPO";
         } else if ($data['up_status'] == "SELECTED_CPO") {
             $row['sell_status'] = "SELECTED_CPO";
@@ -63,9 +63,9 @@ final class SellUpdater
             $row['sell_status'] = "SELECTING_LABEL";
         } else if ($data['up_status'] == "SELECTED_LABEL") {
             $row['sell_status'] = "SELECTED_LABEL";
-        }else if ($data['up_status'] == "CREATED") {
+        } else if ($data['up_status'] == "CREATED") {
             $row['sell_status'] = "CREATED";
-        }else if ($data['up_status'] == "TAGGED") {
+        } else if ($data['up_status'] == "TAGGED") {
             $row['sell_status'] = "TAGGED";
         }
 

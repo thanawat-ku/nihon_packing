@@ -94,22 +94,23 @@ final class CheckSellLabelScanAction
                 $this->updateselllabel->insertSellLabelApi($insertSellLabel, $user_id);
 
                 if ($labelRow[0]['lot_id'] != 0) {
-
-                    $upStatus['status'] = "SELLING";
-                    $this->updateLabel->updateLabelApi((int)$labelRow[0]['id'], $upStatus, $user_id);
-
+                    if ($labelRow[0]['status'] == "PACKED") {
+                        $upStatus['status'] = "SELLING";
+                        $this->updateLabel->updateLabelApi((int)$labelRow[0]['id'], $upStatus, $user_id);
+                    }
                     $rtdata['message'] = "Get SellLabel Successful";
                     $rtdata['error'] = false;
-                    $rtLabel = $this->findSellLabel->findSellLabelForlots($data);
+                    $rtLabel = $this->findSellLabel->findSellLabelForlots($insertSellLabel);
 
                     array_push($listLabelFronLot, $rtLabel[0]);
                 } else {
-                    $upStatus['status'] = "SELLING";
-                    $this->updateLabel->updateLabelApi((int)$labelRow[0]['id'], $upStatus, $user_id);
-
+                    if ($labelRow[0]['status'] == "PACKED") {
+                        $upStatus['status'] = "SELLING";
+                        $this->updateLabel->updateLabelApi((int)$labelRow[0]['id'], $upStatus, $user_id);
+                    }
                     $rtdata['message'] = "Get SellLabel Successful";
                     $rtdata['error'] = false;
-                    $rtLabel = $this->findSellLabel->findSellLabelForMergePacks($data);
+                    $rtLabel = $this->findSellLabel->findSellLabelForMergePacks($insertSellLabel);
 
                     array_push($listLabelFronMerge, $rtLabel[0]);
                 }

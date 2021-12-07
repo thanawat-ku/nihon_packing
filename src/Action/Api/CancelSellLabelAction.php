@@ -44,8 +44,12 @@ final class CancelSellLabelAction
         $labelID = $data['label_id'];
         $user_id = $data['user_id'];
 
-        $upStatus['status'] = "PACKED";
-        $this->updateLabel->updateLabelApi($labelID, $upStatus, $user_id);
+        $rtSellLabel = $this->finder->findSellLabels($data);
+
+        if ($rtSellLabel[0]['status'] == "SELLING") {
+            $upStatus['status'] = "PACKED";
+            $this->updateLabel->updateLabelApi($labelID, $upStatus, $user_id);
+        }
 
         $this->updater->deleteLabelInSellLabel($SellLabelID);
 

@@ -61,6 +61,7 @@ final class SellLabelRepository
                 'label_type',
                 'std_pack',
                 'std_box',
+                'lb.status',
                 // 'part_name',
                 // 'part_code'
             ]
@@ -95,6 +96,9 @@ final class SellLabelRepository
         }
         if (isset($params['id'])) {
             $query->Where(['sell_labels.id' => $params["id"]]);
+        }
+        if (isset($params['label_id'])) {
+            $query->Where(['lb.id' => $params["label_id"]]);
         }
 
         return $query->execute()->fetchAll('assoc') ?: [];
@@ -152,6 +156,9 @@ final class SellLabelRepository
         if (isset($params['sell_id'])) {
             $query->Where(['sell_labels.sell_id' => $params["sell_id"]]);
         }
+        if (isset($params['label_id'])) {
+            $query->Where(['lb.id' => $params["label_id"]]);
+        }
 
         return $query->execute()->fetchAll('assoc') ?: [];
     }
@@ -205,6 +212,9 @@ final class SellLabelRepository
 
         if (isset($params['sell_id'])) {
             $query->Where(['sell_labels.sell_id' => $params["sell_id"]]);
+        }
+        if (isset($params['label_id'])) {
+            $query->Where(['lb.id' => $params["label_id"]]);
         }
 
         return $query->execute()->fetchAll('assoc') ?: [];

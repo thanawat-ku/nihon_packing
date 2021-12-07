@@ -43,7 +43,7 @@ final class SellAddAction
         $data = (array)$request->getParsedBody();
 
         $user_id = $data['user_id'];
-        $prodcutID = $data['ProductID'];
+        $prodcutID = $data['product_id'];
 
         $checkCreateSell = true;
 

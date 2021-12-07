@@ -165,8 +165,8 @@ final class TempQueryRepository
             ]
         ]);
 
-        if(isset($params['ProductID'])){
-            $query->Where(['p.id' => $params["ProductID"]]);
+        if(isset($params['product_id'])){
+            $query->Where(['p.id' => $params["product_id"]]);
         }
 
         return $query->execute()->fetchAll('assoc') ?: [];
