@@ -32,9 +32,27 @@ function registerTag(event) {
 
 }
 
+function confirmSell(event) {
+    let sell = event.currentTarget.name;
+    console.log(sell);
+    var obj = JSON.parse(sell);
+    $("#conSellID").val(obj.id);
+    $("#conSellNo").text(obj.sell_no);
+
+}
+
+function printTags(event) {
+    let sell = event.currentTarget.name;
+    console.log(sell);
+    var obj = JSON.parse(sell);
+    $("#printSellID").val(obj.id);
+    $("#printSellNo").text(obj.sell_no);
+
+}
+
 $(document).on(
     "click",
-    "#editBt, #deleteBt, #registerBt",
+    "#editBt, #deleteBt, #registerBt, #conBt, #printBt",
     (event) => {
         let id = event.currentTarget.id;
         switch (id) {
@@ -46,6 +64,12 @@ $(document).on(
                 break;
             case "registerBt":
                 registerTag(event);
+            case "conBt":
+                confirmSell(event);
+                break;
+            case "printBt":
+                printTags(event);
+                break;
             default:
                 console.log("no any events click");
         }

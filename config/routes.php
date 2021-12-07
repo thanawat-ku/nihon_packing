@@ -78,6 +78,7 @@ return function (App $app) {
     $app->get('/sells', \App\Action\Web\SellAction::class)->add(UserAuthMiddleware::class);
     $app->post('/add_sell', \App\Action\Web\SellAddAction::class)->add(UserAuthMiddleware::class);
     $app->get('/select_label_for_sells', \App\Action\Web\SelectLabelForSellAction::class)->add(UserAuthMiddleware::class);
+    $app->post('/print_tags_in_sell', \App\Action\Web\SellPrintTagAction::class)->add(UserAuthMiddleware::class);
 
     $app->get('/sell_labels', \App\Action\Web\SellLabelAction::class)->add(UserAuthMiddleware::class);
     $app->post('/add_sell_label', \App\Action\Web\SellLabelAddAction::class)->add(UserAuthMiddleware::class);
@@ -188,6 +189,7 @@ return function (App $app) {
     $app->post('/api/get_qty_sell_scan', \App\Action\Api\GetQtySellScanAction::class);
     $app->post('/api/edit_sell', \App\Action\Api\SellEditAction::class);
     $app->post('/api/delete_sell', \App\Action\Api\SellDeleteAction::class);
+    
 
     $app->get('/api/product_for_sells', \App\Action\Api\ProductForSellAction::class);
 

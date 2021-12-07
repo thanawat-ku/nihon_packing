@@ -49,6 +49,11 @@
 								<td>{{ sell.total_qty }}</td>
 								<td>{{ sell.sell_status }}</td>
 								<td>
+									{% if  sell.sell_status == "SELECTING_CPO" %}
+										<button type="button" id="conBt" class="btn btn-success btn-sm" data-toggle="modal" data-target="#confirmCpoItem" name="{{ sell|json_encode }}">
+											<i style="font-size:15px; width:20px;" class="fas fa-check"></i>
+										</button>
+									{% endif %}
 									{% if sell.sell_status == "PRINTED" %}
 										<button type="button" id="registerBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#registerModal" name="{{ sell|json_encode }}">
 											<i style="font-size:15px; width:20px;" class="fas fa-check-circle"></i>
@@ -72,6 +77,11 @@
 												<i style="font-size:15px; width:20px; " class="fas fa-folder-open"></i>
 											</button>
 										</a>
+										{%  if sell.sell_status == "SELECTED_LABEL" %}
+											<button type="button" id="printBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#printTags" name="{{ sell|json_encode }}">
+												<i style="font-size:15px; width:20px;" class="fas fa-print"></i>
+											</button>
+										{% endif %}
 										{% else %}
 									{% endif %}
 									{% if sell.sell_status == "SELECTED_CPO" or sell.sell_status == "SELECTING_LABEL"  %}
@@ -222,6 +232,64 @@
 					<div class="modal-footer">
 						<button type="submit" class="btn btn-danger">Delete</button>
 						<button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="confirmCpoItem">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<form
+					id="form-deleteCpoItem" action="confirm_sell" method="post">
+					<!-- Modal Header -->
+					<div class="modal-header">
+						<h4 class="modal-title">Confirm CPO Item</h4>
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					<!-- Modal body -->
+					<div class="modal-body">
+						<div class="form-sell">
+							<input type="hidden" id="conSellID" name="sell_id">
+							<label for="sellNo">Are you sure to confirm Sell No:
+								<span id="conSellNo"></span>
+								?
+							</label>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-success">Confirm</button>
+						<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="printTags">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<form
+					id="form-deleteCpoItem" action="print_tags_in_sell" method="post">
+					<!-- Modal Header -->
+					<div class="modal-header">
+						<h4 class="modal-title">Prin tags in sell</h4>
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					<!-- Modal body -->
+					<div class="modal-body">
+						<div class="form-sell">
+							<input type="hidden" id="printSellID" name="sell_id">
+							<label for="sellNo">Do you want print tag in sell no:
+								<span id="printSellNo"></span>
+								?
+							</label>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-success">Confirm</button>
+						<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
 					</div>
 				</form>
 			</div>

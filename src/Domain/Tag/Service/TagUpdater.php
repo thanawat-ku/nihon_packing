@@ -79,9 +79,18 @@ final class TagUpdater
     {
         $this->validator->validateTagUpdate($tagID, $data);
 
-        $storeRow = $this->mapToTagRow($data);
+        $row = $this->mapToTagRow($data);
 
-        $this->repository->updateTag($tagID, $storeRow);
+        $this->repository->updateTag($tagID, $row);
+    }
+
+    public function updateTagPrintFromSellID(int $sellID, array $data): void
+    {
+        $this->validator->validateTagUpdate($sellID, $data);
+
+        $row = $this->mapToTagRow($data);
+
+        $this->repository->updateTagPrintFromSellID($sellID, $row);
     }
 
     public function updateTagFronSellID(int $sellID, array $data): void
