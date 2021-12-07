@@ -16,18 +16,17 @@
 				<h2>
 					<i class="fas fa-sitemap"></i>
 					Scrap Detail list</h2>
-				{% if scrapRow.scrap_status == "CREATED" or scrapRow.scrap_status == "REJECTED" or scrapRow.scrap_status == "CONFIRMED" %}
-					{% if scrapRow.scrap_status == "CREATED" %}
+				{% if scrapRow.scrap_status == "CREATED" or scrapRow.scrap_status == "REJECTED" or scrapRow.scrap_status == "SELECTING" or scrapRow.scrap_status == "CONFIRMED" %}
+					{% if scrapRow.scrap_status == "CREATED" or scrapRow.scrap_status == "SELECTING" or scrapRow.scrap_status == "REJECTED" %}
 						<button type="button" id="addBt" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#addScrapDetail">
 							<i style="font-size:15px; width:20px;" class="fas fa-plus"></i>
 							Add Defect in Scrap</button>
 					{% endif %}
 					{% if scrapRow.check_scrap == "true" %}
-						{% if scrapRow.scrap_status == "CREATED" or scrapRow.scrap_status == "REJECTED" %}
+						{% if scrapRow.scrap_status == "CREATED" or scrapRow.scrap_status == "REJECTED" or scrapRow.scrap_status == "SELECTING" %}
 							<button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#confirmScrap">
 								<i style="font-size:15px; width:20px;" class="fas fa-check"></i>
 								Confirm</button>
-
 						{% endif %}
 						{% if scrapRow.scrap_status == "CONFIRMED" %}
 							<button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#acceptScrap">
@@ -58,7 +57,7 @@
 							<th>Section Name</th>
 							<th>Product Name</th>
 							<th>Quantity</th>
-							{% if scrapRow.scrap_status == "CREATED" or scrapRow.scrap_status == "REJECTED" %}
+							{% if scrapRow.scrap_status == "CREATED" or scrapRow.scrap_status == "REJECTED" or scrapRow.scrap_status == "SELECTING" %}
 								<th>Operation</th>
 							{% endif %}
 
@@ -72,7 +71,7 @@
 								<td>{{ scrapDetail.section_name }}</td>
 								<td>{{ '(' ~ scrapDetail.part_code ~ ') ' ~ scrapDetail.part_name}}</td>
 								<td>{{ scrapDetail.scrap_detail_qty }}</td>
-								{% if scrapRow.scrap_status == "CREATED" or scrapRow.scrap_status == "REJECTED" %}
+								{% if scrapRow.scrap_status == "CREATED" or scrapRow.scrap_status == "REJECTED" or scrapRow.scrap_status == "SELECTING" %}
 									<td>
 
 										<button type="button" id="editBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editScrapDetail" name="{{ scrapDetail|json_encode }}">
@@ -182,168 +181,151 @@
 										{{ s.section_description}}
 									</option>
 								{% endfor %}
-							</select>
-						</div>
-						<div class="form-scrap">
-							<label for="email">Select Product</label>
-							<select class="selectpicker form-control" id="editProductID" name="product_id" data-live-search="true" required>
-								{% for p in products %}
-									<option value={{ p.id }}>({{p.part_code}})
-										{{ p.part_name}}
-									</option>
-								{% endfor %}
-							</select>
-						</div>
-						<div class="form-scrap">
-							<label for="email">Select Defect</label>
-							<select class="selectpicker form-control" id="editDefectID" name="defect_id" data-live-search="true" required>
-								{% for d in defects %}
-									<option value={{ d.id }}>({{d.defect_code}})
-										{{ d.defect_description}}
-									</option>
-								{% endfor %}
-							</select>
-						</div>
-						<div>
-							<label for="email">Quantity</label>
-							<input type="number" min="1" autocomplete="off" class="form-control" id="editQuantity" name="quantity" required>
-						</div>
-						<div class="modal-footer">
-							<button type="submit" class="btn btn-primary">Save</button>
-							<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-						</div>
-					</form>
+							</tr>
+						</thead>
+					</select>
+				</div>
+				<div class="form-scrap">
+					<label for="email">Select Product</label>
+					<select class="selectpicker form-control" id="editProductID" name="product_id" data-live-search="true" required>
+						{% for p in products %}
+							<option value={{ p.id }}>({{p.part_code}})
+								{{ p.part_name}}
+							</option>
+						{% endfor %}
+					</select>
+				</div>
+				<div class="form-scrap">
+					<label for="email">Select Defect</label>
+					<select class="selectpicker form-control" id="editDefectID" name="defect_id" data-live-search="true" required>
+						{% for d in defects %}
+							<option value={{ d.id }}>({{d.defect_code}})
+								{{ d.defect_description}}
+							</option>
+						{% endfor %}
+					</select>
+				</div>
+				<div>
+					<label for="email">Quantity</label>
+					<input type="number" min="1" autocomplete="off" class="form-control" id="editQuantity" name="quantity" required>
+				</div>
+				<div class="modal-footer">
+					<button type="submit" class="btn btn-primary">Save</button>
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div></div><!-- Modal Delete scrap Detail --><div class="modal fade" id="deleteScrapDetail">
+<div class="modal-dialog modal-dialog-centered">
+	<div class="modal-content">
+		<form
+			id="form-deleteScrapDetail" action="delete_scrap_detail" method="post">
+			<!-- Modal Header -->
+			<div class="modal-header">
+				<h4 class="modal-title">Delete Scrap Detail</h4>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+			<!-- Modal body -->
+			<div class="modal-body">
+				<div class="form-scrap_detail">
+					<input type="hidden" id="deleteScrapDetailID" name="id">
+					<input type="hidden" name="scrap_id" value="{{scrapRow.id}}">
+					<label for="scrap_detailNo">Delete Defect Code</label>
+					<input type="text" autocomplete="off" class="form-control" id="deleteDefectCode" readonly>
+				</div>
+				<div class="form-scrap_detail">
+					<label for="scrap_detailNo">Prodcut Name</label>
+					<input type="text" autocomplete="off" class="form-control" id="deleteProductName" readonly>
+				</div>
+				<div class="form-scrap_detail">
+					<label for="scrap_detailNo">Section Name</label>
+					<input type="text" autocomplete="off" class="form-control" id="deleteSectionName" readonly>
+				</div>
+				<div class="form-scrap_detail">
+					<label for="scrap_detailNo">Quantity</label>
+					<input type="text" autocomplete="off" class="form-control" id="deleteQuantity" readonly>
 				</div>
 			</div>
-		</div>
-	</div>
-
-	<!-- Modal Delete scrap Detail -->
-	<div class="modal fade" id="deleteScrapDetail">
-		<div class="modal-dialog modal-dialog-centered">
-			<div class="modal-content">
-				<form
-					id="form-deleteScrapDetail" action="delete_scrap_detail" method="post">
-					<!-- Modal Header -->
-					<div class="modal-header">
-						<h4 class="modal-title">Delete Scrap Detail</h4>
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-					</div>
-					<!-- Modal body -->
-					<div class="modal-body">
-						<div class="form-scrap_detail">
-							<input type="hidden" id="deleteScrapDetailID" name="id">
-							<input type="hidden" name="scrap_id" value="{{scrapRow.id}}">
-							<label for="scrap_detailNo">Delete Defect Code</label>
-							<input type="text" autocomplete="off" class="form-control" id="deleteDefectCode" readonly>
-						</div>
-						<div class="form-scrap_detail">
-							<label for="scrap_detailNo">Prodcut Name</label>
-							<input type="text" autocomplete="off" class="form-control" id="deleteProductName" readonly>
-						</div>
-						<div class="form-scrap_detail">
-							<label for="scrap_detailNo">Section Name</label>
-							<input type="text" autocomplete="off" class="form-control" id="deleteSectionName" readonly>
-						</div>
-						<div class="form-scrap_detail">
-							<label for="scrap_detailNo">Quantity</label>
-							<input type="text" autocomplete="off" class="form-control" id="deleteQuantity" readonly>
-						</div>
-					</div>
-					<div class="modal-footer">
-						<button type="submit" class="btn btn-danger">Delete</button>
-						<button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
-					</div>
-				</form>
+			<div class="modal-footer">
+				<button type="submit" class="btn btn-danger">Delete</button>
+				<button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
 			</div>
-		</div>
+		</form>
 	</div>
-
-	<!-- Modal Confirm Scrap -->
-	<div class="modal fade" id="confirmScrap">
-		<div class="modal-dialog modal-dialog-centered">
-			<div class="modal-content">
-				<form
-					id="form-deleteScrapDetail" action="confirm_scrap" method="post">
-					<!-- Modal Header -->
-					<div class="modal-header">
-						<h4 class="modal-title">Confirm Scrap</h4>
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-					</div>
-					<!-- Modal body -->
-					<div class="modal-body">
-						<div class="form-scrap_detail">
-							<input type="hidden" name="id" value="{{scrapRow.id}}">
-							<label for="scrap_detailNo">Do you want to confirm Scrap No: 
-								<span>{{ scrapRow.scrap_no }}</span>
-							</label>
-						</div>
-					</div>
-					<div class="modal-footer">
-						<button type="submit" class="btn btn-success">Confirm</button>
-						<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-					</div>
-				</form>
+</div></div><!-- Modal Confirm Scrap --><div class="modal fade" id="confirmScrap">
+<div class="modal-dialog modal-dialog-centered">
+	<div class="modal-content">
+		<form
+			id="form-deleteScrapDetail" action="confirm_scrap" method="post">
+			<!-- Modal Header -->
+			<div class="modal-header">
+				<h4 class="modal-title">Confirm Scrap</h4>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
 			</div>
-		</div>
-	</div>
-
-	<!-- Modal Reject Scrap -->
-	<div class="modal fade" id="rejectScrap">
-		<div class="modal-dialog modal-dialog-centered">
-			<div class="modal-content">
-				<form
-					id="form-deleteScrapDetail" action="reject_scrap" method="post">
-					<!-- Modal Header -->
-					<div class="modal-header">
-						<h4 class="modal-title">Reject Scrap</h4>
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-					</div>
-					<!-- Modal body -->
-					<div class="modal-body">
-						<div class="form-scrap_detail">
-							<input type="hidden" name="id" value="{{scrapRow.id}}">
-							<label for="scrap_detailNo">Do you want to reject Scrap No: 
-								<span>{{ scrapRow.scrap_no }}</span>
-							</label>
-						</div>
-					</div>
-					<div class="modal-footer">
-						<button type="submit" class="btn btn-danger">Confirm</button>
-						<button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
-					</div>
-				</form>
+			<!-- Modal body -->
+			<div class="modal-body">
+				<div class="form-scrap_detail">
+					<input type="hidden" name="id" value="{{scrapRow.id}}">
+					<label for="scrap_detailNo">Do you want to confirm Scrap No:
+						<span>{{ scrapRow.scrap_no }}</span>
+					</label>
+				</div>
 			</div>
-		</div>
-	</div>
-
-	<!-- Modal Accept Scrap -->
-	<div class="modal fade" id="acceptScrap">
-		<div class="modal-dialog modal-dialog-centered">
-			<div class="modal-content">
-				<form
-					id="form-deleteScrapDetail" action="accept_scrap" method="post">
-					<!-- Modal Header -->
-					<div class="modal-header">
-						<h4 class="modal-title">Accept Scrap</h4>
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-					</div>
-					<!-- Modal body -->
-					<div class="modal-body">
-						<div class="form-scrap_detail">
-							<input type="hidden" name="id" value="{{scrapRow.id}}">
-							<label for="scrap_detailNo">Do you want to accept Scrap No: 
-								<span>{{ scrapRow.scrap_no }}</span>
-							</label>
-						</div>
-					</div>
-					<div class="modal-footer">
-						<button type="submit" class="btn btn-success">Confirm</button>
-						<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-					</div>
-				</form>
+			<div class="modal-footer">
+				<button type="submit" class="btn btn-success">Confirm</button>
+				<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
 			</div>
-		</div>
+		</form>
 	</div>
-
-{% endblock %}
+</div></div><!-- Modal Reject Scrap --><div class="modal fade" id="rejectScrap">
+<div class="modal-dialog modal-dialog-centered">
+	<div class="modal-content">
+		<form
+			id="form-deleteScrapDetail" action="reject_scrap" method="post">
+			<!-- Modal Header -->
+			<div class="modal-header">
+				<h4 class="modal-title">Reject Scrap</h4>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+			<!-- Modal body -->
+			<div class="modal-body">
+				<div class="form-scrap_detail">
+					<input type="hidden" name="id" value="{{scrapRow.id}}">
+					<label for="scrap_detailNo">Do you want to reject Scrap No:
+						<span>{{ scrapRow.scrap_no }}</span>
+					</label>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="submit" class="btn btn-danger">Confirm</button>
+				<button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+			</div>
+		</form>
+	</div>
+</div></div><!-- Modal Accept Scrap --><div class="modal fade" id="acceptScrap">
+<div class="modal-dialog modal-dialog-centered">
+	<div class="modal-content">
+		<form
+			id="form-deleteScrapDetail" action="accept_scrap" method="post">
+			<!-- Modal Header -->
+			<div class="modal-header">
+				<h4 class="modal-title">Accept Scrap</h4>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+			<!-- Modal body -->
+			<div class="modal-body">
+				<div class="form-scrap_detail">
+					<input type="hidden" name="id" value="{{scrapRow.id}}">
+					<label for="scrap_detailNo">Do you want to accept Scrap No:
+						<span>{{ scrapRow.scrap_no }}</span>
+					</label>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="submit" class="btn btn-success">Confirm</button>
+				<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+			</div>
+		</form>
+	</div>
+</div></div>{% endblock %}

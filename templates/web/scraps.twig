@@ -47,6 +47,11 @@
 								<td>{{ scrap.scrap_date }}</td>
 								<td>{{ scrap.scrap_status }}</td>
 								<td>
+									{% if  scrap.scrap_status == "SELECTING" or scrap.scrap_status == "REJECTED" %}
+										<button type="button" id="conBt" class="btn btn-success btn-sm" data-toggle="modal" data-target="#confirmScrap" name="{{ scrap|json_encode }}">
+											<i style="font-size:15px; width:20px;" class="fas fa-check"></i>
+										</button>
+									{% endif %}
 									{% if scrap.scrap_status == "CONFIRMED" %}
 										<button type="button" id="acceptBt" class="btn btn-success btn-sm" data-toggle="modal" data-target="#acceptScrap" name="{{ scrap|json_encode }}">
 											<i style="font-size:15px; width:20px;" class="far fa-check-square"></i>
@@ -190,7 +195,7 @@
 					<div class="modal-body">
 						<div class="form-scrap_detail">
 							<input type="hidden" id="rejectScrapID" name="id">
-							<label for="scrap_detailNo">Do you want to reject Scrap No: 
+							<label for="scrap_detailNo">Do you want to reject Scrap No:
 								<span id="rejectScrapNo">?</span>
 							</label>
 						</div>
@@ -219,8 +224,37 @@
 					<div class="modal-body">
 						<div class="form-scrap_detail">
 							<input type="hidden" id="acceptScrapID" name="id">
-							<label for="scrap_detailNo">Do you want to accept Scrap No: 
+							<label for="scrap_detailNo">Do you want to accept Scrap No:
 								<span id="acceptScrapNo">?</span>
+							</label>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-success">Confirm</button>
+						<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modal Confirm Scrap -->
+	<div class="modal fade" id="confirmScrap">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<form
+					id="form-deleteScrapDetail" action="confirm_scrap" method="post">
+					<!-- Modal Header -->
+					<div class="modal-header">
+						<h4 class="modal-title">Confirm Scrap</h4>
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					<!-- Modal body -->
+					<div class="modal-body">
+						<div class="form-scrap_detail">
+							<input type="hidden" id="conScrapID" name="id">
+							<label for="scrap_detailNo">Do you want to confirm Scrap No:
+								<span id="conScrapNo"></span>
 							</label>
 						</div>
 					</div>

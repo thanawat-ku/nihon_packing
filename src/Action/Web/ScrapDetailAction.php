@@ -4,6 +4,7 @@ namespace App\Action\Web;
 
 use App\Domain\ScrapDetail\Service\ScrapDetailFinder;
 use App\Domain\Scrap\Service\ScrapFinder;
+use App\Domain\Scrap\Service\ScrapUpdater;
 use App\Domain\Defect\Service\DefectFinder;
 use App\Domain\Section\Service\SectionFinder;
 use App\Domain\Product\Service\ProductFinder;
@@ -24,6 +25,7 @@ final class ScrapDetailAction
     private $responder;
     private $twig;
     private $finder;
+    private $updater;
     private $scrapFinder;
     private $sectionFinder;
     private $productFinder;
@@ -34,6 +36,7 @@ final class ScrapDetailAction
         Twig $twig,
         ScrapDetailFinder $finder,
         ScrapFinder $scrapFinder,
+        ScrapUpdater $updater,
         SectionFinder $sectionFinder,
         ProductFinder $productFinder,
         DefectFinder $defectFinder,
@@ -42,6 +45,7 @@ final class ScrapDetailAction
     ) {
         $this->twig = $twig;
         $this->finder = $finder;
+        $this->updater = $updater;
         $this->scrapFinder = $scrapFinder;
         $this->sectionFinder = $sectionFinder;
         $this->productFinder = $productFinder;
@@ -60,11 +64,32 @@ final class ScrapDetailAction
         $scrapRow = $this->scrapFinder->findScraps($rtScrap);
 
         $rtScrapDetail = $this->finder->findScrapDetails($params);
-        if (!$rtScrapDetail) {
-            $scrapRow[0]['check_scrap']="false";
-        }else{
-            $scrapRow[0]['check_scrap']="true";
+
+        if ($scrapRow[0]['scrap_status'] == 'CREATED' || $scrapRow[0]['scrap_status'] == 'SELECTING' || $scrapRow[0]['scrap_status'] == 'REJECTED') {
+
+            if (!$rtScrapDetail) {
+                $upStatus['scrap_status'] = "CREATED";
+                $this->updater->updateScrap($scrapID, $upStatus);
+                $scrapRow = $this->scrapFinder->findScraps($rtScrap);
+                $scrapRow[0]['check_scrap'] = "false";
+            } else {
+                if ($scrapRow[0]['scrap_status'] != 'REJECTED') {
+                    $upStatus['scrap_status'] = "SELECTING";
+                    $this->updater->updateScrap($scrapID, $upStatus);
+                    $scrapRow = $this->scrapFinder->findScraps($rtScrap);
+                }
+                $scrapRow[0]['check_scrap'] = "true";
+            }
+        } else {
+            if (!$rtScrapDetail) {
+                $scrapRow[0]['check_scrap'] = "false";
+            } else {
+                $scrapRow[0]['check_scrap'] = "true";
+            }
         }
+
+
+
 
         $viewData = [
             'scrapRow' => $scrapRow[0],

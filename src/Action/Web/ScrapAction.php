@@ -44,6 +44,8 @@ final class ScrapAction
             $params['endDate'] = date('Y-m-d');
         }
 
+        
+
 
         $viewData = [
             'scraps' => $this->finder->findScraps($params),

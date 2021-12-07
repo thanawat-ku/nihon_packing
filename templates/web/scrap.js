@@ -43,9 +43,18 @@ function acceptScrap(event) {
 
 }
 
+function confirmScrap(event) {
+    let scrap = event.currentTarget.name;
+    console.log(scrap);
+    var obj = JSON.parse(scrap);
+    $("#conScrapID").val(obj.id);
+    $("#conScrapNo").text(obj.scrap_no);
+
+}
+
 $(document).on(
     "click",
-    "#editBt, #deleteBt, #rejectBt, #acceptBt",
+    "#editBt, #deleteBt, #rejectBt, #acceptBt, #conBt",
     (event) => {
         let id = event.currentTarget.id;
         switch (id) {
@@ -60,6 +69,9 @@ $(document).on(
                 break;
             case "acceptBt":
                 acceptScrap(event);
+                break;
+            case "conBt":
+                confirmScrap(event);
                 break;
             default:
                 console.log("no any events click");
