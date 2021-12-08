@@ -57,11 +57,11 @@ final class CompleteMergePackAction
         for ($i = 1; $i < count($arrlabel); $i++) {
             $label_no = $arrlabel[$i];
             $data1['label_no'] = explode(",", $label_no)[0];
-            $label_row = $this->finderlabel->findLabelSingleTable($data1);
-            $labelID = (int)$label_row[0]['id'];
-
-            $dataUpdate['up_status'] = "PACKED";
-            $this->updatelabel->updateLabelStatus($labelID, $dataUpdate, $user_id);
+            // $label_row = $this->finderlabel->findLabelSingleTable($data1);
+            // $labelID = (int)$label_row[0]['id'];
+            
+            $dataUpdate['status'] = "PACKED";
+            $this->updatelabel->registerLabelFromMergePackIDApi($mergepackID, $dataUpdate, $user_id);
         }
         $upStatus['merge_status'] = "COMPLETE";
         $this->updater->updateMergePackApi($mergepackID, $upStatus, $user_id);

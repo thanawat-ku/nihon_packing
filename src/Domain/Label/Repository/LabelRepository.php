@@ -129,6 +129,13 @@ final class LabelRepository
 
         $this->queryFactory->newUpdate('labels', $data)->andWhere(['merge_pack_id' => $mergePackID])->execute();
     }
+    public function  registerLabelFromMergePackIDApi(int $mergePackID, array $data, $user_id): void
+    {
+        $data['updated_at'] = Chronos::now()->toDateTimeString();
+        $data['updated_user_id'] = $user_id;
+
+        $this->queryFactory->newUpdate('labels', $data)->andWhere(['merge_pack_id' => $mergePackID])->execute();
+    }
 
 
 
@@ -297,7 +304,7 @@ final class LabelRepository
                 'labels.status',
             ]
         );
-        
+
         if (isset($params['product_id'])) {
             $query->andWhere(['product_id' => $params['product_id']]);
         }

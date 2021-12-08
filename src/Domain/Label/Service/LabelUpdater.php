@@ -71,16 +71,16 @@ final class LabelUpdater
         $row = $this->mapToLabelRow($data);
 
         //web
-        if ($data['up_status']=="SELLING") {
+        if ($data['up_status'] == "SELLING") {
             $row['status'] = "SELLING";
-        }else if ($data['up_status']=="PACKED"){
+        } else if ($data['up_status'] == "PACKED") {
             $row['status'] = "PACKED";
-        }else if($data['up_status']=="VOID"){
-            if ($data['void']=="MERGED") {
+        } else if ($data['up_status'] == "VOID") {
+            if ($data['void'] == "MERGED") {
                 $row['status'] = "VOID";
                 $row['label_void_reason_id'] = 2;
             }
-        }else if($data['up_status']=="USED"){
+        } else if ($data['up_status'] == "USED") {
             $row['status'] = "USED";
         }
 
@@ -225,15 +225,15 @@ final class LabelUpdater
         $this->repository->updateLabeldefault($ID, $row, $user_id);
     }
 
-    // public function updateLabelStatusPackedApi(int $labelID, array $data, $user_id): void
-    // {
-    //     $this->validator->validateLabelUpdate($labelID, $data);
+    public function registerLabelFromMergePackIDApi(int $mergePackID, array $data, $user_id): void
+    {
+        $this->validator->validateLabelUpdate($mergePackID, $data);
 
-    //     $row = $this->mapToLabelRow($data);
-    //     $row['status'] = "PACKED";
+        $row = $this->mapToLabelRow($data);
 
-    //     $this->repository->updateLabelmergeApi($labelID, $row, $user_id);
-    // }
+        $this->repository->registerLabelFromMergePackIDApi($mergePackID, $row, $user_id);
+    }
+
 
     private function mapToLabelRow(array $data): array
     {

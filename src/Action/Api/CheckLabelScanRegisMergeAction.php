@@ -4,15 +4,10 @@ namespace App\Action\Api;
 
 use App\Domain\Label\Service\LabelFinder;
 use App\Domain\Label\Service\LabelUpdater;
-use App\Domain\Sell\Service\SellUpdater;
-use App\Domain\SellLabel\Service\SellLabelUpdater;
-use App\Domain\MergePackDetail\Service\MergePackDetailFinder;
+use App\Domain\MergePack\Service\MergePackUpdater;
 use App\Responder\Responder;
-use PhpParser\Node\Stmt\Label;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Slim\Views\Twig;
-use Symfony\Component\HttpFoundation\Session\Session;
 
 use function DI\string;
 
@@ -27,34 +22,26 @@ final class CheckLabelScanRegisMergeAction
     private $responder;
     private $finder;
     private $updater;
-    private $updatesell;
-    private $updateselllabel;
-    private $mergepackDetailFinder;
+
 
     public function __construct(
-        Twig $twig,
+
         LabelFinder $finder,
-        SellUpdater $updatesell,
-        LabelUpdater $updater,
-        Session $session,
+        MergepackUpdater $updater,
         Responder $responder,
-        SellLabelUpdater $updateselllabel,
-        MergePackDetailFinder $mergepackDetailFinder
+
     ) {
-        $this->twig = $twig;
         $this->finder = $finder;
         $this->updater = $updater;
-        $this->updatesell = $updatesell;
-        $this->updateselllabel = $updateselllabel;
-        $this->session = $session;
         $this->responder = $responder;
-        $this->mergepackDetailFinder = $mergepackDetailFinder;
     }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $data = (array)$request->getParsedBody();
         $label = $data['label'];
+        $user_id = $data['user_id'];
+        $mergepackID = $data['id'];
 
         $arrlabel = explode("#", $label);
 
@@ -66,7 +53,6 @@ final class CheckLabelScanRegisMergeAction
             $label_no = $arrlabel[$i];
             $labelNo['label_no'] = explode(",", $label_no)[0];
             $labelRow = $this->finder->findLabelSingleTable($labelNo);
-
 
             if ($labelRow != null) {
                 $labelID['id'] = $labelRow[0]['id'];
@@ -95,6 +81,8 @@ final class CheckLabelScanRegisMergeAction
             $rtdata['error'] = true;
             return $this->responder->withJson($response, $rtdata);
         } else {
+            $upStatus['merge_status'] = "REGISTERING";
+            $this->updater->updateMergePackApi($mergepackID, $upStatus, $user_id);
             return $this->responder->withJson($response, $rtdata);
         }
     }
