@@ -3,6 +3,7 @@
 namespace App\Action\Api;
 
 use App\Domain\ScrapDetail\Service\ScrapDetailFinder;
+use App\Domain\Scrap\Service\ScrapUpdater;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -16,7 +17,8 @@ final class ScrapDetailAction
      * @var Responder
      */
     private $responder;
-    private $productFinder;
+    private $findScrapDetails;
+    private $updateScrap;
 
 
     /**
@@ -24,11 +26,12 @@ final class ScrapDetailAction
      *
      * @param Responder $responder The responder
      */
-    public function __construct(ScrapDetailFinder $productFinder, Responder $responder)
+    public function __construct(ScrapDetailFinder $findScrapDetails, Responder $responder, ScrapUpdater $updateScrap)
     {
 
-        $this->productFinder = $productFinder;
+        $this->findScrapDetails = $findScrapDetails;
         $this->responder = $responder;
+        $this->updateScrap = $updateScrap;
     }
 
     /**
@@ -42,10 +45,24 @@ final class ScrapDetailAction
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $params = (array)$request->getQueryParams();
+        $user_id = $params['user_id'];
+        $scrapID = $params['scrap_id'];
+
+        $rtScrapDetail = $this->findScrapDetails->findScrapDetails($params);
+
+        if ($rtScrapDetail[0]['status'] == "CREATED" || $rtScrapDetail[0]['status'] == "SELECTING") {
+            if ($rtScrapDetail) {
+                $upStatus['scrap_status'] = "SELECTING";
+                $this->updateScrap->updateScrapApi($scrapID, $upStatus, $user_id);
+            } else {
+                $upStatus['scrap_status'] = "CREATED";
+                $this->updateScrap->updateScrapApi($scrapID, $upStatus, $user_id);
+            }
+        }
 
         $rtdata['message'] = "Get ScrapDetail Successful";
         $rtdata['error'] = false;
-        $rtdata['scrap_details'] = $this->productFinder->findScrapDetails($params);
+        $rtdata['scrap_details'] = $this->findScrapDetails->findScrapDetails($params);
 
         return $this->responder->withJson($response, $rtdata);
     }
