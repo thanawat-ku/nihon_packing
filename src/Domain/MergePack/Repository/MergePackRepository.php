@@ -167,4 +167,33 @@ final class MergePackRepository
 
         return $query->execute()->fetchAll('assoc') ?: [];
     }
+
+    public function findPackMergeFromProductID(array $params): array
+    {
+        $query = $this->queryFactory->newSelect('merge_packs');
+        $query->select(
+            [
+                'merge_packs.id',
+                'merge_no',
+                'merge_status',
+
+            ]
+        );
+
+        $query->join([
+            'p' => [
+                'table' => 'products',
+                'type' => 'INNER',
+                'conditions' => 'p.id = merge_packs.product_id',
+            ]
+        ]);
+        $query->andWhere(['merge_packs.is_delete' => 'N']);
+        $query->where(['OR' => [['merge_status' => "CREATED"], ['merge_status' => "MERGING"]]]);
+
+        if (isset($params['product_id'])) {
+            $query->andWhere(['p.id' => $params['product_id']]);
+        }
+
+        return $query->execute()->fetchAll('assoc') ?: [];
+    }
 }

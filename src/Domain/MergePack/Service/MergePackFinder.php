@@ -32,4 +32,9 @@ final class MergePackFinder
     {
         return $this->repository->findLabelPackMerges($params);
     }
+
+    public function findPackMergeFromProductID(array $params): array
+    {
+        return $this->repository->findPackMergeFromProductID($params);
+    }
 }
