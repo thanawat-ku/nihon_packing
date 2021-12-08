@@ -4,6 +4,7 @@ namespace App\Action\Api;
 
 use App\Domain\ScrapDetail\Service\ScrapDetailFinder;
 use App\Domain\Scrap\Service\ScrapUpdater;
+use App\Domain\Scrap\Service\ScrapFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -19,6 +20,7 @@ final class ScrapDetailAction
     private $responder;
     private $findScrapDetails;
     private $updateScrap;
+    private $finder;
 
 
     /**
@@ -26,12 +28,13 @@ final class ScrapDetailAction
      *
      * @param Responder $responder The responder
      */
-    public function __construct(ScrapDetailFinder $findScrapDetails, Responder $responder, ScrapUpdater $updateScrap)
+    public function __construct(ScrapDetailFinder $findScrapDetails, Responder $responder, ScrapUpdater $updateScrap, ScrapFinder  $finder)
     {
 
         $this->findScrapDetails = $findScrapDetails;
         $this->responder = $responder;
         $this->updateScrap = $updateScrap;
+        $this->finder = $finder;
     }
 
     /**
@@ -49,8 +52,9 @@ final class ScrapDetailAction
         $scrapID = $params['scrap_id'];
 
         $rtScrapDetail = $this->findScrapDetails->findScrapDetails($params);
+        $rtScrap = $this->finder->findScraps($params);
 
-        if ($rtScrapDetail[0]['status'] == "CREATED" || $rtScrapDetail[0]['status'] == "SELECTING") {
+        if ($rtScrap[0]['scrap_status'] == "CREATED" || $rtScrap[0]['scrap_status'] == "SELECTING") {
             if ($rtScrapDetail) {
                 $upStatus['scrap_status'] = "SELECTING";
                 $this->updateScrap->updateScrapApi($scrapID, $upStatus, $user_id);
