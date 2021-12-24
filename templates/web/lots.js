@@ -13,7 +13,7 @@ function editLot(event) {
     var obj = JSON.parse(lot);
     $("#editLotID").val(obj.id);
     $("#editLotNo").val(obj.lot_no);
-    $("#editProductID").val(obj.product_id);
+    $("#editProductID").selectpicker('val',obj.product_id);
     $("#editQuantity").val(obj.quantity);
 }
 
