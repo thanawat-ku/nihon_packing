@@ -34,7 +34,7 @@ final class SellRowAction
         SellUpdater $updater,
         Session $session,
         Responder $responder,
-        SellCpoItemFinder $findersct,
+        SellCpoItemFinder $findersct
     ) {
         $this->twig = $twig;
         $this->finder = $finder;

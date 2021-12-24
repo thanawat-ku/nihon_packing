@@ -33,7 +33,7 @@ final class LotDefectEditAction
         Session $session,
         Twig $twig,
         LotFinder $lotFinder,
-        DefectFinder $defectFinder,
+        DefectFinder $defectFinder
 
     ) {
         $this->responder = $responder;
@@ -48,7 +48,7 @@ final class LotDefectEditAction
 
     public function __invoke(
         ServerRequestInterface $request,
-        ResponseInterface $response,
+        ResponseInterface $response
     ): ResponseInterface {
         $data = (array)$request->getParsedBody();
         $lotDefectId = $data['id'];

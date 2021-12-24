@@ -16,7 +16,7 @@ final class SellCpoItemUpdater
     public function __construct(
         SellCpoItemRepository $repository,
         SellCpoItemValidator $validator,
-        Session $session,
+        Session $session
     ) {
         $this->repository = $repository;
         $this->validator = $validator;

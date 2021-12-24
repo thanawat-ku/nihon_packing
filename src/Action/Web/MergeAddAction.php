@@ -35,7 +35,7 @@ final class MergeAddAction
         MergePackFinder $finder,
         Session $session,
         Responder $responder,
-        MergePackUpdater  $updater,
+        MergePackUpdater  $updater
     ) {
         $this->twig = $twig;
         $this->finder = $finder;

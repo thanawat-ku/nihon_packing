@@ -30,7 +30,7 @@ final class  SplitLabelDetailAction
         Session $session,
         Responder $responder,
         SplitLabelDetailFinder $splitDetailFinder,
-        LabelVoidReasonFinder $voidReasonFinder,
+        LabelVoidReasonFinder $voidReasonFinder
     ) {
         $this->twig = $twig;
         $this->finder = $finder;

@@ -40,7 +40,7 @@ final class CheckSellLabelScanAction
         Responder $responder,
         SellLabelUpdater $updateselllabel,
         SellLabelFinder $findSellLabel,
-        LabelUpdater $updateLabel,
+        LabelUpdater $updateLabel
     ) {
         $this->finder = $finder;
         // $this->updater = $updater;

@@ -25,7 +25,7 @@ final class LabelVoidReasonEditAction
         LabelVoidReasonFinder $finder,
         Session $session,
         Responder $responder,
-        LabelVoidReasonUpdater $updater,
+        LabelVoidReasonUpdater $updater
     ) {
         $this->twig = $twig;
         $this->finder = $finder;

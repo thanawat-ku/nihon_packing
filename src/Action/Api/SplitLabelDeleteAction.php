@@ -33,7 +33,7 @@ final class SplitLabelDeleteAction
         LabelUpdater $updaterLabel,
         SplitLabelUpdater  $updater,
         SplitLabelDetailUpdater $updaterSpiteLabelDetail,
-        SplitLabelDetailFinder $finderSpiteLabelDetail,
+        SplitLabelDetailFinder $finderSpiteLabelDetail
     ) {
         $this->responder = $responder;
         $this->finder = $finder;

@@ -34,7 +34,7 @@ final class LabelScanSplitRegisterAction
         LabelUpdater $updater,
         Responder $responder,
         SplitLabelDetailFinder $splitDetailFinder,
-        SplitLabelFinder $splitFinder,
+        SplitLabelFinder $splitFinder
     ) {
 
         $this->finder = $finder;

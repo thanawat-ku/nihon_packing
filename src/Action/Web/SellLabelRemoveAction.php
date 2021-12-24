@@ -34,7 +34,7 @@ final class SellLabelRemoveAction
         SellFinder $sellFinder,
         LabelUpdater $labelUpdater,
         Session $session,
-        SellLabelFinder $sellLabelFinder,
+        SellLabelFinder $sellLabelFinder
     ) {
         $this->twig = $twig;
         $this->responder = $responder;

@@ -26,7 +26,7 @@ final class LotPrintAction
         Responder $responder,
         LotUpdater $updater,
         LotFinder $finder,
-        LabelUpdater $labelUpdater,
+        LabelUpdater $labelUpdater
     ) {
         $this->session = $session;
         $this->responder = $responder;

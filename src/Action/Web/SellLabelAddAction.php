@@ -37,7 +37,7 @@ final class SellLabelAddAction
         Session $session,
         Responder $responder,
         SellFinder $sellFinder,
-        LabelUpdater $labelUpdater,
+        LabelUpdater $labelUpdater
     ) {
         
         $this->twig = $twig;

@@ -44,7 +44,7 @@ final class MergeAddFromLabelAction
         MergePackUpdater  $updater,
         LabelFinder $labelFinder,
         LabelUpdater $labelUpdater,
-        MergePackDetailUpdater $mergeDetailUpdater,
+        MergePackDetailUpdater $mergeDetailUpdater
 
     ) {
         $this->twig = $twig;

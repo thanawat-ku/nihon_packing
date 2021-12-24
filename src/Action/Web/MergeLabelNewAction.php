@@ -41,7 +41,7 @@ final class MergeLabelNewAction
         Responder $responder,
         ProductFinder $productFinder,
         LabelFinder $labelFinder,
-        LabelVoidReasonFinder $voidReasonFinder,
+        LabelVoidReasonFinder $voidReasonFinder
     ) {
         $this->twig = $twig;
         $this->finder = $finder;

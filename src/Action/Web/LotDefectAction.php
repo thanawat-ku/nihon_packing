@@ -32,7 +32,7 @@ final class LotDefectAction
         Session $session,
         Responder $responder,
         LotFinder $lotFinder,
-        DefectFinder $defectFinder,
+        DefectFinder $defectFinder
     ) {
         $this->twig = $twig;
         $this->finder = $finder;

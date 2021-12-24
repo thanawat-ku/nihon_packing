@@ -25,7 +25,10 @@ final class SellLabelAction
      *
      * @param Responder $responder The responder
      */
-    public function __construct(SellLabelFinder $finder,Responder $responder, Session $session, )
+    public function __construct(
+        SellLabelFinder $finder,
+        Responder $responder, 
+        Session $session)
     {
         
         $this->finder=$finder;

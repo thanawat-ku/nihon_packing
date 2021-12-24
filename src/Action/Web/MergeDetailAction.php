@@ -34,7 +34,7 @@ final class MergeDetailAction
         Responder $responder,
         MergePackFinder $mergeFinder,
         LabelFinder $labelFinder,
-        MergePackDetailFinder $mergePackDetailFinder,
+        MergePackDetailFinder $mergePackDetailFinder
     ) {
         $this->twig = $twig;
         $this->finder = $finder;

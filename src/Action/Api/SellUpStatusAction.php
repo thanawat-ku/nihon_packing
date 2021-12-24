@@ -25,7 +25,12 @@ final class SellUpStatusAction
     private $findcpo_item;
 
 
-    public function __construct(Responder $responder,  SellUpdater $updater, SellFinder $finder, ProductFinder $findproduct, CpoItemFinder $findcpo_item)
+    public function __construct(
+        Responder $responder,  
+        SellUpdater $updater, 
+        SellFinder $finder, 
+        ProductFinder $findproduct, 
+        CpoItemFinder $findcpo_item)
     {
         $this->responder = $responder;
         $this->updater = $updater;

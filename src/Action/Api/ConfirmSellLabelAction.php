@@ -37,7 +37,7 @@ final class ConfirmSellLabelAction
         TagUpdater $updateTag,
         Session $session,
         Responder $responder,
-        SellUpdater $updater,
+        SellUpdater $updater
     ) {
         $this->finder = $finder;
         $this->findLabel = $findLabel;

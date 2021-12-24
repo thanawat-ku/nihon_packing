@@ -37,7 +37,7 @@ final class  SplitLabelDeleteAction
         SplitLabelDetailUpdater $splitDetailUpdater,
         LabelUpdater $labelUpdater,
         SplitLabelUpdater $updater,
-        SplitLabelFinder $finder,
+        SplitLabelFinder $finder
 
     ) {
         $this->twig = $twig;

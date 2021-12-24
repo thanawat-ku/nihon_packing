@@ -18,7 +18,7 @@ final class TagUpdater
     public function __construct(
         TagRepository $repository,
         TagValidator $validator,
-        TagFinder $finder,
+        TagFinder $finder
     ) {
         $this->repository = $repository;
         $this->validator = $validator;

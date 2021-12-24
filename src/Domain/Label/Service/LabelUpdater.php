@@ -20,7 +20,7 @@ final class LabelUpdater
         LabelRepository $repository,
         LabelValidator $validator,
         LabelFinder $finder,
-        Session $session,
+        Session $session
     ) {
         $this->repository = $repository;
         $this->validator = $validator;

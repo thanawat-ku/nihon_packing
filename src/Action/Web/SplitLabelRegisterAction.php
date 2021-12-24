@@ -34,8 +34,7 @@ final class  SplitLabelRegisterAction
         SplitLabelDetailFinder $splitDetailFinder,
         SplitLabelFinder $splitFinder,
         LabelUpdater $labelUpdater,
-        SplitLabelUpdater $updater,
-
+        SplitLabelUpdater $updater
     ) {
         $this->twig = $twig;
         $this->finder = $finder;

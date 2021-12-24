@@ -31,7 +31,7 @@ final class LabelScanSplitAction
         ProductFinder $productFinder,
         LabelUpdater $updater,
         Responder $responder,
-        SplitLabelDetailFinder $splitDetailFinder,
+        SplitLabelDetailFinder $splitDetailFinder
     ) {
 
         $this->finder = $finder;

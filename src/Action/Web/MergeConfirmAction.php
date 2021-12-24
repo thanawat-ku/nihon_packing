@@ -40,7 +40,7 @@ final class MergeConfirmAction
         Responder $responder,
         MergePackUpdater  $updater,
         MergePackDetailFinder $mergeDetailFinder,
-        LabelUpdater $labelUpdater,
+        LabelUpdater $labelUpdater
     ) {
         $this->twig = $twig;
         $this->finder = $finder;

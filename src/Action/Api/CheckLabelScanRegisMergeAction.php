@@ -28,7 +28,7 @@ final class CheckLabelScanRegisMergeAction
 
         LabelFinder $finder,
         MergepackUpdater $updater,
-        Responder $responder,
+        Responder $responder
 
     ) {
         $this->finder = $finder;

@@ -37,7 +37,7 @@ final class MergeAction
         Session $session,
         Responder $responder,
         ProductFinder $productFinder,
-        MergePackDetailFinder $mergeDetailFinder,
+        MergePackDetailFinder $mergeDetailFinder
     ) {
         $this->twig = $twig;
         $this->finder = $finder;

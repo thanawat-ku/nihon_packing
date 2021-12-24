@@ -45,7 +45,7 @@ final class MergeDeleteAction
         MergePackUpdater  $updater,
         MergePackDetailUpdater $mergeDetailUpdater,
         LabelUpdater $labelUpdater,
-        MergePackDetailFinder $mergeDetailFinder,
+        MergePackDetailFinder $mergeDetailFinder
     ) {
         $this->twig = $twig;
         $this->finder = $finder;

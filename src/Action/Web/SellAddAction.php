@@ -24,7 +24,8 @@ final class SellAddAction
     private $updater;
     private $session;
 
-    public function __construct(Twig $twig, Responder $responder, SellFinder $finder, SellUpdater $updater, TempQueryFinder $tempQueryFinder,Session $session,)
+    public function __construct(Twig $twig, Responder $responder, SellFinder $finder, 
+    SellUpdater $updater, TempQueryFinder $tempQueryFinder,Session $session)
     {
         $this->twig=$twig;
         $this->finder = $finder;

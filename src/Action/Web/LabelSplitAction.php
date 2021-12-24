@@ -36,7 +36,7 @@ final class LabelSplitAction
         Session $session,
         SplitLabelDetailUpdater $updaterSpiteLabelDetail,
         LabelFinder $finder,
-        SplitLabelFinder $splitLabelFinder,
+        SplitLabelFinder $splitLabelFinder
     ) {
         $this->twig = $twig;
         $this->session = $session;

@@ -17,7 +17,7 @@ final class SellLabelUpdater
     public function __construct(
         SellLabelRepository $repository,
         SellLabelValidator $validator,
-        Session $session,
+        Session $session
     ) {
         $this->repository = $repository;
         $this->validator = $validator;

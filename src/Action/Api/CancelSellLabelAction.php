@@ -29,7 +29,7 @@ final class CancelSellLabelAction
         SellLabelFinder $finder,
         SellLabelUpdater $updater,
         LabelUpdater $updateLabel,
-        Responder $responder,
+        Responder $responder
     ) {
         $this->finder = $finder;
         $this->updater = $updater;

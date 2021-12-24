@@ -27,7 +27,7 @@ final class  LotLabelAction
         Session $session,
         Responder $responder,
         LotFinder $lotFinder,
-        LabelVoidReasonFinder $voidReasonFinder,
+        LabelVoidReasonFinder $voidReasonFinder
     ) {
         $this->twig = $twig;
         $this->finder = $finder;

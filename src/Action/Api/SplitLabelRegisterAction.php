@@ -32,7 +32,7 @@ final class SplitLabelRegisterAction
         SplitLabelUpdater $updater,
         LabelUpdater $labelsUpdater,
         Responder $responder,
-        LabelFinder $labelsFinder,
+        LabelFinder $labelsFinder
     ) {
         $this->finder = $finder;
         $this->responder = $responder;

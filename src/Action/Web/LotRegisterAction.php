@@ -28,7 +28,7 @@ final class LotRegisterAction
         LotUpdater $updater,
         LotFinder $finder,
         LabelFinder $labelFinder,
-        LabelUpdater $labelUpdater,
+        LabelUpdater $labelUpdater
     ) {
         $this->responder = $responder;
         $this->updater = $updater;

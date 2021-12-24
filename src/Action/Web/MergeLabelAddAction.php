@@ -44,7 +44,7 @@ final class MergeLabelAddAction
         LabelFinder $labelFinder,
         MergePackUpdater  $updater,
         MergePackDetailUpdater $mergeDetailUpdater,
-        LabelUpdater $labelUpdater,
+        LabelUpdater $labelUpdater
     ) {
         $this->twig = $twig;
         $this->finder = $finder;

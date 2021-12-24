@@ -23,7 +23,8 @@ final class LotSaveAction
     private $updater;
     private $labelUpdater;
 
-    public function __construct(LotFinder $finder, ProductFinder $productFinder, Responder $responder, LotUpdater $updater, LabelUpdater $labelUpdater,)
+    public function __construct(LotFinder $finder, ProductFinder $productFinder, 
+    Responder $responder, LotUpdater $updater, LabelUpdater $labelUpdater)
     {
         $this->finder = $finder;
         $this->productFinder = $productFinder;

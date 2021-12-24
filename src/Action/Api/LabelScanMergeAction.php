@@ -38,7 +38,7 @@ final class LabelScanMergeAction
         Responder $responder,
         MergePackDetailUpdater $upmergepackdetail,
         MergePackDetailFinder $mergepackDetailFinder,
-        MergePackFinder $findMergePack,
+        MergePackFinder $findMergePack
     ) {
         $this->finder = $finder;
         $this->updater = $updater;

@@ -26,7 +26,9 @@ final class ScrapDetailDeleteAction
     private $updater;
     private $session;
 
-    public function __construct(Twig $twig, Responder $responder, ScrapFinder $finder, ScrapDetailUpdater $updater,LotDefectUpdater $updateLotDefect, ScrapDetailFinder $scrapDetailFinder,Session $session,)
+    public function __construct(Twig $twig, Responder $responder, ScrapFinder $finder, 
+    ScrapDetailUpdater $updater,LotDefectUpdater $updateLotDefect, 
+    ScrapDetailFinder $scrapDetailFinder,Session $session)
     {
         $this->twig=$twig;
         $this->finder = $finder;

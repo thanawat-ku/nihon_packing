@@ -38,7 +38,7 @@ final class MergeLabelAction
         Session $session,
         Responder $responder,
         ProductFinder $productFinder,
-        LabelFinder $labelFinder,
+        LabelFinder $labelFinder
     ) {
         $this->twig = $twig;
         $this->finder = $finder;

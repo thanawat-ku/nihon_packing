@@ -30,7 +30,9 @@ final class ScrapAddAction
     private $updater;
     private $session;
 
-    public function __construct(Twig $twig, Responder $responder, ScrapFinder $finder,SectionFinder $sectionFinder,ProductFinder $productFinder,DefectFinder $defectFinder, ScrapUpdater $updater, ScrapDetailFinder $scrapDetailFinder,Session $session,)
+    public function __construct(Twig $twig, Responder $responder, 
+    ScrapFinder $finder,SectionFinder $sectionFinder,ProductFinder $productFinder,DefectFinder $defectFinder, 
+    ScrapUpdater $updater, ScrapDetailFinder $scrapDetailFinder,Session $session)
     {
         $this->twig=$twig;
         $this->finder = $finder;

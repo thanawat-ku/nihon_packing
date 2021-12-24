@@ -14,7 +14,7 @@ final class MergePackUpdater
 
     public function __construct(
         MergePackRepository $repository,
-        MergePackValidator $validator,
+        MergePackValidator $validator
     ) {
         $this->repository = $repository;
         $this->validator = $validator;

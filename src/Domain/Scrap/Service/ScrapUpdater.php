@@ -14,7 +14,7 @@ final class ScrapUpdater
 
     public function __construct(
         ScrapRepository $repository,
-        ScrapValidator $validator,
+        ScrapValidator $validator
     ) {
         $this->repository = $repository;
         $this->validator = $validator;
