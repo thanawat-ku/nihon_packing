@@ -67,6 +67,8 @@ final class SellUpdater
             $row['sell_status'] = "CREATED";
         } else if ($data['up_status'] == "TAGGED") {
             $row['sell_status'] = "TAGGED";
+        }else if ($data['up_status'] == "PRINTED") {
+            $row['sell_status'] = "PRINTED";
         }
 
         $this->repository->updateSellApi($sellId, $row, $user_id);

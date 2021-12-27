@@ -66,10 +66,15 @@ final class ConfirmSellLabelAction
         $data['up_status'] = "CONFIRM";
         $this->updater->updateSellStatus($sellID, $data, $user_id);
         $allData = [''];
-
+        
         $rtSell = $this->findSell->findSells($data);
 
         $rtTag = $this->updateTag->genTagsApi($sellID, $rtSell, $user_id);
+
+        $upStatus['status'] = "PRINTED";
+        $this->updateTag->updateTagPrintFromSellIDApi($sellID, $upStatus, $user_id);
+        $data['up_status'] = "PRINTED";
+        $this->updater->updateSellStatus($sellID, $data, $user_id);
 
 
         if (isset($data['start_date'])) {

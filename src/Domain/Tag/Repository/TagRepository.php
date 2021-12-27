@@ -91,6 +91,13 @@ final class TagRepository
 
         $this->queryFactory->newUpdate('tags', $data)->andWhere(['sell_id' => $sellID])->execute();
     }
+    public function updateTagPrintFromSellIDApi(int $sellID, array $data, int $userID): void
+    {
+        $data['updated_at'] = Chronos::now()->toDateTimeString();
+        $data['updated_user_id'] = $userID;
+
+        $this->queryFactory->newUpdate('tags', $data)->andWhere(['sell_id' => $sellID])->execute();
+    }
 
     public function updateTagFronSellID(int $sellID, array $data): void
     {

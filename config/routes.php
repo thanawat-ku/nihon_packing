@@ -152,6 +152,7 @@ return function (App $app) {
     $app->post('/api/check_lb_scan_rm', \App\Action\Api\CheckLabelScanRegisMergeAction::class);
 
     $app->get('/api/tags', \App\Action\Api\TagAction::class);
+    $app->post('/api/register_tags_check', \App\Action\Api\TagRegisterCheckAction::class);
     $app->post('/api/register_tags', \App\Action\Api\TagRegisterAction::class);
 
     $app->get('/api/split_labels',  \App\Action\Api\SplitLabelAction::class);
