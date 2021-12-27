@@ -63,6 +63,11 @@ final class SellLabelConfirmAction
             $this->labelUpdater->updateLabelStatus($arrSellLabel[$i]['label_id'], $dataUpdate, $user_id);
         }
 
+        $upStatus['status'] = "PRINTED";
+        $this->updateTag->updateTagPrintFromSellID($sellID, $upStatus);
+        $upStatus['sell_status'] = "PRINTED";
+        $this->updater->updateSell($sellID, $upStatus);
+
         $rtSell = $this->sellFinder->findSells($data);
 
         $rtTag = $this->updateTag->genTags($sellID, $rtSell);

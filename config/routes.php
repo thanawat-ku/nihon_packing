@@ -78,7 +78,6 @@ return function (App $app) {
     $app->get('/sells', \App\Action\Web\SellAction::class)->add(UserAuthMiddleware::class);
     $app->post('/add_sell', \App\Action\Web\SellAddAction::class)->add(UserAuthMiddleware::class);
     $app->get('/select_label_for_sells', \App\Action\Web\SelectLabelForSellAction::class)->add(UserAuthMiddleware::class);
-    $app->post('/print_tags_in_sell', \App\Action\Web\SellPrintTagAction::class)->add(UserAuthMiddleware::class);
 
     $app->get('/sell_labels', \App\Action\Web\SellLabelAction::class)->add(UserAuthMiddleware::class);
     $app->post('/add_sell_label', \App\Action\Web\SellLabelAddAction::class)->add(UserAuthMiddleware::class);
