@@ -54,7 +54,7 @@ final class SellLabelConfirmAction
 
         $user_id = $this->session->get('user')["id"];
 
-        $data['up_status'] = "SELECTED_LABEL";
+        $data['up_status'] = "CONFIRM";
         $this->updater->updateSellStatus($sellID, $data, $user_id);
         $arrSellLabel = $this->finder->findSellLabels($data);
         $dataUpdate['up_status'] = "USED";

@@ -63,7 +63,7 @@ final class ConfirmSellLabelAction
             $dataUpdate['up_status'] = "USED";
             $this->updatelabel->updateLabelStatus($labelID, $dataUpdate, $user_id);
         }
-        $data['up_status'] = "SELECTED_LABEL";
+        $data['up_status'] = "CONFIRM";
         $this->updater->updateSellStatus($sellID, $data, $user_id);
         $allData = [''];
 

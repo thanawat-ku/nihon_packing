@@ -54,7 +54,7 @@ final class SellEditAction
         $user_id = $data['user_id'];
 
         $rtSell = $this->finder->findSells($data);
-        if ($rtSell[0]['sell_status'] == "SELECTED_LABEL" || $rtSell[0]['sell_status'] == "TAGGED" || $rtSell[0]['sell_status'] == "INVOICED") {
+        if ($rtSell[0]['sell_status'] == "CONFIRM" || $rtSell[0]['sell_status'] == "TAGGED" || $rtSell[0]['sell_status'] == "INVOICED") {
             return $this->responder->withJson($response, null);
         } else {
             $data['up_status'] = "SELECTING_CPO";

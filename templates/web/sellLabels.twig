@@ -62,7 +62,7 @@
 							<th>Lot No/Merge No</th>
 							<th>Quantity</th>
 							<th>Label Type</th>
-							{% if sellRow.sell_status != "SELECTED_LABEL" %}
+							{% if sellRow.sell_status != "CONFIRM" %}
 								<th>Operation</th>
 							{% endif %}
 						</tr>
@@ -76,7 +76,7 @@
 								<td>{{ selllabel.lot_no }}</td>
 								<td>{{ selllabel.quantity}}</td>
 								<td>{{ selllabel.label_type}}</td>
-								{% if sellRow.sell_status != "SELECTED_LABEL" %}
+								{% if sellRow.sell_status != "CONFIRM" %}
 									<td>
 										<button type="button" id="removeBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#removeSellLabels" name="{{ selllabel|json_encode }}">
 											<i style="font-size:15px; width:20px;" class="fas fa-trash"></i>
@@ -92,7 +92,7 @@
 								<td>{{ selllabel.merge_no }}</td>
 								<td>{{ selllabel.quantity}}</td>
 								<td>{{ selllabel.label_type}}</td>
-								{% if sellRow.sell_status != "SELECTED_LABEL" %}
+								{% if sellRow.sell_status != "CONFIRM" %}
 									<td>
 										<button type="button" id="removeBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#removeSellLabels" name="{{ selllabel|json_encode }}">
 											<i style="font-size:15px; width:20px;" class="fas fa-trash"></i>
