@@ -64,34 +64,22 @@ final class LabelSplitAction
         $label = $this->finder->findLabelSingleTable($findLabel);
         $productId = $label[0]['product_id'];
         if ($label[0]['status'] == "PACKED") {
-            $dataSP['status'] = "CREATED";
-            $dataSP['label_id'] = $labelId;
             $user_id = $this->session->get('user')["id"];
-            $splitID = $this->splitupdater->insertSplitLabelApi($dataSP, $user_id);
-
-            $data2['label_id'] = $data['label_id'];
-            $findLabel = $this->finder->findLabels($data2);
-
             $findSplitLabel['label_id'] = $labelId;
-
-            if (isset($findLabel[0])) {
-                $dataLabel = $findLabel;
-                $dataSplit = $this->splitLabelFinder->findSplitLabels($findSplitLabel);
-            } else {
-                $dataLabel = $this->finder->findLabelForLotZero($data2);
-                $dataSplit = $this->splitLabelFinder->findSplitLabels($findSplitLabel);
-            }
-
-            $dataDeatail['label_type'] = $dataLabel[0]['label_type'];
-            $dataDeatail['lot_id'] = $dataLabel[0]['lot_id'];
+            $dataSplit = $this->splitLabelFinder->findSplitLabels($findSplitLabel);
+            $dataDeatail['label_type'] = $label[0]['label_type'];
+            $dataDeatail['lot_id'] = $label[0]['lot_id'];
             $dataDeatail['user_id']  = $user_id;
-            $dataDeatail['merge_pack_id'] = $dataLabel[0]['merge_pack_id'];
+            $dataDeatail['merge_pack_id'] = $label[0]['merge_pack_id'];
             $dataDeatail['quantity1'] = $data['qty1'];
             $dataDeatail['quantity2'] = $data['qty2'];
             $dataDeatail['product_id'] = $productId;
             $labelDetail = $this->updater->genSplitLabel($dataDeatail);
-
             $this->updater->updateLabel($labelId, $data);
+
+            $dataSP['status'] = "CREATED";
+            $dataSP['label_id'] = $labelId;
+            $splitID = $this->splitupdater->insertSplitLabelApi($dataSP, $user_id);
 
             for ($i = 0; $i < sizeof($labelDetail); $i++) {
                 $dataDetailSL['label_id'] = $labelDetail[$i]['id'];
