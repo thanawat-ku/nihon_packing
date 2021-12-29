@@ -63,8 +63,8 @@ final class ConfirmSellLabelAction
             $dataUpdate['up_status'] = "USED";
             $this->updatelabel->updateLabelStatus($labelID, $dataUpdate, $user_id);
         }
-        $data['up_status'] = "CONFIRM";
-        $this->updater->updateSellStatus($sellID, $data, $user_id);
+        $updata['up_status'] = "CONFIRM";
+        $this->updater->updateSellStatus($sellID, $updata, $user_id);
         $allData = [''];
         
         $rtSell = $this->findSell->findSells($data);

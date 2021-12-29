@@ -3,10 +3,8 @@
 namespace App\Action\Api;
 
 use App\Domain\SellCpoItem\Service\SellCpoItemFinder;
-use App\Domain\CpoItem\Service\CpoItemFinder;
 use App\Domain\Sell\Service\SellUpdater;
 use App\Domain\SellCpoItem\Service\SellCpoItemUpdater;
-use App\Domain\Sell\Service\SellUpdtaer;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -22,16 +20,14 @@ final class SellCpoItemEditAction
     private $updater;
     private $finder;
     private $updatesell;
-    private $findproduct;
-    private $findcpo_item;
+   
 
 
-    public function __construct(Responder $responder,  SellCpoItemUpdater $updater, SellCpoItemFinder $finder, CpoItemFinder $findcpo_item, SellUpdater $updatesell)
+    public function __construct(Responder $responder,  SellCpoItemUpdater $updater, SellCpoItemFinder $finder, SellUpdater $updatesell)
     {
         $this->responder = $responder;
         $this->updater = $updater;
         $this->finder = $finder;
-        $this->findcpo_item = $findcpo_item;
         $this->updatesell=$updatesell;
     }
 
@@ -46,8 +42,6 @@ final class SellCpoItemEditAction
         $user_id = $data['user_id'];
         $sellID = $data['sell_id'];
         $sellCpoItemID = $data['id'];
-
-        
 
         $this->updater->updateSellCpoItemApi($sellCpoItemID, $data, $user_id);
         $sells = $this->finder->findSellCpoItems($data);

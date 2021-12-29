@@ -165,15 +165,13 @@ return function (App $app) {
 
     $app->get('/api/merge_packs', \App\Action\Api\MergePackAction::class);
 
-    $app->get('/api/select_merge_pack_id', \App\Action\Api\SelectMergePackIDAction::class);
-
     $app->post('/api/add_merge_pack', \App\Action\Api\MergePackAddAction::class);
-    $app->post('/api/add_merge_pack_detail', \App\Action\Api\MergePackDetailAddAction::class);
+    // $app->post('/api/add_merge_pack_detail', \App\Action\Api\MergePackDetailAddAction::class);
     $app->post('/api/gen_label_merge_packs', \App\Action\Api\GenMergeLabelBarcodeNoAction::class);
     $app->post('/api/add_mn_from_lb', \App\Action\Api\AddMergeNoFromLabelAction::class);
     $app->post('/api/check_merge_pack_id', \App\Action\Api\CheckMergePackIDAction::class);
     $app->post('/api/cancel_label', \App\Action\Api\CancelLabelAction::class);
-    $app->post('/api/delete_merge_pack_detail', \App\Action\Api\MergePackDetailDeleteAction::class);
+    // $app->post('/api/delete_merge_pack_detail', \App\Action\Api\MergePackDetailDeleteAction::class);
     $app->post('/api/get_qty_scan', \App\Action\Api\GetQtyScanAction::class);
     $app->post('/api/delete_merge_pack', \App\Action\Api\MergePackDeleteAction::class);
 

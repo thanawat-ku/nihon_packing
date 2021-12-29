@@ -2,16 +2,10 @@
 
 namespace App\Action\Web;
 
-
-use App\Domain\LotDefect\Service\LotDefectFinder;
-use App\Domain\LotDefect\Service\LotDefectUpdater;
-use App\Domain\Scrap\Service\ScrapFinder;
 use App\Domain\ScrapDetail\Service\ScrapDetailUpdater;
 use App\Domain\ScrapDetail\Service\ScrapDetailFinder;
-use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Slim\Views\Twig;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
@@ -19,24 +13,18 @@ use Symfony\Component\HttpFoundation\Session\Session;
  */
 final class ScrapDetailAddAction
 {
-    private $twig;
-    private $finder;
-    private $updater;
-    private $scrapFinder;
+
     private $updateScrapDetail;
-    private $scrapDetailFinder;
+
     private $responder;
     private $session;
 
-    public function __construct(Twig $twig, Responder $responder, 
-    LotDefectFinder $finder, LotDefectUpdater $updater, ScrapFinder $scrapFinder, 
-    ScrapDetailUpdater $updateScrapDetail, ScrapDetailFinder $scrapDetailFinder, Session $session)
-    {
-        $this->twig = $twig;
-        $this->finder = $finder;
-        $this->scrapFinder = $scrapFinder;
-        $this->responder = $responder;
-        $this->updater = $updater;
+    public function __construct(
+        ScrapDetailUpdater $updateScrapDetail,
+        ScrapDetailFinder $scrapDetailFinder,
+        Session $session
+    ) {
+
         $this->updateScrapDetail = $updateScrapDetail;
         $this->scrapDetailFinder = $scrapDetailFinder;
         $this->session = $session;

@@ -11,8 +11,6 @@ use App\Responder\Responder;
 use PhpParser\Node\Stmt\Label;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Slim\Views\Twig;
-use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * Action.
@@ -25,9 +23,6 @@ final class CheckSellLabelScanAction
     private $responder;
     private $finder;
     private $updateLabel;
-    // private $upmergepack;
-    // private $upmergepackdetail;
-    // private $mergepackDetailFinder;
     private $updatesell;
     private  $updateselllabel;
     private  $findSellLabel;
@@ -36,14 +31,12 @@ final class CheckSellLabelScanAction
 
         LabelFinder $finder,
         SellUpdater $updatesell,
-        // LabelUpdater $updater,
         Responder $responder,
         SellLabelUpdater $updateselllabel,
         SellLabelFinder $findSellLabel,
         LabelUpdater $updateLabel
     ) {
         $this->finder = $finder;
-        // $this->updater = $updater;
         $this->updatesell = $updatesell;
         $this->updateselllabel = $updateselllabel;
         $this->responder = $responder;
@@ -58,8 +51,6 @@ final class CheckSellLabelScanAction
         $labels = $data['label'];
         $sellID = $data['sell_id'];
 
-        $upstatus['up_status'] = "SELECTING_LABEL";
-        $this->updatesell->updateSellStatus($sellID, $upstatus, $user_id);
         $this->updateselllabel->deleteSellLabelApi($sellID);
 
         $arrlabel = explode("#", $labels);
@@ -132,6 +123,10 @@ final class CheckSellLabelScanAction
                 $rtdata['mpd_from_merges'] = $listLabelFronMerge;
             }
         }
+
+        $upstatus['up_status'] = "SELECTING_LABEL";
+        $this->updatesell->updateSellStatus($sellID, $upstatus, $user_id);
+
         return $this->responder->withJson($response, $rtdata);
     }
 }

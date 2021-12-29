@@ -9,7 +9,6 @@ use App\Domain\Scrap\Service\ScrapUpdater;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Slim\Views\Twig;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
@@ -17,14 +16,12 @@ use Symfony\Component\HttpFoundation\Session\Session;
  */
 final class ScrapRejectAction
 {
-    private $twig;
     private $finder;
-    private $updateScrapDetail;
     private $responder;
     private $updater;
     private $session;
 
-    public function __construct(Twig $twig, Responder $responder, ScrapFinder $finder, 
+    public function __construct(Responder $responder, ScrapFinder $finder, 
     ScrapUpdater $updater, ScrapDetailUpdater $updateScrapDetail, Session $session)
     {
         $this->twig = $twig;

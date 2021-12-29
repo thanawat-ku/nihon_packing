@@ -48,8 +48,8 @@ final class CancelLabelAction
         $label = $this->finder->findLabelSingleTable($data1);
         $label['check_mp_id']=$data['merge_pack_id'];
 
-        $this->updater->updateCancelLabelApi($label_id, $label, $user_id);
         $this->upmergepackdetail->deleteLabelMergePackDetailApi($mpd_data_id);
+        $this->updater->updateCancelLabelApi($label_id, $label, $user_id);
         
         return $this->responder->withJson($response, $data);
     }

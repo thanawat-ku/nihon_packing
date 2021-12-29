@@ -54,14 +54,15 @@ final class SellLabelConfirmAction
 
         $user_id = $this->session->get('user')["id"];
 
-        $data['up_status'] = "CONFIRM";
-        $this->updater->updateSellStatus($sellID, $data, $user_id);
+        
         $arrSellLabel = $this->finder->findSellLabels($data);
         $dataUpdate['up_status'] = "USED";
         $user_id = $this->session->get('user')["id"];
         for ($i = 0; $i < count($arrSellLabel); $i++) {
             $this->labelUpdater->updateLabelStatus($arrSellLabel[$i]['label_id'], $dataUpdate, $user_id);
         }
+        $data['up_status'] = "CONFIRM";
+        $this->updater->updateSellStatus($sellID, $data, $user_id);
 
         $upStatus['status'] = "PRINTED";
         $this->updateTag->updateTagPrintFromSellID($sellID, $upStatus);

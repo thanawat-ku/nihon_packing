@@ -53,11 +53,11 @@ final class TagRegisterAction
             }
 
             if ($checkTagPrinted == true) {
-                $upStatus['up_status'] = "TAGGED";
-                $this->updateSell->updateSellStatus($sellID, $upStatus, $user_id);
-
                 $upStatus['status'] = "BOXED";
                 $this->updater->updateTagAllFromSellIDApi($sellID, $upStatus,  $user_id);
+
+                $upStatus['up_status'] = "TAGGED";
+                $this->updateSell->updateSellStatus($sellID, $upStatus, $user_id);
 
                 $rtdata['message'] = "Get Tag Successful";
                 $rtdata['error'] = false;

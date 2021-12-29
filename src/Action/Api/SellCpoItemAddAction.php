@@ -46,10 +46,10 @@ final class SellCpoItemAddAction
         $user_id = $data['user_id'];
         $sellID = $data['sell_id'];
 
+        $this->updater->insertSellCpoItemApi($data, $user_id);
+
         $uptatus['sell_status'] = "SELECTING_CPO";
         $this->updatesell->updateSellStatus($sellID, $uptatus, $user_id);
-
-        $this->updater->insertSellCpoItemApi($data, $user_id);
 
         $rtdata['message'] = "Get Sell Cpo Item Successful";
         $rtdata['error'] = false;

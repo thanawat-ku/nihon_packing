@@ -53,9 +53,7 @@ final class MergePackDeleteAction
         $trMergePack = $this->finder->findMergePacks($data);
 
         if ($trMergePack[0]['merge_status'] == "MERGING" || $trMergePack[0]['merge_status'] == "CREATED") {
-            $data['is_delete'] = "Y";
-            $this->updater->updateMergePackApi($mergePackID, $data, $user_id);
-
+           
             $rtMergePackDetail = $this->findMergePackDetail->findMergePackDetails($data);
 
             $upStatusLabel['status'] = "PACKED";
@@ -63,8 +61,10 @@ final class MergePackDeleteAction
                 $labelID = $rtMergePackDetail[$i]['label_id'];
                 $this->updateLabel->updateLabel($labelID, $upStatusLabel);
             }
-
             $this->updateMergePackDetail->deleteMergePackDetail($mergePackID);
+
+            $data['is_delete'] = "Y";
+            $this->updater->updateMergePackApi($mergePackID, $data, $user_id);
 
             // $data['find_is_delete'] = 'Y'; 
             // $rtdata = $this->finder->findMergePacks($data);

@@ -67,15 +67,15 @@ final class AddMergeNoFromLabelAction
 
                 $this->updater->insertMergePackApi($data1, $user_id);
 
-                $data2['merge_pack_id'] = $merpack_id;
-                $data2['status'] = "MERGING";
-
-                $this->updaterlabel->updateLabelApi($labelID, $data2, $user_id);
-
                 $data_mpd['merge_pack_id'] = $merpack_id;
                 $data_mpd['label_id'] = $rtdata["labels"][$i]['id'];
 
                 $this->updatermergepackdetail->insertMergePackDetailApi($data_mpd, $user_id);
+
+                $data2['merge_pack_id'] = $merpack_id;
+                $data2['status'] = "MERGING";
+
+                $this->updaterlabel->updateLabelApi($labelID, $data2, $user_id);
                 break;
             }
         }

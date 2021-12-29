@@ -57,9 +57,7 @@ final class SellDeleteAction
         if ($rtSell[0]['sell_status'] == "CONFIRM" || $rtSell[0]['sell_status'] == "TAGGED" || $rtSell[0]['sell_status'] == "INVOICED") {
             return $this->responder->withJson($response, null);
         } else {
-            $data['is_delete'] = "Y";
-            $this->updater->updateSellDeleteApi($sellID, $data, $user_id);
-
+            
             $rtSellLabel = $this->findSellLabel->findSellLabels($data);
             $upStatus['status'] = "PACKED";
             for ($i = 0; $i < count($rtSellLabel); $i++) {
@@ -70,6 +68,9 @@ final class SellDeleteAction
             $this->updateSellLabel->deleteSellLabelApi($sellID);
 
             $this->updateSellCpoItem->deleteCpoItemInSellCpoItemApi($sellID);
+
+            $data['is_delete'] = "Y";
+            $this->updater->updateSellDeleteApi($sellID, $data, $user_id);
 
             return $this->responder->withJson($response, $data);
         }

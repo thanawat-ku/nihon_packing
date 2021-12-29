@@ -56,9 +56,6 @@ final class SellLabelAddAction
         $sellID = (int)$data['sell_id'];
         $labelID = (int)$data['id'];
 
-        $upstatus['sell_status'] = "SELECTING_LABEL"; 
-        $this->updateSell->updateSell($sellID,$upstatus);
-
         $this->updater->insertSellLabel($data);
         $user_id=$this->session->get('user')["id"];
         $dataUpdate['up_status']="SELLING";
@@ -90,10 +87,9 @@ final class SellLabelAddAction
             array_push($arrtotalQty,$totalQty);
         }
 
+        $upstatus['sell_status'] = "SELECTING_LABEL"; 
+        $this->updateSell->updateSell($sellID,$upstatus);
        
-        $sellRow = $this->sellFinder->findSellRow($sellID);
-
-        
         $sellRow = $this->sellFinder->findSellRow($sellID);
 
         $viewData = [

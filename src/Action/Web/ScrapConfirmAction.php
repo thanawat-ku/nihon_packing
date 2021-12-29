@@ -9,7 +9,6 @@ use App\Domain\Scrap\Service\ScrapUpdater;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Slim\Views\Twig;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
@@ -17,9 +16,8 @@ use Symfony\Component\HttpFoundation\Session\Session;
  */
 final class ScrapConfirmAction
 {
-    private $twig;
+ 
     private $finder;
-    private $updateScrapDetail;
     private $responder;
     private $updater;
     private $session;
@@ -27,11 +25,9 @@ final class ScrapConfirmAction
     public function __construct(Twig $twig, Responder $responder, ScrapFinder $finder, 
     ScrapUpdater $updater, ScrapDetailUpdater $updateScrapDetail, Session $session)
     {
-        $this->twig = $twig;
         $this->finder = $finder;
         $this->responder = $responder;
         $this->updater = $updater;
-        $this->updateScrapDetail = $updateScrapDetail;
         $this->session = $session;
     }
 

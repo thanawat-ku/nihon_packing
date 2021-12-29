@@ -42,8 +42,8 @@ final class MergePackDetailAddAction
         // $merge_pack_id=$data["merge_pack_id"];
         // $label_no=$data["label_no"];
 
-        $rtdata=$this->finder->findLabelNonfully($data);
-        $data['label_id']=$rtdata[0]['id'];
+        // $rtdata=$this->finder->findLabelNonfully($data);
+        // $data['label_id']=$rtdata[0]['id'];
 
         $this->updater->insertMergePackDetailApi($data, $user_id);
 

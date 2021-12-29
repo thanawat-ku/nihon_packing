@@ -19,24 +19,16 @@ use Symfony\Component\HttpFoundation\Session\Session;
  */
 final class ScrapDetailEditAction
 {
-    private $twig;
-    private $finder;
-    private $updater;
-    private $scrapFinder;
+   
     private $updateScrapDetail;
     private $scrapDetailFinder;
     private $responder;
     private $session;
 
-    public function __construct(Twig $twig, Responder $responder, 
-    LotDefectFinder $finder, LotDefectUpdater $updater, ScrapFinder $scrapFinder, 
+    public function __construct(
     ScrapDetailUpdater $updateScrapDetail, ScrapDetailFinder $scrapDetailFinder, Session $session)
     {
-        $this->twig = $twig;
-        $this->finder = $finder;
-        $this->scrapFinder = $scrapFinder;
-        $this->responder = $responder;
-        $this->updater = $updater;
+        
         $this->updateScrapDetail = $updateScrapDetail;
         $this->scrapDetailFinder = $scrapDetailFinder;
         $this->session = $session;

@@ -10,7 +10,6 @@ use App\Domain\Product\Service\ProductFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Symfony\Component\HttpFoundation\Session\Session;
 
 use function DI\string;
 
@@ -32,7 +31,6 @@ final class CompleteMergePackAction
         MergePackFinder $finder,
         ProductFinder $productFinder,
         MergePackUpdater $updater,
-        Session $session,
         Responder $responder,
         LabelFinder $finderlabel,
         LabelUpdater $updatelabel
