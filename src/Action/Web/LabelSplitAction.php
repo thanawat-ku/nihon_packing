@@ -66,7 +66,6 @@ final class LabelSplitAction
         if ($label[0]['status'] == "PACKED") {
             $user_id = $this->session->get('user')["id"];
             $findSplitLabel['label_id'] = $labelId;
-            $dataSplit = $this->splitLabelFinder->findSplitLabels($findSplitLabel);
             $dataDeatail['label_type'] = $label[0]['label_type'];
             $dataDeatail['lot_id'] = $label[0]['lot_id'];
             $dataDeatail['user_id']  = $user_id;
@@ -80,7 +79,8 @@ final class LabelSplitAction
             $dataSP['status'] = "CREATED";
             $dataSP['label_id'] = $labelId;
             $splitID = $this->splitupdater->insertSplitLabelApi($dataSP, $user_id);
-
+            $dataSplit = $this->splitLabelFinder->findSplitLabels($findSplitLabel);
+            
             for ($i = 0; $i < sizeof($labelDetail); $i++) {
                 $dataDetailSL['label_id'] = $labelDetail[$i]['id'];
                 $dataDetailSL['split_label_id'] = $splitID;
