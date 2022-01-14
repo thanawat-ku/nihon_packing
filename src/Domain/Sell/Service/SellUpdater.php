@@ -62,7 +62,7 @@ final class SellUpdater
         } else if ($data['up_status'] == "SELECTING_LABEL") {
             $row['sell_status'] = "SELECTING_LABEL";
         } else if ($data['up_status'] == "CONFIRMED") {
-            $row['sell_status'] = "CONFIRM";
+            $row['sell_status'] = "CONFIRMED";
         } else if ($data['up_status'] == "CREATED") {
             $row['sell_status'] = "CREATED";
         } else if ($data['up_status'] == "TAGGED") {

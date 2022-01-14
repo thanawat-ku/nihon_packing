@@ -22,7 +22,7 @@ final class ScrapConfirmAction
     private $updater;
     private $session;
 
-    public function __construct(Twig $twig, Responder $responder, ScrapFinder $finder, 
+    public function __construct(Responder $responder, ScrapFinder $finder, 
     ScrapUpdater $updater, ScrapDetailUpdater $updateScrapDetail, Session $session)
     {
         $this->finder = $finder;
