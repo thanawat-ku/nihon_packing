@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 11, 2021 at 08:17 AM
+-- Generation Time: Jan 14, 2022 at 03:18 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.12
 
@@ -4838,7 +4838,7 @@ CREATE TABLE `sells` (
   `sell_date` date NOT NULL,
   `product_id` int(11) NOT NULL,
   `total_qty` int(11) NOT NULL,
-  `sell_status` enum('CREATED','SELECTING_CPO','SELECTED_CPO','SELECTING_LABEL','SELECTED_LABEL','TAGGED','INVOICED','PRINTED') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `sell_status` enum('CREATED','SELECTING_CPO','SELECTED_CPO','SELECTING_LABEL','CONFIRMED','TAGGED','INVOICED','PRINTED') COLLATE utf8mb4_unicode_ci NOT NULL,
   `is_delete` enum('N','Y') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N',
   `created_at` datetime NOT NULL,
   `created_user_id` int(11) NOT NULL,
