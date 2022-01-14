@@ -26,12 +26,13 @@ final class ScrapDetailEditAction
     private $session;
 
     public function __construct(
-    ScrapDetailUpdater $updateScrapDetail, ScrapDetailFinder $scrapDetailFinder, Session $session)
+    ScrapDetailUpdater $updateScrapDetail, ScrapDetailFinder $scrapDetailFinder, Session $session,Responder $responder,)
     {
         
         $this->updateScrapDetail = $updateScrapDetail;
         $this->scrapDetailFinder = $scrapDetailFinder;
         $this->session = $session;
+        $this->responder = $responder;
     }
 
     public function __invoke(
