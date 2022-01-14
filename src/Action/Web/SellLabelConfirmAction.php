@@ -61,13 +61,13 @@ final class SellLabelConfirmAction
         for ($i = 0; $i < count($arrSellLabel); $i++) {
             $this->labelUpdater->updateLabelStatus($arrSellLabel[$i]['label_id'], $dataUpdate, $user_id);
         }
-        $data['up_status'] = "CONFIRM";
+        $data['up_status'] = "CONFIRMED";
         $this->updater->updateSellStatus($sellID, $data, $user_id);
 
-        $upStatus['status'] = "PRINTED";
-        $this->updateTag->updateTagPrintFromSellID($sellID, $upStatus);
-        $upStatus['sell_status'] = "PRINTED";
-        $this->updater->updateSell($sellID, $upStatus);
+        // $upStatus['status'] = "PRINTED";
+        // $this->updateTag->updateTagPrintFromSellID($sellID, $upStatus);
+        // $upStatus['sell_status'] = "PRINTED";
+        // $this->updater->updateSell($sellID, $upStatus);
 
         $rtSell = $this->sellFinder->findSells($data);
 

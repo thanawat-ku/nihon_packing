@@ -7,6 +7,7 @@ use App\Domain\ScrapDetail\Service\ScrapDetailFinder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
+use App\Responder\Responder;
 
 /**
  * Action.
@@ -22,12 +23,14 @@ final class ScrapDetailAddAction
     public function __construct(
         ScrapDetailUpdater $updateScrapDetail,
         ScrapDetailFinder $scrapDetailFinder,
-        Session $session
+        Session $session,
+        Responder $responder
     ) {
 
         $this->updateScrapDetail = $updateScrapDetail;
         $this->scrapDetailFinder = $scrapDetailFinder;
         $this->session = $session;
+        $this->responder = $responder;
     }
 
     public function __invoke(

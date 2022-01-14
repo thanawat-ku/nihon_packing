@@ -61,7 +61,7 @@ final class SellUpdater
             $row['sell_status'] = "SELECTED_CPO";
         } else if ($data['up_status'] == "SELECTING_LABEL") {
             $row['sell_status'] = "SELECTING_LABEL";
-        } else if ($data['up_status'] == "CONFIRM") {
+        } else if ($data['up_status'] == "CONFIRMED") {
             $row['sell_status'] = "CONFIRM";
         } else if ($data['up_status'] == "CREATED") {
             $row['sell_status'] = "CREATED";
