@@ -83,7 +83,7 @@ final class LabelScanMergeAction
                     $this->updater->updateLabelMergePackApi($id, $rtLabel, $user_id);
 
 
-                    $dataMergeDetail['merge_pack_id'] = $rtLabel['merge_pack_id'];
+                    $dataMergeDetail['merge_pack_id'] = $rtLabelSh['merge_pack_id'];
                     $rtdata['message'] = "Get Label Successful";
                     $rtdata['error'] = false;
                     $rtdata['mpd_from_lots'] = $this->mergepackDetailFinder->findMergePackDetailFromLots($dataMergeDetail);

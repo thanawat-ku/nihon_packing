@@ -34,6 +34,7 @@ final class TempQueryRepository
         
         $query->select(
             [
+                
                 'temp_query.cpo_item_id',
                 'cpo_id',
                 'cpo_no',
@@ -79,7 +80,7 @@ final class TempQueryRepository
         $query->group(['sci.id']);
 
         if(isset($params['sell_id'])){
-            $query->Where(['sell_id' => $params["sell_id"]]);
+            $query->Where(['sci.sell_id' => $params["sell_id"]]);
         }
 
         return $query->execute()->fetchAll('assoc') ?: [];
