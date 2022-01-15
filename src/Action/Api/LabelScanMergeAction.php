@@ -76,9 +76,9 @@ final class LabelScanMergeAction
                 if (!$checkMergePack) {
                     $id = $this->upmergepack->insertMergePackApi($rtLabel, $user_id);
                     $this->upmergepack->updateMergingApi($id, $rtLabel, $user_id);
-                    $rtLabel['merge_pack_id'] = $id;
+                    $rtLabelSh['merge_pack_id'] = $id;
 
-                    $id = $this->upmergepackdetail->insertMergePackDetailFromScanApi($rtLabel, $user_id);
+                    $id = $this->upmergepackdetail->insertMergePackDetailFromScanApi($rtLabelSh, $user_id);
                     $rtLabel['status'] = "MERGING";
                     $this->updater->updateLabelMergePackApi($id, $rtLabel, $user_id);
 
