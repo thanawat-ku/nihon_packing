@@ -63,7 +63,7 @@ final class ConfirmSellLabelAction
             $dataUpdate['up_status'] = "USED";
             $this->updatelabel->updateLabelStatus($labelID, $dataUpdate, $user_id);
         }
-        $updata['up_status'] = "CONFIRM";
+        $updata['up_status'] = "CONFIRMED";
         $this->updater->updateSellStatus($sellID, $updata, $user_id);
         $allData = [''];
         
@@ -71,10 +71,10 @@ final class ConfirmSellLabelAction
 
         $rtTag = $this->updateTag->genTagsApi($sellID, $rtSell, $user_id);
 
-        $upStatus['status'] = "PRINTED";
-        $this->updateTag->updateTagPrintFromSellIDApi($sellID, $upStatus, $user_id);
-        $data['up_status'] = "PRINTED";
-        $this->updater->updateSellStatus($sellID, $data, $user_id);
+        // $upStatus['status'] = "PRINTED";
+        // $this->updateTag->updateTagPrintFromSellIDApi($sellID, $upStatus, $user_id);
+        // $data['up_status'] = "PRINTED";
+        // $this->updater->updateSellStatus($sellID, $data, $user_id);
 
 
         if (isset($data['start_date'])) {
