@@ -35,9 +35,9 @@ final class ScrapDetailDeleteAction
     ): ResponseInterface {
 
         $data = (array)$request->getParsedBody();
-        $scrapDetailID = $data['scrap_id'];
+        $scrapDetailID = $data['scrap_detail_id'];
 
-        $this->updater->deleteScrapDetailAll($scrapDetailID);
+        $this->updater->deleteScrapDetail($scrapDetailID);
 
         $rtscrap = $this->finder->findScrapDetails($data);
 

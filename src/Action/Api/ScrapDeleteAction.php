@@ -38,8 +38,10 @@ final class ScrapDeleteAction
 
         $data = (array)$request->getParsedBody();
         $scrapID = $data['scrap_id'];
+        $user_id = $data['user_id'];
 
-        $this->updater->deleteScrapApi($scrapID);
+        $upScrap['is_delete'] = 'Y'; 
+        $this->updater->updateScrapApi($scrapID,$upScrap, $user_id);
 
         $rtscrap = $this->finder->findScraps($data);
 

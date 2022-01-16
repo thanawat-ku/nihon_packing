@@ -76,14 +76,14 @@ final class LabelScanMergeAction
                 if (!$checkMergePack) {
                     $id = $this->upmergepack->insertMergePackApi($rtLabel, $user_id);
                     $this->upmergepack->updateMergingApi($id, $rtLabel, $user_id);
-                    $rtLabelSh['merge_pack_id'] = $id;
+                    $rtLabel['merge_pack_id'] = $id;
 
-                    $id = $this->upmergepackdetail->insertMergePackDetailFromScanApi($rtLabelSh, $user_id);
-                    $rtLabel['status'] = "MERGING";
-                    $this->updater->updateLabelMergePackApi($id, $rtLabel, $user_id);
+                    $id = $this->upmergepackdetail->insertMergePackDetailFromScanApi($rtLabel, $user_id);
+                    // $rtLabelUp['status'] = "MERGING";
+                    // $this->updater->updateLabelMergePackApi($id, $rtLabelUp, $user_id);
 
 
-                    $dataMergeDetail['merge_pack_id'] = $rtLabelSh['merge_pack_id'];
+                    $dataMergeDetail['merge_pack_id'] = $rtLabel['merge_pack_id'];
                     $rtdata['message'] = "Get Label Successful";
                     $rtdata['error'] = false;
                     $rtdata['mpd_from_lots'] = $this->mergepackDetailFinder->findMergePackDetailFromLots($dataMergeDetail);
@@ -107,7 +107,7 @@ final class LabelScanMergeAction
                     $rtLabel['merge_pack_id'] = $id;
 
                     $id = $this->upmergepackdetail->insertMergePackDetailFromScanApi($rtLabel, $user_id);
-                    $this->updater->updateLabelMergePackApi($id, $rtLabel, $user_id);
+                    // $this->updater->updateLabelMergePackApi($id, $rtLabel, $user_id);
 
                     $dataMergeDetail['merge_pack_id'] = $rtLabel['merge_pack_id'];
                     $rtdata['message'] = "Get Label Successful";
