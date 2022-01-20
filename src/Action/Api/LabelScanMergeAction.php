@@ -75,7 +75,7 @@ final class LabelScanMergeAction
                 $checkMergePack = $this->findMergePack->findPackMergeFromProductID($rtLabel);
                 if (!$checkMergePack) {
                     $id = $this->upmergepack->insertMergePackApi($rtLabel, $user_id);
-                    $this->upmergepack->updateMergingApi($id, $rtLabel, $user_id);
+                    // $this->upmergepack->updateMergingApi($id, $rtLabel, $user_id);
                     $rtLabel['merge_pack_id'] = $id;
 
                     $id = $this->upmergepackdetail->insertMergePackDetailFromScanApi($rtLabel, $user_id);
@@ -103,7 +103,7 @@ final class LabelScanMergeAction
                 $checkMergePack = $this->findMergePack->findPackMergeFromProductID($rtLabel);
                 if (!$checkMergePack) {
                     $id = $this->upmergepack->insertMergePackApi($rtLabel, $user_id);
-                    $this->upmergepack->updateMergingApi($id, $rtLabel, $user_id);
+                    // $this->upmergepack->updateMergingApi($id, $rtLabel, $user_id);
                     $rtLabel['merge_pack_id'] = $id;
 
                     $id = $this->upmergepackdetail->insertMergePackDetailFromScanApi($rtLabel, $user_id);
