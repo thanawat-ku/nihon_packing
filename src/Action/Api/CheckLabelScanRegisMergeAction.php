@@ -42,6 +42,7 @@ final class CheckLabelScanRegisMergeAction
         $label = $data['label'];
         $user_id = $data['user_id'];
         $mergepackID = $data['id'];
+        $raMergepack['merge_pack_id'] = $mergepackID;
 
         $arrlabel = explode("#", $label);
 
@@ -76,13 +77,27 @@ final class CheckLabelScanRegisMergeAction
                 break;
             }
         }
-        if ($rtdata['mpd_from_lots'] == null && $rtdata['mpd_from_merges'] == null) {
-            $rtdata['message'] = "Get Label Successful";
-            $rtdata['error'] = true;
-            return $this->responder->withJson($response, $rtdata);
+        $rtLabel = $this->finder->findLabelSingleTable($raMergepack);
+        $checkLabelStatus = true;
+        for ($i = 0; $i < count($rtLabel); $i++) {
+            if ($rtLabel[$i]['status'] != "PRINTED") {
+                $checkLabelStatus = false;
+                break;
+            }
+        }
+        if ($checkLabelStatus == true) {
+            if ($rtdata['mpd_from_lots'] == null && $rtdata['mpd_from_merges'] == null) {
+                $rtdata['message'] = "Get Label Successful";
+                $rtdata['error'] = true;
+                return $this->responder->withJson($response, $rtdata);
+            } else {
+                $upStatus['merge_status'] = "REGISTERING";
+                $this->updater->updateMergePackApi($mergepackID, $upStatus, $user_id);
+                return $this->responder->withJson($response, $rtdata);
+            }
         } else {
-            $upStatus['merge_status'] = "REGISTERING";
-            $this->updater->updateMergePackApi($mergepackID, $upStatus, $user_id);
+            $rtdata['message'] = "Get Label Successful";
+            $rtdata['error'] = "defective";
             return $this->responder->withJson($response, $rtdata);
         }
     }
