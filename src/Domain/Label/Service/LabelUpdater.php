@@ -136,7 +136,9 @@ final class LabelUpdater
         } else {
             if (($data[0]['label_type'] == "NONFULLY" || $data[0]['label_type'] == "MERGE_NONFULLY") && $data[0]['status'] != "MERGED") {
                 $row['merge_pack_id'] = $data[0]['merge_pack_id'];
-                $row['status'] = "PACKED";
+                if ($data[0]['status'] == "MERGING") {
+                    $row['status'] = "PACKED";
+                }
             } else {
                 $row['merge_pack_id'] = $data[0]['merge_pack_id'];
                 $row['status'] = $data[0]['status'];

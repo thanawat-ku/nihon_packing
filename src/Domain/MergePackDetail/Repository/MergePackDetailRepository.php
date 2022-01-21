@@ -202,18 +202,9 @@ final class MergePackDetailRepository
 
         $query->andWhere(['lot_id' => 0]);
 
-        // if(isset($params['register_mp'])){
-        //     if($params['register_mp'] == true){
-        //         $query->andWhere(['lot_id'=>0]);
-        //     }
-        // }
-
         if (isset($params['merge_pack_id'])) {
             $query->Where(['merge_pack_details.merge_pack_id' => $params["merge_pack_id"]]);
         }
-        // if(isset($params['merge_pack_id'])){
-        //     $query->Where(['mp.id' => $params["merge_pack_id"]]);
-        // }
 
         return $query->execute()->fetchAll('assoc') ?: [];
     }
@@ -282,10 +273,6 @@ final class MergePackDetailRepository
                 'conditions' => 'lb.id = merge_pack_details.label_id',
             ],
         ]);
-
-        // $query->group(
-        //     'merge_pack_details.id'
-        // );
 
         if (isset($params['merge_pack_id'])) {
             $query->Where(['merge_pack_details.merge_pack_id' => $params["merge_pack_id"]]);

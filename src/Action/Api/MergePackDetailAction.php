@@ -3,7 +3,7 @@
 namespace App\Action\Api;
 
 use App\Domain\MergePackDetail\Service\MergePackDetailFinder;
-use App\Domain\Product\Service\ProductFinder;
+use App\Domain\MergePack\Service\MergePackFinder;
 use App\Domain\MergePack\Service\MergePackUpdater;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
@@ -22,18 +22,19 @@ final class MergePackDetailAction
     private $responder;
     private $finder;
     private $updater;
+    private $mergePackFinder;
 
     public function __construct(
         Twig $twig,
         MergePackDetailFinder $finder,
-        ProductFinder $productFinder,
+        MergePackFinder $mergePackFinder,
         MergePackUpdater $updater,
         Session $session,
         Responder $responder
     ) {
         $this->twig = $twig;
         $this->finder = $finder;
-        $this->productFinder = $productFinder;
+        $this->mergePackFinder = $mergePackFinder;
         $this->updater = $updater;
         $this->session = $session;
         $this->responder = $responder;
@@ -50,24 +51,35 @@ final class MergePackDetailAction
 
         $rtdata['mpd_from_lots'] = $this->finder->findMergePackDetailFromLots($params);
         $rtdata['mpd_from_merges'] = $this->finder->findMergePackDetailFromMergePacks($params);
+        $rtMergePack = $this->mergePackFinder->findMergePacks($params);
 
         if ($rtdata['mpd_from_lots'] != null && $rtdata['mpd_from_merges'] == null) {
             $rtdata['check_label_from_mpd'] = "lot";
-            $upStatus['merge_status'] = "MERGING";
-            $this->updater->updateMergePackApi($mergePackID, $upStatus, $user_id);
+            if ($rtMergePack[0]['merge_status'] == "CREATED" || $rtMergePack[0]['merge_status'] == "MERGING") {
+                $upStatus['merge_status'] = "MERGING";
+                $this->updater->updateMergePackApi($mergePackID, $upStatus, $user_id);
+            }
         } else if ($rtdata['mpd_from_merges'] != null &&  $rtdata['mpd_from_lots'] == null) {
             $rtdata['check_label_from_mpd'] = "merge";
-            $upStatus['merge_status'] = "MERGING";
-            $this->updater->updateMergePackApi($mergePackID, $upStatus, $user_id);
+
+            if ($rtMergePack[0]['merge_status'] == "CREATED" || $rtMergePack[0]['merge_status'] == "MERGING") {
+                $upStatus['merge_status'] = "MERGING";
+                $this->updater->updateMergePackApi($mergePackID, $upStatus, $user_id);
+            }
         } else if ($rtdata['mpd_from_lots'] != null && $rtdata['mpd_from_merges'] != null) {
             $rtdata['check_label_from_mpd'] = "lot_and_merge";
-            $upStatus['merge_status'] = "MERGING";
-            $this->updater->updateMergePackApi($mergePackID, $upStatus, $user_id);
+
+            if ($rtMergePack[0]['merge_status'] == "CREATED" || $rtMergePack[0]['merge_status'] == "MERGING") {
+                $upStatus['merge_status'] = "MERGING";
+                $this->updater->updateMergePackApi($mergePackID, $upStatus, $user_id);
+            }
         }
 
         if ($rtdata['mpd_from_lots'] == null && $rtdata['mpd_from_merges'] == null) {
-            $upStatus['merge_status'] = "CREATED";
-            $this->updater->updateMergePackApi($mergePackID, $upStatus, $user_id);
+            if ($rtMergePack[0]['merge_status'] == "MERGING") {
+                $upStatus['merge_status'] = "CREATED";
+                $this->updater->updateMergePackApi($mergePackID, $upStatus, $user_id);
+            }
         }
         return $this->responder->withJson($response, $rtdata);
     }
