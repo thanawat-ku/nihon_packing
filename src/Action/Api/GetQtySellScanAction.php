@@ -62,7 +62,7 @@ final class GetQtySellScanAction
             for ($i = 0; $i < count($rtdata['mpd_from_merges']); $i++) {
                 $quantity += $rtdata['mpd_from_merges'][$i]['quantity'];
                 $numberLabel += 1;
-                if ($rtdata['mpd_from_merges'][$i]['product_id'] != $productID  || ($rtdata['mpd_from_merges'][$i]['status'] != "PACKED") ) {
+                if ($rtdata['mpd_from_merges'][$i]['product_id'] != $productID  || ($rtdata['mpd_from_merges'][$i]['status'] != "PACKED" && $rtdata['mpd_from_merges'][$i]['status'] != "SELLING") ) {
                     $checklabelError += 1;
                 }
             }
@@ -71,14 +71,14 @@ final class GetQtySellScanAction
             for ($i = 0; $i < count($rtdata['mpd_from_lots']); $i++) {
                 $quantity += $rtdata['mpd_from_lots'][$i]['quantity'];
                 $numberLabel += 1;
-                if ($rtdata['mpd_from_lots'][$i]['product_id'] != $productID  || ($rtdata['mpd_from_lots'][$i]['status'] != "PACKED") ) {
+                if ($rtdata['mpd_from_lots'][$i]['product_id'] != $productID  || ($rtdata['mpd_from_lots'][$i]['status'] != "PACKED" && $rtdata['mpd_from_lots'][$i]['status'] != "SELLING") ) {
                     $checklabelError += 1;
                 }
             }
             for ($i = 0; $i < count($rtdata['mpd_from_merges']); $i++) {
                 $quantity += $rtdata['mpd_from_merges'][$i]['quantity'];
                 $numberLabel += 1;
-                if ($rtdata['mpd_from_merges'][$i]['product_id'] != $productID  || ($rtdata['mpd_from_merges'][$i]['status'] != "PACKED") ) {
+                if ($rtdata['mpd_from_merges'][$i]['product_id'] != $productID  || ($rtdata['mpd_from_merges'][$i]['status'] != "PACKED" && $rtdata['mpd_from_merges'][$i]['status'] != "SELLING") ) {
                     $checklabelError += 1;
                 }
             }
