@@ -114,6 +114,12 @@ return function (App $app) {
 
     $app->get('/tags', \App\Action\Web\TagAction::class)->add(UserAuthMiddleware::class);
     $app->post('/register_tags', \App\Action\Web\TagRegisterAction::class)->add(UserAuthMiddleware::class);
+    
+    $app->get('/printers', \App\Action\Web\PrinterAction::class)->add(UserAuthMiddleware::class);
+    $app->post('/add_printer', \App\Action\Web\PrinterAddAction::class)->add(UserAuthMiddleware::class);
+    $app->post('/edit_printer', \App\Action\Web\PrinterEditAction::class)->add(UserAuthMiddleware::class);
+    $app->post('/delete_printer', \App\Action\Web\PrinterDeleteAction::class)->add(UserAuthMiddleware::class);
+    
 
     //---------------------------Api-------------------------------
 

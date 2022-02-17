@@ -35,6 +35,7 @@ module.exports = {
     'web/defects': './templates/web/defects.js',
     'web/sections': './templates/web/sections.js',
     'web/tags': './templates/web/tags.js',
+    'web/printers': './templates/web/printers.js',
   },
   output: {
     path: path.resolve(__dirname, 'public/assets'),
