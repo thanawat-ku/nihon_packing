@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 14, 2022 at 03:18 PM
+-- Generation Time: Feb 17, 2022 at 07:18 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.12
 
@@ -361,12 +361,13 @@ CREATE TABLE `labels` (
   `lot_id` int(11) NOT NULL,
   `merge_pack_id` int(11) NOT NULL DEFAULT 0,
   `split_label_id` int(11) NOT NULL DEFAULT 0,
+  `printer_id` int(11) NOT NULL DEFAULT 0,
   `label_no` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `label_type` enum('FULLY','NONFULLY','MERGE_FULLY','MERGE_NONFULLY') COLLATE utf8mb4_unicode_ci NOT NULL,
   `quantity` int(11) NOT NULL,
   `status` enum('CREATED','PACKED','USED','VOID','MERGED','MERGING','SELLING','PRINTED') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'CREATED',
   `is_delete` enum('N','Y') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N',
-  `is_print` enum('N','Y') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N',
+  `wait_print` enum('N','Y') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N',
   `label_void_reason_id` int(11) NOT NULL DEFAULT 0,
   `created_at` datetime DEFAULT NULL,
   `created_user_id` int(11) NOT NULL,
@@ -484,6 +485,23 @@ CREATE TABLE `merge_pack_details` (
   `updated_at` datetime DEFAULT NULL,
   `updated_user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `printers`
+--
+
+CREATE TABLE `printers` (
+  `id` int(11) NOT NULL,
+  `printer_name` varchar(20) NOT NULL,
+  `printer_address` text NOT NULL,
+  `printer_type` enum('LABEL','TAG') NOT NULL,
+  `created_at` datetime NOT NULL,
+  `created_user_id` int(11) NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `updated_user_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -42145,6 +42163,12 @@ ALTER TABLE `merge_pack_details`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `printers`
+--
+ALTER TABLE `printers`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `products`
 --
 ALTER TABLE `products`
@@ -42260,6 +42284,12 @@ ALTER TABLE `merge_packs`
 -- AUTO_INCREMENT for table `merge_pack_details`
 --
 ALTER TABLE `merge_pack_details`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `printers`
+--
+ALTER TABLE `printers`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
