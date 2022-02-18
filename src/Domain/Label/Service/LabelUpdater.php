@@ -293,6 +293,8 @@ final class LabelUpdater
         $std_pack = (int)$data['std_pack'] ?? 1;
         $user_id = (int)$data['user_id'] ?? 1;
         $productID = (int)$data['product_id'] ?? 0;
+        $printerID = (int)$data['printer_id'] ?? 1;
+        $waitPrint = $data['wait_print'] ?? "N";
         $num_packs = ceil($quantity / $std_pack);
         $num_full_packs = floor($quantity / $std_pack);
 
@@ -303,6 +305,8 @@ final class LabelUpdater
             $data1['quantity'] = $std_pack;
             $data1['status'] = "CREATED";
             $data1['product_id'] = $productID;
+            $data1['printer_id'] = $printerID;
+            $data1['wait_print'] = $waitPrint;
             $id = $this->insertLabelApi($data1, $user_id);
             $data1['label_no'] = "P" . str_pad($id, 11, "0", STR_PAD_LEFT);
             $this->updateLabelApi($id, $data1, $user_id);
@@ -316,6 +320,8 @@ final class LabelUpdater
             $data1['quantity'] = $quantity - ($num_full_packs * $std_pack);
             $data1['status'] = "CREATED";
             $data1['product_id'] = $productID;
+            $data1['printer_id'] = $printerID;
+            $data1['wait_print'] = $waitPrint;
             $id = $this->insertLabelApi($data1, $user_id);
             $data1['label_no'] = "P" . str_pad($id, 11, "0", STR_PAD_LEFT);
             $this->updateLabelApi($id, $data1, $user_id);

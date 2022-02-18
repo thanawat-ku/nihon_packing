@@ -5,6 +5,7 @@ namespace App\Action\Web;
 use App\Domain\MergePackDetail\Service\MergePackDetailFinder;
 use App\Domain\MergePack\Service\MergePackFinder;
 use App\Domain\Label\Service\LabelFinder;
+use App\Domain\Printer\Service\PrinterFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -26,6 +27,7 @@ final class MergeDetailAction
     private $mergeFinder;
     private $labelFinder;
     private $mergePackDetailFinder;
+    private $printerFinder;
 
     public function __construct(
         Twig $twig,
@@ -34,7 +36,8 @@ final class MergeDetailAction
         Responder $responder,
         MergePackFinder $mergeFinder,
         LabelFinder $labelFinder,
-        MergePackDetailFinder $mergePackDetailFinder
+        MergePackDetailFinder $mergePackDetailFinder,
+        PrinterFinder $printerFinder
     ) {
         $this->twig = $twig;
         $this->finder = $finder;
@@ -43,6 +46,7 @@ final class MergeDetailAction
         $this->responder = $responder;
         $this->labelFinder = $labelFinder;
         $this->mergePackDetailFinder = $mergePackDetailFinder;
+        $this->printerFinder = $printerFinder;
     }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
@@ -80,10 +84,11 @@ final class MergeDetailAction
             } else {
                 $mergePack[0]['merge_confirm'] = "N";
             }
-
+            $printerType['printer_type'] = "LABEL";
             $viewData = [
                 'labels' => $labels,
                 'mergePack' => $mergePack[0],
+                'printers' => $this->printerFinder->findPrinters($printerType),
                 'user_login' => $this->session->get('user'),
             ];
         }else{

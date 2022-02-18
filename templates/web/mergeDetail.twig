@@ -88,8 +88,16 @@
           <div class="form-product">
             <input type="hidden" id="confirmMergeId" name="id">
             <input type="hidden" id="stdPack" name="std_pack">
-            <label for="MergeNo">Do you want to confirm Merge: <span id="confirmMergeNo"></span> ?</label>
-          </div>                 
+            <label for="MergeNo">Do you want to confirm Merge: <span id="confirmMergeNo">xxx</span> ?</label>
+          </div>  
+          <div class="form-product">
+            <label for="email">Printer</label>
+            <select class="selectpicker form-control"  id="addPrinterID" name="printer_id" data-live-search="true">
+            {% for p in printers %}
+              <option value={{ p.id }}>{{ p.printer_name}} </option>
+            {% endfor %}
+            </select>
+          </div>                
         </div>
         <div class="modal-footer">
           <button type="submit" class="btn btn-info">Yes</button>

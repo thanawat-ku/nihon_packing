@@ -66,7 +66,7 @@ final class MergeConfirmAction
         $mergePackId =  $data['id'];
         $dataMergeDeatil['merge_pack_id'] = $mergePackId;
         $getMergeDeatil = $this->mergeDetailFinder->findMergePackDetails($dataMergeDeatil);
-
+        $printerID = $data['printer_id'];
         $totalQty = 0;
         for ($i = 0; $i < sizeof($getMergeDeatil); $i++) {
             $Qty = $getMergeDeatil[$i]['quantity'];
@@ -79,6 +79,8 @@ final class MergeConfirmAction
         $datalabel['quantity'] = $totalQty;
         $datalabel['user_id'] = $user_id;
         $datalabel['product_id'] = $getMergeDeatil[0]['product_id'];
+        $datalabel['printer_id'] = $printerID;
+        $datalabel['wait_print'] = "Y";
 
         $this->labelUpdater->genMergeLabel($datalabel);
 
@@ -89,7 +91,7 @@ final class MergeConfirmAction
             $this->labelUpdater->updateLabelApi($labelId, $datalabel2, $user_id);
         }
         
-        $dataMergePack['merge_status'] = "MERGED";
+        $dataMergePack['merge_status'] = "PRINTED";
         $this->updater->updatePackMerge($mergePackId,$dataMergePack);
 
         return $this->responder->withRedirect($response, "merges");
