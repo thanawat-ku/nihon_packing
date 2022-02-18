@@ -9,6 +9,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Views\Twig;
 use Symfony\Component\HttpFoundation\Session\Session;
+use App\Domain\Printer\Service\PrinterFinder;
 
 final class  LabelAction
 {
@@ -18,7 +19,7 @@ final class  LabelAction
     private $finder;
     private $voidReasonFinder;
     private $session;
-
+    private $printerFinder;
 
     public function __construct(
         Twig $twig,
@@ -26,12 +27,14 @@ final class  LabelAction
         Session $session,
         Responder $responder,
         LabelVoidReasonFinder $voidReasonFinder,
+        PrinterFinder $printerFinder
     ) {
         $this->twig = $twig;
         $this->finder = $finder;
         $this->session = $session;
         $this->responder = $responder;
         $this->voidReasonFinder = $voidReasonFinder;
+        $this->printerFinder = $printerFinder;
     }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
@@ -58,11 +61,12 @@ final class  LabelAction
         else{
             $labelsAll = $labels1;
         }
-        
+        $printerType['printer_type'] = "LABEL";
         $viewData = [
             'labels' => $labelsAll,
             'void_reasons' => $this->voidReasonFinder->findLabelVoidReasonsForVoidLabel($params),
             'user_login' => $this->session->get('user'),
+            'printers' => $this->printerFinder->findPrinters($printerType),
             'startDate' => $params['startDate'],
             'endDate' => $params['endDate'],
         ];

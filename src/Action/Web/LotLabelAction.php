@@ -5,6 +5,7 @@ namespace App\Action\Web;
 use App\Domain\Label\Service\LabelFinder;
 use App\Domain\Lot\Service\LotFinder;
 use App\Domain\LabelVoidReason\Service\LabelVoidReasonFinder;
+use App\Domain\Printer\Service\PrinterFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -19,7 +20,7 @@ final class  LotLabelAction
     private $finder;
     private $lotFinder;
     private $session;
-
+    private $printerFinder;
 
     public function __construct(
         Twig $twig,
@@ -27,7 +28,8 @@ final class  LotLabelAction
         Session $session,
         Responder $responder,
         LotFinder $lotFinder,
-        LabelVoidReasonFinder $voidReasonFinder
+        LabelVoidReasonFinder $voidReasonFinder,
+        PrinterFinder $printerFinder
     ) {
         $this->twig = $twig;
         $this->finder = $finder;
@@ -35,6 +37,7 @@ final class  LotLabelAction
         $this->responder = $responder;
         $this->lotFinder = $lotFinder;
         $this->voidReasonFinder = $voidReasonFinder;
+        $this->printerFinder = $printerFinder;
     }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
@@ -55,11 +58,12 @@ final class  LotLabelAction
         } else {
             $lot = "error";
         }
-
+        $printerType['printer_type'] = "LABEL";
         $viewData = [
             'lot' => $lot,
             'labels' => $labels,
             'void_reasons' => $this->voidReasonFinder->findLabelVoidReasonsForVoidLabel($data),
+            'printers' => $this->printerFinder->findPrinters($printerType),
             'user_login' => $this->session->get('user'),
         ];
         return $this->twig->render($response, 'web/labelsLot.twig', $viewData);

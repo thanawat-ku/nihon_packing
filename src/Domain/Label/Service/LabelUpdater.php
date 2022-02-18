@@ -383,6 +383,8 @@ final class LabelUpdater
         $quantity2 = (int)$data['quantity2'] ?? 1;
         $user_id = (int)$data['user_id'] ?? 1;
         $productId = (int)$data['product_id'] ?? 0;
+        $printerId = (int)$data['printer_id'] ?? 0;
+        $waitPrint = $data['wait_print'] ?? "N";
 
         $labels = [];
         if ($label_type == "FULLY" || $label_type == "NONFULLY") {
@@ -391,6 +393,8 @@ final class LabelUpdater
             $data1['quantity'] = $quantity1;
             $data1['status'] = "CREATED";
             $data1['product_id'] = $productId;
+            $data1['printer_id'] = $printerId;
+            $data1['wait_print'] = $waitPrint;
             $id = $this->insertLabelApi($data1, $user_id);
             $params2['label_id'] = $id;
             $rt1 = $this->finder->findLabels($params2);
@@ -401,6 +405,8 @@ final class LabelUpdater
             $data1['quantity'] = $quantity2;
             $data1['status'] = "CREATED";
             $data1['product_id'] = $productId;
+            $data1['printer_id'] = $printerId;
+            $data1['wait_print'] = $waitPrint;
             $id = $this->insertLabelApi($data1, $user_id);
             $params2['label_id'] = $id;
             $rt1 = $this->finder->findLabels($params2);
@@ -411,6 +417,8 @@ final class LabelUpdater
             $data1['quantity'] = $quantity1;
             $data1['status'] = "CREATED";
             $data1['product_id'] = $productId;
+            $data1['printer_id'] = $printerId;
+            $data1['wait_print'] = $waitPrint;
             $id = $this->insertLabelApi($data1, $user_id);
             $params2['label_id'] = $id;
             $rt1 = $this->finder->findLabelForLotZero($params2);
@@ -421,6 +429,8 @@ final class LabelUpdater
             $data1['quantity'] = $quantity2;
             $data1['status'] = "CREATED";
             $data1['product_id'] = $productId;
+            $data1['printer_id'] = $printerId;
+            $data1['wait_print'] = $waitPrint;
             $id = $this->insertLabelApi($data1, $user_id);
             $params2['label_id'] = $id;
             $rt1 = $this->finder->findLabelForLotZero($params2);

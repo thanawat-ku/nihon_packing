@@ -59,6 +59,7 @@ final class LabelSplitAction
         $data['status'] = "VOID";
         $data['label_void_reason_id'] = "1";
         $labelId = $data['label_id'];
+        $printerId = $data['printer_id'];
 
         $findLabel['label_id'] = $labelId;
         $label = $this->finder->findLabelSingleTable($findLabel);
@@ -73,10 +74,12 @@ final class LabelSplitAction
             $dataDeatail['quantity1'] = $data['qty1'];
             $dataDeatail['quantity2'] = $data['qty2'];
             $dataDeatail['product_id'] = $productId;
+            $dataDeatail['printer_id'] = $printerId;
+            $dataDeatail['wait_print'] = "Y";
             $labelDetail = $this->updater->genSplitLabel($dataDeatail);
             $this->updater->updateLabel($labelId, $data);
 
-            $dataSP['status'] = "CREATED";
+            $dataSP['status'] = "PRINTED";
             $dataSP['label_id'] = $labelId;
             $splitID = $this->splitupdater->insertSplitLabelApi($dataSP, $user_id);
             $dataSplit = $this->splitLabelFinder->findSplitLabels($findSplitLabel);

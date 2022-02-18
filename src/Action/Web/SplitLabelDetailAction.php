@@ -6,6 +6,7 @@ use App\Domain\Label\Service\LabelFinder;
 use App\Domain\SplitLabelDetail\Service\SplitLabelDetailFinder;
 use App\Domain\SplitLabel\Service\SplitLabelFinder;
 use App\Domain\LabelVoidReason\Service\LabelVoidReasonFinder;
+use App\Domain\Printer\Service\PrinterFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -21,7 +22,7 @@ final class  SplitLabelDetailAction
     private $session;
     private $splitDetailFinder;
     private $labelFinder;
-
+    private $printerFinder;
 
     public function __construct(
         Twig $twig,
@@ -30,7 +31,8 @@ final class  SplitLabelDetailAction
         Session $session,
         Responder $responder,
         SplitLabelDetailFinder $splitDetailFinder,
-        LabelVoidReasonFinder $voidReasonFinder
+        LabelVoidReasonFinder $voidReasonFinder,
+        PrinterFinder $printerFinder
     ) {
         $this->twig = $twig;
         $this->finder = $finder;
@@ -39,6 +41,7 @@ final class  SplitLabelDetailAction
         $this->responder = $responder;
         $this->splitDetailFinder = $splitDetailFinder;
         $this->voidReasonFinder = $voidReasonFinder;
+        $this->printerFinder = $printerFinder;
     }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
@@ -72,11 +75,12 @@ final class  SplitLabelDetailAction
         } else {
             $split = "ERROR";
         }
-
+        $printerType['printer_type'] = "LABEL";
         $viewData = [
             'split' => $split,
             'labels' => $labels,
             'void_reasons' => $this->voidReasonFinder->findLabelVoidReasonsForVoidLabel($data),
+            'printers' => $this->printerFinder->findPrinters($printerType),
             'user_login' => $this->session->get('user'),
         ];
         return $this->twig->render($response, 'web/labelsSplit.twig', $viewData);

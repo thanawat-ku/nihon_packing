@@ -54,6 +54,7 @@ function confirmSplit(event) {
     $("#qtyConfirm2").val($("#qty2").val());
     $("#confirmSplitQty1").text($("#qty1").val());
     $("#confirmSplitQty2").text($("#qty2").val());
+    $("#addPrinterID2").val($("#addPrinterID").val());
 }
 
 function registerLabel(event) {

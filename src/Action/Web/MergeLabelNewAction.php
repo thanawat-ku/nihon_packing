@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use App\Domain\Product\Service\ProductFinder;
 use App\Domain\Label\Service\LabelFinder;
 use App\Domain\LabelVoidReason\Service\LabelVoidReasonFinder;
+use App\Domain\Printer\Service\PrinterFinder;
 
 /**
  * Action.
@@ -27,7 +28,7 @@ final class MergeLabelNewAction
     private $productFinder;
     private $labelFinder;
     private $voidReasonFinder;
-
+    private $printerFinder;
 
     /**
      * The constructor.
@@ -41,7 +42,8 @@ final class MergeLabelNewAction
         Responder $responder,
         ProductFinder $productFinder,
         LabelFinder $labelFinder,
-        LabelVoidReasonFinder $voidReasonFinder
+        LabelVoidReasonFinder $voidReasonFinder,
+        PrinterFinder $printerFinder
     ) {
         $this->twig = $twig;
         $this->finder = $finder;
@@ -50,6 +52,7 @@ final class MergeLabelNewAction
         $this->productFinder = $productFinder;
         $this->labelFinder = $labelFinder;
         $this->voidReasonFinder = $voidReasonFinder;
+        $this->printerFinder = $printerFinder;
     }
 
     /**
@@ -79,11 +82,12 @@ final class MergeLabelNewAction
             $mergePack['register'] = "Y";
         }
         
-
+        $printerType['printer_type'] = "LABEL";
         $viewData = [
             'labels' =>  $labels,
             'mergePack' => $mergePack,
             'void_reasons' => $this->voidReasonFinder->findLabelVoidReasonsForVoidLabel($params),
+            'printers' => $this->printerFinder->findPrinters($printerType),
             'user_login' => $this->session->get('user'),
         ];
 
