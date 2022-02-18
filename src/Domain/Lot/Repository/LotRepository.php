@@ -130,6 +130,31 @@ final class LotRepository
 
         return $query->execute()->fetchAll('assoc') ?: [];
     }
+
+    public function findLotsSingleTalbe(array $params): array
+    {
+        $query = $this->queryFactory->newSelect('lots');
+        $query->select(
+            [
+                'lots.id',
+                'lot_no',
+                'generate_lot_no',
+                'product_id',
+                'quantity',
+                'status',
+                'real_qty',
+                'issue_date',
+
+            ]
+        );
+        if (isset($params['lot_id'])) {
+            $query->andWhere(['lots.id' => $params["lot_id"]]);
+        }
+        $query->andWhere(['lots.is_delete' => 'N']);
+
+        return $query->execute()->fetchAll('assoc') ?: [];
+    }
+
     public function getMaxID(): array
     {
         $query = $this->queryFactory->newSelect('lots');

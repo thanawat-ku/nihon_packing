@@ -45,6 +45,7 @@ final class LotPrintAction
         $data = (array)$request->getParsedBody();
         $lotId = $data["id"];
         $realQty = $data['real_qty'];
+        $printerID = $data['printer_id'];
 
         // generate labels
         $params["lot_id"] = $lotId;
@@ -56,8 +57,10 @@ final class LotPrintAction
             $data['product_id'] = $lots[0]['product_id'];
             $data['real_qty'] = $realQty;
             $data['std_pack'] = $lots[0]['std_pack'];
+            $data['printer_id'] = $printerID;
+            $data['wait_print'] = "Y";
             $this->labelUpdater->genLabelNo($data);
-            $dataLot['status'] = "CONFIRMED";
+            $dataLot['status'] = "PRINTED";
             $dataLot['real_qty'] = $realQty;
             $dataLot['generate_lot_no'] = "L" . str_pad($lotId, 11, "0", STR_PAD_LEFT);
             $dataLot['printed_user_id'] =  $data['user_id'];

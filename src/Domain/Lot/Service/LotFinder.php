@@ -20,6 +20,11 @@ final class LotFinder
         return $this->repository->findLots($params);
     }
 
+    public function findLotsSingleTalbe(array $params): array
+    {
+        return $this->repository->findLotsSingleTalbe($params);
+    }
+
     public function getLocalMaxLotId():int
     {
         return $this->repository->getLocalMaxLotId()[0]["max_id"];

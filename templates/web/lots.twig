@@ -94,6 +94,14 @@
           <div>
           <label for="lotNo">Add Real Quantity</label>
             <input type="number" autocomplete="off" class="form-control" id="realQTY" min="1"  required>
+          </div>
+          <div class="form-product">
+            <label for="email">Printer</label>
+            <select class="selectpicker form-control"  id="addPrinterID" name="printer_id" data-live-search="true">
+            {% for p in printers %}
+              <option value={{ p.id }}>{{ p.printer_name}} </option>
+            {% endfor %}
+            </select>
           </div>              
         </div>
         <div class="modal-footer">
@@ -121,6 +129,7 @@
             {# <input type="text" id="printLotID" name ="id"> #}
             <input type="hidden" id="confirmPrintLotID" name ="id">
             <input type="hidden" id="confirmRealQty2" name ="real_qty">
+            <input type="hidden" id="addPrinterID2" name ="printer_id">
             <label for="lotNo">Real Quantity is: <span id="confirmRealQty">xxx</span></label></label>
           </div>
           <div>

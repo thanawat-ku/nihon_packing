@@ -53,6 +53,9 @@ final class PrinterRepository
                 'printer_type',
             ]
         );
+        if (isset($params['printer_type'])) {
+            $query->andWhere(['printer_type' => $params['printer_type']]);
+        }
         return $query->execute()->fetchAll('assoc') ?: [];
     }
 }

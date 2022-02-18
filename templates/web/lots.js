@@ -41,6 +41,7 @@ function confirmPrintLot(event) {
     $("#confirmPrintLotID").val($("#printLotID").val());
     $("#confirmRealQty").text($("#realQTY").val());
     $("#confirmRealQty2").val($("#realQTY").val());
+    $("#addPrinterID2").val($("#addPrinterID").val());
 }
 
 function addDefectLot(event) {

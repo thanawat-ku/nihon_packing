@@ -247,6 +247,9 @@ final class LabelUpdater
         if (isset($data['product_id'])) {
             $result['product_id'] = (string)$data['product_id'];
         }
+        if (isset($data['printer_id'])) {
+            $result['printer_id'] = (string)$data['printer_id'];
+        }
         if (isset($data['merge_pack_id'])) {
             $result['merge_pack_id'] = (string)$data['merge_pack_id'];
         }
@@ -268,7 +271,6 @@ final class LabelUpdater
         if (isset($data['label_void_reason_id'])) {
             $result['label_void_reason_id'] = (string)$data['label_void_reason_id'];
         }
-
         if (isset($data['scan_no'])) {
             $result['scan_no'] = (string)$data['scan_no'];
         }
@@ -277,6 +279,9 @@ final class LabelUpdater
         }
         if (isset($data['is_delete'])) {
             $result['is_delete'] = (string)$data['is_delete'];
+        }
+        if (isset($data['wait_print'])) {
+            $result['wait_print'] = (string)$data['wait_print'];
         }
         return $result;
     }
@@ -331,8 +336,10 @@ final class LabelUpdater
         $lot_id = (int)($data['lot_id'] ?? 1);
         $real_qty = (int)$data['real_qty'] ?? 1;
         $std_pack = (int)$data['std_pack'] ?? 1;
-        $productId = (int)$data['product_id'] ?? 0;
+        $productId = (int)$data['product_id'] ?? 1;
         $user_id = (int)$data['user_id'] ?? 1;
+        $printerID = (int)$data['printer_id'] ?? 1;
+        $waitPrint = $data['wait_print'] ?? "N";
         $num_packs = ceil($real_qty / $std_pack);
         $num_full_packs = floor($real_qty / $std_pack);
 
@@ -343,6 +350,8 @@ final class LabelUpdater
             $data1['quantity'] = $std_pack;
             $data1['status'] = "CREATED";
             $data1['product_id'] = $productId;
+            $data1['printer_id'] = $printerID;
+            $data1['wait_print'] = $waitPrint;
             $id = $this->insertLabelApi($data1, $user_id);
             $params2['label_id'] = $id;
             $rt1 = $this->finder->findLabels($params2);
@@ -354,6 +363,8 @@ final class LabelUpdater
             $data1['quantity'] = $real_qty - ($num_full_packs * $std_pack);
             $data1['status'] = "CREATED";
             $data1['product_id'] = $productId;
+            $data1['printer_id'] = $printerID;
+            $data1['wait_print'] = $waitPrint;
             $id = $this->insertLabelApi($data1, $user_id);
             $params2['label_id'] = $id;
             $rt1 = $this->finder->findLabels($params2);
