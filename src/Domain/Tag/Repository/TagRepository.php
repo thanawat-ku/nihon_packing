@@ -124,7 +124,7 @@ final class TagRepository
                 'tags.quantity',
                 'box_no',
                 'total_box',
-                'is_print',
+                'wait_print',
                 'tags.status',
                 'part_code',
                 'part_name',
@@ -153,7 +153,7 @@ final class TagRepository
 
         if (isset($params['tag_no'])) {
             $query->andWhere(['tag_no' => $params["tag_no"]]);
-            $query->andWhere(['tags.is_print' => 'Y']);
+            // $query->andWhere(['tags.wait_print' => 'Y']);
         }
         if (isset($params['tag_id'])) {
             $query->andWhere(['tags.id' => $params["tag_id"]]);

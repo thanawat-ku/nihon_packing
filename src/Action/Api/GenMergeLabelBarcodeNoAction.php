@@ -59,17 +59,19 @@ final class GenMergeLabelBarcodeNoAction
         $user_id = (int)$data['user_id'];
         $mergePackID = (int)$data['merge_pack_id'];
 
-        $rtMergePack = $this->findMergePack->findMergePacks($data );
+        $rtMergePack = $this->findMergePack->findMergePacks($data);
 
-        $data['product_id'] = $rtMergePack[0]['product_id']; 
+        $data['product_id'] = $rtMergePack[0]['product_id'];
 
         $labels = $this->findermpdetail->findMergePackDetails($data);
         for ($i = 0; $i < count($labels); $i++) {
-            $dataupdate['id']=$labels[$i]['lb_id'];
-            $dataupdate['up_status']="VOID";
-            $dataupdate['void']="MERGED";
+            $dataupdate['id'] = $labels[$i]['lb_id'];
+            $dataupdate['up_status'] = "VOID";
+            $dataupdate['void'] = "MERGED";
             $this->updater->updateLabelStatus($dataupdate['id'], $dataupdate, $user_id);
-        } 
+        }
+        // $data['printer_id'] = 0;
+        // $data['wait_print'] = 'N';
         $labels = $this->updater->genMergeLabel($data);
 
         // $this->upmergepackdetail->deleteLabelMergePackDetailApi($mergePackID);
