@@ -82,6 +82,13 @@ final class MergeConfirmAction
         $datalabel['printer_id'] = $printerID;
         $datalabel['wait_print'] = "Y";
 
+        if($getMergeDeatil[0]['lot_id'] != "0"){
+            $datalabel['prefer_lot_id'] = $getMergeDeatil[0]['lot_id'];
+        }else{
+            $datalabel['prefer_lot_id'] = $getMergeDeatil[0]['prefer_lot_id'];
+        }
+
+
         $this->labelUpdater->genMergeLabel($datalabel);
 
         for ($i = 0; $i < sizeof($getMergeDeatil); $i++) {

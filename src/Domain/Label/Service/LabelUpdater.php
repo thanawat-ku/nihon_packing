@@ -250,6 +250,9 @@ final class LabelUpdater
         if (isset($data['printer_id'])) {
             $result['printer_id'] = (string)$data['printer_id'];
         }
+        if (isset($data['prefer_lot_id'])) {
+            $result['prefer_lot_id'] = (string)$data['prefer_lot_id'];
+        }
         if (isset($data['merge_pack_id'])) {
             $result['merge_pack_id'] = (string)$data['merge_pack_id'];
         }
@@ -293,8 +296,10 @@ final class LabelUpdater
         $std_pack = (int)$data['std_pack'] ?? 1;
         $user_id = (int)$data['user_id'] ?? 1;
         $productID = (int)$data['product_id'] ?? 0;
+        $perferLotID = (int)$data['prefer_lot_id'] ?? 0;
         $printerID = (int)$data['printer_id'] ?? 1;
         $waitPrint = $data['wait_print'] ?? "N";
+        // $perferLotID = $data['']
         $num_packs = ceil($quantity / $std_pack);
         $num_full_packs = floor($quantity / $std_pack);
 
@@ -306,6 +311,7 @@ final class LabelUpdater
             $data1['status'] = "CREATED";
             $data1['product_id'] = $productID;
             $data1['printer_id'] = $printerID;
+            $data1['prefer_lot_id'] = $perferLotID;
             $data1['wait_print'] = $waitPrint;
             $id = $this->insertLabelApi($data1, $user_id);
             $data1['label_no'] = "P" . str_pad($id, 11, "0", STR_PAD_LEFT);
@@ -321,6 +327,7 @@ final class LabelUpdater
             $data1['status'] = "CREATED";
             $data1['product_id'] = $productID;
             $data1['printer_id'] = $printerID;
+            $data1['prefer_lot_id'] = $perferLotID;
             $data1['wait_print'] = $waitPrint;
             $id = $this->insertLabelApi($data1, $user_id);
             $data1['label_no'] = "P" . str_pad($id, 11, "0", STR_PAD_LEFT);
@@ -391,6 +398,7 @@ final class LabelUpdater
         $productId = (int)$data['product_id'] ?? 0;
         $printerId = (int)$data['printer_id'] ?? 0;
         $waitPrint = $data['wait_print'] ?? "N";
+        $perferLotID = (int)$data['prefer_lot_id'] ?? 0;
 
         $labels = [];
         if ($label_type == "FULLY" || $label_type == "NONFULLY") {
@@ -401,6 +409,7 @@ final class LabelUpdater
             $data1['product_id'] = $productId;
             $data1['printer_id'] = $printerId;
             $data1['wait_print'] = $waitPrint;
+            $data1['prefer_lot_id'] = $perferLotID;
             $id = $this->insertLabelApi($data1, $user_id);
             $params2['label_id'] = $id;
             $rt1 = $this->finder->findLabels($params2);
@@ -413,6 +422,7 @@ final class LabelUpdater
             $data1['product_id'] = $productId;
             $data1['printer_id'] = $printerId;
             $data1['wait_print'] = $waitPrint;
+            $data1['prefer_lot_id'] = $perferLotID;
             $id = $this->insertLabelApi($data1, $user_id);
             $params2['label_id'] = $id;
             $rt1 = $this->finder->findLabels($params2);
