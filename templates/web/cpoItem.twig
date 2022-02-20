@@ -20,9 +20,11 @@
 					<input type="hidden" id="productID" name="ProductID" value="{{ sellRow.product_id }}">
 					<input type="hidden" id="sellID" name="sell_id" value="{{ sellRow.id }}">
 				</form>
+				{% if checkSellCpo == "true" %}
 				<button type="submit" form="{{ sellRow.id }}" id="addBt" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#addCpoItem">
 					<i style="font-size:15px; width:20px;" class="fas fa-plus"></i>
 					Add CPO Item</button>
+				{% endif %}
 				{% if sellRow.total_qty != 0 %}
 					<button type="button" id="conBt" class="btn btn-success btn-sm" data-toggle="modal" data-target="#confirmCpoItem" name "{{ sellRow|json_encode }}">
 						<istyle= style="font-size:15px; width:20px;" class="#"></istyle="font-size:15px;width:20px;"class="fasfa-check">
@@ -132,7 +134,7 @@
 					<!-- Modal body -->
 					<div class="modal-body">
 						<div class="form-sell">
-							<input type="hidden" id="deleteCpoItemID" name="id">
+							<input type="hidden" id="deleteSellCpoItemID" name="id">
 							<input type="hidden" id="#" name="sell_id" value="{{sellRow.id}}">
 							<label for="sellNo">Do you want to delete CPO No:
 								<span id="deleteCpoNo"></span>

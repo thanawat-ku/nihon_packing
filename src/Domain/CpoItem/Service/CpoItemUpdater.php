@@ -25,16 +25,14 @@ final class CpoItemUpdater
             //->createInstance();
     }
 
-    
     public function updateCpoItem(int $id, array $data): void
     {
         $this->validator->validateCpoItemUpdate($id, $data);
 
-        $storeRow = $this->mapToCpoItemRow($data);
+        $row = $this->mapToRow($data);
 
-        $this->repository->updateCpoItem($id, $storeRow);
+        $this->repository->updateCpoItem($id, $row);
     }
-
     
     public function deleteCpoItem(int $id): void
     {
@@ -48,21 +46,12 @@ final class CpoItemUpdater
      *
      * @return array<mixed> The row
      */
-    private function mapToCpoItemRow(array $data): array
+    private function mapToRow(array $data): array
     {
         $result = [];
 
-        if (isset($data['sell_id'])) {
-            $result['sell_id'] = (string)$data['sell_id'];
-        }
-        if (isset($data['cpo_item_id'])) {
-            $result['cpo_item_id'] = (string)$data['cpo_item_id'];
-        }
-        if (isset($data['remain_qty'])) {
-            $result['remain_qty'] = (string)$data['remain_qty'];
-        }
-        if (isset($data['sell_qty'])) {
-            $result['sell_qty'] = (string)$data['sell_qty'];
+        if (isset($data['PackingQty'])) {
+            $result['PackingQty'] = $data['PackingQty'];
         }
 
         return $result;

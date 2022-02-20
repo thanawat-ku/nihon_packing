@@ -62,8 +62,9 @@ final class SellLabelRepository
                 'std_pack',
                 'std_box',
                 'lb.status',
-                // 'part_name',
-                // 'part_code'
+                'lb.lot_id',
+                'prefer_lot_id'
+                
             ]
         );
 
@@ -99,6 +100,18 @@ final class SellLabelRepository
         }
         if (isset($params['label_id'])) {
             $query->Where(['lb.id' => $params["label_id"]]);
+        }
+        if (isset($params['lot_id'])) {
+            $query->Where(['lb.lot_id' => $params["lot_id"]]);
+        }
+        if (isset($params['find_lot_id'])) {
+            $query->Where(['s.id' => $params["sell_id"]]);
+            $query->group('lb.lot_id');
+        }
+        if (isset($params['find_prefer_lot_id'])) {
+            $query->Where(['s.id' => $params["sell_id"]]);
+            $query->Where(['lb.lot_id' => 0]);
+            $query->group('lb.prefer_lot_id');
         }
 
         return $query->execute()->fetchAll('assoc') ?: [];

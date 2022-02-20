@@ -3,6 +3,7 @@
 namespace App\Action\Web;
 
 use App\Domain\CpoItem\Service\CpoItemFinder;
+use App\Domain\CpoItem\Service\CpoItemUpdater;
 use App\Domain\TempQuery\Service\TempQueryFinder;
 use App\Domain\Sell\Service\SellFinder;
 use App\Domain\SellCpoItem\Service\SellCpoItemUpdater;
@@ -22,59 +23,73 @@ final class CpoItemAddAction
      * @var Responder
      */
     private $responder;
-    private $twig;
     private $finder;
+    private $updater;
     private $sellCpoItemUpdater;
     private $sellFinder;
     private $sellUpdater;
     private $session;
     private $tempQueryFinder;
 
-    public function __construct(Twig $twig,CpoItemFinder $finder,SellCpoItemUpdater $sellCpoItemUpdater,
-    Session $session,Responder $responder,SellUpdater  $sellUpdater, SellFinder $sellFinder,TempQueryFinder $tempQueryFinder)
-    {
+    public function __construct(
+        Twig $twig,
+        CpoItemFinder $finder,
+        CpoItemUpdater $updater,
+        SellCpoItemUpdater $sellCpoItemUpdater,
+        Session $session,
+        Responder $responder,
+        SellUpdater  $sellUpdater,
+        SellFinder $sellFinder,
+        TempQueryFinder $tempQueryFinder
+    ) {
         $this->twig = $twig;
-        $this->finder=$finder;
-        $this->tempQueryFinder=$tempQueryFinder;
-        $this->sellFinder=$sellFinder;
-        $this->sellFinder=$sellFinder;
-        $this->sellUpdater=$sellUpdater;
-        $this->sellCpoItemUpdater=$sellCpoItemUpdater;
-        $this->session=$session;
+        $this->finder = $finder;
+        $this->updater = $updater;
+        $this->tempQueryFinder = $tempQueryFinder;
+        $this->sellFinder = $sellFinder;
+        $this->sellFinder = $sellFinder;
+        $this->sellUpdater = $sellUpdater;
+        $this->sellCpoItemUpdater = $sellCpoItemUpdater;
+        $this->session = $session;
         $this->responder = $responder;
     }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $data = (array)$request->getParsedBody();
-        $sell_id=(int)$data['sell_id'];
+        $sell_id = (int)$data['sell_id'];
 
-        
-        $uuid=uniqid();
-        $param_search['uuid']=$uuid;
-        $param_search['sell_id']=$sell_id;
+        $rtCpoItem = $this->finder->findCpoItem($data);
+
+        $dataCpoItem['PackingQty'] = $rtCpoItem[0]['PackingQty'] + $data['sell_qty'];
+        $cpoItemID = $rtCpoItem[0]['CpoItemID'];
+
+        $this->updater->updateCpoItem($cpoItemID, $dataCpoItem);
+
+        $uuid = uniqid();
+        $param_search['uuid'] = $uuid;
+        $param_search['sell_id'] = $sell_id;
 
         $this->sellCpoItemUpdater->insertSellCpoItem($data);
 
         $flash = $this->session->getFlashBag();
         $flash->clear();
 
-        $totalQty=0;
+        $totalQty = 0;
 
         $sellCpoItem = $this->tempQueryFinder->findTempQuery($param_search);
 
-        
-        for ($i=0; $i < count($sellCpoItem); $i++) { 
+
+        for ($i = 0; $i < count($sellCpoItem); $i++) {
             $totalQty += (int)$sellCpoItem[$i]['sell_qty'];
-            $arrTotalQty['total_qty']=$totalQty;
-           
+            $arrTotalQty['total_qty'] = $totalQty;
         }
 
-        
+
         $this->sellUpdater->updateSellStatusSelectingCpo($sell_id,  $arrTotalQty);
-    
+
         $sellRow = $this->sellFinder->findSellRow($sell_id);
-        $data1['ProductID']=$sellRow['product_id']; 
+        $data1['ProductID'] = $sellRow['product_id'];
 
         $arrTemQuery = $this->tempQueryFinder->findTempQuery($param_search);
         $arrCpoItem = $this->finder->findCpoItemSelect($data1);
@@ -102,13 +117,12 @@ final class CpoItemAddAction
             }
             return $arrCpoItemSelect;
         }
-       
-        
+
         $viewData = [
-            'sell_id'=> $sellRow['id'],
-            'product_id'=> $sellRow['product_id'],
+            'sell_id' => $sellRow['id'],
+            'product_id' => $sellRow['product_id'],
         ];
-        
-        return $this->responder->withRedirect($response, "cpo_items",$viewData);
+
+        return $this->responder->withRedirect($response, "cpo_items", $viewData);
     }
 }

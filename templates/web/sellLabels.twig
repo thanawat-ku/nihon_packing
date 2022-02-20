@@ -173,6 +173,14 @@
 									<span id="removeLabelNo"></span>
 								</label>
 							</div>
+							<div class="form-product">
+								<label for="email">Printer</label>
+								<select class="selectpicker form-control"  id="addPrinterID" name="printer_id" data-live-search="true">
+								{% for p in printers %}
+								  <option value={{ p.id }}>{{ p.printer_name}} </option>
+								{% endfor %}
+								</select>
+							</div> 
 						</div>
 						<div class="modal-footer">
 							<button type="submit" class="btn btn-success">Confirm</button>
