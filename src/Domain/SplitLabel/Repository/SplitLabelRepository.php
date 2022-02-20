@@ -33,7 +33,7 @@ final class SplitLabelRepository
         $row['created_user_id'] = $user_id;
         $row['updated_at'] = Chronos::now()->toDateTimeString();
         $row['updated_user_id'] = $user_id;
-        $row['status'] = "CREATED";
+        $row['status'] = "PRINTED";
 
         return (int)$this->queryFactory->newInsert('split_labels', $row)->execute()->lastInsertId();
     }

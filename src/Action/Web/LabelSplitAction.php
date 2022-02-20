@@ -76,6 +76,13 @@ final class LabelSplitAction
             $dataDeatail['product_id'] = $productId;
             $dataDeatail['printer_id'] = $printerId;
             $dataDeatail['wait_print'] = "Y";
+
+            if($label[0]['lot_id'] != "0"){
+                $dataDeatail['prefer_lot_id'] = $label[0]['lot_id'];
+            }else{
+                $dataDeatail['prefer_lot_id'] = $label[0]['prefer_lot_id'];
+            }
+
             $labelDetail = $this->updater->genSplitLabel($dataDeatail);
             $this->updater->updateLabel($labelId, $data);
 

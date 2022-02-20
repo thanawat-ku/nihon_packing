@@ -391,6 +391,7 @@ final class LabelRepository
                 'label_type',
                 'labels.quantity',
                 'lot_id',
+                'prefer_lot_id',
                 'labels.merge_pack_id',
                 'labels.status',
                 'split_label_id',

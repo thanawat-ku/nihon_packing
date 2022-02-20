@@ -258,6 +258,8 @@ final class MergePackDetailRepository
                 'lb.quantity',
                 'label_id',
                 'lb.status',
+                'lb.lot_id',
+                'lb.prefer_lot_id',
                 'lb.label_type',
                 'lb.product_id',
                 'lb_id' => 'lb.id',
