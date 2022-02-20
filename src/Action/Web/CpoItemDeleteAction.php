@@ -51,7 +51,9 @@ final class CpoItemDeleteAction
         $id = $data["id"];
 
         $sellRow = $this->finder->findSellRow($sellID);
+
         $rtSellCpoItem = $this->sellCpoItemFinder->findSellCpoItems($data);
+        
         $dataFinder['cpo_item_id'] = $rtSellCpoItem[0]['cpo_item_id'];
         $data['sell_qty'] = $rtSellCpoItem[0]['sell_qty'];
         $rtCpoItem = $this->cpoItemFinder->findCpoItem($dataFinder);

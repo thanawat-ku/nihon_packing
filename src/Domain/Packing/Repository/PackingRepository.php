@@ -29,6 +29,12 @@ final class PackingRepository
 
         return (int)$this->queryFactory2->newInsert('[nsp_pack].[dbo].[packing]', $row)->execute()->lastInsertId();
     }
+    public function insertPackingApi(array $row, $user_id): int
+    {
+        $row['UserID'] = $user_id;
+
+        return (int)$this->queryFactory2->newInsert('[nsp_pack].[dbo].[packing]', $row)->execute()->lastInsertId();
+    }
     // public function updatePacking(int $id, array $data): void
     // {
     //     $this->queryFactory2->newUpdate('[nsp_pack].[dbo].[packing]', $data)->andWhere(['PackingID' => $id])->execute();

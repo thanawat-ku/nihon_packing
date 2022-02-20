@@ -5,6 +5,7 @@ namespace App\Action\Api;
 use App\Domain\SellCpoItem\Service\SellCpoItemFinder;
 use App\Domain\Sell\Service\SellUpdater;
 use App\Domain\SellCpoItem\Service\SellCpoItemUpdater;
+use App\Domain\CpoItem\Service\CpoItemUpdater;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -20,15 +21,17 @@ final class SellCpoItemEditAction
     private $updater;
     private $finder;
     private $updatesell;
-   
+    private $updateCpoitem;
 
 
-    public function __construct(Responder $responder,  SellCpoItemUpdater $updater, SellCpoItemFinder $finder, SellUpdater $updatesell)
+
+    public function __construct(Responder $responder,  SellCpoItemUpdater $updater, SellCpoItemFinder $finder, SellUpdater $updatesell, CpoItemUpdater $updateCpoitem)
     {
         $this->responder = $responder;
         $this->updater = $updater;
         $this->finder = $finder;
-        $this->updatesell=$updatesell;
+        $this->updatesell = $updatesell;
+        $this->updateCpoitem = $updateCpoitem;
     }
 
     public function __invoke(
@@ -43,9 +46,17 @@ final class SellCpoItemEditAction
         $sellID = $data['sell_id'];
         $sellCpoItemID = $data['id'];
 
+        $rowSellCpoItem = $this->finder->findSellCpoItems($data);
+
+        $dataFinder['cpo_item_id'] = $rowSellCpoItem[0]['cpo_item_id'];
+        $dataCpoItem['PackingQty'] = $data['sell_qty'];
+        $cpoItemID = $dataFinder['cpo_item_id'];
+
         $this->updater->updateSellCpoItemApi($sellCpoItemID, $data, $user_id);
         $sells = $this->finder->findSellCpoItems($data);
         $this->updatesell->updateSellApi($sellID, $sells, $user_id);
+
+        $this->updateCpoitem->updateCpoItem($cpoItemID, $dataCpoItem);
 
         $rtdata['message'] = "Get Sell Cpo Item Successful";
         $rtdata['error'] = false;

@@ -84,6 +84,6 @@ final class GenMergeLabelBarcodeNoAction
         $rtdata['message'] = "Gen Merge Labels Successful";
         $rtdata['error'] = false;
         $rtdata['labels'] = $labels;
-        return $this->responder->withJson($response, $data);
+        return $this->responder->withJson($response, $rtdata);
     }
 }

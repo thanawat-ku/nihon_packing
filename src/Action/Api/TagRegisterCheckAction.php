@@ -43,7 +43,9 @@ final class TagRegisterCheckAction
 
         if ($rtTags) {
 
-            $sellID = $rtTags[0]['sell_id'];
+            $SellID['sell_id'] = $rtTags[0]['sell_id'];
+
+            $rtTags = $this->finder->findTags($SellID);
 
             $checkTagPrinted = true;
             for ($i = 0; $i < count($rtTags); $i++) {

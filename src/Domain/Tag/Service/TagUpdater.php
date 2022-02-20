@@ -159,6 +159,8 @@ final class TagUpdater
                 $dataTag['quantity'] = $stdBox;
                 $dataTag['box_no'] = $i + 1;
                 $dataTag['total_box'] = $totalBox;
+                $dataTag['wait_print'] = 'Y';
+                $dataTag['printer_id'] = $data['printer_id'];
                 $id = $this->insertTagApi($dataTag, $user_id);
                 $dataTag['tag_no'] = "T" . str_pad($id, 11, "0", STR_PAD_LEFT);
                 $this->updatetagApi($id, $dataTag, $user_id);
@@ -171,6 +173,8 @@ final class TagUpdater
                 $dataTag['quantity'] = $quantity;
                 $dataTag['box_no'] = $i + 1;
                 $dataTag['total_box'] = $totalBox;
+                $dataTag['wait_print'] = 'Y';
+                $dataTag['printer_id'] = $data['printer_id'];
                 $id = $this->insertTagApi($dataTag, $user_id);
                 $dataTag['tag_no'] = "T" . str_pad($id, 11, "0", STR_PAD_LEFT);
                 $this->updatetagApi($id, $dataTag, $user_id);

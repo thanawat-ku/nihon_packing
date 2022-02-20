@@ -34,6 +34,16 @@ final class PackingUpdater
 
         return $id;
     }
+    public function insertPackingApi(array $data, $user_id): int
+    {
+        $this->validator->validatePackingInsert($data);
+
+        $row = $this->mapToRow($data);
+
+        $id=$this->repository->insertPackingApi($row, $user_id);
+
+        return $id;
+    }
 
     // public function updatePacking(int $id, array $data): void
     // {

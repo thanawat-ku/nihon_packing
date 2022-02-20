@@ -149,15 +149,14 @@ final class TagRepository
             ]
         ]);
 
-
-
         if (isset($params['tag_no'])) {
             $query->andWhere(['tag_no' => $params["tag_no"]]);
             // $query->andWhere(['tags.wait_print' => 'Y']);
         }
         if (isset($params['tag_id'])) {
             $query->andWhere(['tags.id' => $params["tag_id"]]);
-        } else if (isset($params['sell_id'])) {
+        }
+        if (isset($params['sell_id'])) {
             $query->andWhere(['sell_id' => $params["sell_id"]]);
         }
 

@@ -4,6 +4,7 @@ namespace App\Action\Api;
 
 use App\Domain\SellCpoItem\Service\SellCpoItemFinder;
 use App\Domain\CpoItem\Service\CpoItemFinder;
+use App\Domain\CpoItem\Service\CpoItemUpdater;
 use App\Domain\Sell\Service\SellUpdater;
 use App\Domain\SellCpoItem\Service\SellCpoItemUpdater;
 use App\Domain\Sell\Service\SellUpdtaer;
@@ -22,17 +23,18 @@ final class SellCpoItemAddAction
     private $updater;
     private $finder;
     private $updatesell;
-    private $findproduct;
-    private $findcpo_item;
+    private $findCpoItem;
+    private $updateCpoItem;
 
 
-    public function __construct(Responder $responder,  SellCpoItemUpdater $updater, SellCpoItemFinder $finder, CpoItemFinder $findcpo_item, SellUpdater $updatesell)
+    public function __construct(Responder $responder,  SellCpoItemUpdater $updater, SellCpoItemFinder $finder, CpoItemFinder $findCpoItem,CpoItemUpdater $updateCpoItem, SellUpdater $updatesell)
     {
         $this->responder = $responder;
         $this->updater = $updater;
         $this->finder = $finder;
-        $this->findcpo_item = $findcpo_item;
         $this->updatesell=$updatesell;
+        $this->findCpoItem = $findCpoItem;
+        $this->updateCpoItem = $updateCpoItem;
     }
 
     public function __invoke(
@@ -45,6 +47,13 @@ final class SellCpoItemAddAction
 
         $user_id = $data['user_id'];
         $sellID = $data['sell_id'];
+        
+        $rtCpoItem = $this->findCpoItem->findCpoItem($data);
+
+        $dataCpoItem['PackingQty'] = $rtCpoItem[0]['PackingQty'] + $data['sell_qty'];
+        $cpoItemID = $rtCpoItem[0]['CpoItemID'];
+
+        $this->updateCpoItem->updateCpoItem($cpoItemID, $dataCpoItem);
 
         $this->updater->insertSellCpoItemApi($data, $user_id);
 
