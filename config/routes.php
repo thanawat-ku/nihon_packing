@@ -236,4 +236,7 @@ return function (App $app) {
     $app->post('/api/add_label_void_reason', \App\Action\Api\LabelVoidReasonAddAction::class);
     $app->post('/api/edit_label_void_reason', \App\Action\Api\LabelVoidReasonEditAction::class);
     $app->post('/api/delete_label_void_reason', \App\Action\Api\LabelVoidReasonDeleteAction::class);
+
+    $app->get('/api/printers', \App\Action\Api\PrinterAction::class);
+
 };

@@ -69,18 +69,21 @@ final class GenMergeLabelBarcodeNoAction
             $dataupdate['up_status'] = "VOID";
             $dataupdate['void'] = "MERGED";
             $this->updater->updateLabelStatus($dataupdate['id'], $dataupdate, $user_id);
+            if ($labels[0]['lot_id'] != 0) {
+                $data['prefer_lot_id'] = $labels[0]['lot_id'];
+            } else {
+                $data['prefer_lot_id'] = $labels[0]['prefer_lot_id'];
+            }
         }
-        // $data['printer_id'] = 0;
-        // $data['wait_print'] = 'N';
+
+        $data['wait_print'] = 'Y';
         $labels = $this->updater->genMergeLabel($data);
 
-        // $this->upmergepackdetail->deleteLabelMergePackDetailApi($mergePackID);
-        // $this->upmergepackdetail->insertMergePackDetailApi($labels, $user_id);
-        $this->upmergepack->updateStatusMergeApi($mergePackID, $data, $user_id);
+        $this->upmergepack->updateStatusPrintedApi($mergePackID, $data, $user_id);
 
         $rtdata['message'] = "Gen Merge Labels Successful";
         $rtdata['error'] = false;
         $rtdata['labels'] = $labels;
-        return $this->responder->withJson($response, $rtdata);
+        return $this->responder->withJson($response, $data);
     }
 }

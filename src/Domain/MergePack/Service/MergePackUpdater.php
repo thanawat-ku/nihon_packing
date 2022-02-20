@@ -58,13 +58,13 @@ final class MergePackUpdater
         $this->repository->updateMergingApi($id, $row, $user_id);
     }
 
-    public function updateStatusMergeApi(int $id, array $data, $user_id): void
+    public function updateStatusPrintedApi(int $id, array $data, $user_id): void
     {
 
         $this->validator->validateMergePackUpdate($id, $data);
 
         $row = $this->mapToMergePackRow($data);
-        $row['merge_status'] = "MERGED";
+        $row['merge_status'] = "PRINTED";
 
         $this->repository->updateMergingApi($id, $row, $user_id);
     }
@@ -73,9 +73,9 @@ final class MergePackUpdater
     {
         $this->validator->validateMergePackUpdate($labelNo, $data);
 
-        $storeRow = $this->mapToMergePackRow($data);
+        $row = $this->mapToMergePackRow($data);
 
-        $this->repository->updateLabelPackMergeApi($labelNo, $storeRow, $user_id);
+        $this->repository->updateLabelPackMergeApi($labelNo, $row, $user_id);
     }
 
     public function deleteMergePackApi(int $labelId, array $data): void
