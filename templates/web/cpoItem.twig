@@ -55,7 +55,7 @@
 							<tr>
 								<td>{{ cpo.cpo_no }}</td>
 								<td>{{ cpo.due_date}}</td>
-								<td>{{ cpo.quantity }}</td>
+								<td>{{ cpo.quantity - cpo.packing_qty }}</td>
 								<td>{{ cpo.sell_qty }}</td>
 								<td>
 									<button type="button" id="editBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editCpoItem" name="{{ cpo|json_encode }}">

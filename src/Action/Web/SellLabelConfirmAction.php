@@ -14,6 +14,7 @@ use App\Domain\Tag\Service\TagUpdater;
 use App\Domain\Packing\Service\PackingFinder;
 use App\Domain\Packing\Service\PackingUpdater;
 use App\Domain\PackingItem\Service\PackingItemUpdater;
+use App\Domain\TempQuery\Service\TempQueryUpdater;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -35,6 +36,7 @@ final class SellLabelConfirmAction
     private $packingFinder;
     private $packingUpdate;
     private $packingItemUpdate;
+    private $tempQueryUpdater;
 
     public function __construct(
         Responder $responder,
@@ -48,6 +50,7 @@ final class SellLabelConfirmAction
         PackingFinder $packingFinder,
         PackingUpdater $packingUpdate,
         PackingItemUpdater $packingItemUpdate,
+        TempQueryUpdater $tempQueryUpdater,
         Session $session
     ) {
         $this->responder = $responder;
@@ -61,6 +64,7 @@ final class SellLabelConfirmAction
         $this->packingFinder = $packingFinder;
         $this->packingUpdate = $packingUpdate;
         $this->packingItemUpdate = $packingItemUpdate;
+        $this->tempQueryUpdater = $tempQueryUpdater;
         $this->session = $session;
     }
 
@@ -220,6 +224,8 @@ final class SellLabelConfirmAction
 
         $rtSell['printer_id'] = $data['printer_id'];
         $this->updateTag->genTags($sellID, $rtSell);
+
+        $this->tempQueryUpdater->deleteTempQuery((int)$rtSell[0]['product_id']);
 
         return $this->responder->withRedirect($response, "sells");
     }

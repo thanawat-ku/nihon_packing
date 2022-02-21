@@ -4,6 +4,7 @@ namespace App\Action\Web;
 
 use App\Domain\CpoItem\Service\CpoItemFinder;
 use App\Domain\CpoItem\Service\CpoItemUpdater;
+use App\Domain\TempQuery\Service\TempQueryUpdater;
 use App\Domain\Sell\Service\SellFinder;
 use App\Domain\Sell\Service\SellUpdater;
 use App\Domain\TempQuery\Service\TempQueryFinder;
@@ -27,10 +28,11 @@ final class CpoItemEditAction
     private $updater;
     private $updateSell;
     private $tempQueryFinder;
+    private $tempQueryUpdater;
     private $sellCpoItemFinder;
     private $sellCpoItemUpdater;
 
-    public function __construct(CpoItemFinder $cpoItemFinder, Responder $responder, SellFinder $finder, TempQueryFinder $tempQueryFinder, SellCpoItemFinder $sellCpoItemFinder,SellCpoItemUpdater $sellCpoItemUpdater, CpoItemUpdater $updater, SellUpdater $updateSell)
+    public function __construct(CpoItemFinder $cpoItemFinder, Responder $responder, SellFinder $finder, TempQueryFinder $tempQueryFinder,TempQueryUpdater $tempQueryUpdater, SellCpoItemFinder $sellCpoItemFinder,SellCpoItemUpdater $sellCpoItemUpdater, CpoItemUpdater $updater, SellUpdater $updateSell)
     {
         $this->cpoItemFinder = $cpoItemFinder;
         $this->responder = $responder;
@@ -38,6 +40,7 @@ final class CpoItemEditAction
         $this->updateSell = $updateSell;
         $this->finder = $finder;
         $this->tempQueryFinder = $tempQueryFinder;
+        $this->tempQueryUpdater = $tempQueryUpdater;
         $this->sellCpoItemFinder = $sellCpoItemFinder;
         $this->sellCpoItemUpdater = $sellCpoItemUpdater;
     }
@@ -73,6 +76,8 @@ final class CpoItemEditAction
         $rtSell['total_qty'] = $totalQty;
         $this->updateSell->updateSell($sellID, $rtSell);
 
+        // $dataCpoItem['packing_qty'] = $dataCpoItem['PackingQty'];
+        // $this->tempQueryUpdater->updateTempquery($cpoItemID, $dataCpoItem);
         $this->updater->updateCpoItem($cpoItemID, $dataCpoItem);
 
         $sellRow = $this->finder->findSellRow($sellID);

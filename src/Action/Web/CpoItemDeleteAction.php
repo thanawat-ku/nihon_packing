@@ -5,6 +5,7 @@ namespace App\Action\Web;
 use App\Domain\CpoItem\Service\CpoItemFinder;
 use App\Domain\CpoItem\Service\CpoItemUpdater;
 use App\Domain\TempQuery\Service\TempQueryFinder;
+use App\Domain\TempQuery\Service\TempQueryUpdater;
 use App\Domain\Sell\Service\SellFinder;
 use App\Domain\Sell\Service\SellUpdater;
 use App\Domain\SellCpoItem\Service\SellCpoItemFinder;
@@ -27,8 +28,9 @@ final class CpoItemDeleteAction
     private $sellCpoItemFinder;
     private $sellCpoItemUpdater;
     private $cpoItemFinder;
+    private $tempQueryUpdater;
 
-    public function __construct(Responder $responder, TempQueryFinder $tempQueryFinder, CpoItemUpdater $updater, SellFinder $finder, SellUpdater $updateSell, SellCpoItemFinder $sellCpoItemFinder, SellCpoItemUpdater $sellCpoItemUpdater, CpoItemFinder $cpoItemFinder)
+    public function __construct(Responder $responder, TempQueryFinder $tempQueryFinder, CpoItemUpdater $updater, SellFinder $finder, SellUpdater $updateSell, SellCpoItemFinder $sellCpoItemFinder, SellCpoItemUpdater $sellCpoItemUpdater, CpoItemFinder $cpoItemFinder, TempQueryUpdater $tempQueryUpdater)
     {
         $this->responder = $responder;
         $this->updater = $updater;
@@ -38,6 +40,7 @@ final class CpoItemDeleteAction
         $this->sellCpoItemFinder = $sellCpoItemFinder;
         $this->sellCpoItemUpdater = $sellCpoItemUpdater;
         $this->cpoItemFinder = $cpoItemFinder;
+        $this->tempQueryUpdater = $tempQueryUpdater;
     }
 
 
@@ -53,7 +56,7 @@ final class CpoItemDeleteAction
         $sellRow = $this->finder->findSellRow($sellID);
 
         $rtSellCpoItem = $this->sellCpoItemFinder->findSellCpoItems($data);
-        
+
         $dataFinder['cpo_item_id'] = $rtSellCpoItem[0]['cpo_item_id'];
         $data['sell_qty'] = $rtSellCpoItem[0]['sell_qty'];
         $rtCpoItem = $this->cpoItemFinder->findCpoItem($dataFinder);
@@ -73,6 +76,8 @@ final class CpoItemDeleteAction
         $dataSell['total_qty'] = $totalQty;
         $this->updateSell->updateSell($sellID, $dataSell);
 
+        // $dataCpoItem['packing_qty'] = $dataCpoItem['PackingQty'];
+        // $this->tempQueryUpdater->updateTempquery($cpoItemID, $dataCpoItem);
         $this->updater->updateCpoItem($cpoItemID, $dataCpoItem);
 
         $viewData = [

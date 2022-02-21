@@ -5,6 +5,7 @@ namespace App\Action\Web;
 use App\Domain\CpoItem\Service\CpoItemFinder;
 use App\Domain\CpoItem\Service\CpoItemUpdater;
 use App\Domain\TempQuery\Service\TempQueryFinder;
+use App\Domain\TempQuery\Service\TempQueryUpdater;
 use App\Domain\Sell\Service\SellFinder;
 use App\Domain\SellCpoItem\Service\SellCpoItemUpdater;
 use App\Domain\Sell\Service\SellUpdater;
@@ -30,6 +31,7 @@ final class CpoItemAddAction
     private $sellUpdater;
     private $session;
     private $tempQueryFinder;
+    private $tempQueryUpdater;
 
     public function __construct(
         Twig $twig,
@@ -40,7 +42,8 @@ final class CpoItemAddAction
         Responder $responder,
         SellUpdater  $sellUpdater,
         SellFinder $sellFinder,
-        TempQueryFinder $tempQueryFinder
+        TempQueryFinder $tempQueryFinder,
+        TempQueryUpdater $tempQueryUpdater,
     ) {
         $this->twig = $twig;
         $this->finder = $finder;
@@ -50,6 +53,7 @@ final class CpoItemAddAction
         $this->sellFinder = $sellFinder;
         $this->sellUpdater = $sellUpdater;
         $this->sellCpoItemUpdater = $sellCpoItemUpdater;
+        $this->tempQueryUpdater = $tempQueryUpdater;
         $this->session = $session;
         $this->responder = $responder;
     }
@@ -64,6 +68,8 @@ final class CpoItemAddAction
         $dataCpoItem['PackingQty'] = $rtCpoItem[0]['PackingQty'] + $data['sell_qty'];
         $cpoItemID = $rtCpoItem[0]['CpoItemID'];
 
+        // $dataCpoItem['packing_qty'] = $dataCpoItem['PackingQty'];
+        // $this->tempQueryUpdater->updateTempquery($cpoItemID, $dataCpoItem);
         $this->updater->updateCpoItem($cpoItemID, $dataCpoItem);
 
         $uuid = uniqid();
