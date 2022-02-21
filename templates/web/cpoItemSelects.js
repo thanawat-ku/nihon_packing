@@ -1,6 +1,10 @@
 $(function () {
-    $('#my-data-table').DataTable();
+    $('#my-data-table').DataTable({ "order": [[0, "desc"]] });
+    $('#searchIssueStartDate, #searchIssueEndDate').datepicker({
+        format: 'yyyy-mm-dd'
+    });
 });
+
 function addSellCpoItem(event) {
     let cpo = event.currentTarget.name;
     console.log(cpo);

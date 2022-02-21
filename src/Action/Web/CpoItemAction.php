@@ -52,27 +52,21 @@ final class CpoItemAction
         $sell = null;
 
         $cpoitemcheck = $this->tempQueryFinder->findTempQueryCheck($data);
-
-        if(!$cpoitemcheck){
-            foreach($cpodata as $cpo){
-                $param_cpo['uuid']=$uuid;
-                $param_cpo['cpo_no']=$cpo['CpoNo'];
-                $param_cpo['cpo_id']=$cpo['CpoID'];
-                $param_cpo['cpo_item_id']=$cpo['CpoItemID'];
-                $param_cpo['product_id']=$cpo['ProductID'];
-                $param_cpo['quantity']=$cpo['Quantity'];
-                $param_cpo['packing_qty']=$cpo['PackingQty'];
-                $param_cpo['due_date']=$cpo['DueDate'];
-                $this->tempQueryUpdater->insertTempQuery($param_cpo);
-            }
+        if (!$cpoitemcheck) {
+            $checkSellCpo = "true";
+        }else{
+            $checkSellCpo = "false";
         }
 
         $sellRow = $this->sellFinder->findSellRow($sellID);
 
         $param_search['uuid']=$uuid;
         $param_search['sell_id']=$sellID;
+
+       
       
         $viewData = [
+            'checkSellCpo' => $checkSellCpo, 
             'sellRow'=>$sellRow,
             'CpoItem' => $this->tempQueryFinder->findTempQuery($param_search),
             'user_login' => $this->session->get('user'),

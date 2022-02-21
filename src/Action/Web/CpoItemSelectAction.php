@@ -51,6 +51,17 @@ final class CpoItemSelectAction
         $param_search['uuid'] = $uuid;
         $param_search['sell_id'] = $sell_id;
 
+        if (!isset($params['startDate'])) {
+            $dt = date('Y-m-d');
+            $time  = strtotime($dt);
+            $month = date('m', $time);
+            $year  = date('Y', $time);
+            $day = cal_days_in_month(CAL_GREGORIAN, $month, $year);
+
+            $params['startDate'] = date('Y-'.$month.'-01');
+            $params['endDate'] = date('Y-'.$month.'-'.$day);
+        }
+
         $sellRow = $this->sellFinder->findSellRow($sell_id);
 
 
@@ -88,6 +99,8 @@ final class CpoItemSelectAction
             'sellRow' => $sellRow,
             'CpoItemSelects' =>  CheckCpoItemSelect($arrTemQuery, $arrCpoItem),
             'user_login' => $this->session->get('user'),
+            'startDate' => $params['startDate'],
+            'endDate' => $params['endDate'],
         ];
 
         // return $this->responder->withRedirect($response, "cpo_items",$viewData);

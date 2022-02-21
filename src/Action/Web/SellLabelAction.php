@@ -5,8 +5,9 @@ namespace App\Action\Web;
 use App\Domain\SellLabel\Service\SellLabelFinder;
 use App\Domain\Sell\Service\SellFinder;
 use App\Domain\Sell\Service\SellUpdater;
-use App\Domain\SellLabel\Service\SellLabelUpdater;
+use App\Domain\Printer\Service\PrinterFinder;
 use App\Responder\Responder;
+use PHPUnit\Util\Printer;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Views\Twig;
@@ -26,6 +27,7 @@ final class SellLabelAction
     private $updater;
     private $sellFinder;
     private $sellLabelFinder;
+    private $printer;
     private $session;
 
     public function __construct(
@@ -34,6 +36,7 @@ final class SellLabelAction
         SellFinder $sellFinder,
         SellLabelFinder $sellLabelFinder,
         SellUpdater $updater,
+        PrinterFinder $printer,
         Session $session,
         Responder $responder
     ) {
@@ -42,6 +45,7 @@ final class SellLabelAction
         $this->updater = $updater;
         $this->sellFinder = $sellFinder;
         $this->sellLabelFinder = $sellLabelFinder;
+        $this->printer = $printer;
         $this->session = $session;
         $this->responder = $responder;
     }
@@ -94,10 +98,14 @@ final class SellLabelAction
             $this->updater->updateSell($sellID, $upStatus);
         }
 
+        $params['printer_type'] = 'TAG';
+        $rtPrinter = $this->printer->findPrinters($params);
+
         $viewData = [
             'checkSellQty' => $checkSellQty,
             'totalQtyLabelsell' => $arrtotalQty,
             'sellRow' => $sellRow,
+            'printers' => $rtPrinter,
             'sellLabels' => $sellLabels,
             'user_login' => $this->session->get('user'),
         ];

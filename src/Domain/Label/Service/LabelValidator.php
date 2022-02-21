@@ -24,6 +24,7 @@ final class LabelValidator
 
         return $validator
             ->notEmptyString('lot_id', 'Input required')
+            ->notEmptyString('prefer_lot_id', 'Input required')
             ->notEmptyString('merge_pack_id', 'Input required')
             ->notEmptyString('split_label_id', 'Input required')
             ->notEmptyString('label_no', 'Input required')

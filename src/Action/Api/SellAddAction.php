@@ -5,6 +5,8 @@ namespace App\Action\Api;
 use App\Domain\Sell\Service\SellFinder;
 use App\Domain\Product\Service\ProductFinder;
 use App\Domain\CpoItem\Service\CpoItemFinder;
+use App\Domain\TempQuery\Service\TempQueryFinder;
+use App\Domain\TempQuery\Service\TempQueryUpdater;
 use App\Domain\Sell\Service\SellUpdater;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
@@ -22,16 +24,20 @@ final class SellAddAction
     private $updater;
     private $finder;
     private $findproduct;
-    private $findcpo_item;
+    private $findCpoItem;
+    private $updateTempQuery;
+    private $findTempQuery;
 
 
-    public function __construct(Responder $responder,  SellUpdater $updater, SellFinder $finder, ProductFinder $findproduct, CpoItemFinder $findcpo_item)
+    public function __construct(Responder $responder,  SellUpdater $updater, SellFinder $finder, ProductFinder $findproduct, CpoItemFinder $findCpoItem, TempQueryUpdater $updateTempQuery, TempQueryFinder $findTempQuery)
     {
         $this->responder = $responder;
         $this->updater = $updater;
         $this->finder = $finder;
         $this->findproduct = $findproduct;
-        $this->findcpo_item = $findcpo_item;
+        $this->findCpoItem = $findCpoItem;
+        $this->findTempQuery = $findTempQuery;
+        $this->updateTempQuery = $updateTempQuery;
     }
 
     public function __invoke(
@@ -65,6 +71,27 @@ final class SellAddAction
             $rtdata['message'] = "Get Lot Defect Successful";
             $rtdata['error'] = false;
             $rtdata['sells'] = $this->finder->findSells($data);
+
+            $params['sell_id'] = $id;
+            $params['product_id'] = $prodcutID;
+            $cpodata = $this->findCpoItem->findCpoItem($params);
+            $uuid = uniqid();
+
+            $cpoitemcheck = $this->findTempQuery->findTempQueryCheck($params);
+
+            if (!$cpoitemcheck) {
+                foreach ($cpodata as $cpo) {
+                    $param_cpo['uuid'] = $uuid;
+                    $param_cpo['cpo_no'] = $cpo['CpoNo'];
+                    $param_cpo['cpo_id'] = $cpo['CpoID'];
+                    $param_cpo['cpo_item_id'] = $cpo['CpoItemID'];
+                    $param_cpo['product_id'] = $cpo['ProductID'];
+                    $param_cpo['quantity'] = $cpo['Quantity'];
+                    $param_cpo['packing_qty'] = $cpo['PackingQty'];
+                    $param_cpo['due_date'] = $cpo['DueDate'];
+                    $this->updateTempQuery->insertTempQuery($param_cpo);
+                }
+            }
         }
         return $this->responder->withJson($response, $rtdata);
     }

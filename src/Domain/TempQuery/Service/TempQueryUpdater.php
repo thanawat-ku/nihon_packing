@@ -27,13 +27,27 @@ final class TempQueryUpdater
     {
         $this->validator->validateTempQueryInsert($data);
 
-        $row = $this->mapToTempQueryRow($data);
+        $row = $this->mapToRow($data);
 
         $id=$this->repository->insertTempQuery($row);
 
         return $id;
     }
-    private function mapToTempQueryRow(array $data): array
+
+    public function updateTempquery(int $CpoItemID, array $data): void
+    {
+        $this->validator->validateTempqueryUpdate($CpoItemID, $data);
+
+        $row = $this->mapToRow($data);
+
+        $this->repository->updateTempquery($CpoItemID, $row);
+    }
+    public function deleteTempQuery(int $productID): void
+    {
+        $this->repository->deleteTempQuery($productID);
+    }
+
+    private function mapToRow(array $data): array
     {
         $result = [];
 

@@ -27,6 +27,14 @@ final class TempQueryRepository
     {
         return (int)$this->queryFactory->newInsert('temp_query', $row)->execute()->lastInsertId();
     }
+    public function updateTempQuery(int $CpoItemID, array $data): void
+    {
+        $this->queryFactory->newUpdate('temp_query', $data)->andWhere(['cpo_item_id' => $CpoItemID])->execute();
+    }
+    public function deleteTempQuery(int $productID): void
+    {
+        $this->queryFactory->newDelete('temp_query')->andWhere(['product_id' => $productID])->execute();
+    }
 
     public function findTempQuery(array $params): array
     {
@@ -86,39 +94,6 @@ final class TempQueryRepository
         return $query->execute()->fetchAll('assoc') ?: [];
     }
 
-
-    // public function findTempQueryCheck(array $params): array
-    // {
-    //     $query = $this->queryFactory->newSelect('temp_query');
-        
-    //     $query->select(
-    //         [
-
-    //             'temp_query.cpo_item_id',
-    //             'cpo_id',
-    //             'cpo_no',
-    //             'quantity',
-    //             'packing_qty',
-    //             'due_date',
-    //             // 'sell_no',
-    //             // 'part_code',
-    //             // 'part_name',
-    //             // 'quantity',
-    //             // 'sci.sell_qty',
-    //             // 'sci.id'
-                
-    //         ]
-    //     );
-
-    //     if(isset($params['ProductID'])){
-    //         $query->Where(['product_id' => $params["ProductID"]]);
-    //     }
-
-
-
-    //     return $query->execute()->fetchAll('assoc') ?: [];
-    // }
-
     public function findTempQueryCheck(array $params): array
     {
         $query = $this->queryFactory->newSelect('temp_query');
@@ -163,6 +138,58 @@ final class TempQueryRepository
                 'table' => 'sell_cpo_items',
                 'type' => 'INNER',
                 'conditions' => 'sci.sell_id = s.id and temp_query.cpo_item_id=sci.cpo_item_id',
+            ]
+        ]);
+
+        if(isset($params['product_id'])){
+            $query->Where(['p.id' => $params["product_id"]]);
+        }
+
+        return $query->execute()->fetchAll('assoc') ?: [];
+    }
+
+    public function findTempQueryCheckUpdate(array $params): array
+    {
+        $query = $this->queryFactory->newSelect('temp_query');
+        
+        $query->select(
+            [
+
+                'temp_query.cpo_item_id',
+                'cpo_id',
+                'cpo_no',
+                'quantity',
+                'packing_qty',
+                'due_date',
+                'part_code',
+                'part_name',
+                'sci.sell_qty',
+                'sci.id'
+                
+            ]
+        );
+
+        $query->join([
+            'p' => [
+                'table' => 'products',
+                'type' => 'INNER',
+                'conditions' => 'p.id = temp_query.product_id',
+            ]
+        ]);
+
+        // $query->join([
+        //     's' => [
+        //         'table' => 'sells',
+        //         'type' => 'INNER',
+        //         'conditions' => 's.id = \''.$params['sell_id'].'\'',
+        //     ]
+        // ]);
+
+        $query->join([
+            'sci' => [
+                'table' => 'sell_cpo_items',
+                'type' => 'INNER',
+                'conditions' => 'temp_query.cpo_item_id = sci.cpo_item_id',
             ]
         ]);
 

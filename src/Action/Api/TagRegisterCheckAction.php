@@ -43,7 +43,9 @@ final class TagRegisterCheckAction
 
         if ($rtTags) {
 
-            $sellID = $rtTags[0]['sell_id'];
+            $SellID['sell_id'] = $rtTags[0]['sell_id'];
+
+            $rtTags = $this->finder->findTags($SellID);
 
             $checkTagPrinted = true;
             for ($i = 0; $i < count($rtTags); $i++) {
@@ -53,12 +55,6 @@ final class TagRegisterCheckAction
             }
 
             if ($checkTagPrinted == true) {
-                // $upStatus['up_status'] = "TAGGED";
-                // $this->updateSell->updateSellStatus($sellID, $upStatus, $user_id);
-
-                // $upStatus['status'] = "BOXED";
-                // $this->updater->updateTagAllFromSellIDApi($sellID, $upStatus,  $user_id);
-
                 $rtdata['message'] = "Get Tag Successful";
                 $rtdata['error'] = false;
                 $rtdata['tags'] = $this->finder->findTags($data);

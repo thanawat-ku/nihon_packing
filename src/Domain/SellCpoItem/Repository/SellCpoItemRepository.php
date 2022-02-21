@@ -77,6 +77,13 @@ final class SellCpoItemRepository
         if(isset($params['sell_id'])){
             $query->andWhere(['sell_cpo_items.sell_id ' => $params['sell_id']]);
         }
+        if(isset($params['id'])){
+            $query->andWhere(['sell_cpo_items.id ' => $params['id']]);
+        }
+        if(isset($params['find_cpo_item_id'])){
+            $query->andWhere(['sell_cpo_items.sell_id ' => $params['sell_id']]);
+            $query->group('cpo_item_id');
+        }
 
         return $query->execute()->fetchAll('assoc') ?: [];
     }

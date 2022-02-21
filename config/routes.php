@@ -91,6 +91,7 @@ return function (App $app) {
     $app->post('/api/login', \App\Action\ApiLoginSubmitAction::class);
     $app->get('/api/merges', \App\Action\Api\MergeAction::class);
     $app->get('/cpo_items', \App\Action\Web\CpoItemAction::class)->add(UserAuthMiddleware::class);
+    $app->get('/cpo_item_check_temp_query', \App\Action\Web\CpoItemCheckTempQueryAction::class)->add(UserAuthMiddleware::class);
     $app->get('/cpo_item_selects', \App\Action\Web\CpoItemSelectAction::class)->add(UserAuthMiddleware::class);
     $app->post('/add_cpo_item', \App\Action\Web\CpoItemAddAction::class)->add(UserAuthMiddleware::class);
     $app->post('/edit_cpoidtem', \App\Action\Web\CpoItemEditAction::class)->add(UserAuthMiddleware::class);
@@ -235,4 +236,7 @@ return function (App $app) {
     $app->post('/api/add_label_void_reason', \App\Action\Api\LabelVoidReasonAddAction::class);
     $app->post('/api/edit_label_void_reason', \App\Action\Api\LabelVoidReasonEditAction::class);
     $app->post('/api/delete_label_void_reason', \App\Action\Api\LabelVoidReasonDeleteAction::class);
+
+    $app->get('/api/printers', \App\Action\Api\PrinterAction::class);
+
 };

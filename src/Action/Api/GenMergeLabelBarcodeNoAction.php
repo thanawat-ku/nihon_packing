@@ -59,22 +59,27 @@ final class GenMergeLabelBarcodeNoAction
         $user_id = (int)$data['user_id'];
         $mergePackID = (int)$data['merge_pack_id'];
 
-        $rtMergePack = $this->findMergePack->findMergePacks($data );
+        $rtMergePack = $this->findMergePack->findMergePacks($data);
 
-        $data['product_id'] = $rtMergePack[0]['product_id']; 
+        $data['product_id'] = $rtMergePack[0]['product_id'];
 
         $labels = $this->findermpdetail->findMergePackDetails($data);
         for ($i = 0; $i < count($labels); $i++) {
-            $dataupdate['id']=$labels[$i]['lb_id'];
-            $dataupdate['up_status']="VOID";
-            $dataupdate['void']="MERGED";
+            $dataupdate['id'] = $labels[$i]['lb_id'];
+            $dataupdate['up_status'] = "VOID";
+            $dataupdate['void'] = "MERGED";
             $this->updater->updateLabelStatus($dataupdate['id'], $dataupdate, $user_id);
-        } 
+            if ($labels[0]['lot_id'] != 0) {
+                $data['prefer_lot_id'] = $labels[0]['lot_id'];
+            } else {
+                $data['prefer_lot_id'] = $labels[0]['prefer_lot_id'];
+            }
+        }
+
+        $data['wait_print'] = 'Y';
         $labels = $this->updater->genMergeLabel($data);
 
-        // $this->upmergepackdetail->deleteLabelMergePackDetailApi($mergePackID);
-        // $this->upmergepackdetail->insertMergePackDetailApi($labels, $user_id);
-        $this->upmergepack->updateStatusMergeApi($mergePackID, $data, $user_id);
+        $this->upmergepack->updateStatusPrintedApi($mergePackID, $data, $user_id);
 
         $rtdata['message'] = "Gen Merge Labels Successful";
         $rtdata['error'] = false;

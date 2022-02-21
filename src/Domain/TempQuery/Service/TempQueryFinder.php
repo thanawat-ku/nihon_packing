@@ -36,4 +36,8 @@ final class TempQueryFinder
     {
         return $this->repository->findTempQueryCheck($params);
     }
+    public function findTempQueryCheckUpdate(array $params): array
+    {
+        return $this->repository->findTempQueryCheckUpdate($params);
+    }
 }
