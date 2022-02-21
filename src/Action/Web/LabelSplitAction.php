@@ -84,11 +84,13 @@ final class LabelSplitAction
             }
 
             $labelDetail = $this->updater->genSplitLabel($dataDeatail);
-            $this->updater->updateLabel($labelId, $data);
+            
 
             $dataSP['status'] = "PRINTED";
             $dataSP['label_id'] = $labelId;
             $splitID = $this->splitupdater->insertSplitLabelApi($dataSP, $user_id);
+            $data['split_label_id'] = $splitID;
+            $this->updater->updateLabel($labelId, $data);
             $dataSplit = $this->splitLabelFinder->findSplitLabels($findSplitLabel);
             
             for ($i = 0; $i < sizeof($labelDetail); $i++) {

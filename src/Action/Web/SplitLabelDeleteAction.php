@@ -76,6 +76,7 @@ final class  SplitLabelDeleteAction
             $this->updater->updateSplitLabel($SplitLabelId, $dataDelete);
             $dataLabel['status'] = "PACKED";
             $labelId3 = $data['label_id'];
+            $dataLabel['split_label_id'] = 0;
             $dataLabel['label_void_reason_id'] = 0;
             $this->labelUpdater->updateLabel($labelId3, $dataLabel);
         }
