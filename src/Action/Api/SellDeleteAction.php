@@ -9,6 +9,9 @@ use App\Domain\Label\Service\LabelUpdater;
 use App\Domain\SellCpoItem\Service\SellCpoItemFinder;
 use App\Domain\SellCpoItem\Service\SellCpoItemUpdater;
 use App\Domain\Sell\Service\SellUpdater;
+use App\Domain\CpoItem\Service\CpoItemFinder;
+use App\Domain\CpoItem\Service\CpoItemUpdater;
+use App\Domain\TempQuery\Service\TempQueryUpdater;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -29,9 +32,13 @@ final class SellDeleteAction
     private $updateLabel;
     private $findSellCpoItem;
     private $updateSellCpoItem;
+    private $findCpoItem;
+    private $updateCpoItem;
+    private $updateTempQuery;
 
 
-    public function __construct(Responder $responder, SellFinder $finder,  SellUpdater $updater, SellLabelFinder $findSellLabel, SellLabelUpdater $updateSellLabel, LabelUpdater $updateLabel, SellCpoItemFinder $findSellCpoItem, SellCpoItemUpdater $updateSellCpoItem)
+
+    public function __construct(Responder $responder, SellFinder $finder,  SellUpdater $updater, SellLabelFinder $findSellLabel, SellLabelUpdater $updateSellLabel, LabelUpdater $updateLabel, SellCpoItemFinder $findSellCpoItem, SellCpoItemUpdater $updateSellCpoItem, CpoItemFinder $findCpoItem, CpoItemUpdater $updateCpoItem, TempQueryUpdater $updateTempQuery)
     {
         $this->responder = $responder;
         $this->finder = $finder;
@@ -41,6 +48,9 @@ final class SellDeleteAction
         $this->updateLabel = $updateLabel;
         $this->findSellCpoItem = $findSellCpoItem;
         $this->updateSellCpoItem = $updateSellCpoItem;
+        $this->findCpoItem = $findCpoItem;
+        $this->updateCpoItem = $updateCpoItem;
+        $this->updateTempQuery = $updateTempQuery;
     }
 
     public function __invoke(
@@ -65,12 +75,25 @@ final class SellDeleteAction
                 $this->updateLabel->updateLabelApi($labelID, $upStatus, $user_id);
             }
 
+            $id['sell_id'] = $sellID;
+            $rtSellCpoItem = $this->findSellCpoItem->findSellCpoItems($id);
+            
+            $data['cpo_item_id'] = $rtSellCpoItem[0]['cpo_item_id'];
+            $rtCpoItem = $this->findCpoItem->findCpoItem($data);
+
+            $packingQty['PackingQty'] = $rtCpoItem[0]['PackingQty'] - $rtSellCpoItem[0]['sell_qty'];
+
+            $this->updateCpoItem->updateCpoItem((int)$data['cpo_item_id'], $packingQty);
+
+
             $this->updateSellLabel->deleteSellLabelApi($sellID);
 
             $this->updateSellCpoItem->deleteCpoItemInSellCpoItemApi($sellID);
 
             $data['is_delete'] = "Y";
             $this->updater->updateSellDeleteApi($sellID, $data, $user_id);
+
+            $this->updateTempQuery->deleteTempQuery((int)$rtSell[0]['product_id']);
 
             return $this->responder->withJson($response, $data);
         }
