@@ -53,29 +53,29 @@ final class CpoItemAction
     {
 
         $params = (array)$request->getQueryParams();
-        $sell_id=(int)$params['sell_id'];
+        $sellID=(int)$params['sell_id'];
 
         $cpodata = $this->CpoItemFinder->findCpoItem($params);
         $uuid=uniqid();
 
         $cpoitemcheck = $this->tempQueryFinder->findTempQueryCheck($params);
 
-        if(!$cpoitemcheck){
-            foreach($cpodata as $cpo){
-                $param_cpo['uuid']=$uuid;
-                $param_cpo['cpo_no']=$cpo['CpoNo'];
-                $param_cpo['cpo_id']=$cpo['CpoID'];
-                $param_cpo['cpo_item_id']=$cpo['CpoItemID'];
-                $param_cpo['product_id']=$cpo['ProductID'];
-                $param_cpo['quantity']=$cpo['Quantity'];
-                $param_cpo['packing_qty']=$cpo['PackingQty'];
-                $param_cpo['due_date']=$cpo['DueDate'];
-                $this->tempQueryUpdater->insertTempQuery($param_cpo);
-            }
-        }
+        // if(!$cpoitemcheck){
+        //     foreach($cpodata as $cpo){
+        //         $param_cpo['uuid']=$uuid;
+        //         $param_cpo['cpo_no']=$cpo['CpoNo'];
+        //         $param_cpo['cpo_id']=$cpo['CpoID'];
+        //         $param_cpo['cpo_item_id']=$cpo['CpoItemID'];
+        //         $param_cpo['product_id']=$cpo['ProductID'];
+        //         $param_cpo['quantity']=$cpo['Quantity'];
+        //         $param_cpo['packing_qty']=$cpo['PackingQty'];
+        //         $param_cpo['due_date']=$cpo['DueDate'];
+        //         $this->tempQueryUpdater->insertTempQuery($param_cpo);
+        //     }
+        // }
 
         $param_search['uuid']=$uuid;
-        $param_search['sell_id']=$sell_id;
+        $param_search['sell_id']=$sellID;
         $cpoitemdata['message'] = "Get CpoItem Successful";
         $cpoitemdata['error'] = false;
         $cpoitemdata['data'] = $this->tempQueryFinder->findTempQuery($param_search);

@@ -65,7 +65,7 @@ final class CpoItemEditAction
         $dataFinder['cpo_item_id'] = $rowSellCpoItem[0]['cpo_item_id'];
         $data['sell_qty'] = $rowSellCpoItem[0]['sell_qty'];
         $rtCpoItem = $this->cpoItemFinder->findCpoItem($dataFinder);
-        $dataCpoItem['PackingQty'] = $data['sell_qty'];
+        $dataCpoItem['PackingQty'] = $data['sell_qty'] + $rtSellCpoItem[0]['packing_qty'];
         $cpoItemID = $rtCpoItem[0]['CpoItemID'];
 
         $totalQty = 0;

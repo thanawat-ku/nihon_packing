@@ -12,6 +12,7 @@ use App\Domain\Tag\Service\TagUpdater;
 use App\Domain\Packing\Service\PackingFinder;
 use App\Domain\Packing\Service\PackingUpdater;
 use App\Domain\PackingItem\Service\PackingItemUpdater;
+use App\Domain\TempQuery\Service\TempQueryUpdater;
 use App\Responder\Responder;
 use PhpParser\Node\Stmt\Label;
 use Psr\Http\Message\ResponseInterface;
@@ -36,6 +37,7 @@ final class ConfirmSellLabelAction
     private $findPacking;
     private $updatePacking;
     private $updatePackingItem;
+    private $updateTempQuery;
 
     public function __construct(
         SellLabelFinder $finder,
@@ -49,7 +51,8 @@ final class ConfirmSellLabelAction
         PackingItemUpdater $updatePackingItem,
         Session $session,
         Responder $responder,
-        SellUpdater $updater
+        SellUpdater $updater,
+        TempQueryUpdater $updateTempQuery,
     ) {
         $this->finder = $finder;
         $this->findSellCpoItem = $findSellCpoItem;
@@ -63,6 +66,7 @@ final class ConfirmSellLabelAction
         $this->updater = $updater;
         $this->session = $session;
         $this->responder = $responder;
+        $this->updateTempQuery = $updateTempQuery;
     }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
@@ -219,6 +223,8 @@ final class ConfirmSellLabelAction
 
         $rtSell['printer_id'] = $data['printer_id'];
         $rtTag = $this->updateTag->genTagsApi($sellID, $rtSell, $user_id);
+
+        $this->updateTempQuery->deleteTempQuery((int)$rtSell[0]['product_id']);
 
         if (isset($data['start_date'])) {
             $allData['startDate'] = $data['start_date'];
