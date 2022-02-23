@@ -48,8 +48,6 @@ final class LabelScanSplitRegisterAction
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-
-
         $data = (array)$request->getQueryParams();
         $labelNO['label_no'] = $data['label_no'];
 
