@@ -23,8 +23,16 @@ final class SellFinder
 
     public function findSellRow(int $sellID)
     {
-        
-        $userRow = $this->repository->findSellRow($sellID);
-        return $userRow;
+        $sellRow = $this->repository->findSellRow($sellID);
+        return $sellRow;
+    }
+
+    public function findSellTag(array $params): array
+    {
+        return $this->repository->findSellTag($params);
+    }
+    public function findSellLabel(array $params): array
+    {
+        return $this->repository->findSellLabel($params);
     }
 }

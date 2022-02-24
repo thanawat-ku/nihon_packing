@@ -4,6 +4,7 @@ namespace App\Action\Api;
 
 use App\Domain\Tag\Service\TagFinder;
 use App\Domain\Tag\Service\TagUpdater;
+use App\Domain\Sell\Service\SellFinder;
 use App\Domain\Sell\Service\SellUpdater;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
@@ -20,13 +21,15 @@ final class TagRegisterAction
     private $responder;
     private $updater;
     private $finder;
+    private $findSell;
     private $updateSell;
 
-    public function __construct(Responder $responder,  TagUpdater $updater, TagFinder $finder, SellUpdater $updateSell)
+    public function __construct(Responder $responder,  TagUpdater $updater, TagFinder $finder, SellFinder $findSell, SellUpdater $updateSell)
     {
         $this->responder = $responder;
         $this->updater = $updater;
         $this->finder = $finder;
+        $this->findSell = $findSell;
         $this->updateSell = $updateSell;
     }
 
@@ -53,15 +56,34 @@ final class TagRegisterAction
             }
 
             if ($checkTagPrinted == true) {
-                $upStatus['status'] = "BOXED";
-                $this->updater->updateTagAllFromSellIDApi($sellID, $upStatus,  $user_id);
 
-                $upStatus['up_status'] = "TAGGED";
-                $this->updateSell->updateSellStatus($sellID, $upStatus, $user_id);
 
-                $rtdata['message'] = "Get Tag Successful";
-                $rtdata['error'] = false;
-                $rtdata['tags'] = $this->finder->findTags($data);
+                $rtSell = $this->findSell->findSellRow($sellID);
+
+                if ($rtSell['is_completed'] == 'Y') {
+                    
+                    $upStatus['status'] = "BOXED";
+                    $this->updater->updateTagAllFromSellIDApi($sellID, $upStatus,  $user_id);
+
+                    $upStatus['up_status'] = "TAGGED";
+                    $this->updateSell->updateSellStatus($sellID, $upStatus, $user_id);
+
+                    $rtdata['message'] = "Get Tag Successful";
+                    $rtdata['error'] = false;
+                    $rtdata['tags'] = $this->finder->findTags($data);
+
+                } else if ($rtSell['is_completed'] == 'N') {
+
+                    $upStatus['status'] = "BOXED";
+                    $this->updater->updateTagAllFromSellIDApi($sellID, $upStatus,  $user_id);
+
+                    $upStatus['up_status'] = "COMPLETE";
+                    $this->updateSell->updateSellStatus($sellID, $upStatus, $user_id);
+
+                    $rtdata['message'] = "Get Tag Successful";
+                    $rtdata['error'] = false;
+                    $rtdata['tags'] = $this->finder->findTags($data);
+                }
             } else {
                 $rtdata['message'] = "Get Tag Successful";
                 $rtdata['error'] = true;

@@ -24,8 +24,10 @@ final class SellValidator
 
         return $validator
             ->notEmptyString('sell_no', 'Input required')
+            ->notEmptyString('invoice_no', 'Input required')
             ->notEmptyString('sell_date', 'Input required')
             ->notEmptyString('product_id', 'Input required')
+            ->notEmptyString('packing_id', 'Input required')
             ->notEmptyString('total_qty', 'Input required')
             ->notEmptyString('sell_status', 'Input required')
             ->notEmptyString('is_delete', 'Input required');

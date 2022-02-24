@@ -76,7 +76,9 @@ final class SellRepository
                 'part_name',
                 'part_code',
                 'std_pack',
-                'std_box'
+                'std_box',
+                'invoice_no',
+                'packing_id'
 
             ]
         );
@@ -100,8 +102,17 @@ final class SellRepository
         if (isset($params['ProductID'])) {
             $query->andWhere(['sells.product_id' => $params['ProductID']]);
         }
+        if (isset($params['action']) == "REGISTER") {
+            $query->where(['OR' => [['sell_status' => 'TAGGED'], ['sell_status' => 'INVOICED'], ['sell_status' => 'COMPLETE']]]);
+        }
+        if (isset($params['sync'])) {
+            $query->andWhere(['sells.sell_status' => "TAGGED"]);
+        }
         if (isset($params["startDate"])) {
             $query->andWhere(['sell_date <=' => $params['endDate'], 'sell_date >=' => $params['startDate']]);
+        }
+        if (isset($params['packing_id'])) {
+            $query->andWhere(['sells.packing_id' => $params['packing_id']]);
         }
 
 
@@ -120,7 +131,8 @@ final class SellRepository
                 'total_qty',
                 'sell_status',
                 'part_name',
-                'part_code'
+                'part_code',
+                'is_completed'
             ]
         );
 
@@ -142,5 +154,73 @@ final class SellRepository
             return $row;
         }
         return false;
+    }
+
+    public function findSellTag(array $params): array
+    {
+        $query = $this->queryFactory->newSelect('sells');
+
+        $query->select(
+            [
+                'sells.id',
+                'sell_no',
+                'sell_date',
+                'total_qty',
+                'sell_status',
+                'invoice_no'
+
+            ]
+        );
+
+        $query->join([
+            't' => [
+                'table' => 'tags',
+                'type' => 'INNER',
+                'conditions' => 'sells.id = t.sell_id',
+            ]
+        ]);
+
+        $query->andWhere(['sells.is_delete' => 'N']);
+
+        if (isset($params['sell_id'])) {
+            $query->andWhere(['sells.id' => $params['sell_id']]);
+        }
+
+
+        return $query->execute()->fetchAll('assoc') ?: [];
+    }
+
+    public function findSellLabel(array $params): array
+    {
+        $query = $this->queryFactory->newSelect('sells');
+
+        $query->select(
+            [
+                'sells.id',
+                'sell_no',
+                'sell_date',
+                'total_qty',
+                'sell_status',
+                'invoice_no'
+
+            ]
+        );
+
+        $query->join([
+            'sl' => [
+                'table' => 'sell_labels',
+                'type' => 'INNER',
+                'conditions' => 'sells.id = sl.sell_id',
+            ]
+        ]);
+
+        $query->andWhere(['sells.is_delete' => 'N']);
+
+        if (isset($params['sell_id'])) {
+            $query->andWhere(['sells.id' => $params['sell_id']]);
+        }
+
+
+        return $query->execute()->fetchAll('assoc') ?: [];
     }
 }

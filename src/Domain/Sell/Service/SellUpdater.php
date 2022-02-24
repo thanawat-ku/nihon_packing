@@ -82,6 +82,14 @@ final class SellUpdater
 
         $this->repository->updateSellApi($sellId, $row, $user_id);
     }
+    public function updateConfirmSellApi(int $sellId, array $data, $user_id): void
+    {
+        $this->validator->validateSellUpdate($sellId, $data);
+
+        $row = $this->mapToRow($data);
+
+        $this->repository->updateSellApi($sellId, $row, $user_id);
+    }
     public function updateSellApi(int $sellId, array $data, $user_id): void
     {
         $this->validator->validateSellUpdate($sellId, $data, $user_id);
@@ -117,6 +125,15 @@ final class SellUpdater
         $this->repository->updateSellApi($sellId, $row, $user_id);
     }
 
+    public function updateSellSyncApi(int $sellId, array $data, $user_id): void
+    {
+        $this->validator->validateSellUpdate($sellId, $data, $user_id);
+
+        $row = $this->mapToRow($data);
+
+        $this->repository->updateSellApi($sellId, $row, $user_id);
+    }
+
     public function deleteSellApi(int $productId): void
     {
         $this->repository->deleteSell($productId);
@@ -129,11 +146,17 @@ final class SellUpdater
         if (isset($data['sell_no'])) {
             $result['sell_no'] = (string)$data['sell_no'];
         }
+        if (isset($data['invoice_no'])) {
+            $result['invoice_no'] = (string)$data['invoice_no'];
+        }
         if (isset($data['sell_date'])) {
             $result['sell_date'] = (string)$data['sell_date'];
         }
         if (isset($data['product_id'])) {
             $result['product_id'] = (int)$data['product_id'];
+        }
+        if (isset($data['packing_id'])) {
+            $result['packing_id'] = (int)$data['packing_id'];
         }
         if (isset($data['total_qty'])) {
             $result['total_qty'] = (int)$data['total_qty'];
