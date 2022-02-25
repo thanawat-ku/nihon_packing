@@ -83,7 +83,7 @@ final class SellDeleteAction
 
             $packingQty['PackingQty'] = $rtCpoItem[0]['PackingQty'] - $rtSellCpoItem[0]['sell_qty'];
 
-            $this->updateCpoItem->updateCpoItem((int)$data['cpo_item_id'], $packingQty);
+            // $this->updateCpoItem->updateCpoItem((int)$data['cpo_item_id'], $packingQty);
 
 
             $this->updateSellLabel->deleteSellLabelApi($sellID);

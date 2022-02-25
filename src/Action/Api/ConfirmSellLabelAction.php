@@ -116,8 +116,8 @@ final class ConfirmSellLabelAction
                     $isPackingItem['CpoItemID'] = $rtsellCpoItem[0]['cpo_item_id'];
 
                     $sumQty = 0;
-                    for ($i = 0; $i < count($rtLabelFromSellLabel); $i++) {
-                        $sumQty += $rtLabelFromSellLabel[$i]['quantity'];
+                    for ($j = 0; $j < count($rtLabelFromSellLabel); $j++) {
+                        $sumQty += $rtLabelFromSellLabel[$j]['quantity'];
                     }
                     $isPackingItem['Quantity'] = $sumQty;
 
@@ -141,8 +141,8 @@ final class ConfirmSellLabelAction
                     $isPackingItem['CpoItemID'] = $rtsellCpoItem[0]['cpo_item_id'];
 
                     $sumQty = 0;
-                    for ($i = 0; $i < count($rtLabelFromSellLabel); $i++) {
-                        $sumQty += $rtLabelFromSellLabel[$i]['quantity'];
+                    for ($j = 0; $j < count($rtLabelFromSellLabel); $j++) {
+                        $sumQty += $rtLabelFromSellLabel[$j]['quantity'];
                     }
                     $isPackingItem['Quantity'] = $sumQty;
 
@@ -182,8 +182,8 @@ final class ConfirmSellLabelAction
                     $isPackingItem['CpoItemID'] = $rtsellCpoItem[0]['cpo_item_id'];
 
                     $sumQty = 0;
-                    for ($i = 0; $i < count($rtLabelFromSellLabel); $i++) {
-                        $sumQty += $rtLabelFromSellLabel[$i]['quantity'];
+                    for ($j = 0; $j < count($rtLabelFromSellLabel); $j++) {
+                        $sumQty += $rtLabelFromSellLabel[$j]['quantity'];
                     }
                     $isPackingItem['Quantity'] = $sumQty;
 
@@ -206,8 +206,8 @@ final class ConfirmSellLabelAction
                     $isPackingItem['CpoItemID'] = $rtsellCpoItem[0]['cpo_item_id'];
 
                     $sumQty = 0;
-                    for ($i = 0; $i < count($rtLabelFromSellLabel); $i++) {
-                        $sumQty += $rtLabelFromSellLabel[$i]['quantity'];
+                    for ($j = 0; $j < count($rtLabelFromSellLabel); $j++) {
+                        $sumQty += $rtLabelFromSellLabel[$j]['quantity'];
                     }
                     $isPackingItem['Quantity'] = $sumQty;
 

@@ -37,19 +37,20 @@
 					<span>{{'Sell Date: ' ~ sellRow.sell_date}}</span><br>
 					{% if checkSellQty == "lesser" %}
 						<span>Total Quantity: </span>
-						<span>{{sellRow.total_qty}}</span>
-						<span>/</span>
 						<span>{{totalQtyLabelsell[0]}}</span>
+						<span>/</span>
+						<span>{{sellRow.total_qty}}</span>
 					{% elseif checkSellQty == "aqual" %}
 						<span>Total Quantity: </span>
-						<span style="color:Chartreuse">{{sellRow.total_qty}}</span>
-						<span style="color:Chartreuse">/</span>
 						<span style="color:Chartreuse">{{totalQtyLabelsell[0]}}</span>
+						<span style="color:Chartreuse">/</span>
+						<span style="color:Chartreuse">{{sellRow.total_qty}}</span>
 					{% elseif checkSellQty == "over" %}
 						<span>Total Quantity: </span>
-						<span>{{sellRow.total_qty}}</span>
-						<span>/</span>
 						<span style="color:red">{{totalQtyLabelsell[0]}}</span>
+						<span style="color:red">/</span>
+						<span style="color:red">{{sellRow.total_qty}}</span>
+						
 					{% endif %}
 
 				</div>

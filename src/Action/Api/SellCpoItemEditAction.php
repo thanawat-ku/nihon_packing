@@ -60,7 +60,7 @@ final class SellCpoItemEditAction
         $sells = $this->finder->findSellCpoItems($data);
         $this->updatesell->updateSellApi($sellID, $sells, $user_id);
 
-        $this->updateCpoitem->updateCpoItem($cpoItemID, $dataCpoItem);
+        // $this->updateCpoitem->updateCpoItem($cpoItemID, $dataCpoItem);
 
         $rtdata['message'] = "Get Sell Cpo Item Successful";
         $rtdata['error'] = false;

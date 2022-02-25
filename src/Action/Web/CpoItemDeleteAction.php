@@ -78,7 +78,7 @@ final class CpoItemDeleteAction
 
         // $dataCpoItem['packing_qty'] = $dataCpoItem['PackingQty'];
         // $this->tempQueryUpdater->updateTempquery($cpoItemID, $dataCpoItem);
-        $this->updater->updateCpoItem($cpoItemID, $dataCpoItem);
+        // $this->updater->updateCpoItem($cpoItemID, $dataCpoItem);
 
         $viewData = [
             'sell_id' => $sellRow['id'],

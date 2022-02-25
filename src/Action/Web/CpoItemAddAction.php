@@ -70,7 +70,7 @@ final class CpoItemAddAction
 
         // $dataCpoItem['packing_qty'] = $dataCpoItem['PackingQty'];
         // $this->tempQueryUpdater->updateTempquery($cpoItemID, $dataCpoItem);
-        $this->updater->updateCpoItem($cpoItemID, $dataCpoItem);
+        // $this->updater->updateCpoItem($cpoItemID, $dataCpoItem);
 
         $uuid = uniqid();
         $param_search['uuid'] = $uuid;

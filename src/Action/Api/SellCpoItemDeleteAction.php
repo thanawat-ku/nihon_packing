@@ -56,7 +56,7 @@ final class SellCpoItemDeleteAction
 
         $this->updater->deleteSellCpoItemApi($sellCpoItemID);
 
-        $this->updateCpoItem->updateCpoItem($cpoItemID, $dataCpoItem);
+        // $this->updateCpoItem->updateCpoItem($cpoItemID, $dataCpoItem);
 
         $rtdata['message'] = "Get Sell Cpo Item Successful";
         $rtdata['error'] = false;

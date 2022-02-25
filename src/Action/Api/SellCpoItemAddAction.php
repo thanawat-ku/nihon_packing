@@ -53,7 +53,7 @@ final class SellCpoItemAddAction
         $dataCpoItem['PackingQty'] = $rtCpoItem[0]['PackingQty'] + $data['sell_qty'];
         $cpoItemID = $rtCpoItem[0]['CpoItemID'];
 
-        $this->updateCpoItem->updateCpoItem($cpoItemID, $dataCpoItem);
+        // $this->updateCpoItem->updateCpoItem($cpoItemID, $dataCpoItem);
 
         $this->updater->insertSellCpoItemApi($data, $user_id);
 

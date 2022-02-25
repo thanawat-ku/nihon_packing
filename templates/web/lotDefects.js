@@ -15,7 +15,7 @@ function editDefectLot(event) {
     console.log(lot);
     var obj = JSON.parse(lot);
     $("#lotDefectID").val(obj.id);
-    $("#editDefectId").val(obj.defect_id);
+    $("#editDefectId").selectpicker('val', obj.defect_id);
     $("#editQuantity").val(obj.quantity); 
     $("#editQuantityMax").attr({"max":obj.quantity});
     $("#editdefectLotID").val(obj.lot_id);

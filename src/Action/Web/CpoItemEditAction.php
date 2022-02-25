@@ -78,7 +78,7 @@ final class CpoItemEditAction
 
         // $dataCpoItem['packing_qty'] = $dataCpoItem['PackingQty'];
         // $this->tempQueryUpdater->updateTempquery($cpoItemID, $dataCpoItem);
-        $this->updater->updateCpoItem($cpoItemID, $dataCpoItem);
+        // $this->updater->updateCpoItem($cpoItemID, $dataCpoItem);
 
         $sellRow = $this->finder->findSellRow($sellID);
 
