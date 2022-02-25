@@ -19,4 +19,9 @@ final class TagFinder
     {
         return $this->repository->findTags($params);
     }
+
+    public function findTagSingleTable(array $params): array
+    {
+        return $this->repository->findTagSingleTable($params);
+    }
 }

@@ -45,6 +45,7 @@ final class CheckLabelScanRegisMergeAction
         $raMergepack['merge_pack_id'] = $mergepackID;
 
         $arrlabel = explode("#", $label);
+        
 
         $rtdata['mpd_from_lots'] = [];
         $rtdata['mpd_from_merges'] = [];

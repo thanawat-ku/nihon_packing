@@ -4,11 +4,11 @@ namespace App\Action\Web;
 
 use App\Domain\Tag\Service\TagFinder;
 use App\Domain\Tag\Service\TagUpdater;
+use App\Domain\Sell\Service\SellFinder;
 use App\Domain\Sell\Service\SellUpdater;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Slim\Views\Twig;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
@@ -20,9 +20,9 @@ final class TagRegisterAction
      * @var Responder
      */
     private $responder;
-    private $twig;
     private $updateTag;
     private $updater;
+    private $finder;
     private $session;
 
     /**
@@ -30,13 +30,13 @@ final class TagRegisterAction
      *
      * @param Responder $responder The responder
      */
-    public function __construct(Twig $twig,TagFinder $tagFinder,TagUpdater $updateTag, Session $session,SellUpdater $updater,  Responder $responder)
+    public function __construct(TagFinder $tagFinder, TagUpdater $updateTag, Session $session, SellUpdater $updater, SellFinder $finder, Responder $responder)
     {
-        $this->twig = $twig;
-        $this->tagFinder=$tagFinder;
+        $this->tagFinder = $tagFinder;
         $this->updateTag = $updateTag;
-        $this->updater=$updater;
-        $this->session=$session;
+        $this->updater = $updater;
+        $this->finder = $finder;
+        $this->session = $session;
         $this->responder = $responder;
     }
 
@@ -53,11 +53,24 @@ final class TagRegisterAction
         $data = (array)$request->getParsedBody();
         $sellID = $data['id'];
 
-        $data['sell_status'] = "TAGGED";
-        $this->updater->updateSell($sellID, $data);
+        $rtSell = $this->finder->findSellRow($sellID);
 
-        $upStatus['status'] = "BOXED";
-        $this->updateTag-> updateTagFronSellID($sellID, $upStatus);
+        if ($rtSell['is_completed'] == 'Y') {
+
+            $upStatus['status'] = "BOXED";
+            $this->updateTag->updateTagFronSellID($sellID, $upStatus);
+
+            $data['sell_status'] = "TAGGED";
+            $this->updater->updateSell($sellID, $data);
+
+        } else if ($rtSell['is_completed'] == 'N') {
+         
+            $upStatus['status'] = "BOXED";
+            $this->updateTag->updateTagFronSellID($sellID, $upStatus);
+
+            $data['sell_status'] = "COMPLETE";
+            $this->updater->updateSell($sellID, $data);
+        }
 
         return $this->responder->withRedirect($response, "sells");
     }

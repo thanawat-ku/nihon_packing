@@ -161,6 +161,7 @@ return function (App $app) {
     $app->get('/api/tags', \App\Action\Api\TagAction::class);
     $app->post('/api/register_tags_check', \App\Action\Api\TagRegisterCheckAction::class);
     $app->post('/api/register_tags', \App\Action\Api\TagRegisterAction::class);
+    $app->post('/api/check_scan_tags', \App\Action\Api\CheckScanTagAction::class);
 
     $app->get('/api/split_labels',  \App\Action\Api\SplitLabelAction::class);
     $app->post('/api/add_split_label', \App\Action\Api\SplitLabelAddAction::class);
@@ -188,13 +189,16 @@ return function (App $app) {
     $app->get('/api/cpo_item_select', \App\Action\Api\CpoItemSelectAction::class);
 
     $app->get('/api/sells', \App\Action\Api\SellAction::class);
+    $app->get('/api/register_tag_on_sells', \App\Action\Api\RegisterTagOnSellAction::class);
     $app->post('/api/add_sell', \App\Action\Api\SellAddAction::class);
     $app->post('/api/sell_row', \App\Action\Api\SellRowAction::class);
+    $app->post('/api/sell_tag', \App\Action\Api\SellTagAction::class);
     $app->post('/api/up_status_sell', \App\Action\Api\SellUpStatusAction::class);
     $app->post('/api/get_qty_sell_scan', \App\Action\Api\GetQtySellScanAction::class);
     $app->post('/api/edit_sell', \App\Action\Api\SellEditAction::class);
     $app->post('/api/delete_sell', \App\Action\Api\SellDeleteAction::class);
-    
+    $app->post('/api/complete_sell', \App\Action\Api\SellCompleteAction::class);
+    $app->get('/api/sycn_invoice_no', \App\Action\Api\SyncInvoiceNoAction::class);
 
     $app->get('/api/product_for_sells', \App\Action\Api\ProductForSellAction::class);
 
@@ -212,6 +216,7 @@ return function (App $app) {
     $app->post('/api/cancel_sell_label', \App\Action\Api\CancelSellLabelAction::class);
     $app->post('/api/confirm_sell_label', \App\Action\Api\ConfirmSellLabelAction::class);
     $app->get('/api/mis_sync_lots', \App\Action\Api\LotSyncAction::class);
+    $app->post('/api/check_scan_sell_labels', \App\Action\Api\CheckScanSellLabelAction::class);
 
     $app->get('/api/scraps', \App\Action\Api\ScrapAction::class);
     $app->post('/api/add_scrap', \App\Action\Api\ScrapAddAction::class);

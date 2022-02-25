@@ -168,4 +168,27 @@ final class TagRepository
 
         return $query->execute()->fetchAll('assoc') ?: [];
     }
+   
+    public function findTagSingleTable(array $params): array
+    {
+        $query = $this->queryFactory->newSelect('tags');
+        $query->select(
+            [
+                'tags.id',
+                'tag_no',
+                'tags.quantity',
+                'box_no',
+                'total_box',
+                'wait_print',
+                'tags.status',
+
+            ]
+        );
+
+        if (isset($params['tag_no'])) {
+            $query->andWhere(['tag_no' => $params["tag_no"]]);
+        }
+
+        return $query->execute()->fetchAll('assoc') ?: [];
+    }
 }

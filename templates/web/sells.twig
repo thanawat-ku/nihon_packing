@@ -13,6 +13,17 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-12">
+				{% if checkError == "true" %}
+					<script>
+						function errorLoad() {
+						alert("Add sell fail! please check product id");
+						}
+				  	</script>
+				
+				  {% if 1 != 2 %}
+					<script>errorLoad()</script>
+				  {% endif %}
+				{% endif %}
 				<h2>
 					<i class="fa fa-shopping-cart"></i>
 					Sell list</h2>

@@ -123,6 +123,9 @@ final class ConfirmSellLabelAction
 
 
                     $this->updatePackingItem->insertPackingItem($isPackingItem);
+
+                    $updateSell['packing_id'] =  $isPackingItem['PackingID'];
+                    $this->updater->updateConfirmSellApi($sellID, $updateSell, $user_id);
                 }
             }
             if ($rtSellLabelPrefer) {
@@ -144,6 +147,9 @@ final class ConfirmSellLabelAction
                     $isPackingItem['Quantity'] = $sumQty;
 
                     $this->updatePackingItem->insertPackingItem($isPackingItem);
+
+                    $updateSell['packing_id'] =  $isPackingItem['PackingID'];
+                    $this->updater->updateConfirmSellApi($sellID, $updateSell, $user_id);
                 }
             }
         } else {
@@ -182,6 +188,9 @@ final class ConfirmSellLabelAction
                     $isPackingItem['Quantity'] = $sumQty;
 
                     $this->updatePackingItem->insertPackingItem($isPackingItem);
+
+                    $updateSell['packing_id'] =  $isPackingItem['PackingID'];
+                    $this->updater->updateConfirmSellApi($sellID, $updateSell, $user_id);
                 }
             }
             if ($rtSellLabelPrefer) {
@@ -203,6 +212,9 @@ final class ConfirmSellLabelAction
                     $isPackingItem['Quantity'] = $sumQty;
 
                     $this->updatePackingItem->insertPackingItem($isPackingItem);
+
+                    $updateSell['packing_id'] =  $isPackingItem['PackingID'];
+                    $this->updater->updateConfirmSellApi($sellID, $updateSell, $user_id);
                 }
             }
         }

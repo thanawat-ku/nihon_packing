@@ -16,7 +16,7 @@ final class SellAction
      * @var Responder
      */
     private $responder;
-    private $productFinder;
+    private $findSell;
     
 
     /**
@@ -24,10 +24,10 @@ final class SellAction
      *
      * @param Responder $responder The responder
      */
-    public function __construct(SellFinder $productFinder,Responder $responder)
+    public function __construct(SellFinder $findSell,Responder $responder)
     {
         
-        $this->productFinder=$productFinder;
+        $this->findSell = $findSell;
         $this->responder = $responder;
     }
 
@@ -51,7 +51,7 @@ final class SellAction
         
         $rtdata['message']="Get Sell Successful";
         $rtdata['error']=false;
-        $rtdata['sells']=$this->productFinder->findSells($params);        
+        $rtdata['sells']=$this->findSell->findSells($params);        
 
         return $this->responder->withJson($response, $rtdata);
     }
