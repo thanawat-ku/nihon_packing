@@ -265,9 +265,6 @@ final class MergePackDetailRepository
                 'lb_id' => 'lb.id',
                 'lb.lot_id',
                 'prefer_lot_id',
-
-
-
             ]
         );
         $query->join([      //focus that!!!!!!!!!!!!

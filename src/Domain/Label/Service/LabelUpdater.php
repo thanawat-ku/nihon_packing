@@ -299,9 +299,8 @@ final class LabelUpdater
         $std_pack = (int)$data['std_pack'] ?? 1;
         $user_id = (int)$data['user_id'] ?? 1;
         $productID = (int)$data['product_id'] ?? 0;
-        $perferLotID = (int)$data['prefer_lot_id'] ?? 0;
         $printerID = (int)$data['printer_id'] ?? 1;
-        $preferLotID = $data['prefer_lot_id'];
+        $preferLotID = $data['prefer_lot_id'] ?? 0;
         $waitPrint = $data['wait_print'] ?? "N";
         // $perferLotID = $data['']
         $num_packs = ceil($quantity / $std_pack);
@@ -312,11 +311,10 @@ final class LabelUpdater
             $data1['merge_pack_id'] = $merge_pack_id;
             $data1['label_type'] = "MERGE_FULLY";
             $data1['quantity'] = $std_pack;
-            $data1['status'] = "CREATED";
+            $data1['status'] = "PRINTED";
             $data1['product_id'] = $productID;
-            $data1['prefer_lot_id'] = $preferLotID;
             $data1['printer_id'] = $printerID;
-            $data1['prefer_lot_id'] = $perferLotID;
+            $data1['prefer_lot_id'] = $preferLotID;
             $data1['wait_print'] = $waitPrint;
             $id = $this->insertLabelApi($data1, $user_id);
             $data1['label_no'] = "P" . str_pad($id, 11, "0", STR_PAD_LEFT);
@@ -329,11 +327,10 @@ final class LabelUpdater
             $data1['merge_pack_id'] = $merge_pack_id;
             $data1['label_type'] = "MERGE_NONFULLY";
             $data1['quantity'] = $quantity - ($num_full_packs * $std_pack);
-            $data1['status'] = "CREATED";
+            $data1['status'] = "PRINTED";
             $data1['product_id'] = $productID;
             $data1['prefer_lot_id'] = $preferLotID;
             $data1['printer_id'] = $printerID;
-            $data1['prefer_lot_id'] = $perferLotID;
             $data1['wait_print'] = $waitPrint;
             $id = $this->insertLabelApi($data1, $user_id);
             $data1['label_no'] = "P" . str_pad($id, 11, "0", STR_PAD_LEFT);
@@ -367,9 +364,10 @@ final class LabelUpdater
             $data1['lot_id'] = $lot_id;
             $data1['label_type'] = "FULLY";
             $data1['quantity'] = $std_pack;
-            $data1['status'] = "CREATED";
+            $data1['status'] = "PRINTED";
             $data1['product_id'] = $productId;
             $data1['printer_id'] = $printerID;
+            $data1['prefer_lot_id'] = $lot_id;
             $data1['wait_print'] = $waitPrint;
             $id = $this->insertLabelApi($data1, $user_id);
             $params2['label_id'] = $id;
@@ -380,9 +378,10 @@ final class LabelUpdater
             $data1['lot_id'] = $lot_id;
             $data1['label_type'] = "NONFULLY";
             $data1['quantity'] = $real_qty - ($num_full_packs * $std_pack);
-            $data1['status'] = "CREATED";
+            $data1['status'] = "PRINTED";
             $data1['product_id'] = $productId;
             $data1['printer_id'] = $printerID;
+            $data1['prefer_lot_id'] = $lot_id;
             $data1['wait_print'] = $waitPrint;
             $id = $this->insertLabelApi($data1, $user_id);
             $params2['label_id'] = $id;
@@ -397,7 +396,6 @@ final class LabelUpdater
     {
         $label_type = $data['label_type'] ?? "FULLY";
         $lot_id = (int)($data['lot_id'] ?? 1);
-        $preFerLotID = (int)($data['lot_id'] ?? 1);
         $merge_pack_id = (int)($data['merge_pack_id'] ?? 1);
         $quantity1 = (int)$data['quantity1'] ?? 1;
         $quantity2 = (int)$data['quantity2'] ?? 1;
@@ -410,10 +408,10 @@ final class LabelUpdater
         $labels = [];
         if ($label_type == "FULLY" || $label_type == "NONFULLY") {
             $data1['lot_id'] = $lot_id;
-            $data1['prefer_lot_id'] = $preFerLotID;
+            $data1['prefer_lot_id'] = $perferLotID;
             $data1['label_type'] = "NONFULLY";
             $data1['quantity'] = $quantity1;
-            $data1['status'] = "CREATED";
+            $data1['status'] = "PRINTED";
             $data1['product_id'] = $productId;
             $data1['printer_id'] = $printerId;
             $data1['wait_print'] = $waitPrint;
@@ -424,10 +422,10 @@ final class LabelUpdater
             array_push($labels, $rt1[0]);
 
             $data1['lot_id'] = $lot_id;
-            $data1['prefer_lot_id'] = $preFerLotID;
+            $data1['prefer_lot_id'] = $perferLotID;
             $data1['label_type'] = "NONFULLY";
             $data1['quantity'] = $quantity2;
-            $data1['status'] = "CREATED";
+            $data1['status'] = "PRINTED";
             $data1['product_id'] = $productId;
             $data1['printer_id'] = $printerId;
             $data1['wait_print'] = $waitPrint;
@@ -441,7 +439,7 @@ final class LabelUpdater
             $data1['prefer_lot_id'] = $perferLotID;
             $data1['label_type'] = "MERGE_NONFULLY";
             $data1['quantity'] = $quantity1;
-            $data1['status'] = "CREATED";
+            $data1['status'] = "PRINTED";
             $data1['product_id'] = $productId;
             $data1['printer_id'] = $printerId;
             $data1['wait_print'] = $waitPrint;
@@ -454,7 +452,7 @@ final class LabelUpdater
             $data1['prefer_lot_id'] = $perferLotID;
             $data1['label_type'] = "MERGE_NONFULLY";
             $data1['quantity'] = $quantity2;
-            $data1['status'] = "CREATED";
+            $data1['status'] = "PRINTED";
             $data1['product_id'] = $productId;
             $data1['printer_id'] = $printerId;
             $data1['wait_print'] = $waitPrint;
