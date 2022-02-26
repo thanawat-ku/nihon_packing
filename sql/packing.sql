@@ -4897,7 +4897,7 @@ INSERT INTO `sections` (`id`, `section_name`, `section_description`, `is_vendor`
 CREATE TABLE `sells` (
   `id` int(11) NOT NULL,
   `sell_no` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `invoice_no` text COLLATE utf8mb4_unicode_ci DEFAULT 'N/A',
+  `invoice_no` varchar(40) COLLATE utf8mb4_unicode_ci DEFAULT 'N/A',
   `sell_date` date NOT NULL,
   `product_id` int(11) NOT NULL,
   `packing_id` int(11) NOT NULL DEFAULT 0,

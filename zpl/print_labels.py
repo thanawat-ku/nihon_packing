@@ -1,5 +1,7 @@
 import mysql.connector
 from zebra import Zebra
+printer_id=1
+printer_name="ZDesigner GT800 (EPL)"
 
 def print_label(printer_name,part_no,part_name,lot_no,qty,label_no,visual_by,pack_by):
     #z = Zebra()
@@ -30,24 +32,18 @@ mydb = mysql.connector.connect(
 )
 mycursor = mydb.cursor()
 
-mycursor.execute("SELECT L.id,L.generate_lot_no, U.username AS print_by,U1.username AS pack_by, \
-    P.part_no,P.part_name \
-    FROM lots L \
-    INNER JOIN products P ON L.product_id=P.id \
-    LEFT OUTER JOIN users U ON L.printed_user_id=U.id \
-    LEFT OUTER JOIN users U1 ON L.packed_user_id=U1.id \
-    WHERE status='CONFIRMED'")
-
+#print_label(printer_name,part_no,part_name,lot_no,qty,label_no,visual_by,pack_by)
+mycursor.execute("SELECT L.id,P.part_no,P.part_name,LT.lot_no,L.quantity,L.label_no,U1.first_name,'' AS pack_by \
+    FROM labels L \
+    INNER JOIN lots LT ON L.prefer_lot_id=LT.id \
+    INNER JOIN products P ON LT.product_id=P.id \
+    LEFT OUTER JOIN users U1 ON LT.packed_user_id=U1.id \
+    WHERE L.wait_print='Y' AND L.printer_id=+"+printer_id+" \
+    ORDER BY L.id")
 myresult = mycursor.fetchall()
-
-for x in myresult:
-    print(x)
-    mycursor.execute("SELECT * FROM labels WHERE lot_id="+str(x[0]))
-    myresult1 = mycursor.fetchall()
-    for y in myresult1:
-        print(y)
-        print_label('ZDesigner GT800 (EPL)',x[4],x[5],x[1],y[7],y[5],x[2],x[3])
-        mycursor.execute("UPDATE labels SET status='PRINTED' WHERE id="+str(y[0]))
-    mycursor.execute("UPDATE lots SET status='PRINTED' WHERE id="+str(x[0]))
+for l in myresult:
+    print(l)
+    print_label(printer_name,l[1],l[2],l[3],l[4],l[5],l[6],l[7])
+    mycursor.execute("UPDATE labels SET wait_print='N' WHERE id="+str(l[0]))
 
 mydb.commit()
