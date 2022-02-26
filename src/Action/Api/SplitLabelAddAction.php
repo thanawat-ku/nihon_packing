@@ -55,6 +55,13 @@ final class SplitLabelAddAction
         //validate data for split
         if ($label[0]['status'] == "PACKED") {
             $params['wait_print'] = "Y";
+            $params['product_id'] = $label[0]['product_id'];
+            if($label[0]['prefer_lot_id'] != 0){
+                $params['prefer_lot_id'] = $label[0]['prefer_lot_id'];
+            }else {
+                $params['prefer_lot_id'] = $params['lot_id'];
+            }
+            
             $labelDetail = $this->updaterLabel->genSplitLabel($params);
             $dataSplit['status'] = "PRINTED";
             $splitID = $this->updater->insertSplitLabelApi($params, $user_id);

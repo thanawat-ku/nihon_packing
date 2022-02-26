@@ -397,6 +397,7 @@ final class LabelUpdater
     {
         $label_type = $data['label_type'] ?? "FULLY";
         $lot_id = (int)($data['lot_id'] ?? 1);
+        $preFerLotID = (int)($data['lot_id'] ?? 1);
         $merge_pack_id = (int)($data['merge_pack_id'] ?? 1);
         $quantity1 = (int)$data['quantity1'] ?? 1;
         $quantity2 = (int)$data['quantity2'] ?? 1;
@@ -409,6 +410,7 @@ final class LabelUpdater
         $labels = [];
         if ($label_type == "FULLY" || $label_type == "NONFULLY") {
             $data1['lot_id'] = $lot_id;
+            $data1['prefer_lot_id'] = $preFerLotID;
             $data1['label_type'] = "NONFULLY";
             $data1['quantity'] = $quantity1;
             $data1['status'] = "CREATED";
@@ -422,6 +424,7 @@ final class LabelUpdater
             array_push($labels, $rt1[0]);
 
             $data1['lot_id'] = $lot_id;
+            $data1['prefer_lot_id'] = $preFerLotID;
             $data1['label_type'] = "NONFULLY";
             $data1['quantity'] = $quantity2;
             $data1['status'] = "CREATED";
@@ -435,6 +438,7 @@ final class LabelUpdater
             array_push($labels, $rt1[0]);
         } else if ($label_type == "MERGE_FULLY" || $label_type == "MERGE_NONFULLY") {
             $data1['merge_pack_id'] = $merge_pack_id;
+            $data1['prefer_lot_id'] = $perferLotID;
             $data1['label_type'] = "MERGE_NONFULLY";
             $data1['quantity'] = $quantity1;
             $data1['status'] = "CREATED";
@@ -447,6 +451,7 @@ final class LabelUpdater
             array_push($labels, $rt1[0]);
 
             $data1['merge_pack_id'] = $merge_pack_id;
+            $data1['prefer_lot_id'] = $perferLotID;
             $data1['label_type'] = "MERGE_NONFULLY";
             $data1['quantity'] = $quantity2;
             $data1['status'] = "CREATED";
