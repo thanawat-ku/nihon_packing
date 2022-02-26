@@ -132,7 +132,8 @@ final class SellRepository
                 'sell_status',
                 'part_name',
                 'part_code',
-                'is_completed'
+                'is_completed',
+                'packing_id'
             ]
         );
 

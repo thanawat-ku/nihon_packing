@@ -24,7 +24,7 @@ final class InvoiceRepository
     }
     public function updateInvoice(int $id, array $data): void
     {
-        $this->queryFactory2->newUpdate('[nsp_pack].[dbo].[invoice]', $data)->andWhere(['InvoiceID' => $id])->execute();
+        $this->queryFactory2->newUpdate('invoice', $data)->andWhere(['InvoiceID' => $id])->execute();
     }
 
     public function deleteInvoice(int $id): void

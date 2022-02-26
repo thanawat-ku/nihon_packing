@@ -36,15 +36,4 @@ final class PackingItemFinder
         return $this->repository->findPackingItem($params);
     }
 
-    public function findPackingItemSelect(array $rtdata): array
-    {
-        return $this->repository->findPackingItemSelect($rtdata);
-    }
-
-    public function findIDFromProductName(array $params, int $ProductID)
-    {
-        return  $this->repository->findIDFromProductName($params, $ProductID);
-
-        // return $userRow;
-    }
 }

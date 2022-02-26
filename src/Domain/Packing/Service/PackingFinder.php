@@ -35,4 +35,8 @@ final class PackingFinder
     {
         return $this->repository->findPacking($params);
     }
+    public function findPackingItem(array $params): array
+    {
+        return $this->repository->findPackingItem($params);
+    }
 }

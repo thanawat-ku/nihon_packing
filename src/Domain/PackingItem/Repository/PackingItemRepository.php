@@ -24,7 +24,7 @@ final class PackingItemRepository
     }
     public function insertPackingItem(array $row): int
     {
-        return (int)$this->queryFactory2->newInsert('[nsp_pack].[dbo].[packing_item]', $row)->execute()->lastInsertId();
+        return (int)$this->queryFactory2->newInsert('packing_item', $row)->execute()->lastInsertId();
     }
 
     public function findPackingItem(array $params): array
@@ -40,6 +40,7 @@ final class PackingItemRepository
                 'Quantity',
                 'DueDate',
                 'PackingQty',
+                
 
 
             ]

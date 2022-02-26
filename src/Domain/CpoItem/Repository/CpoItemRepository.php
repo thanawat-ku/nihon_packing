@@ -33,7 +33,7 @@ final class CpoItemRepository
     // }
     public function updateCpoItem(int $id, array $data): void
     {
-        $this->queryFactory2->newUpdate('[nsp_pack].[dbo].[cpo_item]', $data)->andWhere(['CpoItemID' => $id])->execute();
+        $this->queryFactory2->newUpdate('cpo_item', $data)->andWhere(['CpoItemID' => $id])->execute();
     }
 
     public function deleteCpoItem(int $id): void
