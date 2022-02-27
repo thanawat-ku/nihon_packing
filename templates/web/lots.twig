@@ -29,6 +29,7 @@
                         <th>Lot No</th>
                         <th>Product</th>
                         <th>Quantity</th>
+                        <th>Qty LotDefact</th>
                         <th>Real Quantity</th>
                         <th>STD Pack/Box</th>
                         <th>Status</th>
@@ -46,6 +47,7 @@
                         {% endif %}
                         <td>{{ '(' ~ lot.part_code ~ ') ' ~ lot.part_name}}</td>
                         <td>{{ lot.quantity }}</td>
+                        <td>{{ lot.qty_lot_defact }}</td>
                         <td>{{ lot.real_qty }}</td>
                         <td>{{ lot.std_pack ~ '/' ~ lot.std_box }}</td>
                         <td>{{ lot.status }}</td>

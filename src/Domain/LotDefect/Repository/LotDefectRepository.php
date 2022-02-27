@@ -78,6 +78,7 @@ final class LotDefectRepository
             [
                 'lot_defects.id',
                 'lot_id',
+                'lot_no',
                 'defect_id',
                 'defect_code',
                 'defect_description',
