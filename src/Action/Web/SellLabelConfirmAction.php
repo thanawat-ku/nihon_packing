@@ -87,6 +87,10 @@ final class SellLabelConfirmAction
         $params['startDate'] = date('Y-' . $month . '-01');
         $params['endDate'] = date('Y-' . $month . '-' . $day);
 
+        //test date empty
+        // $params['startDate'] = date('Y-' .'03' . '-01');
+        // $params['endDate'] = date('Y-' . '03' . '-' . 30);
+
         $rtPacking = $this->packingFinder->findPacking($params);
 
         if (!$rtPacking) {
