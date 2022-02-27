@@ -46,24 +46,26 @@ final class LotDefectAction
     {
         $params = (array)$request->getQueryParams();
         $data['lot_id'] = $params['id'];
-
         $lotDefects = $this->finder->findLotDefects($data);
-        $lot['id'] = $data['lot_id'];
-        $lot['lot_no'] = $lotDefects[0]['lot_no'];
-        
+        if(isset($lotDefects[0])){
+            $lot[0]['id'] = $data['lot_id'];
+            $lot[0]['lot_no'] = $lotDefects[0]['lot_no'];
+        }else{
+            $lot = $this->lotFinder->findLots($data);
+        }
         if (isset($lotDefects[0])) {
             $qtyLotDefacts  = 0;
             for ($j = 0; $j < sizeof($lotDefects); $j++) {
                 $qtyLotDefacts = $qtyLotDefacts + (int)$lotDefects[$j]['quantity'];
             }
-            $lots['qty_lot_defact'] = $qtyLotDefacts;
+            $lot[0]['qty_lot_defact'] = $qtyLotDefacts;
         } else {
-            $lots['qty_lot_defact'] = 0;
+            $lot[0]['qty_lot_defact'] = 0;
         }
 
         $viewData = [
-            'lot' => $lot,
-            'defects' => $$this->defectFinder->findDefects($params),
+            'lot' => $lot[0],
+            'defects' => $this->defectFinder->findDefects($params),
             'lotDefects' => $lotDefects,
             'user_login' => $this->session->get('user'),
         ];
