@@ -56,8 +56,6 @@ final class LabelSplitAction
         // Extract the form data from the request body
 
         $data = (array)$request->getParsedBody();
-        $data['status'] = "VOID";
-        $data['label_void_reason_id'] = "1";
         $labelId = $data['label_id'];
         $printerId = $data['printer_id'];
 
@@ -85,8 +83,10 @@ final class LabelSplitAction
             $dataSP['status'] = "PRINTED";
             $dataSP['label_id'] = $labelId;
             $splitID = $this->splitupdater->insertSplitLabelApi($dataSP, $user_id);
-            $data['split_label_id'] = $splitID;
-            $this->updater->updateLabel($labelId, $data);
+            $data2['split_label_id'] = $splitID;
+            $data2['label_void_reason_id'] = "1";
+            $data2['status'] = "VOID";
+            $this->updater->updateLabel($labelId, $data2);
             $dataSplit = $this->splitLabelFinder->findSplitLabels($findSplitLabel);
             
             for ($i = 0; $i < sizeof($labelDetail); $i++) {
