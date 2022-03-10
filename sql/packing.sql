@@ -413,7 +413,7 @@ CREATE TABLE `label_void_reasons` (
   `created_user_id` int NOT NULL,
   `updated_at` datetime NOT NULL,
   `updated_user_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `label_void_reasons`
@@ -518,7 +518,7 @@ CREATE TABLE `printers` (
   `created_user_id` int NOT NULL,
   `updated_at` datetime NOT NULL,
   `updated_user_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
