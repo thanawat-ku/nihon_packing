@@ -27,6 +27,7 @@
                     <thead>
                     <tr>
                         <th>Lot No</th>
+                        <th>Date</th>
                         <th>Product</th>
                         <th>Quantity</th>
                         <th>Lot Defect QTY</th>
@@ -45,6 +46,7 @@
                         {% if lot.status != "CREATED" %}
                         <td>{{ lot.generate_lot_no }}</td>
                         {% endif %}
+                        <td>{{ lot.issue_date }}</td>
                         <td>{{ '(' ~ lot.part_code ~ ') ' ~ lot.part_name}}</td>
                         <td>{{ lot.quantity }}</td>
                         <td>{{ lot.qty_lot_defact }}</td>
