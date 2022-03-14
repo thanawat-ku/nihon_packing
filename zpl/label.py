@@ -3,7 +3,7 @@ from time import sleep
 z = Zebra()
 z.getqueues()
 z.setqueue('ZDesigner GT800 (EPL)')
-for i in range(10):
+for i in range(1):
     label="""
     ^XA
     ^FO125,15^A0,15,15^FDPartNo:^FS
