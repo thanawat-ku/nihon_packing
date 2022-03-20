@@ -29,6 +29,13 @@ final class SellCpoItemRepository
 
         return (int)$this->queryFactory->newInsert('sell_cpo_items', $row)->execute()->lastInsertId();
     }
+    public function updateSellCpoItemApi(int $id, array $data, $user_id): void
+    {
+        $data['updated_at'] = Chronos::now()->toDateTimeString();
+        $data['updated_user_id'] = $user_id;
+
+        $this->queryFactory->newUpdate('sell_cpo_items', $data)->andWhere(['id' => $id])->execute();
+    }
     public function updateSellCpoItem(int $id, array $data): void
     {
         $data['updated_at'] = Chronos::now()->toDateTimeString();
