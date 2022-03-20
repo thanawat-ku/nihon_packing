@@ -31,7 +31,7 @@
                         <th>Product</th>
                         <th>Quantity</th>
                         <th>Lot Defect QTY</th>
-                        <th>Real Quantity</th>
+                        <th>Actual Quantity</th>
                         <th>STD Pack/Box</th>
                         <th>Status</th>
                         <th>Operation</th>
@@ -86,7 +86,7 @@
     <form id="form-printLot" name ="confirm" action="{{ confirm|json_encode }}">
         <!-- Modal Header -->
         <div class="modal-header">
-          <h4 class="modal-title">Input Real Quantity</h4>
+          <h4 class="modal-title">Input Actual Quantity</h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         <!-- Modal body -->
@@ -96,7 +96,7 @@
             <label for="lotNo">Quantity is: <span id="qtySystem">xxx</span></label></label>
           </div>
           <div>
-          <label for="lotNo">Add Real Quantity</label>
+          <label for="lotNo">Add Actual Quantity</label>
             <input type="number" autocomplete="off" class="form-control" id="realQTY" min="1"  required>
           </div>
           <div class="form-product">
@@ -134,7 +134,7 @@
             <input type="hidden" id="confirmPrintLotID" name ="id">
             <input type="hidden" id="confirmRealQty2" name ="real_qty">
             <input type="hidden" id="addPrinterID2" name ="printer_id">
-            <label for="lotNo">Real Quantity is: <span id="confirmRealQty">xxx</span></label></label>
+            <label for="lotNo">Actual Quantity is: <span id="confirmRealQty">xxx</span></label></label>
           </div>
           <div>
             <label for="lotNo">Do you want to create labels of Lot: <span id="printLotNo">xxx</span> ?</label>   

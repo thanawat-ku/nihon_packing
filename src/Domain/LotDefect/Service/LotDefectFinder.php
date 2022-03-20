@@ -20,4 +20,12 @@ final class LotDefectFinder
     {
         return $this->repository->findLotDefects($params);
     }
+    public function findLotDefectsSigleTable(array $params): array
+    {
+        return $this->repository->findLotDefectsSigleTable($params);
+    }
+    public function findLotDefectsPlusQty(array $params): array
+    {
+        return $this->repository->findLotDefectsPlusQty($params);
+    }
 }

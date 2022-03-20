@@ -125,4 +125,38 @@ final class LotDefectRepository
         return $query->execute()->fetchAll('assoc') ?: [];
     }
 
+    public function findLotDefectsSigleTable(array $params): array
+    {
+        $query = $this->queryFactory->newSelect('lot_defects');
+        $query->select(
+            [
+                'lot_defects.id',
+                'lot_id',
+                'defect_id',
+                'quantity',
+            ]
+        );
+
+        if(isset($params['lot_id'])){
+            $query->andWhere(['lot_id' => $params['lot_id']]);
+        }
+        return $query->execute()->fetchAll('assoc') ?: [];
+    }
+
+    public function findLotDefectsPlusQty(array $params): array
+    {
+        $query = $this->queryFactory->newSelect('lot_defects');
+        $query->select(
+            [
+                'lot_id',
+                'quantity',
+            ]
+        );
+        if(isset($params['lot_id'])){
+            $query->andWhere(['lot_id' => $params['lot_id']]);
+        }
+        return $query->execute()->fetchAll('assoc') ?: [];
+    }
+
+
 }
