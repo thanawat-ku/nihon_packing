@@ -2,7 +2,7 @@
 
 namespace App\Action\Api;
 
-use App\Domain\tag\Service\TagFinder;
+use App\Domain\Tag\Service\TagFinder;
 
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
