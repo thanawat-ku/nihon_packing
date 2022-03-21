@@ -134,6 +134,9 @@ final class LotUpdater
     {
         $result = [];
 
+        if (isset($data['id'])) {
+            $result['id'] = $data['id'];
+        }
         if (isset($data['lot_no'])) {
             $result['lot_no'] = (string)$data['lot_no'];
         }

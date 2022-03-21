@@ -58,11 +58,11 @@ final class LotAction
 
         for ($i = 0; $i < sizeof($lots); $i++) {
             $lotID['lot_id'] = $lots[$i]['id'];
-            $lotDefects = $this->lotDefactFinder->findLotDefects($lotID);
+            $lotDefects = $this->lotDefactFinder->findLotDefectsPlusQty($lotID);
             if (isset($lotDefects[0])) {
                 $qtyLotDefacts  = 0;
-                for ($j = 0; $j < sizeof($lotDefects); $j++) {
-                    $qtyLotDefacts = $qtyLotDefacts + (int)$lotDefects[$j]['quantity'];
+                foreach ($lotDefects as $lotDefect) {
+                    $qtyLotDefacts = $qtyLotDefacts + (int)$lotDefect['quantity'];
                 }
                 $lots[$i]['qty_lot_defact'] = $qtyLotDefacts;
             } else {
