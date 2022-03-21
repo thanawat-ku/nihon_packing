@@ -1,5 +1,7 @@
 $(function () {
-    $('#my-data-table').DataTable();
+    $('#my-data-table').DataTable({
+        "scrollX": true
+    });
 });
 function editLabels(event) {
     let labels = event.currentTarget.name;

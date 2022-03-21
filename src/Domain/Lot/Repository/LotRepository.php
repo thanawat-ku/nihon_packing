@@ -99,6 +99,7 @@ final class LotRepository
                 'product_id',
                 'quantity',
                 'part_code',
+                'part_no',
                 'part_name',
                 'std_pack',
                 'std_box',

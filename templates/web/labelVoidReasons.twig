@@ -31,8 +31,8 @@
                         <td>{{ labelVoidReason.description}}</td>
                         <td>
                         {% if labelVoidReason.id  != "1" and labelVoidReason.id  != "2" %}
-                        <button type="button" id="editBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editCustomer" name="{{ labelVoidReason|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-edit"></i></button>
-                        <button type="button" id="deleteBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteCustomer" name="{{ labelVoidReason|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-trash"></i></button>
+                          <button type="button" id="editBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editCustomer" name="{{ labelVoidReason|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-edit"></i></button>
+                          <button type="button" id="deleteBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteCustomer" name="{{ labelVoidReason|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-trash"></i></button>
                         {% endif %}
                         </td>
                     </tr>

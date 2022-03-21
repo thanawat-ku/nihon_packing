@@ -1,9 +1,8 @@
-// $(function () {
-//     $('#my-data-table').DataTable();
-// });
-
 $(function () {
-    $('#my-data-table').DataTable({ "order": [[0, "desc"]] });
+    $('#my-data-table').DataTable({
+        "order": [[0, "desc"]],
+        "scrollX": true
+    });
     $('#searchIssueStartDate, #searchIssueEndDate').datepicker({
         format: 'yyyy-mm-dd'
     });

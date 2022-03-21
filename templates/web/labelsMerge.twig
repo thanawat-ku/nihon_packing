@@ -22,7 +22,8 @@
                     <thead>
                      <tr>
                         <th>Label No</th>
-                        <th>Product Name</th>
+                        <th>Part Code</th>
+                        <th>Part No</th>
                         <th>Type</th>
                         <th>Quantity</th>
                         <th>Status</th>
@@ -33,18 +34,19 @@
                     {% for label in labels %}                    
                     <tr>
                         <td>{{ label.label_no }}</td>
-                        <td>{{ '(' ~ label.part_code ~ ') ' ~ label.part_name }}</td>
+                        <td>{{ lot.part_code}} </td>
+                        <td>{{ lot.part_no}} </td>
                         <td>{{ label.label_type }}</td>
                         <td>{{ label.quantity }}</td>
                         <td>{{ label.status }}</td>
                         <td>
                         {% if label.status  == "CREATED"%}
-                        <button type="button" id="editBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editLabel" name="{{ label|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-edit"></i></button>
-                        <button type="button" id="deleteBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteLabel" name="{{ label|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-trash"></i></button>
+                          <button type="button" id="editBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editLabel" name="{{ label|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-edit"></i></button>
+                          <button type="button" id="deleteBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteLabel" name="{{ label|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-trash"></i></button>
                         {% endif %}
                         {% if label.status  == "PACKED" %}
-                        <button type="button" id="SplitBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#splitLabel" name="{{ label|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-object-ungroup"></i></button>
-                        <button type="button" id="voidBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#voidLabel" name="{{ label|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-exclamation-triangle"></i></button>
+                          <button type="button" id="SplitBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#splitLabel" name="{{ label|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-object-ungroup"></i></button>
+                          <button type="button" id="voidBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#voidLabel" name="{{ label|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-exclamation-triangle"></i></button>
                         {% endif %}
                         </td>
                     </tr>

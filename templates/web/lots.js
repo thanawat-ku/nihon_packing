@@ -1,5 +1,8 @@
 $(function () {
-    $('#my-data-table').DataTable({ "order": [[0, "desc"]] });
+    $('#my-data-table').DataTable({
+        "order": [[0, "desc"]],
+        "scrollX": true
+    });
     $('#searchIssueStartDate, #searchIssueEndDate').datepicker({
         format: 'yyyy-mm-dd'
     });
@@ -13,7 +16,7 @@ function editLot(event) {
     var obj = JSON.parse(lot);
     $("#editLotID").val(obj.id);
     $("#editLotNo").val(obj.lot_no);
-    $("#editProductID").selectpicker('val',obj.product_id);
+    $("#editProductID").selectpicker('val', obj.product_id);
     $("#editQuantity").val(obj.quantity);
 }
 
@@ -33,7 +36,7 @@ function printLot(event) {
     $("#printLotNo").text(obj.lot_no);
     $("#realQTY").val(obj.quantity);
     $("#qtySystem").text(obj.quantity);
-    
+
 
 }
 
@@ -60,87 +63,87 @@ function registerLot(event) {
 
 }
 
-function syncCustomers(){
+function syncCustomers() {
     $('#syncTable').text("Customer start");
-    $.ajax ({
+    $.ajax({
         type: "GET",
         url: "api/mis_sync_customers",
-        success: function (data) { 
-            if(data.length>0){
-                code = data[0].CustomerCode+' ';
-            }else{
-                code="";
+        success: function (data) {
+            if (data.length > 0) {
+                code = data[0].CustomerCode + ' ';
+            } else {
+                code = "";
             }
             // Append to the html
-            $('#syncTable').text("Customer last code: "+code);
+            $('#syncTable').text("Customer last code: " + code);
             syncProducts();
         }
-   });
+    });
 }
-function syncProducts(){
+function syncProducts() {
     $('#syncTable').text("Product start");
-    $.ajax ({
+    $.ajax({
         type: "GET",
         url: "api/mis_sync_products",
-        success: function (data) { 
-            if(data.length>0){
-                code = data[0].PartCode+' ';
-            }else{
-                code="";
+        success: function (data) {
+            if (data.length > 0) {
+                code = data[0].PartCode + ' ';
+            } else {
+                code = "";
             }
-            $('#syncTable').text("Product last code: "+code);
+            $('#syncTable').text("Product last code: " + code);
             syncSections();
         }
-   });
+    });
 }
 
-function syncSections(){
+function syncSections() {
     $('#syncTable').text("Section start");
-    $.ajax ({
+    $.ajax({
         type: "GET",
         url: "api/mis_sync_sections",
-        success: function (data) { 
-            if(data.length>0){
-                code = data[0].SectionName+' ';
-            }else{
-                code="";
+        success: function (data) {
+            if (data.length > 0) {
+                code = data[0].SectionName + ' ';
+            } else {
+                code = "";
             }
-            $('#syncTable').text("Section last code: "+code);
+            $('#syncTable').text("Section last code: " + code);
             syncDefects();
         }
-   });
+    });
 }
-function syncDefects(){
+function syncDefects() {
     $('#syncTable').text("Defect start");
-    $.ajax ({
+    $.ajax({
         type: "GET",
         url: "api/mis_sync_defects",
-        success: function (data) { 
-            if(data.length>0){
-                code = data[0].CuaseName+' ';
-            }else{
-                code="";
+        success: function (data) {
+            if (data.length > 0) {
+                code = data[0].CuaseName + ' ';
+            } else {
+                code = "";
             }
-            $('#syncTable').text("Defect last code: "+code);
+            $('#syncTable').text("Defect last code: " + code);
             syncLots();
         }
-   });
+    });
 }
-function syncLots(){
+function syncLots() {
     $('#syncTable').text("Lot start");
-    $.ajax ({
+    $.ajax({
         type: "GET",
         url: "api/mis_sync_lots",
-        success: function (data) { 
-            if(data.length>0){
-                code = data[0].LotNo+' ';
-            }else{
-                code="";
+        success: function (data) {
+            if (data.length > 0) {
+                code = data[0].LotNo + ' ';
+            } else {
+                code = "";
             }
             // Append to the html
-            $('#syncTable').text("lot last code: "+code);
+            $('#syncTable').text("lot last code: " + code);
         }
-   });
+    });
 }
 $(document).on(
     "click",

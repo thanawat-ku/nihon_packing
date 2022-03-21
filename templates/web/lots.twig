@@ -23,12 +23,13 @@
                   <button type="submit" class="btn btn-warning" id="searchIssueBt"><i class="fas fa-search fa-lg"></i> Search</button>
                 </form>
                 <hr>
-                <table id="my-data-table" class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline collapsed">
+                <table id="my-data-table" class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline collapsed" style="width:100%">
                     <thead>
                     <tr>
                         <th>Lot No</th>
                         <th>Date</th>
-                        <th>Product</th>
+                        <th>Part Code</th>
+                        <th>Part No</th>
                         <th>Quantity</th>
                         <th>Lot Defect QTY</th>
                         <th>Actual Quantity</th>
@@ -47,7 +48,8 @@
                         <td>{{ lot.generate_lot_no }}</td>
                         {% endif %}
                         <td>{{ lot.issue_date }}</td>
-                        <td>{{ '(' ~ lot.part_code ~ ') ' ~ lot.part_name}}</td>
+                        <td>{{ lot.part_code}} </td>
+                        <td>{{ lot.part_no}} </td>
                         <td>{{ lot.quantity }}</td>
                         <td>{{ lot.qty_lot_defact }}</td>
                         <td>{{ lot.real_qty }}</td>
@@ -55,18 +57,18 @@
                         <td>{{ lot.status }}</td>
                         <td>
                         {% if lot.status == "CREATED" %}
-                        <a href="lot_defect_detail?id={{lot.id}}"><button type="button" class="btn btn-info btn-sm" data-toggle="modal" ><i style="font-size:15px; width:20px;" class="fas fa-tools"></i></button></a>
-                        <button type="button" id="printBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#printLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-print"></i></button>
+                          <a href="lot_defect_detail?id={{lot.id}}"><button type="button" class="btn btn-info btn-sm" data-toggle="modal" ><i style="font-size:15px; width:20px;" class="fas fa-tools"></i></button></a>
+                          <button type="button" id="printBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#printLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-print"></i></button>
                         {% endif %}
                         {% if lot.status == "PRINTED" %}
                           <button type="button" id="registerBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#registerLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-check-circle"></i></button>
                         {% endif %}
                         {% if lot.status != "CREATED" %}
-                        <a href="label_lot?id={{lot.id}}"><button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" ><i style="font-size:15px; width:20px;" class="fas fa-info-circle"></i></button></a> 
+                          <a href="label_lot?id={{lot.id}}"><button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" ><i style="font-size:15px; width:20px;" class="fas fa-info-circle"></i></button></a> 
                         {% endif %}
                         {% if lot.status == "CREATED" %}
-                        <button type="button" id="editBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-edit"></i></button>                   
-                        <button type="button" id="deleteBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-trash"></i></button>    
+                          <button button type="button" id="editBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-edit"></i></button>                   
+                          <button type="button" id="deleteBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-trash"></i></button>    
                         {% endif %}
                         </td>
                     </tr>
