@@ -44,8 +44,6 @@ final class TempQueryRepository
             [
                 
                 'temp_query.cpo_item_id',
-                'cpo_id',
-                'cpo_no',
                 'quantity',
                 'packing_qty',
                 'due_date',
@@ -102,8 +100,6 @@ final class TempQueryRepository
             [
 
                 'temp_query.cpo_item_id',
-                'cpo_id',
-                'cpo_no',
                 'quantity',
                 'packing_qty',
                 'due_date',
@@ -156,8 +152,6 @@ final class TempQueryRepository
             [
 
                 'temp_query.cpo_item_id',
-                'cpo_id',
-                'cpo_no',
                 'quantity',
                 'packing_qty',
                 'due_date',
@@ -176,14 +170,6 @@ final class TempQueryRepository
                 'conditions' => 'p.id = temp_query.product_id',
             ]
         ]);
-
-        // $query->join([
-        //     's' => [
-        //         'table' => 'sells',
-        //         'type' => 'INNER',
-        //         'conditions' => 's.id = \''.$params['sell_id'].'\'',
-        //     ]
-        // ]);
 
         $query->join([
             'sci' => [

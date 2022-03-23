@@ -69,16 +69,6 @@ final class SellDeleteAction
                 $this->updateLabel->updateLabel($rtSellLabel[$i]['label_id'], $upStatus);
             }
 
-            $id['sell_id'] = $sellID;
-            $rtSellCpoItem = $this->sellCpoItemFinder->findSellCpoItems($id);
-
-            $data['cpo_item_id'] = $rtSellCpoItem[0]['cpo_item_id'];
-            $rtCpoItem = $this->cpoItemFinder->findCpoItem($data);
-
-            $packingQty['PackingQty'] = $rtCpoItem[0]['PackingQty'] - $rtSellCpoItem[0]['sell_qty'];
-
-            // $this->cpoItemUpdater->updateCpoItem((int)$data['cpo_item_id'], $packingQty);
-
             $this->sellLabelUpdater->deleteSellLabelApi($sellID);
             $this->sellCpoItemUpdater->deleteCpoItemInSellCpoItemApi($sellID);
 

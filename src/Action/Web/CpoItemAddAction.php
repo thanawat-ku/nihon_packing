@@ -3,9 +3,7 @@
 namespace App\Action\Web;
 
 use App\Domain\CpoItem\Service\CpoItemFinder;
-use App\Domain\CpoItem\Service\CpoItemUpdater;
 use App\Domain\TempQuery\Service\TempQueryFinder;
-use App\Domain\TempQuery\Service\TempQueryUpdater;
 use App\Domain\Sell\Service\SellFinder;
 use App\Domain\SellCpoItem\Service\SellCpoItemUpdater;
 use App\Domain\Sell\Service\SellUpdater;
@@ -25,35 +23,29 @@ final class CpoItemAddAction
      */
     private $responder;
     private $finder;
-    private $updater;
     private $sellCpoItemUpdater;
     private $sellFinder;
     private $sellUpdater;
     private $session;
     private $tempQueryFinder;
-    private $tempQueryUpdater;
 
     public function __construct(
         Twig $twig,
         CpoItemFinder $finder,
-        CpoItemUpdater $updater,
         SellCpoItemUpdater $sellCpoItemUpdater,
         Session $session,
         Responder $responder,
         SellUpdater  $sellUpdater,
         SellFinder $sellFinder,
         TempQueryFinder $tempQueryFinder,
-        TempQueryUpdater $tempQueryUpdater,
     ) {
         $this->twig = $twig;
         $this->finder = $finder;
-        $this->updater = $updater;
         $this->tempQueryFinder = $tempQueryFinder;
         $this->sellFinder = $sellFinder;
         $this->sellFinder = $sellFinder;
         $this->sellUpdater = $sellUpdater;
         $this->sellCpoItemUpdater = $sellCpoItemUpdater;
-        $this->tempQueryUpdater = $tempQueryUpdater;
         $this->session = $session;
         $this->responder = $responder;
     }
@@ -66,11 +58,7 @@ final class CpoItemAddAction
         $rtCpoItem = $this->finder->findCpoItem($data);
 
         $dataCpoItem['PackingQty'] = $rtCpoItem[0]['PackingQty'] + $data['sell_qty'];
-        $cpoItemID = $rtCpoItem[0]['CpoItemID'];
 
-        // $dataCpoItem['packing_qty'] = $dataCpoItem['PackingQty'];
-        // $this->tempQueryUpdater->updateTempquery($cpoItemID, $dataCpoItem);
-        // $this->updater->updateCpoItem($cpoItemID, $dataCpoItem);
 
         $uuid = uniqid();
         $param_search['uuid'] = $uuid;
@@ -96,33 +84,6 @@ final class CpoItemAddAction
 
         $sellRow = $this->sellFinder->findSellRow($sell_id);
         $data1['ProductID'] = $sellRow['product_id'];
-
-        $arrTemQuery = $this->tempQueryFinder->findTempQuery($param_search);
-        $arrCpoItem = $this->finder->findCpoItemSelect($data1);
-        function CheckCpoItemSelect(array $arrTemQuery, array $arrCpoItem)
-        {
-            $arrCpoItemSelect = [];
-            if ($arrTemQuery) {
-
-                for ($i = 0; $i < count($arrCpoItem); $i++) {
-                    $checkCpo = true;
-                    for ($j = 0; $j < count($arrTemQuery); $j++) {
-                        if ($arrCpoItem[$i]['CpoItemID'] == $arrTemQuery[$j]['cpo_item_id']) {
-                            $checkCpo = false;
-                        }
-                    }
-                    if ($checkCpo == true) {
-                        array_push($arrCpoItemSelect, $arrCpoItem[$i]);
-                    }
-                }
-            } else {
-                $arrCpoItemSelect = $arrCpoItem;
-            }
-            if (!$arrCpoItemSelect) {
-                $arrCpoItemSelect = [];
-            }
-            return $arrCpoItemSelect;
-        }
 
         $viewData = [
             'sell_id' => $sellRow['id'],

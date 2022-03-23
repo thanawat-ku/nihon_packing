@@ -82,8 +82,6 @@ final class SellAddAction
             if (!$cpoitemcheck) {
                 foreach ($cpodata as $cpo) {
                     $param_cpo['uuid'] = $uuid;
-                    $param_cpo['cpo_no'] = $cpo['CpoNo'];
-                    $param_cpo['cpo_id'] = $cpo['CpoID'];
                     $param_cpo['cpo_item_id'] = $cpo['CpoItemID'];
                     $param_cpo['product_id'] = $cpo['ProductID'];
                     $param_cpo['quantity'] = $cpo['Quantity'];

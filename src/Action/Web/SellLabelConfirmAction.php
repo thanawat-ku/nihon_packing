@@ -8,7 +8,6 @@ use App\Domain\Sell\Service\SellUpdater;
 use App\Domain\Label\Service\LabelFinder;
 use App\Domain\Label\Service\LabelUpdater;
 use App\Responder\Responder;
-use PhpParser\Node\Stmt\Label;
 use App\Domain\Sell\Service\SellFinder;
 use App\Domain\Tag\Service\TagUpdater;
 use App\Domain\Packing\Service\PackingFinder;

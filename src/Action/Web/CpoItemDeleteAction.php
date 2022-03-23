@@ -55,14 +55,6 @@ final class CpoItemDeleteAction
 
         $sellRow = $this->finder->findSellRow($sellID);
 
-        $rtSellCpoItem = $this->sellCpoItemFinder->findSellCpoItems($data);
-
-        $dataFinder['cpo_item_id'] = $rtSellCpoItem[0]['cpo_item_id'];
-        $data['sell_qty'] = $rtSellCpoItem[0]['sell_qty'];
-        $rtCpoItem = $this->cpoItemFinder->findCpoItem($dataFinder);
-        $dataCpoItem['PackingQty'] = $rtCpoItem[0]['PackingQty'] - $data['sell_qty'];
-        $cpoItemID = $rtCpoItem[0]['CpoItemID'];
-
         $this->sellCpoItemUpdater->deleteSellCpoItemApi($id);
 
         $rtSellCpoItem = $this->sellCpoItemFinder->findSellCpoItems($data);
@@ -75,10 +67,6 @@ final class CpoItemDeleteAction
         }
         $dataSell['total_qty'] = $totalQty;
         $this->updateSell->updateSell($sellID, $dataSell);
-
-        // $dataCpoItem['packing_qty'] = $dataCpoItem['PackingQty'];
-        // $this->tempQueryUpdater->updateTempquery($cpoItemID, $dataCpoItem);
-        // $this->updater->updateCpoItem($cpoItemID, $dataCpoItem);
 
         $viewData = [
             'sell_id' => $sellRow['id'],

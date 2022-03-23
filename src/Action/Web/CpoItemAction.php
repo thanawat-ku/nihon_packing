@@ -3,10 +3,8 @@
 namespace App\Action\Web;
 
 use App\Domain\CpoItem\Service\CpoItemFinder;
-use App\Domain\Product\Service\ProductFinder;
 use App\Domain\Sell\Service\SellFinder;
 use App\Domain\TempQuery\Service\TempQueryFinder;
-use App\Domain\TempQuery\Service\TempQueryUpdater;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -26,17 +24,15 @@ final class CpoItemAction
     private $finder;
     private $tempQueryFinder;
     private $sellFinder;
-    private $tempQueryUpdater;
     private $session;
 
     public function __construct(Twig $twig,CpoItemFinder $finder,TempQueryFinder $tempQueryFinder,
-    Session $session,Responder $responder,TempQueryUpdater  $tempQueryUpdater, SellFinder $sellFinder)
+    Session $session,Responder $responder, SellFinder $sellFinder)
     {
         $this->twig = $twig;
         $this->finder=$finder;
         $this->tempQueryFinder=$tempQueryFinder;
         $this->sellFinder=$sellFinder;
-        $this->tempQueryUpdater=$tempQueryUpdater;
         $this->session=$session;
         $this->responder = $responder;
     }

@@ -75,6 +75,7 @@ final class SellRepository
                 'sell_status',
                 'part_name',
                 'part_code',
+                'part_no',
                 'std_pack',
                 'std_box',
                 'invoice_no',

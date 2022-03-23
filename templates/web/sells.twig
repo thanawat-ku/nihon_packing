@@ -46,7 +46,9 @@
 					<thead>
 						<tr>
 							<th>Sell No</th>
-							<th>Product Name</th>
+							<th>Sell Date</th>
+							<th>Part Code</th>
+							<th>Part No</th>
 							<th>Total Quantity</th>
 							<th>Sell Status</th>
 							<th>Operation</th>
@@ -56,7 +58,9 @@
 						{% for sell in sells %}
 							<tr>
 								<td>{{ sell.sell_no }}</td>
-								<td>{{ '(' ~ sell.part_code ~ ') ' ~ sell.part_name}}</td>
+								<td>{{ sell.sell_date }}</td>
+								<td>{{ sell.part_code }}</td>
+								<td>{{ sell.part_no }}</td>
 								<td>{{ sell.total_qty }}</td>
 								<td>{{ sell.sell_status }}</td>
 								<td>
@@ -153,8 +157,8 @@
 							<label for="email">Select Product</label>
 							<select class="selectpicker form-control" id="addProductID" name="product_id" data-live-search="true">
 								{% for p in products %}
-									<option value={{ p.id }}>({{p.part_code}})
-										{{ p.part_name}}
+									<option value={{ p.id }}>{{p.part_code }} //
+										{{ p.part_no}}
 									</option>
 								{% endfor %}
 							</select>

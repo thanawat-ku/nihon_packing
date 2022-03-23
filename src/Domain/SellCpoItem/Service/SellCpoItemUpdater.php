@@ -56,6 +56,15 @@ final class SellCpoItemUpdater
         $this->repository->updateSellCpoItemApi($id, $row,  $user_id);
 
     }
+    public function updateSellCpoItem(int $id, array $data): void
+    {
+        $this->validator->validateSellCpoItemUpdate($id, $data);
+
+        $row = $this->mapToRow($data);
+
+        $this->repository->updateSellCpoItem($id, $row);
+
+    }
     public function deleteSellCpoItemApi(int $id): void
     {
         $this->repository->deleteSellCpoItem($id);

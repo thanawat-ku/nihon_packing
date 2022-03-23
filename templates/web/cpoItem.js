@@ -6,7 +6,7 @@ function editCpoItem(event) {
     console.log(sell);
     var obj = JSON.parse(sell);
     $("#editCpoItemID").val(obj.id);
-    $("#editCpoNo").text(obj.cpo_no);
+    $("#editCpoItemIDText").text(obj.cpo_item_id);
     $("#editSellQty").val(obj.sell_qty);
     $("#editSellQtyMax").attr({"max":obj.quantity-obj.packing_qty});
     $("#editSellQtyMax").val(obj.sell_qty);
@@ -18,7 +18,7 @@ function deleteCpoItem(event) {
     var obj = JSON.parse(sell);
     $("#deleteSellCpoItemID").val(obj.id);
     $("#deleteSellQty").text(obj.sell_qty);
-    $("#deleteCpoNo").text(obj.cpo_no);
+    $("#deleteCpoItemID").text(obj.cpo_item_id);
 }
 
 function comfirmCpoItem(event) {

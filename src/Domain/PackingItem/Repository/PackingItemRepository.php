@@ -33,8 +33,6 @@ final class PackingItemRepository
 
         $query->select(
             [
-                'CpoNo',
-                'packing_item.CpoID',
                 'PackingItemID',
                 'packing_item.ProductID',
                 'Quantity',

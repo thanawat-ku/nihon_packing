@@ -43,7 +43,7 @@
 				<table id="my-data-table" class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline collapsed">
 					<thead>
 						<tr>
-							<th>CPO No</th>
+							<th>CPO Item ID</th>
 							<th>Due Date</th>
 							<th>Remain Quantity</th>
 							<th>Sell Quantity</th>
@@ -53,7 +53,7 @@
 					<tbody>
 						{% for cpo in CpoItem %}
 							<tr>
-								<td>{{ cpo.cpo_no }}</td>
+								<td>{{ cpo.cpo_item_id }}</td>
 								<td>{{ cpo.due_date}}</td>
 								<td>{{ cpo.quantity - cpo.packing_qty }}</td>
 								<td>{{ cpo.sell_qty }}</td>
@@ -97,8 +97,8 @@
 						<div class="form-sell">
 							<input type="hidden" id="editCpoItemID" name="id">
 							<input type="hidden" id="#" name="sell_id" value="{{sellRow.id}}">
-							<label for="labelNo">CPO No:
-								<span id="editCpoNo"></span>
+							<label for="labelNo">CPO Item ID:
+								<span id="editCpoItemIDText"></span>
 							</label>
 						</div>
 						<div class="form-sell">
@@ -137,7 +137,7 @@
 							<input type="hidden" id="deleteSellCpoItemID" name="id">
 							<input type="hidden" id="#" name="sell_id" value="{{sellRow.id}}">
 							<label for="sellNo">Do you want to delete CPO No:
-								<span id="deleteCpoNo"></span>
+								<span id="deleteCpoItemID"></span>
 								<span id="deleteCpoItemName"></span>
 							</label>
 						</div>
