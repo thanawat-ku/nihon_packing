@@ -43,21 +43,6 @@ final class SellCompleteAction
         $sellID = $data['sell_id'];
         $user_id = $data['user_id'];
 
-        $rtSellRow = $this->finder->findSellRow($sellID);
-        $rtPacking['PackingID'] = $rtSellRow['packing_id'];
-
-        $sumQuantity = 0;
-        $rtPackingItem = $this->findPacking->findPackingItem($rtPacking);
-        for ($i=0; $i < count($rtPackingItem); $i++) { 
-            $sumQuantity += $rtPackingItem[$i]['Quantity'];
-        }
-        
-        $rtSearch['cpo_item_id'] = $rtPackingItem[0]['CpoItemID'];
-        $rtCpoItem = $this->findCpoItem->findCpoItem($rtSearch);
-        $isCpoItem['PackingQty'] = $sumQuantity + $rtCpoItem[0]['PackingQty']; 
-       
-        $this->updateCpoItem->updateCpoItem((int)$rtPackingItem[0]['CpoItemID'], $isCpoItem); 
-
         $data['sell_status'] = 'COMPLETE';
         $this->updater->updateSellStatus($sellID, $data, $user_id);
 

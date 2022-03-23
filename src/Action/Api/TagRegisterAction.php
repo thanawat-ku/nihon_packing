@@ -6,6 +6,9 @@ use App\Domain\Tag\Service\TagFinder;
 use App\Domain\Tag\Service\TagUpdater;
 use App\Domain\Sell\Service\SellFinder;
 use App\Domain\Sell\Service\SellUpdater;
+use App\Domain\Packing\Service\PackingFinder;
+use App\Domain\CpoItem\Service\CpoItemFinder;
+use App\Domain\CpoItem\Service\CpoItemUpdater;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -23,14 +26,20 @@ final class TagRegisterAction
     private $finder;
     private $findSell;
     private $updateSell;
+    private $findPacking;
+    private $findCpoItem;
+    private $updateCpoItem;
 
-    public function __construct(Responder $responder,  TagUpdater $updater, TagFinder $finder, SellFinder $findSell, SellUpdater $updateSell)
+    public function __construct(Responder $responder,  TagUpdater $updater, TagFinder $finder, SellFinder $findSell, SellUpdater $updateSell, PackingFinder $findPacking, CpoItemFinder $findCpoItem, CpoItemUpdater $updateCpoItem)
     {
         $this->responder = $responder;
         $this->updater = $updater;
         $this->finder = $finder;
         $this->findSell = $findSell;
         $this->updateSell = $updateSell;
+        $this->findPacking = $findPacking;
+        $this->findCpoItem = $findCpoItem;
+        $this->updateCpoItem = $updateCpoItem;
     }
 
     public function __invoke(
@@ -61,7 +70,21 @@ final class TagRegisterAction
                 $rtSell = $this->findSell->findSellRow($sellID);
 
                 if ($rtSell['is_completed'] == 'Y') {
-                    
+
+                    $rtPacking['PackingID'] =  $rtSell['packing_id'];
+
+                    $sumQuantity = 0;
+                    $rtPackingItem = $this->findPacking->findPackingItem($rtPacking);
+                    for ($i = 0; $i < count($rtPackingItem); $i++) {
+                        $sumQuantity += $rtPackingItem[$i]['Quantity'];
+                    }
+
+                    $rtSearch['cpo_item_id'] = $rtPackingItem[0]['CpoItemID'];
+                    $rtCpoItem = $this->findCpoItem->findCpoItem($rtSearch);
+                    $isCpoItem['PackingQty'] = $sumQuantity + $rtCpoItem[0]['PackingQty'];
+
+                    $this->updateCpoItem->updateCpoItem((int)$rtPackingItem[0]['CpoItemID'], $isCpoItem);
+
                     $upStatus['status'] = "BOXED";
                     $this->updater->updateTagAllFromSellIDApi($sellID, $upStatus,  $user_id);
 
@@ -71,8 +94,22 @@ final class TagRegisterAction
                     $rtdata['message'] = "Get Tag Successful";
                     $rtdata['error'] = false;
                     $rtdata['tags'] = $this->finder->findTags($data);
-
                 } else if ($rtSell['is_completed'] == 'N') {
+
+                    
+                    $rtPacking['PackingID'] = $rtSell['packing_id'];
+
+                    $sumQuantity = 0;
+                    $rtPackingItem = $this->findPacking->findPackingItem($rtPacking);
+                    for ($i = 0; $i < count($rtPackingItem); $i++) {
+                        $sumQuantity += $rtPackingItem[$i]['Quantity'];
+                    }
+
+                    $rtSearch['cpo_item_id'] = $rtPackingItem[0]['CpoItemID'];
+                    $rtCpoItem = $this->findCpoItem->findCpoItem($rtSearch);
+                    $isCpoItem['PackingQty'] = $sumQuantity + $rtCpoItem[0]['PackingQty'];
+
+                    $this->updateCpoItem->updateCpoItem((int)$rtPackingItem[0]['CpoItemID'], $isCpoItem);
 
                     $upStatus['status'] = "BOXED";
                     $this->updater->updateTagAllFromSellIDApi($sellID, $upStatus,  $user_id);

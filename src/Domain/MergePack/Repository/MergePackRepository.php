@@ -82,6 +82,7 @@ final class MergePackRepository
                 'product_id',
                 'part_code',
                 'part_name',
+                'part_no',
                 'merge_status',
                 'merge_packs.created_user_id',
                 'std_pack',
@@ -129,7 +130,8 @@ final class MergePackRepository
                 'labels.quantity',
                 'labels.status',
                 'part_code',
-                'part_name'
+                'part_name',
+                'part_no',
 
             ]
         );
@@ -154,16 +156,9 @@ final class MergePackRepository
         $query->andWhere(['merge_packs.is_delete' => 'N']);
         $query->where(['OR' => [['label_type' => "MERGE_FULLY"], ['label_type' => "MERGE_NONFULLY"]]]);
 
-        // $query->group([
-        //     'labels.id'
-        //     ]);
-
         if (isset($params['merge_pack_id'])) {
             $query->andWhere(['merge_pack_id' => $params['merge_pack_id']]);
         }
-        // if(isset($params['merge_pack_id'])){
-        //     $query->andWhere(['merge_pack_id' => $params['merge_pack_id']]);
-        // }
 
         return $query->execute()->fetchAll('assoc') ?: [];
     }
