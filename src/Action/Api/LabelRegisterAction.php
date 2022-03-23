@@ -42,12 +42,12 @@ final class LabelRegisterAction
         $params = (array)$request->getParsedBody();
         $lot_id = $params['lot_id'];
         $user_id = $params["user_id"];
-        $data['status'] = "PACKED";
         $getLot['lot_id'] = $lot_id;
-        $lot = $this->lotFinder->findLots($params);
+        $lot = $this->lotFinder->findLotsSingleTalbe($params);
         if ($lot[0]['status'] == "PRINTED") {
-            $this->updater->registerLabelApi($lot_id, $params, $user_id);
-            $this->lotupdater->registerLotApi($lot_id, $params, $user_id);
+            $data['status'] = "PACKED";
+            $this->updater->registerLabelApi($lot_id, $data, $user_id);
+            $this->lotupdater->registerLotApi($lot_id, $data, $user_id);
             $rtdata['message'] = "Registor Label Successful";
             $rtdata['error'] = false;
             $rtdata['labels'] = $this->finder->findLabels($params);
