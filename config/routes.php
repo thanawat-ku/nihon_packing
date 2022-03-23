@@ -148,6 +148,7 @@ return function (App $app) {
 
     $app->get('/api/labels', \App\Action\Api\LabelAction::class);
     $app->get('/api/find_labels_scan', \App\Action\Api\LabelFindForScanAction::class);
+    $app->get('/api/find_labels_scan_in_lot', \App\Action\Api\LabelFindForScanAction::class);
     $app->get('/api/find_labels_scan_split', \App\Action\Api\LabelScanSplitAction::class);
     $app->get('/api/find_labels_scan_split_register', \App\Action\Api\LabelScanSplitRegisterAction::class);
     $app->post('/api/register_label', \App\Action\Api\LabelRegisterAction::class);

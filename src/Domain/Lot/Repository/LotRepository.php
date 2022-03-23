@@ -145,11 +145,13 @@ final class LotRepository
                 'status',
                 'real_qty',
                 'issue_date',
-
             ]
         );
         if (isset($params['lot_id'])) {
             $query->andWhere(['lots.id' => $params["lot_id"]]);
+        }
+        if (isset($params['lot_no'])) {
+            $query->andWhere(['lot_no' => $params['lot_no']]);
         }
         $query->andWhere(['lots.is_delete' => 'N']);
 

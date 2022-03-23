@@ -14,7 +14,7 @@ use Psr\Http\Message\ServerRequestInterface;
 /**
  * Action.
  */
-final class LabelFindForScanAction
+final class LabelFindForScanInLotction
 {
     /**
      * @var Responder
@@ -52,7 +52,7 @@ final class LabelFindForScanAction
         $lotId['lot_id'] = $findlabel[0]['lot_id'];
         $findlabel[0]['generate_lot_no'] = "None";
 
-        if ($findlabel[0]['status'] == "PRINTED" ){
+        if ($findlabel[0]['status'] == "PRINTED") {
             $lot = $this->lotFinder->findLots($lotId);
             if ($lot[0]['status'] == "PRINTED") {
                 $findlabel[0]['generate_lot_no'] = $lot[0]['generate_lot_no'];
