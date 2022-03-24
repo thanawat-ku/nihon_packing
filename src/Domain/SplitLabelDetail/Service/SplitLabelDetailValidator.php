@@ -23,9 +23,8 @@ final class SplitLabelDetailValidator
         $validator = $this->validationFactory->createValidator();
 
         return $validator
-            ->notEmptyString('split_label_no', 'Input required')
-            ->notEmptyString('label_id', 'Input required')
-            ->notEmptyString('status', 'Input required');
+            ->notEmptyString('split_label_id', 'Input required')
+            ->notEmptyString('label_id', 'Input required');
     }
     public function validateSplitLabelDetail(array $data): void
     {
