@@ -226,7 +226,8 @@ final class SellLabelConfirmAction
             }
         }
 
-        $arrSellLabel = $this->finder->findSellLabels($data);
+        $dataSellID['sell_id'] = $data['sell_id'];
+        $arrSellLabel = $this->finder->findSellLabels($dataSellID);
         $dataUpdate['up_status'] = "USED";
         $user_id = $this->session->get('user')["id"];
         for ($i = 0; $i < count($arrSellLabel); $i++) {

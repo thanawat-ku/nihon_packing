@@ -219,7 +219,8 @@ final class ConfirmSellLabelAction
             }
         }
 
-        $sellLabel = $this->finder->findSellLabels($data);
+        $dataSellID['sell_id'] = $data['sell_id'];
+        $sellLabel = $this->finder->findSellLabels($dataSellID);
 
 
         for ($i = 0; $i < count($sellLabel); $i++) {
