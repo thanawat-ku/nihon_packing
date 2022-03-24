@@ -109,7 +109,7 @@ final class SellLabelConfirmAction
             $dataPrefer['sell_id'] = $data['sell_id'];
             $rtSellLabelPrefer = $this->finder->findSellLabels($dataPrefer);
 
-            if ($rtSellLabel[0]['lot_id'] != 0) {
+            if (isset($rtSellLabel[0]['lot_id']) != 0) {
                 for ($i = 0; $i < count($rtSellLabel); $i++) {
                     $labelFinder['lot_id'] = $rtSellLabel[$i]['lot_id'];
                     $labelFinder['sell_id'] = $data['sell_id'];
@@ -134,7 +134,7 @@ final class SellLabelConfirmAction
                     $this->updater->updateSell($sellID, $updateSell);
                 }
             }
-            if ($rtSellLabelPrefer[0]['prefer_lot_id'] != 0) {
+            if (isset($rtSellLabelPrefer[0]['prefer_lot_id']) != 0) {
                 for ($i = 0; $i < count($rtSellLabelPrefer); $i++) {
                     $labelFinder['prefer_lot_id'] = $data[$i]['prefer_lot_id'];
                     $labelFinder['sell_id'] = $data['sell_id'];
@@ -175,7 +175,7 @@ final class SellLabelConfirmAction
             $dataPrefer['sell_id'] = $data['sell_id'];
             $rtSellLabelPrefer = $this->finder->findSellLabels($dataPrefer);
 
-            if ($rtSellLabel[0]['lot_id'] != 0) {
+            if (isset($rtSellLabel[0]['lot_id']) != 0) {
                 for ($i = 0; $i < count($rtSellLabel); $i++) {
                     $labelFinder['lot_id'] = $rtSellLabel[$i]['lot_id'];
                     $labelFinder['sell_id'] = $data['sell_id'];
@@ -200,7 +200,7 @@ final class SellLabelConfirmAction
                     $this->updater->updateSell($sellID, $updateSell);
                 }
             }
-            if ($rtSellLabelPrefer[0]['prefer_lot_id'] != 0) {
+            if (isset($rtSellLabelPrefer[0]['prefer_lot_id']) != 0) {
                 for ($i = 0; $i < count($rtSellLabelPrefer); $i++) {
                     $labelFinder['prefer_lot_id'] = $data[$i]['prefer_lot_id'];
                     $labelFinder['sell_id'] = $data['sell_id'];
