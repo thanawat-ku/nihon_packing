@@ -55,7 +55,8 @@
 							<th>Defect Code</th>
 							<th>Defect Description</th>
 							<th>Section Name</th>
-							<th>Product Name</th>
+							<th>Part Code</th>
+							<th>Part No</th>
 							<th>Quantity</th>
 							{% if scrapRow.scrap_status == "CREATED" or scrapRow.scrap_status == "REJECTED" or scrapRow.scrap_status == "SELECTING" %}
 								<th>Operation</th>
@@ -69,7 +70,8 @@
 								<td>{{ scrapDetail.defect_code }}</td>
 								<td>{{ scrapDetail.defect_description }}</td>
 								<td>{{ scrapDetail.section_name }}</td>
-								<td>{{ '(' ~ scrapDetail.part_code ~ ') ' ~ scrapDetail.part_name}}</td>
+								<td>{{ scrapDetail.part_code }}</td>
+								<td>{{ scrapDetail.part_no}}</td>
 								<td>{{ scrapDetail.scrap_detail_qty }}</td>
 								{% if scrapRow.scrap_status == "CREATED" or scrapRow.scrap_status == "REJECTED" or scrapRow.scrap_status == "SELECTING" %}
 									<td>
@@ -128,8 +130,8 @@
 							<label for="email">Select Product</label>
 							<select class="selectpicker form-control" id="addProductID" name="product_id" data-live-search="true" required>
 								{% for p in products %}
-									<option value={{ p.id }}>({{p.part_code}})
-										{{ p.part_name}}
+									<option value={{ p.id }}>{{p.part_code}}
+									
 									</option>
 								{% endfor %}
 							</select>
@@ -189,8 +191,7 @@
 					<label for="email">Select Product</label>
 					<select class="selectpicker form-control" id="editProductID" name="product_id" data-live-search="true" required>
 						{% for p in products %}
-							<option value={{ p.id }}>({{p.part_code}})
-								{{ p.part_name}}
+						<option value={{ p.id }}>{{p.part_code}}
 							</option>
 						{% endfor %}
 					</select>
@@ -235,8 +236,8 @@
 					<input type="text" autocomplete="off" class="form-control" id="deleteDefectCode" readonly>
 				</div>
 				<div class="form-scrap_detail">
-					<label for="scrap_detailNo">Prodcut Name</label>
-					<input type="text" autocomplete="off" class="form-control" id="deleteProductName" readonly>
+					<label for="scrap_detailNo">Part Code</label>
+					<input type="text" autocomplete="off" class="form-control" id="deleteProductCode" readonly>
 				</div>
 				<div class="form-scrap_detail">
 					<label for="scrap_detailNo">Section Name</label>

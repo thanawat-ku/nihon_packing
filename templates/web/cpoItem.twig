@@ -35,7 +35,8 @@
 				<div>
 					<h5>{{ sellRow.sell_no  ~ '(' ~ sellRow.sell_status ~ ')'}}
 					</h5>
-					<span>{{sellRow.part_name ~ '(' ~ sellRow.part_code ~ ')'}}</span><br>
+					<span>{{'PartCode: ' ~ sellRow.part_code }}</span><br>
+					<span>{{'PartNo: ' ~ sellRow.part_no  }}</span><br>
 					<span>{{'Sell Date: ' ~ sellRow.sell_date}}</span><br>
 					<span>{{'Total Quantity: ' ~ sellRow.total_qty}}</span>
 				</div>
@@ -136,7 +137,7 @@
 						<div class="form-sell">
 							<input type="hidden" id="deleteSellCpoItemID" name="id">
 							<input type="hidden" id="#" name="sell_id" value="{{sellRow.id}}">
-							<label for="sellNo">Do you want to delete CPO No:
+							<label for="sellNo">Do you want to delete CPO Item ID:
 								<span id="deleteCpoItemID"></span>
 								<span id="deleteCpoItemName"></span>
 							</label>

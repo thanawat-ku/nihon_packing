@@ -76,6 +76,7 @@ final class ScrapDetailRepository
                 'scrap_detail_qty' => 'scrap_details.quantity',
                 'part_code',
                 'part_name',
+                'part_no',
                 'section_name',
                 'defect_code',
                 'defect_description',

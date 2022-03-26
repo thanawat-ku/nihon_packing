@@ -27,7 +27,7 @@ function deleteScrapDetail(event) {
     var obj = JSON.parse(scrapDetail);
     $("#deleteScrapDetailID").val(obj.id);
     $("#deleteDefectCode").val('(' + obj.defect_code + ')' + obj.defect_description);
-    $("#deleteProductName").val('(' + obj.part_code + ')' + obj.part_name);
+    $("#deleteProductCode").val(obj.part_code);
     $("#deleteSectionName").val('(' + obj.section_name + ')' + obj.defect_description);
     $("#deleteQuantity").val(obj.scrap_detail_qty);
 
