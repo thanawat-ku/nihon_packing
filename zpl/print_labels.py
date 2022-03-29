@@ -8,30 +8,30 @@ def print_label(printer_name,part_no,part_name,lot_no,qty,label_no,visual_by,pac
     z = Zebra()
     z.getqueues()
     z.setqueue(printer_name)
-    label="""^XA
-    ^FO135,10^A0,15,15^FDPartNo:^FS
-    ^FO135,30^A0,20,20^FD"""+part_no+"""^FS
-    ^FO135,50^GB280,3,3^FS
-    ^FO135,60^A0,15,15^FDPartName:^FS
-    ^FO135,80^A0,20,20^FD"""+part_name+"""^FS
-    ^FO135,100^GB280,3,3^FS
-    ^FO135,110^A0,15,15^FDLotNo:^FS
-    ^FO135,130^A0,20,20^FD"""+lot_no+"""^FS
-    ^FO410,60^GB270,3,3^FS
-    ^FO425,10^A0,15,15^FDQuantity:^FS
-    ^FO500,10^A0,60,60^FD"""+str(qty)+"""^FS
-    ^FO410,10^GB5,180,3^FS
-    ^FO425,70^BY2^BC,60,,,,A^FD"""+label_no+"""^FS
-    ^FO410,155^GB270,3,3^FS
-    ^FO135,150^GB280,3,3^FS
-    ^FO135,160^A0,15,15^FDVisual By:^FS
-    ^FO135,175^A0,20,20^FD"""+visual_by+"""^FS
-^FO275,150^GB3,40,3^FS
-^FO285,160^A0,15,15^FDPack By:^FS
-    ^FO430,165^A0,25,25^FDNIHON SEIKI THAI LTD.^FS
-    ^XZ
-    """
-
+    label="""
+^XA
+^FO15,10^A0,15,15^FDPartNo:^FS
+^FO15,30^A0,20,20^FD"""+part_no+"""^FS
+^FO15,50^GB280,3,3^FS
+^FO15,60^A0,15,15^FDPartName:^FS
+^FO15,80^A0,20,20^FD"""+part_name+"""^FS
+^FO15,100^GB280,3,3^FS
+^FO15,110^A0,15,15^FDLotNo:^FS
+^FO15,130^A0,20,20^FD"""+lot_no+"""^FS
+^FO290,60^GB270,3,3^FS
+^FO305,10^A0,15,15^FDQuantity:^FS
+^FO380,10^A0,60,60^FD"""+qty+"""^FS
+^FO290,10^GB5,180,3^FS
+^FO305,70^BY2^BC,60,,,,A^FD"""+label_no+"""^FS
+^FO290,155^GB270,3,3^FS
+^FO15,150^GB280,3,3^FS
+^FO15,160^A0,15,15^FDVisual By:^FS
+^FO15,175^A0,20,20^FD"""+visual_by+"""^FS
+^FO155,150^GB3,40,3^FS
+^FO165,160^A0,15,15^FDPack By:^FS
+^FO165,175^A0,20,20^FD"""+pack_by+"""^FS
+^FO310,165^A0,25,25^FDNIHON SEIKI THAI LTD.^FS
+^XZ"""
     print(label)
     #z.autosense()
     #z.setup( direct_thermal=None, label_height=None, label_width=609 )
