@@ -34,6 +34,10 @@ final class PackingItemUpdater
 
         return $id;
     }
+    public function deletePackingItemAll(int $id): void
+    {
+        $this->repository->deletePackingItemAll($id);
+    }
 
     private function mapToRow(array $data): array
     {

@@ -12,6 +12,9 @@ use App\Domain\Sell\Service\SellUpdater;
 use App\Domain\CpoItem\Service\CpoItemFinder;
 use App\Domain\CpoItem\Service\CpoItemUpdater;
 use App\Domain\TempQuery\Service\TempQueryUpdater;
+use App\Domain\Packing\Service\PackingUpdater;
+use App\Domain\PackingItem\Service\PackingItemUpdater;
+
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -35,10 +38,12 @@ final class SellDeleteAction
     private $findCpoItem;
     private $updateCpoItem;
     private $updateTempQuery;
+    private $packingUpdater;
+    private $packingItemUpdater;
 
 
 
-    public function __construct(Responder $responder, SellFinder $finder,  SellUpdater $updater, SellLabelFinder $findSellLabel, SellLabelUpdater $updateSellLabel, LabelUpdater $updateLabel, SellCpoItemFinder $findSellCpoItem, SellCpoItemUpdater $updateSellCpoItem, CpoItemFinder $findCpoItem, CpoItemUpdater $updateCpoItem, TempQueryUpdater $updateTempQuery)
+    public function __construct(Responder $responder, SellFinder $finder,  SellUpdater $updater, SellLabelFinder $findSellLabel, SellLabelUpdater $updateSellLabel, LabelUpdater $updateLabel, SellCpoItemFinder $findSellCpoItem, SellCpoItemUpdater $updateSellCpoItem, CpoItemFinder $findCpoItem, CpoItemUpdater $updateCpoItem, TempQueryUpdater $updateTempQuery, PackingUpdater $packingUpdater, PackingItemUpdater $packingItemUpdater)
     {
         $this->responder = $responder;
         $this->finder = $finder;
@@ -51,6 +56,8 @@ final class SellDeleteAction
         $this->findCpoItem = $findCpoItem;
         $this->updateCpoItem = $updateCpoItem;
         $this->updateTempQuery = $updateTempQuery;
+        $this->packingUpdater = $packingUpdater;
+        $this->packingItemUpdater = $packingItemUpdater;
     }
 
     public function __invoke(
@@ -64,9 +71,30 @@ final class SellDeleteAction
         $user_id = $data['user_id'];
 
         $rtSell = $this->finder->findSells($data);
-        if ($rtSell[0]['sell_status'] == "CONFIRM" || $rtSell[0]['sell_status'] == "TAGGED" || $rtSell[0]['sell_status'] == "INVOICED") {
+        if ($rtSell[0]['sell_status'] == "COMPLETE") {
             return $this->responder->withJson($response, null);
         } else {
+
+            if ($rtSell[0]['sell_status'] == "PRINTED") {
+                $packingID = $rtSell[0]['packing_id'];
+                $this->packingItemUpdater->deletePackingItemAll($packingID);
+                $this->packingUpdater->deletePacking($packingID);
+            } else if ($rtSell[0]['sell_status'] == "INVOICED" || $rtSell[0]['sell_status'] == "TAGGED") {
+                $packingID = $rtSell[0]['packing_id'];
+                $searchSellCpoItem['sell_id']=$sellID;
+                $rowSellCpoItem = $this->findSellCpoItem->findSellCpoItems($searchSellCpoItem);
+                $searchCpoItem['cpo_item_id'] = $rowSellCpoItem[0]['cpo_item_id'];
+                $rowCpoItem = $this->findCpoItem->findCpoItem($searchCpoItem);
+
+                $packingQtyOld = $rowCpoItem[0]['PackingQty']; 
+                $packingQtyNew['PackingQty'] = $packingQtyOld - $rowSellCpoItem[0]['sell_qty'];
+                
+                $this->updateCpoItem->updateCpoItem((int)$rowSellCpoItem[0]['cpo_item_id'], $packingQtyNew); 
+
+                $this->packingItemUpdater->deletePackingItemAll($packingID);
+                $this->packingUpdater->deletePacking($packingID);
+                
+            }
             
             $rtSellLabel = $this->findSellLabel->findSellLabels($data);
             $upStatus['status'] = "PACKED";

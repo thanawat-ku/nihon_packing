@@ -94,7 +94,7 @@
 											<i style="font-size:15px; width:20px;" class="fas fa-edit"></i>
 										</button>
 									{% endif %}
-									{% if sell.sell_status == "CREATED" or sell.sell_status == "SELECTING_CPO" or sell.sell_status == "SELECTED_CPO" %}
+									{% if sell.sell_status != "COMPLETE" %}
 										<button type="button" id="deleteBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteSell" name="{{ sell|json_encode }}">
 											<i style="font-size:15px; width:20px;" class="fas fa-trash"></i>
 										</button>

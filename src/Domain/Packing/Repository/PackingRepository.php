@@ -32,10 +32,12 @@ final class PackingRepository
     public function insertPackingApi(array $row, $user_id): int
     {
         $row['UserID'] = $user_id;
-
         return (int)$this->queryFactory2->newInsert('packing', $row)->execute()->lastInsertId();
     }
-   
+    public function deletePacking(int $id): void
+    {
+        $this->queryFactory2->newDelete('packing')->andWhere(['PackingID' => $id])->execute();
+    }
 
     public function findPacking(array $params): array
     {
@@ -51,7 +53,7 @@ final class PackingRepository
                 'UserID',
             ]
         );
-        
+
         $query->orderDesc('PackingID');
 
         if (isset($params["startDate"])) {
@@ -75,7 +77,7 @@ final class PackingRepository
 
             ]
         );
-        
+
         $query->join([
             'pt' => [
                 'table' => 'packing_item',

@@ -54,10 +54,10 @@ final class PackingUpdater
     //     $this->repository->updatePacking($id, $row);
     // }
     
-    // public function deletePacking(int $id): void
-    // {
-    //     $this->repository->deletePacking($id);
-    // }
+    public function deletePacking(int $id): void
+    {
+        $this->repository->deletePacking($id);
+    }
 
     /**
      * Map data to row.
