@@ -77,11 +77,9 @@ final class MergeAddFromLabelAction
             ($label[0]['label_type'] == "NONFULLY" || $label[0]['label_type'] == "MERGE_NONFULLY")
         ) {
             $user_id = $this->session->get('user')["id"];
-            $dataMerge['merge_status'] = "MERGING";
-            $dataMerge['product_id'] = $label[0]['product_id'];
-            $dataMerge['merge_status'] = "MERGING";
-            $mergeId = $this->updater->insertMergePackApi($dataMerge, $user_id);
-            $labeId = $label[0]['id'];
+            $dataMerge['product_id'] = $label[0]['product_id']; 
+            $mergeId = $this->updater->insertMergePackFromLabel($dataMerge, $user_id);
+            $labeId = $label[0]['id']; 
             $dataMergeDetail['label_id'] = $labeId;
             $dataMergeDetail['merge_pack_id'] = $mergeId;
             $this->mergeDetailUpdater->insertMergePackDetail($dataMergeDetail);

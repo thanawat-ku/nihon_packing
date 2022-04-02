@@ -29,6 +29,17 @@ final class MergePackRepository
 
         return (int)$this->queryFactory->newInsert('merge_packs', $row)->execute()->lastInsertId();
     }
+    public function insertMergePackFromLabel(array $row, $user_id): int
+    {
+        $row['created_at'] = Chronos::now()->toDateTimeString();
+        $row['created_user_id'] = $user_id;
+        $row['updated_at'] = Chronos::now()->toDateTimeString();
+        $row['updated_user_id'] = $user_id;
+
+        $row['merge_status'] = "MERGING";
+
+        return (int)$this->queryFactory->newInsert('merge_packs', $row)->execute()->lastInsertId();
+    }
     public function updateMergePackApi(int $lotID, array $data, $user_id): void
     {
         $data['updated_at'] = Chronos::now()->toDateTimeString();
