@@ -39,7 +39,8 @@
                     <tr>
                         
                         <td>{{ merge.merge_no}}</td>  
-                         <td>{{ '(' ~ merge.part_code ~ ') ' ~ merge.part_name}}</td> 
+                        <td>{{ merge.part_code}} </td>
+                        <td>{{ merge.part_no}} </td> 
                         <td>{{ merge.merge_status }}</td>
                         <td>{{ merge.std_pack ~ '/' ~ merge.std_box }}</td>
                         <td>
@@ -170,7 +171,7 @@
             <label for="email">Product</label>
             <select class="selectpicker form-control"  id="editProductID" name="product_id" data-live-search="true">
             {% for p in products %}
-              <option value={{ p.id }}>({{p.part_code}}) {{ p.part_name}} </option>
+              <option value={{ p.id }}>({{p.part_code}}) {{ p.part_no}} </option>
             {% endfor %}
             </select>
           </div>           
@@ -204,7 +205,7 @@
             <label for="email">Product</label>
             <select class="selectpicker form-control"  id="addProductID" name="product_id" data-live-search="true">
             {% for p in products %}
-              <option value={{ p.id }}>({{p.part_code}}) {{ p.part_name}} </option>
+              <option value={{ p.id }}>({{p.part_code}}) {{ p.part_no}} </option>
             {% endfor %}
             </select>
           </div>           
