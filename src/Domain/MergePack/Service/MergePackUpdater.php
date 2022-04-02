@@ -29,7 +29,7 @@ final class MergePackUpdater
 
         $row = $this->mapToMergePackRow($data);
         $row['merge_date'] = date('Y-m-d');
-
+        $row['merge_no'] = "X" . str_pad(0, 11, "0", STR_PAD_LEFT);
         $id = $this->repository->insertMergePackApi($row, $user_id);
 
         $data1['merge_no'] = "M" . str_pad($id, 11, "0", STR_PAD_LEFT);
