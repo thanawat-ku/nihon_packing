@@ -79,6 +79,7 @@ final class MergeAddFromLabelAction
             $user_id = $this->session->get('user')["id"];
             $dataMerge['merge_status'] = "MERGING";
             $dataMerge['product_id'] = $label[0]['product_id'];
+            $dataMerge['merge_status'] = "MERGING";
             $mergeId = $this->updater->insertMergePackApi($dataMerge, $user_id);
             $labeId = $label[0]['id'];
             $dataMergeDetail['label_id'] = $labeId;
