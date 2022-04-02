@@ -95,6 +95,7 @@
         <div class="modal-body">          
           <div class="form-product">
             <input type="hidden" id="printLotID">
+            <input type="hidden" id="stdPack">
             <label for="lotNo">Quantity is: <span id="qtySystem">xxx</span></label></label>
           </div>
           <div>
@@ -136,10 +137,19 @@
             <input type="hidden" id="confirmPrintLotID" name ="id">
             <input type="hidden" id="confirmRealQty2" name ="real_qty">
             <input type="hidden" id="addPrinterID2" name ="printer_id">
-            <label for="lotNo">Actual Quantity is: <span id="confirmRealQty">xxx</span></label></label>
+            <label for="lotNo">Actual Quantity is: <span id="confirmRealQty">xxx</span></label>
           </div>
           <div>
             <label for="lotNo">Do you want to create labels of Lot: <span id="printLotNo">xxx</span> ?</label>   
+          </div>
+          <div>
+            <label for="lotNo">Label : <span id="numLabel">xxx</span> item</label>   
+          </div>
+          <div>
+            <label for="lotNo">Label Fully: <span id="numLabelFully">xxx</span> item</label>
+          </div> 
+          <div>
+            <label for="lotNo">Label Non Fully: <span id="numLabelNonFully">xxx</span> item</label>
           </div> 
           <div class="form-spec">
           <label for="lotNo">    <span id="spec">  </span></label>
