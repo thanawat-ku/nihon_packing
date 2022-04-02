@@ -54,7 +54,7 @@ final class LabelFindForScanInLotction
 
         if ($findlabel[0]['status'] == "PRINTED") {
             $lot = $this->lotFinder->findLots($lotId);
-            if ($lot[0]['status'] == "PRINTED") {
+            if ($lot[0]['status'] == "PRINTED" && $lotId['lot_id'] == $data['lot_id']) {
                 $findlabel[0]['generate_lot_no'] = $lot[0]['generate_lot_no'];
                 $rtdata['message'] = "find Label for scan Successful";
                 $rtdata['error'] = false;
