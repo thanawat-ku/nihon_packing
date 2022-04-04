@@ -109,7 +109,7 @@ final class SellLabelConfirmAction
             $dataPrefer['sell_id'] = $data['sell_id'];
             $rtSellLabelPrefer = $this->finder->findSellLabels($dataPrefer);
 
-            if (isset($rtSellLabel[0]['lot_id']) != 0) {
+            if (isset($rtSellLabel[0]['lot_id']) != 0 && $rtSellLabel[0]['label_type'] != "MERGE_NONFULLY") {
                 for ($i = 0; $i < count($rtSellLabel); $i++) {
                     $labelFinder['lot_id'] = $rtSellLabel[$i]['lot_id'];
                     $labelFinder['sell_id'] = $data['sell_id'];
@@ -175,7 +175,7 @@ final class SellLabelConfirmAction
             $dataPrefer['sell_id'] = $data['sell_id'];
             $rtSellLabelPrefer = $this->finder->findSellLabels($dataPrefer);
 
-            if (isset($rtSellLabel[0]['lot_id']) != 0) {
+            if (isset($rtSellLabel[0]['lot_id']) != 0 && $rtSellLabel[0]['label_type'] != "MERGE_NONFULLY") {
                 for ($i = 0; $i < count($rtSellLabel); $i++) {
                     $labelFinder['lot_id'] = $rtSellLabel[$i]['lot_id'];
                     $labelFinder['sell_id'] = $data['sell_id'];
