@@ -108,54 +108,57 @@ final class SellLabelConfirmAction
             $dataPrefer['find_prefer_lot_id'] = true;
             $dataPrefer['sell_id'] = $data['sell_id'];
             $rtSellLabelPrefer = $this->finder->findSellLabels($dataPrefer);
+            if (isset($rtSellLabel)) {
+                if ($rtSellLabel[0]['lot_id'] != 0) {
+                    for ($i = 0; $i < count($rtSellLabel); $i++) {
+                        $labelFinder['lot_id'] = $rtSellLabel[$i]['lot_id'];
+                        $labelFinder['sell_id'] = $data['sell_id'];
+                        $rtLabelFromSellLabel = $this->finder->findSellLabels($labelFinder);
+                        $rtsellCpoItem = $this->sellCpoItemFinder->findSellCpoItems($data);
 
-            if (isset($rtSellLabel[0]['lot_id']) != 0 && $rtSellLabel[0]['label_type'] != "MERGE_NONFULLY") {
-                for ($i = 0; $i < count($rtSellLabel); $i++) {
-                    $labelFinder['lot_id'] = $rtSellLabel[$i]['lot_id'];
-                    $labelFinder['sell_id'] = $data['sell_id'];
-                    $rtLabelFromSellLabel = $this->finder->findSellLabels($labelFinder);
-                    $rtsellCpoItem = $this->sellCpoItemFinder->findSellCpoItems($data);
+                        $isPackingItem['PackingID'] = $packingID;
+                        $isPackingItem['InvoiceItemID'] = 0;
+                        $isPackingItem['LotID'] = $rtSellLabel[$i]['lot_id'];
+                        $isPackingItem['CpoItemID'] = $rtsellCpoItem[0]['cpo_item_id'];
 
-                    $isPackingItem['PackingID'] = $packingID;
-                    $isPackingItem['InvoiceItemID'] = 0;
-                    $isPackingItem['LotID'] = $rtSellLabel[$i]['lot_id'];
-                    $isPackingItem['CpoItemID'] = $rtsellCpoItem[0]['cpo_item_id'];
+                        $sumQty = 0;
+                        for ($j = 0; $j < count($rtLabelFromSellLabel); $j++) {
+                            $sumQty += $rtLabelFromSellLabel[$j]['quantity'];
+                        }
+                        $isPackingItem['Quantity'] = $sumQty;
 
-                    $sumQty = 0;
-                    for ($j = 0; $j < count($rtLabelFromSellLabel); $j++) {
-                        $sumQty += $rtLabelFromSellLabel[$j]['quantity'];
+
+                        $this->packingItemUpdate->insertPackingItem($isPackingItem);
+
+                        $updateSell['packing_id'] =  $isPackingItem['PackingID'];
+                        $this->updater->updateSell($sellID, $updateSell);
                     }
-                    $isPackingItem['Quantity'] = $sumQty;
-
-
-                    $this->packingItemUpdate->insertPackingItem($isPackingItem);
-
-                    $updateSell['packing_id'] =  $isPackingItem['PackingID'];
-                    $this->updater->updateSell($sellID, $updateSell);
                 }
             }
-            if (isset($rtSellLabelPrefer[0]['prefer_lot_id']) != 0) {
-                for ($i = 0; $i < count($rtSellLabelPrefer); $i++) {
-                    $labelFinder['prefer_lot_id'] = $data[$i]['prefer_lot_id'];
-                    $labelFinder['sell_id'] = $data['sell_id'];
-                    $rtLabelFromSellLabel = $this->finder->findSellLabels($labelFinder);
-                    $rtsellCpoItem = $this->sellCpoItemFinder->findSellCpoItems($data);
+            if (isset($rtSellLabelPrefer)) {
+                if ($rtSellLabelPrefer[0]['prefer_lot_id'] != 0) {
+                    for ($i = 0; $i < count($rtSellLabelPrefer); $i++) {
+                        $labelFinder['prefer_lot_id'] = $data[$i]['prefer_lot_id'];
+                        $labelFinder['sell_id'] = $data['sell_id'];
+                        $rtLabelFromSellLabel = $this->finder->findSellLabels($labelFinder);
+                        $rtsellCpoItem = $this->sellCpoItemFinder->findSellCpoItems($data);
 
-                    $isPackingItem['PackingID'] = $packingID;
-                    $isPackingItem['InvoiceItemID'] = 0;
-                    $isPackingItem['LotID'] = $rtSellLabel[$i]['prefer_lot_id'];
-                    $isPackingItem['CpoItemID'] = $rtsellCpoItem[0]['cpo_item_id'];
+                        $isPackingItem['PackingID'] = $packingID;
+                        $isPackingItem['InvoiceItemID'] = 0;
+                        $isPackingItem['LotID'] = $rtSellLabel[$i]['prefer_lot_id'];
+                        $isPackingItem['CpoItemID'] = $rtsellCpoItem[0]['cpo_item_id'];
 
-                    $sumQty = 0;
-                    for ($j = 0; $j < count($rtLabelFromSellLabel); $j++) {
-                        $sumQty += $rtLabelFromSellLabel[$j]['quantity'];
+                        $sumQty = 0;
+                        for ($j = 0; $j < count($rtLabelFromSellLabel); $j++) {
+                            $sumQty += $rtLabelFromSellLabel[$j]['quantity'];
+                        }
+                        $isPackingItem['Quantity'] = $sumQty;
+
+                        $this->packingItemUpdate->insertPackingItem($isPackingItem);
+
+                        $updateSell['packing_id'] =  $isPackingItem['PackingID'];
+                        $this->updater->updateSell($sellID, $updateSell);
                     }
-                    $isPackingItem['Quantity'] = $sumQty;
-
-                    $this->packingItemUpdate->insertPackingItem($isPackingItem);
-
-                    $updateSell['packing_id'] =  $isPackingItem['PackingID'];
-                    $this->updater->updateSell($sellID, $updateSell);
                 }
             }
         } else {
@@ -174,54 +177,57 @@ final class SellLabelConfirmAction
             $dataPrefer['find_prefer_lot_id'] = true;
             $dataPrefer['sell_id'] = $data['sell_id'];
             $rtSellLabelPrefer = $this->finder->findSellLabels($dataPrefer);
+            if (isset($rtSellLabel)) {
+                if ($rtSellLabel[0]['lot_id'] != 0) {
+                    for ($i = 0; $i < count($rtSellLabel); $i++) {
+                        $labelFinder['lot_id'] = $rtSellLabel[$i]['lot_id'];
+                        $labelFinder['sell_id'] = $data['sell_id'];
+                        $rtLabelFromSellLabel = $this->finder->findSellLabels($labelFinder);
+                        $rtsellCpoItem = $this->sellCpoItemFinder->findSellCpoItems($data);
 
-            if (isset($rtSellLabel[0]['lot_id']) != 0 && $rtSellLabel[0]['label_type'] != "MERGE_NONFULLY") {
-                for ($i = 0; $i < count($rtSellLabel); $i++) {
-                    $labelFinder['lot_id'] = $rtSellLabel[$i]['lot_id'];
-                    $labelFinder['sell_id'] = $data['sell_id'];
-                    $rtLabelFromSellLabel = $this->finder->findSellLabels($labelFinder);
-                    $rtsellCpoItem = $this->sellCpoItemFinder->findSellCpoItems($data);
+                        $isPackingItem['PackingID'] = $packingID;
+                        $isPackingItem['InvoiceItemID'] = 0;
+                        $isPackingItem['LotID'] = $rtSellLabel[$i]['lot_id'];
+                        $isPackingItem['CpoItemID'] = $rtsellCpoItem[0]['cpo_item_id'];
 
-                    $isPackingItem['PackingID'] = $packingID;
-                    $isPackingItem['InvoiceItemID'] = 0;
-                    $isPackingItem['LotID'] = $rtSellLabel[$i]['lot_id'];
-                    $isPackingItem['CpoItemID'] = $rtsellCpoItem[0]['cpo_item_id'];
+                        $sumQty = 0;
+                        for ($j = 0; $j < count($rtLabelFromSellLabel); $j++) {
+                            $sumQty += $rtLabelFromSellLabel[$j]['quantity'];
+                        }
+                        $isPackingItem['Quantity'] = $sumQty;
 
-                    $sumQty = 0;
-                    for ($j = 0; $j < count($rtLabelFromSellLabel); $j++) {
-                        $sumQty += $rtLabelFromSellLabel[$j]['quantity'];
+
+                        $this->packingItemUpdate->insertPackingItem($isPackingItem);
+
+                        $updateSell['packing_id'] =  $isPackingItem['PackingID'];
+                        $this->updater->updateSell($sellID, $updateSell);
                     }
-                    $isPackingItem['Quantity'] = $sumQty;
-
-
-                    $this->packingItemUpdate->insertPackingItem($isPackingItem);
-
-                    $updateSell['packing_id'] =  $isPackingItem['PackingID'];
-                    $this->updater->updateSell($sellID, $updateSell);
                 }
             }
-            if (isset($rtSellLabelPrefer[0]['prefer_lot_id']) != 0) {
-                for ($i = 0; $i < count($rtSellLabelPrefer); $i++) {
-                    $labelFinder['prefer_lot_id'] = $data[$i]['prefer_lot_id'];
-                    $labelFinder['sell_id'] = $data['sell_id'];
-                    $rtLabelFromSellLabel = $this->finder->findSellLabels($labelFinder);
-                    $rtsellCpoItem = $this->sellCpoItemFinder->findSellCpoItems($data);
+            if (isset($rtSellLabelPrefer)) {
+                if ($rtSellLabelPrefer[0]['prefer_lot_id'] != 0) {
+                    for ($i = 0; $i < count($rtSellLabelPrefer); $i++) {
+                        $labelFinder['prefer_lot_id'] = $data[$i]['prefer_lot_id'];
+                        $labelFinder['sell_id'] = $data['sell_id'];
+                        $rtLabelFromSellLabel = $this->finder->findSellLabels($labelFinder);
+                        $rtsellCpoItem = $this->sellCpoItemFinder->findSellCpoItems($data);
 
-                    $isPackingItem['PackingID'] = $packingID;
-                    $isPackingItem['InvoiceItemID'] = 0;
-                    $isPackingItem['LotID'] = $rtSellLabel[$i]['prefer_lot_id'];
-                    $isPackingItem['CpoItemID'] = $rtsellCpoItem[0]['cpo_item_id'];
+                        $isPackingItem['PackingID'] = $packingID;
+                        $isPackingItem['InvoiceItemID'] = 0;
+                        $isPackingItem['LotID'] = $rtSellLabel[$i]['prefer_lot_id'];
+                        $isPackingItem['CpoItemID'] = $rtsellCpoItem[0]['cpo_item_id'];
 
-                    $sumQty = 0;
-                    for ($j = 0; $j < count($rtLabelFromSellLabel); $j++) {
-                        $sumQty += $rtLabelFromSellLabel[$j]['quantity'];
+                        $sumQty = 0;
+                        for ($j = 0; $j < count($rtLabelFromSellLabel); $j++) {
+                            $sumQty += $rtLabelFromSellLabel[$j]['quantity'];
+                        }
+                        $isPackingItem['Quantity'] = $sumQty;
+
+                        $this->packingItemUpdate->insertPackingItem($isPackingItem);
+
+                        $updateSell['packing_id'] =  $isPackingItem['PackingID'];
+                        $this->updater->updateSell($sellID, $updateSell);
                     }
-                    $isPackingItem['Quantity'] = $sumQty;
-
-                    $this->packingItemUpdate->insertPackingItem($isPackingItem);
-
-                    $updateSell['packing_id'] =  $isPackingItem['PackingID'];
-                    $this->updater->updateSell($sellID, $updateSell);
                 }
             }
         }
