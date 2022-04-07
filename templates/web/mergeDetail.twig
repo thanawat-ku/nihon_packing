@@ -6,7 +6,7 @@
 
 {% block js %}
     {% webpack_entry_js 'layout/datatables' %}
-    {% webpack_entry_js 'web/mergeDetail' %} <!-- Focus that!!!! -->
+    {% webpack_entry_js 'web/mergeDetail' %} 
 {% endblock %}
 
 {% block content %}
@@ -52,7 +52,7 @@
                         <td>{{ label.generate_lot_no	 }}</td>
                         {% endif %}
                         <td>{{ label.merge_no}}</td>
-                        <<td>{{ label.part_code}} </td>
+                        <td>{{ label.part_code}} </td>
                         <td>{{ label.part_no}} </td>
                         <td>{{ label.label_type }}</td>
                         <td>{{ label.quantity }}</td>
