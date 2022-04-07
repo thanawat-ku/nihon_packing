@@ -110,9 +110,30 @@ final class CheckLabelScanAction
                         array_push($listLabelFronMerge, $rtLabel[0][0]);
                     }
                 } else {
-                    $rtdata['message'] = "Get SellLabel Successful";
-                    $rtdata['error'] = true;
-                    break;
+                    // $rtdata['message'] = "Get SellLabel Successful";
+                    // $rtdata['error'] = true;
+                    // break;
+                    $insertMergeDetail['merge_pack_id'] = $mergePackID;
+                    $insertMergeDetail['label_id'] = $labelRow[0]['id'];
+                    $labelRow['check_product_id'] = $productID;
+                    $id = $this->upmergepackdetail->insertMergePackDetailCheckApi($insertMergeDetail, $user_id);
+                    $this->updater->updateLabelStatusMerging($id, $labelRow, $user_id);
+
+                    if ($labelRow[0]['lot_id'] != 0) {
+                        $data["merge_pack_id"] = $mergePackID;
+                        $rtdata['message'] = "Get Label Successful";
+                        $rtdata['error'] = false;
+                        $rtLabel[0] = $this->mergepackDetailFinder->findMergePackDetailFromLots($data);
+
+                        array_push($listLabelFronLot, $rtLabel[0][0]);
+                    } else {
+                        $data["merge_pack_id"] = $mergePackID;
+                        $rtdata['message'] = "Get Label Successful";
+                        $rtdata['error'] = false;
+                        $rtLabel[0] = $this->mergepackDetailFinder->findMergePackDetailFromMergePacks($data);
+
+                        array_push($listLabelFronMerge, $rtLabel[0][0]);
+                    }
                 }
 
                 if ($listLabelFronLot != null && $listLabelFronMerge == null) {
