@@ -398,7 +398,7 @@ final class LabelUpdater
     public function genSplitLabel(array $data): array
     {
         $label_type = $data['label_type'] ?? "FULLY";
-        $lot_id = (int)($data['lot_id'] ?? 1);
+        $lot_id = (int)($data['lot_id'] ?? 0);
         $merge_pack_id = (int)($data['merge_pack_id'] ?? 1);
         $quantity1 = (int)$data['quantity1'] ?? 1;
         $quantity2 = (int)$data['quantity2'] ?? 1;
@@ -438,6 +438,7 @@ final class LabelUpdater
             $rt1 = $this->finder->findLabels($params2);
             array_push($labels, $rt1[0]);
         } else if ($label_type == "MERGE_FULLY" || $label_type == "MERGE_NONFULLY") {
+            $data1['lot_id'] = $lot_id;
             $data1['merge_pack_id'] = $merge_pack_id;
             $data1['prefer_lot_id'] = $perferLotID;
             $data1['label_type'] = "MERGE_NONFULLY";
@@ -451,6 +452,7 @@ final class LabelUpdater
             $rt1 = $this->finder->findLabelForLotZero($params2);
             array_push($labels, $rt1[0]);
 
+            $data1['lot_id'] = $lot_id;
             $data1['merge_pack_id'] = $merge_pack_id;
             $data1['prefer_lot_id'] = $perferLotID;
             $data1['label_type'] = "MERGE_NONFULLY";
