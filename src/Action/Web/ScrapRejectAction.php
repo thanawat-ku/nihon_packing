@@ -24,7 +24,7 @@ final class ScrapRejectAction
     public function __construct(Responder $responder, ScrapFinder $finder, 
     ScrapUpdater $updater, ScrapDetailUpdater $updateScrapDetail, Session $session)
     {
-        $this->twig = $twig;
+       
         $this->finder = $finder;
         $this->responder = $responder;
         $this->updater = $updater;
