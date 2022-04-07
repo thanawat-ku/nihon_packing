@@ -103,7 +103,7 @@ final class ConfirmSellLabelAction
             $dataPrefer['sell_id'] = $data['sell_id'];
             $rtSellLabelPrefer = $this->finder->findSellLabels($dataPrefer);
 
-            if ($rtSellLabel[0]['lot_id'] != 0 && ($rtSellLabel[0]['label_type'] != "MERGE_NONFULLY" || $rtSellLabel[0]['label_type'] != "MERGE_FULLY")) {
+            if (isset($rtSellLabel[0]['lot_id']) != 0 ) {
                 for ($i = 0; $i < count($rtSellLabel); $i++) {
                     $labelFinder['lot_id'] = $rtSellLabel[$i]['lot_id'];
                     $labelFinder['sell_id'] = $data['sell_id'];
@@ -112,7 +112,11 @@ final class ConfirmSellLabelAction
 
                     $isPackingItem['PackingID'] = $packingID;
                     $isPackingItem['InvoiceItemID'] = 0;
-                    $isPackingItem['LotID'] = $rtSellLabel[$i]['lot_id'];
+                    if ($rtSellLabel[0]['label_type'] != "MERGE_NONFULLY" || $rtSellLabel[0]['label_type'] != "MERGE_FULLY") {
+                        $isPackingItem['LotID'] = $rtSellLabel[$i]['prefer_lot_id'];
+                    }else {
+                        $isPackingItem['LotID'] = $rtSellLabel[$i]['lot_id'];
+                    }
                     $isPackingItem['CpoItemID'] = $rtsellCpoItem[0]['cpo_item_id'];
 
                     $sumQty = 0;
@@ -128,7 +132,7 @@ final class ConfirmSellLabelAction
                     $this->updater->updateConfirmSellApi($sellID, $updateSell, $user_id);
                 }
             }
-            if ($rtSellLabelPrefer[0]['prefer_lot_id']) {
+            if (isset($rtSellLabelPrefer[0]['prefer_lot_id']) != 0) {
                 for ($i = 0; $i < count($rtSellLabelPrefer); $i++) {
                     $labelFinder['prefer_lot_id'] = $data[$i]['prefer_lot_id'];
                     $labelFinder['sell_id'] = $data['sell_id'];
@@ -169,7 +173,7 @@ final class ConfirmSellLabelAction
             $dataPrefer['sell_id'] = $data['sell_id'];
             $rtSellLabelPrefer = $this->finder->findSellLabels($dataPrefer);
 
-            if ($rtSellLabel[0]['lot_id'] != 0 && ($rtSellLabel[0]['label_type'] != "MERGE_NONFULLY" || $rtSellLabel[0]['label_type'] != "MERGE_FULLY")) {
+            if (isset($rtSellLabel[0]['lot_id']) != 0) {
                 for ($i = 0; $i < count($rtSellLabel); $i++) {
                     $labelFinder['lot_id'] = $rtSellLabel[$i]['lot_id'];
                     $labelFinder['sell_id'] = $data['sell_id'];
@@ -178,7 +182,11 @@ final class ConfirmSellLabelAction
 
                     $isPackingItem['PackingID'] = $packingID;
                     $isPackingItem['InvoiceItemID'] = 0;
-                    $isPackingItem['LotID'] = $rtSellLabel[$i]['lot_id'];
+                    if ($rtSellLabel[0]['label_type'] != "MERGE_NONFULLY" || $rtSellLabel[0]['label_type'] != "MERGE_FULLY") {
+                        $isPackingItem['LotID'] = $rtSellLabel[$i]['prefer_lot_id'];
+                    }else {
+                        $isPackingItem['LotID'] = $rtSellLabel[$i]['lot_id'];
+                    }
                     $isPackingItem['CpoItemID'] = $rtsellCpoItem[0]['cpo_item_id'];
 
                     $sumQty = 0;
@@ -193,7 +201,7 @@ final class ConfirmSellLabelAction
                     $this->updater->updateConfirmSellApi($sellID, $updateSell, $user_id);
                 }
             }
-            if ($rtSellLabelPrefer[0]['prefer_lot_id'] != 0) {
+            if (isset($rtSellLabelPrefer[0]['prefer_lot_id']) != 0) {
                 for ($i = 0; $i < count($rtSellLabelPrefer); $i++) {
                     $labelFinder['prefer_lot_id'] = $data[$i]['prefer_lot_id'];
                     $labelFinder['sell_id'] = $data['sell_id'];
