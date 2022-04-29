@@ -35,9 +35,9 @@ final class LotSyncAction
     {
         $params = (array)$request->getQueryParams();
 
-        $max_id=$this->finder->getLocalMaxLotId();
+        //$max_id=$this->finder->getLocalMaxLotId();
 
-        $lots = $this->finder->getSyncLots($max_id);
+        $lots = $this->finder->getSyncLots();
         $rtData=[];
         
         for($i=0;$i<count($lots);$i++)
@@ -45,7 +45,7 @@ final class LotSyncAction
             $params1['id']=$lots[$i]["LotID"];
             $params1['lot_no']=$lots[$i]["LotNo"];
             $params1['product_id']=$lots[$i]["ProductID"];
-            $params1['quantity']=$lots[$i]["StartQty"];
+            $params1['quantity']=$lots[$i]["CurrentQty"];
             $params1['issue_date']=substr($lots[$i]["IssueDate"],0,10);
             $this->updater->insertLot($params1);
             $rtData=[];

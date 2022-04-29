@@ -167,19 +167,31 @@ final class LotRepository
             ]);
         return $query->execute()->fetchAll('assoc') ?: [];
     }
-    public function getSyncLots(int $max_id): array
+    public function getSyncLots(): array
     {
         $query = $this->queryFactory2->newSelect('lot');
         $query->select(
             [
-                'LotID',
-                'ProductID',
-                'LotNo',
-                'IssueDate',
-                'StartQty',
-                'PackingQty',
+                'lot.LotID',
+                'lot.ProductID',
+                'lot.LotNo',
+                'lot.IssueDate',
+                'lot.CurrentQty',
             ]);
-        $query->andWhere(['LotID >' => $max_id]);
+        $query->join([
+            'p' => [
+                'table' => 'lot_process',
+                'type' => 'INNER',
+                'conditions' => 'p.LotID = lot.LotID AND p.ProcessID=12',
+            ]
+        ]);
+        $query->join([
+            'b' => [
+                'table' => 'lot_process',
+                'type' => 'INNER',
+                'conditions' => 'b.LotID = lot.LotID AND b.SeqNo=p.SeqNo-1 AND lot.ProcessID=b.ProcessID',
+            ]
+        ]);
         return $query->execute()->fetchAll('assoc') ?: [];
     }
     public function getLocalMaxLotId():array

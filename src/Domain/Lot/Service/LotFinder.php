@@ -29,8 +29,8 @@ final class LotFinder
     {
         return $this->repository->getLocalMaxLotId()[0]["max_id"];
     }
-    public function getSyncLots(int $maxId):array
+    public function getSyncLots():array
     {
-        return $this->repository->getSyncLots($maxId);
+        return $this->repository->getSyncLots();
     }
 }
