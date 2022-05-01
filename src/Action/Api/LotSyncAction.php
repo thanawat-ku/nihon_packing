@@ -14,7 +14,7 @@ final class LotSyncAction
 {
     /**
      * @var Responder
-     */ 
+     */
     private $responder;
     private $finder;
     private $updater;
@@ -38,20 +38,21 @@ final class LotSyncAction
         //$max_id=$this->finder->getLocalMaxLotId();
 
         $lots = $this->finder->getSyncLots();
-        $rtData=[];
-        
-        for($i=0;$i<count($lots);$i++)
-        {
-            $params1['id']=$lots[$i]["LotID"];
-            $params1['lot_no']=$lots[$i]["LotNo"];
-            $params1['product_id']=$lots[$i]["ProductID"];
-            $params1['quantity']=$lots[$i]["CurrentQty"];
-            $params1['issue_date']=substr($lots[$i]["IssueDate"],0,10);
-            $this->updater->insertLot($params1);
-            $rtData=[];
+        $rtData = [];
+
+        for ($i = 0; $i < count($lots); $i++) {
+            $params1['id'] = $lots[$i]["LotID"];
+            $params1['lot_no'] = $lots[$i]["LotNo"];
+            $params1['product_id'] = $lots[$i]["ProductID"];
+            $params1['quantity'] = $lots[$i]["CurrentQty"];
+            $params1['issue_date'] = substr($lots[$i]["IssueDate"], 0, 10);
+            try {
+                $this->updater->insertLot($params1);
+            } catch (\Throwable $th) {
+            }
+            $rtData = [];
             array_push($rtData, $lots[$i]);
         }
-
 
         return $this->responder->withJson($response, $rtData);
     }
