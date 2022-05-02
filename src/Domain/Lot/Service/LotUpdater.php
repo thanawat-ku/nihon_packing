@@ -92,6 +92,20 @@ final class LotUpdater
         //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));
     }
 
+    public function updateLotNsp(int $lotId, array $data): void
+    {
+        // Input validation
+        $this->validator->validateLotUpdate($lotId, $data);
+
+        $row['ProcessID'] = 12;
+        $row['PackingQty'] = $data['real_qty'];
+        // Insert store
+        $this->repository->updateLotNsp($lotId, $row);
+
+        // Logging
+        //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));
+    }
+
     public function registerLot(int $lotId, array $data): void
     {
         // Input validation

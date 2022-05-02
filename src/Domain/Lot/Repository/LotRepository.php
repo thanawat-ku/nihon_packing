@@ -74,6 +74,10 @@ final class LotRepository
 
         $this->queryFactory->newUpdate('lots', $data)->andWhere(['id' => $lotID])->execute();
     }
+    public function updateLotNsp(int $lotID, array $data): void
+    {
+        $this->queryFactory2->newUpdate('lot', $data)->andWhere(['LotID' => $lotID])->execute();
+    }
     public function printLot(int $lotID,array $data): void
     {
         $data['updated_at'] = Chronos::now()->toDateTimeString();

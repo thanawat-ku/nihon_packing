@@ -64,8 +64,9 @@ final class LotPrintAction
             $dataLot['real_qty'] = $realQty;
             $dataLot['generate_lot_no'] = "L" . str_pad($lotId, 11, "0", STR_PAD_LEFT);
             $dataLot['printed_user_id'] =  $data['user_id'];
-
+            $this->updater->updateLotNsp($lotId, $dataLot);
             $this->updater->updateLot($lotId, $dataLot);
+            
         }
 
 

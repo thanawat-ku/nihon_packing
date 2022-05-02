@@ -53,6 +53,7 @@ final class LotRegisterAction
         if ($lot[0]['status'] ==  "PRINTED") {
             $this->labelUpdater->registerLabel($lotId, $dataPack);
             $this->updater->registerLot($lotId, $dataPack);
+            
         }
         return $this->responder->withRedirect($response, "lots");
     }
