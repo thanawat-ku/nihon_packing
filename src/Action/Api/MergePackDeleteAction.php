@@ -59,7 +59,7 @@ final class MergePackDeleteAction
             $upStatusLabel['status'] = "PACKED";
             for ($i = 0; $i < count($rtMergePackDetail); $i++) {
                 $labelID = $rtMergePackDetail[$i]['label_id'];
-                $this->updateLabel->updateLabel($labelID, $upStatusLabel);
+                $this->updateLabel->updateLabelApi($labelID, $upStatusLabel, $user_id);
             }
             $this->updateMergePackDetail->deleteMergePackDetail($mergePackID);
 
