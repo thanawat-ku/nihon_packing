@@ -99,6 +99,7 @@ final class LotUpdater
 
         $row['ProcessID'] = 12;
         $row['PackingQty'] = $data['real_qty'];
+        $row['CurrentQty'] = $data['real_qty'];
         // Insert store
         $this->repository->updateLotNsp($lotId, $row);
 
