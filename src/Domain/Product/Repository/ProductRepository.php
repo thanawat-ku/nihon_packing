@@ -82,6 +82,7 @@ final class ProductRepository
                 'part_name',
                 'std_pack',
                 'std_box',
+                'is_completed'
             ]
         );
 

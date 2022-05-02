@@ -31,7 +31,7 @@ final class SellUpdater
         $row = $this->mapToRow($data);
 
         $id = $this->repository->insertSell($row);
-        $data1['sell_no'] = "C" . str_pad($id, 11, "0", STR_PAD_LEFT);
+        $data1['sell_no'] = "S" . str_pad($id, 11, "0", STR_PAD_LEFT);
         $user_id = $this->session->get('user')["id"];
         $this->repository->updateSellApi($id, $data1, $user_id);
         return $id;
@@ -45,7 +45,7 @@ final class SellUpdater
         $row['product_id'] = $data['product_id'];
 
         $id = $this->repository->insertSellApi($row, $user_id);
-        $data1['sell_no'] = "C" . str_pad($id, 11, "0", STR_PAD_LEFT);
+        $data1['sell_no'] = "S" . str_pad($id, 11, "0", STR_PAD_LEFT);
         $this->repository->updateSellApi($id, $data1, $user_id);
         return $id;
     }

@@ -23,6 +23,7 @@
                         <th>Part Name</th>
                         <th>STD Pack</th>
                         <th>STD Box</th>
+                        <th>Is Completed</th>
                         <th>Operation</th>
                     </tr>
                     </thead>
@@ -34,6 +35,7 @@
                         <td>{{ product.part_name }}</td>
                         <td>{{ product.std_pack }}</td>
                         <td>{{ product.std_box }}</td>
+                        <td>{{ product.is_completed }}</td>
                         <td>
                         <button type="button" id="editBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editProduct" name="{{ product|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-edit"></i></button>
                         <button type="button" id="deleteBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteProduct" name="{{ product|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-trash"></i></button>
@@ -76,7 +78,14 @@
           <div class="form-product">
             <label for="editStdPack">STD Box</label>
             <input type="text" autocomplete="off" class="form-control" id="editStdBox" name="std_box" required>
-          </div>             
+          </div> 
+          <div class="form-product">
+            <label for="editStdPack">Is Completed</label>
+            <select class="selectpicker form-control" name="is_completed" data-live-search="true">
+              <option value=N>No</option>
+              <option value=Y>Yes</option>
+          </select>     
+        </div>        
         </div>
         <div class="modal-footer">
           <button type="submit" class="btn btn-primary">Save</button>

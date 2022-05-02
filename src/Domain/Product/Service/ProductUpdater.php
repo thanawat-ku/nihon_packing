@@ -94,6 +94,9 @@ final class ProductUpdater
         if (isset($data['std_box'])) {
             $result['std_box'] = (string)$data['std_box'];
         }
+        if (isset($data['is_completed'])) {
+            $result['is_completed'] = (string)$data['is_completed'];
+        }
 
         return $result;
     }
