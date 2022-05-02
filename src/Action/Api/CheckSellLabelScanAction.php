@@ -106,9 +106,9 @@ final class CheckSellLabelScanAction
                     array_push($listLabelFronMerge, $rtLabel[0]);
                 }
             } else {
-                $rtdata['message'] = "Get SellLabel Successful";
-                $rtdata['error'] = true;
-                break;
+                // $rtdata['message'] = "Get SellLabel Successful";
+                // $rtdata['error'] = true;
+                // break;
             }
 
             if ($listLabelFronLot != null && $listLabelFronMerge == null) {
