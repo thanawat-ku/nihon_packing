@@ -97,8 +97,6 @@ final class LotUpdater
         // Input validation
         $this->validator->validateLotUpdate($lotId, $data);
 
-        $row['ProcessID'] = 12;
-        $row['PackingQty'] = $data['real_qty'];
         $row['CurrentQty'] = $data['real_qty'];
         // Insert store
         $this->repository->updateLotNsp($lotId, $row);
@@ -181,6 +179,9 @@ final class LotUpdater
         }
         if (isset($data['is_delete'])) {
             $result['is_delete'] = (string)$data['is_delete'];
+        }
+        if (isset($data['stock_control_id'])) {
+            $result['stock_control_id'] = (string)$data['stock_control_id'];
         }
 
         return $result;

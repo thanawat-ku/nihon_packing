@@ -171,7 +171,7 @@ final class LotRepository
             ]);
         return $query->execute()->fetchAll('assoc') ?: [];
     }
-    public function getSyncLots(): array
+    public function getSyncLots($max_id): array
     {
         $query = $this->queryFactory2->newSelect('lot');
         $query->select(
@@ -179,21 +179,15 @@ final class LotRepository
                 'lot.LotID',
                 'lot.ProductID',
                 'lot.LotNo',
+                'StockControlID',
                 'lot.IssueDate',
                 'lot.CurrentQty',
             ]);
         $query->join([
             'p' => [
-                'table' => 'lot_process',
+                'table' => 'stock_item',
                 'type' => 'INNER',
-                'conditions' => 'p.LotID = lot.LotID AND p.ProcessID=12',
-            ]
-        ]);
-        $query->join([
-            'b' => [
-                'table' => 'lot_process',
-                'type' => 'INNER',
-                'conditions' => 'b.LotID = lot.LotID AND b.SeqNo=p.SeqNo-1 AND lot.ProcessID=b.ProcessID',
+                'conditions' => 'p.LotID = lot.LotID AND p.ProcessID=12 and p.OutStockControlID=0 and p.StockControlID>'.$max_id,
             ]
         ]);
         return $query->execute()->fetchAll('assoc') ?: [];
@@ -203,7 +197,7 @@ final class LotRepository
         $query = $this->queryFactory->newSelect('lots');
         $query->select(
             [
-                'max_id' => $query->func()->max('id'),
+                'max_id' => $query->func()->max('stock_control_id'),
             ]);
         return $query->execute()->fetchAll('assoc') ?: [];
     }
