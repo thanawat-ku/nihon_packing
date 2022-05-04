@@ -20,6 +20,11 @@ final class LotFinder
         return $this->repository->findLots($params);
     }
 
+    public function findLotNsps(array $params): array
+    {
+        return $this->repository->findLotNsps($params);
+    }
+
     public function findLotsSingleTalbe(array $params): array
     {
         return $this->repository->findLotsSingleTalbe($params);

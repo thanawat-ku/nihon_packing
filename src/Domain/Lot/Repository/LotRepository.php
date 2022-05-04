@@ -136,6 +136,22 @@ final class LotRepository
         return $query->execute()->fetchAll('assoc') ?: [];
     }
 
+    public function findLotNsps(array $params): array
+    {
+        $query = $this->queryFactory2->newSelect('lot');
+        $query->select(
+            [
+                'PackingQty'
+            ]
+        );
+
+        if (isset($params['LotID'])) {
+            $query->andWhere(['LotID' => $params["LotID"]]);
+        }
+
+        return $query->execute()->fetchAll('assoc') ?: [];
+    }
+
     public function findLotsSingleTalbe(array $params): array
     {
         $query = $this->queryFactory->newSelect('lots');

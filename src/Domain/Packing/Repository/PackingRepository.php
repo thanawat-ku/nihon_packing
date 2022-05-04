@@ -70,6 +70,7 @@ final class PackingRepository
         $query->select(
             [
                 'packing.PackingID',
+                'LotID',
                 'PackingNo',
                 'PackingNum',
                 'CpoItemID',

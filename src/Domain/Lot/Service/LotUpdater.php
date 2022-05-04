@@ -97,7 +97,8 @@ final class LotUpdater
         // Input validation
         $this->validator->validateLotUpdate($lotId, $data);
 
-        $row['CurrentQty'] = $data['real_qty'];
+        $row = $this->mapToLotRowNsp($data);
+
         // Insert store
         $this->repository->updateLotNsp($lotId, $row);
 
@@ -182,6 +183,26 @@ final class LotUpdater
         }
         if (isset($data['stock_control_id'])) {
             $result['stock_control_id'] = (string)$data['stock_control_id'];
+        }
+        if (isset($data['PackingQty'])) {
+            $result['PackingQty'] = (string)$data['PackingQty'];
+        }
+        if (isset($data['real_qty'])) {
+            $result['CurrentQty'] = (string)$data['real_qty'];
+        }
+
+        return $result;
+    }
+
+    private function mapToLotRowNsp(array $data): array
+    {
+        $result = [];
+
+        if (isset($data['real_qty'])) {
+            $result['CurrentQty'] = (string)$data['real_qty'];
+        }
+        if (isset($data['PackingQty'])) {
+            $result['PackingQty'] = (string)$data['PackingQty'];
         }
 
         return $result;
