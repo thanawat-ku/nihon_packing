@@ -91,6 +91,7 @@ final class SellLabelConfirmAction
         $data = (array)$request->getParsedBody();
 
         // //Test update stockcontrol, stockitem and lot
+        
         // $paramsPackingID['PackingID'] = 493251;
         // $arrPacking = $this->packingFinder->findPackingItem($paramsPackingID);
 

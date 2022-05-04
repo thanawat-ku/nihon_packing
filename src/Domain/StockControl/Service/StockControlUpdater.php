@@ -42,7 +42,7 @@ final class StockControlUpdater
 
         $row = $this->mapToRow($data);
 
-        $id = $this->repository->insertStockControl($row, $user_id);
+        $id = $this->repository->insertStockControlApi($row, $user_id);
 
         return $id;
     }
