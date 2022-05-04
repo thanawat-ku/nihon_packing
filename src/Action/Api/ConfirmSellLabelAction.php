@@ -13,6 +13,10 @@ use App\Domain\Packing\Service\PackingFinder;
 use App\Domain\Packing\Service\PackingUpdater;
 use App\Domain\PackingItem\Service\PackingItemUpdater;
 use App\Domain\TempQuery\Service\TempQueryUpdater;
+use App\Domain\StockControl\Service\StockControlUpdater;
+use App\Domain\StockItem\Service\StockItemUpdater;
+use App\Domain\Lot\Service\LotFinder;
+use App\Domain\Lot\Service\LotUpdater;
 use App\Responder\Responder;
 use PhpParser\Node\Stmt\Label;
 use Psr\Http\Message\ResponseInterface;
@@ -38,6 +42,10 @@ final class ConfirmSellLabelAction
     private $updatePacking;
     private $updatePackingItem;
     private $updateTempQuery;
+    private $stockControlUpdater;
+    private $stockItemUpdater;
+    private $lotFinder;
+    private $lotUpdater;
 
     public function __construct(
         SellLabelFinder $finder,
@@ -53,6 +61,10 @@ final class ConfirmSellLabelAction
         Responder $responder,
         SellUpdater $updater,
         TempQueryUpdater $updateTempQuery,
+        StockControlUpdater $stockControlUpdater,
+        StockItemUpdater $stockItemUpdater,
+        LotFinder $lotFinder,
+        LotUpdater $lotUpdater,
     ) {
         $this->finder = $finder;
         $this->findSellCpoItem = $findSellCpoItem;
@@ -67,6 +79,10 @@ final class ConfirmSellLabelAction
         $this->session = $session;
         $this->responder = $responder;
         $this->updateTempQuery = $updateTempQuery;
+        $this->stockControlUpdater = $stockControlUpdater;
+        $this->stockItemUpdater = $stockItemUpdater;
+        $this->lotFinder = $lotFinder;
+        $this->lotUpdater = $lotUpdater;
     }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
@@ -154,6 +170,34 @@ final class ConfirmSellLabelAction
                     $this->updater->updateConfirmSellApi($sellID, $updateSell, $user_id);
                 }
             }
+            //update stockcontrol, stockitem and lot
+
+            $paramsPackingID['PackingID'] = $packingID;
+            $arrPacking = $this->findPacking->findPackingItem($paramsPackingID);
+
+            $insertStockContol['PackingNo'] = $arrPacking[0]['PackingNo'];
+            $stockControlID = $this->stockControlUpdater->insertStockControlApi($insertStockContol, $user_id);
+
+            for ($i = 0; $i < count($arrPacking); $i++) {
+                $insertStockItem['StockControlID'] = $stockControlID;
+                $insertStockItem['LotID'] = $arrPacking[$i]['LotID'];
+                $insertStockItem['Quantity'] = $arrPacking[$i]['Quantity'];
+
+                $this->stockItemUpdater->insertStockItem($insertStockItem);
+
+                $updateStockItem['OutStockControlID'] = $stockControlID;
+                $lotID = $arrPacking[$i]['LotID'];
+                $this->stockItemUpdater->updateStockItem($lotID, $updateStockItem);
+
+                $searchLotID['LotID'] = $lotID;
+                $rowLot = $this->lotFinder->findLotNsps($searchLotID);
+                $packingQtyOld = $rowLot[0]['PackingQty'];
+                $packingQtyNew = $packingQtyOld + $arrPacking[$i]['Quantity'];
+                $updaeteLot['PackingQty'] = $packingQtyNew;
+                $this->lotUpdater->updateLotNsp($lotID, $updaeteLot);
+            }
+
+            //#####################################################################
         } else {
             $year2Di  = date('y');
             $packingNum = $rtPacking[0]['PackingNum'] + 1;
@@ -221,6 +265,35 @@ final class ConfirmSellLabelAction
                     $this->updater->updateConfirmSellApi($sellID, $updateSell, $user_id);
                 }
             }
+
+            //update stockcontrol, stockitem and lot
+
+            $paramsPackingID['PackingID'] = $packingID;
+            $arrPacking = $this->findPacking->findPackingItem($paramsPackingID);
+
+            $insertStockContol['PackingNo'] = $arrPacking[0]['PackingNo'];
+            $stockControlID = $this->stockControlUpdater->insertStockControlApi($insertStockContol, $user_id);
+
+            for ($i = 0; $i < count($arrPacking); $i++) {
+                $insertStockItem['StockControlID'] = $stockControlID;
+                $insertStockItem['LotID'] = $arrPacking[$i]['LotID'];
+                $insertStockItem['Quantity'] = $arrPacking[$i]['Quantity'];
+
+                $this->stockItemUpdater->insertStockItem($insertStockItem);
+
+                $updateStockItem['OutStockControlID'] = $stockControlID;
+                $lotID = $arrPacking[$i]['LotID'];
+                $this->stockItemUpdater->updateStockItem($lotID, $updateStockItem);
+
+                $searchLotID['LotID'] = $lotID;
+                $rowLot = $this->lotFinder->findLotNsps($searchLotID);
+                $packingQtyOld = $rowLot[0]['PackingQty'];
+                $packingQtyNew = $packingQtyOld + $arrPacking[$i]['Quantity'];
+                $updaeteLot['PackingQty'] = $packingQtyNew;
+                $this->lotUpdater->updateLotNsp($lotID, $updaeteLot);
+            }
+
+            //#####################################################################
         }
 
         $dataSellID['sell_id'] = $data['sell_id'];
