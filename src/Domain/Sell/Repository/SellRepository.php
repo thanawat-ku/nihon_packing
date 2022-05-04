@@ -131,11 +131,12 @@ final class SellRepository
                 'product_id',
                 'total_qty',
                 'sell_status',
-                'part_name',
-                'part_code',
-                'part_no',
-                'is_completed',
-                'packing_id'
+                'p.part_name',
+                'p.part_code',
+                'p.part_no',
+                'p.is_completed',
+                'packing_id',
+                'sci.cpo_item_id'
             ]
         );
 
@@ -144,6 +145,14 @@ final class SellRepository
                 'table' => 'products',
                 'type' => 'INNER',
                 'conditions' => 'p.id = sells.product_id',
+            ]
+        ]);
+
+        $query->join([
+            'sci' => [
+                'table' => 'sell_cpo_items',
+                'type' => 'INNER',
+                'conditions' => 'sells.id = sci.sell_id',
             ]
         ]);
 
