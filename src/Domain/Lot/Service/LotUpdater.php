@@ -19,11 +19,11 @@ final class LotUpdater
         $this->repository = $repository;
         $this->validator = $validator;
         //$this->logger = $loggerFactory
-            //->addFileHandler('store_updater.log')
-            //->createInstance();
+        //->addFileHandler('store_updater.log')
+        //->createInstance();
     }
 
-    public function insertLot( array $data): int
+    public function insertLot(array $data): int
     {
         // Input validation
         $this->validator->validateLotInsert($data);
@@ -32,7 +32,7 @@ final class LotUpdater
         $lotRow = $this->mapToLotRow($data);
 
         // Insert transferStore
-        $id=$this->repository->insertLot($lotRow);
+        $id = $this->repository->insertLot($lotRow);
 
         // Logging
         //$this->logger->info(sprintf('TransferStore updated successfully: %s', $id));
@@ -47,7 +47,7 @@ final class LotUpdater
         $storeRow = $this->mapToLotRow($data);
 
         // Insert store
-        $this->repository->registerLotApi($lotId, $storeRow,$user_id);
+        $this->repository->registerLotApi($lotId, $storeRow, $user_id);
     }
 
     public function confirmLotApi(int $lotId, array $data, $user_id): void
@@ -59,10 +59,10 @@ final class LotUpdater
         $storeRow = $this->mapToLotRow($data);
 
         // Insert store
-        $this->repository->confirmLotApi($lotId, $storeRow,$user_id);
+        $this->repository->confirmLotApi($lotId, $storeRow, $user_id);
     }
 
-    public function updateLotApi(int $lotId, array $data ,$user_id): void
+    public function updateLotApi(int $lotId, array $data, $user_id): void
     {
         // Input validation
         $this->validator->validateLotUpdate($lotId, $data);
@@ -71,7 +71,7 @@ final class LotUpdater
         $storeRow = $this->mapToLotRow($data);
 
         // Insert store
-        $this->repository->updateLotApi($lotId, $storeRow ,$user_id);
+        $this->repository->updateLotApi($lotId, $storeRow, $user_id);
 
         // Logging
         //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));
@@ -120,10 +120,10 @@ final class LotUpdater
         // Logging
         //$this->logger->info(sprintf('Store updated successfully: %s', $storeId));
     }
-    
-    public function printLot(int $lotId,array $data): void
+
+    public function printLot(int $lotId, array $data): void
     {
-        $this->repository->printLot($lotId,$data);
+        $this->repository->printLot($lotId, $data);
     }
 
     public function deleteLot(int $lotId, array $data): void
@@ -141,7 +141,6 @@ final class LotUpdater
 
         $IsDelete['is_delete'] = "Y";
         $this->repository->updateLot($lotId, $IsDelete);
-
     }
 
     private function mapToLotRow(array $data): array
@@ -187,9 +186,7 @@ final class LotUpdater
         if (isset($data['PackingQty'])) {
             $result['PackingQty'] = (string)$data['PackingQty'];
         }
-        if (isset($data['real_qty'])) {
-            $result['CurrentQty'] = (string)$data['real_qty'];
-        }
+
 
         return $result;
     }
