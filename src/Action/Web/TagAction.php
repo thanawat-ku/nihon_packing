@@ -61,7 +61,9 @@ final class TagAction
         }
 
         $sellRow = $this->sellFinder->findSellRow($sellID);
-
+        $sellRow['cpo_item_id']=$rtTags[0]['cpo_item_id'];
+        $sellRow['total_qty']=$rtTags[0]['total_qty'];
+        
         $viewData = [
             'checkTagPrinted' => $checkTagPrinted,
             'sellRow' => $sellRow,

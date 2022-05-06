@@ -128,7 +128,9 @@ final class TagRepository
                 'tags.status',
                 'part_code',
                 'part_name',
-                'sell_status'
+                'sell_status',
+                'total_qty',
+                's_cpo_item.cpo_item_id'
 
 
             ]
@@ -142,7 +144,7 @@ final class TagRepository
         ]);
         $query->join([
             's_cpo_item' => [
-                'table' => 'sells',
+                'table' => 'sell_cpo_items',
                 'type' => 'INNER',
                 'conditions' => 's_cpo_item.sell_id = s.id',
             ]

@@ -136,7 +136,7 @@ final class SellRepository
                 'p.part_no',
                 'p.is_completed',
                 'packing_id',
-                'sci.cpo_item_id'
+                // 'sci.cpo_item_id'
             ]
         );
 
@@ -148,13 +148,13 @@ final class SellRepository
             ]
         ]);
 
-        $query->join([
-            'sci' => [
-                'table' => 'sell_cpo_items',
-                'type' => 'INNER',
-                'conditions' => 'sells.id = sci.sell_id',
-            ]
-        ]);
+        // $query->join([
+        //     'sci' => [
+        //         'table' => 'sell_cpo_items',
+        //         'type' => 'INNER',
+        //         'conditions' => 'sells.id = sci.sell_id',
+        //     ]
+        // ]);
 
         $query->where(['sells.id' => $sellID]);
 
