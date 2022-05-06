@@ -128,6 +128,7 @@ final class TagRepository
                 'tags.status',
                 'part_code',
                 'part_name',
+                'part_no',
                 'sell_status',
                 'total_qty',
                 's_cpo_item.cpo_item_id'
