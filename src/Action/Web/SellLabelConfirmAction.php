@@ -142,7 +142,7 @@ final class SellLabelConfirmAction
             $year2Di  = date('y');
             $packingNum = 1;
             $dateTime = date('Y-m-d h:i:s');
-            $isPacking['PackingNo'] = 'PAK-' . $year2Di . $month . '-' . str_pad($packingNum, 4, "0", STR_PAD_LEFT);
+            $isPacking['PackingNo'] = 'PAK-' . $year2Di . $month . '-' . str_pad($packingNum, strlen($packingNum), "", STR_PAD_LEFT);
             $isPacking['PackingNum'] = $packingNum;
             $isPacking['IssueDate'] = $dt;
             $isPacking['UpdateTime'] = $dateTime;
@@ -240,7 +240,7 @@ final class SellLabelConfirmAction
             $year2Di  = date('y');
             $packingNum = $rtPacking[0]['PackingNum'] + 1;
             $dateTime = date('Y-m-d h:i:s');
-            $isPacking['PackingNo'] = 'PAK-' . $year2Di . $month . '-' . str_pad($packingNum, 4, "0", STR_PAD_LEFT);
+            $isPacking['PackingNo'] = 'PAK-' . $year2Di . $month . '-' . str_pad($packingNum, strlen($packingNum), "", STR_PAD_LEFT);
             $isPacking['PackingNum'] = $packingNum;
             $isPacking['IssueDate'] = $dt;
             $isPacking['UpdateTime'] = $dateTime;
