@@ -119,7 +119,7 @@ final class TagRepository
             [
                 'tags.id',
                 'tag_no',
-                'sell_id',
+                's_cpo_item.sell_id',
                 'sell_no',
                 'tags.quantity',
                 'box_no',
@@ -166,7 +166,7 @@ final class TagRepository
             $query->andWhere(['tags.id' => $params["tag_id"]]);
         }
         if (isset($params['sell_id'])) {
-            $query->andWhere(['sell_id' => $params["sell_id"]]);
+            $query->andWhere(['s_cpo_item.sell_id' => $params["sell_id"]]);
         }
 
         if (isset($params["startDate"])) {
