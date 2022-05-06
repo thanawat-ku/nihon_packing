@@ -140,6 +140,13 @@ final class TagRepository
                 'conditions' => 's.id = tags.sell_id',
             ]
         ]);
+        $query->join([
+            's_cpo_item' => [
+                'table' => 'sells',
+                'type' => 'INNER',
+                'conditions' => 's_cpo_item.sell_id = s.id',
+            ]
+        ]);
 
         $query->join([
             'p' => [
