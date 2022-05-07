@@ -35,49 +35,51 @@ final class CheckScanTagAction
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $data = (array)$request->getParsedBody();
-        $tags = $data['tags'];
-        $checkError = true;
-        $data['sell_id'] = $data['id'];
+        if (isset($data['tags'])) {
+            $tags = $data['tags'];
 
-        $arrtags = explode("#", $tags);
+            $checkError = true;
+            $data['sell_id'] = $data['id'];
 
-        $rtdata['tags'] = [];
+            $arrtags = explode("#", $tags);
 
-        $rtTags = $this->finder->findTags($data);
+            $rtdata['tags'] = [];
 
-        for ($i = 1; $i < count($arrtags); $i++) {
-            $arrTagNo = str_split($arrtags[$i]);
+            $rtTags = $this->finder->findTags($data);
 
-            for ($j = 0; $j < 1; $j++) {
-                if ($arrTagNo[0] == "T") {
-                    $tag_no = $arrtags[$i];
-                } else if ($arrTagNo[0] == "P") {
-                    $tag_no = 'not_add';
-                    
-                }
-            }
-            if ($tag_no != 'not_add') {
-                $tagNo['tag_no'] = explode(",", $tag_no)[0];
-                $tagRow = $this->finder->findTagSingleTable($tagNo);
+            for ($i = 1; $i < count($arrtags); $i++) {
+                $arrTagNo = str_split($arrtags[$i]);
 
-                if ($tagRow != null) {
-                    for ($k=0; $k < count($rtTags); $k++) { 
-                        if ($tagRow[0]['id'] == $rtTags[$k]['id']) {
-                            $checkError = false;
-                        }
+                for ($j = 0; $j < 1; $j++) {
+                    if ($arrTagNo[0] == "T") {
+                        $tag_no = $arrtags[$i];
+                    } else if ($arrTagNo[0] == "P") {
+                        $tag_no = 'not_add';
                     }
+                }
+                if ($tag_no != 'not_add') {
+                    $tagNo['tag_no'] = explode(",", $tag_no)[0];
+                    $tagRow = $this->finder->findTagSingleTable($tagNo);
 
-                    $tagRow[0]['check_error'] = $checkError;
+                    if ($tagRow != null) {
+                        for ($k = 0; $k < count($rtTags); $k++) {
+                            if ($tagRow[0]['id'] == $rtTags[$k]['id']) {
+                                $checkError = false;
+                            }
+                        }
 
-                    $rtdata['message'] = "Get Label Successful";
-                    $rtdata['error'] = false;
-                    array_push($rtdata['tags'], $tagRow[0]);
-                    $checkError = true;
-                } else {
-                    $rtdata['message'] = "Get Label Successful";
-                    $rtdata['tag_no'] = $tagRow[0]['tag_no'];
-                    $rtdata['error'] = true;
-                    break;
+                        $tagRow[0]['check_error'] = $checkError;
+
+                        $rtdata['message'] = "Get Label Successful";
+                        $rtdata['error'] = false;
+                        array_push($rtdata['tags'], $tagRow[0]);
+                        $checkError = true;
+                    } else {
+                        $rtdata['message'] = "Get Label Successful";
+                        $rtdata['tag_no'] = $tagRow[0]['tag_no'];
+                        $rtdata['error'] = true;
+                        break;
+                    }
                 }
             }
         }
