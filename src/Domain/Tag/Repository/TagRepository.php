@@ -119,7 +119,7 @@ final class TagRepository
             [
                 'tags.id',
                 'tag_no',
-                'sell_id',
+                's_cpo_item.sell_id',
                 'sell_no',
                 'tags.quantity',
                 'box_no',
@@ -128,7 +128,10 @@ final class TagRepository
                 'tags.status',
                 'part_code',
                 'part_name',
-                'sell_status'
+                'part_no',
+                'sell_status',
+                'total_qty',
+                's_cpo_item.cpo_item_id'
 
 
             ]
@@ -138,6 +141,13 @@ final class TagRepository
                 'table' => 'sells',
                 'type' => 'INNER',
                 'conditions' => 's.id = tags.sell_id',
+            ]
+        ]);
+        $query->join([
+            's_cpo_item' => [
+                'table' => 'sell_cpo_items',
+                'type' => 'INNER',
+                'conditions' => 's_cpo_item.sell_id = s.id',
             ]
         ]);
 
@@ -157,7 +167,7 @@ final class TagRepository
             $query->andWhere(['tags.id' => $params["tag_id"]]);
         }
         if (isset($params['sell_id'])) {
-            $query->andWhere(['sell_id' => $params["sell_id"]]);
+            $query->andWhere(['s_cpo_item.sell_id' => $params["sell_id"]]);
         }
 
         if (isset($params["startDate"])) {
