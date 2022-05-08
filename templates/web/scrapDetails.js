@@ -15,7 +15,7 @@ function editScrapDetail(event) {
     $("#editDefectID").selectpicker('val', obj.defect_id);
     $("#editDefectCode").selectpicker('val', obj.defect_code);
     $("#editDefectDescription").val(obj.defect_description);
-    $("#editSellDate").val(obj.sell_date);
+    $("#editPackDate").val(obj.pack_date);
     $("#editSectionName").val(obj.section_name);
     $("#editQuantity").val(obj.scrap_detail_qty);
 

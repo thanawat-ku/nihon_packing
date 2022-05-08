@@ -3,8 +3,8 @@
 namespace App\Action\Api;
 
 use App\Domain\Invoice\Service\InvoiceFinder;
-use App\Domain\Sell\Service\SellFinder;
-use App\Domain\Sell\Service\SellUpdater;
+use App\Domain\Pack\Service\PackFinder;
+use App\Domain\Pack\Service\PackUpdater;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -20,8 +20,8 @@ final class SyncInvoiceNoAction
      */
     private $responder;
     private $finder;
-    private $findSell;
-    private $updateSell;
+    private $findPack;
+    private $updatePack;
 
 
     /**
@@ -31,14 +31,14 @@ final class SyncInvoiceNoAction
      */
     public function __construct(
         InvoiceFinder $finder,
-        SellFinder $findSell,
-        SellUpdater $updateSell,
+        PackFinder $findPack,
+        PackUpdater $updatePack,
         Responder $responder,
         Session $session
     ) {
         $this->finder = $finder;
-        $this->findSell = $findSell;
-        $this->updateSell = $updateSell;
+        $this->findPack = $findPack;
+        $this->updatePack = $updatePack;
         $this->responder = $responder;
         $this->session = $session;
     }
@@ -57,15 +57,15 @@ final class SyncInvoiceNoAction
         $params = (array)$request->getQueryParams();
         $user_id = $params['user_id'];
 
-        $rtSell = $this->findSell->findSells($params);
+        $rtPack = $this->findPack->findPacks($params);
 
-        for ($i = 0; $i < count($rtSell); $i++) {
-            $params['packing_id'] = $rtSell[$i]['packing_id'];
+        for ($i = 0; $i < count($rtPack); $i++) {
+            $params['packing_id'] = $rtPack[$i]['packing_id'];
             $rtIvoice = $this->finder->findInvoice($params);
 
-            $upSell['sell_status'] = 'INVOICED';
-            $upSell['invoice_no'] = $rtIvoice[0]['InvoiceNo'];
-            $this->updateSell->updateSellSyncApi((int)$rtSell[$i]['id'], $upSell, $user_id);
+            $upPack['pack_status'] = 'INVOICED';
+            $upPack['invoice_no'] = $rtIvoice[0]['InvoiceNo'];
+            $this->updatePack->updatePackSyncApi((int)$rtPack[$i]['id'], $upPack, $user_id);
         }
 
 

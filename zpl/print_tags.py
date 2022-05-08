@@ -54,10 +54,10 @@ mycursor = mydb.cursor()
 
 #print_tag(printer_name,customer_name,part_no,part_name,po_no,inv_no,
 #ship_date,order_qty,box_no,total_box,qty,first_name)
-mycursor.execute("SELECT T.id,C.customer_name,P.part_no,P.part_name,S.sell_no,S.invoice_no, \
-    S.sell_date,S.total_qty,T.box_no,T.total_box,T.tag_no,T.quantity,U1.first_name \
+mycursor.execute("SELECT T.id,C.customer_name,P.part_no,P.part_name,S.pack_no,S.invoice_no, \
+    S.pack_date,S.total_qty,T.box_no,T.total_box,T.tag_no,T.quantity,U1.first_name \
     FROM tags T \
-    INNER JOIN sells S ON T.sell_id=S.id \
+    INNER JOIN packs S ON T.pack_id=S.id \
     INNER JOIN products P ON S.product_id=P.id \
     INNER JOIN customers C ON P.customer_id=C.id \
     INNER JOIN printers PT ON T.printer_id=PT.id \

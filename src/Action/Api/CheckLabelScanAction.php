@@ -76,7 +76,7 @@ final class CheckLabelScanAction
             foreach ($labelvalue as $key => $value) {
                 if ($value > 1) {
                     $arrMpDetail = $this->mergepackDetailFinder->checkLabelInMergePackDetail($data1['label_no']);
-                    $rtdata['message'] = "Get SellLabel Successful";
+                    $rtdata['message'] = "Get PackLabel Successful";
                     $rtdata['error'] = true;
                     $rtdata['label_no'] = $arrMpDetail['label_no'];
 
@@ -110,7 +110,7 @@ final class CheckLabelScanAction
                         array_push($listLabelFronMerge, $rtLabel[0][0]);
                     }
                 } else {
-                    // $rtdata['message'] = "Get SellLabel Successful";
+                    // $rtdata['message'] = "Get PackLabel Successful";
                     // $rtdata['error'] = true;
                     // break;
                     $insertMergeDetail['merge_pack_id'] = $mergePackID;

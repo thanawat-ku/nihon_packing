@@ -4,9 +4,9 @@ namespace App\Action\Web;
 
 use App\Domain\CpoItem\Service\CpoItemFinder;
 use App\Domain\TempQuery\Service\TempQueryFinder;
-use App\Domain\Sell\Service\SellFinder;
-use App\Domain\SellCpoItem\Service\SellCpoItemUpdater;
-use App\Domain\Sell\Service\SellUpdater;
+use App\Domain\Pack\Service\PackFinder;
+use App\Domain\PackCpoItem\Service\PackCpoItemUpdater;
+use App\Domain\Pack\Service\PackUpdater;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -32,11 +32,11 @@ final class CpoItemAddAction
     public function __construct(
         Twig $twig,
         CpoItemFinder $finder,
-        SellCpoItemUpdater $sellCpoItemUpdater,
+        PackCpoItemUpdater $sellCpoItemUpdater,
         Session $session,
         Responder $responder,
-        SellUpdater  $sellUpdater,
-        SellFinder $sellFinder,
+        PackUpdater  $sellUpdater,
+        PackFinder $sellFinder,
         TempQueryFinder $tempQueryFinder,
     ) {
         $this->twig = $twig;
@@ -53,18 +53,18 @@ final class CpoItemAddAction
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $data = (array)$request->getParsedBody();
-        $sell_id = (int)$data['sell_id'];
+        $pack_id = (int)$data['pack_id'];
 
         $rtCpoItem = $this->finder->findCpoItem($data);
 
-        $dataCpoItem['PackingQty'] = $rtCpoItem[0]['PackingQty'] + $data['sell_qty'];
+        $dataCpoItem['PackingQty'] = $rtCpoItem[0]['PackingQty'] + $data['pack_qty'];
 
 
         $uuid = uniqid();
         $param_search['uuid'] = $uuid;
-        $param_search['sell_id'] = $sell_id;
+        $param_search['pack_id'] = $pack_id;
 
-        $this->sellCpoItemUpdater->insertSellCpoItem($data);
+        $this->sellCpoItemUpdater->insertPackCpoItem($data);
 
         $flash = $this->session->getFlashBag();
         $flash->clear();
@@ -75,18 +75,18 @@ final class CpoItemAddAction
 
 
         for ($i = 0; $i < count($sellCpoItem); $i++) {
-            $totalQty += (int)$sellCpoItem[$i]['sell_qty'];
+            $totalQty += (int)$sellCpoItem[$i]['pack_qty'];
             $arrTotalQty['total_qty'] = $totalQty;
         }
 
 
-        $this->sellUpdater->updateSellStatusSelectingCpo($sell_id,  $arrTotalQty);
+        $this->sellUpdater->updatePackStatusSelectingCpo($pack_id,  $arrTotalQty);
 
-        $sellRow = $this->sellFinder->findSellRow($sell_id);
+        $sellRow = $this->sellFinder->findPackRow($pack_id);
         $data1['ProductID'] = $sellRow['product_id'];
 
         $viewData = [
-            'sell_id' => $sellRow['id'],
+            'pack_id' => $sellRow['id'],
             'product_id' => $sellRow['product_id'],
         ];
 

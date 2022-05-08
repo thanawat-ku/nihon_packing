@@ -54,10 +54,9 @@ final class PackingRepository
             ]
         );
 
-        $query->orderDesc('PackingID');
-
         if (isset($params["startDate"])) {
             $query->andWhere(['IssueDate <=' => $params['endDate'], 'IssueDate >=' => $params['startDate']]);
+            $query->orderDesc('PackingID');
         }
 
         return $query->execute()->fetchAll('assoc') ?: [];

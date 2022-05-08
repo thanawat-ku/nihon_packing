@@ -39,7 +39,7 @@ final class CheckScanTagAction
             $tags = $data['tags'];
 
             $checkError = true;
-            $data['sell_id'] = $data['id'];
+            $data['pack_id'] = $data['id'];
 
             $arrtags = explode("#", $tags);
 

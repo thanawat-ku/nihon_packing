@@ -4,8 +4,8 @@ namespace App\Action\Api;
 
 use App\Domain\Tag\Service\TagFinder;
 use App\Domain\Tag\Service\TagUpdater;
-use App\Domain\Sell\Service\SellFinder;
-use App\Domain\Sell\Service\SellUpdater;
+use App\Domain\Pack\Service\PackFinder;
+use App\Domain\Pack\Service\PackUpdater;
 use App\Domain\Packing\Service\PackingFinder;
 use App\Domain\CpoItem\Service\CpoItemFinder;
 use App\Domain\CpoItem\Service\CpoItemUpdater;
@@ -24,19 +24,19 @@ final class TagRegisterAction
     private $responder;
     private $updater;
     private $finder;
-    private $findSell;
-    private $updateSell;
+    private $findPack;
+    private $updatePack;
     private $findPacking;
     private $findCpoItem;
     private $updateCpoItem;
 
-    public function __construct(Responder $responder,  TagUpdater $updater, TagFinder $finder, SellFinder $findSell, SellUpdater $updateSell, PackingFinder $findPacking, CpoItemFinder $findCpoItem, CpoItemUpdater $updateCpoItem)
+    public function __construct(Responder $responder,  TagUpdater $updater, TagFinder $finder, PackFinder $findPack, PackUpdater $updatePack, PackingFinder $findPacking, CpoItemFinder $findCpoItem, CpoItemUpdater $updateCpoItem)
     {
         $this->responder = $responder;
         $this->updater = $updater;
         $this->finder = $finder;
-        $this->findSell = $findSell;
-        $this->updateSell = $updateSell;
+        $this->findPack = $findPack;
+        $this->updatePack = $updatePack;
         $this->findPacking = $findPacking;
         $this->findCpoItem = $findCpoItem;
         $this->updateCpoItem = $updateCpoItem;
@@ -55,7 +55,7 @@ final class TagRegisterAction
 
         if ($rtTags) {
 
-            $sellID = $rtTags[0]['sell_id'];
+            $sellID = $rtTags[0]['pack_id'];
 
             $checkTagPrinted = true;
             for ($i = 0; $i < count($rtTags); $i++) {
@@ -67,11 +67,11 @@ final class TagRegisterAction
             if ($checkTagPrinted == true) {
 
 
-                $rtSell = $this->findSell->findSellRow($sellID);
+                $rtPack = $this->findPack->findPackRow($sellID);
 
-                if ($rtSell['is_completed'] == 'Y') {
+                if ($rtPack['is_completed'] == 'Y') {
 
-                    $rtPacking['PackingID'] =  $rtSell['packing_id'];
+                    $rtPacking['PackingID'] =  $rtPack['packing_id'];
 
                     $sumQuantity = 0;
                     $rtPackingItem = $this->findPacking->findPackingItem($rtPacking);
@@ -86,18 +86,18 @@ final class TagRegisterAction
                     $this->updateCpoItem->updateCpoItem((int)$rtPackingItem[0]['CpoItemID'], $isCpoItem);
 
                     $upStatus['status'] = "BOXED";
-                    $this->updater->updateTagAllFromSellIDApi($sellID, $upStatus,  $user_id);
+                    $this->updater->updateTagAllFromPackIDApi($sellID, $upStatus,  $user_id);
 
                     $upStatus['up_status'] = "TAGGED";
-                    $this->updateSell->updateSellStatus($sellID, $upStatus, $user_id);
+                    $this->updatePack->updatePackStatus($sellID, $upStatus, $user_id);
 
                     $rtdata['message'] = "Get Tag Successful";
                     $rtdata['error'] = false;
                     $rtdata['tags'] = $this->finder->findTags($data);
-                } else if ($rtSell['is_completed'] == 'N') {
+                } else if ($rtPack['is_completed'] == 'N') {
 
                     
-                    $rtPacking['PackingID'] = $rtSell['packing_id'];
+                    $rtPacking['PackingID'] = $rtPack['packing_id'];
 
                     $sumQuantity = 0;
                     $rtPackingItem = $this->findPacking->findPackingItem($rtPacking);
@@ -112,10 +112,10 @@ final class TagRegisterAction
                     $this->updateCpoItem->updateCpoItem((int)$rtPackingItem[0]['CpoItemID'], $isCpoItem);
 
                     $upStatus['status'] = "BOXED";
-                    $this->updater->updateTagAllFromSellIDApi($sellID, $upStatus,  $user_id);
+                    $this->updater->updateTagAllFromPackIDApi($sellID, $upStatus,  $user_id);
 
                     $upStatus['up_status'] = "COMPLETE";
-                    $this->updateSell->updateSellStatus($sellID, $upStatus, $user_id);
+                    $this->updatePack->updatePackStatus($sellID, $upStatus, $user_id);
 
                     $rtdata['message'] = "Get Tag Successful";
                     $rtdata['error'] = false;
