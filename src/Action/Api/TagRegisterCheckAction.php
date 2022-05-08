@@ -37,11 +37,11 @@ final class TagRegisterCheckAction
     ): ResponseInterface {
 
         $data = (array)$request->getParsedBody();
-        $user_id = $data['user_id'];
 
-        $rtTags = $this->finder->findTags($data);
+        $searchTag['tag_no'] = $data['tag_no'];
+        $rtTags = $this->finder->findTags($searchTag);
 
-        if ($rtTags) {
+        if ($rtTags[0]['pack_id'] == $data['pack_id']) {
 
             $PackID['pack_id'] = $rtTags[0]['pack_id'];
 
