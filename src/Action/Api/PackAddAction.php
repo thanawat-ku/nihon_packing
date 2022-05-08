@@ -91,9 +91,8 @@ final class PackAddAction
                         $this->updateTempQuery->insertTempQuery($param_cpo);
                     }
                 }
-            }
-
-            return $this->responder->withJson($response, $rtdata);
+            }   
         }
+        return $this->responder->withJson($response, $rtdata);
     }
 }
