@@ -106,16 +106,16 @@ final class PackLabelRepository
         }
         if (isset($params['prefer_lot_id'])) {
             $query->Where(['lb.prefer_lot_id' => $params["prefer_lot_id"]]);
-            $query->Where(['lb.lot_id' => 0]);
+            // $query->Where(['lb.lot_id' => 0]);
         }
-        if (isset($params['find_lot_id'])) {
-            $query->Where(['s.id' => $params["pack_id"]]);
-            $query->Where(['lb.lot_id !=' => 0]);
-            $query->group('lb.lot_id');
-        }
+        // if (isset($params['find_lot_id'])) {
+        //     $query->Where(['s.id' => $params["pack_id"]]);
+        //     $query->Where(['lb.lot_id !=' => 0]);
+        //     $query->group('lb.lot_id');
+        // }
         if (isset($params['find_prefer_lot_id'])) {
             $query->Where(['s.id' => $params["pack_id"]]);
-            $query->Where(['lb.lot_id' => 0]);
+            // $query->Where(['lb.lot_id' => 0]);
             $query->group('lb.prefer_lot_id');
         }
 
