@@ -2,10 +2,10 @@
 -- version 5.0.4
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Mar 04, 2022 at 06:30 PM
--- Server version: 8.0.19
--- PHP Version: 8.0.7
+-- Host: 127.0.0.1
+-- Generation Time: May 08, 2022 at 06:25 AM
+-- Server version: 10.4.17-MariaDB
+-- PHP Version: 8.0.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -28,14 +28,14 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `customers` (
-  `id` int NOT NULL,
-  `customer_code` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `customer_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `is_delete` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N',
+  `id` int(11) NOT NULL,
+  `customer_code` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `customer_name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `is_delete` char(1) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N',
   `created_at` datetime NOT NULL,
-  `created_user_id` int NOT NULL,
+  `created_user_id` int(11) NOT NULL,
   `updated_at` datetime NOT NULL,
-  `updated_user_id` int NOT NULL
+  `updated_user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
 
 --
@@ -238,7 +238,7 @@ INSERT INTO `customers` (`id`, `customer_code`, `customer_name`, `is_delete`, `c
 --
 
 CREATE TABLE `db_versions` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `version` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` datetime NOT NULL,
   `created_by` varchar(100) COLLATE utf8_unicode_ci NOT NULL
@@ -249,7 +249,8 @@ CREATE TABLE `db_versions` (
 --
 
 INSERT INTO `db_versions` (`id`, `version`, `created_at`, `created_by`) VALUES
-(1, '1.10@2022-03-04', '2022-03-04 18:26:51', 'Thanawat');
+(1, '1.10@2022-03-04', '2022-03-04 18:26:51', 'Thanawat'),
+(2, '1.20@2022-03-23', '2022-04-07 22:35:22', 'rachanon');
 
 -- --------------------------------------------------------
 
@@ -258,14 +259,14 @@ INSERT INTO `db_versions` (`id`, `version`, `created_at`, `created_by`) VALUES
 --
 
 CREATE TABLE `defects` (
-  `id` int NOT NULL,
-  `defect_code` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `defect_description` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `oqc_check` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id` int(11) NOT NULL,
+  `defect_code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `defect_description` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `oqc_check` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` datetime NOT NULL,
-  `created_user_id` int NOT NULL,
+  `created_user_id` int(11) NOT NULL,
   `updated_at` datetime NOT NULL,
-  `updated_user_id` int NOT NULL
+  `updated_user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -379,24 +380,24 @@ INSERT INTO `defects` (`id`, `defect_code`, `defect_description`, `oqc_check`, `
 --
 
 CREATE TABLE `labels` (
-  `id` int NOT NULL,
-  `product_id` int NOT NULL,
-  `lot_id` int NOT NULL,
-  `prefer_lot_id` int DEFAULT '0',
-  `merge_pack_id` int NOT NULL DEFAULT '0',
-  `split_label_id` int NOT NULL DEFAULT '0',
-  `printer_id` int NOT NULL DEFAULT '0',
-  `label_no` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `label_type` enum('FULLY','NONFULLY','MERGE_FULLY','MERGE_NONFULLY') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `quantity` int NOT NULL,
-  `status` enum('CREATED','PACKED','USED','VOID','MERGED','MERGING','SELLING','PRINTED') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'CREATED',
-  `is_delete` enum('N','Y') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N',
-  `wait_print` enum('N','Y') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N',
-  `label_void_reason_id` int NOT NULL DEFAULT '0',
+  `id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `lot_id` int(11) NOT NULL,
+  `prefer_lot_id` int(11) DEFAULT 0,
+  `merge_pack_id` int(11) NOT NULL DEFAULT 0,
+  `split_label_id` int(11) NOT NULL DEFAULT 0,
+  `printer_id` int(11) NOT NULL DEFAULT 0,
+  `label_no` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `label_type` enum('FULLY','NONFULLY','MERGE_FULLY','MERGE_NONFULLY') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `status` enum('CREATED','PACKED','USED','VOID','MERGED','MERGING','SELLING','PRINTED') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'CREATED',
+  `is_delete` enum('N','Y') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N',
+  `wait_print` enum('N','Y') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N',
+  `label_void_reason_id` int(11) NOT NULL DEFAULT 0,
   `created_at` datetime DEFAULT NULL,
-  `created_user_id` int NOT NULL,
+  `created_user_id` int(11) NOT NULL,
   `updated_at` datetime DEFAULT NULL,
-  `updated_user_id` int NOT NULL
+  `updated_user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -406,13 +407,13 @@ CREATE TABLE `labels` (
 --
 
 CREATE TABLE `label_void_reasons` (
-  `id` int NOT NULL,
-  `reason_name` varchar(20) NOT NULL,
-  `description` text NOT NULL,
+  `id` int(11) NOT NULL,
+  `reason_name` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` datetime NOT NULL,
-  `created_user_id` int NOT NULL,
+  `created_user_id` int(11) NOT NULL,
   `updated_at` datetime NOT NULL,
-  `updated_user_id` int NOT NULL
+  `updated_user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -434,22 +435,33 @@ INSERT INTO `label_void_reasons` (`id`, `reason_name`, `description`, `created_a
 --
 
 CREATE TABLE `lots` (
-  `id` int NOT NULL,
-  `lot_no` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `generate_lot_no` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `product_id` int NOT NULL,
-  `quantity` int NOT NULL,
-  `real_qty` int NOT NULL DEFAULT '0',
-  `printed_user_id` int DEFAULT NULL,
-  `packed_user_id` int NOT NULL DEFAULT '0',
-  `status` enum('CREATED','CONFIRMED','PRINTED','PACKING','PACKED') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'CREATED',
+  `id` int(11) NOT NULL,
+  `stock_control_id` int(11) NOT NULL,
+  `lot_no` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `generate_lot_no` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `product_id` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `real_qty` int(11) NOT NULL DEFAULT 0,
+  `printed_user_id` int(11) DEFAULT NULL,
+  `packed_user_id` int(11) NOT NULL DEFAULT 0,
+  `status` enum('CREATED','CONFIRMED','PRINTED','PACKING','PACKED') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'CREATED',
   `issue_date` date NOT NULL,
-  `is_delete` enum('N','Y') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N',
+  `is_delete` enum('N','Y') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N',
   `created_at` datetime DEFAULT NULL,
-  `created_user_id` int NOT NULL,
+  `created_user_id` int(11) NOT NULL,
   `updated_at` datetime DEFAULT NULL,
-  `updated_user_id` int NOT NULL
+  `updated_user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `lots`
+--
+
+INSERT INTO `lots` (`id`, `stock_control_id`, `lot_no`, `generate_lot_no`, `product_id`, `quantity`, `real_qty`, `printed_user_id`, `packed_user_id`, `status`, `issue_date`, `is_delete`, `created_at`, `created_user_id`, `updated_at`, `updated_user_id`) VALUES
+(1801519, 2109729, 'xxx', 'xxx', 1, 1, 0, NULL, 0, 'CREATED', '2022-04-01', 'N', NULL, 1, NULL, 1),
+(1809282, 2112534, '22426A1207B', 'L00001809282', 4230, 5085, 5085, 1, 1, 'CREATED', '2022-04-26', 'N', '2022-05-07 11:30:54', 1, '2022-05-08 09:09:33', 1),
+(1810675, 2112529, '12428NSB07B', 'L00001810675', 3259, 1824, 1824, 1, 1, 'CREATED', '2022-05-07', 'N', '2022-05-07 11:24:07', 1, '2022-05-07 20:41:50', 1),
+(1813169, 2112529, '2250532J04A', 'L00001813169', 4721, 260, 260, 1, 1, 'CREATED', '2022-05-05', 'N', '2022-05-07 11:24:07', 1, '2022-05-07 11:33:13', 1);
 
 -- --------------------------------------------------------
 
@@ -458,15 +470,22 @@ CREATE TABLE `lots` (
 --
 
 CREATE TABLE `lot_defects` (
-  `id` int NOT NULL,
-  `lot_id` int NOT NULL,
-  `defect_id` int NOT NULL,
-  `quantity` int NOT NULL,
+  `id` int(11) NOT NULL,
+  `lot_id` int(11) NOT NULL,
+  `defect_id` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
   `created_at` datetime NOT NULL,
-  `created_user_id` int NOT NULL,
+  `created_user_id` int(11) NOT NULL,
   `updated_at` datetime NOT NULL,
-  `updated_user_id` int NOT NULL
+  `updated_user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `lot_defects`
+--
+
+INSERT INTO `lot_defects` (`id`, `lot_id`, `defect_id`, `quantity`, `created_at`, `created_user_id`, `updated_at`, `updated_user_id`) VALUES
+(1, 1813169, 47, 20, '2022-05-07 11:32:06', 1, '2022-05-07 11:32:06', 1);
 
 -- --------------------------------------------------------
 
@@ -475,16 +494,16 @@ CREATE TABLE `lot_defects` (
 --
 
 CREATE TABLE `merge_packs` (
-  `id` int NOT NULL,
-  `merge_no` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `product_id` int NOT NULL,
-  `merge_status` enum('CREATED','MERGED','MERGING','REGISTERING','COMPLETE','PRINTED') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` int(11) NOT NULL,
+  `merge_no` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `merge_status` enum('CREATED','MERGED','MERGING','REGISTERING','COMPLETE','PRINTED') COLLATE utf8mb4_unicode_ci NOT NULL,
   `merge_date` date NOT NULL,
-  `is_delete` enum('N','Y') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N',
+  `is_delete` enum('N','Y') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N',
   `created_at` datetime DEFAULT NULL,
-  `created_user_id` int NOT NULL,
+  `created_user_id` int(11) NOT NULL,
   `updated_at` datetime DEFAULT NULL,
-  `updated_user_id` int NOT NULL
+  `updated_user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -494,13 +513,69 @@ CREATE TABLE `merge_packs` (
 --
 
 CREATE TABLE `merge_pack_details` (
-  `id` int NOT NULL,
-  `merge_pack_id` int NOT NULL,
-  `label_id` int NOT NULL,
+  `id` int(11) NOT NULL,
+  `merge_pack_id` int(11) NOT NULL,
+  `label_id` int(11) NOT NULL,
   `created_at` datetime DEFAULT NULL,
-  `created_user_id` int NOT NULL,
+  `created_user_id` int(11) NOT NULL,
   `updated_at` datetime DEFAULT NULL,
-  `updated_user_id` int NOT NULL
+  `updated_user_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `packs`
+--
+
+CREATE TABLE `packs` (
+  `id` int(11) NOT NULL,
+  `pack_no` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `invoice_no` varchar(40) COLLATE utf8mb4_unicode_ci DEFAULT 'N/A',
+  `pack_date` date NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `packing_id` int(11) NOT NULL DEFAULT 0,
+  `total_qty` int(11) NOT NULL,
+  `pack_status` enum('CREATED','SELECTING_CPO','SELECTED_CPO','SELECTING_LABEL','PRINTED','TAGGED','INVOICED','COMPLETE') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `is_delete` enum('N','Y') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N',
+  `created_at` datetime NOT NULL,
+  `created_user_id` int(11) NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `updated_user_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pack_cpo_items`
+--
+
+CREATE TABLE `pack_cpo_items` (
+  `id` int(11) NOT NULL,
+  `pack_id` int(11) NOT NULL,
+  `cpo_item_id` int(11) NOT NULL,
+  `remain_qty` int(11) NOT NULL,
+  `pack_qty` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `created_user_id` int(11) NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `updated_user_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pack_labels`
+--
+
+CREATE TABLE `pack_labels` (
+  `id` int(11) NOT NULL,
+  `pack_id` int(11) NOT NULL,
+  `label_id` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `created_user_id` int(11) NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `updated_user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -510,15 +585,26 @@ CREATE TABLE `merge_pack_details` (
 --
 
 CREATE TABLE `printers` (
-  `id` int NOT NULL,
-  `printer_name` varchar(20) NOT NULL,
-  `printer_address` text NOT NULL,
-  `printer_type` enum('LABEL','TAG') NOT NULL,
+  `id` int(11) NOT NULL,
+  `printer_name` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `printer_address` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `printer_type` enum('LABEL','TAG') COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` datetime NOT NULL,
-  `created_user_id` int NOT NULL,
+  `created_user_id` int(11) NOT NULL,
   `updated_at` datetime NOT NULL,
-  `updated_user_id` int NOT NULL
+  `updated_user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `printers`
+--
+
+INSERT INTO `printers` (`id`, `printer_name`, `printer_address`, `printer_type`, `created_at`, `created_user_id`, `updated_at`, `updated_user_id`) VALUES
+(1, 'KK-Label', 'Khon Kaen', 'LABEL', '2022-02-21 13:42:06', 1, '2022-05-05 16:59:18', 1),
+(2, 'HP-Label', '104.23.562', 'LABEL', '2022-02-21 13:42:19', 1, '2022-03-22 14:38:44', 1),
+(3, 'AY-Label', 'Ayuthaya', 'LABEL', '2022-02-21 13:42:36', 1, '2022-05-05 16:58:55', 1),
+(4, 'AY-Tag', 'Ayuthaya', 'TAG', '2022-02-25 16:45:51', 1, '2022-05-05 16:58:40', 1),
+(5, 'KK-Tag', 'Khon Kaen', 'TAG', '2022-02-21 13:42:06', 1, '2022-05-05 16:59:38', 1);
 
 -- --------------------------------------------------------
 
@@ -527,19 +613,19 @@ CREATE TABLE `printers` (
 --
 
 CREATE TABLE `products` (
-  `id` int NOT NULL,
-  `part_no` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `part_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `part_code` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `customer_id` int NOT NULL,
-  `std_pack` int NOT NULL DEFAULT '1',
-  `std_box` int NOT NULL DEFAULT '1',
-  `is_delete` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N',
-  `is_completed` enum('N','Y') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N',
+  `id` int(11) NOT NULL,
+  `part_no` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `part_name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `part_code` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `customer_id` int(11) NOT NULL,
+  `std_pack` int(11) NOT NULL DEFAULT 1,
+  `std_box` int(11) NOT NULL DEFAULT 1,
+  `is_delete` char(1) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N',
+  `is_completed` enum('N','Y') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N',
   `created_at` datetime NOT NULL,
-  `created_user_id` int NOT NULL,
+  `created_user_id` int(11) NOT NULL,
   `updated_at` datetime NOT NULL,
-  `updated_user_id` int NOT NULL
+  `updated_user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
 
 --
@@ -1042,7 +1128,7 @@ INSERT INTO `products` (`id`, `part_no`, `part_name`, `part_code`, `customer_id`
 (1022, 'A4-42100-P', 'SHAFT', 'COP42100P', 4, 10000, 10000, 'N', 'N', '2021-11-27 18:44:12', 1, '2021-11-27 18:44:12', 1),
 (1023, '703-64112', 'THROTTLE SHAFT', 'MTC4112', 25, 400, 400, 'N', 'N', '2021-11-27 18:44:12', 1, '2021-11-27 18:44:12', 1),
 (1024, '6G6663010', 'HANDLE RIVET', 'LIN66301', 19, 5000, 5000, 'N', 'N', '2021-11-27 18:44:12', 1, '2021-11-27 18:44:12', 1),
-(1025, 'SM095288-6030', 'TERMINAL,LWR G3', 'KSC6030', 17, 15000, 15000, 'N', 'N', '2021-11-27 18:44:12', 1, '2021-11-27 18:44:12', 1),
+(1025, 'SM095288-6030', 'TERMINAL,LWR G3', 'KSC6030', 17, 15000, 15000, 'N', 'Y', '2021-11-27 18:44:12', 1, '2022-05-02 22:09:16', 1),
 (1026, '5PO-F7438-00', 'PIN', 'TYM7438', 50, 400, 400, 'N', 'N', '2021-11-27 18:44:12', 1, '2021-11-27 18:44:12', 1),
 (1027, '5PO-F7313-00', 'COLLAR', 'TYM7313', 50, 400, 400, 'N', 'N', '2021-11-27 18:44:12', 1, '2021-11-27 18:44:12', 1),
 (1028, '4-104-939-01', 'FRAME', 'TET939', 71, 1000, 1000, 'N', 'N', '2021-11-27 18:44:12', 1, '2021-11-27 18:44:12', 1),
@@ -2500,7 +2586,7 @@ INSERT INTO `products` (`id`, `part_no`, `part_name`, `part_code`, `customer_id`
 (2712, 'FC9-0812-000 (HIS002)', 'SHAFT_2ND_DLV_HINGE_2', 'CPT0812', 148, 1000, 1000, 'N', 'N', '2021-11-27 18:44:17', 1, '2021-11-27 18:44:17', 1),
 (2713, '271425Z30050', 'CAP,15MM', 'ATA1425', 137, 500, 500, 'N', 'N', '2021-11-27 18:44:17', 1, '2021-11-27 18:44:17', 1),
 (2714, '271425Z30050', 'CAP,15MM', 'NIT1425', 78, 500, 500, 'N', 'N', '2021-11-27 18:44:17', 1, '2021-11-27 18:44:17', 1),
-(2715, '271225Z30050', 'PLUG,11MM', 'ATA1225', 137, 1400, 1400, 'N', 'N', '2021-11-27 18:44:17', 1, '2021-11-27 18:44:17', 1),
+(2715, '271225Z30050', 'PLUG,11MM', 'ATA1225', 137, 1400, 1400, 'N', 'Y', '2021-11-27 18:44:17', 1, '2021-11-27 18:44:17', 1),
 (2716, '271225Z30050', 'PLUG,11MM', 'NIT1225', 78, 1000, 1000, 'N', 'N', '2021-11-27 18:44:17', 1, '2021-11-27 18:44:17', 1),
 (2717, 'BAOKE A4461', 'AISI1215 NO ENOGARD + BAKING ', 'TRI4461-1', 167, 150, 150, 'N', 'N', '2021-11-27 18:44:17', 1, '2021-11-27 18:44:17', 1),
 (2718, 'M00424', 'COMMON/ CDSLR/ SHAFT', 'MPC0424', 82, 10000, 10000, 'N', 'N', '2021-11-27 18:44:17', 1, '2021-11-27 18:44:17', 1),
@@ -2760,7 +2846,7 @@ INSERT INTO `products` (`id`, `part_no`, `part_name`, `part_code`, `customer_id`
 (2998, '508488-0021', 'CORE', 'GSD0021', 189, 2500, 2500, 'N', 'N', '2021-11-27 18:44:18', 1, '2021-11-27 18:44:18', 1),
 (3000, '1K631-624-1/T05', 'COMMON#553 /SWM /INNER TUBE', 'NKT624-A', 27, 0, 0, 'N', 'N', '2021-11-27 18:44:18', 1, '2021-11-27 18:44:18', 1),
 (3001, '142067-1901', 'PIN,HOLDING,B', 'TSK71901-1', 49, 1000, 1000, 'N', 'N', '2021-11-27 18:44:18', 1, '2021-11-27 18:44:18', 1),
-(3002, 'SLQ0811401', 'PLUNGER', 'ATA1401', 137, 720, 720, 'N', 'N', '2021-11-27 18:44:18', 1, '2021-11-27 18:44:18', 1),
+(3002, 'SLQ0811401', 'PLUNGER', 'ATA1401', 137, 720, 720, 'N', 'Y', '2021-11-27 18:44:18', 1, '2021-11-27 18:44:18', 1),
 (3003, 'BAOKE51262', 'SHAFT', 'TCP51262', 184, 200, 200, 'N', 'N', '2021-11-27 18:44:18', 1, '2021-11-27 18:44:18', 1),
 (3004, 'QC4-9058-000 (HIS001)', 'Cutter Pully Gear Shaft (44A)', 'CHT9058', 3, 100, 100, 'N', 'N', '2021-11-27 18:44:18', 1, '2021-11-27 18:44:18', 1),
 (3005, '1K014-041/T05', 'NNK0104-A1  SCREW M1.7', 'STC041', 103, 10000, 10000, 'N', 'N', '2021-11-27 18:44:18', 1, '2021-11-27 18:44:18', 1),
@@ -2984,7 +3070,7 @@ INSERT INTO `products` (`id`, `part_no`, `part_name`, `part_code`, `customer_id`
 (3256, '2ESO-1201/15', 'SPOOL', 'MTC0115', 25, 0, 0, 'N', 'N', '2021-11-27 18:44:18', 1, '2021-11-27 18:44:18', 1),
 (3257, '2ESO-1201/02', 'INNER YOKE', 'MTC0102', 25, 0, 0, 'N', 'N', '2021-11-27 18:44:18', 1, '2021-11-27 18:44:18', 1),
 (3258, '2ESO-1201/07', 'PLUNGER', 'MTC0107', 25, 0, 0, 'N', 'N', '2021-11-27 18:44:18', 1, '2021-11-27 18:44:18', 1),
-(3259, 'BAMLE56061', 'SHAFT', 'TCP6061', 184, 100, 100, 'N', 'N', '2021-11-27 18:44:18', 1, '2021-11-27 18:44:18', 1),
+(3259, 'BAMLE56061', 'SHAFT', 'TCP6061', 184, 100, 100, 'N', 'Y', '2021-11-27 18:44:18', 1, '2022-05-07 20:51:30', 1),
 (3260, '110D2-A02DS8', 'Q920-H10402 / PIN', 'MPS110D2-7', 126, 1000, 10000, 'N', 'N', '2021-11-27 18:44:18', 1, '2021-11-27 18:44:18', 1),
 (3261, 'QD1-1407-000', 'SUPPORT_RAIL_SHAFT', 'PCT1407', 204, 50, 300, 'N', 'N', '2021-11-27 18:44:18', 1, '2021-11-27 18:44:18', 1),
 (3262, '19-AX12A', 'NIPPLE', 'MIMAX12-S1', 181, 15, 15, 'N', 'N', '2021-11-27 18:44:18', 1, '2021-11-27 18:44:18', 1),
@@ -3201,7 +3287,7 @@ INSERT INTO `products` (`id`, `part_no`, `part_name`, `part_code`, `customer_id`
 (3484, 'QC5-3971-000 (HIS003)', 'DRV PG TRIGGER SHAFT M62', 'CHT3971', 3, 100, 3000, 'N', 'N', '2021-11-27 18:44:19', 1, '2021-11-27 18:44:19', 1),
 (3485, 'QC5-3971-000 (HIS003)', 'DRV PG TRIGGER SHAFT M62', 'CRA3971', 128, 100, 3000, 'N', 'N', '2021-11-27 18:44:19', 1, '2021-11-27 18:44:19', 1),
 (3486, 'QC5-3893-000 (HIS005)', 'PF SWING ROLLER SHAFT M62', 'CRA3893', 128, 100, 1000, 'N', 'N', '2021-11-27 18:44:19', 1, '2021-11-27 18:44:19', 1),
-(3487, 'QC5-4651-000 (HIS004)', 'SCN IDLER PULLEY SHAFT M62', 'CRA54651', 128, 400, 4000, 'N', 'N', '2021-11-27 18:44:19', 1, '2021-11-27 18:44:19', 1),
+(3487, 'QC5-4651-000 (HIS004)', 'SCN IDLER PULLEY SHAFT M62', 'CRA54651', 128, 400, 4000, 'N', 'Y', '2021-11-27 18:44:19', 1, '2021-11-27 18:44:19', 1),
 (3488, 'QC5-4649-000 (HIS003)', 'SCN DRIVE GEAR SHAFT M62', 'CRA54649', 128, 400, 4000, 'N', 'N', '2021-11-27 18:44:19', 1, '2021-11-27 18:44:19', 1),
 (3489, '1K360-815-0001S', 'MODEL Q910#136/#117 / SHAFT', 'SPT0815-2', 90, 10000, 10000, 'N', 'N', '2021-11-27 18:44:19', 1, '2021-11-27 18:44:19', 1),
 (3490, 'MR4027C00', 'ROD (14FD007B-470)', 'EKK4027', 9, 100, 200, 'N', 'N', '2021-11-27 18:44:19', 1, '2021-11-27 18:44:19', 1),
@@ -3984,7 +4070,7 @@ INSERT INTO `products` (`id`, `part_no`, `part_name`, `part_code`, `customer_id`
 (4320, 'AS10/51A-A01', 'PLUNGER-A01', 'NSIAS10', 99, 100, 400, 'N', 'N', '2021-11-27 18:44:22', 1, '2021-11-27 18:44:22', 1),
 (4321, 'AS28/04-A01', 'SHAFT-A01', 'NSIAS28', 99, 500, 2000, 'N', 'N', '2021-11-27 18:44:22', 1, '2021-11-27 18:44:22', 1),
 (4322, '2244049-1A-A01', 'CAP BUTTON', 'NSI4049', 99, 100, 2500, 'N', 'N', '2021-11-27 18:44:22', 1, '2021-11-27 18:44:22', 1),
-(4323, '2244054-8A-A01', 'CAP BUTTON', 'NSI4054', 99, 100, 1500, 'N', 'N', '2021-11-27 18:44:22', 1, '2021-11-27 18:44:22', 1),
+(4323, '2244054-8A-A01', 'CAP BUTTON', 'NSI4054', 99, 100, 1500, 'N', 'N', '2021-11-27 18:44:22', 1, '2022-05-02 22:46:16', 1),
 (4324, '2244062-9 B-A01', 'MOVABLE BUSH', 'NSI4062', 99, 100, 1000, 'N', 'N', '2021-11-27 18:44:22', 1, '2021-11-27 18:44:22', 1),
 (4325, 'AS47/01-A01', 'ROD-A01', 'NSIAS47', 99, 200, 1000, 'N', 'N', '2021-11-27 18:44:22', 1, '2021-11-27 18:44:22', 1),
 (4326, 'QC6-4956-000 (MTL-0031-078)', 'SUB ELECTPIN J190 (MAX)', 'CHT4956-1', 3, 100, 100, 'N', 'N', '2021-11-27 18:44:22', 1, '2021-11-27 18:44:22', 1),
@@ -4367,7 +4453,7 @@ INSERT INTO `products` (`id`, `part_no`, `part_name`, `part_code`, `customer_id`
 (4718, '7AZ01 1210A', 'COLLAR D', 'UMT1210A-S', 161, 200, 1000, 'N', 'N', '2021-11-27 18:44:23', 1, '2021-11-27 18:44:23', 1),
 (4719, '7AZ01 1210B', 'COLLAR E', 'UMT1210B-S', 161, 200, 1000, 'N', 'N', '2021-11-27 18:44:23', 1, '2021-11-27 18:44:23', 1),
 (4720, 'QC5-6515-000 (EL6-2336)', 'SUB ELECTPIN N', 'CHT6515-S', 3, 200, 1000, 'N', 'N', '2021-11-27 18:44:23', 1, '2021-11-27 18:44:23', 1),
-(4721, 'APC14 00002', 'CASE', 'ATAAPC14-3', 137, 27, 162, 'N', 'N', '2021-11-27 18:44:23', 1, '2021-11-27 18:44:23', 1),
+(4721, 'APC14 00002', 'CASE', 'ATAAPC14-3', 137, 27, 162, 'N', 'Y', '2021-11-27 18:44:23', 1, '2022-05-07 14:33:04', 1),
 (4722, 'QC5-1932-000 (EJ6-0910)', 'R PIN L P12', 'CHT1932-S', 3, 500, 1000, 'N', 'N', '2021-11-27 18:44:23', 1, '2021-11-27 18:44:23', 1),
 (4723, 'S-FL0-0813-000', 'SHAFT', 'FTT0813-S', 198, 400, 400, 'N', 'N', '2021-11-27 18:44:23', 1, '2021-11-27 18:44:23', 1),
 (4724, 'SLY01 11304', 'VALVE', 'ATA1304', 137, 1000, 10000, 'N', 'N', '2021-11-27 18:44:23', 1, '2021-11-27 18:44:23', 1),
@@ -4701,7 +4787,7 @@ INSERT INTO `products` (`id`, `part_no`, `part_name`, `part_code`, `customer_id`
 (5070, 'EJW01 62001', 'NUT-INSERT M5', 'ATA62001-S1', 137, 100, 1000, 'N', 'N', '2021-12-06 15:11:13', 1, '2021-12-06 15:11:13', 1),
 (5071, 'EJW01 68301', 'COLLAR-INSERT M3', 'ATA68301-S1', 137, 100, 1000, 'N', 'N', '2021-12-06 15:11:13', 1, '2021-12-06 15:11:13', 1),
 (5072, '135RV-A0R8VD', 'NUT / Model R18660', 'NKT135RV-S', 27, 1000, 10000, 'N', 'N', '2021-12-10 13:37:58', 1, '2021-12-10 13:37:58', 1),
-(5073, 'AS10/55-1', 'PLUNGER', 'NSIAS10-1', 99, 100, 400, 'N', 'N', '2021-12-10 13:37:58', 1, '2021-12-10 13:37:58', 1),
+(5073, 'AS10/55-1', 'PLUNGER', 'NSIAS10-1', 99, 100, 400, 'N', 'Y', '2021-12-10 13:37:58', 1, '2022-05-06 11:23:08', 1),
 (5074, 'PP8001-4479PP', 'SHAFT-IDLE (RELAY)', 'OKI4479', 33, 200, 2000, 'N', 'N', '2021-12-10 13:37:58', 1, '2021-12-10 13:37:58', 1),
 (5075, 'MP6107B02', 'ROD', 'EKK6107-S', 9, 100, 200, 'N', 'N', '2022-02-18 11:15:46', 1, '2022-02-18 11:15:46', 1),
 (5076, 'MP7207B01', 'ROD', 'EKK7207-S', 9, 100, 200, 'N', 'N', '2022-02-18 11:15:46', 1, '2022-02-18 11:15:46', 1),
@@ -4741,7 +4827,61 @@ INSERT INTO `products` (`id`, `part_no`, `part_name`, `part_code`, `customer_id`
 (5111, 'FU2-4191-000 (REV.003)', 'PIN_CAULKING', 'CHT4191-S', 3, 200, 1000, 'N', 'N', '2022-02-18 11:15:47', 1, '2022-02-18 11:15:47', 1),
 (5113, '45208401PP', 'SHAFT-DV', 'OKI08401-S', 33, 100, 1000, 'N', 'N', '2022-02-18 11:15:47', 1, '2022-02-18 11:15:47', 1),
 (5114, '45209401PP', 'SHAFT-DRUM', 'OKI09401-S', 33, 100, 1000, 'N', 'N', '2022-02-18 11:15:47', 1, '2022-02-18 11:15:47', 1),
-(5115, 'FA1-G989-000', 'CAP-TUBE', 'CHTG989-S', 3, 10, 100, 'N', 'N', '2022-02-18 11:15:47', 1, '2022-02-18 11:15:47', 1);
+(5115, 'FA1-G989-000', 'CAP-TUBE', 'CHTG989-S', 3, 10, 100, 'N', 'N', '2022-02-18 11:15:47', 1, '2022-02-18 11:15:47', 1),
+(5116, 'FA1-G598-000', 'PLATE-HINGE-DAMPER', 'CHTG598-S', 3, 200, 1000, 'N', 'N', '2022-04-07 22:45:01', 1, '2022-04-07 22:45:01', 1),
+(5117, '3511-PJ5A-0000', 'SHAFT, THROTTLE', 'HAIPJ5A-S1', 245, 50, 100, 'N', 'N', '2022-04-07 22:45:01', 1, '2022-04-07 22:45:01', 1),
+(5118, '3511-RKG0-A000', 'SHAFT, THROTTLE', 'HAIRKG0-S1', 245, 50, 100, 'N', 'N', '2022-04-07 22:45:01', 1, '2022-04-07 22:45:01', 1),
+(5120, '3511-PT9A-00A2', 'THROTTLE SHAFT', 'HAMPT9A-S1', 243, 200, 200, 'N', 'N', '2022-04-07 22:45:01', 1, '2022-04-07 22:45:01', 1),
+(5121, 'FC9-0829-000', 'SHAFT_VER_PASS_IDLER', 'PCT0829', 204, 200, 2000, 'N', 'N', '2022-04-07 22:45:01', 1, '2022-04-07 22:45:01', 1),
+(5122, 'FU7-5746-000', 'SHAFT_PICK-UP_IDLER', 'PCT5746', 204, 100, 2000, 'N', 'N', '2022-04-07 22:45:01', 1, '2022-04-07 22:45:01', 1),
+(5123, 'FU7-4653-000', 'SHAFT_PICK-UP_IDLER_2', 'PCT4653', 204, 200, 800, 'N', 'N', '2022-04-07 22:45:01', 1, '2022-04-07 22:45:01', 1),
+(5124, 'FU7-5743-000', 'SHAFT_FIX_DLV_L0_GR_1', 'KMC5743', 14, 200, 1000, 'N', 'N', '2022-04-07 22:45:01', 1, '2022-04-07 22:45:01', 1),
+(5125, 'FU7-5744-000', 'SHAFT_FIX_DLV_L0_GR_2', 'KMC5744', 14, 200, 2000, 'N', 'N', '2022-04-07 22:45:01', 1, '2022-04-07 22:45:01', 1),
+(5126, 'PP8001-4830P022', 'PIN', 'OKI4830', 33, 1000, 10000, 'N', 'N', '2022-04-07 22:45:01', 1, '2022-04-07 22:45:01', 1);
+INSERT INTO `products` (`id`, `part_no`, `part_name`, `part_code`, `customer_id`, `std_pack`, `std_box`, `is_delete`, `is_completed`, `created_at`, `created_user_id`, `updated_at`, `updated_user_id`) VALUES
+(5127, 'FE3-6691-000 (EW1-0266) ', 'STD-UPPER_GUIDE-1', 'CRA6691-S1', 128, 500, 2500, 'N', 'N', '2022-04-07 22:45:01', 1, '2022-04-07 22:45:01', 1),
+(5128, '135RV-A0R8VD', 'NUT / Model R18660', 'NKT135RV-1', 27, 1000, 10000, 'N', 'N', '2022-04-07 22:45:01', 1, '2022-04-07 22:45:01', 1),
+(5129, '703-85150-2', 'THROTTLE SHAFT', 'MTC5150-S', 25, 0, 0, 'N', 'N', '2022-04-07 22:45:01', 1, '2022-04-07 22:45:01', 1),
+(5130, 'QC7-3583-000 (HIS007)', 'DRIVE SHAFT HOLD LEVER J216', 'CHT3583-3', 3, 5, 5, 'N', 'N', '2022-04-07 22:45:01', 1, '2022-04-07 22:45:01', 1),
+(5131, 'BAOKE51262', 'SHAFT', 'TCP51262-C', 184, 200, 200, 'N', 'N', '2022-04-07 22:45:01', 1, '2022-04-07 22:45:01', 1),
+(5132, 'BAOKE51962', 'SHAFT', 'TCP51962-C', 184, 200, 200, 'N', 'N', '2022-04-07 22:45:01', 1, '2022-04-07 22:45:01', 1),
+(5133, 'F703-09240 (Spec C0.25-C0.30)', 'THROTTLE SHAFT', 'MTC9240-S3', 25, 200, 400, 'N', 'N', '2022-04-07 22:45:01', 1, '2022-04-07 22:45:01', 1),
+(5134, 'F703-09240 (Spec C0.15-C0.25)', 'THROTTLE SHAFT', 'MTC9240-S4', 25, 200, 400, 'N', 'N', '2022-04-07 22:45:01', 1, '2022-04-07 22:45:01', 1),
+(5136, 'F703-09240 (Spec C0.05-C0.15)', 'THROTTLE SHAFT', 'MTC9240-S5', 25, 200, 400, 'N', 'N', '2022-04-07 22:45:01', 1, '2022-04-07 22:45:01', 1),
+(5137, 'F700-84011', 'SHAFT', 'MTC4011', 25, 100, 200, 'N', 'N', '2022-04-07 22:45:01', 1, '2022-04-07 22:45:01', 1),
+(5138, 'FU2-3686-000 (REV.006)', 'SHAFT_R_DOOR_LEVER_REAR', 'CPT3686-S', 148, 200, 1000, 'N', 'N', '2022-05-01 15:15:14', 1, '2022-05-01 15:15:14', 1),
+(5139, 'FG1-D408-000 (REV.006)', 'PUSH ROD ASSY', 'CHTD408-S', 3, 5, 10, 'N', 'N', '2022-05-01 15:15:14', 1, '2022-05-01 15:15:14', 1),
+(5140, 'FG1-D464-000 (REV.002)', 'TUBE-ASSY', 'CHTD464-S', 3, 5, 10, 'N', 'N', '2022-05-01 15:15:14', 1, '2022-05-01 15:15:14', 1),
+(5141, 'QC7-9321-000 (HIS003)', 'PLATEN FIXING SHAFT J221', 'CHT9321', 3, 100, 1000, 'N', 'N', '2022-05-01 15:15:14', 1, '2022-05-01 15:15:14', 1),
+(5142, 'FE2-P213-000 (REV.005)', 'READER SUPPORT SHAFT', 'NSTP213-S', 207, 10, 50, 'N', 'N', '2022-05-01 15:15:14', 1, '2022-05-01 15:15:14', 1),
+(5143, 'FE2-P219-000 (REV.005)', 'ROTATING PIN', 'NSTP219-S', 207, 10, 50, 'N', 'N', '2022-05-01 15:15:14', 1, '2022-05-01 15:15:14', 1),
+(5144, 'EJW01 62001', 'NUT-INSERT M5', 'ATA62001', 137, 100, 1000, 'N', 'N', '2022-05-01 15:15:14', 1, '2022-05-01 15:15:14', 1),
+(5145, 'EJW01 68301', 'COLLAR-INSERT M3', 'ATA68301', 137, 500, 5000, 'N', 'N', '2022-05-01 15:15:14', 1, '2022-05-01 15:15:14', 1),
+(5146, '131154-31590', 'VALVE, BOOSTER AIR NO.2', 'KRT31590-S', 16, 100, 1000, 'N', 'N', '2022-05-01 15:15:14', 1, '2022-05-01 15:15:14', 1),
+(5147, '131154-31600', 'VALVE, BOOSTER AIR NO.2', 'KRT31600-S', 16, 100, 1000, 'N', 'N', '2022-05-01 15:15:14', 1, '2022-05-01 15:15:14', 1),
+(5148, '131154-31610', 'VALVE, BOOSTER AIR NO.2', 'KRT31610-S', 16, 100, 1000, 'N', 'N', '2022-05-01 15:15:15', 1, '2022-05-01 15:15:15', 1),
+(5150, '131154-31620', 'VALVE, BOOSTER AIR NO.2', 'KRT31620-S', 16, 100, 1000, 'N', 'N', '2022-05-01 15:15:15', 1, '2022-05-01 15:15:15', 1),
+(5151, '131154-31630', 'VALVE, BOOSTER AIR NO.2', 'KRT31630-S', 16, 100, 1000, 'N', 'N', '2022-05-01 15:15:15', 1, '2022-05-01 15:15:15', 1),
+(5152, '131154-31640', 'VALVE, BOOSTER AIR NO.2', 'KRT31640-S', 16, 100, 1000, 'N', 'N', '2022-05-01 15:15:15', 1, '2022-05-01 15:15:15', 1),
+(5153, '131154-31650', 'VALVE, BOOSTER AIR NO.2', 'KRT31650-S', 16, 100, 1000, 'N', 'N', '2022-05-01 15:15:15', 1, '2022-05-01 15:15:15', 1),
+(5154, '640-10003', 'GUIDE HOLDER', 'MTC10003-S', 25, 50, 300, 'N', 'N', '2022-05-01 15:15:15', 1, '2022-05-01 15:15:15', 1),
+(5155, 'VM15/30-1', 'ADJUSTER', 'MTC1530-S', 25, 100, 500, 'N', 'N', '2022-05-01 15:15:15', 1, '2022-05-01 15:15:15', 1),
+(5156, 'VM24/916 a', 'PLUNGER', 'MTC24916-S', 25, 50, 300, 'N', 'N', '2022-05-01 15:15:15', 1, '2022-05-01 15:15:15', 1),
+(5157, 'VM20/300 a', 'GUIDE HOLDER', 'MTC20300-S', 25, 50, 300, 'N', 'N', '2022-05-01 15:15:15', 1, '2022-05-01 15:15:15', 1),
+(5158, '603-36002-1A', 'ADJUSTER', 'MTC6002A-S', 25, 50, 300, 'N', 'N', '2022-05-01 15:15:15', 1, '2022-05-01 15:15:15', 1),
+(5159, '603-36002-1D', 'ADJUSTER', 'MTC6002D-S', 25, 50, 300, 'N', 'N', '2022-05-01 15:15:15', 1, '2022-05-01 15:15:15', 1),
+(5160, 'ST02/13', 'SHAFT', 'MTC0213-S', 25, 50, 300, 'N', 'N', '2022-05-01 15:15:15', 1, '2022-05-01 15:15:15', 1),
+(5161, 'QC7-8192-000 (HIS007)', 'DTB ROD J221 ', 'CHT8192-S2', 3, 5, 10, 'N', 'N', '2022-05-01 15:15:15', 1, '2022-05-01 15:15:15', 1),
+(5162, 'QC7-9321-000 (HIS003)', 'PLATEN FIXING SHAFT J221', 'CHT9321-S1', 3, 100, 1000, 'N', 'N', '2022-05-01 15:15:15', 1, '2022-05-01 15:15:15', 1),
+(5163, 'QC5-3955-000 (HIS008)', 'DRV PUMP SHAFT M62', 'CRA3955-S', 128, 100, 1600, 'N', 'N', '2022-05-01 15:15:15', 1, '2022-05-01 15:15:15', 1),
+(5164, '3511-PC2T-0001', 'SHAFT,THROTTLE', 'HAYPC2T-1', 237, 100, 200, 'N', 'N', '2022-05-01 15:15:15', 1, '2022-05-01 15:15:15', 1),
+(5165, 'FZC-9191-15-D', 'PLUNGER', 'NJI9191-D', 185, 120, 720, 'N', 'N', '2022-05-01 15:15:16', 1, '2022-05-01 15:15:16', 1),
+(5166, 'SQA11 11401', 'PLUNGER (VN999 00002)', 'ATA1401-S', 137, 200, 1000, 'N', 'N', '2022-05-01 15:15:16', 1, '2022-05-01 15:15:16', 1),
+(5167, 'QC6-8771-000 (HIS007)', 'BATTERY LOCK SCREW C201', 'CHT8771-S1', 3, 200, 1000, 'N', 'N', '2022-05-01 15:15:16', 1, '2022-05-01 15:15:16', 1),
+(5168, 'BAMLE56061 (SUM23)', 'SHAFT (Mother Coil KMS)', 'TCP6061-S', 184, 100, 100, 'N', 'N', '2022-05-01 15:15:16', 1, '2022-05-01 15:15:16', 1),
+(5169, 'BAMLE56061 (SAE1215MS)', 'SHAFT  (Mother Coil CSC)', 'TCP6061-S1', 184, 100, 100, 'N', 'N', '2022-05-01 15:15:16', 1, '2022-05-01 15:15:16', 1),
+(5170, 'EL6-2825', 'EL6-2825 EJ ROLLER', 'CHT2825-S', 3, 5, 5, 'N', 'N', '2022-05-03 14:31:06', 1, '2022-05-03 14:31:06', 1),
+(5171, 'FE2-G971-000 (HIS002)', 'SHAFT_TRANSMISSION_1 DLV.FLP', 'CPTG971-S1', 148, 100, 1000, 'N', 'N', '2022-05-03 14:31:06', 1, '2022-05-03 14:31:06', 1);
 
 -- --------------------------------------------------------
 
@@ -4750,15 +4890,15 @@ INSERT INTO `products` (`id`, `part_no`, `part_name`, `part_code`, `customer_id`
 --
 
 CREATE TABLE `scraps` (
-  `id` int NOT NULL,
-  `scrap_no` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id` int(11) NOT NULL,
+  `scrap_no` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `scrap_date` date NOT NULL,
-  `scrap_status` enum('CREATED','CONFIRMED','REJECTED','ACCEPTED','SELECTING') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `is_delete` enum('N','Y') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N',
+  `scrap_status` enum('CREATED','CONFIRMED','REJECTED','ACCEPTED','SELECTING') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `is_delete` enum('N','Y') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N',
   `created_at` datetime NOT NULL,
-  `created_user_id` int NOT NULL,
+  `created_user_id` int(11) NOT NULL,
   `updated_at` datetime NOT NULL,
-  `updated_user_id` int NOT NULL
+  `updated_user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -4768,16 +4908,16 @@ CREATE TABLE `scraps` (
 --
 
 CREATE TABLE `scrap_details` (
-  `id` int NOT NULL,
-  `scrap_id` int NOT NULL,
-  `section_id` int NOT NULL,
-  `product_id` int NOT NULL,
-  `defect_id` int NOT NULL,
-  `quantity` int NOT NULL,
+  `id` int(11) NOT NULL,
+  `scrap_id` int(11) NOT NULL,
+  `section_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `defect_id` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
   `created_at` datetime NOT NULL,
-  `created_user_id` int NOT NULL,
+  `created_user_id` int(11) NOT NULL,
   `updated_at` datetime NOT NULL,
-  `updated_user_id` int NOT NULL
+  `updated_user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -4787,15 +4927,15 @@ CREATE TABLE `scrap_details` (
 --
 
 CREATE TABLE `sections` (
-  `id` int NOT NULL,
-  `section_name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `section_description` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `is_vendor` enum('N','Y') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N',
-  `is_scrap` enum('N','Y') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N',
+  `id` int(11) NOT NULL,
+  `section_name` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `section_description` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `is_vendor` enum('N','Y') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N',
+  `is_scrap` enum('N','Y') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N',
   `created_at` datetime NOT NULL,
-  `created_user_id` int NOT NULL,
+  `created_user_id` int(11) NOT NULL,
   `updated_at` datetime NOT NULL,
-  `updated_user_id` int NOT NULL
+  `updated_user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -4803,159 +4943,104 @@ CREATE TABLE `sections` (
 --
 
 INSERT INTO `sections` (`id`, `section_name`, `section_description`, `is_vendor`, `is_scrap`, `created_at`, `created_user_id`, `updated_at`, `updated_user_id`) VALUES
-(1, 'MFG 1', 'MFG 1', 'N', 'Y', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(2, 'MFG 2', 'MFG 2', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(5, 'OQC', 'INSPECTION', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(12, 'IPQC', 'PROCESS INSPECTION', 'N', 'Y', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(18, 'MARKETING', 'MARKETING DEPT.', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(19, 'PRODUCTION', 'PRODUCTION DEPARTMENT', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(20, 'PC', 'PC DEPARTMENT', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(21, 'PURCHASE', 'PURCHASE DEPARTMENT', 'Y', 'Y', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(25, 'PACKING', 'PACKING', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(41, 'RETURN', 'OQC return PD', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(42, 'MFG1-1', 'Send to QA', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(43, 'MFG2-BN', 'Burnishing', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(44, 'MFG2-CG', 'Centerless Grinding', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(45, 'MFG2-Chamfer', 'Chamfer', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(46, 'MFG2-Deburr', 'Deburr', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(47, 'MFG2-Degreasing', 'Degreasing', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(48, 'MFG2-Drilling', 'Drilling', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(49, 'MFG2-Knurling', 'Knurling', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(50, 'MFG2-Micron', 'Micron', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(51, 'MFG2-Milling', 'Milling', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(52, 'MFG2-Reammer', 'Reammer', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(53, 'MFG2-Step Burr', 'Step Burr', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(54, 'MFG2-Step Grind', 'Step Grinding', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(55, 'MFG2-Spline', 'Spline', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(56, 'MFG2-Tap', 'Tapping', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(57, 'MFG2-Threading', 'Threading', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(58, 'MFG2-Tumbling1', 'Tumbling1(NST to Tumbling)', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(59, 'MFG2-Tumbling2', 'Tumbling2(Vendor to Tumbling)', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(60, 'MFG2-Washino1', 'Washino1(one side)', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(61, 'MFG2-Washino2', 'Washino2(2 side)', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(62, 'MFG2-D-cut', 'D-Cut', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(63, 'MFG2-Airblow', 'AirBlow', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(64, 'MFG2-Deburr2', 'Deburr2', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(65, 'MFG2-Step Grind2', 'Step Grind2', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(66, 'MFG2-Milling2', 'Milling by Special machine', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(67, 'Combine', 'Combine', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(68, 'MFG2-CG2', '', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(69, 'MFG2-DEGREASING2', '', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(70, 'MFG2-DEGREASING3', '', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(71, 'MFG2-Countersink', 'Countersink Process', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(72, 'QA-CNC4', '', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(73, 'QA-CNC1', '', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(74, 'QA-CNC2', '', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(75, 'QA-CAM', '', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(76, 'QA-CG', '', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(77, 'QA-BN', '', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(78, 'CNC1', '', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(79, 'CNC2', '', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(80, 'CAM', '', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(81, 'CAM-CNC', '', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(82, 'Mat', '', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(83, 'Subcontact', '', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(84, 'MFG1-CNC1', 'CNC1 support Scrap', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(85, 'MFG1-CNC2', 'Scrap CNC2', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(86, 'MFG1-CNC4', 'SCRAP CAM-CNC', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(87, 'MFG1-CAM', 'SCRAP CAM', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(88, 'CNC3', '', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(89, 'QA-CNC3', '', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(90, 'MFG1-CNC3', 'SCRAP CNC3', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(91, 'CNC4', '', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(92, 'MFG2', 'Sorting', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(93, 'QAQC', '', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(94, 'ISO', '', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(95, 'MAT-PD', 'Product  NG by Materialat Production', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(96, 'MAT-QA', 'Product NG by Material at QA', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(97, 'MN', 'Maintenance', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(98, 'Admin', 'Admin', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(99, 'W/H', '', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(100, 'MFG2-BF', 'BUFFING PROCESS', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(101, 'ENGINEER', 'ENGINEERING', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(105, 'MFG2-TURNING', '', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(106, 'OQC-L', 'LSM check', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(107, 'OQC-B', 'Bendinf check ', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(108, 'MFG2-Rework', 'Rework after plating', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(109, 'MFG2-COAT', '', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(110, 'MFG2-NIB', 'CUT PIPTAIL', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(111, 'MFG2-ASSY', 'ASSY PROCESS', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(112, 'OQC-V', 'Visual 100%', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(113, 'OQC-Lenght', 'OQC Lenght 100%', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(114, 'OQC-H1', 'OQC check Hole 100%', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(115, 'OQC-H2', 'OQC check hole 100% ', 'N', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(116, 'GET', '', 'Y', 'N', '2021-11-27 18:44:26', 1, '2021-11-27 18:44:26', 1),
-(117, 'K-MFG1', 'MFG1 at NSTK', 'N', 'N', '2021-11-27 18:44:27', 1, '2021-11-27 18:44:27', 1),
-(118, 'K-MFG2', 'MFG2at NSTK2', 'N', 'N', '2021-11-27 18:44:27', 1, '2021-11-27 18:44:27', 1),
-(119, 'K-OQC', 'OQC at NSTK', 'N', 'N', '2021-11-27 18:44:27', 1, '2021-11-27 18:44:27', 1),
-(120, 'K-QA', 'NSTK QA/QC', 'N', 'N', '2021-11-27 18:44:27', 1, '2021-11-27 18:44:27', 1),
-(121, 'K-PACK', 'NSTK PACKING SECTION', 'N', 'N', '2021-11-27 18:44:27', 1, '2021-11-27 18:44:27', 1),
-(122, 'K-WH', 'Werehouse at NSTK', 'N', 'N', '2021-11-27 18:44:27', 1, '2021-11-27 18:44:27', 1),
-(123, 'K-IPQC', 'Out Going ', 'N', 'N', '2021-11-27 18:44:27', 1, '2021-11-27 18:44:27', 1),
-(124, 'K-RETURN', 'RETURN TO NSTK', 'N', 'N', '2021-11-27 18:44:27', 1, '2021-11-27 18:44:27', 1),
-(125, 'K-PRODUCTION', 'SORTING ', 'N', 'N', '2021-11-27 18:44:27', 1, '2021-11-27 18:44:27', 1),
-(126, 'K-MN', '', 'N', 'N', '2021-11-27 18:44:27', 1, '2021-11-27 18:44:27', 1),
-(127, 'DEAD ', 'SCRAP for clear dead stock', 'N', 'N', '2021-11-27 18:44:27', 1, '2021-11-27 18:44:27', 1),
-(128, 'K-DEGREASING', '', 'N', 'N', '2021-11-27 18:44:27', 1, '2021-11-27 18:44:27', 1),
-(129, 'K-DEBURR', 'K-DEBURRING', 'N', 'N', '2021-11-27 18:44:27', 1, '2021-11-27 18:44:27', 1),
-(130, 'QA-ASSY', '', 'N', 'N', '2021-11-27 18:44:27', 1, '2021-11-27 18:44:27', 1),
-(131, 'TOOL ROOM', 'TOOLING ROOM ', 'N', 'N', '2021-11-27 18:44:27', 1, '2021-11-27 18:44:27', 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `sells`
---
-
-CREATE TABLE `sells` (
-  `id` int NOT NULL,
-  `sell_no` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `invoice_no` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'N/A',
-  `sell_date` date NOT NULL,
-  `product_id` int NOT NULL,
-  `packing_id` int NOT NULL DEFAULT '0',
-  `total_qty` int NOT NULL,
-  `sell_status` enum('CREATED','SELECTING_CPO','SELECTED_CPO','SELECTING_LABEL','PRINTED','TAGGED','INVOICED','COMPLETE') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `is_delete` enum('N','Y') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N',
-  `created_at` datetime NOT NULL,
-  `created_user_id` int NOT NULL,
-  `updated_at` datetime NOT NULL,
-  `updated_user_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `sell_cpo_items`
---
-
-CREATE TABLE `sell_cpo_items` (
-  `id` int NOT NULL,
-  `sell_id` int NOT NULL,
-  `cpo_item_id` int NOT NULL,
-  `remain_qty` int NOT NULL,
-  `sell_qty` int NOT NULL,
-  `created_at` datetime NOT NULL,
-  `created_user_id` int NOT NULL,
-  `updated_at` datetime NOT NULL,
-  `updated_user_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `sell_labels`
---
-
-CREATE TABLE `sell_labels` (
-  `id` int NOT NULL,
-  `sell_id` int NOT NULL,
-  `label_id` int NOT NULL,
-  `created_at` datetime NOT NULL,
-  `created_user_id` int NOT NULL,
-  `updated_at` datetime NOT NULL,
-  `updated_user_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+(1, 'MFG 1', 'MFG 1', 'N', 'Y', '2022-05-07 00:34:04', 1, '2022-05-07 00:34:04', 1),
+(2, 'MFG 2', 'MFG 2', 'N', 'N', '2022-05-07 00:34:04', 1, '2022-05-07 00:34:04', 1),
+(5, 'OQC', 'INSPECTION', 'N', 'N', '2022-05-07 00:34:04', 1, '2022-05-07 00:34:04', 1),
+(12, 'IPQC', 'PROCESS INSPECTION', 'N', 'Y', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(18, 'MARKETING', 'MARKETING DEPT.', 'N', 'N', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(19, 'PRODUCTION', 'PRODUCTION DEPARTMENT', 'N', 'N', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(20, 'PC', 'PC DEPARTMENT', 'N', 'N', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(21, 'PURCHASE', 'PURCHASE DEPARTMENT', 'Y', 'Y', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(25, 'PACKING', 'PACKING', 'N', 'N', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(41, 'RETURN', 'OQC return PD', 'N', 'N', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(42, 'MFG1-1', 'Send to QA', 'N', 'N', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(43, 'MFG2-BN', 'Burnishing', 'N', 'N', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(44, 'MFG2-CG', 'Centerless Grinding', 'N', 'N', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(45, 'MFG2-Chamfer', 'Chamfer', 'N', 'N', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(46, 'MFG2-Deburr', 'Deburr', 'N', 'N', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(47, 'MFG2-Degreasing', 'Degreasing', 'N', 'N', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(48, 'MFG2-Drilling', 'Drilling', 'N', 'N', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(49, 'MFG2-Knurling', 'Knurling', 'N', 'N', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(50, 'MFG2-Micron', 'Micron', 'N', 'N', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(51, 'MFG2-Milling', 'Milling', 'N', 'N', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(52, 'MFG2-Reammer', 'Reammer', 'N', 'N', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(53, 'MFG2-Step Burr', 'Step Burr', 'N', 'N', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(54, 'MFG2-Step Grind', 'Step Grinding', 'N', 'N', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(55, 'MFG2-Spline', 'Spline', 'N', 'N', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(56, 'MFG2-Tap', 'Tapping', 'N', 'N', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(57, 'MFG2-Threading', 'Threading', 'N', 'N', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(58, 'MFG2-Tumbling1', 'Tumbling1(NST to Tumbling)', 'N', 'N', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(59, 'MFG2-Tumbling2', 'Tumbling2(Vendor to Tumbling)', 'N', 'N', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(60, 'MFG2-Washino1', 'Washino1(one side)', 'N', 'N', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(61, 'MFG2-Washino2', 'Washino2(2 side)', 'N', 'N', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(62, 'MFG2-D-cut', 'D-Cut', 'N', 'N', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(63, 'MFG2-Airblow', 'AirBlow', 'N', 'N', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(64, 'MFG2-Deburr2', 'Deburr2', 'N', 'N', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(65, 'MFG2-Step Grind2', 'Step Grind2', 'N', 'N', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(66, 'MFG2-Milling2', 'Milling by Special machine', 'N', 'N', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(67, 'Combine', 'Combine', 'N', 'N', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(68, 'MFG2-CG2', '', 'N', 'N', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(69, 'MFG2-DEGREASING2', '', 'N', 'N', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(70, 'MFG2-DEGREASING3', '', 'N', 'N', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(71, 'MFG2-Countersink', 'Countersink Process', 'N', 'N', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(72, 'QA-CNC4', '', 'N', 'N', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(73, 'QA-CNC1', '', 'N', 'N', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(74, 'QA-CNC2', '', 'N', 'N', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(75, 'QA-CAM', '', 'N', 'N', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(76, 'QA-CG', '', 'N', 'N', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(77, 'QA-BN', '', 'N', 'N', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(78, 'CNC1', '', 'N', 'N', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(79, 'CNC2', '', 'N', 'N', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(80, 'CAM', '', 'N', 'N', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(81, 'CAM-CNC', '', 'N', 'N', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(82, 'Mat', '', 'N', 'N', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(83, 'Subcontact', '', 'N', 'N', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(84, 'MFG1-CNC1', 'CNC1 support Scrap', 'N', 'N', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(85, 'MFG1-CNC2', 'Scrap CNC2', 'N', 'N', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(86, 'MFG1-CNC4', 'SCRAP CAM-CNC', 'N', 'N', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(87, 'MFG1-CAM', 'SCRAP CAM', 'N', 'N', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(88, 'CNC3', '', 'N', 'N', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(89, 'QA-CNC3', '', 'N', 'N', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(90, 'MFG1-CNC3', 'SCRAP CNC3', 'N', 'N', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(91, 'CNC4', '', 'N', 'N', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(92, 'MFG2', 'Sorting', 'N', 'N', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(93, 'QAQC', '', 'N', 'N', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(94, 'ISO', '', 'N', 'N', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(95, 'MAT-PD', 'Product  NG by Materialat Production', 'N', 'N', '2022-05-07 00:34:05', 1, '2022-05-07 00:34:05', 1),
+(96, 'MAT-QA', 'Product NG by Material at QA', 'N', 'N', '2022-05-07 00:34:06', 1, '2022-05-07 00:34:06', 1),
+(97, 'MN', 'Maintenance', 'N', 'N', '2022-05-07 00:34:06', 1, '2022-05-07 00:34:06', 1),
+(98, 'Admin', 'Admin', 'N', 'N', '2022-05-07 00:34:06', 1, '2022-05-07 00:34:06', 1),
+(99, 'W/H', '', 'N', 'N', '2022-05-07 00:34:06', 1, '2022-05-07 00:34:06', 1),
+(100, 'MFG2-BF', 'BUFFING PROCESS', 'N', 'N', '2022-05-07 00:34:06', 1, '2022-05-07 00:34:06', 1),
+(101, 'ENGINEER', 'ENGINEERING', 'N', 'N', '2022-05-07 00:34:06', 1, '2022-05-07 00:34:06', 1),
+(105, 'MFG2-TURNING', '', 'N', 'N', '2022-05-07 00:34:06', 1, '2022-05-07 00:34:06', 1),
+(106, 'OQC-L', 'LSM check', 'N', 'N', '2022-05-07 00:34:06', 1, '2022-05-07 00:34:06', 1),
+(107, 'OQC-B', 'Bendinf check ', 'N', 'N', '2022-05-07 00:34:06', 1, '2022-05-07 00:34:06', 1),
+(108, 'MFG2-Rework', 'Rework after plating', 'N', 'N', '2022-05-07 00:34:06', 1, '2022-05-07 00:34:06', 1),
+(109, 'MFG2-COAT', '', 'N', 'N', '2022-05-07 00:34:06', 1, '2022-05-07 00:34:06', 1),
+(110, 'MFG2-NIB', 'CUT PIPTAIL', 'N', 'N', '2022-05-07 00:34:06', 1, '2022-05-07 00:34:06', 1),
+(111, 'MFG2-ASSY', 'ASSY PROCESS', 'N', 'N', '2022-05-07 00:34:06', 1, '2022-05-07 00:34:06', 1),
+(112, 'OQC-V', 'Visual 100%', 'N', 'N', '2022-05-07 00:34:06', 1, '2022-05-07 00:34:06', 1),
+(113, 'OQC-Lenght', 'OQC Lenght 100%', 'N', 'N', '2022-05-07 00:34:06', 1, '2022-05-07 00:34:06', 1),
+(114, 'OQC-H1', 'OQC check Hole 100%', 'N', 'N', '2022-05-07 00:34:06', 1, '2022-05-07 00:34:06', 1),
+(115, 'OQC-H2', 'OQC check hole 100% ', 'N', 'N', '2022-05-07 00:34:06', 1, '2022-05-07 00:34:06', 1),
+(116, 'GET', '', 'Y', 'N', '2022-05-07 00:34:06', 1, '2022-05-07 00:34:06', 1),
+(117, 'K-MFG1', 'MFG1 at NSTK', 'N', 'N', '2022-05-07 00:34:06', 1, '2022-05-07 00:34:06', 1),
+(118, 'K-MFG2', 'MFG2at NSTK2', 'N', 'N', '2022-05-07 00:34:06', 1, '2022-05-07 00:34:06', 1),
+(119, 'K-OQC', 'OQC at NSTK', 'N', 'N', '2022-05-07 00:34:06', 1, '2022-05-07 00:34:06', 1),
+(120, 'K-QA', 'NSTK QA/QC', 'N', 'N', '2022-05-07 00:34:06', 1, '2022-05-07 00:34:06', 1),
+(121, 'K-PACK', 'NSTK PACKING SECTION', 'N', 'N', '2022-05-07 00:34:06', 1, '2022-05-07 00:34:06', 1),
+(122, 'K-WH', 'Werehouse at NSTK', 'N', 'N', '2022-05-07 00:34:06', 1, '2022-05-07 00:34:06', 1),
+(123, 'K-IPQC', 'Out Going ', 'N', 'N', '2022-05-07 00:34:06', 1, '2022-05-07 00:34:06', 1),
+(124, 'K-RETURN', 'RETURN TO NSTK', 'N', 'N', '2022-05-07 00:34:06', 1, '2022-05-07 00:34:06', 1),
+(125, 'K-PRODUCTION', 'SORTING ', 'N', 'N', '2022-05-07 00:34:06', 1, '2022-05-07 00:34:06', 1),
+(126, 'K-MN', '', 'N', 'N', '2022-05-07 00:34:06', 1, '2022-05-07 00:34:06', 1),
+(127, 'DEAD ', 'SCRAP for clear dead stock', 'N', 'N', '2022-05-07 00:34:06', 1, '2022-05-07 00:34:06', 1),
+(128, 'K-DEGREASING', '', 'N', 'N', '2022-05-07 00:34:06', 1, '2022-05-07 00:34:06', 1),
+(129, 'K-DEBURR', 'K-DEBURRING', 'N', 'N', '2022-05-07 00:34:06', 1, '2022-05-07 00:34:06', 1),
+(130, 'QA-ASSY', '', 'N', 'N', '2022-05-07 00:34:06', 1, '2022-05-07 00:34:06', 1),
+(131, 'TOOL ROOM', 'TOOLING ROOM ', 'N', 'N', '2022-05-07 00:34:06', 1, '2022-05-07 00:34:06', 1),
+(132, 'K-IPQC2', 'INSPECTION ROUND2', 'N', 'N', '2022-05-07 00:34:06', 1, '2022-05-07 00:34:06', 1);
 
 -- --------------------------------------------------------
 
@@ -4964,16 +5049,16 @@ CREATE TABLE `sell_labels` (
 --
 
 CREATE TABLE `split_labels` (
-  `id` int NOT NULL,
-  `split_label_no` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `label_id` int NOT NULL,
-  `status` enum('CREATED','PRINTED','PACKING','PACKED') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` int(11) NOT NULL,
+  `split_label_no` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `label_id` int(11) NOT NULL,
+  `status` enum('CREATED','PRINTED','PACKING','PACKED') COLLATE utf8mb4_unicode_ci NOT NULL,
   `split_date` date NOT NULL,
-  `is_delete` enum('N','Y') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N',
+  `is_delete` enum('N','Y') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N',
   `created_at` datetime NOT NULL,
-  `created_user_id` int NOT NULL,
+  `created_user_id` int(11) NOT NULL,
   `updated_at` datetime NOT NULL,
-  `updated_user_id` int NOT NULL
+  `updated_user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -4983,13 +5068,13 @@ CREATE TABLE `split_labels` (
 --
 
 CREATE TABLE `split_label_details` (
-  `id` int NOT NULL,
-  `split_label_id` int NOT NULL,
-  `label_id` int NOT NULL,
+  `id` int(11) NOT NULL,
+  `split_label_id` int(11) NOT NULL,
+  `label_id` int(11) NOT NULL,
   `created_at` datetime NOT NULL,
-  `created_user_id` int NOT NULL,
+  `created_user_id` int(11) NOT NULL,
   `updated_at` datetime NOT NULL,
-  `updated_user_id` int NOT NULL
+  `updated_user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -4999,19 +5084,19 @@ CREATE TABLE `split_label_details` (
 --
 
 CREATE TABLE `tags` (
-  `id` int NOT NULL,
-  `tag_no` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `sell_id` int NOT NULL,
-  `printer_id` int DEFAULT NULL,
-  `quantity` int NOT NULL,
-  `box_no` int NOT NULL,
-  `total_box` int NOT NULL,
-  `wait_print` enum('N','Y') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N',
-  `status` enum('CREATED','PRINTED','BOXED') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` int(11) NOT NULL,
+  `tag_no` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `pack_id` int(11) NOT NULL,
+  `printer_id` int(11) DEFAULT NULL,
+  `quantity` int(11) NOT NULL,
+  `box_no` int(11) NOT NULL,
+  `total_box` int(11) NOT NULL,
+  `wait_print` enum('N','Y') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N',
+  `status` enum('CREATED','PRINTED','BOXED') COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` datetime NOT NULL,
-  `created_user_id` int NOT NULL,
+  `created_user_id` int(11) NOT NULL,
   `updated_at` datetime NOT NULL,
-  `updated_user_id` int NOT NULL
+  `updated_user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -5021,15 +5106,12 @@ CREATE TABLE `tags` (
 --
 
 CREATE TABLE `temp_query` (
-  `id` int NOT NULL,
-  `uuid` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `cpo_no` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `po_no` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `cpo_id` int NOT NULL,
-  `cpo_item_id` int NOT NULL,
-  `product_id` int NOT NULL,
-  `quantity` int NOT NULL,
-  `packing_qty` int NOT NULL,
+  `id` int(11) NOT NULL,
+  `uuid` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `cpo_item_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `packing_qty` int(11) NOT NULL,
   `due_date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -5040,18 +5122,18 @@ CREATE TABLE `temp_query` (
 --
 
 CREATE TABLE `users` (
-  `id` int NOT NULL,
-  `username` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `password` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `first_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `last_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `user_role_id` int NOT NULL,
-  `locale` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `enabled` tinyint NOT NULL,
+  `id` int(11) NOT NULL,
+  `username` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `first_name` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `last_name` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `user_role_id` int(11) NOT NULL,
+  `locale` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `enabled` tinyint(4) NOT NULL,
   `created_at` datetime DEFAULT NULL,
-  `created_user_id` int NOT NULL,
+  `created_user_id` int(11) NOT NULL,
   `updated_at` datetime DEFAULT NULL,
-  `updated_user_id` int NOT NULL
+  `updated_user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -5122,6 +5204,24 @@ ALTER TABLE `merge_pack_details`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `packs`
+--
+ALTER TABLE `packs`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `pack_cpo_items`
+--
+ALTER TABLE `pack_cpo_items`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `pack_labels`
+--
+ALTER TABLE `pack_labels`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `printers`
 --
 ALTER TABLE `printers`
@@ -5149,24 +5249,6 @@ ALTER TABLE `scrap_details`
 -- Indexes for table `sections`
 --
 ALTER TABLE `sections`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `sells`
---
-ALTER TABLE `sells`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `sell_cpo_items`
---
-ALTER TABLE `sell_cpo_items`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `sell_labels`
---
-ALTER TABLE `sell_labels`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -5207,121 +5289,115 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `db_versions`
 --
 ALTER TABLE `db_versions`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `defects`
 --
 ALTER TABLE `defects`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=108;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=108;
 
 --
 -- AUTO_INCREMENT for table `labels`
 --
 ALTER TABLE `labels`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `label_void_reasons`
 --
 ALTER TABLE `label_void_reasons`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
-
---
--- AUTO_INCREMENT for table `lots`
---
-ALTER TABLE `lots`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `lot_defects`
 --
 ALTER TABLE `lot_defects`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `merge_packs`
 --
 ALTER TABLE `merge_packs`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `merge_pack_details`
 --
 ALTER TABLE `merge_pack_details`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `packs`
+--
+ALTER TABLE `packs`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `pack_cpo_items`
+--
+ALTER TABLE `pack_cpo_items`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `pack_labels`
+--
+ALTER TABLE `pack_labels`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `printers`
 --
 ALTER TABLE `printers`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `scraps`
 --
 ALTER TABLE `scraps`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `scrap_details`
 --
 ALTER TABLE `scrap_details`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `sections`
 --
 ALTER TABLE `sections`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=132;
-
---
--- AUTO_INCREMENT for table `sells`
---
-ALTER TABLE `sells`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `sell_cpo_items`
---
-ALTER TABLE `sell_cpo_items`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `sell_labels`
---
-ALTER TABLE `sell_labels`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=133;
 
 --
 -- AUTO_INCREMENT for table `split_labels`
 --
 ALTER TABLE `split_labels`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `split_label_details`
 --
 ALTER TABLE `split_label_details`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tags`
 --
 ALTER TABLE `tags`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `temp_query`
 --
 ALTER TABLE `temp_query`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
