@@ -37,7 +37,7 @@
 					</h5>
 					<span>{{'Part Code: ' ~ sellRow.part_code }}</span><br>
 					<span>{{'Part No: ' ~ sellRow.part_no  }}</span><br>
-					<span>{{'Sell Date: ' ~ sellRow.sell_date}}</span><br>
+					<span>{{'Pack Date: ' ~ sellRow.sell_date}}</span><br>
 					<span>{{'Total Quantity: ' ~ sellRow.total_qty}}</span>
 				</div>
 				<hr>
@@ -47,7 +47,7 @@
 							<th>CPO Item ID</th>
 							<th>Due Date</th>
 							<th>Remain Quantity</th>
-							<th>Sell Quantity</th>
+							<th>Pack Quantity</th>
 							<th>Operation</th>
 						</tr>
 					</thead>
@@ -103,11 +103,11 @@
 							</label>
 						</div>
 						<div class="form-sell">
-							<label for="editName">Sell Quantity</label>
+							<label for="editName">Pack Quantity</label>
 							<input type="number" autocomplete="off" class="form-control" id="editSellQty" readonly>
 						</div>
 						<div class="form-sell">
-							<label for="editName">Edit Sell Quantity</label>
+							<label for="editName">Edit Pack Quantity</label>
 							<input type="number" autocomplete="off" class="form-control" id="editSellQtyMax" name="sell_qty" max="0" min="1">
 						</div>
 					</div>
@@ -143,7 +143,7 @@
 							</label>
 						</div>
 						<div class="form-sell">
-							<label for="sellNo">Sell Quantity:
+							<label for="sellNo">Pack Quantity:
 								<span id="deleteSellQty"></span>
 							</label>
 						</div>
@@ -172,7 +172,7 @@
 					<div class="modal-body">
 						<div class="form-sell">
 							<input type="hidden" id="conSellID" name="sell_id" value="{{sellRow.id}}">
-							<label for="sellNo">Are you sure to confirm Sell No:
+							<label for="sellNo">Are you sure to confirm Pack No:
 								{{sellRow.sell_no}}<span id="conSellNo"></span>
 								?
 							</label>
