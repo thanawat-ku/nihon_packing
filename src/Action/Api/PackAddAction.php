@@ -72,7 +72,7 @@ final class PackAddAction
             $rtdata['error'] = false;
             $rtdata['packs'] = $this->finder->findPacks($data);
 
-            $params['sell_id'] = $id;
+            $params['pack_id'] = $id;
             $params['product_id'] = $prodcutID;
             $cpodata = $this->findCpoItem->findCpoItem($params);
             $uuid = uniqid();
@@ -91,6 +91,7 @@ final class PackAddAction
                 }
             }
         }
+
         return $this->responder->withJson($response, $rtdata);
     }
 }

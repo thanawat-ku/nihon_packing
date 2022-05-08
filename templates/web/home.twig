@@ -57,7 +57,7 @@
                               <button type="button" id="preparingBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#operationSparePartIssue" name="{{ issue|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-hand-holding-medical"></i></button>
                             {% endif %}
                             {% if issue.spare_part_issue_status == "PREPARING" and user_login.user_role_id==3  %}
-                              <button type="button" id="preparedBt" class="btn btn-success btn-sm" data-toggle="modal" data-target="#operationSparePartIssue" name="{{ issue|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-shopping-cart"></i></button>
+                              <button type="button" id="preparedBt" class="btn btn-success btn-sm" data-toggle="modal" data-target="#operationSparePartIssue" name="{{ issue|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-solid fa-box"></i></button>
                               <button type="button" id="cancelBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#operationSparePartIssue" name="{{ issue|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-ban"></i></button>
                             {% endif %}                            
                             {% if issue.spare_part_issue_status == "PREPARED" and (user_login.user_role_id==1 or user_login.user_role_id==4) %}

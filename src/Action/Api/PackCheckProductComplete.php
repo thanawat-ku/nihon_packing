@@ -18,7 +18,7 @@ use function DI\string;
 /**
  * Action.
  */
-final class PackAddAction
+final class PackCheckProductComplete
 {
     private $responder;
     private $updater;

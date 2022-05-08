@@ -42,7 +42,6 @@ final class PackUpdater
         $this->validator->validatePackInsert($data);
 
         $row = $this->mapToRow($data);
-        $row['product_id'] = $data['product_id'];
 
         $id = $this->repository->insertPackApi($row, $user_id);
         $data1['pack_no'] = "K" . str_pad($id, 11, "0", STR_PAD_LEFT);
