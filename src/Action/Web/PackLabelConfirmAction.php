@@ -97,6 +97,7 @@ final class PackLabelConfirmAction
         array $args
     ): ResponseInterface {
         $data = (array)$request->getParsedBody();
+        $checkPackingItem = true;
 
         // //Test update stockcontrol, stockitem and lot
 
@@ -192,6 +193,7 @@ final class PackLabelConfirmAction
             }
             if (isset($rtPackLabelPrefer[0]['prefer_lot_id']) != 0) {
                 for ($i = 0; $i < count($rtPackLabelPrefer); $i++) {
+                    $checkPackingItem == true;
                     $labelFinderP['prefer_lot_id'] = $rtPackLabelPrefer[$i]['prefer_lot_id'];
                     $labelFinderP['pack_id'] = $data['pack_id'];
                     $rtLabelFromPackLabel = $this->finder->findPackLabels($labelFinderP);
@@ -225,9 +227,13 @@ final class PackLabelConfirmAction
                                 }
                                 $quantityPackingItem['Quantity'] = $sumQtyPre + $sumQtyLP;
                                 $this->packingItemUpdate->updatePackingItem($packingID, (int)$labelFinderP['prefer_lot_id'], $quantityPackingItem);
-                            } else {
-                                $this->packingItemUpdate->insertPackingItem($isPackingItem);
+
+                                $checkPackingItem = false;
+                                break;
                             }
+                        }
+                        if ($checkPackingItem == true) {
+                            $this->packingItemUpdate->insertPackingItem($isPackingItem);
                         }
                     }
 
@@ -317,6 +323,7 @@ final class PackLabelConfirmAction
             if (isset($rtPackLabelPrefer[0])) {
                 if (isset($rtPackLabelPrefer[0]['prefer_lot_id']) != 0) {
                     for ($i = 0; $i < count($rtPackLabelPrefer); $i++) {
+                        $checkPackingItem == true;
                         $labelFinderP['prefer_lot_id'] = $rtPackLabelPrefer[$i]['prefer_lot_id'];
                         $labelFinderP['pack_id'] = $data['pack_id'];
                         $rtLabelFromPackLabel = $this->finder->findPackLabels($labelFinderP);
@@ -350,9 +357,13 @@ final class PackLabelConfirmAction
                                     }
                                     $quantityPackingItem['Quantity'] = $sumQtyPre + $sumQtyLP;
                                     $this->packingItemUpdate->updatePackingItem($packingID, (int)$labelFinderP['prefer_lot_id'], $quantityPackingItem);
-                                } else {
-                                    $this->packingItemUpdate->insertPackingItem($isPackingItem);
+
+                                    $checkPackingItem = false;
+                                    break;
                                 }
+                            }
+                            if ($checkPackingItem == true) {
+                                $this->packingItemUpdate->insertPackingItem($isPackingItem);
                             }
                         }
 
