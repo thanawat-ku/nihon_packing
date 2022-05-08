@@ -70,11 +70,12 @@ final class RegisterTagOnPackAction
 
                     if ($rtPack[0]['pack_status'] == "TAGGED") {
                         $upPack['pack_status'] = "INVOICED";
+
+                        $upPack['invoice_no'] = $params['invoice_no'];
+
+                        $this->updatePack->updatePackSyncApi((int)$rtPack[0]['id'], $upPack, $user_id);
                     }
-                    $upPack['invoice_no'] = $params['invoice_no'];
 
-
-                    $this->updatePack->updatePackSyncApi((int)$rtPack[0]['id'], $upPack, $user_id);
                     $rtPack = $this->findPack->findPacks($findPackingID);
                     array_push($arrPack, $rtPack[0]);
                     $rtdata['packs'] = $arrPack;
@@ -82,7 +83,7 @@ final class RegisterTagOnPackAction
                 }
             }
         } else {
-            
+
 
             $rtdata['packs'] = $this->findPack->findPacks($params);
             $rtdata['message'] = "Get Pack Successful";
