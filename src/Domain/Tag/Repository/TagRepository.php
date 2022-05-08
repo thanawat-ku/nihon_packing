@@ -50,12 +50,12 @@ final class TagRepository
         $this->queryFactory->newUpdate('tags', $row)->andWhere(['id' => $tagID])->execute();
     }
 
-    public function updateTagAllFromPackIDApi(int $sellID, array $row, $user_id): void
+    public function updateTagAllFromPackIDApi(int $packID, array $row, $user_id): void
     {
         $row['updated_at'] = Chronos::now()->toDateTimeString();
         $row['updated_user_id'] = $user_id;
 
-        $this->queryFactory->newUpdate('tags', $row)->andWhere(['pack_id' => $sellID])->execute();
+        $this->queryFactory->newUpdate('tags', $row)->andWhere(['pack_id' => $packID])->execute();
     }
 
     public function registerTag(int $tagID, array $data): void
@@ -84,32 +84,32 @@ final class TagRepository
 
         $this->queryFactory->newUpdate('tags', $data)->andWhere(['id' => $tagID])->execute();
     }
-    public function updateTagPrintFromPackID(int $sellID, array $data): void
+    public function updateTagPrintFromPackID(int $packID, array $data): void
     {
         $data['updated_at'] = Chronos::now()->toDateTimeString();
         $data['updated_user_id'] = $this->session->get('user')["id"];
 
-        $this->queryFactory->newUpdate('tags', $data)->andWhere(['pack_id' => $sellID])->execute();
+        $this->queryFactory->newUpdate('tags', $data)->andWhere(['pack_id' => $packID])->execute();
     }
-    public function updateTagPrintFromPackIDApi(int $sellID, array $data, int $userID): void
+    public function updateTagPrintFromPackIDApi(int $packID, array $data, int $userID): void
     {
         $data['updated_at'] = Chronos::now()->toDateTimeString();
         $data['updated_user_id'] = $userID;
 
-        $this->queryFactory->newUpdate('tags', $data)->andWhere(['pack_id' => $sellID])->execute();
+        $this->queryFactory->newUpdate('tags', $data)->andWhere(['pack_id' => $packID])->execute();
     }
 
-    public function updateTagFronPackID(int $sellID, array $data): void
+    public function updateTagFronPackID(int $packID, array $data): void
     {
         $data['updated_at'] = Chronos::now()->toDateTimeString();
         $data['updated_user_id'] = $this->session->get('user')["id"];
 
-        $this->queryFactory->newUpdate('tags', $data)->andWhere(['pack_id' => $sellID])->execute();
+        $this->queryFactory->newUpdate('tags', $data)->andWhere(['pack_id' => $packID])->execute();
     }
 
-    public function deleteTag(int $tagID): void
+    public function deleteTags(int $packID): void
     {
-        $this->queryFactory->newDelete('tags')->andWhere(['id' => $tagID])->execute();
+        $this->queryFactory->newDelete('tags')->andWhere(['pack_id' => $packID])->execute();
     }
 
     public function findTags(array $params): array

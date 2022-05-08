@@ -41,22 +41,22 @@ final class PackTagAction
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $data = (array)$request->getParsedBody();
-        $sellID=$data['pack_id'];
+        $packID=$data['pack_id'];
 
-        $sellRow = $this->finder->findPackRow($sellID);
-        $sellTag = $this->finder->findPackTag($data);
-        $sellLabel = $this->finder->findPackLabel($data);
+        $packRow = $this->finder->findPackRow($packID);
+        $packTag = $this->finder->findPackTag($data);
+        $packLabel = $this->finder->findPackLabel($data);
 
-        $totalLabel = count($sellLabel);
-        $totalTag = count($sellTag);
+        $totalLabel = count($packLabel);
+        $totalTag = count($packTag);
 
-        $sellRow['total_label'] = $totalLabel;
-        $sellRow['total_tag'] = $totalTag;
+        $packRow['total_label'] = $totalLabel;
+        $packRow['total_tag'] = $totalTag;
 
-        if ($sellTag) {
+        if ($packTag) {
             $rtdata['message'] = 'Login successfully';
             $rtdata['error'] = false;
-            $rtdata['pack_row'] = $sellRow;
+            $rtdata['pack_row'] = $packRow;
         } else {
             $rtdata['message'] = 'Login fail';
             $rtdata['error'] = true;

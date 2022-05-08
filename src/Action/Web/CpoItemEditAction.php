@@ -22,15 +22,15 @@ final class CpoItemEditAction
     private $finder;
     private $updatePack;
     private $tempQueryFinder;
-    private $sellCpoItemUpdater;
+    private $packCpoItemUpdater;
 
-    public function __construct( Responder $responder, PackFinder $finder, TempQueryFinder $tempQueryFinder,PackCpoItemUpdater $sellCpoItemUpdater, PackUpdater $updatePack)
+    public function __construct( Responder $responder, PackFinder $finder, TempQueryFinder $tempQueryFinder,PackCpoItemUpdater $packCpoItemUpdater, PackUpdater $updatePack)
     {
         $this->responder = $responder;
         $this->updatePack = $updatePack;
         $this->finder = $finder;
         $this->tempQueryFinder = $tempQueryFinder;
-        $this->sellCpoItemUpdater = $sellCpoItemUpdater;
+        $this->packCpoItemUpdater = $packCpoItemUpdater;
     }
 
 
@@ -41,10 +41,10 @@ final class CpoItemEditAction
     ): ResponseInterface {
         // Extract the form data from the request body
         $data = (array)$request->getParsedBody();
-        $sellID = (string)$data["pack_id"];
+        $packID = (string)$data["pack_id"];
         $id = $data["id"];
 
-        $this->sellCpoItemUpdater->updatePackCpoItem($id, $data);
+        $this->packCpoItemUpdater->updatePackCpoItem($id, $data);
 
         $rtPackCpoItem = $this->tempQueryFinder->findTempQuery($data);
         
@@ -55,14 +55,14 @@ final class CpoItemEditAction
         }
 
         $rtPack['total_qty'] = $totalQty;
-        $this->updatePack->updatePack($sellID, $rtPack);
+        $this->updatePack->updatePack($packID, $rtPack);
 
 
-        $sellRow = $this->finder->findPackRow($sellID);
+        $packRow = $this->finder->findPackRow($packID);
 
         $viewData = [
-            'pack_id' => $sellRow['id'],
-            'product_id' => $sellRow['product_id'],
+            'pack_id' => $packRow['id'],
+            'product_id' => $packRow['product_id'],
         ];
 
         return $this->responder->withRedirect($response, "cpo_items", $viewData);

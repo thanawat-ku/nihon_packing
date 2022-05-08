@@ -21,7 +21,7 @@ final class TagAction
     private $responder;
     private $twig;
     private $tagFinder;
-    private $sellFinder;
+    private $packFinder;
     private $session;
 
     /**
@@ -29,11 +29,11 @@ final class TagAction
      *
      * @param Responder $responder The responder
      */
-    public function __construct(Twig $twig, TagFinder $tagFinder, PackFinder $sellFinder, Session $session, Responder $responder)
+    public function __construct(Twig $twig, TagFinder $tagFinder, PackFinder $packFinder, Session $session, Responder $responder)
     {
         $this->twig = $twig;
         $this->tagFinder = $tagFinder;
-        $this->sellFinder = $sellFinder;
+        $this->packFinder = $packFinder;
         $this->session = $session;
         $this->responder = $responder;
     }
@@ -49,7 +49,7 @@ final class TagAction
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $params = (array)$request->getQueryParams();
-        $sellID = $params['pack_id'];
+        $packID = $params['pack_id'];
 
         $checkTagPrinted = "true";
 
@@ -60,13 +60,13 @@ final class TagAction
             }
         }
 
-        $sellRow = $this->sellFinder->findPackRow($sellID);
-        $sellRow['cpo_item_id']=$rtTags[0]['cpo_item_id'];
-        $sellRow['total_qty']=$rtTags[0]['total_qty'];
+        $packRow = $this->packFinder->findPackRow($packID);
+        $packRow['cpo_item_id']=$rtTags[0]['cpo_item_id'];
+        $packRow['total_qty']=$rtTags[0]['total_qty'];
         
         $viewData = [
             'checkTagPrinted' => $checkTagPrinted,
-            'sellRow' => $sellRow,
+            'packRow' => $packRow,
             'tags' => $rtTags,
             'user_login' => $this->session->get('user'),
         ];

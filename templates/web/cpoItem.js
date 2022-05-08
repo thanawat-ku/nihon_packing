@@ -22,9 +22,9 @@ function deleteCpoItem(event) {
 }
 
 function comfirmCpoItem(event) {
-    let sellRow = event.currentTarget.name;
-    console.log(sellRow);
-    var obj = JSON.parse(sellRow);
+    let packRow = event.currentTarget.name;
+    console.log(packRow);
+    var obj = JSON.parse(packRow);
     $("#conPackID").val(obj.pack_id);
 }
 

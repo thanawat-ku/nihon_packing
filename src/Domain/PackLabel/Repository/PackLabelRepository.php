@@ -30,9 +30,9 @@ final class PackLabelRepository
         return (int)$this->queryFactory->newInsert('pack_labels', $row)->execute()->lastInsertId();
     }
 
-    public function deletePackLabel(int $sellID): void
+    public function deletePackLabel(int $packID): void
     {
-        $this->queryFactory->newDelete('pack_labels')->andWhere(['pack_id' => $sellID])->execute();
+        $this->queryFactory->newDelete('pack_labels')->andWhere(['pack_id' => $packID])->execute();
     }
     public function deletePackLabelID(int $labelID): void
     {

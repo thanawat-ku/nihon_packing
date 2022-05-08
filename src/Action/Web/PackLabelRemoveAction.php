@@ -23,37 +23,37 @@ final class PackLabelRemoveAction
     private $twig;
     private $updater;
     private $labelUpdater;
-    private $sellFinder;
-    private $sellLabelFinder;
+    private $packFinder;
+    private $packLabelFinder;
     private $session;
 
     public function __construct(
         Twig $twig,
         PackLabelUpdater $updater,
         Responder $responder,
-        PackFinder $sellFinder,
+        PackFinder $packFinder,
         LabelUpdater $labelUpdater,
         Session $session,
-        PackLabelFinder $sellLabelFinder
+        PackLabelFinder $packLabelFinder
     ) {
         $this->twig = $twig;
         $this->responder = $responder;
         $this->updater = $updater;
         $this->labelUpdater = $labelUpdater;
-        $this->sellFinder = $sellFinder;
+        $this->packFinder = $packFinder;
         $this->session = $session;
-        $this->sellLabelFinder = $sellLabelFinder;
+        $this->packLabelFinder = $packLabelFinder;
     }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $data = (array)$request->getParsedBody();
-        $sellID = (int)$data['pack_id'];
+        $packID = (int)$data['pack_id'];
         $PacklbID = (int)$data['id'];
 
         $user_id = $this->session->get('user')["id"];
 
-        $arrPackLabel = $this->sellLabelFinder->findPackLabels($data);
+        $arrPackLabel = $this->packLabelFinder->findPackLabels($data);
 
         if ($arrPackLabel) {
             $id = (int)$arrPackLabel[0]['label_id'];
@@ -64,14 +64,14 @@ final class PackLabelRemoveAction
         $this->updater->deleteLabelInPackLabel($PacklbID);
 
 
-        $sellRow = $this->sellFinder->findPackRow($sellID);
+        $packRow = $this->packFinder->findPackRow($packID);
 
         $packLabels = [];
 
         $totalQty = 0;
         $arrtotalQty = [];
 
-        $rtdata['mpd_from_lots'] = $this->sellLabelFinder->findPackLabelForlots($data);
+        $rtdata['mpd_from_lots'] = $this->packLabelFinder->findPackLabelForlots($data);
         array_push($packLabels, $rtdata['mpd_from_lots']);
         if ($rtdata['mpd_from_lots']) {
             for ($i = 0; $i < count($packLabels[0]); $i++) {
@@ -79,7 +79,7 @@ final class PackLabelRemoveAction
             }
         }
 
-        $rtdata['mpd_from_merges'] = $this->sellLabelFinder->findPackLabelForMergePacks($data);
+        $rtdata['mpd_from_merges'] = $this->packLabelFinder->findPackLabelForMergePacks($data);
         array_push($packLabels, $rtdata['mpd_from_merges']);
         if ($rtdata['mpd_from_merges'] != null) {
             for ($i = 0; $i < count($packLabels[1]); $i++) {
@@ -93,8 +93,8 @@ final class PackLabelRemoveAction
         }
 
         $viewData = [
-            'pack_id'=> $sellRow['id'],
-            'product_id'=> $sellRow['product_id'],
+            'pack_id'=> $packRow['id'],
+            'product_id'=> $packRow['product_id'],
         ];
         
         return $this->responder->withRedirect($response, "pack_labels",$viewData);

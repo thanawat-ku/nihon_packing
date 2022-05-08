@@ -23,22 +23,22 @@ final class CheckPackLabelScanAction
     private $responder;
     private $finder;
     private $updateLabel;
-    private $updatesell;
-    private  $updateselllabel;
+    private $updatepack;
+    private  $updatepacklabel;
     private  $findPackLabel;
 
     public function __construct(
 
         LabelFinder $finder,
-        PackUpdater $updatesell,
+        PackUpdater $updatepack,
         Responder $responder,
-        PackLabelUpdater $updateselllabel,
+        PackLabelUpdater $updatepacklabel,
         PackLabelFinder $findPackLabel,
         LabelUpdater $updateLabel
     ) {
         $this->finder = $finder;
-        $this->updatesell = $updatesell;
-        $this->updateselllabel = $updateselllabel;
+        $this->updatepack = $updatepack;
+        $this->updatepacklabel = $updatepacklabel;
         $this->responder = $responder;
         $this->findPackLabel = $findPackLabel;
         $this->updateLabel = $updateLabel;
@@ -49,9 +49,9 @@ final class CheckPackLabelScanAction
         $data = (array)$request->getParsedBody();
         $user_id = $data['user_id'];
         $labels = $data['label'];
-        $sellID = $data['pack_id'];
+        $packID = $data['pack_id'];
 
-        $this->updateselllabel->deletePackLabelApi($sellID);
+        $this->updatepacklabel->deletePackLabelApi($packID);
 
         $arrlabel = explode("#", $labels);
 
@@ -81,8 +81,8 @@ final class CheckPackLabelScanAction
             if ($labelRow) {
 
                 $insertPackLabel['label_id'] = $labelRow[0]['id'];
-                $insertPackLabel['pack_id'] = $sellID;
-                $this->updateselllabel->insertPackLabelApi($insertPackLabel, $user_id);
+                $insertPackLabel['pack_id'] = $packID;
+                $this->updatepacklabel->insertPackLabelApi($insertPackLabel, $user_id);
 
                 if ($labelRow[0]['lot_id'] != 0) {
                     if ($labelRow[0]['status'] == "PACKED") {
@@ -125,7 +125,7 @@ final class CheckPackLabelScanAction
         }
 
         $upstatus['up_status'] = "SELECTING_LABEL";
-        $this->updatesell->updatePackStatus($sellID, $upstatus, $user_id);
+        $this->updatepack->updatePackStatus($packID, $upstatus, $user_id);
 
         return $this->responder->withJson($response, $rtdata);
     }

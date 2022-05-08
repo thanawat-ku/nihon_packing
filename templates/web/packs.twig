@@ -125,7 +125,7 @@
 					</div>
 					<!-- Modal body -->
 					<div class="modal-body">
-						<div class="form-sell">
+						<div class="form-pack">
 							<input type="hidden" id="regisPackID" name="id">
 							<label for="email">Register Pack No:</label>
 							<span id="regisPackNo"></span>
@@ -153,7 +153,7 @@
 					</div>
 					<!-- Modal body -->
 					<div class="modal-body">
-						<div class="form-sell">
+						<div class="form-pack">
 							<label for="email">Select Product</label>
 							<select class="selectpicker form-control" id="addProductID" name="product_id" data-live-search="true">
 								{% for p in products %}
@@ -185,7 +185,7 @@
 					</div>
 					<!-- Modal body -->
 					<div class="modal-body">
-						<div class="form-sell">
+						<div class="form-pack">
 							<input type="hidden" id="editPackID" name="id">
 							<label for="labelNo">Pack No:
 								<span id="editPackNo"></span>
@@ -194,7 +194,7 @@
 								<span id="editProductName"></span>
 							</label>
 						</div>
-						<div class="form-sell">
+						<div class="form-pack">
 							<label for="email">Select Pack Status</label>
 							<select class="form-control" id="editPackStatus" name="pack_status">
 								<option value="SELECTING_CPO">SELECTING_CPO</option>
@@ -223,9 +223,9 @@
 					</div>
 					<!-- Modal body -->
 					<div class="modal-body">
-						<div class="form-sell">
+						<div class="form-pack">
 							<input type="hidden" id="deletePackID" name="id">
-							<label for="sellNo">Do you want to delete Pack:
+							<label for="packNo">Do you want to delete Pack:
 								<span id="deletePackNo"></span>
 								<span></span>
 								<span id="deletePackName"></span>
@@ -254,9 +254,9 @@
 					</div>
 					<!-- Modal body -->
 					<div class="modal-body">
-						<div class="form-sell">
+						<div class="form-pack">
 							<input type="hidden" id="conPackID" name="pack_id">
-							<label for="sellNo">Are you sure to confirm Pack No:
+							<label for="packNo">Are you sure to confirm Pack No:
 								<span id="conPackNo"></span>
 								?
 							</label>
@@ -275,7 +275,7 @@
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<form
-					id="form-deleteCpoItem" action="print_tags_in_sell" method="post">
+					id="form-deleteCpoItem" action="print_tags_in_pack" method="post">
 					<!-- Modal Header -->
 					<div class="modal-header">
 						<h4 class="modal-title">Print tags in Pack</h4>
@@ -283,9 +283,9 @@
 					</div>
 					<!-- Modal body -->
 					<div class="modal-body">
-						<div class="form-sell">
+						<div class="form-pack">
 							<input type="hidden" id="printPackID" name="pack_id">
-							<label for="sellNo">Do you want to print tags in Pack No:
+							<label for="packNo">Do you want to print tags in Pack No:
 								<span id="printPackNo"></span>
 								?
 							</label>

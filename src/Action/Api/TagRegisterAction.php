@@ -55,7 +55,7 @@ final class TagRegisterAction
 
         if ($rtTags) {
 
-            $sellID = $rtTags[0]['pack_id'];
+            $packID = $rtTags[0]['pack_id'];
 
             $checkTagPrinted = true;
             for ($i = 0; $i < count($rtTags); $i++) {
@@ -67,7 +67,7 @@ final class TagRegisterAction
             if ($checkTagPrinted == true) {
 
 
-                $rtPack = $this->findPack->findPackRow($sellID);
+                $rtPack = $this->findPack->findPackRow($packID);
 
                 if ($rtPack['is_completed'] == 'Y') {
 
@@ -86,10 +86,10 @@ final class TagRegisterAction
                     $this->updateCpoItem->updateCpoItem((int)$rtPackingItem[0]['CpoItemID'], $isCpoItem);
 
                     $upStatus['status'] = "BOXED";
-                    $this->updater->updateTagAllFromPackIDApi($sellID, $upStatus,  $user_id);
+                    $this->updater->updateTagAllFromPackIDApi($packID, $upStatus,  $user_id);
 
                     $upStatus['up_status'] = "TAGGED";
-                    $this->updatePack->updatePackStatus($sellID, $upStatus, $user_id);
+                    $this->updatePack->updatePackStatus($packID, $upStatus, $user_id);
 
                     $rtdata['message'] = "Get Tag Successful";
                     $rtdata['error'] = false;
@@ -112,10 +112,10 @@ final class TagRegisterAction
                     $this->updateCpoItem->updateCpoItem((int)$rtPackingItem[0]['CpoItemID'], $isCpoItem);
 
                     $upStatus['status'] = "BOXED";
-                    $this->updater->updateTagAllFromPackIDApi($sellID, $upStatus,  $user_id);
+                    $this->updater->updateTagAllFromPackIDApi($packID, $upStatus,  $user_id);
 
                     $upStatus['up_status'] = "COMPLETE";
-                    $this->updatePack->updatePackStatus($sellID, $upStatus, $user_id);
+                    $this->updatePack->updatePackStatus($packID, $upStatus, $user_id);
 
                     $rtdata['message'] = "Get Tag Successful";
                     $rtdata['error'] = false;

@@ -16,41 +16,41 @@
 				<h2>
 					<i class="fa fa-solid fa-box-open"></i>
 					Pack Labels list</h2>
-				<form action="select_label_for_packs" method="get" id="{{ sellRow.id }}">
-					<input type="hidden" id="productID" name="ProductID" value="{{ sellRow.product_id }}">
-					<input type="hidden" id="sellID" name="pack_id" value="{{ sellRow.id }}">
+				<form action="select_label_for_packs" method="get" id="{{ packRow.id }}">
+					<input type="hidden" id="productID" name="ProductID" value="{{ packRow.product_id }}">
+					<input type="hidden" id="packID" name="pack_id" value="{{ packRow.id }}">
 				</form>
-				<button type="submit" id="addBt" form="{{ sellRow.id }}" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#addPackLabels">
+				<button type="submit" id="addBt" form="{{ packRow.id }}" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#addPackLabels">
 					<i style="font-size:15px; width:20px;" class="fas fa-plus"></i>
 					Add Pack Labels</button>
 
-				{% if sellRow.total_qty == totalQtyLabelsell[0] and sellRow.total_qty != "0" %}
+				{% if packRow.total_qty == totalQtyLabelpack[0] and packRow.total_qty != "0" %}
 					<button type="button" id="conBt" class="btn btn-success btn-sm" data-toggle="modal" data-target="#conFirmPackLabel" name="{{ label|json_encode }}">
 						<i style="font-size:15px; width:20px;" class="fas fa-check"></i>Confirm
 					</button>
 				{% endif %}
 				<hr>
 				<div>
-					<h5>{{ sellRow.pack_no  ~ '(' ~ sellRow.pack_status ~ ')'}}
+					<h5>{{ packRow.pack_no  ~ '(' ~ packRow.pack_status ~ ')'}}
 					</h5>
-					<span>{{'Part Code: ' ~ sellRow.part_code }}</span><br>
-					<span>{{'Part No: ' ~ sellRow.part_no  }}</span><br>
-					<span>{{'Pack Date: ' ~ sellRow.pack_date}}</span><br>
+					<span>{{'Part Code: ' ~ packRow.part_code }}</span><br>
+					<span>{{'Part No: ' ~ packRow.part_no  }}</span><br>
+					<span>{{'Pack Date: ' ~ packRow.pack_date}}</span><br>
 					{% if checkPackQty == "lesser" %}
 						<span>Total Quantity: </span>
-						<span>{{totalQtyLabelsell[0]}}</span>
+						<span>{{totalQtyLabelpack[0]}}</span>
 						<span>/</span>
-						<span>{{sellRow.total_qty}}</span>
+						<span>{{packRow.total_qty}}</span>
 					{% elseif checkPackQty == "aqual" %}
 						<span>Total Quantity: </span>
-						<span style="color:Chartreuse">{{totalQtyLabelsell[0]}}</span>
+						<span style="color:Chartreuse">{{totalQtyLabelpack[0]}}</span>
 						<span style="color:Chartreuse">/</span>
-						<span style="color:Chartreuse">{{sellRow.total_qty}}</span>
+						<span style="color:Chartreuse">{{packRow.total_qty}}</span>
 					{% elseif checkPackQty == "over" %}
 						<span>Total Quantity: </span>
-						<span style="color:red">{{totalQtyLabelsell[0]}}</span>
+						<span style="color:red">{{totalQtyLabelpack[0]}}</span>
 						<span style="color:red">/</span>
-						<span style="color:red">{{sellRow.total_qty}}</span>
+						<span style="color:red">{{packRow.total_qty}}</span>
 						
 					{% endif %}
 
@@ -64,7 +64,7 @@
 							<th>Lot No/Merge No</th>
 							<th>Quantity</th>
 							<th>Label Type</th>
-							{% if sellRow.pack_status != "CONFIRM" %}
+							{% if packRow.pack_status != "CONFIRM" %}
 								<th>Operation</th>
 							{% endif %}
 						</tr>
@@ -78,7 +78,7 @@
 								<td>{{ packLabel.lot_no }}</td>
 								<td>{{ packLabel.quantity}}</td>
 								<td>{{ packLabel.label_type}}</td>
-								{% if sellRow.pack_status != "CONFIRM" %}
+								{% if packRow.pack_status != "CONFIRM" %}
 									<td>
 										<button type="button" id="removeBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#removePackLabels" name="{{ packLabel|json_encode }}">
 											<i style="font-size:15px; width:20px;" class="fas fa-trash"></i>
@@ -94,7 +94,7 @@
 								<td>{{ packLabel.merge_no }}</td>
 								<td>{{ packLabel.quantity}}</td>
 								<td>{{ packLabel.label_type}}</td>
-								{% if sellRow.pack_status != "CONFIRM" %}
+								{% if packRow.pack_status != "CONFIRM" %}
 									<td>
 										<button type="button" id="removeBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#removePackLabels" name="{{ packLabel|json_encode }}">
 											<i style="font-size:15px; width:20px;" class="fas fa-trash"></i>
@@ -129,15 +129,15 @@
 					</div>
 					<!-- Modal body -->
 					<div class="modal-body">
-						<div class="form-sell">
+						<div class="form-pack">
 							<input type="hidden" id="removeLabelID" name="id">
-							<input type="hidden" id="addPackID" name="pack_id" value="{{sellRow.id}}">
-							<label for="sellNo">Do you want to delete Label No:
+							<input type="hidden" id="addPackID" name="pack_id" value="{{packRow.id}}">
+							<label for="packNo">Do you want to delete Label No:
 								<span id="removeLabelNo"></span>
 							</label>
 						</div>
-						<div class="form-sell">
-							<label for="sellNo">Quantity:
+						<div class="form-pack">
+							<label for="packNo">Quantity:
 								<span id="removeQuantity"></span>
 							</label>
 						</div>
@@ -163,15 +163,15 @@
 					</div>
 					<!-- Modal body -->
 					<div class="modal-body">
-						<div class="form-sell">
-							<input type="hidden" id="addPackID" name="pack_id" value="{{sellRow.id}}">
-							<label for="sellNo">Do you want to confirm Pack No:
-								{{sellRow.pack_no}}
+						<div class="form-pack">
+							<input type="hidden" id="addPackID" name="pack_id" value="{{packRow.id}}">
+							<label for="packNo">Do you want to confirm Pack No:
+								{{packRow.pack_no}}
 								<span id="removeLabelNo"></span>
 							</div>
-							<div class="form-sell">
-								<label for="sellNo">Total Quantity: 
-									{{sellRow.total_qty}}
+							<div class="form-pack">
+								<label for="packNo">Total Quantity: 
+									{{packRow.total_qty}}
 									<span id="removeLabelNo"></span>
 								</label>
 							</div>

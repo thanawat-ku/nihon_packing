@@ -49,9 +49,9 @@ final class PackUpdater
         return $id;
     }
 
-    public function updatePackStatus(int $sellId, array $data, $user_id): void
+    public function updatePackStatus(int $packId, array $data, $user_id): void
     {
-        $this->validator->validatePackUpdate($sellId, $data);
+        $this->validator->validatePackUpdate($packId, $data);
 
         $row = $this->mapToRow($data);
         if ($data['up_status'] == "SELECTING_CPO") {
@@ -72,28 +72,28 @@ final class PackUpdater
             $row['pack_status'] = "COMPLETE";
         }
 
-        $this->repository->updatePackApi($sellId, $row, $user_id);
+        $this->repository->updatePackApi($packId, $row, $user_id);
     }
-    public function updatePack(int $sellId, array $data): void
+    public function updatePack(int $packId, array $data): void
     {
-        $this->validator->validatePackUpdate($sellId, $data);
+        $this->validator->validatePackUpdate($packId, $data);
 
         $row = $this->mapToRow($data);
         $user_id = $this->session->get('user')["id"];
 
-        $this->repository->updatePackApi($sellId, $row, $user_id);
+        $this->repository->updatePackApi($packId, $row, $user_id);
     }
-    public function updateConfirmPackApi(int $sellId, array $data, $user_id): void
+    public function updateConfirmPackApi(int $packId, array $data, $user_id): void
     {
-        $this->validator->validatePackUpdate($sellId, $data);
+        $this->validator->validatePackUpdate($packId, $data);
 
         $row = $this->mapToRow($data);
 
-        $this->repository->updatePackApi($sellId, $row, $user_id);
+        $this->repository->updatePackApi($packId, $row, $user_id);
     }
-    public function updatePackApi(int $sellId, array $data, $user_id): void
+    public function updatePackApi(int $packId, array $data, $user_id): void
     {
-        $this->validator->validatePackUpdate($sellId, $data, $user_id);
+        $this->validator->validatePackUpdate($packId, $data, $user_id);
 
         $totalQty = 0;
         for ($i = 0; $i < count($data); $i++) {
@@ -103,7 +103,7 @@ final class PackUpdater
         $row = $this->mapToRow($data);
         $row['total_qty'] = $totalQty;
 
-        $this->repository->updatePackApi($sellId, $row, $user_id);
+        $this->repository->updatePackApi($packId, $row, $user_id);
     }
     public function updatePackStatusSelectingCpo(int $productId, array $data): void
     {
@@ -117,22 +117,22 @@ final class PackUpdater
         $this->repository->updatePackApi($productId, $row, $user_id);
     }
 
-    public function updatePackDeleteApi(int $sellId, array $data, $user_id): void
+    public function updatePackDeleteApi(int $packId, array $data, $user_id): void
     {
-        $this->validator->validatePackUpdate($sellId, $data, $user_id);
+        $this->validator->validatePackUpdate($packId, $data, $user_id);
 
         $row = $this->mapToRow($data);
 
-        $this->repository->updatePackApi($sellId, $row, $user_id);
+        $this->repository->updatePackApi($packId, $row, $user_id);
     }
 
-    public function updatePackSyncApi(int $sellId, array $data, $user_id): void
+    public function updatePackSyncApi(int $packId, array $data, $user_id): void
     {
-        $this->validator->validatePackUpdate($sellId, $data, $user_id);
+        $this->validator->validatePackUpdate($packId, $data, $user_id);
 
         $row = $this->mapToRow($data);
 
-        $this->repository->updatePackApi($sellId, $row, $user_id);
+        $this->repository->updatePackApi($packId, $row, $user_id);
     }
 
     public function deletePackApi(int $productId): void

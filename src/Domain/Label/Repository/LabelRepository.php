@@ -518,14 +518,14 @@ final class LabelRepository
                 'conditions' => 'p.id = l.product_id',
             ]
         ]);
-        if (isset($params['find_label_for_sell'])) {
-            $query->andWhere(['labels.status' => $params['find_label_for_sell']]);
+        if (isset($params['find_label_for_pack'])) {
+            $query->andWhere(['labels.status' => $params['find_label_for_pack']]);
         }
 
         if (isset($params['id'])) {
             $query->andWhere(['labels.id' => $params['id']]);
         }
-        if (isset($params['check_sell_label'])) {
+        if (isset($params['check_pack_label'])) {
             if (isset($params['ProductID'])) {
                 $query->andWhere(['l.product_id' => $params['ProductID']]);
                 $query->andWhere(['l.is_delete' => 'N']);
@@ -633,8 +633,8 @@ final class LabelRepository
                 'conditions' => 'p.id = mp.product_id',
             ]
         ]);
-        if (isset($params['find_label_for_sell'])) {
-            $query->andWhere(['labels.status' => $params['find_label_for_sell']]);
+        if (isset($params['find_label_for_pack'])) {
+            $query->andWhere(['labels.status' => $params['find_label_for_pack']]);
         }
 
         if (isset($params['merge_pack_id'])) {
@@ -643,7 +643,7 @@ final class LabelRepository
         if (isset($params['id'])) {
             $query->andWhere(['labels.id' => $params['id']]);
         }
-        if (isset($params['check_sell_label'])) {
+        if (isset($params['check_pack_label'])) {
             if (isset($params['ProductID'])) {
                 $query->andWhere(['mp.product_id' => $params['ProductID']]);
                 $query->andWhere(['OR' => [['labels.status' => 'PACKED'], ['labels.status' => 'SELLING']]]);

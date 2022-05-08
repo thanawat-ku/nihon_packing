@@ -26,7 +26,7 @@ final class PackLabelAddAction
     private $finder;
     private $updatePack;
     private $labelUpdater;
-    private $sellFinder;
+    private $packFinder;
     private $session;
 
     public function __construct(
@@ -36,7 +36,7 @@ final class PackLabelAddAction
         PackUpdater $updatePack,
         Session $session,
         Responder $responder,
-        PackFinder $sellFinder,
+        PackFinder $packFinder,
         LabelUpdater $labelUpdater
     ) {
         
@@ -45,7 +45,7 @@ final class PackLabelAddAction
         $this->responder = $responder;
         $this->updater = $updater;
         $this->labelUpdater = $labelUpdater;
-        $this->sellFinder = $sellFinder;
+        $this->packFinder = $packFinder;
         $this->session=$session;
         $this->updatePack=$updatePack;
     }
@@ -53,7 +53,7 @@ final class PackLabelAddAction
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $data = (array)$request->getParsedBody();
-        $sellID = (int)$data['pack_id'];
+        $packID = (int)$data['pack_id'];
         $labelID = (int)$data['id'];
 
         $this->updater->insertPackLabel($data);
@@ -88,13 +88,13 @@ final class PackLabelAddAction
         }
 
         $upstatus['pack_status'] = "SELECTING_LABEL"; 
-        $this->updatePack->updatePack($sellID,$upstatus);
+        $this->updatePack->updatePack($packID,$upstatus);
        
-        $sellRow = $this->sellFinder->findPackRow($sellID);
+        $packRow = $this->packFinder->findPackRow($packID);
 
         $viewData = [
-            'pack_id'=> $sellRow['id'],
-            'product_id'=> $sellRow['product_id'],
+            'pack_id'=> $packRow['id'],
+            'product_id'=> $packRow['product_id'],
         ];
         
         return $this->responder->withRedirect($response, "pack_labels",$viewData);

@@ -40,11 +40,11 @@ final class PackCompleteAction
     ): ResponseInterface {
 
         $data = (array)$request->getParsedBody();
-        $sellID = $data['pack_id'];
+        $packID = $data['pack_id'];
         $user_id = $data['user_id'];
 
         $data['pack_status'] = 'COMPLETE';
-        $this->updater->updatePackStatus($sellID, $data, $user_id);
+        $this->updater->updatePackStatus($packID, $data, $user_id);
 
         return $this->responder->withJson($response, $data);
     }

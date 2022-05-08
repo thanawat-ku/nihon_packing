@@ -84,31 +84,36 @@ final class TagUpdater
         $this->repository->updateTag($tagID, $row);
     }
 
-    public function updateTagPrintFromPackID(int $sellID, array $data): void
+    public function updateTagPrintFromPackID(int $packID, array $data): void
     {
-        $this->validator->validateTagUpdate($sellID, $data);
+        $this->validator->validateTagUpdate($packID, $data);
 
         $row = $this->mapToTagRow($data);
 
-        $this->repository->updateTagPrintFromPackID($sellID, $row);
+        $this->repository->updateTagPrintFromPackID($packID, $row);
     }
 
-    public function updateTagPrintFromPackIDApi(int $sellID, array $data, int $userID): void
+    public function updateTagPrintFromPackIDApi(int $packID, array $data, int $userID): void
     {
-        $this->validator->validateTagUpdate($sellID, $data);
+        $this->validator->validateTagUpdate($packID, $data);
 
         $row = $this->mapToTagRow($data);
 
-        $this->repository->updateTagPrintFromPackIDApi($sellID, $row, $userID);
+        $this->repository->updateTagPrintFromPackIDApi($packID, $row, $userID);
     }
 
-    public function updateTagFronPackID(int $sellID, array $data): void
+    public function updateTagFronPackID(int $packID, array $data): void
     {
-        $this->validator->validateTagUpdate($sellID, $data);
+        $this->validator->validateTagUpdate($packID, $data);
 
         $row = $this->mapToTagRow($data);
 
-        $this->repository->updateTagFronPackID($sellID, $row);
+        $this->repository->updateTagFronPackID($packID, $row);
+    }
+
+    public function deleteTags(int $packID): void
+    {
+        $this->repository->deleteTags($packID);
     }
 
     private function mapToTagRow(array $data): array
@@ -143,7 +148,7 @@ final class TagUpdater
         return $result;
     }
 
-    public function genTagsApi(int $sellID, array $data, int $user_id): array
+    public function genTagsApi(int $packID, array $data, int $user_id): array
     {
         $totalQty = $data[0]['total_qty'];
         $stdBox = $data[0]['std_box'];
@@ -155,7 +160,7 @@ final class TagUpdater
         for ($i = 0; $i < $totalBox; $i++) {
             if ($i != $totalBox - 1 && $totalBox > 1) {
                 $quantity = $totalBox - (($totalBox - 1) * $stdBox);
-                $dataTag['pack_id'] = $sellID;
+                $dataTag['pack_id'] = $packID;
                 $dataTag['quantity'] = $stdBox;
                 $dataTag['box_no'] = $i + 1;
                 $dataTag['total_box'] = $totalBox;
@@ -170,7 +175,7 @@ final class TagUpdater
                 array_push($tags, $rtTag[0]);
             } else if ($i == ($totalBox - 1) || $totalBox < 1) {
                 $quantity = $totalQty - (($totalBox - 1) * $stdBox);
-                $dataTag['pack_id'] = $sellID;
+                $dataTag['pack_id'] = $packID;
                 $dataTag['quantity'] = $quantity;
                 $dataTag['box_no'] = $i + 1;
                 $dataTag['total_box'] = $totalBox;
@@ -191,7 +196,7 @@ final class TagUpdater
         return $rtdata;
     }
 
-    public function genTags(int $sellID, array $data): array
+    public function genTags(int $packID, array $data): array
     {
         $totalQty = $data[0]['total_qty'];
         $stdBox = $data[0]['std_box'];
@@ -202,7 +207,7 @@ final class TagUpdater
         for ($i = 0; $i < $totalBox; $i++) {
             if ($i != $totalBox - 1 && $totalBox > 1) {
                 $quantity = $totalBox - (($totalBox - 1) * $stdBox);
-                $dataTag['pack_id'] = $sellID;
+                $dataTag['pack_id'] = $packID;
                 $dataTag['quantity'] = $stdBox;
                 $dataTag['box_no'] = $i + 1;
                 $dataTag['total_box'] = $totalBox;
@@ -217,7 +222,7 @@ final class TagUpdater
                 array_push($tags, $rtTag[0]);
             } else if ($i == ($totalBox - 1) || $totalBox < 1) {
                 $quantity = $totalQty - (($totalBox - 1) * $stdBox);
-                $dataTag['pack_id'] = $sellID;
+                $dataTag['pack_id'] = $packID;
                 $dataTag['quantity'] = $quantity;
                 $dataTag['box_no'] = $i + 1;
                 $dataTag['total_box'] = $totalBox;

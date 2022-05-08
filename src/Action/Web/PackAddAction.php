@@ -66,14 +66,14 @@ final class PackAddAction
 
             $rtPack['pack_id'] = $id;
 
-            $sellRow = $this->finder->findPackRow($id);
+            $packRow = $this->finder->findPackRow($id);
 
 
             $param_search['pack_id'] = $id;
 
             $viewData = [
-                'pack_id' => $sellRow['id'],
-                'product_id' => $sellRow['product_id'],
+                'pack_id' => $packRow['id'],
+                'product_id' => $packRow['product_id'],
 
             ];
             return $this->responder->withRedirect($response, "cpo_item_check_temp_query", $viewData);

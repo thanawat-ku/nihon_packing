@@ -30,11 +30,11 @@ final class PackConfirmAction
         array $args
     ): ResponseInterface {
         $data = (array)$request->getParsedBody();
-        $sellID=(int)$data['pack_id'];
+        $packID=(int)$data['pack_id'];
         $user_id=$this->session->get('user')["id"];
 
         $data['up_status'] = "SELECTED_CPO";
-        $this->updater->updatePackStatus($sellID, $data,$user_id);
+        $this->updater->updatePackStatus($packID, $data,$user_id);
 
         return $this->responder->withRedirect($response,"packs");
     }

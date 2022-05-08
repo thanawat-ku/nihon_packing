@@ -25,16 +25,16 @@ final class PackLabelAction
     private $twig;
     private $finder;
     private $updater;
-    private $sellFinder;
-    private $sellLabelFinder;
+    private $packFinder;
+    private $packLabelFinder;
     private $printer;
     private $session;
 
     public function __construct(
         Twig $twig,
         PackLabelFinder $finder,
-        PackFinder $sellFinder,
-        PackLabelFinder $sellLabelFinder,
+        PackFinder $packFinder,
+        PackLabelFinder $packLabelFinder,
         PackUpdater $updater,
         PrinterFinder $printer,
         Session $session,
@@ -43,8 +43,8 @@ final class PackLabelAction
         $this->twig = $twig;
         $this->finder = $finder;
         $this->updater = $updater;
-        $this->sellFinder = $sellFinder;
-        $this->sellLabelFinder = $sellLabelFinder;
+        $this->packFinder = $packFinder;
+        $this->packLabelFinder = $packLabelFinder;
         $this->printer = $printer;
         $this->session = $session;
         $this->responder = $responder;
@@ -53,7 +53,7 @@ final class PackLabelAction
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $params = (array)$request->getQueryParams();
-        $sellID = (int)$params['pack_id'];
+        $packID = (int)$params['pack_id'];
 
         $packLabels = [];
 
@@ -80,22 +80,22 @@ final class PackLabelAction
         } else {
             array_push($arrtotalQty, $totalQty);
         }
-        $sellRow = $this->sellFinder->findPackRow($sellID);
+        $packRow = $this->packFinder->findPackRow($packID);
 
-        $sellTotalQty = (int)$sellRow['total_qty'];
-        if ($totalQty < $sellTotalQty) {
+        $packTotalQty = (int)$packRow['total_qty'];
+        if ($totalQty < $packTotalQty) {
             $checkPackQty = "lesser";
-        } else if ($totalQty == $sellTotalQty) {
+        } else if ($totalQty == $packTotalQty) {
             $checkPackQty = "aqual";
         } else {
             $checkPackQty = "over";
         }
 
-        $rtPackLabel = $this->sellLabelFinder->findPackLabels($params);
+        $rtPackLabel = $this->packLabelFinder->findPackLabels($params);
 
         if (!$rtPackLabel) {
             $upStatus['pack_status'] = "SELECTED_CPO";
-            $this->updater->updatePack($sellID, $upStatus);
+            $this->updater->updatePack($packID, $upStatus);
         }
 
         $params['printer_type'] = 'TAG';
@@ -103,8 +103,8 @@ final class PackLabelAction
 
         $viewData = [
             'checkPackQty' => $checkPackQty,
-            'totalQtyLabelsell' => $arrtotalQty,
-            'sellRow' => $sellRow,
+            'totalQtyLabelpack' => $arrtotalQty,
+            'packRow' => $packRow,
             'printers' => $rtPrinter,
             'packLabels' => $packLabels,
             'user_login' => $this->session->get('user'),

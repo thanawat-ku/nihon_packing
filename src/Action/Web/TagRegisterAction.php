@@ -60,25 +60,25 @@ final class TagRegisterAction
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $data = (array)$request->getParsedBody();
-        $sellID = $data['id'];
+        $packID = $data['id'];
 
-        $rtPack = $this->finder->findPackRow($sellID);
+        $rtPack = $this->finder->findPackRow($packID);
 
         if ($rtPack['is_completed'] == 'Y') {
 
             $upStatus['status'] = "BOXED";
-            $this->updateTag->updateTagFronPackID($sellID, $upStatus);
+            $this->updateTag->updateTagFronPackID($packID, $upStatus);
 
             $data['pack_status'] = "TAGGED";
-            $this->updater->updatePack($sellID, $data);
+            $this->updater->updatePack($packID, $data);
 
         } else if ($rtPack['is_completed'] == 'N') {
             
             $upStatus['status'] = "BOXED";
-            $this->updateTag->updateTagFronPackID($sellID, $upStatus);
+            $this->updateTag->updateTagFronPackID($packID, $upStatus);
 
             $data['pack_status'] = "COMPLETE";
-            $this->updater->updatePack($sellID, $data);
+            $this->updater->updatePack($packID, $data);
         }
 
         return $this->responder->withRedirect($response, "packs");

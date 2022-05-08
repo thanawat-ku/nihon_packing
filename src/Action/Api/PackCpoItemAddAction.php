@@ -22,17 +22,17 @@ final class PackCpoItemAddAction
     private $responder;
     private $updater;
     private $finder;
-    private $updatesell;
+    private $updatepack;
     private $findCpoItem;
     private $updateCpoItem;
 
 
-    public function __construct(Responder $responder,  PackCpoItemUpdater $updater, PackCpoItemFinder $finder, CpoItemFinder $findCpoItem,CpoItemUpdater $updateCpoItem, PackUpdater $updatesell)
+    public function __construct(Responder $responder,  PackCpoItemUpdater $updater, PackCpoItemFinder $finder, CpoItemFinder $findCpoItem,CpoItemUpdater $updateCpoItem, PackUpdater $updatepack)
     {
         $this->responder = $responder;
         $this->updater = $updater;
         $this->finder = $finder;
-        $this->updatesell=$updatesell;
+        $this->updatepack=$updatepack;
         $this->findCpoItem = $findCpoItem;
         $this->updateCpoItem = $updateCpoItem;
     }
@@ -46,7 +46,7 @@ final class PackCpoItemAddAction
         $data = (array)$request->getParsedBody();
 
         $user_id = $data['user_id'];
-        $sellID = $data['pack_id'];
+        $packID = $data['pack_id'];
         
         $rtCpoItem = $this->findCpoItem->findCpoItem($data);
 
@@ -58,7 +58,7 @@ final class PackCpoItemAddAction
         $this->updater->insertPackCpoItemApi($data, $user_id);
 
         $uptatus['pack_status'] = "SELECTING_CPO";
-        $this->updatesell->updatePackStatus($sellID, $uptatus, $user_id);
+        $this->updatepack->updatePackStatus($packID, $uptatus, $user_id);
 
         $rtdata['message'] = "Get Pack Cpo Item Successful";
         $rtdata['error'] = false;

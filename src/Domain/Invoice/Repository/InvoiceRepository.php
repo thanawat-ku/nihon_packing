@@ -29,7 +29,7 @@ final class InvoiceRepository
 
     public function deleteInvoice(int $id): void
     {
-        $this->queryFactory->newDelete('sell_invoices')->andWhere(['id' => $id])->execute();
+        $this->queryFactory->newDelete('pack_invoices')->andWhere(['id' => $id])->execute();
     }
 
 

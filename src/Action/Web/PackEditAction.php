@@ -31,9 +31,9 @@ final class PackEditAction
         array $args
     ): ResponseInterface {
         $data = (array)$request->getParsedBody();
-        $sellID = (int)$data['id'];
+        $packID = (int)$data['id'];
 
-        $this->updater->updatePack($sellID, $data);
+        $this->updater->updatePack($packID, $data);
 
         return $this->responder->withRedirect($response, "packs");
     }

@@ -21,10 +21,10 @@ final class PackFinder
         return $this->repository->findPacks($params);
     }
 
-    public function findPackRow(int $sellID)
+    public function findPackRow(int $packID)
     {
-        $sellRow = $this->repository->findPackRow($sellID);
-        return $sellRow;
+        $packRow = $this->repository->findPackRow($packID);
+        return $packRow;
     }
 
     public function findPackTag(array $params): array

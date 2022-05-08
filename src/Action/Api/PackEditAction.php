@@ -50,7 +50,7 @@ final class PackEditAction
     ): ResponseInterface {
 
         $data = (array)$request->getParsedBody();
-        $sellID = $data['pack_id'];
+        $packID = $data['pack_id'];
         $user_id = $data['user_id'];
 
         $rtPack = $this->finder->findPacks($data);
@@ -58,7 +58,7 @@ final class PackEditAction
             return $this->responder->withJson($response, null);
         } else {
             $data['up_status'] = "SELECTING_CPO";
-            $this->updater->updatePackStatus($sellID, $data, $user_id);
+            $this->updater->updatePackStatus($packID, $data, $user_id);
 
             // $rtPackLabel = $this->findPackLabel->findPackLabels($data);
             // $upStatus['status'] = "PACKED";
@@ -67,9 +67,9 @@ final class PackEditAction
             //     $this->updateLabel->updateLabelApi($labelID, $upStatus, $user_id);
             // }
 
-            // $this->updatePackLabel->deletePackLabelApi($sellID);
+            // $this->updatePackLabel->deletePackLabelApi($packID);
 
-            // $this->updatePackCpoItem->deleteCpoItemInPackCpoItemApi($sellID);
+            // $this->updatePackCpoItem->deleteCpoItemInPackCpoItemApi($packID);
 
             return $this->responder->withJson($response, $data);
         }

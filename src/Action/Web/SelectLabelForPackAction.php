@@ -18,16 +18,16 @@ final class  SelectLabelForPackAction
     private $twig;
     private $finder;
     private $session;
-    private $sellFinder;
-    private $sellLabelFinder;
+    private $packFinder;
+    private $packLabelFinder;
 
 
-    public function __construct(Twig $twig, LabelFinder $finder, Session $session, Responder $responder, PackFinder $sellFinder, PackLabelFinder $sellLabelFinder)
+    public function __construct(Twig $twig, LabelFinder $finder, Session $session, Responder $responder, PackFinder $packFinder, PackLabelFinder $packLabelFinder)
     {
         $this->twig = $twig;
         $this->finder = $finder;
-        $this->sellFinder = $sellFinder;
-        $this->sellLabelFinder = $sellLabelFinder;
+        $this->packFinder = $packFinder;
+        $this->packLabelFinder = $packLabelFinder;
         $this->session = $session;
         $this->responder = $responder;
     }
@@ -35,10 +35,10 @@ final class  SelectLabelForPackAction
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $data = (array)$request->getQueryParams();
-        $sellID = (int)$data['pack_id'];
-        $data['check_sell_label'] = true;
+        $packID = (int)$data['pack_id'];
+        $data['check_pack_label'] = true;
 
-        $data['find_label_for_sell'] = "PACKED";
+        $data['find_label_for_pack'] = "PACKED";
 
         $labels = [];
         $labelFromLot = $this->finder->findCreateMergeNoFromLabels($data);
@@ -47,22 +47,22 @@ final class  SelectLabelForPackAction
         array_push($labels, $labelFromMerge);
 
         $totalLabelQty = 0;
-        $sellQtyBalance = 0;
-        $rtPackLabel = $this->sellLabelFinder->findPackLabels($data);
+        $packQtyBalance = 0;
+        $rtPackLabel = $this->packLabelFinder->findPackLabels($data);
         for ($i = 0; $i < count($rtPackLabel); $i++) {
             $totalLabelQty += $rtPackLabel[$i]['quantity'];
         }
 
-        $sellRow = $this->sellFinder->findPackRow($sellID);
+        $packRow = $this->packFinder->findPackRow($packID);
 
-        $sellQtyBalance =  $sellRow['total_qty'] - $totalLabelQty;
-        if ($sellQtyBalance <= 0) {
-            $sellQtyBalance = "Complete";
+        $packQtyBalance =  $packRow['total_qty'] - $totalLabelQty;
+        if ($packQtyBalance <= 0) {
+            $packQtyBalance = "Complete";
         }
 
         $viewData = [
-            'sellQtyBalance' => $sellQtyBalance,
-            'sellRow' => $sellRow,
+            'packQtyBalance' => $packQtyBalance,
+            'packRow' => $packRow,
             'labels' => $labels,
             'user_login' => $this->session->get('user'),
         ];

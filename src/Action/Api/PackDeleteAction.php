@@ -75,7 +75,7 @@ final class PackDeleteAction
     ): ResponseInterface {
 
         $data = (array)$request->getParsedBody();
-        $sellID = $data['pack_id'];
+        $packID = $data['pack_id'];
         $user_id = $data['user_id'];
 
         $rtPack = $this->finder->findPacks($data);
@@ -85,7 +85,7 @@ final class PackDeleteAction
 
             if ($rtPack[0]['pack_status'] == "PRINTED" || $rtPack[0]['pack_status'] == "INVOICED" || $rtPack[0]['pack_status'] == "TAGGED") {
                 $packingID = $rtPack[0]['packing_id'];
-                $searchPackCpoItem['pack_id'] = $sellID;
+                $searchPackCpoItem['pack_id'] = $packID;
                 $rowPackCpoItem = $this->findPackCpoItem->findPackCpoItems($searchPackCpoItem);
                 $searchCpoItem['cpo_item_id'] = $rowPackCpoItem[0]['cpo_item_id'];
                 $rowCpoItem = $this->findCpoItem->findCpoItem($searchCpoItem);
@@ -121,7 +121,7 @@ final class PackDeleteAction
                 $this->updateLabel->updateLabelApi($labelID, $upStatus, $user_id);
             }
 
-            $id['pack_id'] = $sellID;
+            $id['pack_id'] = $packID;
             $rtPackCpoItem = $this->findPackCpoItem->findPackCpoItems($id);
 
             $data['cpo_item_id'] = $rtPackCpoItem[0]['cpo_item_id'];
@@ -132,12 +132,12 @@ final class PackDeleteAction
             // $this->updateCpoItem->updateCpoItem((int)$data['cpo_item_id'], $packingQty);
 
 
-            $this->updatePackLabel->deletePackLabelApi($sellID);
+            $this->updatePackLabel->deletePackLabelApi($packID);
 
-            $this->updatePackCpoItem->deleteCpoItemInPackCpoItemApi($sellID);
+            $this->updatePackCpoItem->deleteCpoItemInPackCpoItemApi($packID);
 
             $data['is_delete'] = "Y";
-            $this->updater->updatePackDeleteApi($sellID, $data, $user_id);
+            $this->updater->updatePackDeleteApi($packID, $data, $user_id);
 
             $this->updateTempQuery->deleteTempQuery((int)$rtPack[0]['product_id']);
 

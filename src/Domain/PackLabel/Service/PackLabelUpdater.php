@@ -52,9 +52,9 @@ final class PackLabelUpdater
 
         return $id;
     }
-    public function deletePackLabelApi(int $sellId): void
+    public function deletePackLabelApi(int $packId): void
     {
-        $this->repository->deletePackLabel($sellId);
+        $this->repository->deletePackLabel($packId);
     }
     public function deletePackLabelIDApi(int $labelId): void
     {

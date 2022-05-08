@@ -25,20 +25,20 @@ final class CpoItemDeleteAction
     private $updater;
     private $finder;
     private $updatePack;
-    private $sellCpoItemFinder;
-    private $sellCpoItemUpdater;
+    private $packCpoItemFinder;
+    private $packCpoItemUpdater;
     private $cpoItemFinder;
     private $tempQueryUpdater;
 
-    public function __construct(Responder $responder, TempQueryFinder $tempQueryFinder, CpoItemUpdater $updater, PackFinder $finder, PackUpdater $updatePack, PackCpoItemFinder $sellCpoItemFinder, PackCpoItemUpdater $sellCpoItemUpdater, CpoItemFinder $cpoItemFinder, TempQueryUpdater $tempQueryUpdater)
+    public function __construct(Responder $responder, TempQueryFinder $tempQueryFinder, CpoItemUpdater $updater, PackFinder $finder, PackUpdater $updatePack, PackCpoItemFinder $packCpoItemFinder, PackCpoItemUpdater $packCpoItemUpdater, CpoItemFinder $cpoItemFinder, TempQueryUpdater $tempQueryUpdater)
     {
         $this->responder = $responder;
         $this->updater = $updater;
         $this->finder = $finder;
         $this->updatePack = $updatePack;
         $this->tempQueryFinder = $tempQueryFinder;
-        $this->sellCpoItemFinder = $sellCpoItemFinder;
-        $this->sellCpoItemUpdater = $sellCpoItemUpdater;
+        $this->packCpoItemFinder = $packCpoItemFinder;
+        $this->packCpoItemUpdater = $packCpoItemUpdater;
         $this->cpoItemFinder = $cpoItemFinder;
         $this->tempQueryUpdater = $tempQueryUpdater;
     }
@@ -50,14 +50,14 @@ final class CpoItemDeleteAction
         array $args
     ): ResponseInterface {
         $data = (array)$request->getParsedBody();
-        $sellID = (string)$data["pack_id"];
+        $packID = (string)$data["pack_id"];
         $id = $data["id"];
 
-        $sellRow = $this->finder->findPackRow($sellID);
+        $packRow = $this->finder->findPackRow($packID);
 
-        $this->sellCpoItemUpdater->deletePackCpoItemApi($id);
+        $this->packCpoItemUpdater->deletePackCpoItemApi($id);
 
-        $rtPackCpoItem = $this->sellCpoItemFinder->findPackCpoItems($data);
+        $rtPackCpoItem = $this->packCpoItemFinder->findPackCpoItems($data);
         $totalQty = 0;
         for ($i = 0; $i < count($rtPackCpoItem); $i++) {
             $totalQty += $rtPackCpoItem[$i]['pack_qty'];
@@ -66,11 +66,11 @@ final class CpoItemDeleteAction
             $dataPack['pack_status'] = "CREATED";
         }
         $dataPack['total_qty'] = $totalQty;
-        $this->updatePack->updatePack($sellID, $dataPack);
+        $this->updatePack->updatePack($packID, $dataPack);
 
         $viewData = [
-            'pack_id' => $sellRow['id'],
-            'product_id' => $sellRow['product_id'],
+            'pack_id' => $packRow['id'],
+            'product_id' => $packRow['product_id'],
         ];
 
         return $this->responder->withRedirect($response, "cpo_items", $viewData);

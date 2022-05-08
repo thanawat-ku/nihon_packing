@@ -22,21 +22,21 @@ final class CpoItemSelectAction
     private $responder;
     private $twig;
     private $finder;
-    private $sellFinder;
+    private $packFinder;
     private $session;
     private $tempQueryFinder;
 
     public function __construct(
         Twig $twig,
         CpoItemFinder $finder,
-        PackFinder $sellFinder,
+        PackFinder $packFinder,
         Session $session,
         Responder $responder,
         TempQueryFinder $tempQueryFinder
     ) {
         $this->twig = $twig;
         $this->finder = $finder;
-        $this->sellFinder = $sellFinder;
+        $this->packFinder = $packFinder;
         $this->session = $session;
         $this->responder = $responder;
         $this->tempQueryFinder = $tempQueryFinder;
@@ -62,7 +62,7 @@ final class CpoItemSelectAction
             $params['endDate'] = date('Y-'.$month.'-'.$day);
         }
 
-        $sellRow = $this->sellFinder->findPackRow($pack_id);
+        $packRow = $this->packFinder->findPackRow($pack_id);
 
 
 
@@ -96,7 +96,7 @@ final class CpoItemSelectAction
 
 
         $viewData = [
-            'sellRow' => $sellRow,
+            'packRow' => $packRow,
             'CpoItemSelects' =>  CheckCpoItemSelect($arrTemQuery, $arrCpoItem),
             'user_login' => $this->session->get('user'),
             'startDate' => $params['startDate'],

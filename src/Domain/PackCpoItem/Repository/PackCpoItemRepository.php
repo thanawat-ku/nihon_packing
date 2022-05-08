@@ -48,9 +48,9 @@ final class PackCpoItemRepository
     {
         $this->queryFactory->newDelete('pack_cpo_items')->andWhere(['id' => $id])->execute();
     }
-    public function deleteCpoItemInPackCpoItemApi(int $sellID): void
+    public function deleteCpoItemInPackCpoItemApi(int $packID): void
     {
-        $this->queryFactory->newDelete('pack_cpo_items')->andWhere(['pack_id' => $sellID])->execute();
+        $this->queryFactory->newDelete('pack_cpo_items')->andWhere(['pack_id' => $packID])->execute();
     }
 
 

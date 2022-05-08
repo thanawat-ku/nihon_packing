@@ -48,24 +48,24 @@ final class PackRowAction
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $data = (array)$request->getParsedBody();
-        $sellID=$data['pack_id'];
+        $packID=$data['pack_id'];
         $user_id=$data['user_id'];
 
         $packs = $this->findersct->findPackCpoItems($data);
-        $this->updater->updatePackApi($sellID, $packs, $user_id);
-        $sellRow = $this->finder->findPackRow($sellID);
+        $this->updater->updatePackApi($packID, $packs, $user_id);
+        $packRow = $this->finder->findPackRow($packID);
 
-        $totalQty = (int)$sellRow['total_qty'];
+        $totalQty = (int)$packRow['total_qty'];
 
         if ($totalQty == 0) {
             $upStatus['up_status']="CREATED";
-            $this->updater->updatePackStatus($sellID, $upStatus, $user_id);
+            $this->updater->updatePackStatus($packID, $upStatus, $user_id);
         }
 
-        if ($sellRow) {
+        if ($packRow) {
             $rtdata['message'] = 'Login successfully';
             $rtdata['error'] = false;
-            $rtdata['pack_row'] = $sellRow;
+            $rtdata['pack_row'] = $packRow;
         } else {
             $rtdata['message'] = 'Login fail';
             $rtdata['error'] = true;

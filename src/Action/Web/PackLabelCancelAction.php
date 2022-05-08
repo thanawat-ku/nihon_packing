@@ -24,7 +24,7 @@ final class PackLabelCancelAction
     private $finder;
     private $updater;
     private $labelUpdater;
-    private $sellFinder;
+    private $packFinder;
     private $session;
     
 
@@ -33,7 +33,7 @@ final class PackLabelCancelAction
         LabelFinder $finder,
         PackLabelUpdater $updater,
         Responder $responder,
-        PackFinder $sellFinder,
+        PackFinder $packFinder,
         LabelUpdater $labelUpdater,
         Session $session
     ) {
@@ -41,7 +41,7 @@ final class PackLabelCancelAction
         $this->responder = $responder;
         $this->updater = $updater;
         $this->labelUpdater = $labelUpdater;
-        $this->sellFinder = $sellFinder;
+        $this->packFinder = $packFinder;
         $this->session = $session;
         $this->finder=$finder;
     }
@@ -52,7 +52,7 @@ final class PackLabelCancelAction
         $PackID = (int)$data['pack_id'];
         $labelID = (int)$data['id'];
 
-        $sellRow = $this->sellFinder->findPackRow($PackID);
+        $packRow = $this->packFinder->findPackRow($PackID);
 
         $user_id = $this->session->get('user')["id"];
 
@@ -66,11 +66,11 @@ final class PackLabelCancelAction
         $labelFromMerge = $this->finder->findLabelFromMergePacks($data);
         array_push($labels,$labelFromMerge);
 
-        $sellRow = $this->sellFinder->findPackRow($PackID);
+        $packRow = $this->packFinder->findPackRow($PackID);
 
         $viewData = [
-            'pack_id'=> $sellRow['id'],
-            'product_id'=> $sellRow['product_id'],
+            'pack_id'=> $packRow['id'],
+            'product_id'=> $packRow['product_id'],
         ];
         
         return $this->responder->withRedirect($response, "pack_labels",$viewData);

@@ -21,18 +21,18 @@ final class PackCpoItemEditAction
     private $responder;
     private $updater;
     private $finder;
-    private $updatesell;
+    private $updatepack;
     private $updateCpoitem;
     private $findTempQuery;
 
 
 
-    public function __construct(Responder $responder,  PackCpoItemUpdater $updater, PackCpoItemFinder $finder, PackUpdater $updatesell, CpoItemUpdater $updateCpoitem, TempQueryFinder $findTempQuery)
+    public function __construct(Responder $responder,  PackCpoItemUpdater $updater, PackCpoItemFinder $finder, PackUpdater $updatepack, CpoItemUpdater $updateCpoitem, TempQueryFinder $findTempQuery)
     {
         $this->responder = $responder;
         $this->updater = $updater;
         $this->finder = $finder;
-        $this->updatesell = $updatesell;
+        $this->updatepack = $updatepack;
         $this->updateCpoitem = $updateCpoitem;
         $this->findTempQuery = $findTempQuery;
     }
@@ -45,8 +45,8 @@ final class PackCpoItemEditAction
         $data = (array)$request->getParsedBody();
 
         $user_id = $data['user_id'];
-        $sellID = $data['pack_id'];
-        $sellCpoItemID = $data['id'];
+        $packID = $data['pack_id'];
+        $packCpoItemID = $data['id'];
 
         $rtTempQuery = $this->findTempQuery->findTempQuery($data);
 
@@ -56,9 +56,9 @@ final class PackCpoItemEditAction
         $dataCpoItem['PackingQty'] = $data['pack_qty'] + $rtTempQuery[0]['packing_qty'];
         $cpoItemID = $dataFinder['cpo_item_id'];
 
-        $this->updater->updatePackCpoItemApi($sellCpoItemID, $data, $user_id);
+        $this->updater->updatePackCpoItemApi($packCpoItemID, $data, $user_id);
         $packs = $this->finder->findPackCpoItems($data);
-        $this->updatesell->updatePackApi($sellID, $packs, $user_id);
+        $this->updatepack->updatePackApi($packID, $packs, $user_id);
 
         // $this->updateCpoitem->updateCpoItem($cpoItemID, $dataCpoItem);
 

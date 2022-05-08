@@ -69,9 +69,9 @@ final class PackCpoItemUpdater
     {
         $this->repository->deletePackCpoItem($id);
     }
-    public function deleteCpoItemInPackCpoItemApi(int $sellID): void
+    public function deleteCpoItemInPackCpoItemApi(int $packID): void
     {
-        $this->repository->deleteCpoItemInPackCpoItemApi($sellID);
+        $this->repository->deleteCpoItemInPackCpoItemApi($packID);
     }
 
     private function mapToRow(array $data): array

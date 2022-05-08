@@ -47,12 +47,12 @@ final class PackRepository
 
         return (int)$this->queryFactory->newInsert('packs', $row)->execute()->lastInsertId();
     }
-    public function updatePackApi(int $sellID, array $data, $user_id): void
+    public function updatePackApi(int $packID, array $data, $user_id): void
     {
         $data['updated_at'] = Chronos::now()->toDateTimeString();
         $data['updated_user_id'] = $user_id;
 
-        $this->queryFactory->newUpdate('packs', $data)->andWhere(['id' => $sellID])->execute();
+        $this->queryFactory->newUpdate('packs', $data)->andWhere(['id' => $packID])->execute();
     }
 
     public function deletePack(int $productID): void
@@ -120,7 +120,7 @@ final class PackRepository
         return $query->execute()->fetchAll('assoc') ?: [];
     }
 
-    public function findPackRow(int $sellID)
+    public function findPackRow(int $packID)
     {
         $query = $this->queryFactory->newSelect('packs');
         $query->select(
@@ -156,7 +156,7 @@ final class PackRepository
         //     ]
         // ]);
 
-        $query->where(['packs.id' => $sellID]);
+        $query->where(['packs.id' => $packID]);
 
         $row = $query->execute()->fetch('assoc');
 

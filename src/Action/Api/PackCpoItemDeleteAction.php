@@ -44,7 +44,7 @@ final class PackCpoItemDeleteAction
         $data = (array)$request->getParsedBody();
 
         $user_id = $data['user_id'];
-        $sellCpoItemID = (int)$data['id'];
+        $packCpoItemID = (int)$data['id'];
 
         $rtPackCpoItem = $this->finder->findPackCpoItems($data);
 
@@ -54,7 +54,7 @@ final class PackCpoItemDeleteAction
         $dataCpoItem['PackingQty'] = $rtCpoItem[0]['PackingQty'] - $data['pack_qty'];
         $cpoItemID = $rtCpoItem[0]['CpoItemID'];
 
-        $this->updater->deletePackCpoItemApi($sellCpoItemID);
+        $this->updater->deletePackCpoItemApi($packCpoItemID);
 
         // $this->updateCpoItem->updateCpoItem($cpoItemID, $dataCpoItem);
 
