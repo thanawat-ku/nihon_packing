@@ -48,7 +48,10 @@ final class PackAddAction
 
         $data = (array)$request->getParsedBody();
 
-        $user_id = $data['user_id'];
+        if (isset($data['user_id'])) {
+            $user_id = $data['user_id'];
+        }
+
         $prodcutID = $data['product_id'];
 
         $checkCreatePack = true;
