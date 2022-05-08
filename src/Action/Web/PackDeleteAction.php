@@ -105,6 +105,8 @@ final class PackDeleteAction
                 //#############################################################
 
                 $this->packingItemUpdater->deletePackingItemAll($packingID);
+
+                $this->tagUpdater->deleteTags($packID);
             }
 
             $rtPack['pack_id'] = $packID;
@@ -117,8 +119,6 @@ final class PackDeleteAction
 
             $this->packLabelUpdater->deletePackLabelApi($packID);
             $this->packCpoItemUpdater->deleteCpoItemInPackCpoItemApi($packID);
-
-            $this->tagUpdater->deleteTags($packID);
 
             $data['is_delete'] = 'Y';
             $this->updater->updatePack($packID, $data);

@@ -17,6 +17,7 @@ use App\Domain\PackingItem\Service\PackingItemUpdater;
 use App\Domain\Lot\Service\LotFinder;
 use App\Domain\Lot\Service\LotUpdater;
 use App\Domain\Packing\Service\PackingFinder;
+use App\Domain\Tag\Service\TagUpdater;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -45,10 +46,12 @@ final class PackDeleteAction
     private $lotFinder;
     private $lotUpdater;
     private $packingItemFinder;
+    private $tagUpdater;
 
 
 
-    public function __construct(Responder $responder, PackFinder $finder,  PackUpdater $updater, PackLabelFinder $findPackLabel, PackLabelUpdater $updatePackLabel, LabelUpdater $updateLabel, PackCpoItemFinder $findPackCpoItem, PackCpoItemUpdater $updatePackCpoItem, CpoItemFinder $findCpoItem, CpoItemUpdater $updateCpoItem, TempQueryUpdater $updateTempQuery, PackingUpdater $packingUpdater, PackingItemUpdater $packingItemUpdater,LotFinder $lotFinder, LotUpdater $lotUpdater,PackingFinder $packingItemFinder)
+    public function __construct(Responder $responder, PackFinder $finder,  PackUpdater $updater, PackLabelFinder $findPackLabel, PackLabelUpdater $updatePackLabel, LabelUpdater $updateLabel, PackCpoItemFinder $findPackCpoItem, PackCpoItemUpdater $updatePackCpoItem, CpoItemFinder $findCpoItem, CpoItemUpdater $updateCpoItem, TempQueryUpdater $updateTempQuery, PackingUpdater $packingUpdater, PackingItemUpdater $packingItemUpdater,
+    LotFinder $lotFinder, LotUpdater $lotUpdater,PackingFinder $packingItemFinder, TagUpdater $tagUpdater)
     {
         $this->responder = $responder;
         $this->finder = $finder;
@@ -66,6 +69,7 @@ final class PackDeleteAction
         $this->lotFinder = $lotFinder;
         $this->lotUpdater = $lotUpdater;
         $this->packingItemFinder = $packingItemFinder;
+        $this->tagUpdater=$tagUpdater;
     }
 
     public function __invoke(
@@ -111,7 +115,8 @@ final class PackDeleteAction
                 //#############################################################
 
                 $this->packingItemUpdater->deletePackingItemAll($packingID);
-                // $this->packingUpdater->deletePacking($packingID);
+
+                $this->tagUpdater->deleteTags($packID);
             }
 
             $rtPackLabel = $this->findPackLabel->findPackLabels($data);
