@@ -56,7 +56,7 @@ final class PackAddAction
 
             $rtPack = $this->finder->findPacks($data);
             for ($i = 0; $i < count($rtPack); $i++) {
-                if ($rtPack[$i]['product_id'] == $prodcutID && ($rtPack[$i]['pack_status'] == "CREATED" || $rtPack[$i]['pack_status'] == "SLECTING_CPO" || $rtPack[$i]['pack_status'] == "SLECTED_CPO" || $rtPack[$i]['pack_status'] == "SLECTING_LABEL")) {
+                if ($rtPack[$i]['product_id'] == $prodcutID && ($rtPack[$i]['pack_status'] == "CREATED" || $rtPack[$i]['pack_status'] == "SLECTING_CPO" || $rtPack[$i]['pack_status'] == "SELECTED_CPO" || $rtPack[$i]['pack_status'] == "SELECTING_LABEL")) {
                     $checkCreatePack = ["Pack Not Empty"];
                     $rtdata['message'] = "Get Lot Defect Successful";
                     $rtdata['error'] = true;
