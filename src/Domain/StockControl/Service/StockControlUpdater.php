@@ -59,7 +59,6 @@ final class StockControlUpdater
     {
         $result = [];
 
-
         if (isset($data['PackingNo'])) {
             $result['DocNo'] = $data['PackingNo'];
         }

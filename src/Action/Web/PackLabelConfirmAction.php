@@ -337,9 +337,8 @@ final class PackLabelConfirmAction
 
 
             //update stockcontrol, stockitem and lot
-
             $paramsPackingID['PackingID'] = $packingID;
-            $arrPacking = $this->packingFinder->findPackingItem($paramsPackingID);
+            $arrPacking = $this->packingFinder->findPackingItem($paramsPackingID) ?? null;
 
             $insertStockContol['PackingNo'] = $arrPacking[0]['PackingNo'];
             $stockControlID = $this->stockControlUpdater->insertStockControl($insertStockContol);
