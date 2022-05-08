@@ -3,7 +3,7 @@
 namespace App\Action\Web;
 
 use App\Domain\Tag\Service\TagFinder;
-use App\Domain\Sell\Service\SellFinder;
+use App\Domain\Pack\Service\PackFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -29,7 +29,7 @@ final class TagAction
      *
      * @param Responder $responder The responder
      */
-    public function __construct(Twig $twig, TagFinder $tagFinder, SellFinder $sellFinder, Session $session, Responder $responder)
+    public function __construct(Twig $twig, TagFinder $tagFinder, PackFinder $sellFinder, Session $session, Responder $responder)
     {
         $this->twig = $twig;
         $this->tagFinder = $tagFinder;
@@ -49,7 +49,7 @@ final class TagAction
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $params = (array)$request->getQueryParams();
-        $sellID = $params['sell_id'];
+        $sellID = $params['pack_id'];
 
         $checkTagPrinted = "true";
 
@@ -60,7 +60,7 @@ final class TagAction
             }
         }
 
-        $sellRow = $this->sellFinder->findSellRow($sellID);
+        $sellRow = $this->sellFinder->findPackRow($sellID);
         $sellRow['cpo_item_id']=$rtTags[0]['cpo_item_id'];
         $sellRow['total_qty']=$rtTags[0]['total_qty'];
         

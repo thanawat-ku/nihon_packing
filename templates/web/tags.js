@@ -12,10 +12,10 @@ $(document).on(
         let id = event.currentTarget.id;
         switch (id) {
             case "editBt":
-                editSell(event);
+                editPack(event);
                 break;
             case "deleteBt":
-                deleteSell(event);
+                deletePack(event);
                 break;
             default:
                 console.log("no any events click");

@@ -47,10 +47,10 @@ final class TempQueryRepository
                 'quantity',
                 'packing_qty',
                 'due_date',
-                'sell_no',
+                'pack_no',
                 'part_code',
                 'part_name',
-                'sci.sell_qty',
+                'sci.pack_qty',
                 'sci.id',
                 'sci.id',
                 's.total_qty',
@@ -69,24 +69,24 @@ final class TempQueryRepository
 
         $query->join([
             's' => [
-                'table' => 'sells',
+                'table' => 'packs',
                 'type' => 'INNER',
-                'conditions' => 's.id = \''.$params['sell_id'].'\'',
+                'conditions' => 's.id = \''.$params['pack_id'].'\'',
             ]
         ]);
 
         $query->join([
             'sci' => [
-                'table' => 'sell_cpo_items',
+                'table' => 'pack_cpo_items',
                 'type' => 'INNER',
-                'conditions' => 'sci.sell_id = s.id and temp_query.cpo_item_id=sci.cpo_item_id',
+                'conditions' => 'sci.pack_id = s.id and temp_query.cpo_item_id=sci.cpo_item_id',
             ]
         ]);
 
         $query->group(['sci.id']);
 
-        if(isset($params['sell_id'])){
-            $query->Where(['sci.sell_id' => $params["sell_id"]]);
+        if(isset($params['pack_id'])){
+            $query->Where(['sci.pack_id' => $params["pack_id"]]);
         }
 
         return $query->execute()->fetchAll('assoc') ?: [];
@@ -103,11 +103,11 @@ final class TempQueryRepository
                 'quantity',
                 'packing_qty',
                 'due_date',
-                'sell_no',
+                'pack_no',
                 'part_code',
                 'part_name',
                 'quantity',
-                'sci.sell_qty',
+                'sci.pack_qty',
                 'sci.id'
                 
             ]
@@ -123,17 +123,17 @@ final class TempQueryRepository
 
         $query->join([
             's' => [
-                'table' => 'sells',
+                'table' => 'packs',
                 'type' => 'INNER',
-                'conditions' => 's.id = \''.$params['sell_id'].'\'',
+                'conditions' => 's.id = \''.$params['pack_id'].'\'',
             ]
         ]);
 
         $query->join([
             'sci' => [
-                'table' => 'sell_cpo_items',
+                'table' => 'pack_cpo_items',
                 'type' => 'INNER',
-                'conditions' => 'sci.sell_id = s.id and temp_query.cpo_item_id=sci.cpo_item_id',
+                'conditions' => 'sci.pack_id = s.id and temp_query.cpo_item_id=sci.cpo_item_id',
             ]
         ]);
 
@@ -157,7 +157,7 @@ final class TempQueryRepository
                 'due_date',
                 'part_code',
                 'part_name',
-                'sci.sell_qty',
+                'sci.pack_qty',
                 'sci.id'
                 
             ]
@@ -173,7 +173,7 @@ final class TempQueryRepository
 
         $query->join([
             'sci' => [
-                'table' => 'sell_cpo_items',
+                'table' => 'pack_cpo_items',
                 'type' => 'INNER',
                 'conditions' => 'temp_query.cpo_item_id = sci.cpo_item_id',
             ]

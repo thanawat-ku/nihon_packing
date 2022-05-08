@@ -63,16 +63,16 @@ final class TagUpdater
         $this->repository->updateTagApi($tagID, $row, $user_id);
     }
 
-    public function updateTagAllFromSellIDApi(int $SellID, array $data, $user_id): void
+    public function updateTagAllFromPackIDApi(int $PackID, array $data, $user_id): void
     {
 
-        $this->validator->validateTagUpdate($SellID, $data);
+        $this->validator->validateTagUpdate($PackID, $data);
 
 
         $row = $this->mapToTagRow($data);
 
 
-        $this->repository->updateTagAllFromSellIDApi($SellID, $row, $user_id);
+        $this->repository->updateTagAllFromPackIDApi($PackID, $row, $user_id);
     }
 
     public function updateTag(int $tagID, array $data): void
@@ -84,31 +84,31 @@ final class TagUpdater
         $this->repository->updateTag($tagID, $row);
     }
 
-    public function updateTagPrintFromSellID(int $sellID, array $data): void
+    public function updateTagPrintFromPackID(int $sellID, array $data): void
     {
         $this->validator->validateTagUpdate($sellID, $data);
 
         $row = $this->mapToTagRow($data);
 
-        $this->repository->updateTagPrintFromSellID($sellID, $row);
+        $this->repository->updateTagPrintFromPackID($sellID, $row);
     }
 
-    public function updateTagPrintFromSellIDApi(int $sellID, array $data, int $userID): void
+    public function updateTagPrintFromPackIDApi(int $sellID, array $data, int $userID): void
     {
         $this->validator->validateTagUpdate($sellID, $data);
 
         $row = $this->mapToTagRow($data);
 
-        $this->repository->updateTagPrintFromSellIDApi($sellID, $row, $userID);
+        $this->repository->updateTagPrintFromPackIDApi($sellID, $row, $userID);
     }
 
-    public function updateTagFronSellID(int $sellID, array $data): void
+    public function updateTagFronPackID(int $sellID, array $data): void
     {
         $this->validator->validateTagUpdate($sellID, $data);
 
         $row = $this->mapToTagRow($data);
 
-        $this->repository->updateTagFronSellID($sellID, $row);
+        $this->repository->updateTagFronPackID($sellID, $row);
     }
 
     private function mapToTagRow(array $data): array
@@ -118,8 +118,8 @@ final class TagUpdater
         if (isset($data['tag_no'])) {
             $result['tag_no'] = $data['tag_no'];
         }
-        if (isset($data['sell_id'])) {
-            $result['sell_id'] = $data['sell_id'];
+        if (isset($data['pack_id'])) {
+            $result['pack_id'] = $data['pack_id'];
         }
         if (isset($data['printer_id'])) {
             $result['printer_id'] = $data['printer_id'];
@@ -155,7 +155,7 @@ final class TagUpdater
         for ($i = 0; $i < $totalBox; $i++) {
             if ($i != $totalBox - 1 && $totalBox > 1) {
                 $quantity = $totalBox - (($totalBox - 1) * $stdBox);
-                $dataTag['sell_id'] = $sellID;
+                $dataTag['pack_id'] = $sellID;
                 $dataTag['quantity'] = $stdBox;
                 $dataTag['box_no'] = $i + 1;
                 $dataTag['total_box'] = $totalBox;
@@ -170,7 +170,7 @@ final class TagUpdater
                 array_push($tags, $rtTag[0]);
             } else if ($i == ($totalBox - 1) || $totalBox < 1) {
                 $quantity = $totalQty - (($totalBox - 1) * $stdBox);
-                $dataTag['sell_id'] = $sellID;
+                $dataTag['pack_id'] = $sellID;
                 $dataTag['quantity'] = $quantity;
                 $dataTag['box_no'] = $i + 1;
                 $dataTag['total_box'] = $totalBox;
@@ -202,7 +202,7 @@ final class TagUpdater
         for ($i = 0; $i < $totalBox; $i++) {
             if ($i != $totalBox - 1 && $totalBox > 1) {
                 $quantity = $totalBox - (($totalBox - 1) * $stdBox);
-                $dataTag['sell_id'] = $sellID;
+                $dataTag['pack_id'] = $sellID;
                 $dataTag['quantity'] = $stdBox;
                 $dataTag['box_no'] = $i + 1;
                 $dataTag['total_box'] = $totalBox;
@@ -217,7 +217,7 @@ final class TagUpdater
                 array_push($tags, $rtTag[0]);
             } else if ($i == ($totalBox - 1) || $totalBox < 1) {
                 $quantity = $totalQty - (($totalBox - 1) * $stdBox);
-                $dataTag['sell_id'] = $sellID;
+                $dataTag['pack_id'] = $sellID;
                 $dataTag['quantity'] = $quantity;
                 $dataTag['box_no'] = $i + 1;
                 $dataTag['total_box'] = $totalBox;

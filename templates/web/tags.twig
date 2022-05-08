@@ -26,11 +26,11 @@
 				</label>
 				<hr>
 				<div>
-					<h5>{{ sellRow.sell_no  ~ '(' ~ sellRow.sell_status ~ ')'}}
+					<h5>{{ sellRow.pack_no  ~ '(' ~ sellRow.pack_status ~ ')'}}
 					</h5>
 					<span>{{'Part Code: ' ~ sellRow.part_code }}</span><br>
 					<span>{{'Part No: ' ~ sellRow.part_no  }}</span><br>
-					<span>{{'Sell Date: ' ~ sellRow.sell_date}}</span><br>
+					<span>{{'Pack Date: ' ~ sellRow.pack_date}}</span><br>
 					<span>{{'CPO Item ID: ' ~ sellRow.cpo_item_id}}</span><br>
 					<span>{{'Total QTY: ' ~ sellRow.total_qty}}</span><br>
 				</div>
@@ -73,19 +73,19 @@
 					id="form-deleteScrapDetail" action="register_tags" method="post">
 					<!-- Modal Header -->
 					<div class="modal-header">
-						<h4 class="modal-title">Register Sell</h4>
+						<h4 class="modal-title">Register Pack</h4>
 						<button type="button" class="close" data-dismiss="modal">&times;</button>
 					</div>
 					<!-- Modal body -->
 					<div class="modal-body">
 						<div class="form-scrap_detail">
-							<input type="hidden" name="id" value="{{tags[0].sell_id}}">
-							<label for="scrap_detailNo">Do you want to register Sell
+							<input type="hidden" name="id" value="{{tags[0].pack_id}}">
+							<label for="scrap_detailNo">Do you want to register Pack
 							</label>
 						</div>
 						<div class="form-scrap_detail">
-							<label for="scrap_detailNo">Sell No:
-								<span>{{ sellRow.sell_no }}</span>
+							<label for="scrap_detailNo">Pack No:
+								<span>{{ sellRow.pack_no }}</span>
 							</label>
 						</div>
 					</div>
