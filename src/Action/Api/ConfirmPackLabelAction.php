@@ -93,7 +93,6 @@ final class ConfirmPackLabelAction
         $this->lotUpdater = $lotUpdater;
         $this->cpoItemFinder = $cpoItemFinder;
         $this->cpoItemUpdater = $cpoItemUpdater;
-        
     }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
@@ -110,6 +109,10 @@ final class ConfirmPackLabelAction
 
         $params['startDate'] = date('Y-' . $month . '-01');
         $params['endDate'] = date('Y-' . $month . '-' . $day);
+
+        //test date empty
+        // $params['startDate'] = date('Y-' .'06' . '-01');
+        // $params['endDate'] = date('Y-' . '06' . '-' . 30);
 
         $rtPacking = $this->findPacking->findPacking($params);
 
@@ -159,9 +162,9 @@ final class ConfirmPackLabelAction
             }
             if (isset($rtPackLabelPrefer[0]['prefer_lot_id']) != 0) {
                 for ($i = 0; $i < count($rtPackLabelPrefer); $i++) {
-                    $labelFinder['prefer_lot_id'] = $rtPackLabelPrefer[$i]['prefer_lot_id'];
-                    $labelFinder['pack_id'] = $data['pack_id'];
-                    $rtLabelFromPackLabel = $this->finder->findPackLabels($labelFinder);
+                    $labelFinderP['prefer_lot_id'] = $rtPackLabelPrefer[$i]['prefer_lot_id'];
+                    $labelFinderP['pack_id'] = $data['pack_id'];
+                    $rtLabelFromPackLabel = $this->finder->findPackLabels($labelFinderP);
                     $rtpackCpoItem = $this->findPackCpoItem->findPackCpoItems($data);
 
                     $isPackingItem['PackingID'] = $packingID;
@@ -169,13 +172,36 @@ final class ConfirmPackLabelAction
                     $isPackingItem['LotID'] = $rtPackLabelPrefer[$i]['prefer_lot_id'];
                     $isPackingItem['CpoItemID'] = $rtpackCpoItem[0]['cpo_item_id'];
 
-                    $sumQty = 0;
+                    $sumQtyPre = 0;
                     for ($j = 0; $j < count($rtLabelFromPackLabel); $j++) {
-                        $sumQty += $rtLabelFromPackLabel[$j]['quantity'];
+                        $sumQtyPre += $rtLabelFromPackLabel[$j]['quantity'];
                     }
-                    $isPackingItem['Quantity'] = $sumQty;
+                    $isPackingItem['Quantity'] = $sumQtyPre;
 
-                    $this->updatePackingItem->insertPackingItem($isPackingItem);
+
+                    // update packing item when lot id and prefer lot id duplicate
+                    if (!isset($rtPackLabel[0]) == 1) {
+                        $this->updatePackingItem->insertPackingItem($isPackingItem);
+                    } else {
+                        for ($k = 0; $k < count($rtPackLabel); $k++) {
+                            if ($labelFinderP['prefer_lot_id'] == $rtPackLabel[$k]['lot_id']) {
+                                $labelFinderLP['lot_id'] = $rtPackLabel[$k]['lot_id'];
+                                $labelFinderLP['pack_id'] = $data['pack_id'];
+                                $rtLabelFromPackLabel = $this->finder->findPackLabels($labelFinderLP);
+    
+                                $sumQtyLP = 0;
+                                for ($l = 0; $l < count($rtLabelFromPackLabel); $l++) {
+                                    $sumQtyLP += $rtLabelFromPackLabel[$l]['quantity'];
+                                }
+                                $quantityPackingItem['Quantity'] = $sumQtyPre + $sumQtyLP;
+                                $this->updatePackingItem->updatePackingItem($packingID, (int)$labelFinderP['prefer_lot_id'], $quantityPackingItem);
+                            } else {
+                                $this->updatePackingItem->insertPackingItem($isPackingItem);
+                            }
+                        }
+                    }  
+
+                    //###################################################################################
 
                     $updatePack['packing_id'] =  $isPackingItem['PackingID'];
                     $this->updater->updateConfirmPackApi($packID, $updatePack, $user_id);
@@ -254,9 +280,9 @@ final class ConfirmPackLabelAction
             }
             if (isset($rtPackLabelPrefer[0]['prefer_lot_id']) != 0) {
                 for ($i = 0; $i < count($rtPackLabelPrefer); $i++) {
-                    $labelFinder['prefer_lot_id'] = $rtPackLabelPrefer[$i]['prefer_lot_id'];
-                    $labelFinder['pack_id'] = $data['pack_id'];
-                    $rtLabelFromPackLabel = $this->finder->findPackLabels($labelFinder);
+                    $labelFinderP['prefer_lot_id'] = $rtPackLabelPrefer[$i]['prefer_lot_id'];
+                    $labelFinderP['pack_id'] = $data['pack_id'];
+                    $rtLabelFromPackLabel = $this->finder->findPackLabels($labelFinderP);
                     $rtpackCpoItem = $this->findPackCpoItem->findPackCpoItems($data);
 
                     $isPackingItem['PackingID'] = $packingID;
@@ -264,13 +290,39 @@ final class ConfirmPackLabelAction
                     $isPackingItem['LotID'] = $rtPackLabelPrefer[$i]['prefer_lot_id'];
                     $isPackingItem['CpoItemID'] = $rtpackCpoItem[0]['cpo_item_id'];
 
-                    $sumQty = 0;
+                    $sumQtyPre = 0;
                     for ($j = 0; $j < count($rtLabelFromPackLabel); $j++) {
-                        $sumQty += $rtLabelFromPackLabel[$j]['quantity'];
+                        $sumQtyPre += $rtLabelFromPackLabel[$j]['quantity'];
                     }
-                    $isPackingItem['Quantity'] = $sumQty;
+                    $isPackingItem['Quantity'] = $sumQtyPre;
 
-                    $this->updatePackingItem->insertPackingItem($isPackingItem);
+
+                    // update packing item when lot id and prefer lot id duplicate
+
+                    if (!isset($rtPackLabel[0]) == 1) {
+                        $this->updatePackingItem->insertPackingItem($isPackingItem);
+                    } else {
+                        for ($k = 0; $k < count($rtPackLabel); $k++) {
+                            if ($labelFinderP['prefer_lot_id'] == $rtPackLabel[$k]['lot_id']) {
+                                $labelFinderLP['lot_id'] = $rtPackLabel[$k]['lot_id'];
+                                $labelFinderLP['pack_id'] = $data['pack_id'];
+                                $rtLabelFromPackLabel = $this->finder->findPackLabels($labelFinderLP);
+
+                                $sumQtyLP = 0;
+                                for ($l = 0; $l < count($rtLabelFromPackLabel); $l++) {
+                                    $sumQtyLP += $rtLabelFromPackLabel[$l]['quantity'];
+                                }
+                                $quantityPackingItem['Quantity'] = $sumQtyPre + $sumQtyLP;
+                                $this->updatePackingItem->updatePackingItem($packingID, (int)$labelFinderP['prefer_lot_id'], $quantityPackingItem);
+                            } else {
+                                $this->updatePackingItem->insertPackingItem($isPackingItem);
+                            }
+                        }
+                    }
+
+
+
+                    //###################################################################################
 
                     $updatePack['packing_id'] =  $isPackingItem['PackingID'];
                     $this->updater->updateConfirmPackApi($packID, $updatePack, $user_id);

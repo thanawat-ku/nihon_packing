@@ -104,8 +104,13 @@ final class PackLabelRepository
         if (isset($params['lot_id'])) {
             $query->Where(['lb.lot_id' => $params["lot_id"]]);
         }
+        if (isset($params['prefer_lot_id'])) {
+            $query->Where(['lb.prefer_lot_id' => $params["prefer_lot_id"]]);
+            $query->Where(['lb.lot_id' => 0]);
+        }
         if (isset($params['find_lot_id'])) {
             $query->Where(['s.id' => $params["pack_id"]]);
+            $query->Where(['lb.lot_id !=' => 0]);
             $query->group('lb.lot_id');
         }
         if (isset($params['find_prefer_lot_id'])) {

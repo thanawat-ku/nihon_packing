@@ -34,6 +34,15 @@ final class PackingItemUpdater
 
         return $id;
     }
+    public function updatePackingItem(int $packingID, $lotID, array $data): void
+    {
+        $this->validator->validatePackingItemUpdate($packingID, $lotID, $data);
+
+        $row = $this->mapToRow($data);
+
+        $this->repository->updatePackingItem($packingID, $lotID, $row);
+    }
+
     public function deletePackingItemAll(int $id): void
     {
         $this->repository->deletePackingItemAll($id);

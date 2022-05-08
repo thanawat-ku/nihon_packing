@@ -42,7 +42,7 @@ final class PackingItemValidator
         }
     }
 
-    public function validatePackingItemUpdate(string $part_code, array $data): void
+    public function validatePackingItemUpdate(int $packingID, $lotID, array $data): void
     {
         /*
         if (!$this->repository->existsPackingItemNo($packing_itemNo)) {
