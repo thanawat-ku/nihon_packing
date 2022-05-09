@@ -1,10 +1,10 @@
 import mysql.connector
 from zebra import Zebra
 import time
-printer_name="AY-Tag"
+tag_printer="AY-Tag"
 
-def print_tag(printer_name,customer_name,part_no,part_name,po_no,inv_no,
-        ship_date,order_qty,box_no,total_box,tag_no,qty,first_name):
+def print_tag(printer_name,customer_name,part_no,part_name,po_no,
+        ship_date,box_no,total_box,tag_no,qty):
     z = Zebra()
     z.getqueues()
     z.setqueue(printer_name)
@@ -54,21 +54,20 @@ mycursor = mydb.cursor()
 
 #print_tag(printer_name,customer_name,part_no,part_name,po_no,inv_no,
 #ship_date,order_qty,box_no,total_box,qty,first_name)
-mycursor.execute("SELECT T.id,C.customer_name,P.part_no,P.part_name,S.pack_no,S.invoice_no, \
-    S.pack_date,S.total_qty,T.box_no,T.total_box,T.tag_no,T.quantity,U1.first_name \
+mycursor.execute("SELECT T.id,C.customer_name,P.part_no,P.part_name,S.pack_no, \
+    S.pack_date,T.box_no,T.total_box,T.tag_no,T.quantity \
     FROM tags T \
     INNER JOIN packs S ON T.pack_id=S.id \
     INNER JOIN products P ON S.product_id=P.id \
     INNER JOIN customers C ON P.customer_id=C.id \
     INNER JOIN printers PT ON T.printer_id=PT.id \
-    LEFT OUTER JOIN users U1 ON T.created_user_id=U1.id \
-    WHERE T.wait_print='Y' AND PT.printer_name="+str(printer_name)+" \
+    WHERE T.wait_print='Y' AND PT.printer_name="+str(tag_printer)+" \
     ORDER BY T.id")
 myresult = mycursor.fetchall()
 i=0
 for t in myresult:
     print(t)
-    print_tag(printer_name,t[1],t[2],t[3],t[4],t[5],t[6],t[7],t[8],t[9],t[10],t[11],t[12])
+    print_tag(tag_printer,t[1],t[2],t[3],t[4],t[5],t[6],t[7],t[8],t[9])
     mycursor.execute("UPDATE tags SET wait_print='N' WHERE id="+str(t[0]))
     i=i+1
     if i%5==4:
