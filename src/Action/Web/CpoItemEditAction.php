@@ -2,10 +2,10 @@
 
 namespace App\Action\Web;
 
-use App\Domain\Sell\Service\SellFinder;
-use App\Domain\Sell\Service\SellUpdater;
+use App\Domain\Pack\Service\PackFinder;
+use App\Domain\Pack\Service\PackUpdater;
 use App\Domain\TempQuery\Service\TempQueryFinder;
-use App\Domain\SellCpoItem\Service\SellCpoItemUpdater;
+use App\Domain\PackCpoItem\Service\PackCpoItemUpdater;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -20,17 +20,17 @@ final class CpoItemEditAction
 {
     private $responder;
     private $finder;
-    private $updateSell;
+    private $updatePack;
     private $tempQueryFinder;
-    private $sellCpoItemUpdater;
+    private $packCpoItemUpdater;
 
-    public function __construct( Responder $responder, SellFinder $finder, TempQueryFinder $tempQueryFinder,SellCpoItemUpdater $sellCpoItemUpdater, SellUpdater $updateSell)
+    public function __construct( Responder $responder, PackFinder $finder, TempQueryFinder $tempQueryFinder,PackCpoItemUpdater $packCpoItemUpdater, PackUpdater $updatePack)
     {
         $this->responder = $responder;
-        $this->updateSell = $updateSell;
+        $this->updatePack = $updatePack;
         $this->finder = $finder;
         $this->tempQueryFinder = $tempQueryFinder;
-        $this->sellCpoItemUpdater = $sellCpoItemUpdater;
+        $this->packCpoItemUpdater = $packCpoItemUpdater;
     }
 
 
@@ -41,28 +41,28 @@ final class CpoItemEditAction
     ): ResponseInterface {
         // Extract the form data from the request body
         $data = (array)$request->getParsedBody();
-        $sellID = (string)$data["sell_id"];
+        $packID = (string)$data["pack_id"];
         $id = $data["id"];
 
-        $this->sellCpoItemUpdater->updateSellCpoItem($id, $data);
+        $this->packCpoItemUpdater->updatePackCpoItem($id, $data);
 
-        $rtSellCpoItem = $this->tempQueryFinder->findTempQuery($data);
+        $rtPackCpoItem = $this->tempQueryFinder->findTempQuery($data);
         
 
         $totalQty = 0;
-        for ($i = 0; $i < count($rtSellCpoItem); $i++) {
-            $totalQty += $rtSellCpoItem[$i]['sell_qty'];
+        for ($i = 0; $i < count($rtPackCpoItem); $i++) {
+            $totalQty += $rtPackCpoItem[$i]['pack_qty'];
         }
 
-        $rtSell['total_qty'] = $totalQty;
-        $this->updateSell->updateSell($sellID, $rtSell);
+        $rtPack['total_qty'] = $totalQty;
+        $this->updatePack->updatePack($packID, $rtPack);
 
 
-        $sellRow = $this->finder->findSellRow($sellID);
+        $packRow = $this->finder->findPackRow($packID);
 
         $viewData = [
-            'sell_id' => $sellRow['id'],
-            'product_id' => $sellRow['product_id'],
+            'pack_id' => $packRow['id'],
+            'product_id' => $packRow['product_id'],
         ];
 
         return $this->responder->withRedirect($response, "cpo_items", $viewData);

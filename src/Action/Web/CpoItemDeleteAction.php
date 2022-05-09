@@ -6,10 +6,10 @@ use App\Domain\CpoItem\Service\CpoItemFinder;
 use App\Domain\CpoItem\Service\CpoItemUpdater;
 use App\Domain\TempQuery\Service\TempQueryFinder;
 use App\Domain\TempQuery\Service\TempQueryUpdater;
-use App\Domain\Sell\Service\SellFinder;
-use App\Domain\Sell\Service\SellUpdater;
-use App\Domain\SellCpoItem\Service\SellCpoItemFinder;
-use App\Domain\SellCpoItem\Service\SellCpoItemUpdater;
+use App\Domain\Pack\Service\PackFinder;
+use App\Domain\Pack\Service\PackUpdater;
+use App\Domain\PackCpoItem\Service\PackCpoItemFinder;
+use App\Domain\PackCpoItem\Service\PackCpoItemUpdater;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -24,21 +24,21 @@ final class CpoItemDeleteAction
     private $responder;
     private $updater;
     private $finder;
-    private $updateSell;
-    private $sellCpoItemFinder;
-    private $sellCpoItemUpdater;
+    private $updatePack;
+    private $packCpoItemFinder;
+    private $packCpoItemUpdater;
     private $cpoItemFinder;
     private $tempQueryUpdater;
 
-    public function __construct(Responder $responder, TempQueryFinder $tempQueryFinder, CpoItemUpdater $updater, SellFinder $finder, SellUpdater $updateSell, SellCpoItemFinder $sellCpoItemFinder, SellCpoItemUpdater $sellCpoItemUpdater, CpoItemFinder $cpoItemFinder, TempQueryUpdater $tempQueryUpdater)
+    public function __construct(Responder $responder, TempQueryFinder $tempQueryFinder, CpoItemUpdater $updater, PackFinder $finder, PackUpdater $updatePack, PackCpoItemFinder $packCpoItemFinder, PackCpoItemUpdater $packCpoItemUpdater, CpoItemFinder $cpoItemFinder, TempQueryUpdater $tempQueryUpdater)
     {
         $this->responder = $responder;
         $this->updater = $updater;
         $this->finder = $finder;
-        $this->updateSell = $updateSell;
+        $this->updatePack = $updatePack;
         $this->tempQueryFinder = $tempQueryFinder;
-        $this->sellCpoItemFinder = $sellCpoItemFinder;
-        $this->sellCpoItemUpdater = $sellCpoItemUpdater;
+        $this->packCpoItemFinder = $packCpoItemFinder;
+        $this->packCpoItemUpdater = $packCpoItemUpdater;
         $this->cpoItemFinder = $cpoItemFinder;
         $this->tempQueryUpdater = $tempQueryUpdater;
     }
@@ -50,27 +50,27 @@ final class CpoItemDeleteAction
         array $args
     ): ResponseInterface {
         $data = (array)$request->getParsedBody();
-        $sellID = (string)$data["sell_id"];
+        $packID = (string)$data["pack_id"];
         $id = $data["id"];
 
-        $sellRow = $this->finder->findSellRow($sellID);
+        $packRow = $this->finder->findPackRow($packID);
 
-        $this->sellCpoItemUpdater->deleteSellCpoItemApi($id);
+        $this->packCpoItemUpdater->deletePackCpoItemApi($id);
 
-        $rtSellCpoItem = $this->sellCpoItemFinder->findSellCpoItems($data);
+        $rtPackCpoItem = $this->packCpoItemFinder->findPackCpoItems($data);
         $totalQty = 0;
-        for ($i = 0; $i < count($rtSellCpoItem); $i++) {
-            $totalQty += $rtSellCpoItem[$i]['sell_qty'];
+        for ($i = 0; $i < count($rtPackCpoItem); $i++) {
+            $totalQty += $rtPackCpoItem[$i]['pack_qty'];
         }
         if ($totalQty == 0) {
-            $dataSell['sell_status'] = "CREATED";
+            $dataPack['pack_status'] = "CREATED";
         }
-        $dataSell['total_qty'] = $totalQty;
-        $this->updateSell->updateSell($sellID, $dataSell);
+        $dataPack['total_qty'] = $totalQty;
+        $this->updatePack->updatePack($packID, $dataPack);
 
         $viewData = [
-            'sell_id' => $sellRow['id'],
-            'product_id' => $sellRow['product_id'],
+            'pack_id' => $packRow['id'],
+            'product_id' => $packRow['product_id'],
         ];
 
         return $this->responder->withRedirect($response, "cpo_items", $viewData);

@@ -4,7 +4,7 @@ namespace App\Action\Web;
 
 use App\Domain\CpoItem\Service\CpoItemFinder;
 use App\Domain\TempQuery\Service\TempQueryFinder;
-use App\Domain\Sell\Service\SellFinder;
+use App\Domain\Pack\Service\PackFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -22,21 +22,21 @@ final class CpoItemSelectAction
     private $responder;
     private $twig;
     private $finder;
-    private $sellFinder;
+    private $packFinder;
     private $session;
     private $tempQueryFinder;
 
     public function __construct(
         Twig $twig,
         CpoItemFinder $finder,
-        SellFinder $sellFinder,
+        PackFinder $packFinder,
         Session $session,
         Responder $responder,
         TempQueryFinder $tempQueryFinder
     ) {
         $this->twig = $twig;
         $this->finder = $finder;
-        $this->sellFinder = $sellFinder;
+        $this->packFinder = $packFinder;
         $this->session = $session;
         $this->responder = $responder;
         $this->tempQueryFinder = $tempQueryFinder;
@@ -45,11 +45,11 @@ final class CpoItemSelectAction
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $params = (array)$request->getQueryParams();
-        $sell_id = (int)$params['sell_id'];
+        $pack_id = (int)$params['pack_id'];
 
         $uuid = uniqid();
         $param_search['uuid'] = $uuid;
-        $param_search['sell_id'] = $sell_id;
+        $param_search['pack_id'] = $pack_id;
 
         if (!isset($params['startDate'])) {
             $dt = date('Y-m-d');
@@ -62,7 +62,7 @@ final class CpoItemSelectAction
             $params['endDate'] = date('Y-'.$month.'-'.$day);
         }
 
-        $sellRow = $this->sellFinder->findSellRow($sell_id);
+        $packRow = $this->packFinder->findPackRow($pack_id);
 
 
 
@@ -96,7 +96,7 @@ final class CpoItemSelectAction
 
 
         $viewData = [
-            'sellRow' => $sellRow,
+            'packRow' => $packRow,
             'CpoItemSelects' =>  CheckCpoItemSelect($arrTemQuery, $arrCpoItem),
             'user_login' => $this->session->get('user'),
             'startDate' => $params['startDate'],

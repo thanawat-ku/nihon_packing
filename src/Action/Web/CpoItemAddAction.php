@@ -4,9 +4,9 @@ namespace App\Action\Web;
 
 use App\Domain\CpoItem\Service\CpoItemFinder;
 use App\Domain\TempQuery\Service\TempQueryFinder;
-use App\Domain\Sell\Service\SellFinder;
-use App\Domain\SellCpoItem\Service\SellCpoItemUpdater;
-use App\Domain\Sell\Service\SellUpdater;
+use App\Domain\Pack\Service\PackFinder;
+use App\Domain\PackCpoItem\Service\PackCpoItemUpdater;
+use App\Domain\Pack\Service\PackUpdater;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -23,29 +23,29 @@ final class CpoItemAddAction
      */
     private $responder;
     private $finder;
-    private $sellCpoItemUpdater;
-    private $sellFinder;
-    private $sellUpdater;
+    private $packCpoItemUpdater;
+    private $packFinder;
+    private $packUpdater;
     private $session;
     private $tempQueryFinder;
 
     public function __construct(
         Twig $twig,
         CpoItemFinder $finder,
-        SellCpoItemUpdater $sellCpoItemUpdater,
+        PackCpoItemUpdater $packCpoItemUpdater,
         Session $session,
         Responder $responder,
-        SellUpdater  $sellUpdater,
-        SellFinder $sellFinder,
+        PackUpdater  $packUpdater,
+        PackFinder $packFinder,
         TempQueryFinder $tempQueryFinder,
     ) {
         $this->twig = $twig;
         $this->finder = $finder;
         $this->tempQueryFinder = $tempQueryFinder;
-        $this->sellFinder = $sellFinder;
-        $this->sellFinder = $sellFinder;
-        $this->sellUpdater = $sellUpdater;
-        $this->sellCpoItemUpdater = $sellCpoItemUpdater;
+        $this->packFinder = $packFinder;
+        $this->packFinder = $packFinder;
+        $this->packUpdater = $packUpdater;
+        $this->packCpoItemUpdater = $packCpoItemUpdater;
         $this->session = $session;
         $this->responder = $responder;
     }
@@ -53,41 +53,41 @@ final class CpoItemAddAction
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $data = (array)$request->getParsedBody();
-        $sell_id = (int)$data['sell_id'];
+        $pack_id = (int)$data['pack_id'];
 
         $rtCpoItem = $this->finder->findCpoItem($data);
 
-        $dataCpoItem['PackingQty'] = $rtCpoItem[0]['PackingQty'] + $data['sell_qty'];
+        $dataCpoItem['PackingQty'] = $rtCpoItem[0]['PackingQty'] + $data['pack_qty'];
 
 
         $uuid = uniqid();
         $param_search['uuid'] = $uuid;
-        $param_search['sell_id'] = $sell_id;
+        $param_search['pack_id'] = $pack_id;
 
-        $this->sellCpoItemUpdater->insertSellCpoItem($data);
+        $this->packCpoItemUpdater->insertPackCpoItem($data);
 
         $flash = $this->session->getFlashBag();
         $flash->clear();
 
         $totalQty = 0;
 
-        $sellCpoItem = $this->tempQueryFinder->findTempQuery($param_search);
+        $packCpoItem = $this->tempQueryFinder->findTempQuery($param_search);
 
 
-        for ($i = 0; $i < count($sellCpoItem); $i++) {
-            $totalQty += (int)$sellCpoItem[$i]['sell_qty'];
+        for ($i = 0; $i < count($packCpoItem); $i++) {
+            $totalQty += (int)$packCpoItem[$i]['pack_qty'];
             $arrTotalQty['total_qty'] = $totalQty;
         }
 
 
-        $this->sellUpdater->updateSellStatusSelectingCpo($sell_id,  $arrTotalQty);
+        $this->packUpdater->updatePackStatusSelectingCpo($pack_id,  $arrTotalQty);
 
-        $sellRow = $this->sellFinder->findSellRow($sell_id);
-        $data1['ProductID'] = $sellRow['product_id'];
+        $packRow = $this->packFinder->findPackRow($pack_id);
+        $data1['ProductID'] = $packRow['product_id'];
 
         $viewData = [
-            'sell_id' => $sellRow['id'],
-            'product_id' => $sellRow['product_id'],
+            'pack_id' => $packRow['id'],
+            'product_id' => $packRow['product_id'],
         ];
 
         return $this->responder->withRedirect($response, "cpo_items", $viewData);

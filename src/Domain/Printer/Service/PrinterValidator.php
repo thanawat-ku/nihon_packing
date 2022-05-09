@@ -43,7 +43,7 @@ final class PrinterValidator
     public function validatePrinterUpdate(string $lotNo, array $data): void
     {
         /*
-        if (!$this->repository->existsSellLabelNo($productNo)) {
+        if (!$this->repository->existsPackLabelNo($productNo)) {
             throw new ValidationException(sprintf('Store not found: %s', $stoproductNoreId));
         }
         */

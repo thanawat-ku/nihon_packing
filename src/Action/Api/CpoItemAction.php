@@ -53,7 +53,7 @@ final class CpoItemAction
     {
 
         $params = (array)$request->getQueryParams();
-        $sellID=(int)$params['sell_id'];
+        $packID=(int)$params['pack_id'];
 
         $cpodata = $this->CpoItemFinder->findCpoItem($params);
         $uuid=uniqid();
@@ -61,7 +61,7 @@ final class CpoItemAction
         $cpoitemcheck = $this->tempQueryFinder->findTempQueryCheck($params);
 
         $param_search['uuid']=$uuid;
-        $param_search['sell_id']=$sellID;
+        $param_search['pack_id']=$packID;
         $cpoitemdata['message'] = "Get CpoItem Successful";
         $cpoitemdata['error'] = false;
         $cpoitemdata['data'] = $this->tempQueryFinder->findTempQuery($param_search);

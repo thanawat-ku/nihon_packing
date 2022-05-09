@@ -3,7 +3,7 @@
 namespace App\Action\Web;
 
 use App\Domain\CpoItem\Service\CpoItemFinder;
-use App\Domain\Sell\Service\SellFinder;
+use App\Domain\Pack\Service\PackFinder;
 use App\Domain\TempQuery\Service\TempQueryFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
@@ -23,16 +23,16 @@ final class CpoItemAction
     private $twig;
     private $finder;
     private $tempQueryFinder;
-    private $sellFinder;
+    private $packFinder;
     private $session;
 
     public function __construct(Twig $twig,CpoItemFinder $finder,TempQueryFinder $tempQueryFinder,
-    Session $session,Responder $responder, SellFinder $sellFinder)
+    Session $session,Responder $responder, PackFinder $packFinder)
     {
         $this->twig = $twig;
         $this->finder=$finder;
         $this->tempQueryFinder=$tempQueryFinder;
-        $this->sellFinder=$sellFinder;
+        $this->packFinder=$packFinder;
         $this->session=$session;
         $this->responder = $responder;
     }
@@ -40,30 +40,30 @@ final class CpoItemAction
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $data = (array)$request->getQueryParams();
-        $sellID=(int)$data['sell_id'];
+        $packID=(int)$data['pack_id'];
 
         $cpodata = $this->finder->findCpoItem($data);
         $uuid=uniqid();
 
-        $sell = null;
+        $pack = null;
 
         $cpoitemcheck = $this->tempQueryFinder->findTempQueryCheck($data);
         if (!$cpoitemcheck) {
-            $checkSellCpo = "true";
+            $checkPackCpo = "true";
         }else{
-            $checkSellCpo = "false";
+            $checkPackCpo = "false";
         }
 
-        $sellRow = $this->sellFinder->findSellRow($sellID);
+        $packRow = $this->packFinder->findPackRow($packID);
 
         $param_search['uuid']=$uuid;
-        $param_search['sell_id']=$sellID;
+        $param_search['pack_id']=$packID;
 
        
       
         $viewData = [
-            'checkSellCpo' => $checkSellCpo, 
-            'sellRow'=>$sellRow,
+            'checkPackCpo' => $checkPackCpo, 
+            'packRow'=>$packRow,
             'CpoItem' => $this->tempQueryFinder->findTempQuery($param_search),
             'user_login' => $this->session->get('user'),
         ];

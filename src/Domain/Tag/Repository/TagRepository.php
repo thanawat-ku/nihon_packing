@@ -50,12 +50,12 @@ final class TagRepository
         $this->queryFactory->newUpdate('tags', $row)->andWhere(['id' => $tagID])->execute();
     }
 
-    public function updateTagAllFromSellIDApi(int $sellID, array $row, $user_id): void
+    public function updateTagAllFromPackIDApi(int $packID, array $row, $user_id): void
     {
         $row['updated_at'] = Chronos::now()->toDateTimeString();
         $row['updated_user_id'] = $user_id;
 
-        $this->queryFactory->newUpdate('tags', $row)->andWhere(['sell_id' => $sellID])->execute();
+        $this->queryFactory->newUpdate('tags', $row)->andWhere(['pack_id' => $packID])->execute();
     }
 
     public function registerTag(int $tagID, array $data): void
@@ -84,32 +84,32 @@ final class TagRepository
 
         $this->queryFactory->newUpdate('tags', $data)->andWhere(['id' => $tagID])->execute();
     }
-    public function updateTagPrintFromSellID(int $sellID, array $data): void
+    public function updateTagPrintFromPackID(int $packID, array $data): void
     {
         $data['updated_at'] = Chronos::now()->toDateTimeString();
         $data['updated_user_id'] = $this->session->get('user')["id"];
 
-        $this->queryFactory->newUpdate('tags', $data)->andWhere(['sell_id' => $sellID])->execute();
+        $this->queryFactory->newUpdate('tags', $data)->andWhere(['pack_id' => $packID])->execute();
     }
-    public function updateTagPrintFromSellIDApi(int $sellID, array $data, int $userID): void
+    public function updateTagPrintFromPackIDApi(int $packID, array $data, int $userID): void
     {
         $data['updated_at'] = Chronos::now()->toDateTimeString();
         $data['updated_user_id'] = $userID;
 
-        $this->queryFactory->newUpdate('tags', $data)->andWhere(['sell_id' => $sellID])->execute();
+        $this->queryFactory->newUpdate('tags', $data)->andWhere(['pack_id' => $packID])->execute();
     }
 
-    public function updateTagFronSellID(int $sellID, array $data): void
+    public function updateTagFronPackID(int $packID, array $data): void
     {
         $data['updated_at'] = Chronos::now()->toDateTimeString();
         $data['updated_user_id'] = $this->session->get('user')["id"];
 
-        $this->queryFactory->newUpdate('tags', $data)->andWhere(['sell_id' => $sellID])->execute();
+        $this->queryFactory->newUpdate('tags', $data)->andWhere(['pack_id' => $packID])->execute();
     }
 
-    public function deleteTag(int $tagID): void
+    public function deleteTags(int $packID): void
     {
-        $this->queryFactory->newDelete('tags')->andWhere(['id' => $tagID])->execute();
+        $this->queryFactory->newDelete('tags')->andWhere(['pack_id' => $packID])->execute();
     }
 
     public function findTags(array $params): array
@@ -119,8 +119,8 @@ final class TagRepository
             [
                 'tags.id',
                 'tag_no',
-                's_cpo_item.sell_id',
-                'sell_no',
+                's_cpo_item.pack_id',
+                'pack_no',
                 'tags.quantity',
                 'box_no',
                 'total_box',
@@ -129,7 +129,7 @@ final class TagRepository
                 'part_code',
                 'part_name',
                 'part_no',
-                'sell_status',
+                'pack_status',
                 'total_qty',
                 's_cpo_item.cpo_item_id'
 
@@ -138,16 +138,16 @@ final class TagRepository
         );
         $query->join([
             's' => [
-                'table' => 'sells',
+                'table' => 'packs',
                 'type' => 'INNER',
-                'conditions' => 's.id = tags.sell_id',
+                'conditions' => 's.id = tags.pack_id',
             ]
         ]);
         $query->join([
             's_cpo_item' => [
-                'table' => 'sell_cpo_items',
+                'table' => 'pack_cpo_items',
                 'type' => 'INNER',
-                'conditions' => 's_cpo_item.sell_id = s.id',
+                'conditions' => 's_cpo_item.pack_id = s.id',
             ]
         ]);
 
@@ -166,8 +166,8 @@ final class TagRepository
         if (isset($params['tag_id'])) {
             $query->andWhere(['tags.id' => $params["tag_id"]]);
         }
-        if (isset($params['sell_id'])) {
-            $query->andWhere(['s_cpo_item.sell_id' => $params["sell_id"]]);
+        if (isset($params['pack_id'])) {
+            $query->andWhere(['s_cpo_item.pack_id' => $params["pack_id"]]);
         }
 
         if (isset($params["startDate"])) {

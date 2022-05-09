@@ -4,7 +4,7 @@ namespace App\Action\Web;
 
 use App\Domain\CpoItem\Service\CpoItemFinder;
 use App\Domain\Product\Service\ProductFinder;
-use App\Domain\Sell\Service\SellFinder;
+use App\Domain\Pack\Service\PackFinder;
 use App\Domain\TempQuery\Service\TempQueryFinder;
 use App\Domain\TempQuery\Service\TempQueryUpdater;
 use App\Responder\Responder;
@@ -25,7 +25,7 @@ final class CpoItemCheckTempQueryAction
     private $twig;
     private $finder;
     private $tempQueryFinder;
-    private $sellFinder;
+    private $packFinder;
     private $tempQueryUpdater;
     private $session;
 
@@ -36,12 +36,12 @@ final class CpoItemCheckTempQueryAction
         Session $session,
         Responder $responder,
         TempQueryUpdater  $tempQueryUpdater,
-        SellFinder $sellFinder
+        PackFinder $packFinder
     ) {
         $this->twig = $twig;
         $this->finder = $finder;
         $this->tempQueryFinder = $tempQueryFinder;
-        $this->sellFinder = $sellFinder;
+        $this->packFinder = $packFinder;
         $this->tempQueryUpdater = $tempQueryUpdater;
         $this->session = $session;
         $this->responder = $responder;
@@ -50,12 +50,12 @@ final class CpoItemCheckTempQueryAction
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $data = (array)$request->getQueryParams();
-        $sellID = (int)$data['sell_id'];
+        $packID = (int)$data['pack_id'];
 
         $cpodata = $this->finder->findCpoItem($data);
         $uuid = uniqid();
 
-        $sell = null;
+        $pack = null;
 
         $cpoitemcheck = $this->tempQueryFinder->findTempQueryCheck($data);
 
@@ -81,14 +81,14 @@ final class CpoItemCheckTempQueryAction
         }
 
 
-        $sellRow = $this->sellFinder->findSellRow($sellID);
+        $packRow = $this->packFinder->findPackRow($packID);
 
         $param_search['uuid'] = $uuid;
-        $param_search['sell_id'] = $sellID;
+        $param_search['pack_id'] = $packID;
 
         $viewData = [
-            'sell_id' => $sellRow['id'],
-            'product_id' => $sellRow['product_id'],
+            'pack_id' => $packRow['id'],
+            'product_id' => $packRow['product_id'],
         ];
 
         return $this->responder->withRedirect($response, "cpo_items", $viewData);

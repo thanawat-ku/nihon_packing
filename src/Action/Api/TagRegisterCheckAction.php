@@ -4,7 +4,7 @@ namespace App\Action\Api;
 
 use App\Domain\Tag\Service\TagFinder;
 use App\Domain\Tag\Service\TagUpdater;
-use App\Domain\Sell\Service\SellUpdater;
+use App\Domain\Pack\Service\PackUpdater;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -20,14 +20,14 @@ final class TagRegisterCheckAction
     private $responder;
     private $updater;
     private $finder;
-    private $updateSell;
+    private $updatePack;
 
-    public function __construct(Responder $responder,  TagUpdater $updater, TagFinder $finder, SellUpdater $updateSell)
+    public function __construct(Responder $responder,  TagUpdater $updater, TagFinder $finder, PackUpdater $updatePack)
     {
         $this->responder = $responder;
         $this->updater = $updater;
         $this->finder = $finder;
-        $this->updateSell = $updateSell;
+        $this->updatePack = $updatePack;
     }
 
     public function __invoke(
@@ -37,15 +37,15 @@ final class TagRegisterCheckAction
     ): ResponseInterface {
 
         $data = (array)$request->getParsedBody();
-        $user_id = $data['user_id'];
 
-        $rtTags = $this->finder->findTags($data);
+        $searchTag['tag_no'] = $data['tag_no'];
+        $rtTags = $this->finder->findTags($searchTag);
 
-        if ($rtTags) {
+        if ($rtTags[0]['pack_id'] == $data['pack_id']) {
 
-            $SellID['sell_id'] = $rtTags[0]['sell_id'];
+            $PackID['pack_id'] = $rtTags[0]['pack_id'];
 
-            $rtTags = $this->finder->findTags($SellID);
+            $rtTags = $this->finder->findTags($PackID);
 
             $checkTagPrinted = true;
             for ($i = 0; $i < count($rtTags); $i++) {

@@ -42,7 +42,7 @@ final class LabelVoidReasonValidator
     public function validateLabelVoidReasonUpdate(string $lotNo, array $data): void
     {
         /*
-        if (!$this->repository->existsSellLabelNo($productNo)) {
+        if (!$this->repository->existsPackLabelNo($productNo)) {
             throw new ValidationException(sprintf('Store not found: %s', $stoproductNoreId));
         }
         */

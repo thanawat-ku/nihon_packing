@@ -26,6 +26,10 @@ final class PackingItemRepository
     {
         return (int)$this->queryFactory2->newInsert('packing_item', $row)->execute()->lastInsertId();
     }
+    public function updatePackingItem(int $packingID, $lotID, array $data): void
+    {
+        $this->queryFactory2->newUpdate('packing_item', $data)->andWhere(['PackingID' => $packingID, 'LotID' => $lotID,])->execute();
+    }
     public function deletePackingItemAll(int $id): void
     {
         $this->queryFactory2->newDelete('packing_item')->andWhere(['PackingID' => $id])->execute();

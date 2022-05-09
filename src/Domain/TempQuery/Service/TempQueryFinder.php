@@ -10,12 +10,6 @@ use App\Domain\TempQuery\Repository\TempQueryRepository;
 final class TempQueryFinder
 {
     private $repository;
-
-    /**
-     * The constructor.
-     *
-     * @param CpoItemRepository $repository The repository
-     */
     public function __construct(TempQueryRepository $repository)
     {
         $this->repository = $repository;

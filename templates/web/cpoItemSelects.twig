@@ -19,12 +19,12 @@
 
 				<hr>
 				<div>
-					<h5>{{ sellRow.sell_no  ~ '(' ~ sellRow.sell_status ~ ')'}}
+					<h5>{{ packRow.pack_no  ~ '(' ~ packRow.pack_status ~ ')'}}
 					</h5>
-					<span>{{'Part Code: ' ~ sellRow.part_code }}</span><br>
-					<span>{{'Part No: ' ~ sellRow.part_no  }}</span><br>
-					<span>{{'Sell Date: ' ~ sellRow.sell_date}}</span><br>
-					<span>{{'Total Quantity: ' ~ sellRow.total_qty}}</span>
+					<span>{{'Part Code: ' ~ packRow.part_code }}</span><br>
+					<span>{{'Part No: ' ~ packRow.part_no  }}</span><br>
+					<span>{{'Pack Date: ' ~ packRow.pack_date}}</span><br>
+					<span>{{'Total Quantity: ' ~ packRow.total_qty}}</span>
 				</div>
 				<label for=" ">
 					<span></span>
@@ -33,8 +33,8 @@
 					Issue Date From:&nbsp;&nbsp;
 					<input type="text" autocomplete="off" class="form-control" id="searchIssueStartDate" name="startDate" value="{{startDate}}">&nbsp;&nbsp;To&nbsp;&nbsp;
 					<input type="text" autocomplete="off" class="form-control" id="searchIssueEndDate" name="endDate" value="{{endDate}}">&nbsp;&nbsp;
-					<input type="hidden" name="sell_id" value="{{ sellRow.id }}">
-					<input type="hidden" id="productID" name="ProductID" value="{{ sellRow.product_id }}">
+					<input type="hidden" name="pack_id" value="{{ packRow.id }}">
+					<input type="hidden" id="productID" name="ProductID" value="{{ packRow.product_id }}">
 					<button type="submit" class="btn btn-warning" id="searchIssueBt">
 						<i class="fas fa-search fa-lg"></i>
 						Search</button>
@@ -56,7 +56,7 @@
 								<td>{{ cpo.Quantity - cpo.PackingQty }}</td>
 								<td>{{ cpo.DueDate|date('Y-m-d') }}</td>
 								<td>
-									<button type="button" id="addBt" class="btn btn-success btn-sm" data-toggle="modal" data-target="#addSellCpoItem" name="{{ cpo|json_encode }}">
+									<button type="button" id="addBt" class="btn btn-success btn-sm" data-toggle="modal" data-target="#addPackCpoItem" name="{{ cpo|json_encode }}">
 										<i style="font-size:15px; width:20px;" class="fas fa-plus-circle"></i>
 									</button>
 
@@ -67,8 +67,8 @@
 					<tfoot></tfoot>
 				</table>
 				<form action="cpo_items" method="get" id="formCpoItem">
-					<input type="hidden" id="productID" name="product_id" value="{{sellRow.product_id}}">
-					<input type="hidden" id="sellID" name="sell_id" value="{{sellRow.id}}">
+					<input type="hidden" id="productID" name="product_id" value="{{packRow.product_id}}">
+					<input type="hidden" id="packID" name="pack_id" value="{{packRow.id}}">
 					<button type="submit" class="btn btn-primary" id="black">
 						<i class="fas fa-arrow-left"></i>
 						Back</button>
@@ -79,33 +79,33 @@
 	</div>
 
 	<!-- Modal Add CpoItem -->
-	<div class="modal fade" id="addSellCpoItem">
+	<div class="modal fade" id="addPackCpoItem">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<form
 					id="form-editCpoItemSelect" action="add_cpo_item" method="post">
 					<!-- Modal Header -->
 					<div class="modal-header">
-						<h4 class="modal-title">Add CPO Item for Sell</h4>
+						<h4 class="modal-title">Add CPO Item for Pack</h4>
 						<button type="button" class="close" data-dismiss="modal">&times;</button>
 					</div>
 					<!-- Modal body -->
 					<div class="modal-body">
-						<div class="form-sell">
+						<div class="form-pack">
 							<input type="hidden" id="addCpoItemID" name="cpo_item_id">
-							<input type="hidden" id="addSellID" name="sell_id" value="{{sellRow.id}}">
+							<input type="hidden" id="addPackID" name="pack_id" value="{{packRow.id}}">
 							<label for="Cpo Item ID">CPO Item ID:
 								<span id="addCpoItemIDText"></span>
 							</label>
 						</div>
-						<div class="form-sell">
+						<div class="form-pack">
 							<label for="editName">Remain Quantity
 							</label><br>
 							<input type="text" autocomplete="off" class="form-control" id="addRemainQty" name="remain_qty" readonly>
 						</div>
-						<div class="form-sell">
-							<label for="editStdPack">Sell Quantity</label>
-							<input type="number" autocomplete="off" class="form-control" name="sell_qty" id="addRemainMax" min="1" max="0">
+						<div class="form-pack">
+							<label for="editStdPack">Pack Quantity</label>
+							<input type="number" autocomplete="off" class="form-control" name="pack_qty" id="addRemainMax" min="1" max="0">
 
 						</div>
 					</div>
@@ -123,7 +123,7 @@
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<form
-					id="form-deleteCpoItemSelect" action="delete_sell" method="post">
+					id="form-deleteCpoItemSelect" action="delete_pack" method="post">
 					<!-- Modal Header -->
 					<div class="modal-header">
 						<h4 class="modal-title">Detail CPO Item</h4>
@@ -131,7 +131,7 @@
 					</div>
 					<!-- Modal body -->
 					<div class="modal-body">
-						<div class="form-sell">
+						<div class="form-pack">
 							<label for="Cpo Item ID">CPO Item ID:
 								<span id="detailCpoItemIDText"></span>
 							</label>

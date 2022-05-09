@@ -5,7 +5,7 @@ $(function () {
     });
 });
 
-function addSellCpoItem(event) {
+function addPackCpoItem(event) {
     let cpo = event.currentTarget.name;
     console.log(cpo);
     var obj = JSON.parse(cpo);
@@ -20,11 +20,11 @@ function detailCpoItem(event) {
     let cpo = event.currentTarget.name;
     console.log(cpo);
     var obj = JSON.parse(cpo);
-    $("#detailSellIDText").val(obj.sell_id);
+    $("#detailPackIDText").val(obj.pack_id);
     $("#detailCpoItemID").text(obj.CpoItemID);
     $("#detailCpoItemID").val(obj.CpoItemID);
     $("#detailRemainQty").val(obj.remain_qyt);
-    $("#detailSellQty").val(obj.sell_qty);
+    $("#detailPackQty").val(obj.pack_qty);
 
 }
 
@@ -35,7 +35,7 @@ $(document).on(
         let id = event.currentTarget.id;
         switch (id) {
             case "addBt":
-                addSellCpoItem(event);
+                addPackCpoItem(event);
                 break;
             case "detailBt":
                 detailCpoItem(event);

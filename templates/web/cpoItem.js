@@ -2,30 +2,30 @@ $(function () {
     $('#my-data-table').DataTable();
 });
 function editCpoItem(event) {
-    let sell = event.currentTarget.name;
-    console.log(sell);
-    var obj = JSON.parse(sell);
+    let cpo = event.currentTarget.name;
+    console.log(cpo);
+    var obj = JSON.parse(cpo);
     $("#editCpoItemID").val(obj.id);
     $("#editCpoItemIDText").text(obj.cpo_item_id);
-    $("#editSellQty").val(obj.sell_qty);
-    $("#editSellQtyMax").attr({"max":obj.quantity-obj.packing_qty});
-    $("#editSellQtyMax").val(obj.sell_qty);
+    $("#editPackQty").val(obj.pack_qty);
+    $("#editPackQtyMax").attr({"max":obj.quantity-obj.packing_qty});
+    $("#editPackQtyMax").val(obj.pack_qty);
 }
 
 function deleteCpoItem(event) {
-    let sell = event.currentTarget.name;
-    console.log(sell);
-    var obj = JSON.parse(sell);
-    $("#deleteSellCpoItemID").val(obj.id);
-    $("#deleteSellQty").text(obj.sell_qty);
+    let cpo = event.currentTarget.name;
+    console.log(cpo);
+    var obj = JSON.parse(cpo);
+    $("#deletePackCpoItemID").val(obj.id);
+    $("#deletePackQty").text(obj.pack_qty);
     $("#deleteCpoItemID").text(obj.cpo_item_id);
 }
 
 function comfirmCpoItem(event) {
-    let sellRow = event.currentTarget.name;
-    console.log(sellRow);
-    var obj = JSON.parse(sellRow);
-    $("#conSellID").val(obj.sell_id);
+    let packRow = event.currentTarget.name;
+    console.log(packRow);
+    var obj = JSON.parse(packRow);
+    $("#conPackID").val(obj.pack_id);
 }
 
 $(document).on(

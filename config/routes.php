@@ -75,18 +75,18 @@ return function (App $app) {
     $app->post('/edit_label_void_reason', \App\Action\Web\LabelVoidReasonEditAction::class)->add(UserAuthMiddleware::class);
     $app->post('/delete_label_void_reason', \App\Action\Web\LabelVoidReasonDeleteAction::class)->add(UserAuthMiddleware::class);
 
-    $app->get('/sells', \App\Action\Web\SellAction::class)->add(UserAuthMiddleware::class);
-    $app->post('/add_sell', \App\Action\Web\SellAddAction::class)->add(UserAuthMiddleware::class);
-    $app->get('/select_label_for_sells', \App\Action\Web\SelectLabelForSellAction::class)->add(UserAuthMiddleware::class);
+    $app->get('/packs', \App\Action\Web\PackAction::class)->add(UserAuthMiddleware::class);
+    $app->post('/add_pack', \App\Action\Web\PackAddAction::class)->add(UserAuthMiddleware::class);
+    $app->get('/select_label_for_packs', \App\Action\Web\SelectLabelForPackAction::class)->add(UserAuthMiddleware::class);
 
-    $app->get('/sell_labels', \App\Action\Web\SellLabelAction::class)->add(UserAuthMiddleware::class);
-    $app->post('/add_sell_label', \App\Action\Web\SellLabelAddAction::class)->add(UserAuthMiddleware::class);
-    $app->post('/cancel_sell_label', \App\Action\Web\SellLabelCancelAction::class)->add(UserAuthMiddleware::class);
-    $app->post('/remove_sell_label', \App\Action\Web\SellLabelRemoveAction::class)->add(UserAuthMiddleware::class);
-    $app->post('/confirm_sell', \App\Action\Web\SellConfirmAction::class)->add(UserAuthMiddleware::class);
-    $app->post('/confirm_sell_label', \App\Action\Web\SellLabelConfirmAction::class)->add(UserAuthMiddleware::class);
-    $app->post('/edit_sell', \App\Action\Web\SellEditAction::class)->add(UserAuthMiddleware::class);
-    $app->post('/delete_sell', \App\Action\Web\SellDeleteAction::class)->add(UserAuthMiddleware::class);
+    $app->get('/pack_labels', \App\Action\Web\PackLabelAction::class)->add(UserAuthMiddleware::class);
+    $app->post('/add_pack_label', \App\Action\Web\PackLabelAddAction::class)->add(UserAuthMiddleware::class);
+    $app->post('/cancel_pack_label', \App\Action\Web\PackLabelCancelAction::class)->add(UserAuthMiddleware::class);
+    $app->post('/remove_pack_label', \App\Action\Web\PackLabelRemoveAction::class)->add(UserAuthMiddleware::class);
+    $app->post('/confirm_pack', \App\Action\Web\PackConfirmAction::class)->add(UserAuthMiddleware::class);
+    $app->post('/confirm_pack_label', \App\Action\Web\PackLabelConfirmAction::class)->add(UserAuthMiddleware::class);
+    $app->post('/edit_pack', \App\Action\Web\PackEditAction::class)->add(UserAuthMiddleware::class);
+    $app->post('/delete_pack', \App\Action\Web\PackDeleteAction::class)->add(UserAuthMiddleware::class);
 
     $app->post('/api/login', \App\Action\ApiLoginSubmitAction::class);
     $app->get('/api/merges', \App\Action\Api\MergeAction::class);
@@ -189,35 +189,35 @@ return function (App $app) {
     $app->get('/api/cpo_items', \App\Action\Api\CpoItemAction::class);
     $app->get('/api/cpo_item_select', \App\Action\Api\CpoItemSelectAction::class);
 
-    $app->get('/api/sells', \App\Action\Api\SellAction::class);
-    $app->get('/api/register_tag_on_sells', \App\Action\Api\RegisterTagOnSellAction::class);
-    $app->post('/api/add_sell', \App\Action\Api\SellAddAction::class);
-    $app->post('/api/sell_row', \App\Action\Api\SellRowAction::class);
-    $app->post('/api/sell_tag', \App\Action\Api\SellTagAction::class);
-    $app->post('/api/up_status_sell', \App\Action\Api\SellUpStatusAction::class);
-    $app->post('/api/get_qty_sell_scan', \App\Action\Api\GetQtySellScanAction::class);
-    $app->post('/api/edit_sell', \App\Action\Api\SellEditAction::class);
-    $app->post('/api/delete_sell', \App\Action\Api\SellDeleteAction::class);
-    $app->post('/api/complete_sell', \App\Action\Api\SellCompleteAction::class);
+    $app->get('/api/packs', \App\Action\Api\PackAction::class);
+    $app->get('/api/register_tag_on_packs', \App\Action\Api\RegisterTagOnPackAction::class);
+    $app->post('/api/add_pack', \App\Action\Api\PackAddAction::class);
+    $app->post('/api/pack_row', \App\Action\Api\PackRowAction::class);
+    $app->post('/api/pack_tag', \App\Action\Api\PackTagAction::class);
+    $app->post('/api/up_status_pack', \App\Action\Api\PackUpStatusAction::class);
+    $app->post('/api/get_qty_pack_scan', \App\Action\Api\GetQtyPackScanAction::class);
+    $app->post('/api/edit_pack', \App\Action\Api\PackEditAction::class);
+    $app->post('/api/delete_pack', \App\Action\Api\PackDeleteAction::class);
+    $app->post('/api/complete_pack', \App\Action\Api\PackCompleteAction::class);
     $app->get('/api/sycn_invoice_no', \App\Action\Api\SyncInvoiceNoAction::class);
 
-    $app->get('/api/product_for_sells', \App\Action\Api\ProductForSellAction::class);
+    $app->get('/api/product_for_packs', \App\Action\Api\ProductForPackAction::class);
 
-    $app->get('/api/sell_cpo_items', \App\Action\Api\SellCpoItemAction::class);
-    $app->post('/api/add_sell_cpo_item', \App\Action\Api\SellCpoItemAddAction::class);
-    $app->post('/api/edit_sell_cpo_item', \App\Action\Api\SellCpoItemEditAction::class);
-    $app->post('/api/delete_sell_cpo_item', \App\Action\Api\SellCpoItemDeleteAction::class);
+    $app->get('/api/pack_cpo_items', \App\Action\Api\PackCpoItemAction::class);
+    $app->post('/api/add_pack_cpo_item', \App\Action\Api\PackCpoItemAddAction::class);
+    $app->post('/api/edit_pack_cpo_item', \App\Action\Api\PackCpoItemEditAction::class);
+    $app->post('/api/delete_pack_cpo_item', \App\Action\Api\PackCpoItemDeleteAction::class);
 
     $app->get('/api/merge_pack_details', \App\Action\Api\MergePackDetailAction::class);
     $app->get('/api/merge_pack_detail_for_registers', \App\Action\Api\MergePackDetailForRegisterAction::class);
     $app->post('/api/complete_merge_pack', \App\Action\Api\CompleteMergePackAction::class);
 
-    $app->get('/api/sell_labels', \App\Action\Api\SellLabelAction::class);
-    $app->post('/api/check_sell_label_scan', \App\Action\Api\CheckSellLabelScanAction::class);
-    $app->post('/api/cancel_sell_label', \App\Action\Api\CancelSellLabelAction::class);
-    $app->post('/api/confirm_sell_label', \App\Action\Api\ConfirmSellLabelAction::class);
+    $app->get('/api/pack_labels', \App\Action\Api\PackLabelAction::class);
+    $app->post('/api/check_pack_label_scan', \App\Action\Api\CheckPackLabelScanAction::class);
+    $app->post('/api/cancel_pack_label', \App\Action\Api\CancelPackLabelAction::class);
+    $app->post('/api/confirm_pack_label', \App\Action\Api\ConfirmPackLabelAction::class);
     $app->get('/api/mis_sync_lots', \App\Action\Api\LotSyncAction::class);
-    $app->post('/api/check_scan_sell_labels', \App\Action\Api\CheckScanSellLabelAction::class);
+    $app->post('/api/check_scan_pack_labels', \App\Action\Api\CheckScanPackLabelAction::class);
 
     $app->get('/api/scraps', \App\Action\Api\ScrapAction::class);
     $app->post('/api/add_scrap', \App\Action\Api\ScrapAddAction::class);
