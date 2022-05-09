@@ -203,7 +203,7 @@ final class LotRepository
             'p' => [
                 'table' => 'stock_item',
                 'type' => 'INNER',
-                'conditions' => 'p.LotID = lot.LotID AND lot.ProductID IN(4721,3259) AND p.ProcessID=12 and p.OutStockControlID=0 and p.StockControlID>'.$max_id,
+                'conditions' => 'p.LotID = lot.LotID AND lot.ProductID IN (4721,3259,4230) AND p.ProcessID=12 and p.OutStockControlID=0 and p.StockControlID>'.$max_id,
             ]
         ]);
         return $query->execute()->fetchAll('assoc') ?: [];
