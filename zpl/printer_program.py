@@ -1,8 +1,16 @@
 import sys
+# for pyside6
 from PySide6.QtWidgets import (
     QMainWindow, QApplication, QWidget, QLabel, QComboBox, QPushButton, QVBoxLayout, QHBoxLayout
 )
 from PySide6.QtCore import QTimer
+
+# for pyside
+#from PySide.QtGui import (
+#    QMainWindow, QApplication, QWidget, QLabel, QComboBox, QPushButton, QVBoxLayout, QHBoxLayout
+#)
+#from PySide.QtCore import QTimer
+
 import mysql.connector
 import time
 from printer import Printer
@@ -14,18 +22,21 @@ class MainWindow(QMainWindow):
 
         self.setWindowTitle("Print")
 
-        self.label_printer_name="KK-Label"
+        self.label_printer_name="AY-Label"
         self.tag_printer_name="AY-Tag"
 
         self.combo1 = QComboBox()
         self.combo1.addItems(["AY-Label", "KK-Label"])
-        self.combo1.setCurrentText(self.label_printer_name)
+        self.combo1.setCurrentIndex(self.combo1.findText(self.label_printer_name))
         self.combo2 = QComboBox()
         self.combo2.addItems(["AY-Tag", "KK-Tag"])
-        self.combo2.setCurrentText(self.tag_printer_name)
+        self.combo2.setCurrentIndex(self.combo2.findText(self.tag_printer_name))
         self.set_printer()
 
     def set_printer(self):
+        if self.combo1 is not None:
+            self.label_printer_name=self.combo1.currentText()
+            self.tag_printer_name=self.combo2.currentText()
 
         print("Set Config!")
 
@@ -67,7 +78,7 @@ class MainWindow(QMainWindow):
         label1 = QLabel("Label Printer:")
         self.combo1 = QComboBox()
         self.combo1.addItems(["AY-Label", "KK-Label"])
-        self.combo1.setCurrentText(self.label_printer_name)
+        self.combo1.setCurrentIndex(self.combo1.findText(self.label_printer_name))
 
         row1.addWidget(label1)
         row1.addWidget(self.combo1)
@@ -76,7 +87,7 @@ class MainWindow(QMainWindow):
         label2 = QLabel("Tag Printer:")
         self.combo2 = QComboBox()
         self.combo2.addItems(["AY-Tag", "KK-Tag"])
-        self.combo2.setCurrentText(self.tag_printer_name)
+        self.combo2.setCurrentIndex(self.combo2.findText(self.tag_printer_name))
 
         row2.addWidget(label2)
         row2.addWidget(self.combo2)
@@ -113,13 +124,13 @@ class MainWindow(QMainWindow):
         INNER JOIN products P ON LT.product_id=P.id \
         INNER JOIN printers PT ON L.printer_id=PT.id \
         LEFT OUTER JOIN users U1 ON LT.packed_user_id=U1.id \
-        WHERE L.wait_print='Y' AND PT.printer_name=+"+str(self.label_printer_name)+" \
+        WHERE L.wait_print='Y' AND PT.printer_name=+'"+str(self.label_printer_name)+"' \
         ORDER BY L.id")
         myresult = mycursor.fetchall()
         i=0
         for l in myresult:
             print(l)
-            self.label_printer.print_label(l[1],l[2],l[3],l[4],l[5],"","")
+            self.label_printer.print_label(l[1],l[2],l[3],str(l[4]),l[5],"","")
             mycursor.execute("UPDATE labels SET wait_print='N' WHERE id="+str(l[0]))
             i=i+1
             if i%5==4:
@@ -134,13 +145,13 @@ class MainWindow(QMainWindow):
             INNER JOIN products P ON S.product_id=P.id \
             INNER JOIN customers C ON P.customer_id=C.id \
             INNER JOIN printers PT ON T.printer_id=PT.id \
-            WHERE T.wait_print='Y' AND PT.printer_name="+str(self.tag_printer_name)+" \
+            WHERE T.wait_print='Y' AND PT.printer_name='"+str(self.tag_printer_name)+"' \
             ORDER BY T.id")
         myresult = mycursor.fetchall()
         i=0
         for t in myresult:
             print(t)
-            self.tag_printerprint_tag(t[1],t[2],t[3],t[4],t[5],t[6],t[7],t[8],t[9])
+            self.tag_printer.print_tag(t[1],t[2],t[3],t[4],t[5].strftime("%d %b %Y"),str(t[6]),str(t[7]),str(t[8]),str(t[9]))
             mycursor.execute("UPDATE tags SET wait_print='N' WHERE id="+str(t[0]))
             i=i+1
             if i%5==4:
