@@ -153,9 +153,31 @@ function syncLots() {
             }
             // Append to the html
             $('#syncTable').text("lot last code: " + code);
+            syncInvoices();
         }
     });
 }
+
+function syncInvoices() {
+    $('#syncTable').text("Invoice start");
+    $.ajax({
+        type: "GET",
+        url: "api/mis_sync_invoice",
+        success: function (data) {
+            if (data.length > 0) {
+                code = data[0].invoice_no + ' ';
+            } else {
+                code = "";
+            }
+            // Append to the html
+            $('#syncTable').text("invoice last no: " + code);
+        },
+        error: function(error) {
+            console.log('Error: ' + error);
+        }
+    });
+}
+
 $(document).on(
     "click",
     "#syncBt",

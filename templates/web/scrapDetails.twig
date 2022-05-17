@@ -120,8 +120,8 @@
 							<label for="email">Select Section</label>
 							<select class="selectpicker form-control" id="addProductID" name="section_id" data-live-search="true" required>
 								{% for s in sections %}
-									<option value={{ s.id }}>({{s.section_name}})
-										{{ s.section_description}}
+									<option value={{ s.id }}>{{s.section_name}}
+										
 									</option>
 								{% endfor %}
 							</select>
