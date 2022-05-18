@@ -19,6 +19,10 @@ final class LotFinder
     {
         return $this->repository->findLots($params);
     }
+    public function findLotProduct(array $params): array
+    {
+        return $this->repository->findLotProduct($params);
+    }
 
     public function findLotNsps(array $params): array
     {

@@ -50,11 +50,11 @@ final class LotAction
     {
         $params = (array)$request->getQueryParams();
 
-        if (!isset($params['startDate'])) {
-            $params['startDate'] = date('Y-m-d', strtotime('-7 days', strtotime(date('Y-m-d'))));
-            $params['endDate'] = date('Y-m-d');
+        if(!isset($params['search_product_id'])){
+            $params['search_product_id']=2713;
+            $params['search_status']='CREATED';
         }
-        $lots = $this->finder->findLots($params);
+        $lots = $this->finder->findLotProduct($params);
 
         for ($i = 0; $i < sizeof($lots); $i++) {
             $lotID['lot_id'] = $lots[$i]['id'];
@@ -76,8 +76,8 @@ final class LotAction
             'products' => $this->productFinder->findProducts($params),
             'printers' => $this->printerFinder->findPrinters($printerType),
             'user_login' => $this->session->get('user'),
-            'startDate' => $params['startDate'],
-            'endDate' => $params['endDate'],
+            'search_product_id' => $params['search_product_id'],
+            'search_status' => $params['search_status'],
         ];
 
         return $this->twig->render($response, 'web/lots.twig', $viewData);

@@ -136,6 +136,52 @@ final class LotRepository
         return $query->execute()->fetchAll('assoc') ?: [];
     }
 
+    public function findLotProduct(array $params): array
+    {
+        $query = $this->queryFactory->newSelect('lots');
+        $query->select(
+            [
+                'lots.id',
+                'lot_no',
+                'generate_lot_no',
+                'product_id',
+                'quantity',
+                'part_code',
+                'part_no',
+                'part_name',
+                'std_pack',
+                'std_box',
+                'status',
+                'real_qty',
+                'issue_date',
+
+            ]
+        );
+        $query->join([
+            'p' => [
+                'table' => 'products',
+                'type' => 'INNER',
+                'conditions' => 'p.id = lots.product_id',
+            ]
+        ]);
+
+        if (isset($params['lot_id'])) {
+            $query->andWhere(['lots.id' => $params["lot_id"]]);
+        }
+        if (isset($params['search_product_id'])) {
+            $query->andWhere(['p.id' => $params['search_product_id']]);
+        }
+        if (isset($params["search_status"])) {
+            if($params["search_status"]!="ALL"){
+                $query->andWhere(['status' => $params['search_status']]);
+            }
+        }
+
+        $query->andWhere(['lots.is_delete' => 'N']);
+
+        return $query->execute()->fetchAll('assoc') ?: [];
+    }
+
     public function findLotNsps(array $params): array
     {
         $query = $this->queryFactory2->newSelect('lot');

@@ -3,9 +3,6 @@ $(function () {
         "order": [[0, "desc"]],
         "scrollX": true
     });
-    $('#searchIssueStartDate, #searchIssueEndDate').datepicker({
-        format: 'yyyy-mm-dd'
-    });
 });
 // $(function () {
 //     $('#my-data-table').DataTable();

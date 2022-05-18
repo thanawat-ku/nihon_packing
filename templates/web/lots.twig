@@ -17,9 +17,22 @@
                 <label for=" ">     <span ></span></label>
                 <button type="button" id="syncBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#syncDb" name="{{ tool|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-sync"></i> Sync DB</button>
                 <form id="form-searchIssue" class="form-inline float-right" action="" method="get">
-                  Issue Date From:&nbsp;&nbsp;
-                  <input type="text" autocomplete="off" class="form-control" id="searchIssueStartDate" name="startDate" value="{{startDate}}">&nbsp;&nbsp;To&nbsp;&nbsp; 
-                  <input type="text" autocomplete="off" class="form-control" id="searchIssueEndDate" name="endDate" value="{{endDate}}">&nbsp;&nbsp;
+                  Product:&nbsp;&nbsp;
+                  <select class="selectpicker" id="searchProductID" name="search_product_id" data-live-search="true">
+                    {% for p in products %}
+                      <option value={{ p.id }} {{ p.id==search_product_id?"selected" }}>{{p.part_code }}
+                      </option>
+                    {% endfor %}
+                  </select>&nbsp;&nbsp;
+                  Status:&nbsp;&nbsp;
+                  <select id="searchStatus" name="search_status">
+                      <option value="ALL" {{ search_status=="ALL"?"selected" }}>ALL</option>
+                      <option value="CREATED" {{ search_status=="CREATED"?"selected" }}>CREATED</option>
+                      <option value="CONFIRMED" {{ search_status=="CONFIRMED"?"selected" }}>CONFIRMED</option>
+                      <option value="PRINTED" {{ search_status=="PRINTED"?"selected" }}>PRINTED</option>
+                      <option value="PACKING" {{ search_status=="PACKING"?"selected" }}>PACKING</option>
+                      <option value="PACKED" {{ search_status=="PACKED"?"selected" }}>PACKED</option>
+                  </select>&nbsp;&nbsp;
                   <button type="submit" class="btn btn-warning" id="searchIssueBt"><i class="fas fa-search fa-lg"></i> Search</button>
                 </form>
                 <hr>
@@ -45,7 +58,7 @@
                         <td>{{ lot.lot_no }}</td>
                         {% endif %}
                         {% if lot.status != "CREATED" %}
-                        <td>{{ lot.generate_lot_no }}</td>
+                        <td>{{ lot.generate_lot_no }} <br>({{ lot.lot_no }})</td>
                         {% endif %}
                         <td>{{ lot.issue_date }}</td>
                         <td>{{ lot.part_code}} </td>
