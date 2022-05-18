@@ -199,7 +199,7 @@ return function (App $app) {
     $app->post('/api/edit_pack', \App\Action\Api\PackEditAction::class);
     $app->post('/api/delete_pack', \App\Action\Api\PackDeleteAction::class);
     $app->post('/api/complete_pack', \App\Action\Api\PackCompleteAction::class);
-    $app->get('/api/sycn_invoice_no', \App\Action\Api\SyncInvoiceNoAction::class);
+    $app->get('/api/mis_sync_invoice', \App\Action\Api\SyncInvoiceNoAction::class);
 
     $app->get('/api/product_for_packs', \App\Action\Api\ProductForPackAction::class);
 

@@ -22,6 +22,7 @@ final class SyncInvoiceNoAction
     private $finder;
     private $findPack;
     private $updatePack;
+    private $session;
 
 
     /**
@@ -55,20 +56,31 @@ final class SyncInvoiceNoAction
     {
 
         $params = (array)$request->getQueryParams();
-        $user_id = $params['user_id'];
+        if (!isset($params['sync'])) {
+            $params['sync'] = "true";
+            $params['user_id'] = $this->session->get('user')["id"];
+            $user_id = $params['user_id'];
+        } else {
+            $user_id = $params['user_id'];
+        }
 
         $rtPack = $this->findPack->findPacks($params);
+        $rtData = [];
 
         for ($i = 0; $i < count($rtPack); $i++) {
             $params['packing_id'] = $rtPack[$i]['packing_id'];
             $rtIvoice = $this->finder->findInvoice($params);
 
-            $upPack['pack_status'] = 'INVOICED';
-            $upPack['invoice_no'] = $rtIvoice[0]['InvoiceNo'];
-            $this->updatePack->updatePackSyncApi((int)$rtPack[$i]['id'], $upPack, $user_id);
+            if (isset($rtIvoice[0])) {
+                $upPack['pack_status'] = 'INVOICED';
+                $upPack['invoice_no'] = $rtIvoice[0]['InvoiceNo'];
+                $this->updatePack->updatePackSyncApi((int)$rtPack[$i]['id'], $upPack, $user_id);
+            }
         }
 
+        $rtData = [];
+        array_push($rtData, $upPack);
 
-        return $this->responder->withJson($response, $params);
+        return $this->responder->withJson($response, $rtData);
     }
 }
