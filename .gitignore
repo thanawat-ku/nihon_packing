@@ -63,3 +63,5 @@ public/assets/*
 
 !public/upload/
 public/upload/*
+
+zpl/__pycache/*
