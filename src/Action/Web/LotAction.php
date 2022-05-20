@@ -72,8 +72,8 @@ final class LotAction
             } else {
                 $lots[$i]['qty_lot_defact'] = 0;
             }
-            
-            if ($lots[$i]['status'] == "CREATED") {
+
+            if ($lots[$i]['status'] != "CREATED") {
                 $labels = $this->labelFinder->findLabelSingleTable($lotID);
                 $min = 99999;
                 $max = -99999;
