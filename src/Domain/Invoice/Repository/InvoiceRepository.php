@@ -27,6 +27,16 @@ final class InvoiceRepository
         $this->queryFactory2->newUpdate('invoice', $data)->andWhere(['InvoiceID' => $id])->execute();
     }
 
+    public function insertInvoicePacking(array $row, $user_id): int
+    {
+        $row['created_at'] = Chronos::now()->toDateTimeString();
+        $row['created_user_id'] = $user_id;
+        $row['updated_at'] = Chronos::now()->toDateTimeString();
+        $row['updated_user_id'] = $user_id;
+
+        return (int)$this->queryFactory->newInsert('invoices', $row)->execute()->lastInsertId();
+    }
+
     public function deleteInvoice(int $id): void
     {
         $this->queryFactory->newDelete('pack_invoices')->andWhere(['id' => $id])->execute();
@@ -41,6 +51,8 @@ final class InvoiceRepository
             $query->select(
                 [
                     'invoice.InvoiceNo',
+                    'invoice.IssueDate',
+                    'invoice.CustomerID',
                     'pt.PackingID'
 
                 ]
@@ -83,6 +95,51 @@ final class InvoiceRepository
 
 
 
+        return $query->execute()->fetchAll('assoc') ?: [];
+    }
+
+    public function findInvoicePackings(array $params): array
+    {
+        $query = $this->queryFactory->newSelect('invoices');
+
+        $query->select(
+            [
+                'invoices.id',
+                'invoice_no',
+                'customer_id',
+                'invoices.date',
+                'invoice_status',
+                'invoice_id',
+            ]
+        );
+
+        $query->join([
+            'c' => [
+                'table' => 'customers',
+                'type' => 'INNER',
+                'conditions' => 'c.id = invoices.customer_id',
+            ]
+        ]);
+
+        $query->join([
+            'p' => [
+                'table' => 'packs',
+                'type' => 'INNER',
+                'conditions' => 'p.invoice_id = invoices.id',
+            ]
+        ]);
+
+        $query->orderDesc('invoices.date');
+
+        // InvoiceNo
+        if (isset($params['invoice_no'])) {
+            $query->andWhere(['invoice_no' => $params['invoice_no']]);
+        }
+        // status of invoice
+        if (isset($params['invoice_status'])) {
+            $query->andWhere(['invoice_status' => $params['invoice_status']]);
+        }
+      
         return $query->execute()->fetchAll('assoc') ?: [];
     }
 }

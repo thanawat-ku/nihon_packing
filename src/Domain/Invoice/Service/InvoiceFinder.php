@@ -35,4 +35,8 @@ final class InvoiceFinder
     {
         return $this->repository->findInvoice($params);
     }
+    public function findInvoicePackings(array $params): array
+    {
+        return $this->repository->findInvoicePackings($params);
+    }
 }

@@ -78,7 +78,7 @@ final class PackRepository
                 'part_no',
                 'std_pack',
                 'std_box',
-                'invoice_no',
+                'invoice_id',
                 'packing_id'
 
             ]
