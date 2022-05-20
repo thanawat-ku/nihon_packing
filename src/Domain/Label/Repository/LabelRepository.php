@@ -185,17 +185,27 @@ final class LabelRepository
             $query->andWhere(['lot_id' => $params['lot_id']]);
         }
         //find label from splitLabel
-        else if (isset($params['split_label_id'])) {
+        if (isset($params['split_label_id'])) {
             $query->andWhere(['split_label_id' => $params['split_label_id']]);
-        } else if (isset($params['status'])) {
+        }
+        if (isset($params['status'])) {
             $query->andWhere(['labels.status' => $params['status']]);
-        } else if (isset($params['label_no'])) {
+        }
+        if (isset($params['label_no'])) {
             $query->andWhere(['labels.label_no' => $params['label_no']]);
-        } else if (isset($params['label_id'])) {
+        }
+        if (isset($params['label_id'])) {
             $query->andWhere(['labels.id' => $params['label_id']]);
-        } else if (isset($params["startDate"])) {
+        }
+        if (isset($params["startDate"])) {
             $query->andWhere(['l.issue_date <=' => $params['endDate'], 'l.issue_date >=' => $params['startDate']]);
         }
+        if (isset($params["search_status"])) {
+            if ($params["search_status"] != "ALL") {
+                $query->andWhere(['labels.status' => $params['search_status']]);
+            }
+        }
+
 
         $query->andWhere(['l.is_delete' => 'N']);
         $query->andWhere(['labels.is_delete' => 'N']);
@@ -246,16 +256,26 @@ final class LabelRepository
         //find label from lot
         if (isset($params['product_id'])) {
             $query->andWhere(['product_id' => $params['product_id']]);
-        } else if (isset($params['split_label_id'])) {
+        }
+        if (isset($params['split_label_id'])) {
             $query->andWhere(['split_label_id' => $params['split_label_id']]);
-        } else if (isset($params['label_id'])) {
+        }
+        if (isset($params['label_id'])) {
             $query->andWhere(['labels.id' => $params['label_id']]);
-        } else if (isset($params['merge_pack_id'])) {
+        }
+        if (isset($params['merge_pack_id'])) {
             $query->andWhere(['merge_pack_id' => $params['merge_pack_id']]);
-        } else if (isset($params["lot_zero"])) {
+        }
+        if (isset($params["lot_zero"])) {
             $query->andWhere(['lot_id' => $params['lot_zero']]);
-        } else if (isset($params["startDate"])) {
+        }
+        if (isset($params["startDate"])) {
             $query->andWhere(['m.merge_date <=' => $params['endDate'], 'm.merge_date >=' => $params['startDate']]);
+        }
+        if (isset($params["search_status"])) {
+            if ($params["search_status"] != "ALL") {
+                $query->andWhere(['labels.status' => $params['search_status']]);
+            }
         }
 
         $query->andWhere(['labels.is_delete' => 'N']);

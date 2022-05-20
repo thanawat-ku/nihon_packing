@@ -15,10 +15,26 @@
             <div class="col-md-12">
                 <h2><i class="fas fa-newspaper"></i> Labels list</h2>
                 <label for=" ">     <span ></span></label>
-                <form id="form-searchIssue" class="form-inline float-right" action="labels" method="get">
-                  Issue Date From:&nbsp;&nbsp;
-                  <input type="text" autocomplete="off" class="form-control" id="searchIssueStartDate" name="startDate" value="{{startDate}}">&nbsp;&nbsp;To&nbsp;&nbsp; 
-                  <input type="text" autocomplete="off" class="form-control" id="searchIssueEndDate" name="endDate" value="{{endDate}}">&nbsp;&nbsp;
+                <form id="form-searchIssue" class="form-inline float-right" action="" method="get">
+                  Product:&nbsp;&nbsp;
+                  <select class="selectpicker" id="searchProductID" name="search_product_id" data-live-search="true">
+                    {% for p in products %}
+                      <option value={{ p.id }} {{ p.id==search_product_id?"selected" }}>{{p.part_code }}
+                      </option>
+                    {% endfor %}
+                  </select>&nbsp;&nbsp;
+                  Status:&nbsp;&nbsp;
+                  <select id="searchStatus" name="search_status">
+                      <option value="ALL" {{ search_status=="ALL"?"selected" }}>ALL</option>
+                      <option value="CREATED" {{ search_status=="CREATED"?"selected" }}>CREATED</option>
+                      <option value="PRINTED" {{ search_status=="PRINTED"?"selected" }}>PRINTED</option>
+                      <option value="PACKED" {{ search_status=="PACKED"?"selected" }}>PACKED</option>
+                      <option value="MERGED" {{ search_status=="MERGED"?"selected" }}>MERGED</option>
+                      <option value="MERGING" {{ search_status=="MERGING"?"selected" }}>MERGING</option>
+                      <option value="SELLING" {{ search_status=="SELLING"?"selected" }}>SELLING</option>
+                      <option value="USED" {{ search_status=="USED"?"selected" }}>USED</option>
+                      <option value="VOID" {{ search_status=="VOID"?"selected" }}>VOID</option>
+                  </select>&nbsp;&nbsp;
                   <button type="submit" class="btn btn-warning" id="searchIssueBt"><i class="fas fa-search fa-lg"></i> Search</button>
                 </form>
                 <hr>    
@@ -30,7 +46,7 @@
                         <th>Merge No</th>
                         {# <th>Product Name</th> #}
                         <th>Part Code</th>
-                        <th>Part No</th>
+                        {# <th>Part No</th> #}
                         <th>Type</th>
                         <th>Quantity</th>
                         <th>Status</th>
@@ -49,7 +65,7 @@
                         {% endif %}
                         <td>{{ label.merge_no }}</td>
                         <td>{{ label.part_code}} </td>
-                        <td>{{ label.part_no}} </td>
+                        {# <td>{{ label.part_no}} </td> #}
                         <td>{{ label.label_type }}</td>
                         <td>{{ label.quantity }}</td>
                         <td>{{ label.status }}</td>
