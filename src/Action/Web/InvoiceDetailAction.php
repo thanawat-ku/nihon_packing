@@ -3,6 +3,7 @@
 namespace App\Action\Web;
 
 use App\Domain\Invoice\Service\InvoiceFinder;
+use App\Domain\Customer\Service\CustomerFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -12,7 +13,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 /**
  * Action.
  */
-final class InvoiceAction
+final class InvoiceDetailAction
 {
     /**
      * @var Responder
@@ -20,6 +21,7 @@ final class InvoiceAction
     private $responder;
     private $twig;
     private $invoiceFinder;
+    private $customerFinder;
     private $session;
 
     /**
@@ -27,10 +29,11 @@ final class InvoiceAction
      *
      * @param Responder $responder The responder
      */
-    public function __construct(Twig $twig, InvoiceFinder $invoiceFinder,Session $session,Responder $responder)
+    public function __construct(Twig $twig, InvoiceFinder $invoiceFinder, CustomerFinder $customerFinder, Session $session,Responder $responder)
     {
         $this->twig = $twig;
         $this->invoiceFinder=$invoiceFinder;
+        $this->customerFinder=$customerFinder;
         $this->session=$session;
         $this->responder = $responder;
     }
@@ -48,11 +51,11 @@ final class InvoiceAction
         $params = (array)$request->getQueryParams();
         
         $viewData = [
-            'invoices' => $this->invoiceFinder->findInvoicePackings($params),
+            'invoice'=> $this->invoiceFinder->findInvoicePackings($params),
+            'invoiceDetails' => $this->invoiceFinder->findInvoiceDetails($params),
             'user_login' => $this->session->get('user'),
-        ];
-        
+        ]; 
 
-        return $this->twig->render($response, 'web/invoices.twig',$viewData);
+        return $this->twig->render($response, 'web/invoiceDetails.twig',$viewData);
     }
 }

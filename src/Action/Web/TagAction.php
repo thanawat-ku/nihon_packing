@@ -78,7 +78,7 @@ final class TagAction
         } else {
             $rtCustomer = $this->customerFinder->findCustomers($params);
             if (!isset($params['search_customer_id'])) {
-                $params['search_customer_id'] = null;
+                $params['search_customer_id'] = $rtCustomer[0]['id'];
             }
             if (!isset($params['search_tag_status'])) {
                 $params['search_tag_status'] = 'ALL';

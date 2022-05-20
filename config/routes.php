@@ -122,7 +122,7 @@ return function (App $app) {
     $app->post('/delete_printer', \App\Action\Web\PrinterDeleteAction::class)->add(UserAuthMiddleware::class);
 
     $app->get('/invoices', \App\Action\Web\InvoiceAction::class)->add(UserAuthMiddleware::class);
-    
+    $app->get('/invoice_details', \App\Action\Web\InvoiceDetailAction::class)->add(UserAuthMiddleware::class);    
 
     //---------------------------Api-------------------------------
 

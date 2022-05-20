@@ -110,6 +110,7 @@ final class InvoiceRepository
                 'invoices.date',
                 'invoice_status',
                 'invoice_id',
+                'customer_code'
             ]
         );
 
@@ -139,7 +140,64 @@ final class InvoiceRepository
         if (isset($params['invoice_status'])) {
             $query->andWhere(['invoice_status' => $params['invoice_status']]);
         }
-      
+        if (isset($params['search_invoice_status'])) {
+            if ($params['search_invoice_status'] != 'ALL') {
+                $query->andWhere(['invoice_status' => $params['search_invoice_status']]);
+            }
+            $query->group('invoices.id');
+        }
+        if (isset($params['search_customer_id'])) {
+            if ($params['search_customer_id'] != 'ALL') {
+                $query->andWhere(['c.id' => $params['search_customer_id']]);
+            }
+        }
+        if (isset($params['invoice_id'])) {
+            $query->andWhere(['p.invoice_id' => $params['invoice_id']]);
+            $query->group('invoices.id');
+        }
+
+        return $query->execute()->fetchAll('assoc') ?: [];
+    }
+
+    public function findInvoiceDetails(array $params): array
+    {
+        $query = $this->queryFactory->newSelect('invoices');
+
+        $query->select(
+            [
+                'invoices.id',
+                'invoice_no',
+                'invoices.date',
+                'invoice_status',
+                'invoice_id',
+                'pack_no',
+                'part_code',
+                'total_qty'
+            ]
+        );
+
+        $query->join([
+            'p' => [
+                'table' => 'packs',
+                'type' => 'INNER',
+                'conditions' => 'p.invoice_id = invoices.id',
+            ]
+        ]);
+
+        $query->join([
+            'pd' => [
+                'table' => 'products',
+                'type' => 'INNER',
+                'conditions' => 'p.product_id = pd.id',
+            ]
+        ]);
+
+        $query->orderDesc('invoices.date');
+
+        if (isset($params['invoice_id'])) {
+            $query->andWhere(['p.invoice_id' => $params['invoice_id']]);
+        }
+
         return $query->execute()->fetchAll('assoc') ?: [];
     }
 }
