@@ -200,6 +200,9 @@ final class LabelRepository
         if (isset($params["startDate"])) {
             $query->andWhere(['l.issue_date <=' => $params['endDate'], 'l.issue_date >=' => $params['startDate']]);
         }
+        if (isset($params['search_product_id'])) {
+            $query->andWhere(['p.id' => $params['search_product_id']]);
+        }
         if (isset($params["search_status"])) {
             if ($params["search_status"] != "ALL") {
                 $query->andWhere(['labels.status' => $params['search_status']]);
@@ -271,6 +274,9 @@ final class LabelRepository
         }
         if (isset($params["startDate"])) {
             $query->andWhere(['m.merge_date <=' => $params['endDate'], 'm.merge_date >=' => $params['startDate']]);
+        }
+        if (isset($params['search_product_id'])) {
+            $query->andWhere(['p.id' => $params['search_product_id']]);
         }
         if (isset($params["search_status"])) {
             if ($params["search_status"] != "ALL") {

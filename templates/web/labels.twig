@@ -42,7 +42,8 @@
                     <thead>
                      <tr>
                         <th>Label No</th>
-                        <th>Lot No</th>
+                        <th>MFG Lot No</th>
+                        <th>Pack Lot No</th>
                         <th>Merge No</th>
                         {# <th>Product Name</th> #}
                         <th>Part Code</th>
@@ -57,12 +58,14 @@
                     {% for label in labels %}                    
                     <tr>
                       <td>{{ label.label_no }}</td>
-                        {% if label.status  == "CREATED" %}
+                      <td>{{ label.lot_no }}</td>
+                      <td>{{ label.generate_lot_no}}</td>
+                        {# {% if label.status  == "CREATED" %}
                         <td>{{ label.lot_no }}</td>
                         {% endif %}
                         {% if label.status  != "CREATED" %}
                         <td>{{ label.generate_lot_no	 }}</td>
-                        {% endif %}
+                        {% endif %} #}
                         <td>{{ label.merge_no }}</td>
                         <td>{{ label.part_code}} </td>
                         {# <td>{{ label.part_no}} </td> #}
