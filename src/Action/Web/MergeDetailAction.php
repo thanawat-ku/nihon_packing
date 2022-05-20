@@ -52,8 +52,12 @@ final class MergeDetailAction
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $params = (array)$request->getQueryParams();
-        
-        
+
+        if (isset($params['product_id'])) {
+            $params['search_product_id'] = $params['product_id'];
+        }
+
+
         if (!isset($params['None_label'])) {
             $data1['merge_pack_id'] = $params['id'];
             $mergeDetail = $this->finder->findMergePackDetailsForMerge($data1);
@@ -90,18 +94,24 @@ final class MergeDetailAction
                 'mergePack' => $mergePack[0],
                 'printers' => $this->printerFinder->findPrinters($printerType),
                 'user_login' => $this->session->get('user'),
+                'search_product_id' => $params['search_product_id'],
+                'search_status' => $params['search_status'],
             ];
-        }else{
+        } else {
             $mergePack2['merge_no'] = "Error";
             $labels = [];
+            if (!isset($params['search_product_id'])) {
+                $params['search_product_id'] = 2713;
+                $params['search_status'] = 'CREATED';
+            }
             $viewData = [
                 'mergePack' => $mergePack2,
                 'labels' => $labels,
                 'user_login' => $this->session->get('user'),
+                'search_product_id' => $params['search_product_id'],
+                'search_status' => $params['search_status'],
             ];
         }
-
-
 
         return $this->twig->render($response, 'web/mergeDetail.twig', $viewData);
     }

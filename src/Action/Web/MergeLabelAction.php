@@ -81,6 +81,8 @@ final class MergeLabelAction
             'labels' =>  $labels,
             'mergePack' => $mergePack[0],
             'user_login' => $this->session->get('user'),
+            'search_product_id' => $params['search_product_id'],
+            'search_status' => $params['search_status'],
         ];
 
 
