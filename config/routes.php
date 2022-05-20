@@ -120,6 +120,8 @@ return function (App $app) {
     $app->post('/add_printer', \App\Action\Web\PrinterAddAction::class)->add(UserAuthMiddleware::class);
     $app->post('/edit_printer', \App\Action\Web\PrinterEditAction::class)->add(UserAuthMiddleware::class);
     $app->post('/delete_printer', \App\Action\Web\PrinterDeleteAction::class)->add(UserAuthMiddleware::class);
+
+    $app->get('/invoices', \App\Action\Web\InvoiceAction::class)->add(UserAuthMiddleware::class);
     
 
     //---------------------------Api-------------------------------

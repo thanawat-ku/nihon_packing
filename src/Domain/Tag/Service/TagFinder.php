@@ -20,6 +20,11 @@ final class TagFinder
         return $this->repository->findTags($params);
     }
 
+    public function findTagInvoices(array $params): array
+    {
+        return $this->repository->findTagInvoices($params);
+    }
+
     public function findTagSingleTable(array $params): array
     {
         return $this->repository->findTagSingleTable($params);

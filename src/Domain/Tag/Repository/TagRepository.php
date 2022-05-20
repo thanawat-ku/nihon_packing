@@ -178,7 +178,64 @@ final class TagRepository
 
         return $query->execute()->fetchAll('assoc') ?: [];
     }
-   
+
+    public function findTagInvoices(array $params): array
+    {
+        $query = $this->queryFactory->newSelect('tags');
+        $query->select(
+            [
+                'tags.id',
+                'tag_no',
+                'pack_no',
+                'tags.quantity',
+                'box_no',
+                'total_box',
+                'wait_print',
+                'tags.status',
+                'i.date',
+                'invoice_no',
+                'c.customer_code'
+            ]
+        );
+        $query->join([
+            'p' => [
+                'table' => 'packs',
+                'type' => 'INNER',
+                'conditions' => 'p.id = tags.pack_id',
+            ]
+        ]);
+
+        $query->join([
+            'i' => [
+                'table' => 'invoices',
+                'type' => 'LEFT',
+                'conditions' => 'i.id = p.invoice_id',
+            ]
+        ]);
+
+        $query->join([
+            'c' => [
+                'table' => 'customers',
+                'type' => 'LEFT',
+                'conditions' => 'c.id = i.customer_id',
+            ]
+        ]);
+
+        $query->orderAsc('i.date');
+        if (isset($params['search_customer_id'])) {
+            if ($params['search_customer_id'] != 'ALL') {
+                $query->andWhere(['c.id' => $params["search_customer_id"]]);;
+            }
+        }
+        if (isset($params['search_tag_status'])) {
+            if ($params['search_tag_status'] != 'ALL') {
+                $query->andWhere(['tags.status' => $params["search_tag_status"]]);
+            }
+        }
+
+        return $query->execute()->fetchAll('assoc') ?: [];
+    }
+
     public function findTagSingleTable(array $params): array
     {
         $query = $this->queryFactory->newSelect('tags');
