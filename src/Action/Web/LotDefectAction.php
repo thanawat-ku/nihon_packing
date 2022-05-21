@@ -47,6 +47,12 @@ final class LotDefectAction
         $params = (array)$request->getQueryParams();
         $data['lot_id'] = $params['id'];
         $lotDefects = $this->finder->findLotDefects($data);
+
+        if (isset($params['product_id'])) {
+            $params['search_product_id'] = $params['product_id'];
+            $params['search_status'] = "CREATED";
+        }
+
         if(isset($lotDefects[0])){
             $lot[0]['id'] = $data['lot_id'];
             $lot[0]['lot_no'] = $lotDefects[0]['lot_no'];
@@ -68,6 +74,8 @@ final class LotDefectAction
             'defects' => $this->defectFinder->findDefects($params),
             'lotDefects' => $lotDefects,
             'user_login' => $this->session->get('user'),
+            'search_product_id' => $params['search_product_id'],
+            'search_status' => $params['search_status'],
         ];
 
 

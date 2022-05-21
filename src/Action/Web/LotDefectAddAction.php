@@ -58,6 +58,7 @@ final class LotDefectAddAction
 
         $viewData = [
             'id' => $lot[0]['id'],
+            'product_id' => $lot[0]['product_id'],
         ];
 
         return $this->responder->withRedirect($response, "lot_defect_detail", $viewData);
