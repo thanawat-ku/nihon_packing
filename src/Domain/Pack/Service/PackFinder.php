@@ -20,7 +20,10 @@ final class PackFinder
     {
         return $this->repository->findPacks($params);
     }
-
+    public function findPackInvoices(array $params): array
+    {
+        return $this->repository->findPackInvoices($params);
+    }
     public function findPackRow(int $packID)
     {
         $packRow = $this->repository->findPackRow($packID);

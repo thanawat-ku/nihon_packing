@@ -120,6 +120,43 @@ final class PackRepository
         return $query->execute()->fetchAll('assoc') ?: [];
     }
 
+    public function findPackInvoices(array $params): array
+    {
+        $query = $this->queryFactory->newSelect('packs');
+
+        $query->select(
+            [
+                'packs.id',
+                'pack_no',
+                'pack_date',
+                'product_id',
+                'total_qty',
+                'pack_status',
+                'invoice_id',
+                'packing_id'
+
+            ]
+        );
+
+        $query->join([
+            'i' => [
+                'table' => 'invoices',
+                'type' => 'INNER',
+                'conditions' => 'i.id = packs.invoice_id',
+            ]
+        ]);
+
+        $query->andWhere(['packs.is_delete' => 'N']);
+
+        
+        if (isset($params['sync'])) {
+            $query->andWhere(['packs.pack_status' => "TAGGED"]);
+            $query->andWhere(['i.invoice_no' => $params['invoice_no']]);
+        }
+
+        return $query->execute()->fetchAll('assoc') ?: [];
+    }
+
     public function findPackRow(int $packID)
     {
         $query = $this->queryFactory->newSelect('packs');
@@ -155,6 +192,11 @@ final class PackRepository
         //         'conditions' => 'packs.id = sci.pack_id',
         //     ]
         // ]);
+
+        if (isset($params['checkPackIvoice'])) {
+            $query->andWhere(['packs.packing_id' => $params['packing_id']]);
+            $query->andWhere(['packs.pack_status' => 'TAGGED']);
+        }
 
         $query->where(['packs.id' => $packID]);
 

@@ -73,8 +73,6 @@ final class InvoiceRepository
             );
         }
 
-
-
         $query->join([
             'it' => [
                 'table' => 'invoice_item',
@@ -144,6 +142,9 @@ final class InvoiceRepository
         if (isset($params['invoice_no'])) {
             $query->andWhere(['invoice_no' => $params['invoice_no']]);
         }
+        if (isset($params['packing_id'])) {
+            $query->andWhere(['packing_id' => $params['packing_id']]);
+        }
         // status of invoice
         if (isset($params['invoice_status'])) {
             $query->andWhere(['invoice_status' => $params['invoice_status']]);
@@ -164,6 +165,72 @@ final class InvoiceRepository
             if (!isset($params['findPack'])) {
                 $query->group('invoices.id');
             }
+        }
+        if (isset($params['InvoiceNo'])) {
+            $query->andWhere(['invoices.invoice_no' => $params['InvoiceNo']]);
+            $query->andWhere(['invoices.invoice_status' => 'INVOICE']);
+        }
+
+        return $query->execute()->fetchAll('assoc') ?: [];
+    }
+
+    public function findInvoices(array $params): array
+    {
+        $query = $this->queryFactory->newSelect('invoices');
+
+        $query->select(
+            [
+                'invoices.id',
+                'invoice_no',
+                'customer_id',
+                'invoices.date',
+                'invoice_status',
+                'customer_code',
+                // 'pack_id' => 'p.id',
+            ]
+        );
+
+        $query->join([
+            'c' => [
+                'table' => 'customers',
+                'type' => 'INNER',
+                'conditions' => 'c.id = invoices.customer_id',
+            ]
+        ]);
+
+        $query->orderDesc('invoices.date');
+
+        // InvoiceNo
+        if (isset($params['invoice_no'])) {
+            $query->andWhere(['invoice_no' => $params['invoice_no']]);
+        }
+        if (isset($params['packing_id'])) {
+            $query->andWhere(['packing_id' => $params['packing_id']]);
+        }
+        // status of invoice
+        if (isset($params['invoice_status'])) {
+            $query->andWhere(['invoice_status' => $params['invoice_status']]);
+        }
+        if (isset($params['search_invoice_status'])) {
+            if ($params['search_invoice_status'] != 'ALL') {
+                $query->andWhere(['invoice_status' => $params['search_invoice_status']]);
+            }
+            $query->group('invoices.id');
+        }
+        if (isset($params['search_customer_id'])) {
+            if ($params['search_customer_id'] != 'ALL') {
+                $query->andWhere(['c.id' => $params['search_customer_id']]);
+            }
+        }
+        if (isset($params['invoice_id'])) {
+            $query->andWhere(['p.invoice_id' => $params['invoice_id']]);
+            if (!isset($params['findPack'])) {
+                $query->group('invoices.id');
+            }
+        }
+        if (isset($params['InvoiceNo'])) {
+            $query->andWhere(['invoices.invoice_no' => $params['InvoiceNo']]);
+            $query->andWhere(['invoices.invoice_status' => 'INVOICE']);
         }
 
         return $query->execute()->fetchAll('assoc') ?: [];
