@@ -3,7 +3,7 @@
 namespace App\Action\Api;
 
 use App\Domain\Tag\Service\TagFinder;
-
+use App\Domain\Invoice\Service\InvoiceFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -20,15 +20,18 @@ final class CheckScanTagAction
      */
     private $responder;
     private $finder;
+    private $findInvoice;
 
 
     public function __construct(
 
         TagFinder $finder,
+        InvoiceFinder $findInvoice,
         Responder $responder
 
     ) {
         $this->finder = $finder;
+        $this->findInvoice = $findInvoice;
         $this->responder = $responder;
     }
 
@@ -36,16 +39,17 @@ final class CheckScanTagAction
     {
         $data = (array)$request->getParsedBody();
         if (isset($data['tags'])) {
+
+            $data['findTags'] = true;
+            $rtInvoice = $this->findInvoice->findInvoiceTagAndLabels($data);
+
             $tags = $data['tags'];
 
             $checkError = true;
-            $data['pack_id'] = $data['id'];
 
             $arrtags = explode("#", $tags);
 
             $rtdata['tags'] = [];
-
-            $rtTags = $this->finder->findTags($data);
 
             for ($i = 1; $i < count($arrtags); $i++) {
                 $arrTagNo = str_split($arrtags[$i]);
@@ -61,9 +65,10 @@ final class CheckScanTagAction
                     $tagNo['tag_no'] = explode(",", $tag_no)[0];
                     $tagRow = $this->finder->findTagSingleTable($tagNo);
 
+
                     if ($tagRow != null) {
-                        for ($k = 0; $k < count($rtTags); $k++) {
-                            if ($tagRow[0]['id'] == $rtTags[$k]['id']) {
+                        for ($k = 0; $k < count($rtInvoice); $k++) {
+                            if ($tagRow[0]['id'] == $rtInvoice[$k]['tag_id']) {
                                 $checkError = false;
                             }
                         }

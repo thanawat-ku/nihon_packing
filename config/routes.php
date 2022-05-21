@@ -247,4 +247,7 @@ return function (App $app) {
 
     $app->get('/api/printers', \App\Action\Api\PrinterAction::class);
 
+    $app->get('/api/invoices', \App\Action\Api\InvoiceAction::class);
+    $app->get('/api/invoice_details', \App\Action\Api\InvoiceDetailAction::class);
+
 };

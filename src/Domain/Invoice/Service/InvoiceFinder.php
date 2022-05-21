@@ -43,4 +43,8 @@ final class InvoiceFinder
     {
         return $this->repository->findInvoiceDetails($params);
     }
+    public function findInvoiceTagAndLabels(array $params): array
+    {
+        return $this->repository->findInvoiceTagAndLabels($params);
+    }
 }

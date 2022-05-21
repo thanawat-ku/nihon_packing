@@ -21,8 +21,8 @@ final class InvoiceUpdater
         $this->repository = $repository;
         $this->validator = $validator;
         //$this->logger = $loggerFactory
-            //->addFileHandler('store_updater.log')
-            //->createInstance();
+        //->addFileHandler('store_updater.log')
+        //->createInstance();
     }
 
     public function updateInvoice(int $id, array $data): void
@@ -34,17 +34,26 @@ final class InvoiceUpdater
         $this->repository->updateInvoice($id, $row);
     }
 
+    public function updateInvoicePacking(int $id, array $data, $user_id): void
+    {
+        $this->validator->validateInvoiceUpdate($id, $data);
+
+        $row = $this->mapToRowPacking($data);
+
+        $this->repository->updateInvoicePacking($id, $row, $user_id);
+    }
+
     public function  insertInvoicePacking(array $data, $user_id): int
     {
         $this->validator->validateInvoiceInsert($data);
 
         $row = $this->mapToRowPacking($data);
 
-        $id =$this->repository-> insertInvoicePacking($row, $user_id);
+        $id = $this->repository->insertInvoicePacking($row, $user_id);
 
         return $id;
     }
-    
+
     public function deleteInvoice(int $id): void
     {
         $this->repository->deleteInvoice($id);

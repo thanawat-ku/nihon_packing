@@ -27,6 +27,13 @@ final class InvoiceRepository
         $this->queryFactory2->newUpdate('invoice', $data)->andWhere(['InvoiceID' => $id])->execute();
     }
 
+    public function updateInvoicePacking(int $id, array $data, $user_id): void
+    {
+        $row['updated_at'] = Chronos::now()->toDateTimeString();
+        $row['updated_user_id'] = $user_id;
+        $this->queryFactory->newUpdate('invoices', $data)->andWhere(['id' => $id])->execute();
+    }
+
     public function insertInvoicePacking(array $row, $user_id): int
     {
         $row['created_at'] = Chronos::now()->toDateTimeString();
@@ -110,7 +117,8 @@ final class InvoiceRepository
                 'invoices.date',
                 'invoice_status',
                 'invoice_id',
-                'customer_code'
+                'customer_code',
+                'pack_id' => 'p.id',
             ]
         );
 
@@ -153,7 +161,9 @@ final class InvoiceRepository
         }
         if (isset($params['invoice_id'])) {
             $query->andWhere(['p.invoice_id' => $params['invoice_id']]);
-            $query->group('invoices.id');
+            if (!isset($params['findPack'])) {
+                $query->group('invoices.id');
+            }
         }
 
         return $query->execute()->fetchAll('assoc') ?: [];
@@ -198,6 +208,60 @@ final class InvoiceRepository
             $query->andWhere(['p.invoice_id' => $params['invoice_id']]);
         }
 
+        return $query->execute()->fetchAll('assoc') ?: [];
+    }
+    public function findInvoiceTagAndLabels(array $params): array
+    {
+        $query = $this->queryFactory->newSelect('invoices');
+
+        $query->select(
+            [
+                'invoices.id',
+                'invoice_no',
+                'customer_id',
+                'invoices.date',
+                'invoice_status',
+                'invoice_id',
+                'pack_id' => 'p.id',
+                'tag_id' => 't.id',
+                'tag_no',
+                'label_id' => 'pl.id',
+            ]
+        );
+
+        $query->join([
+            'p' => [
+                'table' => 'packs',
+                'type' => 'INNER',
+                'conditions' => 'p.invoice_id = invoices.id',
+            ]
+        ]);
+
+        $query->join([
+            't' => [
+                'table' => 'tags',
+                'type' => 'INNER',
+                'conditions' => 't.pack_id = p.id',
+            ]
+        ]);
+        $query->join([
+            'pl' => [
+                'table' => 'pack_labels',
+                'type' => 'INNER',
+                'conditions' => 'pl.pack_id = p.id',
+            ]
+        ]);
+
+        $query->orderDesc('invoices.date');
+
+        if (isset($params['invoice_id'])) {
+            $query->andWhere(['p.invoice_id' => $params['invoice_id']]);
+            if (isset($params['findTags'])) {
+                $query->group('t.id');
+            } elseif (isset($params['findLabels'])) {
+                $query->group('pl.id');
+            }
+        }
         return $query->execute()->fetchAll('assoc') ?: [];
     }
 }

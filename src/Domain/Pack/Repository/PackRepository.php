@@ -179,7 +179,7 @@ final class PackRepository
                 'pack_date',
                 'total_qty',
                 'pack_status',
-                'invoice_no'
+                'invoice_id'
 
             ]
         );
@@ -213,7 +213,7 @@ final class PackRepository
                 'pack_date',
                 'total_qty',
                 'pack_status',
-                'invoice_no'
+                'invoice_id'
 
             ]
         );
