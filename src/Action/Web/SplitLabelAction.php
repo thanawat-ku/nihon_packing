@@ -44,7 +44,7 @@ final class SplitLabelAction
 
         if (!isset($params['search_product_id'])) {
             $params['search_product_id'] = 2713;
-            $params['search_status'] = 'CREATED';
+            $params['search_status'] = 'PRINTED';
         }
 
         $viewData = [
