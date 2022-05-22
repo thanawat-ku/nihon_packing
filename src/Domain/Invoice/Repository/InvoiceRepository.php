@@ -292,7 +292,7 @@ final class InvoiceRepository
                 'pack_id' => 'p.id',
                 'tag_id' => 't.id',
                 'tag_no',
-                'label_id' => 'pl.id',
+                'label_id' => 'pl.label_id',
             ]
         );
 
@@ -318,8 +318,9 @@ final class InvoiceRepository
                 'conditions' => 'pl.pack_id = p.id',
             ]
         ]);
+        
 
-        $query->orderDesc('invoices.date');
+        $query->orderAsc('invoices.date');
 
         if (isset($params['invoice_id'])) {
             $query->andWhere(['p.invoice_id' => $params['invoice_id']]);

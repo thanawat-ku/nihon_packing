@@ -106,6 +106,7 @@ final class CpoItemRepository
 
         if (isset($params['ProductID'])) {
             $query->andWhere(['p.ProductID ' => $params['ProductID']]);
+            $query->orderAsc('DueDate');
         }
         if (isset($params["startDate"])) {
             $query->andWhere(['DueDate <=' => $params['endDate'], 'DueDate >=' => $params['startDate']]);
