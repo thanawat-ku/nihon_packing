@@ -115,6 +115,14 @@ final class PackRepository
         if (isset($params['packing_id'])) {
             $query->andWhere(['packs.packing_id' => $params['packing_id']]);
         }
+        if (isset($params['search_pack_status'])) {
+            if ($params['search_pack_status'] != 'ALL') {
+                $query->andWhere(['packs.pack_status' => $params['search_pack_status']]);
+            }
+        }
+        if (isset($params['search_product_id'])) {
+            $query->andWhere(['p.id' => $params['search_product_id']]);
+        }
 
 
         return $query->execute()->fetchAll('assoc') ?: [];
@@ -148,7 +156,7 @@ final class PackRepository
 
         $query->andWhere(['packs.is_delete' => 'N']);
 
-        
+
         if (isset($params['sync'])) {
             $query->andWhere(['packs.pack_status' => "TAGGED"]);
             $query->andWhere(['i.invoice_no' => $params['invoice_no']]);
