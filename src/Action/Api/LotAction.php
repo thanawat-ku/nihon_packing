@@ -44,7 +44,7 @@ final class LotAction
 
         $rtdata['message'] = "Get Lot Successful";
         $rtdata['error'] = false;
-        $rtdata['lots'] = $this->finder->findLots($params);
+        $rtdata['lots'] = $this->finder->findLotProduct($params);
 
         return $this->responder->withJson($response, $rtdata);
     }
