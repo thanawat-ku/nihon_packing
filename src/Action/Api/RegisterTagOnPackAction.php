@@ -119,10 +119,10 @@ final class RegisterTagOnPackAction
                     }
                 }
 
-                if(isset($rtIvoicePack[0])){
+                if (isset($rtIvoicePack[0])) {
                     $searchInvoice['invoice_id'] = $rtIvoicePack[0]['id'];
-                }else{
-                    $searchInvoice['invoice_id'] =$invoiceID;
+                } else {
+                    $searchInvoice['invoice_id'] = $invoiceID;
                 }
 
                 $rtdata['packs'] = $this->finder->findInvoicePackings($searchInvoice);
@@ -134,33 +134,6 @@ final class RegisterTagOnPackAction
                 $rtdata['error'] = false;
                 return $this->responder->withJson($response, $rtdata);
             }
-
-
-            // for ($i = 0; $i < count($rtIvoice); $i++) {
-
-            //     $findPackingID['packing_id'] = $rtIvoice[$i]['PackingID'];
-            //     $findPackingID['findPack'] = true;
-            //     $rtInvoice = $this->finder->findInvoicePackings($findPackingID);
-
-            //     for ($j = 0; $j < count($rtInvoice); $j++) {
-            //         $packID['packing_id'] = $rtInvoice[$i]['pack_id'];
-            //         $rtPack = $this->findPack->findPacks($packID);
-            //         if ($rtPack) {
-
-            //             if ($rtPack[0]['pack_status'] == "TAGGED") {
-            //                 $upPack['pack_status'] = "INVOICED";
-            //                 $upPack['invoice_no'] = $params['invoice_no'];
-            //                 $this->updatePack->updatePackSyncApi((int)$rtPack[0]['id'], $upPack, $user_id);
-            //             }
-
-            //             $rtPack = $this->findPack->findPacks($packID);
-            //             $rtIvoiceRow = $this->finder->findInvoicePackings($params);
-            //             array_push($arrPack, $rtIvoiceRow[0]);
-            //             $rtdata['packs'] = $arrPack;
-            //             // $rtdata['packs'] = $rtPack;
-            //         }
-            //     }
-            // }
         } else {
             // $rtdata['packs'] = $this->findPack->findPacks($packID);
             $rtdata['message'] = "Get Pack Successful";
@@ -168,14 +141,5 @@ final class RegisterTagOnPackAction
 
             return $this->responder->withJson($response, $rtdata);
         }
-        // if (!isset($rtIvoiceNsp)) {
-        //     $rtdata['message'] = "Get Pack Successful";
-        //     $rtdata['error'] = true;
-        //     return $this->responder->withJson($response, $rtdata);
-        // } else {
-        //     $rtdata['message'] = "Get Pack Successful";
-        //     $rtdata['error'] = false;
-        //     return $this->responder->withJson($response, $rtdata);
-        // }
     }
 }

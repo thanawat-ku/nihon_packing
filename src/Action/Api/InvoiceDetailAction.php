@@ -3,6 +3,7 @@
 namespace App\Action\Api;
 
 use App\Domain\Invoice\Service\InvoiceFinder;
+use App\Domain\Tag\Service\TagFinder;
 use App\Domain\Tag\Service\TagUpdater;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
@@ -18,6 +19,7 @@ final class InvoiceDetailAction
      */
     private $responder;
     private $invoiceFinder;
+    private $tagFinder;
     private $tagUpdater;
 
 
@@ -26,10 +28,11 @@ final class InvoiceDetailAction
      *
      * @param Responder $responder The responder
      */
-    public function __construct(InvoiceFinder $invoiceFinder, TagUpdater $tagUpdater, Responder $responder)
+    public function __construct(InvoiceFinder $invoiceFinder, TagFinder $tagFinder, TagUpdater $tagUpdater, Responder $responder)
     {
 
         $this->invoiceFinder = $invoiceFinder;
+        $this->tagFinder = $tagFinder;
         $this->tagUpdater = $tagUpdater;
         $this->responder = $responder;
     }
@@ -51,10 +54,21 @@ final class InvoiceDetailAction
         $params['findPack'] = true;
         $rtInvoice = $this->invoiceFinder->findInvoicePackings($params);
 
+        //
         $data['status'] = 'INVOICE';
         for ($i = 0; $i < count($rtInvoice); $i++) {
+            //ค้นหา tag จาก pack id
             $packID = $rtInvoice[$i]['pack_id'];
-            $this->tagUpdater->updateTagPrintFromPackIDApi($packID, $data, $user_id);
+            $findTag['pack_id'] = $rtInvoice[$i]['pack_id'];
+            $rtTags = $this->tagFinder->findTags($findTag);
+
+            //for loop เพื่อหา status ของ tag 
+            for ($j = 0; $j < count($rtTags); $j++) {
+                //update status เป็น INVOICE เมื่อ status ของ tag นั้นๆ มี status เป็น BOXED
+                if ($rtTags[$i]['status'] == "BOXED") {
+                    $this->tagUpdater->updateTagPrintFromPackIDApi($packID, $data, $user_id);
+                }
+            }
         }
 
         $rtdata['message'] = "Get Invoice Successful";

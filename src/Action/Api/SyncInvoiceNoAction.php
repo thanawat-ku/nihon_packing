@@ -100,6 +100,7 @@ final class SyncInvoiceNoAction
                     $upPack['pack_status'] = 'INVOICED';
                     $upPack['invoice_id'] = $rtIvoicePack[0]['id'];
                     $this->updatePack->updatePackSyncApi((int)$rtPack[$i]['id'],  $upPack, $user_id);
+                    
                 }
             }
         }

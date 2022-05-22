@@ -318,7 +318,7 @@ final class InvoiceRepository
                 'conditions' => 'pl.pack_id = p.id',
             ]
         ]);
-        
+
 
         $query->orderAsc('invoices.date');
 
