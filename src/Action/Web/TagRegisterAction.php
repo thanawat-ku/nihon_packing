@@ -71,9 +71,8 @@ final class TagRegisterAction
 
             $data['pack_status'] = "TAGGED";
             $this->updater->updatePack($packID, $data);
-
         } else if ($rtPack['is_completed'] == 'N') {
-            
+
             $upStatus['status'] = "BOXED";
             $this->updateTag->updateTagFronPackID($packID, $upStatus);
 
@@ -81,6 +80,11 @@ final class TagRegisterAction
             $this->updater->updatePack($packID, $data);
         }
 
-        return $this->responder->withRedirect($response, "packs");
+        $viewData = [
+            'search_product_id' => $data['search_product_id'],
+            'search_pack_status' => $data['search_pack_status'],
+        ];
+
+        return $this->responder->withRedirect($response, "packs", $viewData);
     }
 }

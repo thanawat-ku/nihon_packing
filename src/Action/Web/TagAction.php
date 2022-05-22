@@ -74,6 +74,8 @@ final class TagAction
                 'packRow' => $packRow,
                 'tags' => $rtTags,
                 'user_login' => $this->session->get('user'),
+                'search_product_id' => $params['search_product_id'],
+                'search_pack_status' => $params['search_pack_status'],
             ];
         } else {
             $rtCustomer = $this->customerFinder->findCustomers($params);

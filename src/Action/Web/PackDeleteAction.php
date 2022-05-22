@@ -126,6 +126,11 @@ final class PackDeleteAction
             $this->tempQueryUpdater->deleteTempQuery((int)$rtPack[0]['product_id']);
         }
 
-        return $this->responder->withRedirect($response, "packs");
+        $viewData = [
+            'search_product_id' => $data['search_product_id'],
+            'search_pack_status' => $data['search_pack_status'],
+        ];
+
+        return $this->responder->withRedirect($response, "packs", $viewData);
     }
 }
