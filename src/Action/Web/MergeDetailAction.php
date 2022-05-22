@@ -57,6 +57,10 @@ final class MergeDetailAction
             $params['search_product_id'] = $params['product_id'];
         }
 
+        if (!isset($params['search_product_id'])) {
+            $params['search_product_id'] = 2713;
+            $params['search_status'] = 'CREATED';
+        }
 
         if (!isset($params['None_label'])) {
             $data1['merge_pack_id'] = $params['id'];
