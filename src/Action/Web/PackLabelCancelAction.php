@@ -26,7 +26,7 @@ final class PackLabelCancelAction
     private $labelUpdater;
     private $packFinder;
     private $session;
-    
+
 
     public function __construct(
         Twig $twig,
@@ -43,7 +43,7 @@ final class PackLabelCancelAction
         $this->labelUpdater = $labelUpdater;
         $this->packFinder = $packFinder;
         $this->session = $session;
-        $this->finder=$finder;
+        $this->finder = $finder;
     }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
@@ -60,19 +60,21 @@ final class PackLabelCancelAction
         $dataUpdate['up_status'] = "PACKED";
         $this->labelUpdater->updateLabelStatus($labelID, $dataUpdate, $user_id);
 
-        $labels=[];
+        $labels = [];
         $labelFromLot = $this->finder->findCreateMergeNoFromLabels($data);
-        array_push($labels,$labelFromLot);
+        array_push($labels, $labelFromLot);
         $labelFromMerge = $this->finder->findLabelFromMergePacks($data);
-        array_push($labels,$labelFromMerge);
+        array_push($labels, $labelFromMerge);
 
         $packRow = $this->packFinder->findPackRow($PackID);
 
         $viewData = [
-            'pack_id'=> $packRow['id'],
-            'product_id'=> $packRow['product_id'],
+            'pack_id' => $packRow['id'],
+            'product_id' => $packRow['product_id'],
+            'search_product_id' => $data['search_product_id'],
+            'search_pack_status' => $data['search_pack_status'],
         ];
-        
-        return $this->responder->withRedirect($response, "pack_labels",$viewData);
+
+        return $this->responder->withRedirect($response, "pack_labels", $viewData);
     }
 }

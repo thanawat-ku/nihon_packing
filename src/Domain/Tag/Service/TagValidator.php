@@ -25,9 +25,10 @@ final class TagValidator
         return $validator
             ->notEmptyString('tag_no', 'Input required')
             ->notEmptyString('product_id', 'Input required')
+            ->notEmptyString('status', 'Input required')
             ->notEmptyString('quantity', 'Input required');
     }
-    
+
     public function validateTag(array $data): void
     {
         $validator = $this->createValidator();
@@ -50,7 +51,7 @@ final class TagValidator
         */
         $this->validateTag($data);
     }
-    public function validateTagInsert( array $data): void
+    public function validateTagInsert(array $data): void
     {
         $this->validateTag($data);
     }

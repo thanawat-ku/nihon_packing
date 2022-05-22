@@ -3,6 +3,7 @@
 namespace App\Action\Api;
 
 use App\Domain\Invoice\Service\InvoiceFinder;
+use App\Domain\Invoice\Service\InvoiceUpdater;
 use App\Domain\Pack\Service\PackFinder;
 use App\Domain\Pack\Service\PackUpdater;
 use App\Responder\Responder;
@@ -20,6 +21,7 @@ final class SyncInvoiceNoAction
      */
     private $responder;
     private $finder;
+    private $updateInvoice;
     private $findPack;
     private $updatePack;
     private $session;
@@ -32,12 +34,14 @@ final class SyncInvoiceNoAction
      */
     public function __construct(
         InvoiceFinder $finder,
+        InvoiceUpdater $updateInvoice,
         PackFinder $findPack,
         PackUpdater $updatePack,
         Responder $responder,
         Session $session
     ) {
         $this->finder = $finder;
+        $this->updateInvoice = $updateInvoice;
         $this->findPack = $findPack;
         $this->updatePack = $updatePack;
         $this->responder = $responder;
@@ -72,9 +76,32 @@ final class SyncInvoiceNoAction
             $rtIvoice = $this->finder->findInvoice($params);
 
             if (isset($rtIvoice[0])) {
-                $upPack['pack_status'] = 'INVOICED';
-                $upPack['invoice_no'] = $rtIvoice[0]['InvoiceNo'];
-                $this->updatePack->updatePackSyncApi((int)$rtPack[$i]['id'], $upPack, $user_id);
+                // ค้นหา ข้อมูล ที่มี invoice_no และ invoice_status ตรงกัน
+                $findInvoicePackings['invoice_no'] = $rtIvoice[0]['InvoiceNo'];
+                $findInvoicePackings['invoice_status'] = "INVOICE";
+                $rtIvoicePack = $this->finder->findInvoicePackings($findInvoicePackings);
+
+                //เมื่อเช็คว่า ข้อมูลใน invoices ไม่มีให้ทำการสร้าง invoices ขึ้นมา ถ้ามีก็ให้ update ข้อมูลลงใน packs
+                if (!isset($rtIvoicePack[0])) {
+                    $insertInvoice['invoice_no'] = $rtIvoice[0]['InvoiceNo'];
+                    $insertInvoice['customer_id'] = $rtIvoice[0]['CustomerID'];
+                    //แยกวันเเละเวลาออกจากกัน
+                    $timestamp = $rtIvoice[0]['IssueDate'];
+                    $splitTimeStamp = explode(" ", $timestamp);
+                    $date = $splitTimeStamp[0];
+                    $insertInvoice['date'] = $date;
+                    $insertInvoice['invoice_status'] = "INVOICE";
+                    $invoiceID = $this->updateInvoice->insertInvoicePacking($insertInvoice, $user_id);
+
+                    $upPack['pack_status'] = 'INVOICED';
+                    $upPack['invoice_id'] = $invoiceID;
+                    $this->updatePack->updatePackSyncApi((int)$rtPack[$i]['id'],  $upPack, $user_id);
+                } else {
+                    $upPack['pack_status'] = 'INVOICED';
+                    $upPack['invoice_id'] = $rtIvoicePack[0]['id'];
+                    $this->updatePack->updatePackSyncApi((int)$rtPack[$i]['id'],  $upPack, $user_id);
+                    
+                }
             }
         }
 

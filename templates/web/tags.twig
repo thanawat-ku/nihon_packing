@@ -16,50 +16,102 @@
 				<h2>
 					<i class="fa fa-tags"></i>
 					Tag list</h2>
-				{% if checkTagPrinted == "true" %}
+				{% if checkTag == "pack" %} 
+					{% if checkTagPrinted == "true" %}
 					<button type="button" id="conBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#registerTag" name="{{ label|json_encode }}">
 						<i style="font-size:15px; width:20px;" class="fas fa-check-circle"></i>Register
 					</button>
-				{% endif %}
-				<label for=" ">
-					<span></span>
-				</label>
-				<hr>
-				<div>
-					<h5>{{ packRow.pack_no  ~ '(' ~ packRow.pack_status ~ ')'}}
-					</h5>
-					<span>{{'Part Code: ' ~ packRow.part_code }}</span><br>
-					<span>{{'Part No: ' ~ packRow.part_no  }}</span><br>
-					<span>{{'Pack Date: ' ~ packRow.pack_date}}</span><br>
-					<span>{{'CPO Item ID: ' ~ packRow.cpo_item_id}}</span><br>
-					<span>{{'Total QTY: ' ~ packRow.total_qty}}</span><br>
-				</div>
-				<hr>
-				<table id="my-data-table" class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline collapsed">
-					<thead>
-						<tr>
-							<th>Tag No</th>
-							<th>Quantity</th>
-							<th>Box No</th>
-							<th>Total Box</th>
-							<th>Status</th>
-
-						</tr>
-					</thead>
-					<tbody>
-						{% for tag in tags %}
+					{% endif %}
+					<label for=" ">
+						<span></span>
+					</label>
+					<hr>
+					<div>
+						<h5>{{ packRow.pack_no  ~ '(' ~ packRow.pack_status ~ ')'}}
+						</h5>
+						<span>{{'Part Code: ' ~ packRow.part_code }}</span><br>
+						<span>{{'Part No: ' ~ packRow.part_no  }}</span><br>
+						<span>{{'Pack Date: ' ~ packRow.pack_date}}</span><br>
+						<span>{{'CPO Item ID: ' ~ packRow.cpo_item_id}}</span><br>
+						<span>{{'Total QTY: ' ~ packRow.total_qty}}</span><br>
+					</div>
+					<hr>
+					<table id="my-data-table" class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline collapsed">
+						<thead>
 							<tr>
-								<td>{{ tag.tag_no }}</td>
-								<td>{{ tag.quantity }}</td>
-								<td>{{ tag.box_no }}</td>
-								<td>{{ tag.total_box }}</td>
-								<td>{{ tag.status }}</td>
-							</tr>
-						{% endfor %}
-					</tbody>
-					<tfoot></tfoot>
-				</table>
+								<th>Tag No</th>
+								<th>Quantity</th>
+								<th>Box No</th>
+								<th>Total Box</th>
+								<th>Status</th>
 
+							</tr>
+						</thead>
+						<tbody>
+							{% for tag in tags %}
+								<tr>
+									<td>{{ tag.tag_no }}</td>
+									<td>{{ tag.quantity }}</td>
+									<td>{{ tag.box_no }}</td>
+									<td>{{ tag.total_box }}</td>
+									<td>{{ tag.status }}</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+						<tfoot></tfoot>
+					</table>
+				{%  elseif checkTag == "all" %}
+					<form id="form-searchIssue" class="form-inline float-right" action="" method="get">
+						Customer:&nbsp;&nbsp;
+						<select class="selectpicker" id="searchCustomerID" name="search_customer_id" data-live-search="true">
+							<option value="ALL" {{ search_customer_id=="ALL"?"selected" }}>ALL Customer</option>
+							{% for c in customers %}
+								<option value={{ c.id }} {{ c.id==search_customer_id?"selected" }}>{{c.customer_code }}
+								</option>
+							{% endfor %}
+						</select>&nbsp;&nbsp;
+						Status:&nbsp;&nbsp;
+						<select id="searchStatus" name="search_tag_status">
+							<option value="ALL" {{ search_tag_status=="ALL"?"selected" }}>ALL</option>
+							<option value="CREATED" {{ search_tag_status=="CREATED"?"selected" }}>CREATED</option>
+							<option value="PRINTED" {{ search_tag_status=="PRINTED"?"selected" }}>PRINTED</option>
+							<option value="BOXED" {{ search_tag_status=="BOXED"?"selected" }}>BOXED</option>
+							<option value="INVOICE" {{ search_tag_status=="INVOICE"?"selected" }}>INVOICE</option>
+							<option value="COMPLETED" {{ search_tag_status=="COMPLETED"?"selected" }}>COMPLETED</option>
+						</select>&nbsp;&nbsp;
+						<button type="submit" class="btn btn-warning" id="searchIssueBt"><i class="fas fa-search fa-lg"></i> Search</button>
+				  	</form>
+					<label for=" ">
+						<span></span>
+					</label>
+					<hr>
+					<table id="my-data-table" class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline collapsed">
+						<thead>
+							<tr>
+								<th>Tag No</th>
+								<th>Customer Code</th>
+								<th>Invoice No</th>
+								<th>Quantity</th>
+								<th>Box No</th>
+								<th>Status</th>
+
+							</tr>
+						</thead>
+						<tbody>
+							{% for tag in tags %}
+								<tr>
+									<td>{{ tag.tag_no }}</td>
+									<td>{{ tag.customer_code }}</td>
+									<td>{{ tag.invoice_no }}</td>
+									<td>{{ tag.quantity }}</td>
+									<td>{{ tag.total_box }}</td>
+									<td>{{ tag.status }}</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+						<tfoot></tfoot>
+					</table>
+				{% endif %}
 				<p></p>
 			</div>
 		</div>
@@ -80,6 +132,8 @@
 					<div class="modal-body">
 						<div class="form-scrap_detail">
 							<input type="hidden" name="id" value="{{tags[0].pack_id}}">
+							<input type="hidden" name="search_product_id" value="{{ search_product_id }}">
+							<input type="hidden" name="search_pack_status" value="{{ search_pack_status }}">
 							<label for="scrap_detailNo">Do you want to register Pack
 							</label>
 						</div>

@@ -101,9 +101,9 @@ final class CpoItemSelectAction
             'user_login' => $this->session->get('user'),
             'startDate' => $params['startDate'],
             'endDate' => $params['endDate'],
+            'search_product_id' => $params['search_product_id'],
+            'search_pack_status' => $params['search_pack_status'],
         ];
-
-        // return $this->responder->withRedirect($response, "cpo_items",$viewData);
 
         return $this->twig->render($response, 'web/cpoItemSelects.twig', $viewData);
     }

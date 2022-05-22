@@ -35,6 +35,11 @@ final class PackEditAction
 
         $this->updater->updatePack($packID, $data);
 
-        return $this->responder->withRedirect($response, "packs");
+        $viewData = [
+            'search_product_id' => $data['search_product_id'],
+            'search_pack_status' => $data['search_pack_status'],
+        ];
+
+        return $this->responder->withRedirect($response, "packs", $viewData);
     }
 }

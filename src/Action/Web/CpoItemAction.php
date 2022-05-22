@@ -66,6 +66,8 @@ final class CpoItemAction
             'packRow'=>$packRow,
             'CpoItem' => $this->tempQueryFinder->findTempQuery($param_search),
             'user_login' => $this->session->get('user'),
+            'search_product_id' => $data['search_product_id'],
+            'search_pack_status' => $data['search_pack_status'],
         ];
         
         return $this->twig->render($response, 'web/cpoItem.twig',$viewData);

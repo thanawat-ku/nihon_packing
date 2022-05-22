@@ -129,10 +129,16 @@ final class MergePackRepository
             $query->andWhere(['p.id' => $params['search_product_id']]);
         }
         if (isset($params["search_status"])) {
-            if($params["search_status"]!="ALL"){
+            if ($params["search_status"] != "ALL") {
                 $query->andWhere(['merge_status' => $params['search_status']]);
             }
         }
+        if (isset($params['search_merge_pack_status'])) {
+            if ($params['search_merge_pack_status'] != 'ALL') {
+                $query->andWhere(['merge_status' => $params['search_merge_pack_status']]);
+            }
+        }
+
 
         return $query->execute()->fetchAll('assoc') ?: [];
     }
