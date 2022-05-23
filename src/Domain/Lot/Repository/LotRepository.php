@@ -176,6 +176,9 @@ final class LotRepository
                 $query->andWhere(['status' => $params['search_status']]);
             }
         }
+        if (isset($params["startDate"])) {
+            $query->andWhere(['issue_date <=' => $params['endDate'], 'issue_date >=' => $params['startDate']]);
+        }
 
         $query->andWhere(['lots.is_delete' => 'N']);
 
