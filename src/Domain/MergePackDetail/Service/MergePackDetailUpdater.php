@@ -59,7 +59,7 @@ final class MergePackDetailUpdater
 
         $row = $this->mapToRow($data);
 
-        $id = $this->repository->insertMergePackDetail($data);
+        $id = $this->repository->insertMergePackDetail($row);
 
         return $id;
     }

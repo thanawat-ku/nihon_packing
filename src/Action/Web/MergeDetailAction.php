@@ -56,7 +56,9 @@ final class MergeDetailAction
         if (isset($params['product_id'])) {
             $params['search_product_id'] = $params['product_id'];
         }
-
+        if (!isset($params['search_status'])) {
+            $params['search_status'] = "MERGING";
+        }
         if (!isset($params['search_product_id'])) {
             $params['search_product_id'] = 2713;
             $params['search_status'] = 'CREATED';

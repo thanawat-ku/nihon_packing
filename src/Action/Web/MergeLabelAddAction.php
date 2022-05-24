@@ -84,6 +84,7 @@ final class MergeLabelAddAction
        
         $viewData = [
             'id' => $mergeId,
+            'product_id' => $label[0]['product_id'],
         ];
 
         return $this->responder->withRedirect($response, "merge_detail", $viewData);
