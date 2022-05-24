@@ -96,17 +96,19 @@ final class SyncInvoiceNoAction
                     $upPack['pack_status'] = 'INVOICED';
                     $upPack['invoice_id'] = $invoiceID;
                     $this->updatePack->updatePackSyncApi((int)$rtPack[$i]['id'],  $upPack, $user_id);
+
+                    $rtData = [];
+                    array_push($rtData, $insertInvoice);
                 } else {
                     $upPack['pack_status'] = 'INVOICED';
                     $upPack['invoice_id'] = $rtIvoicePack[0]['id'];
                     $this->updatePack->updatePackSyncApi((int)$rtPack[$i]['id'],  $upPack, $user_id);
-                    
+
+                    $rtData = [];
+                    array_push($rtData, $rtIvoicePack);
                 }
             }
         }
-
-        $rtData = [];
-        array_push($rtData, $upPack);
 
         return $this->responder->withJson($response, $rtData);
     }
