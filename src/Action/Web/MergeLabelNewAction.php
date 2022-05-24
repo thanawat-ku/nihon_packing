@@ -78,10 +78,10 @@ final class MergeLabelNewAction
 
         $merge = $this->finder->findMergePacks($data);
 
-        if($merge[0]['merge_status'] == "PRINTED"){
+        if ($merge[0]['merge_status'] == "PRINTED") {
             $mergePack['register'] = "Y";
         }
-        
+
         $printerType['printer_type'] = "LABEL";
         $viewData = [
             'labels' =>  $labels,
@@ -89,8 +89,9 @@ final class MergeLabelNewAction
             'void_reasons' => $this->voidReasonFinder->findLabelVoidReasonsForVoidLabel($params),
             'printers' => $this->printerFinder->findPrinters($printerType),
             'user_login' => $this->session->get('user'),
+            'search_product_id' => $params['search_product_id'],
+            'search_status' => $params['search_status'],
         ];
-
 
         return $this->twig->render($response, 'web/labelsMerge.twig', $viewData); //-----edit twig
     }

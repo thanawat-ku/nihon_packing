@@ -22,10 +22,10 @@
                     <thead>
                      <tr>
                         <th>Label No</th>
-                        <th>Lot No</th>
+                        <th>Pack Lot No</th>
                         <th>Merge No</th>
                         <th>Part Code</th>
-                        <th>Part No</th>
+                        {# <th>Part No</th> #}
                         <th>Type</th>
                         <th>Quantity</th>
                         <th>Status</th>
@@ -39,7 +39,7 @@
                         <td>{{ label.generate_lot_no	 }}</td>
                         <td>{{ label.merge_no }}</td>
                         <td>{{ label.part_code}} </td>
-                        <td>{{ label.part_no}} </td>
+                        {# <td>{{ label.part_no}} </td> #}
                         <td>{{ label.label_type }}</td>
                         <td>{{ label.quantity }}</td>
                         <td>{{ label.status }}</td>
@@ -59,6 +59,8 @@
                     <tfoot></tfoot>
                 </table>
                 <form id="form-black" class="form-inline float-none" action="splitLabels" method="get">
+                  <input type="hidden" id="searchProductID" name="search_product_id" value="{{search_product_id}}">
+                  <input type="hidden" id="searchProductID" name="search_status" value="{{search_status}}">
                   <button type="submit" class="btn btn-primary" id="black"><i class="fas fa-arrow-left"></i> Back</button>
                 </form>
                 <p></p>

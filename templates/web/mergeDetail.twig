@@ -13,9 +13,9 @@
   <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <h2><i class="fas fa-folder-plus"></i> Merge Label detail of: {{ mergePack['merge_no'] }}</h2>  <!--dont show merge no -->    
+                <h2><i class="fas fa-folder-plus"></i> Merge Label Detail of: {{ mergePack['merge_no'] }}</h2>  <!--dont show merge no -->    
                 {% if mergePack.select_label  == "Y" %}
-                  <a href="label_merges?id={{mergePack['id']}} "><button type="button" id="addLabelBt" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#addLabel"><i style="font-size:15px; width:20px;" class="fas fa-newspaper"></i> Select Label</button></a>
+                  <a href="label_merges?id={{mergePack['id']}}&search_product_id={{search_product_id}}&search_status={{search_status}}"><button type="button" id="addLabelBt" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#addLabel"><i style="font-size:15px; width:20px;" class="fas fa-newspaper"></i> Select Label</button></a>
                   {% if mergePack.merge_confirm  == "Y" %}
                     <button type="button" id="confirmBt" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#confirmMerge" name="{{ mergePack|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-check-circle"></i> Confirm Merge</button> 
                   {% endif %}
@@ -31,10 +31,10 @@
                     <thead>
                      <tr>
                         <th>Label No</th>
-                        <th>Lot No</th>
+                        <th>Pack Lot No</th>
                         <th>Mergre No</th>
                         <th>Part Code</th>
-                        <th>Part No</th>
+                        {# <th>Part No</th> #}
                         <th>Type</th>
                         <th>Quantity</th>
                         <th>Status</th>
@@ -45,15 +45,10 @@
                     {% for label in labels %}                    
                     <tr>
                       <td>{{ label.label_no }}</td>
-                        {% if label.status  == "CREATED" %}
-                        <td>{{ label.lot_no }}</td>
-                        {% endif %}
-                        {% if label.status  != "CREATED" %}
                         <td>{{ label.generate_lot_no	 }}</td>
-                        {% endif %}
                         <td>{{ label.merge_no}}</td>
                         <td>{{ label.part_code}} </td>
-                        <td>{{ label.part_no}} </td>
+                        {# <td>{{ label.part_no}} </td> #}
                         <td>{{ label.label_type }}</td>
                         <td>{{ label.quantity }}</td>
                         <td>{{ label.status }}</td>
@@ -68,6 +63,8 @@
                     <tfoot></tfoot>
                 </table>
                 <form id="form-black" class="form-inline float-none" action="merges" method="get">
+                  <input type="hidden" id="searchProductID" name="search_product_id" value="{{search_product_id}}">
+                  <input type="hidden" id="searchProductID" name="search_status" value="{{search_status}}">
                   <button type="submit" class="btn btn-primary" id="black"><i class="fas fa-arrow-left"></i> Back</button>
                 </form>
                 <p></p>

@@ -69,6 +69,8 @@
 				<form action="cpo_items" method="get" id="formCpoItem">
 					<input type="hidden" id="productID" name="product_id" value="{{packRow.product_id}}">
 					<input type="hidden" id="packID" name="pack_id" value="{{packRow.id}}">
+					<input type="hidden" name="search_product_id" value="{{ search_product_id }}">
+					<input type="hidden" name="search_pack_status" value="{{ search_pack_status }}">
 					<button type="submit" class="btn btn-primary" id="black">
 						<i class="fas fa-arrow-left"></i>
 						Back</button>
@@ -94,6 +96,8 @@
 						<div class="form-pack">
 							<input type="hidden" id="addCpoItemID" name="cpo_item_id">
 							<input type="hidden" id="addPackID" name="pack_id" value="{{packRow.id}}">
+							<input type="hidden" name="search_product_id" value="{{ search_product_id }}">
+							<input type="hidden" name="search_pack_status" value="{{ search_pack_status }}">
 							<label for="Cpo Item ID">CPO Item ID:
 								<span id="addCpoItemIDText"></span>
 							</label>

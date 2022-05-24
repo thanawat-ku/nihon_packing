@@ -6,6 +6,7 @@ use App\Domain\Lot\Service\LotFinder;
 use App\Domain\LotDefect\Service\LotDefectFinder;
 use App\Domain\Product\Service\ProductFinder;
 use App\Domain\Printer\Service\PrinterFinder;
+use App\Domain\Label\Service\LabelFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -27,6 +28,7 @@ final class LotAction
     private $session;
     private $printerFinder;
     private $lotDefactFinder;
+    private $labelFinder;
 
     public function __construct(
         Twig $twig,
@@ -35,7 +37,8 @@ final class LotAction
         Session $session,
         Responder $responder,
         PrinterFinder $printerFinder,
-        LotDefectFinder $lotDefactFinder
+        LotDefectFinder $lotDefactFinder,
+        LabelFinder $labelFinder
     ) {
         $this->twig = $twig;
         $this->finder = $finder;
@@ -44,15 +47,16 @@ final class LotAction
         $this->responder = $responder;
         $this->printerFinder = $printerFinder;
         $this->lotDefactFinder = $lotDefactFinder;
+        $this->labelFinder = $labelFinder;
     }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $params = (array)$request->getQueryParams();
 
-        if(!isset($params['search_product_id'])){
-            $params['search_product_id']=2713;
-            $params['search_status']='CREATED';
+        if (!isset($params['search_product_id'])) {
+            $params['search_product_id'] = 2713;
+            $params['search_status'] = 'CREATED';
         }
         $lots = $this->finder->findLotProduct($params);
 
@@ -67,6 +71,25 @@ final class LotAction
                 $lots[$i]['qty_lot_defact'] = $qtyLotDefacts;
             } else {
                 $lots[$i]['qty_lot_defact'] = 0;
+            }
+
+            if ($lots[$i]['status'] != "CREATED") {
+                $labels = $this->labelFinder->findLabelSingleTable($lotID);
+                $min = 99999;
+                $max = -99999;
+
+                foreach ($labels as $label) {
+                    if ((int)$label['id'] > $max) {
+                        $max = (int)$label['id'];
+                        $maxLabel = $label['label_no'];
+                    }
+                    if ((int)$label['id'] < $min) {
+                        $min = (int)$label['id'];
+                        $minLabel = $label['label_no'];
+                    }
+                }
+                $lots[$i]['max_label_no'] = $maxLabel;
+                $lots[$i]['min_label_no'] = $minLabel;
             }
         }
 

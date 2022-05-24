@@ -108,6 +108,8 @@ final class PackLabelAction
             'printers' => $rtPrinter,
             'packLabels' => $packLabels,
             'user_login' => $this->session->get('user'),
+            'search_product_id' => $params['search_product_id'],
+            'search_pack_status' => $params['search_pack_status'],
         ];
 
         return $this->twig->render($response, 'web/packLabels.twig', $viewData);

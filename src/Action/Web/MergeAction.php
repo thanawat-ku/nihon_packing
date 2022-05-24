@@ -59,9 +59,13 @@ final class MergeAction
     {
         $params = (array)$request->getQueryParams();
 
-        if (!isset($params['startDate'])) {
-            $params['startDate'] = date('Y-m-d', strtotime('-30 days', strtotime(date('Y-m-d'))));
-            $params['endDate'] = date('Y-m-d');
+        // if (!isset($params['startDate'])) {
+        //     $params['startDate'] = date('Y-m-d', strtotime('-30 days', strtotime(date('Y-m-d'))));
+        //     $params['endDate'] = date('Y-m-d');
+        // }
+        if (!isset($params['search_product_id'])) {
+            $params['search_product_id'] = 2713;
+            $params['search_status'] = 'CREATED';
         }
 
         $mergePack = $this->finder->findMergePacks($params);
@@ -70,8 +74,10 @@ final class MergeAction
             'mergePacks' => $mergePack, 
             'products' => $this->productFinder->findProducts($params),
             'user_login' => $this->session->get('user'),
-            'startDate' => $params['startDate'],
-            'endDate' => $params['endDate'],
+            // 'startDate' => $params['startDate'],
+            // 'endDate' => $params['endDate'],
+            'search_product_id' => $params['search_product_id'],
+            'search_status' => $params['search_status'],    
         ];
 
 

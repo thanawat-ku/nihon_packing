@@ -39,15 +39,15 @@ final class PackLabelAddAction
         PackFinder $packFinder,
         LabelUpdater $labelUpdater
     ) {
-        
+
         $this->twig = $twig;
-        $this->finder=$finder;
+        $this->finder = $finder;
         $this->responder = $responder;
         $this->updater = $updater;
         $this->labelUpdater = $labelUpdater;
         $this->packFinder = $packFinder;
-        $this->session=$session;
-        $this->updatePack=$updatePack;
+        $this->session = $session;
+        $this->updatePack = $updatePack;
     }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
@@ -57,46 +57,48 @@ final class PackLabelAddAction
         $labelID = (int)$data['id'];
 
         $this->updater->insertPackLabel($data);
-        $user_id=$this->session->get('user')["id"];
-        $dataUpdate['up_status']="SELLING";
+        $user_id = $this->session->get('user')["id"];
+        $dataUpdate['up_status'] = "SELLING";
         $this->labelUpdater->updateLabelStatus($labelID, $dataUpdate, $user_id);
 
-        $packLabels=[];
+        $packLabels = [];
 
-        $totalQty=0;
-        $arrtotalQty=[];
+        $totalQty = 0;
+        $arrtotalQty = [];
 
-        $rtdata['mpd_from_lots'] = $this->finder->findPackLabelForlots($data );
-        array_push($packLabels,$rtdata['mpd_from_lots']);
+        $rtdata['mpd_from_lots'] = $this->finder->findPackLabelForlots($data);
+        array_push($packLabels, $rtdata['mpd_from_lots']);
         if ($rtdata['mpd_from_lots']) {
-            for ($i=0; $i < count($packLabels[0]); $i++) { 
+            for ($i = 0; $i < count($packLabels[0]); $i++) {
                 $totalQty += (int)$packLabels[0][$i]['quantity'];
             }
         }
-        
+
         $rtdata['mpd_from_merges'] = $this->finder->findPackLabelForMergePacks($data);
-        array_push($packLabels,$rtdata['mpd_from_merges']);
+        array_push($packLabels, $rtdata['mpd_from_merges']);
         if ($rtdata['mpd_from_merges'] != null) {
-            for ($i=0; $i < count($packLabels[1]); $i++) { 
+            for ($i = 0; $i < count($packLabels[1]); $i++) {
                 $totalQty += (int)$packLabels[1][$i]['quantity'];
             }
         }
         if ($totalQty == 0) {
-            $arrtotalQty=["0"];
-        }else{
-            array_push($arrtotalQty,$totalQty);
+            $arrtotalQty = ["0"];
+        } else {
+            array_push($arrtotalQty, $totalQty);
         }
 
-        $upstatus['pack_status'] = "SELECTING_LABEL"; 
-        $this->updatePack->updatePack($packID,$upstatus);
-       
+        $upstatus['pack_status'] = "SELECTING_LABEL";
+        $this->updatePack->updatePack($packID, $upstatus);
+
         $packRow = $this->packFinder->findPackRow($packID);
 
         $viewData = [
-            'pack_id'=> $packRow['id'],
-            'product_id'=> $packRow['product_id'],
+            'pack_id' => $packRow['id'],
+            'product_id' => $packRow['product_id'],
+            'search_product_id' => $data['search_product_id'],
+            'search_pack_status' => $data['search_pack_status'],
         ];
-        
-        return $this->responder->withRedirect($response, "pack_labels",$viewData);
+
+        return $this->responder->withRedirect($response, "pack_labels", $viewData);
     }
 }

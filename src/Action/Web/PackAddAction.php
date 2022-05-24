@@ -74,10 +74,11 @@ final class PackAddAction
             $viewData = [
                 'pack_id' => $packRow['id'],
                 'product_id' => $packRow['product_id'],
+                'search_product_id' => $data['search_product_id'],
+                'search_pack_status' => $data['search_pack_status'],
 
             ];
             return $this->responder->withRedirect($response, "cpo_item_check_temp_query", $viewData);
-
         } else {
             if (!isset($data['startDate'])) {
                 $data['startDate'] = date('Y-m-d', strtotime('-30 days', strtotime(date('Y-m-d'))));
@@ -92,6 +93,9 @@ final class PackAddAction
                 'startDate' => $data['startDate'],
                 'endDate' => $data['endDate'],
                 'checkError' => "true",
+                'search_product_id' => $data['search_product_id'],
+                'search_pack_status' => $data['search_pack_status'],
+
             ];
 
             return $this->responder->withRedirect($response, "packs", $viewData);

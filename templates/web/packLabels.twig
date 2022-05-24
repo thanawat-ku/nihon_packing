@@ -19,6 +19,8 @@
 				<form action="select_label_for_packs" method="get" id="{{ packRow.id }}">
 					<input type="hidden" id="productID" name="ProductID" value="{{ packRow.product_id }}">
 					<input type="hidden" id="packID" name="pack_id" value="{{ packRow.id }}">
+					<input type="hidden" name="search_product_id" value="{{ search_product_id }}">
+					<input type="hidden" name="search_pack_status" value="{{ search_pack_status }}">
 				</form>
 				<button type="submit" id="addBt" form="{{ packRow.id }}" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#addPackLabels">
 					<i style="font-size:15px; width:20px;" class="fas fa-plus"></i>
@@ -107,6 +109,8 @@
 					<tfoot></tfoot>
 				</table>
 				<form id="form-black" class="form-inline float-none" action="packs" method="get">
+					<input type="hidden" name="search_product_id" value="{{ search_product_id }}">
+					<input type="hidden" name="search_pack_status" value="{{ search_pack_status }}">
 					<button type="submit" class="btn btn-primary" id="black">
 						<i class="fas fa-arrow-left"></i>
 						Back</button>
@@ -132,6 +136,8 @@
 						<div class="form-pack">
 							<input type="hidden" id="removeLabelID" name="id">
 							<input type="hidden" id="addPackID" name="pack_id" value="{{packRow.id}}">
+							<input type="hidden" name="search_product_id" value="{{ search_product_id }}">
+							<input type="hidden" name="search_pack_status" value="{{ search_pack_status }}">
 							<label for="packNo">Do you want to delete Label No:
 								<span id="removeLabelNo"></span>
 							</label>
@@ -165,6 +171,8 @@
 					<div class="modal-body">
 						<div class="form-pack">
 							<input type="hidden" id="addPackID" name="pack_id" value="{{packRow.id}}">
+							<input type="hidden" name="search_product_id" value="{{ search_product_id }}">
+							<input type="hidden" name="search_pack_status" value="{{ search_pack_status }}">
 							<label for="packNo">Do you want to confirm Pack No:
 								{{packRow.pack_no}}
 								<span id="removeLabelNo"></span>

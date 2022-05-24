@@ -15,11 +15,32 @@
             <div class="col-md-12">
                 <h2><i class="fas fa-folder-plus"></i> Merge Label </h2>    
                 <button type="button" id="addMergeBt" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#addMerge"><i style="font-size:15px; width:20px;" class="fas fa-plus"></i> Add Merge</button> 
-                <button type="button" id="addMergeFromlabelBt" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#addMergeFromlabel"><i style="font-size:15px; width:20px;" class="fas fa-plus"></i> Add Merge from label</button>
-                <form id="form-searchIssue" class="form-inline float-right" action="" method="get">
+                <button type="button" id="addMergeFromlabelBt" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#addMergeFromlabel"><i style="font-size:15px; width:20px;" class="fas fa-plus"></i> Add Merge From Label</button>
+                {# <form id="form-searchIssue" class="form-inline float-right" action="" method="get">
                   Issue Date From:&nbsp;&nbsp;
                   <input type="text" autocomplete="off" class="form-control" id="searchIssueStartDate" name="startDate" value="{{startDate}}">&nbsp;&nbsp;To&nbsp;&nbsp; 
                   <input type="text" autocomplete="off" class="form-control" id="searchIssueEndDate" name="endDate" value="{{endDate}}">&nbsp;&nbsp;
+                  <button type="submit" class="btn btn-warning" id="searchIssueBt"><i class="fas fa-search fa-lg"></i> Search</button>
+                </form> #}
+                <form id="form-searchIssue" class="form-inline float-right" action="" method="get">
+                  Product:&nbsp;&nbsp;
+                  <select class="selectpicker" id="searchProductID" name="search_product_id" data-live-search="true">
+                    {% for p in products %}
+                      <option value={{ p.id }} {{ p.id==search_product_id?"selected" }}>{{p.part_code }}
+                      </option>
+                    {% endfor %}
+                  </select>&nbsp;&nbsp;
+                  Status:&nbsp;&nbsp;
+                  <select id="searchStatus" name="search_status">
+                      <option value="ALL" {{ search_status=="ALL"?"selected" }}>ALL</option>
+                      <option value="CREATED" {{ search_status=="CREATED"?"selected" }}>CREATED</option>
+                      {# <option value="CONFIRMED" {{ search_status=="CONFIRMED"?"selected" }}>CONFIRMED</option> #}
+                      <option value="PRINTED" {{ search_status=="PRINTED"?"selected" }}>PRINTED</option>
+                      <option value="MERGING" {{ search_status=="MERGING"?"selected" }}>MERGING</option>
+                      <option value="MERGED" {{ search_status=="MERGED"?"selected" }}>MERGED</option>
+                      <option value="MERGED" {{ search_status=="MERGED"?"selected" }}>MERGED</option>
+                      <option value="COMPLETE" {{ search_status=="COMPLETE"?"selected" }}>COMPLETE</option>
+                  </select>&nbsp;&nbsp;
                   <button type="submit" class="btn btn-warning" id="searchIssueBt"><i class="fas fa-search fa-lg"></i> Search</button>
                 </form>
                 <hr>
@@ -28,7 +49,7 @@
                     <tr>
                         <th>Merge No</th>
                         <th>Part Code</th>
-                        <th>Part No</th>
+                        {# <th>Part No</th> #}
                         <th>Status</th>
                         <th>STD Pack/Box</th>
                         <th>Operation</th>
@@ -40,16 +61,16 @@
                         
                         <td>{{ merge.merge_no}}</td>  
                         <td>{{ merge.part_code}} </td>
-                        <td>{{ merge.part_no}} </td> 
+                        {# <td>{{ merge.part_no}} </td>  #}
                         <td>{{ merge.merge_status }}</td>
                         <td>{{ merge.std_pack ~ '/' ~ merge.std_box }}</td>
                         <td>
                         {% if merge.merge_status == "PRINTED"%}
                           <button type="button" id="registerBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#registerMerge" name="{{ merge|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-check-circle"></i></button>
                         {% endif %}
-                        <a href="merge_detail?id={{merge.id}}"><button type="button" class="btn btn-success btn-sm" data-toggle="modal" ><i style="font-size:15px; width:20px;" class="fas fa-folder-open"></i></button></a>
+                        <a href="merge_detail?id={{merge.id}}&search_product_id={{search_product_id}}&search_status={{search_status}}"><button type="button" class="btn btn-success btn-sm" data-toggle="modal" ><i style="font-size:15px; width:20px;" class="fas fa-folder-open"></i></button></a>
                         {% if (merge.merge_status == "REGISTERING") or (merge.merge_status == "COMPLETE") or (merge.merge_status == "MERGED") or (merge.merge_status == "PRINTED") %}
-                          <a href="label_merge_news?id={{merge.id}}"><button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" ><i style="font-size:15px; width:20px; " class="fas fa-info-circle"></i></button></a>  <!-- detail icon color:gray; -->
+                          <a href="label_merge_news?id={{merge.id}}&search_product_id={{search_product_id}}&search_status={{search_status}}"><button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" ><i style="font-size:15px; width:20px; " class="fas fa-info-circle"></i></button></a>  <!-- detail icon color:gray; -->
                         {% endif %} 
                         {% if merge.merge_status == "CREATED" %}
                           <button type="button" id="editBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editMerge" name="{{ merge|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-edit"></i></button> 
@@ -68,14 +89,14 @@
         </div>
     </div>
 
-<!-- Modal add merge -->
+<!-- Modal add merge from label-->
 <div class="modal fade" id="addMergeFromlabel">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <form id="form-addLot" action="add_merges_from_label" method="post">
         <!-- Modal Header -->
         <div class="modal-header">
-          <h4 class="modal-title">Add Merge from label</h4>
+          <h4 class="modal-title">Add Merge From Label</h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         <!-- Modal body -->
@@ -205,7 +226,7 @@
             <label for="email">Product</label>
             <select class="selectpicker form-control"  id="addProductID" name="product_id" data-live-search="true">
             {% for p in products %}
-              <option value={{ p.id }}>({{p.part_code}}) {{ p.part_no}} </option>
+              <option value={{ p.id }}>{{p.part_code}}</option>
             {% endfor %}
             </select>
           </div>           

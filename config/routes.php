@@ -120,7 +120,9 @@ return function (App $app) {
     $app->post('/add_printer', \App\Action\Web\PrinterAddAction::class)->add(UserAuthMiddleware::class);
     $app->post('/edit_printer', \App\Action\Web\PrinterEditAction::class)->add(UserAuthMiddleware::class);
     $app->post('/delete_printer', \App\Action\Web\PrinterDeleteAction::class)->add(UserAuthMiddleware::class);
-    
+
+    $app->get('/invoices', \App\Action\Web\InvoiceAction::class)->add(UserAuthMiddleware::class);
+    $app->get('/invoice_details', \App\Action\Web\InvoiceDetailAction::class)->add(UserAuthMiddleware::class);    
 
     //---------------------------Api-------------------------------
 
@@ -244,5 +246,8 @@ return function (App $app) {
     $app->post('/api/delete_label_void_reason', \App\Action\Api\LabelVoidReasonDeleteAction::class);
 
     $app->get('/api/printers', \App\Action\Api\PrinterAction::class);
+
+    $app->get('/api/invoices', \App\Action\Api\InvoiceAction::class);
+    $app->get('/api/invoice_details', \App\Action\Api\InvoiceDetailAction::class);
 
 };

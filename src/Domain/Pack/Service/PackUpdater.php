@@ -147,8 +147,8 @@ final class PackUpdater
         if (isset($data['pack_no'])) {
             $result['pack_no'] = (string)$data['pack_no'];
         }
-        if (isset($data['invoice_no'])) {
-            $result['invoice_no'] = (string)$data['invoice_no'];
+        if (isset($data['invoice_id'])) {
+            $result['invoice_id'] = (int)$data['invoice_id'];
         }
         if (isset($data['pack_date'])) {
             $result['pack_date'] = (string)$data['pack_date'];

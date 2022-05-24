@@ -2,7 +2,7 @@
 
 namespace App\Action\Api;
 
-use App\Domain\Pack\Service\PackFinder;
+use App\Domain\Invoice\Service\InvoiceFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -10,13 +10,13 @@ use Psr\Http\Message\ServerRequestInterface;
 /**
  * Action.
  */
-final class PackAction
+final class InvoiceAction
 {
     /**
      * @var Responder
      */
     private $responder;
-    private $findPack;
+    private $invoiceFinder;
     
 
     /**
@@ -24,10 +24,10 @@ final class PackAction
      *
      * @param Responder $responder The responder
      */
-    public function __construct(PackFinder $findPack,Responder $responder)
+    public function __construct(InvoiceFinder $invoiceFinder,Responder $responder)
     {
         
-        $this->findPack = $findPack;
+        $this->invoiceFinder=$invoiceFinder;
         $this->responder = $responder;
     }
 
@@ -44,10 +44,18 @@ final class PackAction
 
         $params = (array)$request->getQueryParams();
 
-        $rtdata['message']="Get Pack Successful";
+        if(!isset($params['search_customer_id'])){
+            $params['search_customer_id'] = 1;
+        }
+        if(!isset($params['search_invoice_status'])){
+            $params['search_invoice_status']='ALL';
+        }
+        
+        $rtdata['message']="Get Invoice Successful";
         $rtdata['error']=false;
-        $rtdata['packs']=$this->findPack->findPacks($params);        
+        $rtdata['invoices']=$this->invoiceFinder->findInvoicePackings($params);
 
         return $this->responder->withJson($response, $rtdata);
+
     }
 }

@@ -4,6 +4,7 @@ namespace App\Action\Web;
 
 use App\Domain\Label\Service\LabelFinder;
 use App\Domain\LabelVoidReason\Service\LabelVoidReasonFinder;
+use App\Domain\Product\Service\ProductFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -20,6 +21,7 @@ final class  LabelAction
     private $voidReasonFinder;
     private $session;
     private $printerFinder;
+    private $productFinder;
 
     public function __construct(
         Twig $twig,
@@ -27,7 +29,8 @@ final class  LabelAction
         Session $session,
         Responder $responder,
         LabelVoidReasonFinder $voidReasonFinder,
-        PrinterFinder $printerFinder
+        PrinterFinder $printerFinder,
+        ProductFinder $productFinder
     ) {
         $this->twig = $twig;
         $this->finder = $finder;
@@ -35,20 +38,16 @@ final class  LabelAction
         $this->responder = $responder;
         $this->voidReasonFinder = $voidReasonFinder;
         $this->printerFinder = $printerFinder;
+        $this->productFinder = $productFinder;
     }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $params = (array)$request->getQueryParams();
 
-        if (!isset($params['startDate'])) {
-            $params['startDate'] = date('Y-m-d', strtotime('-3 days', strtotime(date('Y-m-d'))));
-            $params['endDate'] = date('Y-m-d');
-            $data2['startDate'] = $params['startDate'];
-            $data2['endDate'] = $params['endDate'];
-        }else{
-            $data2['startDate'] = $params['startDate'];
-            $data2['endDate'] = $params['endDate'];
+        if(!isset($params['search_product_id'])){
+            $params['search_product_id']=2713;
+            $params['search_status']='CREATED';
         }
 
         
@@ -67,8 +66,9 @@ final class  LabelAction
             'void_reasons' => $this->voidReasonFinder->findLabelVoidReasonsForVoidLabel($params),
             'user_login' => $this->session->get('user'),
             'printers' => $this->printerFinder->findPrinters($printerType),
-            'startDate' => $params['startDate'],
-            'endDate' => $params['endDate'],
+            'products' => $this->productFinder->findProducts($params),
+            'search_product_id' => $params['search_product_id'],
+            'search_status' => $params['search_status'],
         ];
 
 

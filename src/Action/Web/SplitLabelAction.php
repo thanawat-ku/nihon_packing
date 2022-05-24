@@ -3,6 +3,7 @@
 namespace App\Action\Web;
 
 use App\Domain\SplitLabel\Service\SplitLabelFinder;
+use App\Domain\Product\Service\ProductFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -21,33 +22,37 @@ final class SplitLabelAction
     private $twig;
     private $finder;
     private $session;
+    private $productFinder;
 
     public function __construct(
         Twig $twig,
         SplitLabelFinder $finder,
         Session $session,
-        Responder $responder
+        Responder $responder,
+        ProductFinder $productFinder
     ) {
         $this->twig = $twig;
         $this->finder = $finder;
         $this->session = $session;
         $this->responder = $responder;
+        $this->productFinder = $productFinder;
     }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $params = (array)$request->getQueryParams();
 
-        if(!isset($params['startDate'])){
-            $params['startDate']=date('Y-m-d',strtotime('-30 days',strtotime(date('Y-m-d'))));
-            $params['endDate']=date('Y-m-d');
+        if (!isset($params['search_product_id'])) {
+            $params['search_product_id'] = 2713;
+            $params['search_status'] = 'PRINTED';
         }
 
         $viewData = [
             'splitLabels' => $this->finder->findSplitLabels($params),
             'user_login' => $this->session->get('user'),
-            'startDate' => $params['startDate'],
-            'endDate' => $params['endDate'],
+            'products' => $this->productFinder->findProducts($params),
+            'search_product_id' => $params['search_product_id'],
+            'search_status' => $params['search_status'],
         ];
 
 

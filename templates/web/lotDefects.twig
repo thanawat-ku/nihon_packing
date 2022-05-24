@@ -19,7 +19,8 @@
 					{{lot['lot_no']}}</h2>
 				<button type="button" id="addDefectBt" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#defectLot" name="{{ lot|json_encode }}">
 					<i style="font-size:15px; width:20px;" class="fas fa-plus fa-lg"></i>
-					Add Lot Defect</button>
+					Add Lot Defect
+				</button>
 				<br>
 				<br>
 				<h5> Total quantity of lot defect: {{lot['qty_lot_defact']}}</h5>
@@ -53,9 +54,9 @@
 					<tfoot></tfoot>
 				</table>
 				<form id="form-black" class="form-inline float-none" action="lots" method="get">
-					<button type="submit" class="btn btn-primary" id="black">
-						<i class="fas fa-arrow-left"></i>
-						Back</button>
+                  	<input type="hidden" id="searchProductID" name="search_product_id" value="{{search_product_id}}">
+                	<input type="hidden" id="searchProductID" name="search_status" value="{{search_status}}">
+					<button type="submit" class="btn btn-primary" id="black"><i class="fas fa-arrow-left"></i>Back</button>
 				</form>
 				<p></p>
 			</div>

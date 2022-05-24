@@ -78,7 +78,7 @@ final class PackRepository
                 'part_no',
                 'std_pack',
                 'std_box',
-                'invoice_no',
+                'invoice_id',
                 'packing_id'
 
             ]
@@ -115,7 +115,52 @@ final class PackRepository
         if (isset($params['packing_id'])) {
             $query->andWhere(['packs.packing_id' => $params['packing_id']]);
         }
+        if (isset($params['search_pack_status'])) {
+            if ($params['search_pack_status'] != 'ALL') {
+                $query->andWhere(['packs.pack_status' => $params['search_pack_status']]);
+            }
+        }
+        if (isset($params['search_product_id'])) {
+            $query->andWhere(['p.id' => $params['search_product_id']]);
+        }
 
+
+        return $query->execute()->fetchAll('assoc') ?: [];
+    }
+
+    public function findPackInvoices(array $params): array
+    {
+        $query = $this->queryFactory->newSelect('packs');
+
+        $query->select(
+            [
+                'packs.id',
+                'pack_no',
+                'pack_date',
+                'product_id',
+                'total_qty',
+                'pack_status',
+                'invoice_id',
+                'packing_id'
+
+            ]
+        );
+
+        $query->join([
+            'i' => [
+                'table' => 'invoices',
+                'type' => 'INNER',
+                'conditions' => 'i.id = packs.invoice_id',
+            ]
+        ]);
+
+        $query->andWhere(['packs.is_delete' => 'N']);
+
+
+        if (isset($params['sync'])) {
+            $query->andWhere(['packs.pack_status' => "TAGGED"]);
+            $query->andWhere(['i.invoice_no' => $params['invoice_no']]);
+        }
 
         return $query->execute()->fetchAll('assoc') ?: [];
     }
@@ -156,6 +201,11 @@ final class PackRepository
         //     ]
         // ]);
 
+        if (isset($params['checkPackIvoice'])) {
+            $query->andWhere(['packs.packing_id' => $params['packing_id']]);
+            $query->andWhere(['packs.pack_status' => 'TAGGED']);
+        }
+
         $query->where(['packs.id' => $packID]);
 
         $row = $query->execute()->fetch('assoc');
@@ -179,7 +229,7 @@ final class PackRepository
                 'pack_date',
                 'total_qty',
                 'pack_status',
-                'invoice_no'
+                'invoice_id'
 
             ]
         );
@@ -213,7 +263,7 @@ final class PackRepository
                 'pack_date',
                 'total_qty',
                 'pack_status',
-                'invoice_no'
+                'invoice_id'
 
             ]
         );

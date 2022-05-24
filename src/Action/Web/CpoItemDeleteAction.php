@@ -71,6 +71,8 @@ final class CpoItemDeleteAction
         $viewData = [
             'pack_id' => $packRow['id'],
             'product_id' => $packRow['product_id'],
+            'search_product_id' => $data['search_product_id'],
+            'search_pack_status' => $data['search_pack_status'],
         ];
 
         return $this->responder->withRedirect($response, "cpo_items", $viewData);

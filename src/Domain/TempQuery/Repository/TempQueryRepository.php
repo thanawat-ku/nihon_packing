@@ -87,6 +87,7 @@ final class TempQueryRepository
 
         if(isset($params['pack_id'])){
             $query->Where(['sci.pack_id' => $params["pack_id"]]);
+            $query->orderAsc('due_date');
         }
 
         return $query->execute()->fetchAll('assoc') ?: [];
