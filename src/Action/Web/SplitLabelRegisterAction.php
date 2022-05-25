@@ -51,6 +51,11 @@ final class  SplitLabelRegisterAction
         $data = (array)$request->getParsedBody();
         $SplitLabelId = $data["id"];
 
+        if(!isset($data['search_product_id'])){
+            $data['search_product_id']=2713;
+            $data['search_status']='CREATED';
+        }
+
         $Finddetail["split_label_id"] = $SplitLabelId;
         $labelDetail = $this->splitDetailFinder->findSplitLabelDetails($Finddetail);
 
@@ -65,7 +70,10 @@ final class  SplitLabelRegisterAction
             }
             $this->updater->updateSplitLabel($SplitLabelId, $data2);
         }
-
-        return $this->responder->withRedirect($response, "splitLabels");
+        $viewData = [
+            'search_product_id' => $data['search_product_id'],
+            'search_status' => $data['search_status'],
+        ];
+        return $this->responder->withRedirect($response, "splitLabels", $viewData);
     }
 }

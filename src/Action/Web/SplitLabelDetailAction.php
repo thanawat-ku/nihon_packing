@@ -54,6 +54,11 @@ final class  SplitLabelDetailAction
             $data['search_status'] = "PRINTED";
         }
 
+        if(!isset($params['search_product_id'])){
+            $params['search_product_id']=2713;
+            $params['search_status']='CREATED';
+        }
+
         $dataDetail["split_label_id"] = $SplitLabelId;
         $labelDetail = $this->splitDetailFinder->findSplitLabelDetails($dataDetail);
 

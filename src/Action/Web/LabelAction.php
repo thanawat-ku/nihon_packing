@@ -52,8 +52,7 @@ final class  LabelAction
 
         
         $labels1 = $this->finder->findLabels($params);
-        $data2['lot_zero'] = 0;
-        $labels2 =  $this->finder->findLabelForLotZero($data2);
+        $labels2 =  $this->finder->findLabelForLotZero($params);
         if(isset($labels2[0])){
             $labelsAll = array_merge($labels1,$labels2);
         }

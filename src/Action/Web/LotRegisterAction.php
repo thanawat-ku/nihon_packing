@@ -53,8 +53,12 @@ final class LotRegisterAction
         if ($lot[0]['status'] ==  "PRINTED") {
             $this->labelUpdater->registerLabel($lotId, $dataPack);
             $this->updater->registerLot($lotId, $dataPack);
-            
         }
-        return $this->responder->withRedirect($response, "lots");
+        $viewData = [
+            'search_product_id' => $data['search_product_id'] ?? null,
+            'search_status' => $data['search_status'] ?? null,
+        ];
+        
+        return $this->responder->withRedirect($response, "lots", $viewData);
     }
 }

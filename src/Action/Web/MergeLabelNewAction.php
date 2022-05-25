@@ -68,6 +68,11 @@ final class MergeLabelNewAction
         $params = (array)$request->getQueryParams();
         $mergePackId =  $params['id'];
 
+        if(!isset($params['search_product_id'])){
+            $params['search_product_id']=2713;
+            $params['search_status']='CREATED';
+        }
+        
         $data['merge_pack_id'] = $mergePackId;
 
         $labels = $this->labelFinder->findLabelForLotZero($data);

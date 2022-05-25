@@ -21,6 +21,7 @@ final class  LotLabelAction
     private $lotFinder;
     private $session;
     private $printerFinder;
+    private $voidReasonFinder;
 
     public function __construct(
         Twig $twig,
@@ -46,6 +47,11 @@ final class  LotLabelAction
         $lotId = $data["id"];
         $params["lot_id"] = $lotId;
         $lots =  $this->lotFinder->findLots($params);
+
+        if(!isset($data['search_product_id'])){
+            $data['search_product_id']=2713;
+            $data['search_status']='CREATED';
+        }
 
         if (isset($lots[0]['lot_no'])) {
             $labels = $this->finder->findLabels($params);
