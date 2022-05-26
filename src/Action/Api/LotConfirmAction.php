@@ -49,8 +49,8 @@ final class LotConfirmAction
 
             $params['generate_lot_no'] = "L" . str_pad($lotID, 11, "0", STR_PAD_LEFT);
             $this->updater->confirmLotApi($lotID, $params, $user_id);
-
-            $this->updater->updateLotNsp($lotID, $params);
+            $dataLot['real_qty'] = $params['real_qty'];
+            $this->updater->updateLotNsp($lotID, $dataLot);
 
             $rtdata['message'] = "Confirm Lot Successful";
             $rtdata['error'] = false;
