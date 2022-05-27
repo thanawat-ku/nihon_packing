@@ -170,6 +170,9 @@ final class InvoiceRepository
             $query->andWhere(['invoices.invoice_no' => $params['InvoiceNo']]);
             $query->andWhere(['invoices.invoice_status' => 'INVOICE']);
         }
+        if (isset($params["startDate"])) {
+            $query->andWhere(['invoices.date <=' => $params['endDate'], 'invoices.date >=' => $params['startDate']]);
+        }
 
         return $query->execute()->fetchAll('assoc') ?: [];
     }

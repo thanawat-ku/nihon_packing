@@ -232,6 +232,9 @@ final class TagRepository
                 $query->andWhere(['tags.status' => $params["search_tag_status"]]);
             }
         }
+        if (isset($params["startDate"])) {
+            $query->andWhere(['p.pack_date <=' => $params['endDate'], 'p.pack_date >=' => $params['startDate']]);
+        }
 
         return $query->execute()->fetchAll('assoc') ?: [];
     }

@@ -79,6 +79,29 @@ final class TagAction
             ];
         } else {
             $rtCustomer = $this->customerFinder->findCustomers($params);
+
+            if (!$this->session->get('startDateTag')) {
+                $params['startDate'] = date('Y-m-d', strtotime('-30 days', strtotime(date('Y-m-d'))));
+                $params['endDate'] = date('Y-m-d');
+
+                //กำหนด session ให้กับ  startDatePack และ endDatePack
+                $this->session->start();
+
+                $this->session->set('startDateTag', $params['startDate']);
+                $this->session->set('endDateTag', $params['endDate']);
+            } else {
+                //กำหนด session ให้กับ  startDateTag และ endDateTag
+                if (isset($params['startDate'])) {
+                    $this->session->start();
+
+                    $this->session->set('startDateTag', $params['startDate']);
+                    $this->session->set('endDateTag', $params['endDate']);
+                }else{
+                    $params['startDate'] = $this->session->get('startDateTag');
+                    $params['endDate'] = $this->session->get('endDateTag');
+                }
+            }
+
             if (!isset($params['search_customer_id'])) {
                 $params['search_customer_id'] = $rtCustomer[0]['id'];
             }
@@ -93,6 +116,8 @@ final class TagAction
                 'search_customer_id' => $params['search_customer_id'],
                 'search_tag_status' => $params['search_tag_status'],
                 'user_login' => $this->session->get('user'),
+                'startDate' => $this->session->get('startDateTag'),
+                'endDate' => $this->session->get('endDateTag'),
             ];
         }
 

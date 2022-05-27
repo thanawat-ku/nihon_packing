@@ -46,6 +46,28 @@ final class PackAction
             $checkError = "true";
         }
 
+        if (!$this->session->get('startDatePack')) {
+            $params['startDate'] = date('Y-m-d', strtotime('-30 days', strtotime(date('Y-m-d'))));
+            $params['endDate'] = date('Y-m-d');
+
+            //กำหนด session ให้กับ  startDatePack และ endDatePack
+            $this->session->start();
+
+            $this->session->set('startDatePack', $params['startDate']);
+            $this->session->set('endDatePack', $params['endDate']);
+        } else {
+            // กำหนด session ให้กับ  startDatePack และ endDatePack
+            if (isset($params['startDate'])) {
+                $this->session->start();
+
+                $this->session->set('startDatePack', $params['startDate']);
+                $this->session->set('endDatePack', $params['endDate']);
+            }else{
+                $params['startDate'] = $this->session->get('startDatePack');
+                $params['endDate'] = $this->session->get('endDatePack');
+            }
+        }
+
         if (!isset($params['search_product_id'])) {
             $params['search_product_id'] = 1;
         }
@@ -60,6 +82,8 @@ final class PackAction
             'search_product_id' => $params['search_product_id'],
             'search_pack_status' => $params['search_pack_status'],
             'checkError' => $checkError,
+            'startDate' => $this->session->get('startDatePack'),
+            'endDate' => $this->session->get('endDatePack'),
         ];
 
         return $this->twig->render($response, 'web/packs.twig', $viewData);

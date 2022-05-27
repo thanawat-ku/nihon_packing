@@ -29,6 +29,9 @@
                       <option value="INVOICE" {{ search_invoice_status=="INVOICE"?"selected" }}>INVOICE</option>
                       <option value="COMPLETED" {{ search_invoice_status=="COMPLETED"?"selected" }}>COMPLETED</option>
                     </select>&nbsp;&nbsp;
+                    Issue Date From:&nbsp;&nbsp;
+                    <input size="10%" type="text" autocomplete="off" class="form-control" id="searchIssueStartDate" name="startDate" value="{{startDate}}">&nbsp;&nbsp;To&nbsp;&nbsp;
+                    <input size="10%" type="text" autocomplete="off" class="form-control" id="searchIssueEndDate" name="endDate" value="{{endDate}}">&nbsp;&nbsp;
                     <button type="submit" class="btn btn-warning" id="searchIssueBt"><i class="fas fa-search fa-lg"></i> Search</button>
                   </form>
                 <label for=" ">

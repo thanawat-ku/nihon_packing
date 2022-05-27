@@ -44,6 +44,7 @@
 								<th>Box No</th>
 								<th>Total Box</th>
 								<th>Status</th>
+								
 
 							</tr>
 						</thead>
@@ -79,6 +80,9 @@
 							<option value="INVOICE" {{ search_tag_status=="INVOICE"?"selected" }}>INVOICE</option>
 							<option value="COMPLETED" {{ search_tag_status=="COMPLETED"?"selected" }}>COMPLETED</option>
 						</select>&nbsp;&nbsp;
+						Issue Date From:&nbsp;&nbsp;
+						<input size="10%" type="text" autocomplete="off" class="form-control" id="searchIssueStartDate" name="startDate" value="{{startDate}}">&nbsp;&nbsp;To&nbsp;&nbsp;
+						<input size="10%" type="text" autocomplete="off" class="form-control" id="searchIssueEndDate" name="endDate" value="{{endDate}}">&nbsp;&nbsp;
 						<button type="submit" class="btn btn-warning" id="searchIssueBt"><i class="fas fa-search fa-lg"></i> Search</button>
 				  	</form>
 					<label for=" ">
@@ -94,6 +98,7 @@
 								<th>Quantity</th>
 								<th>Box No</th>
 								<th>Status</th>
+								<th>Operation</th>
 
 							</tr>
 						</thead>
@@ -106,6 +111,9 @@
 									<td>{{ tag.quantity }}</td>
 									<td>{{ tag.total_box }}</td>
 									<td>{{ tag.status }}</td>
+									<td>
+										<button type="button" id="printBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#printLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-print"></i></button>
+									</td>
 								</tr>
 							{% endfor %}
 						</tbody>

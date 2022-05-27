@@ -42,10 +42,7 @@ final class ScrapAction
         if (!isset($params['startDate'])) {
             $params['startDate'] = date('Y-m-d', strtotime('-30 days', strtotime(date('Y-m-d'))));
             $params['endDate'] = date('Y-m-d');
-        }
-
-        
-
+        } 
 
         $viewData = [
             'scraps' => $this->finder->findScraps($params),

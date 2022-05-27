@@ -29,7 +29,7 @@
                         <th>Pack No</th>
                         <th>Part Code</th>
                         <th>Total Quantity</th>
-                        <th>Operation</th>
+                       
                     </tr>
                     </thead>
                     <tbody>
@@ -38,9 +38,7 @@
                         <td>{{ invoice.pack_no }}</td>
                         <td>{{ invoice.part_code }}</td>
                         <td>{{ invoice.total_qty }}</td>
-                        <td>
-                            <button type="button" id="printBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#printLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-print"></i></button>
-                        </td>
+                        
                     </tr>
                     {% endfor %}
                     </tbody>
