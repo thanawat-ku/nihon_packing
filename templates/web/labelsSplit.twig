@@ -59,8 +59,8 @@
                     <tfoot></tfoot>
                 </table>
                 <form id="form-black" class="form-inline float-none" action="splitLabels" method="get">
-                  <input type="hidden" id="searchProductID" name="search_product_id" value="{{search_product_id}}">
-                  <input type="hidden" id="searchProductID" name="search_status" value="{{search_status}}">
+                  {# <input type="hidden" id="searchProductID" name="search_product_id" value="{{search_product_id}}">
+                  <input type="hidden" id="searchProductID" name="search_status" value="{{search_status}}"> #}
                   <button type="submit" class="btn btn-primary" id="black"><i class="fas fa-arrow-left"></i> Back</button>
                 </form>
                 <p></p>
@@ -82,8 +82,8 @@
         <div class="modal-body">          
           <div class="form-product">
             <input type="hidden" id="registerSpId" name="id">
-            <input type="hidden" id="searchProductID" name="search_product_id" value="{{search_product_id}}">
-            <input type="hidden" id="searchProductID" name="search_status" value="{{search_status}}">
+            {# <input type="hidden" id="searchProductID" name="search_product_id" value="{{search_product_id}}">
+            <input type="hidden" id="searchProductID" name="search_status" value="{{search_status}}"> #}
           </div>
           <div class="form-realQty">
           <label for="lotNo">Do you want to register Split Label: <span id="registerSpNo"></span> ?</label>
@@ -115,8 +115,8 @@
             <input type="hidden" id="voidLabelID" name="id">
             <input type="hidden" id="from" name="from" value ="label_split">
             <input type="hidden" id="from" name="split_id" value ="{{split['id']}}">
-            <input type="hidden" id="searchProductID" name="search_product_id" value="{{search_product_id}}">
-            <input type="hidden" id="searchProductID" name="search_status" value="{{search_status}}">
+            {# <input type="hidden" id="searchProductID" name="search_product_id" value="{{search_product_id}}">
+            <input type="hidden" id="searchProductID" name="search_status" value="{{search_status}}"> #}
           </div>                            
           <div class="form-voidReason">
             <label for="email">Reason Name</label>

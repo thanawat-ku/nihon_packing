@@ -49,16 +49,6 @@ final class  SplitLabelDetailAction
         $data = (array)$request->getQueryParams();
         $SplitLabelId = $data["id"];
 
-        if (isset($data['product_id'])) {
-            $data['search_product_id'] = $data['product_id'];
-            $data['search_status'] = "PRINTED";
-        }
-
-        if(!isset($params['search_product_id'])){
-            $params['search_product_id']=2713;
-            $params['search_status']='CREATED';
-        }
-
         $dataDetail["split_label_id"] = $SplitLabelId;
         $labelDetail = $this->splitDetailFinder->findSplitLabelDetails($dataDetail);
 
@@ -92,8 +82,6 @@ final class  SplitLabelDetailAction
             'void_reasons' => $this->voidReasonFinder->findLabelVoidReasonsForVoidLabel($data),
             'printers' => $this->printerFinder->findPrinters($printerType),
             'user_login' => $this->session->get('user'),
-            'search_product_id' => $data['search_product_id'],
-            'search_status' => $data['search_status'],
         ];
         return $this->twig->render($response, 'web/labelsSplit.twig', $viewData);
     }
