@@ -36,10 +36,6 @@ final class LabelVoidAction
         $findLabel['label_id'] = $labelId;
         $label = $this->finder->findLabelSingleTable($findLabel);
 
-        if(!isset($params['search_product_id'])){
-            $params['search_product_id']=2713;
-            $params['search_status']='CREATED';
-        }
 
         if ($label[0]['status'] == "PACKED") {
             $dataLabel['label_void_reason_id'] = $data['label_void_reason_id'];
@@ -59,24 +55,18 @@ final class LabelVoidAction
             $splitId = $data['split_id'];
             $viewData = [
                 'id' => $splitId,
-                'search_product_id' => $params['search_product_id'] ?? null,
-                'search_status' => $params['search_status'] ?? null,
             ];
             return $this->responder->withRedirect($response, "label_splitlabel", $viewData);
         } else if ($data['from'] == "label_split") {
             $splitId = $data['split_id'];
             $viewData = [
                 'id' => $splitId,
-                'search_product_id' => $params['search_product_id'] ?? null,
-                'search_status' => $params['search_status'] ?? null,
             ];
             return $this->responder->withRedirect($response, "label_splitlabel", $viewData);
         } else if ($data['from'] == "label_merge") {
             $mergeId = $data['merge_id'];
             $viewData = [
                 'id' => $mergeId,
-                'search_product_id' => $params['search_product_id'] ?? null,
-                'search_status' => $params['search_status'] ?? null,
             ];
             return $this->responder->withRedirect($response, "label_merge_news", $viewData);
         } else {

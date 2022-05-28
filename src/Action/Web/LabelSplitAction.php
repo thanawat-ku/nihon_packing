@@ -97,7 +97,6 @@ final class LabelSplitAction
         }
         $viewData = [
             'id' => $dataSplit[0]['id'],
-            'product_id' => $dataSplit[0]['product_id'],
         ];
 
         return $this->responder->withRedirect($response, "label_splitlabel", $viewData);

@@ -54,10 +54,20 @@ final class LotAction
     {
         $params = (array)$request->getQueryParams();
 
-        if (!isset($params['search_product_id'])) {
+        if (isset($params['search_product_id']) || isset($params['search_status'])) {
+            setcookie("search_product_id_lot", $params['search_product_id'], time() + 43200);
+            setcookie("search_status_lot", $params['search_status'], time() + 43200);
+
+        } else if (isset($_COOKIE['search_product_id_lot']) || isset($_COOKIE['search_status_lot'])) {
+            $params['search_product_id'] = $_COOKIE['search_product_id_lot'] ?? 2713;
+            $params['search_status'] = $_COOKIE['search_status_lot'] ?? 'CREATED';
+        } else {
             $params['search_product_id'] = 2713;
             $params['search_status'] = 'CREATED';
+            setcookie("search_product_id_lot", $params['search_product_id'], time() + 43200);
+            setcookie("search_status_lot", $params['search_status'], time() + 43200);
         }
+
         $lots = $this->finder->findLotProduct($params);
 
         for ($i = 0; $i < sizeof($lots); $i++) {

@@ -39,7 +39,6 @@ final class LabelDeleteAction
             $this->updater->updateLabel($labelId, $dataLabel);
         }
 
-
         if ($data['from'] == "label_lot") {
             $lotId = $label[0]['lot_id'];
             $viewData = [
