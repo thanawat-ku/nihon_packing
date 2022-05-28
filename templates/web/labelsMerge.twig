@@ -55,8 +55,8 @@
                     <tfoot></tfoot>
                 </table>
                 <form id="form-black" class="form-inline float-none" action="merges" method="get">
-                  <input type="hidden" id="searchProductID" name="search_product_id" value="{{search_product_id}}">
-                  <input type="hidden" id="searchProductID" name="search_status" value="{{search_status}}">
+                  {# <input type="hidden" id="searchProductID" name="search_product_id" value="{{search_product_id}}">
+                  <input type="hidden" id="searchProductID" name="search_status" value="{{search_status}}"> #}
                   <button type="submit" class="btn btn-primary" id="black"><i class="fas fa-arrow-left"></i> Back</button>
                 </form>
                 <p></p>
@@ -108,8 +108,8 @@
             <input type="hidden" id="voidLabelID" name="id">
             <input type="hidden" id="from" name="from" value ="label_merge">
             <input type="hidden" id="from" name="merge_id" value ="{{mergePack['id']}}">
-            <input type="hidden" id="searchProductID" name="search_product_id" value="{{search_product_id}}">
-            <input type="hidden" id="searchProductID" name="search_status" value="{{search_status}}">
+            {# <input type="hidden" id="searchProductID" name="search_product_id" value="{{search_product_id}}">
+            <input type="hidden" id="searchProductID" name="search_status" value="{{search_status}}"> #}
           </div>                            
           <div class="form-voidReason">
             <label for="email">Reason Name</label>

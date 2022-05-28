@@ -63,9 +63,18 @@ final class MergeAction
         //     $params['startDate'] = date('Y-m-d', strtotime('-30 days', strtotime(date('Y-m-d'))));
         //     $params['endDate'] = date('Y-m-d');
         // }
-        if (!isset($params['search_product_id'])) {
+        if (isset($params['search_product_id']) || isset($params['search_status'])) {
+            setcookie("search_product_id_merge", $params['search_product_id'], time() + 43200);
+            setcookie("search_product_id_merge", $params['search_status'], time() + 43200);
+
+        } else if (isset($_COOKIE['search_product_id_merge']) || isset($_COOKIE['search_product_id_merge'])) {
+            $params['search_product_id'] = $_COOKIE['search_product_id_merge'] ?? 2713;
+            $params['search_status'] = $_COOKIE['search_product_id_merge'] ?? 'CREATED';
+        } else {
             $params['search_product_id'] = 2713;
             $params['search_status'] = 'CREATED';
+            setcookie("search_product_id_merge", $params['search_product_id'], time() + 43200);
+            setcookie("search_product_id_merge", $params['search_status'], time() + 43200);
         }
 
         $mergePack = $this->finder->findMergePacks($params);

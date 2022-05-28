@@ -40,7 +40,7 @@
                     </tbody>
                     <tfoot></tfoot>
                 </table>
-                <a href="merge_detail?id={{mergePack['id']}}&search_product_id={{search_product_id}}&search_status={{search_status}} "><button type="button" id="addLabelBt" class="btn btn-primary" data-toggle="modal" data-target="#addLabel"><i style="font-size:15px; width:20px;" class="fas fa-arrow-left"></i>Back</button></a>
+                <a href="merge_detail?id={{mergePack['id']}}"><button type="button" id="addLabelBt" class="btn btn-primary" data-toggle="modal" data-target="#addLabel"><i style="font-size:15px; width:20px;" class="fas fa-arrow-left"></i>Back</button></a>
                 <p></p>
             </div>
         </div>
@@ -60,7 +60,7 @@
         <div class="modal-body">          
           <div class="form-product">
             <input type="hidden" id="selectLabelId" name="label_id">
-            <input type="hidden" id="searchStatus" name="search_status" value="{{search_status}}">
+            {# <input type="hidden" id="searchStatus" name="search_status" value="{{search_status}}"> #}
             <input type="hidden" id="mergePackId" name="merge_pack_id" value ="{{mergePack['id']}}">
             <label for="MergeNo">Do you want to select label: <span id="selectLabelNo"></span> ?</label>
           </div>                 

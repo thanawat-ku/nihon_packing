@@ -74,8 +74,6 @@ final class MergeRegisterAction
             $this->updater->updatePackMerge($mergeId, $dataMergePack);
         }
 
-
-
         return $this->responder->withRedirect($response, "merges");
     }
 }

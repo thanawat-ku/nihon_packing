@@ -68,9 +68,9 @@
                         {% if merge.merge_status == "PRINTED"%}
                           <button type="button" id="registerBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#registerMerge" name="{{ merge|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-check-circle"></i></button>
                         {% endif %}
-                        <a href="merge_detail?id={{merge.id}}&search_product_id={{search_product_id}}&search_status={{search_status}}"><button type="button" class="btn btn-success btn-sm" data-toggle="modal" ><i style="font-size:15px; width:20px;" class="fas fa-folder-open"></i></button></a>
+                        <a href="merge_detail?id={{merge.id}}"><button type="button" class="btn btn-success btn-sm" data-toggle="modal" ><i style="font-size:15px; width:20px;" class="fas fa-folder-open"></i></button></a>
                         {% if (merge.merge_status == "REGISTERING") or (merge.merge_status == "COMPLETE") or (merge.merge_status == "MERGED") or (merge.merge_status == "PRINTED") %}
-                          <a href="label_merge_news?id={{merge.id}}&search_product_id={{search_product_id}}&search_status={{search_status}}"><button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" ><i style="font-size:15px; width:20px; " class="fas fa-info-circle"></i></button></a>  <!-- detail icon color:gray; -->
+                          <a href="label_merge_news?id={{merge.id}}"><button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" ><i style="font-size:15px; width:20px; " class="fas fa-info-circle"></i></button></a>  <!-- detail icon color:gray; -->
                         {% endif %} 
                         {% if merge.merge_status == "CREATED" %}
                           <button type="button" id="editBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editMerge" name="{{ merge|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-edit"></i></button> 

@@ -60,8 +60,6 @@ final class MergeAddAction
 
         $viewData = [
             'id' => $mergeId,
-            'product_id' => $data['product_id'],
-            'search_status' => "CREATED",
         ];
         
         // return $this->responder->withRedirect($response, "merges");

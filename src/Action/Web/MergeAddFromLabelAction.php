@@ -87,8 +87,6 @@ final class MergeAddFromLabelAction
             $this->labelUpdater->updateLabel($labeId, $dataLabel);
             $viewData = [
                 'id' => $mergeId,
-                'product_id' => $dataMerge['product_id'],
-                'search_status' => "MERGING",
             ];
         } else {
             $viewData = [

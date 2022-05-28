@@ -67,12 +67,7 @@ final class MergeLabelNewAction
     {
         $params = (array)$request->getQueryParams();
         $mergePackId =  $params['id'];
-
-        if(!isset($params['search_product_id'])){
-            $params['search_product_id']=2713;
-            $params['search_status']='CREATED';
-        }
-        
+     
         $data['merge_pack_id'] = $mergePackId;
 
         $labels = $this->labelFinder->findLabelForLotZero($data);
@@ -94,8 +89,6 @@ final class MergeLabelNewAction
             'void_reasons' => $this->voidReasonFinder->findLabelVoidReasonsForVoidLabel($params),
             'printers' => $this->printerFinder->findPrinters($printerType),
             'user_login' => $this->session->get('user'),
-            'search_product_id' => $params['search_product_id'],
-            'search_status' => $params['search_status'],
         ];
 
         return $this->twig->render($response, 'web/labelsMerge.twig', $viewData); //-----edit twig

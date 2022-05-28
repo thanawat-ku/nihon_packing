@@ -54,11 +54,8 @@ final class LotRegisterAction
             $this->labelUpdater->registerLabel($lotId, $dataPack);
             $this->updater->registerLot($lotId, $dataPack);
         }
-        $viewData = [
-            'search_product_id' => $data['search_product_id'] ?? null,
-            'search_status' => $data['search_status'] ?? null,
-        ];
-        
+        $viewData = [];
+
         return $this->responder->withRedirect($response, "lots", $viewData);
     }
 }
