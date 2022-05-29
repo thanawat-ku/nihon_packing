@@ -3,9 +3,9 @@ $(function () {
         "order": [[0, "desc"]],
         "scrollX": true
     });
-    // $('#searchIssueStartDate, #searchIssueEndDate').datepicker({
-    //     format: 'yyyy-mm-dd'
-    // });
+    $('#searchIssueStartDate, #searchIssueEndDate').datepicker({
+        format: 'yyyy-mm-dd'
+    });
 });
 
 function editLabels(event) {

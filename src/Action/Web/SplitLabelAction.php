@@ -42,6 +42,20 @@ final class SplitLabelAction
     {
         $params = (array)$request->getQueryParams();
 
+        if(isset($params['startDate'])){
+            setcookie("startDateSplit", $params['startDate'] , time() + 3600);
+            setcookie("endDateSplit", $params['endDate'], time() + 3600);
+        }
+        else if(isset($_COOKIE['startDateSplit'])){
+            $params['startDate'] = $_COOKIE['startDateSplit'];
+            $params['endDate'] = $_COOKIE['endDateSplit'];
+        }
+        else{
+            $params['startDate'] = date('Y-m-d', strtotime('-30 days', strtotime(date('Y-m-d'))));
+            $params['endDate'] = date('Y-m-d');
+            setcookie("startDateSplit", $params['startDate'] , time() + 3600);
+            setcookie("endDateSplit", $params['endDate'], time() + 3600);
+        }
         if (isset($params['search_product_id']) || isset($params['search_status'])) {
             setcookie("search_product_id_split", $params['search_product_id'], time() + 43200);
             setcookie("search_status_split", $params['search_status'], time() + 43200);
@@ -62,6 +76,8 @@ final class SplitLabelAction
             'products' => $this->productFinder->findProducts($params),
             'search_product_id' => $params['search_product_id'],
             'search_status' => $params['search_status'],
+            'startDate' => $params['startDate'],
+            'endDate' => $params['endDate'],
         ];
 
 

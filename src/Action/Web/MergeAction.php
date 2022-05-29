@@ -59,10 +59,21 @@ final class MergeAction
     {
         $params = (array)$request->getQueryParams();
 
-        // if (!isset($params['startDate'])) {
-        //     $params['startDate'] = date('Y-m-d', strtotime('-30 days', strtotime(date('Y-m-d'))));
-        //     $params['endDate'] = date('Y-m-d');
-        // }
+        if(isset($params['startDate'])){
+            setcookie("startDateMerge", $params['startDate'] , time() + 3600);
+            setcookie("endDateMerge", $params['endDate'], time() + 3600);
+        }
+        else if(isset($_COOKIE['startDateMerge'])){
+            $params['startDate'] = $_COOKIE['startDateMerge'];
+            $params['endDate'] = $_COOKIE['endDateMerge'];
+        }
+        else{
+            $params['startDate'] = date('Y-m-d', strtotime('-30 days', strtotime(date('Y-m-d'))));
+            $params['endDate'] = date('Y-m-d');
+            setcookie("startDateMerge", $params['startDate'] , time() + 3600);
+            setcookie("endDateMerge", $params['endDate'], time() + 3600);
+        }
+
         if (isset($params['search_product_id']) || isset($params['search_status'])) {
             setcookie("search_product_id_merge", $params['search_product_id'], time() + 43200);
             setcookie("search_product_id_merge", $params['search_status'], time() + 43200);
@@ -83,8 +94,8 @@ final class MergeAction
             'mergePacks' => $mergePack, 
             'products' => $this->productFinder->findProducts($params),
             'user_login' => $this->session->get('user'),
-            // 'startDate' => $params['startDate'],
-            // 'endDate' => $params['endDate'],
+            'startDate' => $params['startDate'],
+            'endDate' => $params['endDate'],
             'search_product_id' => $params['search_product_id'],
             'search_status' => $params['search_status'],    
         ];

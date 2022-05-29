@@ -16,12 +16,6 @@
                 <h2><i class="fas fa-folder-plus"></i> Merge Label </h2>    
                 <button type="button" id="addMergeBt" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#addMerge"><i style="font-size:15px; width:20px;" class="fas fa-plus"></i> Add Merge</button> 
                 <button type="button" id="addMergeFromlabelBt" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#addMergeFromlabel"><i style="font-size:15px; width:20px;" class="fas fa-plus"></i> Add Merge From Label</button>
-                {# <form id="form-searchIssue" class="form-inline float-right" action="" method="get">
-                  Issue Date From:&nbsp;&nbsp;
-                  <input type="text" autocomplete="off" class="form-control" id="searchIssueStartDate" name="startDate" value="{{startDate}}">&nbsp;&nbsp;To&nbsp;&nbsp; 
-                  <input type="text" autocomplete="off" class="form-control" id="searchIssueEndDate" name="endDate" value="{{endDate}}">&nbsp;&nbsp;
-                  <button type="submit" class="btn btn-warning" id="searchIssueBt"><i class="fas fa-search fa-lg"></i> Search</button>
-                </form> #}
                 <form id="form-searchIssue" class="form-inline float-right" action="" method="get">
                   Product:&nbsp;&nbsp;
                   <select class="selectpicker" id="searchProductID" name="search_product_id" data-live-search="true">
@@ -41,6 +35,9 @@
                       <option value="MERGED" {{ search_status=="MERGED"?"selected" }}>MERGED</option>
                       <option value="COMPLETE" {{ search_status=="COMPLETE"?"selected" }}>COMPLETE</option>
                   </select>&nbsp;&nbsp;
+                  Merge Date From:&nbsp;&nbsp;
+                  <input size="10%" type="text" autocomplete="off" class="form-control" id="searchIssueStartDate" name="startDate" value="{{startDate}}">&nbsp;&nbsp;To&nbsp;&nbsp;
+					        <input size="10%" type="text" autocomplete="off" class="form-control" id="searchIssueEndDate" name="endDate" value="{{endDate}}">&nbsp;&nbsp;
                   <button type="submit" class="btn btn-warning" id="searchIssueBt"><i class="fas fa-search fa-lg"></i> Search</button>
                 </form>
                 <hr>

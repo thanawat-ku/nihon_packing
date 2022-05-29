@@ -53,6 +53,22 @@ final class LotAction
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $params = (array)$request->getQueryParams();
+        
+        
+        if(isset($params['startDate'])){
+            setcookie("startDateLot", $params['startDate'] , time() + 3600);
+            setcookie("endDateLot", $params['endDate'], time() + 3600);
+        }
+        else if(isset($_COOKIE['startDateLot'])){
+            $params['startDate'] = $_COOKIE['startDateLot'];
+            $params['endDate'] = $_COOKIE['endDateLot'];
+        }
+        else{
+            $params['startDate'] = date('Y-m-d', strtotime('-7 days', strtotime(date('Y-m-d'))));
+            $params['endDate'] = date('Y-m-d');
+            setcookie("startDateLot", $params['startDate'] , time() + 3600);
+            setcookie("endDateLot", $params['endDate'], time() + 3600);
+        }
 
         if (isset($params['search_product_id']) || isset($params['search_status'])) {
             setcookie("search_product_id_lot", $params['search_product_id'], time() + 43200);
@@ -111,6 +127,8 @@ final class LotAction
             'user_login' => $this->session->get('user'),
             'search_product_id' => $params['search_product_id'],
             'search_status' => $params['search_status'],
+            'startDate' => $params['startDate'],
+            'endDate' => $params['endDate'],
         ];
 
         return $this->twig->render($response, 'web/lots.twig', $viewData);

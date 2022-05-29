@@ -35,6 +35,9 @@
                       <option value="USED" {{ search_status=="USED"?"selected" }}>USED</option>
                       <option value="VOID" {{ search_status=="VOID"?"selected" }}>VOID</option>
                   </select>&nbsp;&nbsp;
+                  Issue Date From:&nbsp;&nbsp;
+                  <input size="10%" type="text" autocomplete="off" class="form-control" id="searchIssueStartDate" name="startDate" value="{{startDate}}">&nbsp;&nbsp;To&nbsp;&nbsp;
+					        <input size="10%" type="text" autocomplete="off" class="form-control" id="searchIssueEndDate" name="endDate" value="{{endDate}}">&nbsp;&nbsp;
                   <button type="submit" class="btn btn-warning" id="searchIssueBt"><i class="fas fa-search fa-lg"></i> Search</button>
                 </form>
                 <hr>    

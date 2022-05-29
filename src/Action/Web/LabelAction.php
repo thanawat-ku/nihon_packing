@@ -45,6 +45,21 @@ final class  LabelAction
     {
         $params = (array)$request->getQueryParams();
 
+        if(isset($params['startDate'])){
+            setcookie("startDateLabel", $params['startDate'] , time() + 3600);
+            setcookie("endDateLabel", $params['endDate'], time() + 3600);
+        }
+        else if(isset($_COOKIE['startDateLabel'])){
+            $params['startDate'] = $_COOKIE['startDateLabel'];
+            $params['endDate'] = $_COOKIE['endDateLabel'];
+        }
+        else{
+            $params['startDate'] = date('Y-m-d', strtotime('-30 days', strtotime(date('Y-m-d'))));
+            $params['endDate'] = date('Y-m-d');
+            setcookie("startDateLabel", $params['startDate'] , time() + 3600);
+            setcookie("endDateLabel", $params['endDate'], time() + 3600);
+        }
+
         if (isset($params['search_product_id']) || isset($params['search_status'])) {
             setcookie("search_product_id_label", $params['search_product_id'], time() + 43200);
             setcookie("search_status_label", $params['search_status'], time() + 43200);
@@ -77,6 +92,8 @@ final class  LabelAction
             'products' => $this->productFinder->findProducts($params),
             'search_product_id' => $params['search_product_id'],
             'search_status' => $params['search_status'],
+            'startDate' => $params['startDate'],
+            'endDate' => $params['endDate'],
         ];
 
 
