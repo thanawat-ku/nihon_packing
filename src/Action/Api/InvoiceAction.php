@@ -44,6 +44,11 @@ final class InvoiceAction
 
         $params = (array)$request->getQueryParams();
 
+        if (isset($params['start_date'])) {
+            $params['startDate'] = $params['start_date'];
+            $params['endDate'] = $params['end_date'];
+        }
+
         if(!isset($params['search_customer_id'])){
             $params['search_customer_id'] = 1;
         }

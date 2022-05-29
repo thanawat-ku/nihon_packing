@@ -44,6 +44,11 @@ final class PackAction
 
         $params = (array)$request->getQueryParams();
 
+        if (isset($params['start_date'])) {
+            $params['startDate'] = $params['start_date'];
+            $params['endDate'] = $params['end_date'];
+        }
+
         $rtdata['message']="Get Pack Successful";
         $rtdata['error']=false;
         $rtdata['packs']=$this->findPack->findPacks($params);        
