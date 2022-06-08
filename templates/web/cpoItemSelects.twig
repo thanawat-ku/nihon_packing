@@ -35,6 +35,8 @@
 					<input type="text" autocomplete="off" class="form-control" id="searchIssueEndDate" name="endDate" value="{{endDate}}">&nbsp;&nbsp;
 					<input type="hidden" name="pack_id" value="{{ packRow.id }}">
 					<input type="hidden" id="productID" name="ProductID" value="{{ packRow.product_id }}">
+					<input type="hidden" name="search_product_id" value="{{ search_product_id }}">
+					<input type="hidden" name="search_pack_status" value="{{ search_pack_status }}">
 					<button type="submit" class="btn btn-warning" id="searchIssueBt">
 						<i class="fas fa-search fa-lg"></i>
 						Search</button>
