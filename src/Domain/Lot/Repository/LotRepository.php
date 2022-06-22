@@ -249,10 +249,17 @@ final class LotRepository
                 'lot.CurrentQty',
             ]);
         $query->join([
-            'p' => [
+            's' => [
                 'table' => 'stock_item',
                 'type' => 'INNER',
-                'conditions' => 'p.LotID = lot.LotID AND lot.ProductID IN (3798,4460,4193,4459) AND p.ProcessID=12 and p.OutStockControlID=0 and p.StockControlID>'.$max_id,
+                'conditions' => 's.LotID = lot.LotID AND s.ProcessID=12 and s.OutStockControlID=0 and s.StockControlID>'.$max_id,
+            ]
+        ]);
+        $query->join([
+            'p' => [
+                'table' => 'product',
+                'type' => 'INNER',
+                'conditions' => 'lot.ProductID=p.ProductID AND p.CustomerID IN (245,243,99)',
             ]
         ]);
         return $query->execute()->fetchAll('assoc') ?: [];

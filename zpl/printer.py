@@ -1,3 +1,4 @@
+from cProfile import label
 from zebra import Zebra
 class Printer:
 
@@ -41,6 +42,43 @@ class Printer:
 ^XZ"""
         print(tag)
         self.z.output(tag)
+
+    def print_hitachi_label(self,part_no,part_name,lot_no,qty,label_no,visual_by,pack_by):
+        
+        label="""
+    ^XA
+
+    ^CF0,20
+    ^FO50,30^FDPart No^FS
+    ^FO50,60^FD(P) """+part_no+"""^FS
+    ^FO100,82^BY2^BCN,40,N^FDP"""+part_no+"""^FS
+    ^FO50,135^FDDESC """+part_name+"""^FS
+    ^FO50,160^FDQUANTITY^FS
+    ^FO50,180^FD(Q) """+qty+"""^FS
+    ^FO100,202^BCN,40,N^FDQ"""+qty+"""^FS
+    ^FO50,270^FDSupplier^FS
+    ^FO50,300^FD(V) A8130^FS
+    ^FO100,322^BCN,40,N^FDVA8130^FS
+    ^FO50,400^FDLot No.^FS
+    ^FO50,435^FD(1T)^FS
+    ^FO100,452^BCN,40,Y,Y^FD1T"""+lot_no+"""^FS
+    ^FO50,500^FDSerial Number^FS
+    ^FO50,535^FD(S)^FS
+    ^FO100,552^BCN,40,Y,Y^FDS"""+label_no+"""^FS
+    ^FO550,500^FDCOO^FS
+    ^CF0,80
+    ^FO600,530^FDTH^FS
+
+    ^FO520,50
+    ^BQN,2,7
+    ^FDQA,P"""+part_no+""";Q"""+qty+""";VA8130;1TL00000000001;S"""+label_no+"""^FS
+    ^CF0,45
+    ^FO340,350^FDNIHON SEIKI THAI LTD^FS
+
+    ^XZ
+    """
+        print(label)
+        self.z.output(label)
 
     def print_label(self,part_no,part_name,lot_no,qty,label_no,visual_by,pack_by):
         label="""

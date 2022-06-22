@@ -1,15 +1,15 @@
 import sys
 # for pyside6
-from PySide6.QtWidgets import (
-    QMainWindow, QApplication, QWidget, QLabel, QComboBox, QPushButton, QVBoxLayout, QHBoxLayout
-)
-from PySide6.QtCore import QTimer
-
-# for pyside
-#from PySide.QtGui import (
+#from PySide6.QtWidgets import (
 #    QMainWindow, QApplication, QWidget, QLabel, QComboBox, QPushButton, QVBoxLayout, QHBoxLayout
 #)
-#from PySide.QtCore import QTimer
+#from PySide6.QtCore import QTimer
+
+# for pyside
+from PySide.QtGui import (
+    QMainWindow, QApplication, QWidget, QLabel, QComboBox, QPushButton, QVBoxLayout, QHBoxLayout
+)
+from PySide.QtCore import QTimer
 
 import mysql.connector
 import time
@@ -26,7 +26,7 @@ class MainWindow(QMainWindow):
         self.tag_printer_name="AY-Tag"
 
         self.combo1 = QComboBox()
-        self.combo1.addItems(["AY-Label", "KK-Label"])
+        self.combo1.addItems(["AY-Label", "KK-Label", "HAN-Label"])
         self.combo1.setCurrentIndex(self.combo1.findText(self.label_printer_name))
         self.combo2 = QComboBox()
         self.combo2.addItems(["AY-Tag", "KK-Tag"])
@@ -77,7 +77,7 @@ class MainWindow(QMainWindow):
 
         label1 = QLabel("Label Printer:")
         self.combo1 = QComboBox()
-        self.combo1.addItems(["AY-Label", "KK-Label"])
+        self.combo1.addItems(["AY-Label", "KK-Label", "HAN-Label"])
         self.combo1.setCurrentIndex(self.combo1.findText(self.label_printer_name))
 
         row1.addWidget(label1)
@@ -116,26 +116,47 @@ class MainWindow(QMainWindow):
         database="packing"
         )
         mycursor = mydb.cursor()
-
-        #for label
-        mycursor.execute("SELECT L.id,P.part_no,P.part_name,LT.generate_lot_no,L.quantity,L.label_no,U1.first_name,'' AS pack_by \
-        FROM labels L \
-        INNER JOIN lots LT ON L.prefer_lot_id=LT.id \
-        INNER JOIN products P ON LT.product_id=P.id \
-        INNER JOIN printers PT ON L.printer_id=PT.id \
-        LEFT OUTER JOIN users U1 ON LT.packed_user_id=U1.id \
-        WHERE L.wait_print='Y' AND PT.printer_name=+'"+str(self.label_printer_name)+"' \
-        ORDER BY L.id")
-        myresult = mycursor.fetchall()
-        i=0
-        for l in myresult:
-            print(l)
-            self.label_printer.print_label(l[1],l[2],l[3],str(l[4]),l[5],"","")
-            mycursor.execute("UPDATE labels SET wait_print='N' WHERE id="+str(l[0]))
-            i=i+1
-            if i%5==4:
-                time.sleep(0.5)
-        mydb.commit()
+        
+        if self.label_printer_name!="HAN-Label":
+            #for label
+            mycursor.execute("SELECT L.id,P.part_no,P.part_name,LT.generate_lot_no,L.quantity,L.label_no,U1.first_name,'' AS pack_by \
+            FROM labels L \
+            INNER JOIN lots LT ON L.prefer_lot_id=LT.id \
+            INNER JOIN products P ON LT.product_id=P.id \
+            INNER JOIN printers PT ON L.printer_id=PT.id \
+            LEFT OUTER JOIN users U1 ON LT.packed_user_id=U1.id \
+            WHERE L.wait_print='Y' AND PT.printer_name=+'"+str(self.label_printer_name)+"' \
+            ORDER BY L.id")
+            myresult = mycursor.fetchall()
+            i=0
+            for l in myresult:
+                print(l)
+                self.label_printer.print_label(l[1],l[2],l[3],str(l[4]),l[5],"","")
+                mycursor.execute("UPDATE labels SET wait_print='N' WHERE id="+str(l[0]))
+                i=i+1
+                if i%5==4:
+                    time.sleep(0.5)
+            mydb.commit()
+        elif self.label_printer_name=="HAN-Label":
+            #for HAN label
+            mycursor.execute("SELECT L.id,P.part_no,P.part_name,LT.generate_lot_no,L.quantity,L.label_no,U1.first_name,'' AS pack_by \
+            FROM labels L \
+            INNER JOIN lots LT ON L.prefer_lot_id=LT.id \
+            INNER JOIN products P ON LT.product_id=P.id \
+            INNER JOIN printers PT ON L.printer_id=PT.id \
+            LEFT OUTER JOIN users U1 ON LT.packed_user_id=U1.id \
+            WHERE L.wait_print='Y' AND PT.printer_name=+'"+str(self.label_printer_name)+"' \
+            ORDER BY L.id")
+            myresult = mycursor.fetchall()
+            i=0
+            for l in myresult:
+                print(l)
+                self.label_printer.print_hitachi_label(l[1],l[2],l[3],str(l[4]),l[5],"","")
+                mycursor.execute("UPDATE labels SET wait_print='N' WHERE id="+str(l[0]))
+                i=i+1
+                if i%5==4:
+                    time.sleep(0.5)
+            mydb.commit()
 
         #for tag
         mycursor.execute("SELECT T.id,C.customer_name,P.part_no,P.part_name,S.pack_no, \
@@ -164,4 +185,4 @@ class MainWindow(QMainWindow):
 app = QApplication(sys.argv)
 w = MainWindow()
 w.show()
-app.exec()
+app.exec_()
