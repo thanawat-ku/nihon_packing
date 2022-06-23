@@ -35,6 +35,14 @@ function voidLabel(event) {
     $("#voidLabelID").val(obj.id);
 }
 
+function reprintLabel(event) {
+    let labels = event.currentTarget.name;
+    console.log(labels);
+    var obj = JSON.parse(labels);
+    $("#reprintLabelID").val(obj.id);
+    $("#reprintLabelNo").text(obj.label_no);
+}
+
 function splitLabel(event) {
     let labels = event.currentTarget.name;
     console.log(labels);
@@ -58,7 +66,7 @@ function confirmSplit(event) {
 
 $(document).on(
     "click",
-    "#editBt, #deleteBt, #SplitBt ,#voidBt ,#confirmSplitBt",
+    "#editBt, #deleteBt, #SplitBt ,#voidBt ,#confirmSplitBt, #reprintBt",
     (event) => {
         let id = event.currentTarget.id;
         switch (id) {
@@ -73,6 +81,9 @@ $(document).on(
                 break;
             case "voidBt":
                 voidLabel(event);
+                break;            
+            case "reprintBt":
+                reprintLabel(event);
                 break;
             case "confirmSplitBt":
                 confirmSplit(event);

@@ -162,6 +162,8 @@ final class LabelRepository
                 'std_pack',
                 'std_box',
                 'labels.split_label_id',
+                'labels.wait_print',
+                'printer_name',
                 'real_qty',
                 'label_void_reason_id',
             ]
@@ -178,6 +180,13 @@ final class LabelRepository
                 'table' => 'products',
                 'type' => 'INNER',
                 'conditions' => 'p.id = l.product_id',
+            ]
+        ]);        
+        $query->join([
+            'pt' => [
+                'table' => 'printers',
+                'type' => 'INNER',
+                'conditions' => 'pt.id = labels.printer_id',
             ]
         ]);
         //find label from lot

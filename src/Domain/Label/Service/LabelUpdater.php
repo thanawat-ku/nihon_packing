@@ -87,22 +87,22 @@ final class LabelUpdater
         $this->repository->updateLabelApi($labelID, $row, $user_id);
     }
 
-    public function registerLabel(int $lot_id, array $data): void
+    public function registerLabel(int $labelID, array $data): void
     {
-        $this->validator->validateLabelUpdate($lot_id, $data);
+        $this->validator->validateLabelUpdate($labelID, $data);
 
         $row = $this->mapToLabelRow($data);
 
-        $this->repository->registerLabel($lot_id, $row);
+        $this->repository->registerLabel($labelID, $row);
     }
 
-    public function registerLabelApi(int $lot_id, array $data, $user_id): void
+    public function registerLabelApi(int $labelID, array $data, $user_id): void
     {
-        $this->validator->validateLabelUpdate($lot_id, $data);
+        $this->validator->validateLabelUpdate($labelID, $data);
 
         $row = $this->mapToLabelRow($data);
 
-        $this->repository->registerLabelApi($lot_id, $row, $user_id);
+        $this->repository->registerLabelApi($labelID, $row, $user_id);
     }
 
     public function registerMerge(int $mergeId, array $data): void

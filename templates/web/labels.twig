@@ -53,6 +53,8 @@
                         {# <th>Part No</th> #}
                         <th>Type</th>
                         <th>Quantity</th>
+                        <th>Wait Print</th>
+                        <th>Printer</th>
                         <th>Status</th>
                         <th>Operation</th>
                     </tr>
@@ -74,6 +76,8 @@
                         {# <td>{{ label.part_no}} </td> #}
                         <td>{{ label.label_type }}</td>
                         <td>{{ label.quantity }}</td>
+                        <td>{{ label.wait_print }}</td>
+                        <td>{{ label.printer_name }}</td>
                         <td>{{ label.status }}</td>
                         <td>
                         {# {% if label.status  == "CREATED" %}
@@ -82,6 +86,9 @@
                         {% if label.status  == "PACKED" %}
                           <button type="button" id="SplitBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#splitLabel" name="{{ label|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-object-ungroup"></i></button>
                           <button type="button" id="voidBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#voidLabel" name="{{ label|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-exclamation-triangle"></i></button>
+                        {% endif %}
+                        {% if label.status  in ["PACKED","PRINTED"] %}
+                          <button type="button" id="reprintBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#reprintLabel" name="{{ label|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-recycle"></i></button>
                         {% endif %}
                         {% if label.status  == "CREATED"%}
                           <button type="button" id="editBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editLabel" name="{{ label|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-edit"></i></button>
@@ -137,6 +144,41 @@
   </div>
 </div>
 
+<!-- Modal reprint label -->
+<div class="modal fade" id="reprintLabel">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form id="form-voidLabel" action="reprint_label" method="post">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Reprint Label</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">          
+          <div class="form-product">
+            <input type="hidden" id="reprintLabelID" name="id">
+          </div>
+          <div class="form-realQty">
+            <label for="lotNo">Do you want to reprint Label: <span id="reprintLabelNo"></span> ?</label>
+          </div>
+          <div class="form-product">
+            <label for="email">Printer</label>
+            <select class="selectpicker form-control"  id="addPrinterID" name="printer_id" data-live-search="true">
+            {% for p in printers %}
+              <option value={{ p.id }}>{{ p.printer_name}} </option>
+            {% endfor %}
+            </select>
+          </div> 
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-info">Reprint</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 <!-- Modal edit label -->
 <div class="modal fade" id="editLabel">
   <div class="modal-dialog modal-dialog-centered">

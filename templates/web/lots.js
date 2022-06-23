@@ -38,6 +38,13 @@ function printLot(event) {
     $("#qtySystem").text(obj.quantity);
     $("#stdPack").val(obj.std_pack);
 }
+function reprintLot(event) {
+    let lot = event.currentTarget.name;
+    console.log(lot);
+    var obj = JSON.parse(lot);
+    $("#reprintLotID").val(obj.id);
+    $("#reprintLotNo").text(obj.lot_no);
+}
 
 function confirmPrintLot(event) {
     $("#confirmPrintLotID").val($("#printLotID").val());
@@ -187,7 +194,7 @@ $(document).on(
 );
 $(document).on(
     "click",
-    "#editBt, #deleteBt, #printBt, #addDefectBt, #registerBt, #confirmPrintLotBt",
+    "#editBt, #deleteBt, #printBt, #reprintBt, #addDefectBt, #registerBt, #confirmPrintLotBt",
     (event) => {
         let id = event.currentTarget.id;
         switch (id) {
@@ -209,7 +216,9 @@ $(document).on(
             case "confirmPrintLotBt":
                 confirmPrintLot(event)
                 break;
-
+            case "reprintBt":
+                reprintLot(event);
+                break;
             default:
                 console.log("no any events click");
         }
