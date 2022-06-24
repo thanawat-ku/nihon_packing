@@ -1,11 +1,18 @@
 $(function () {
-    $('#my-data-table').DataTable({
-        "order": [[0, "desc"]],
+    var table = $('#my-data-table').DataTable({
+        'columnDefs': [{
+            'targets': 0,
+            'searchable':false,
+            'orderable':false,
+            'className': 'dt-body-center',
+        }],
+        "order": [[1, "desc"]],
         "scrollX": true
     });
     $('#searchIssueStartDate, #searchIssueEndDate').datepicker({
         format: 'yyyy-mm-dd'
     });
+   
 });
 
 function editLabels(event) {
