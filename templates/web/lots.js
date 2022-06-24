@@ -45,6 +45,13 @@ function reprintLot(event) {
     $("#reprintLotID").val(obj.id);
     $("#reprintLotNo").text(obj.lot_no);
 }
+function reverseLot(event) {
+    let lot = event.currentTarget.name;
+    console.log(lot);
+    var obj = JSON.parse(lot);
+    $("#reverseLotID").val(obj.id);
+    $("#reverseLotNo").text(obj.lot_no);
+}
 
 function confirmPrintLot(event) {
     $("#confirmPrintLotID").val($("#printLotID").val());
@@ -194,7 +201,7 @@ $(document).on(
 );
 $(document).on(
     "click",
-    "#editBt, #deleteBt, #printBt, #reprintBt, #addDefectBt, #registerBt, #confirmPrintLotBt",
+    "#editBt, #deleteBt, #printBt, #reprintBt, #reverseBt, #addDefectBt, #registerBt, #confirmPrintLotBt",
     (event) => {
         let id = event.currentTarget.id;
         switch (id) {
@@ -218,6 +225,9 @@ $(document).on(
                 break;
             case "reprintBt":
                 reprintLot(event);
+                break;
+            case "reverseBt":
+                reverseLot(event);
                 break;
             default:
                 console.log("no any events click");

@@ -74,19 +74,20 @@
                         <td>{{ lot.status }}</td>
                         <td>
                         {% if lot.status == "CREATED" %}
-                          <a href="lot_defect_detail?id={{lot.id}}"><button type="button" class="btn btn-info btn-sm" data-toggle="modal" ><i style="font-size:15px; width:20px;" class="fas fa-tools"></i></button></a>
-                          <button type="button" id="printBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#printLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-print"></i></button>
+                          <a href="lot_defect_detail?id={{lot.id}}"><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-placement="bottom" title="defect"><i style="font-size:15px; width:20px;" class="fas fa-tools"></i></button></a>
+                          <button type="button" id="printBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#printLot" name="{{ lot|json_encode }}" data-placement="bottom" title="print"><i style="font-size:15px; width:20px;" class="fas fa-print"></i></button>
                         {% endif %}
                         {% if lot.status == "PRINTED" %}
-                          <button type="button" id="registerBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#registerLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-check-circle"></i></button>
-                          {% endif %}
+                          <button type="button" id="registerBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#registerLot" name="{{ lot|json_encode }}" data-placement="bottom" title="register"><i style="font-size:15px; width:20px;" class="fas fa-check-circle"></i></button>
+                          <button type="button" id="reverseBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#reverseLot" name="{{ lot|json_encode }}" data-placement="bottom" title="reverse"><i style="font-size:15px; width:20px;" class="fas fa-undo"></i></button>
+                        {% endif %}
                         {% if lot.status != "CREATED" %}
-                          <a href="label_lot?id={{lot.id}}"><button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" ><i style="font-size:15px; width:20px;" class="fas fa-info-circle"></i></button></a> 
-                          <button type="button" id="reprintBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#reprintLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-recycle"></i></button>
+                          <a href="label_lot?id={{lot.id}}"><button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-placement="bottom" title="labels"><i style="font-size:15px; width:20px;" class="fas fa-info-circle"></i></button></a> 
+                          <button type="button" id="reprintBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#reprintLot" name="{{ lot|json_encode }}" data-placement="bottom" title="reprint"><i style="font-size:15px; width:20px;" class="fas fa-recycle"></i></button>
                         {% endif %}
                         {% if lot.status == "CREATED" %}
-                          <button button type="button" id="editBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-edit"></i></button>                   
-                          <button type="button" id="deleteBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteLot" name="{{ lot|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-trash"></i></button>    
+                          <button button type="button" id="editBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editLot" name="{{ lot|json_encode }}" data-placement="bottom" title="edit"><i style="font-size:15px; width:20px;" class="fas fa-edit"></i></button>                   
+                          <button type="button" id="deleteBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteLot" name="{{ lot|json_encode }}" data-placement="bottom" title="delete"><i style="font-size:15px; width:20px;" class="fas fa-trash"></i></button>    
                         {% endif %}    
                         </td>
                     </tr>
@@ -300,7 +301,7 @@
   </div>
 </div>
 
-<!--regiserLot-->
+<!--reprintLot-->
 <div class="modal fade" id="reprintLot">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
@@ -329,6 +330,34 @@
         </div>
         <div class="modal-footer">
           <button type="submit" class="btn btn-info">Yes</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!--reverseLot-->
+<div class="modal fade" id="reverseLot">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form id="form-defectLot" action="reverse_lot" method="post">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Reverse Lot </h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">          
+          <div class="form-product">
+            <input type="hidden" id="reverseLotID" name="lot_id">
+          </div>
+          <div class="form-realQty">
+          <label for="lotNo">Do you want to reverse Lot: <span id="reverseLotNo"></span> ?</label>
+          </div>                            
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-warning">Yes</button>
           <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
         </div>
       </form>

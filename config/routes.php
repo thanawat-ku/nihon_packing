@@ -50,6 +50,7 @@ return function (App $app) {
     $app->post('/print_lot', \App\Action\Web\LotPrintAction::class)->add(UserAuthMiddleware::class);
     $app->post('/register_lot', \App\Action\Web\LotRegisterAction::class)->add(UserAuthMiddleware::class);
     $app->post('/reprint_lot', \App\Action\Web\LotReprintAction::class)->add(UserAuthMiddleware::class);
+    $app->post('/reverse_lot', \App\Action\Web\LotReverseAction::class)->add(UserAuthMiddleware::class);
     $app->get('/label_lot', \App\Action\Web\LotLabelAction::class)->add(UserAuthMiddleware::class);
     $app->get('/lots', \App\Action\Web\LotAction::class)->add(UserAuthMiddleware::class);
 
