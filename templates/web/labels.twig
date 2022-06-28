@@ -66,14 +66,22 @@
                       <td><input type="checkbox" name="id[]" value="{{ label.id }}"></td>
                       <td>{{ label.label_no }}</td>
                       <td>{{ label.lot_no }}</td>
-                      <td>{{ label.generate_lot_no}}</td>
+                      <td>
+                        {% if label.generate_lot_no  != "" %}<a href="label_lot?id={{ label.lot_id}}">{% endif %}
+                        {{ label.generate_lot_no}}
+                        {% if label.generate_lot_no  != "" %}</a>{% endif %}
+                      </td>
                         {# {% if label.status  == "CREATED" %}
                         <td>{{ label.lot_no }}</td>
                         {% endif %}
                         {% if label.status  != "CREATED" %}
                         <td>{{ label.generate_lot_no	 }}</td>
                         {% endif %} #}
-                        <td>{{ label.merge_no }}</td>
+                        <td>
+                          {% if label.merge_no  != "" %}<a href="merge_detail?id={{ label.merge_pack_id}}">{% endif %}
+                          {{ label.merge_no }}
+                          {% if label.merge_no  != "" %}</a>{% endif %}
+                        </td>
                         <td>{{ label.part_code}} </td>
                         {# <td>{{ label.part_no}} </td> #}
                         <td>{{ label.label_type }}</td>
