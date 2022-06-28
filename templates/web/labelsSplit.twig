@@ -36,8 +36,16 @@
                     {% for label in labels %}                    
                     <tr>
                         <td>{{ label.label_no }}</td>
-                        <td>{{ label.generate_lot_no	 }}</td>
-                        <td>{{ label.merge_no }}</td>
+                        <td>
+                          {% if label.generate_lot_no  != "" %}<a href="label_lot?id={{ label.lot_id}}">{% endif %}
+                          {{ label.generate_lot_no}}
+                          {% if label.generate_lot_no  != "" %}</a>{% endif %}
+                        </td>
+                        <td>
+                          {% if label.merge_no  != "" %}<a href="merge_detail?id={{ label.merge_pack_id}}">{% endif %}
+                          {{ label.merge_no }}
+                          {% if label.merge_no  != "" %}</a>{% endif %}
+                        </td>
                         <td>{{ label.part_code}} </td>
                         {# <td>{{ label.part_no}} </td> #}
                         <td>{{ label.label_type }}</td>
