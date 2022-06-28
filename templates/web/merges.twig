@@ -63,17 +63,17 @@
                         <td>{{ merge.std_pack ~ '/' ~ merge.std_box }}</td>
                         <td>
                         {% if merge.merge_status == "PRINTED"%}
-                          <button type="button" id="registerBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#registerMerge" name="{{ merge|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-check-circle"></i></button>
+                          <button type="button" id="registerBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#registerMerge" name="{{ merge|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-check-circle" data-placement="bottom" title="register"></i></button>
                         {% endif %}
-                        <a href="merge_detail?id={{merge.id}}"><button type="button" class="btn btn-success btn-sm" data-toggle="modal" ><i style="font-size:15px; width:20px;" class="fas fa-folder-open"></i></button></a>
+                        <a href="merge_detail?id={{merge.id}}"><button type="button" class="btn btn-success btn-sm" data-toggle="modal" ><i style="font-size:15px; width:20px;" class="fas fa-folder-open" data-placement="bottom" title="open"></i></button></a>
                         {% if (merge.merge_status == "REGISTERING") or (merge.merge_status == "COMPLETE") or (merge.merge_status == "MERGED") or (merge.merge_status == "PRINTED") %}
-                          <a href="label_merge_news?id={{merge.id}}"><button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" ><i style="font-size:15px; width:20px; " class="fas fa-info-circle"></i></button></a>  <!-- detail icon color:gray; -->
+                          <a href="label_merge_news?id={{merge.id}}"><button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" ><i style="font-size:15px; width:20px; " class="fas fa-info-circle" data-placement="bottom" title="view"></i></button></a>  <!-- detail icon color:gray; -->
                         {% endif %} 
                         {% if merge.merge_status == "CREATED" %}
-                          <button type="button" id="editBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editMerge" name="{{ merge|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-edit"></i></button> 
+                          <button type="button" id="editBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editMerge" name="{{ merge|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-edit" data-placement="bottom" title="edit"></i></button> 
                         {% endif %}
                         {% if (merge.merge_status == "CREATED") or (merge.merge_status == "MERGING") %}                   
-                          <button type="button" id="deleteBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteMerge" name="{{ merge|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-trash"></i></button>    
+                          <button type="button" id="deleteBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteMerge" name="{{ merge|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-trash" data-placement="bottom" title="delete"></i></button>    
                         {% endif %}
                         </td>
                     </tr>

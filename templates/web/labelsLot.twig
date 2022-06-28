@@ -48,12 +48,12 @@
                         <td>{{ label.status }}</td>
                         <td>
                         {% if label.status  == "PACKED" %}
-                          <button type="button" id="SplitBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#splitLabel" name="{{ label|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-object-ungroup"></i></button>
-                          <button type="button" id="voidBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#voidLabel" name="{{ label|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-exclamation-triangle"></i></button>
+                          <button type="button" id="SplitBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#splitLabel" name="{{ label|json_encode }}" data-placement="bottom" title="split"><i style="font-size:15px; width:20px;" class="fas fa-object-ungroup"></i></button>
+                          <button type="button" id="voidBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#voidLabel" name="{{ label|json_encode }}" data-placement="bottom" title="void"><i style="font-size:15px; width:20px;" class="fas fa-exclamation-triangle"></i></button>
                         {% endif %}
                         {% if label.status  == "CREATED"%}
-                          <button type="button" id="editBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editLabel" name="{{ label|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-edit"></i></button>
-                          <button type="button" id="deleteBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteLabel" name="{{ label|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-trash"></i></button>
+                          <button type="button" id="editBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editLabel" name="{{ label|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-edit" data-placement="bottom" title="edit"></i></button>
+                          <button type="button" id="deleteBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteLabel" name="{{ label|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-trash" data-placement="bottom" title="delete"></i></button>
                         {% endif %}
                         </td>
                     </tr>
