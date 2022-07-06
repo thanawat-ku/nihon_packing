@@ -42,6 +42,87 @@ class Printer:
 ^XZ"""
         print(tag)
         self.z.output(tag)
+    
+    def print_hitachi_tag(self,customer_name,part_no,part_name,po_no,
+            ship_date,box_no,total_box,tag_no,qty):
+        
+        tag="""
+^XA
+^FWR
+^BY3,2,70
+
+
+^FO15,15^GB780,1190,3^FS
+^FO700,15^GB1,1190,3^FS
+^FO540,15^GB1,1190,3^FS
+^FO370,15^GB1,1190,3^FS
+^FO190,15^GB1,1190,3^FS
+
+
+^FO540,65^GB160,1,3^FS
+^FO540,360^GB160,1,3^FS
+^FO540,415^GB160,1,3^FS
+^FO540,830^GB160,1,3^FS
+^FO370,830^GB170,1,3^FS
+^FO190,415^GB180,1,3^FS
+^FO190,1070^GB180,1,3^FS
+^FO15,750^GB175,1,3^FS
+
+
+^CF0,60
+^FO715,400^FDMASTER LABEL^FS
+^CF0,30
+^FO660,35^FDF^FS
+^FO630,35^FDR^FS
+^FO600,35^FDO^FS
+^FO570,35^FDM^FS
+^FO630,380^FDT^FS
+^FO600,380^FDO^FS
+
+^CF0,18
+^FO560,80^FB280,4,14,L,0
+^FDNIHON SEIKI THAI LIMITED\&
+1/77 MOO 5 T.KANHAM A.U-THAI\&
+PRANAKORN SRIAYUTTHAYA\&
+THAILAND 13210^FS
+
+^FO560,430^FB400,4,14,L,0
+^FDHITACHI ASTEMO SAN LUIS POTOSI S.A. de C.V.\&
+SANTIAGO PONIETNTE 200, LOTE 01 MANZANA 05\&
+SAN LUIS POTOSI\&
+MX 78423  MEXICO^FS
+
+^FO675,850^FDPO# (K)^FS
+^FO590,940^BC^FD"""+po_no+"""^FS
+
+^FO500,30^FDPC# (P)^FS
+^FO425,100^BC^FD"""+part_no+"""^FS
+
+^CF0,18
+^FO500,850^FDDESCRIPTION^FS
+^CF0,30
+^FO450,880^FD"""+part_name+"""^FS
+^FO400,880^FDNIHON SEIKI THAI LTD.^FS
+
+^CF0,18
+^FO330,30^FDQTY (Q)^FS
+^FO250,100^BC^FD"""+qty+"""^FS
+
+^FO330,430^FDSUPPLIER (V)^FS
+^FO250,500^BC^FDA8130 P01USD^FS
+
+^FO150,30^FDSERIAL NUMBER (S)^FS
+^FO60,100^BC^FD"""+tag_no+"""^FS
+
+^CF0,18
+^FO150,770^FDSHIP DATE^FS
+^CF0,30
+^FO100,770^FD"""+ship_date+"""^FS
+^FO30,770^FDCOO:THAILAND^FS
+^XZ
+"""
+        print(tag)
+        self.z.output(tag)
 
     def print_hitachi_label(self,part_no,part_name,lot_no,qty,label_no,visual_by,pack_by):
         
