@@ -93,7 +93,7 @@ SAN LUIS POTOSI\&
 MX 78423  MEXICO^FS
 
 ^FO675,850^FDPO# (K)^FS
-^FO590,940^BC^FD"""+po_no+"""^FS
+^FO590,880^BC^FD"""+po_no+"""^FS
 
 ^FO500,30^FDPC# (P)^FS
 ^FO425,100^BC^FD"""+part_no+"""^FS
