@@ -94,11 +94,11 @@ final class PackLabelAddAction
 
         $viewData = [
             'pack_id' => $packRow['id'],
-            'product_id' => $packRow['product_id'],
+            'ProductID' => $packRow['product_id'],
             'search_product_id' => $data['search_product_id'],
             'search_pack_status' => $data['search_pack_status'],
         ];
 
-        return $this->responder->withRedirect($response, "pack_labels", $viewData);
+        return $this->responder->withRedirect($response, "select_label_for_packs", $viewData);
     }
 }

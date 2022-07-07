@@ -37,10 +37,11 @@ final class PackConfirmAction
         $this->updater->updatePackStatus($packID, $data,$user_id);
 
         $viewData = [
-            'search_product_id' => $data['search_product_id'],
-            'search_pack_status' => $data['search_pack_status'],
+            'pack_id' => $packID,
+            'search_product_id'=>$data['search_product_id'],
+            'search_pack_status'=>$data['search_pack_status'],
         ];
 
-        return $this->responder->withRedirect($response,"packs", $viewData );
+        return $this->responder->withRedirect($response,"pack_labels", $viewData );
     }
 }

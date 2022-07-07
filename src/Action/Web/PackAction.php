@@ -46,33 +46,33 @@ final class PackAction
             $checkError = "true";
         }
 
-        if (!$this->session->get('startDatePack')) {
-            $params['startDate'] = date('Y-m-d', strtotime('-30 days', strtotime(date('Y-m-d'))));
+        if(isset($params['startDate'])){
+            setcookie("startDatePack", $params['startDate'] , time() + 3600);
+            setcookie("endDatePack", $params['endDate'], time() + 3600);
+        }
+        else if(isset($_COOKIE['startDatePack'])){
+            $params['startDate'] = $_COOKIE['startDatePack'];
+            $params['endDate'] = $_COOKIE['endDatePack'];
+        }
+        else{
+            $params['startDate'] = date('Y-m-d', strtotime('-7 days', strtotime(date('Y-m-d'))));
             $params['endDate'] = date('Y-m-d');
+            setcookie("startDatePack", $params['startDate'] , time() + 3600);
+            setcookie("endDatePack", $params['endDate'], time() + 3600);
+        }
 
-            //กำหนด session ให้กับ  startDatePack และ endDatePack
-            $this->session->start();
+        if (isset($params['search_product_id']) || isset($params['search_pack_status'])) {
+            setcookie("search_product_id_pack", $params['search_product_id'], time() + 43200);
+            setcookie("search_pack_status", $params['search_pack_status'], time() + 43200);
 
-            $this->session->set('startDatePack', $params['startDate']);
-            $this->session->set('endDatePack', $params['endDate']);
+        } else if (isset($_COOKIE['search_product_id_pack']) || isset($_COOKIE['search_status_pack'])) {
+            $params['search_product_id'] = $_COOKIE['search_product_id_pack'] ?? 2713;
+            $params['search_pack_status'] = $_COOKIE['search_status_pack'] ?? 'ALL';
         } else {
-            // กำหนด session ให้กับ  startDatePack และ endDatePack
-            if (isset($params['startDate'])) {
-                $this->session->start();
-
-                $this->session->set('startDatePack', $params['startDate']);
-                $this->session->set('endDatePack', $params['endDate']);
-            }else{
-                $params['startDate'] = $this->session->get('startDatePack');
-                $params['endDate'] = $this->session->get('endDatePack');
-            }
-        }
-
-        if (!isset($params['search_product_id'])) {
-            $params['search_product_id'] = 1;
-        }
-        if (!isset($params['search_pack_status'])) {
+            $params['search_product_id'] = 2713;
             $params['search_pack_status'] = 'ALL';
+            setcookie("search_product_id_pack", $params['search_product_id'], time() + 43200);
+            setcookie("search_pack_status", $params['search_pack_status'], time() + 43200);
         }
 
         $viewData = [
@@ -82,8 +82,8 @@ final class PackAction
             'search_product_id' => $params['search_product_id'],
             'search_pack_status' => $params['search_pack_status'],
             'checkError' => $checkError,
-            'startDate' => $this->session->get('startDatePack'),
-            'endDate' => $this->session->get('endDatePack'),
+            'startDate' => $params['startDate'],
+            'endDate' => $params['endDate'],
         ];
 
         return $this->twig->render($response, 'web/packs.twig', $viewData);
