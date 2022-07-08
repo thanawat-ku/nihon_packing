@@ -49,10 +49,17 @@ function printTags(event) {
     $("#printPackNo").text(obj.pack_no);
 
 }
+function reprintPack(event) {
+    let lot = event.currentTarget.name;
+    console.log(lot);
+    var obj = JSON.parse(lot);
+    $("#reprintPackID").val(obj.id);
+    $("#reprintPackNo").text(obj.pack_no);
+}
 
 $(document).on(
     "click",
-    "#editBt, #deleteBt, #registerBt, #conBt, #printBt",
+    "#editBt, #deleteBt, #registerBt, #reprintBt, #conBt, #printBt",
     (event) => {
         let id = event.currentTarget.id;
         switch (id) {
@@ -69,6 +76,9 @@ $(document).on(
                 break;
             case "printBt":
                 printTags(event);
+                break;
+            case "reprintBt":
+                reprintPack(event);
                 break;
             default:
                 console.log("no any events click");

@@ -117,6 +117,9 @@
 											<i style="font-size:15px; width:20px;" class="fas fa-trash"></i>
 										</button>
 									{% endif %}
+									{% if pack.pack_status in ["PRINTED","TAGGED","INVOICED","COMPLETE"] %}
+										<button type="button" id="reprintBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#reprintPack" name="{{ pack|json_encode }}" data-placement="bottom" title="reprint"><i style="font-size:15px; width:20px;" class="fas fa-recycle"></i></button>
+									{% endif %}
 
 								</td>
 							</tr>
@@ -323,6 +326,40 @@
 			</div>
 		</div>
 	</div>
-
+	<!--reprintPack-->
+<div class="modal fade" id="reprintPack">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form id="form-defectLot" action="reprint_pack" method="post">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Reprint Pack </h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">          
+          <div class="form-product">
+            <input type="hidden" id="reprintPackID" name="pack_id">
+          </div>
+          <div class="form-realQty">
+          <label for="lotNo">Do you want to reprint Pack: <span id="reprintPackNo"></span> ?</label>
+          </div>
+          <div class="form-product">
+            <label for="email">Printer</label>
+            <select class="selectpicker form-control"  id="addPrinterID" name="printer_id" data-live-search="true">
+            {% for p in printers %}
+              <option value={{ p.id }}>{{ p.printer_name}} </option>
+            {% endfor %}
+            </select>
+          </div>                             
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-info">Yes</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 
 {% endblock %}

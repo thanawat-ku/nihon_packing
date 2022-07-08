@@ -90,6 +90,7 @@ return function (App $app) {
     $app->post('/confirm_pack_label', \App\Action\Web\PackLabelConfirmAction::class)->add(UserAuthMiddleware::class);
     $app->post('/edit_pack', \App\Action\Web\PackEditAction::class)->add(UserAuthMiddleware::class);
     $app->post('/delete_pack', \App\Action\Web\PackDeleteAction::class)->add(UserAuthMiddleware::class);
+    $app->post('/reprint_pack', \App\Action\Web\PackReprintAction::class)->add(UserAuthMiddleware::class);
 
     $app->post('/api/login', \App\Action\ApiLoginSubmitAction::class);
     $app->get('/api/merges', \App\Action\Api\MergeAction::class);

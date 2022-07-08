@@ -4,6 +4,7 @@ namespace App\Action\Web;
 
 use App\Domain\Pack\Service\PackFinder;
 use App\Domain\Product\Service\ProductFinder;
+use App\Domain\Printer\Service\PrinterFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -22,18 +23,21 @@ final class PackAction
     private $twig;
     private $finder;
     private $productFinder;
+    private $printerFinder;
     private $session;
 
     public function __construct(
         Twig $twig,
         PackFinder $finder,
         ProductFinder $productFinder,
+        PrinterFinder $printerFinder,
         Session $session,
         Responder $responder
     ) {
         $this->twig = $twig;
         $this->finder = $finder;
         $this->productFinder = $productFinder;
+        $this->printerFinder = $printerFinder;
         $this->session = $session;
         $this->responder = $responder;
     }
@@ -74,10 +78,11 @@ final class PackAction
             setcookie("search_product_id_pack", $params['search_product_id'], time() + 43200);
             setcookie("search_pack_status", $params['search_pack_status'], time() + 43200);
         }
-
+        $printerType['printer_type'] = "TAG";
         $viewData = [
             'products' => $this->productFinder->findProducts($params),
             'packs' => $this->finder->findPacks($params),
+            'printers' => $this->printerFinder->findPrinters($printerType),
             'user_login' => $this->session->get('user'),
             'search_product_id' => $params['search_product_id'],
             'search_pack_status' => $params['search_pack_status'],
