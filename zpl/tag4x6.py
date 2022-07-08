@@ -2,12 +2,14 @@ from zebra import Zebra
 import time
 z = Zebra()
 z.getqueues()
-z.setqueue('ZDesigner GT800 (EPL)')
-for i in range(2,31):
+z.setqueue('AY-Tag')
+for i in range(1,2):
     tag="""
 ^XA
+^MD5
+~SD5
 ^FWR
-^BY3,2,70
+^BY3,3,70
 
 
 ^FO15,15^GB780,1190,3^FS
