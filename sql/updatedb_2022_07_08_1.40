@@ -1,0 +1,4 @@
+db version 1.40
+by thanawat
+
+add field po_no to packs and temp_query for show in tag
