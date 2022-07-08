@@ -63,6 +63,7 @@ final class CpoItemCheckTempQueryAction
             foreach ($cpodata as $cpo) {
                 $param_cpo['uuid'] = $uuid;
                 $param_cpo['cpo_item_id'] = $cpo['CpoItemID'];
+                $param_cpo['po_no'] = $cpo['PONo'];
                 $param_cpo['product_id'] = $cpo['ProductID'];
                 $param_cpo['quantity'] = $cpo['Quantity'];
                 $param_cpo['packing_qty'] = $cpo['PackingQty'];

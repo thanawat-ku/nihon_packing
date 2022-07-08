@@ -54,6 +54,7 @@ final class CpoItemAddAction
     {
         $data = (array)$request->getParsedBody();
         $pack_id = (int)$data['pack_id'];
+        $user_id=$this->session->get('user')["id"];
 
         $rtCpoItem = $this->finder->findCpoItem($data);
 
@@ -74,9 +75,11 @@ final class CpoItemAddAction
         $packCpoItem = $this->tempQueryFinder->findTempQuery($param_search);
 
 
+
         for ($i = 0; $i < count($packCpoItem); $i++) {
             $totalQty += (int)$packCpoItem[$i]['pack_qty'];
             $arrTotalQty['total_qty'] = $totalQty;
+            $arrTotalQty['po_no'] = $packCpoItem[$i]['po_no'];
         }
 
 

@@ -57,6 +57,9 @@ final class TempQueryUpdater
         if (isset($data['cpo_item_id'])) {
             $result['cpo_item_id'] = (string)$data['cpo_item_id'];
         }
+        if (isset($data['po_no'])) {
+            $result['po_no'] = (string)$data['po_no'];
+        }
         if (isset($data['product_id'])) {
             $result['product_id'] = (string)$data['product_id'];
         }

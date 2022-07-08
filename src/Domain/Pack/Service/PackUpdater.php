@@ -112,6 +112,7 @@ final class PackUpdater
         $row = $this->mapToRow($data);
         $row['pack_status'] = "SELECTING_CPO";
         $row['total_qty'] = $data['total_qty'];
+        $row['po_no'] = $data['po_no'];
         $user_id = $this->session->get('user')["id"];
 
         $this->repository->updatePackApi($productId, $row, $user_id);

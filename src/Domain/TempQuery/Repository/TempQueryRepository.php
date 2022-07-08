@@ -44,6 +44,7 @@ final class TempQueryRepository
             [
                 
                 'temp_query.cpo_item_id',
+                'temp_query.po_no',
                 'quantity',
                 'packing_qty',
                 'due_date',

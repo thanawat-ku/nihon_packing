@@ -41,6 +41,7 @@ final class CpoItemRepository
             [
                 'CpoItemID',
                 'cpo_item.ProductID',
+                'cpo_item.PONo',
                 'Quantity',
                 'DueDate',
                 'PackingQty',
