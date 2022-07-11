@@ -104,7 +104,7 @@ MX 78423  MEXICO^FS
 ^FO500,30^FDPC# (P)^FS
 ^FO425,100^BC,70,N^FDP"""+part_no+"""^FS
 ^CF0,30
-^FO380,300^FD3511-PC2T-0000^FS
+^FO380,300^FD"""+part_no+"""^FS
 
 ^CF0,18
 ^FO500,850^FDDESCRIPTION^FS
@@ -168,7 +168,7 @@ MX 78423  MEXICO^FS
 
     ^FO520,50
     ^BQN,2,7
-    ^FDQA,P"""+part_no+""";Q"""+qty+""";VA8130;1TL00000000001;S"""+label_no+"""^FS
+    ^FDQA,P"""+part_no+""";Q"""+qty+""";VA8130;1T"""+lot_no+""";S"""+label_no+"""^FS
     ^CF0,45
     ^FO340,350^FDNIHON SEIKI THAI LTD^FS
 
