@@ -42,6 +42,9 @@ final class CpoItemAction
         $data = (array)$request->getQueryParams();
         $packID=(int)$data['pack_id'];
 
+        //ตัดช่องว่างหลัง
+        $data['search_product_id'] = str_replace(' ', '', $data['search_product_id']);
+
         $cpodata = $this->finder->findCpoItem($data);
         $uuid=uniqid();
 

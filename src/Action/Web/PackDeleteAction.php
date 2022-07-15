@@ -73,6 +73,10 @@ final class PackDeleteAction
         $data = (array)$request->getParsedBody();
         $packID = (int)$data['id'];
 
+        $gg = strlen($data['search_product_id']);
+        $data['search_product_id'] = str_replace(' ', '', $data['search_product_id']);
+        $gg = strlen($data['search_product_id']);
+
         $rtPack =  $this->finder->findPacks($data);
 
         if ($rtPack[0]['pack_status'] != "COMPLETE") {

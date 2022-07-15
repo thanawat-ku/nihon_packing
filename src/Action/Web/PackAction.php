@@ -79,6 +79,7 @@ final class PackAction
             setcookie("search_pack_status", $params['search_pack_status'], time() + 43200);
         }
         $printerType['printer_type'] = "TAG";
+        $params['search_product_id'] = str_replace(' ', '', $params['search_product_id']);
         $viewData = [
             'products' => $this->productFinder->findProducts($params),
             'packs' => $this->finder->findPacks($params),
