@@ -130,6 +130,7 @@ final class PackLabelRepository
             [
                 'pack_labels.id',
                 'pack_labels.pack_id',
+                'l.generate_lot_no',
                 'label_id',
                 'label_no',
                 'lot_no',
