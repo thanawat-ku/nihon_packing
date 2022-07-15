@@ -124,6 +124,10 @@ final class PackRepository
         if (isset($params['search_product_id'])) {
             $query->andWhere(['p.id' => $params['search_product_id']]);
         }
+        if (isset($params['check_status_pack'])) {
+            $query->andWhere(['packs.pack_status' => "TAGGED"]);
+            $query->andWhere(['P.is_completed' => "N"]);
+        }
 
 
         return $query->execute()->fetchAll('assoc') ?: [];
