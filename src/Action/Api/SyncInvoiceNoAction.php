@@ -93,9 +93,9 @@ final class SyncInvoiceNoAction
                     $insertInvoice['invoice_status'] = "INVOICE";
                     $invoiceID = $this->updateInvoice->insertInvoicePacking($insertInvoice, $user_id);
 
-                    $upPack['pack_status'] = 'INVOICED';
-                    $upPack['invoice_id'] = $invoiceID;
-                    $this->updatePack->updatePackSyncApi((int)$rtPack[$i]['id'],  $upPack, $user_id);
+                    // $upPack['pack_status'] = 'INVOICED';
+                    // $upPack['invoice_id'] = $invoiceID;
+                    // $this->updatePack->updatePackSyncApi((int)$rtPack[$i]['id'],  $upPack, $user_id);
 
                     $rtData = [];
                     array_push($rtData, $insertInvoice);
@@ -109,6 +109,24 @@ final class SyncInvoiceNoAction
                 }
             }
         }
+
+        //หา pack ที่มี status เป็น TAGGED
+        $checkProductCom['check_status_pack'] = true;
+        $checkProductCom['pack_status'] = "TAGGED";
+        $rtPackProductCom = $this->findPack->findPacks($checkProductCom);
+
+        //เมื่อได้ pack ที่มี status เป็น TAGGED แล้ว เช็คว่า is_completed ของ product เป็น N or Y
+        for ($j = 0; $j < count($rtPackProductCom); $j++) {
+            //เป็น  Y  update status is INVOICED
+            if ($rtPackProductCom[$j]['is_completed'] == "Y") {
+                $upPackCheckProduct['pack_status'] = 'INVOICED';
+                $this->updatePack->updatePackSyncApi((int)$rtPackProductCom[$j]['id'],  $upPackCheckProduct, $user_id);
+            } else { //เป็น  N  update status is INVOICED
+                $upPackCheckProduct['pack_status'] = 'COMPLETED';
+                $this->updatePack->updatePackSyncApi((int)$rtPackProductCom[$j]['id'],  $upPackCheckProduct, $user_id);
+            }
+        }
+
 
         return $this->responder->withJson($response, $rtData);
     }

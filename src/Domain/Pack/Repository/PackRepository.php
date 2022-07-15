@@ -79,7 +79,8 @@ final class PackRepository
                 'std_pack',
                 'std_box',
                 'invoice_id',
-                'packing_id'
+                'packing_id',
+                'p.is_completed'
 
             ]
         );

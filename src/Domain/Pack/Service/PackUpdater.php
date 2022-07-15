@@ -68,7 +68,7 @@ final class PackUpdater
             $row['pack_status'] = "TAGGED";
         } else if ($data['up_status'] == "PRINTED") {
             $row['pack_status'] = "PRINTED";
-        } else if ($data['up_status'] == "COMPLETE") {
+        } else if ($data['up_status'] == "COMPLETED") {
             $row['pack_status'] = "COMPLETE";
         }
 
