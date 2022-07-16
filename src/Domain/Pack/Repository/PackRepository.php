@@ -186,6 +186,7 @@ final class PackRepository
                 'p.part_no',
                 'p.is_completed',
                 'packing_id',
+                'packs.po_no'
                 // 'sci.cpo_item_id'
             ]
         );

@@ -66,5 +66,13 @@ final class LabelFinder
     {
         return $this->repository->findLabelFromMergePacks($params);
     }
+    public function findLabelFromTagLot(array $params): array
+    {
+        return $this->repository->findLabelFromTagLot($params);
+    }
+    public function  findLabelFromTagMerge(array $params): array
+    {
+        return $this->repository-> findLabelFromTagMerge($params);
+    }
 
 }

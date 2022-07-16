@@ -75,7 +75,11 @@
 					<tbody>
 						{% for pack in packs %}
 							<tr>
-								<td>{{ pack.pack_no }}</td>
+								<td>
+								{% if pack.pack_no  != "" %}<a href="tags?pack_id={{ pack.id}}&view_pack="true">{% endif %}
+								{{ pack.pack_no}}
+								{% if pack.pack_no  != "" %}</a>{% endif %}
+								</td>
 								<td>{{ pack.pack_date }}</td>
 								<td>{{ pack.part_code }}</td>
 								<td>{{ pack.part_no }}</td>

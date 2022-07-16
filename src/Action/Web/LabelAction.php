@@ -74,6 +74,33 @@ final class  LabelAction
             setcookie("search_status_label", $params['search_status'], time() + 43200);
         }
 
+        //cick link form tags screen 
+        if (isset($params['find_label_tag'])) {
+            $labels1 = $this->finder->findLabelFromTagLot($params);
+            $labels2 =  $this->finder->findLabelFromTagMerge($params);
+            if(isset($labels2[0])){
+                $labelsAll = array_merge($labels1,$labels2);
+            }
+            else{
+                $labelsAll = $labels1;
+            }
+
+            $printerType['printer_type'] = "LABEL";
+            $viewData = [
+                'labels' => $labelsAll,
+                'void_reasons' => $this->voidReasonFinder->findLabelVoidReasonsForVoidLabel($params),
+                'user_login' => $this->session->get('user'),
+                'printers' => $this->printerFinder->findPrinters($printerType),
+                'products' => $this->productFinder->findProducts($params),
+                'search_product_id' => $params['search_product_id'],
+                'search_status' => $params['search_status'],
+                'startDate' => $params['startDate'],
+                'endDate' => $params['endDate'],
+            ];    
+
+            return $this->twig->render($response, 'web/labels.twig', $viewData);
+        }
+
         
         $labels1 = $this->finder->findLabels($params);
         $labels2 =  $this->finder->findLabelForLotZero($params);
@@ -83,6 +110,7 @@ final class  LabelAction
         else{
             $labelsAll = $labels1;
         }
+        
         $printerType['printer_type'] = "LABEL";
         $viewData = [
             'labels' => $labelsAll,
