@@ -74,6 +74,9 @@ final class CustomerRepository
                 'CustomerID',
                 'CustomerCode',
                 'CustomerName',
+                'Address1',
+                'Address2',
+                'Address3',
             ]);
         $query->andWhere(['CustomerID >' => $max_id]);
         return $query->execute()->fetchAll('assoc') ?: [];
