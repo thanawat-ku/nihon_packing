@@ -8,7 +8,7 @@ class Printer:
         self.z.setqueue(printer_name)
 
     def print_tag(self,customer_name,part_no,part_name,po_no,
-            ship_date,box_no,total_box,tag_no,qty):
+            ship_date,box_no,total_box,tag_no,qty,address1,address2,address3):
         
         tag="""
 ^XA
@@ -44,7 +44,7 @@ class Printer:
         self.z.output(tag)
     
     def print_hitachi_tag(self,customer_name,part_no,part_name,po_no,
-            ship_date,box_no,total_box,tag_no,qty):
+            ship_date,box_no,total_box,tag_no,qty,address1,address2,address3):
         
         tag="""
 ^XA
@@ -89,10 +89,10 @@ PRANAKORN SRIAYUTTHAYA\&
 THAILAND 13210^FS
 
 ^FO560,430^FB400,4,14,L,0
-^FDHITACHI ASTEMO SAN LUIS POTOSI S.A. de C.V.\&
-SANTIAGO PONIETNTE 200, LOTE 01 MANZANA 05\&
-SAN LUIS POTOSI\&
-MX 78423  MEXICO^FS
+^FD"""+customer_name+"""\&
+"""+address1+"""\&
+"""+address2+"""\&
+"""+address3+"""^FS
 
 ^CF0,18
 ^FO675,850^FDPO# (K)^FS

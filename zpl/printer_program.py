@@ -161,7 +161,7 @@ class MainWindow(QMainWindow):
         #for tag
         if self.tag_printer_name=="AY-Tag":
             mycursor.execute("SELECT T.id,C.customer_name,P.part_no,P.part_name,S.po_no, \
-                S.pack_date,T.box_no,T.total_box,T.tag_no,T.quantity \
+                S.pack_date,T.box_no,T.total_box,T.tag_no,T.quantity,C.address1,C.address2,C.address3 \
                 FROM tags T \
                 INNER JOIN packs S ON T.pack_id=S.id \
                 INNER JOIN products P ON S.product_id=P.id \
@@ -173,7 +173,7 @@ class MainWindow(QMainWindow):
             i=0
             for t in myresult:
                 print(t)
-                self.tag_printer.print_hitachi_tag(t[1],t[2],t[3],str(t[4]),t[5].strftime("%d %b %Y"),str(t[6]),str(t[7]),str(t[8]),str(t[9]))
+                self.tag_printer.print_hitachi_tag(t[1],t[2],t[3],str(t[4]),t[5].strftime("%d %b %Y"),str(t[6]),str(t[7]),str(t[8]),str(t[9]),str(t[10]),str(t[11]),str(t[12]))
                 mycursor.execute("UPDATE tags SET wait_print='N' WHERE id="+str(t[0]))
                 i=i+1
                 if i%5==4:
@@ -182,7 +182,7 @@ class MainWindow(QMainWindow):
             mydb.commit()
         else:
             mycursor.execute("SELECT T.id,C.customer_name,P.part_no,P.part_name,S.pack_no, \
-                S.pack_date,T.box_no,T.total_box,T.tag_no,T.quantity \
+                S.pack_date,T.box_no,T.total_box,T.tag_no,T.quantity,C.address1,C.address2,C.address3 \
                 FROM tags T \
                 INNER JOIN packs S ON T.pack_id=S.id \
                 INNER JOIN products P ON S.product_id=P.id \
@@ -194,7 +194,7 @@ class MainWindow(QMainWindow):
             i=0
             for t in myresult:
                 print(t)
-                self.tag_printer.print_tag(t[1],t[2],t[3],t[4],t[5].strftime("%d %b %Y"),str(t[6]),str(t[7]),str(t[8]),str(t[9]))
+                self.tag_printer.print_tag(t[1],t[2],t[3],t[4],t[5].strftime("%d %b %Y"),str(t[6]),str(t[7]),str(t[8]),str(t[9]),str(t[10]),str(t[11]),str(t[12]))
                 mycursor.execute("UPDATE tags SET wait_print='N' WHERE id="+str(t[0]))
                 i=i+1
                 if i%5==4:
