@@ -7,6 +7,7 @@ function editProduct(event){
     var obj = JSON.parse(product);
     $("#editProductID").val(obj.id);
     $("#editProduct_code").val(obj.part_code);
+    $("#editProduct_no").val(obj.part_no);
     $("#editProduct_name").val(obj.part_name);
     $("#editStdPack").val(obj.std_pack);
     $("#editStdBox").val(obj.std_box);
