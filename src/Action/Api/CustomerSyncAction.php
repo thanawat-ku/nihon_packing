@@ -44,6 +44,9 @@ final class CustomerSyncAction
             $params1['id']=$customers[$i]["CustomerID"];
             $params1['customer_code']=$customers[$i]["CustomerCode"];
             $params1['customer_name']=$customers[$i]["CustomerName"];
+            $params1['address1']=$customers[$i]["Address1"];
+            $params1['address2']=$customers[$i]["Address2"];
+            $params1['address3']=$customers[$i]["Address3"];
             $this->updater->insertCustomer($params1);
             $rtData=[];
             array_push($rtData, $customers[$i]);
