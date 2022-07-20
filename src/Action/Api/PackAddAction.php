@@ -88,6 +88,7 @@ final class PackAddAction
                         $param_cpo['quantity'] = $cpo['Quantity'];
                         $param_cpo['packing_qty'] = $cpo['PackingQty'];
                         $param_cpo['due_date'] = $cpo['DueDate'];
+                        $param_cpo['po_no'] = $cpo['PONo'];
                         $this->updateTempQuery->insertTempQuery($param_cpo);
                     }
                 }

@@ -69,58 +69,59 @@ final class TagRegisterAction
 
                 $rtPack = $this->findPack->findPackRow($packID);
 
-                if ($rtPack['is_completed'] == 'Y') {
+                // if ($rtPack['is_completed'] == 'Y') {
 
-                    $rtPacking['PackingID'] =  $rtPack['packing_id'];
+                $rtPacking['PackingID'] =  $rtPack['packing_id'];
 
-                    $sumQuantity = 0;
-                    $rtPackingItem = $this->findPacking->findPackingItem($rtPacking);
-                    for ($i = 0; $i < count($rtPackingItem); $i++) {
-                        $sumQuantity += $rtPackingItem[$i]['Quantity'];
-                    }
-
-                    $rtSearch['cpo_item_id'] = $rtPackingItem[0]['CpoItemID'];
-                    $rtCpoItem = $this->findCpoItem->findCpoItem($rtSearch);
-                    $isCpoItem['PackingQty'] = $sumQuantity + $rtCpoItem[0]['PackingQty'];
-
-                    $this->updateCpoItem->updateCpoItem((int)$rtPackingItem[0]['CpoItemID'], $isCpoItem);
-
-                    $upStatus['status'] = "BOXED";
-                    $this->updater->updateTagAllFromPackIDApi($packID, $upStatus,  $user_id);
-
-                    $upStatus['up_status'] = "TAGGED";
-                    $this->updatePack->updatePackStatus($packID, $upStatus, $user_id);
-
-                    $rtdata['message'] = "Get Tag Successful";
-                    $rtdata['error'] = false;
-                    $rtdata['tags'] = $this->finder->findTags($data);
-                } else if ($rtPack['is_completed'] == 'N') {
-
-                    
-                    $rtPacking['PackingID'] = $rtPack['packing_id'];
-
-                    $sumQuantity = 0;
-                    $rtPackingItem = $this->findPacking->findPackingItem($rtPacking);
-                    for ($i = 0; $i < count($rtPackingItem); $i++) {
-                        $sumQuantity += $rtPackingItem[$i]['Quantity'];
-                    }
-
-                    $rtSearch['cpo_item_id'] = $rtPackingItem[0]['CpoItemID'];
-                    $rtCpoItem = $this->findCpoItem->findCpoItem($rtSearch);
-                    $isCpoItem['PackingQty'] = $sumQuantity + $rtCpoItem[0]['PackingQty'];
-
-                    $this->updateCpoItem->updateCpoItem((int)$rtPackingItem[0]['CpoItemID'], $isCpoItem);
-
-                    $upStatus['status'] = "BOXED";
-                    $this->updater->updateTagAllFromPackIDApi($packID, $upStatus,  $user_id);
-
-                    $upStatus['up_status'] = "COMPLETE";
-                    $this->updatePack->updatePackStatus($packID, $upStatus, $user_id);
-
-                    $rtdata['message'] = "Get Tag Successful";
-                    $rtdata['error'] = false;
-                    $rtdata['tags'] = $this->finder->findTags($data);
+                $sumQuantity = 0;
+                $rtPackingItem = $this->findPacking->findPackingItem($rtPacking);
+                for ($i = 0; $i < count($rtPackingItem); $i++) {
+                    $sumQuantity += $rtPackingItem[$i]['Quantity'];
                 }
+
+                $rtSearch['cpo_item_id'] = $rtPackingItem[0]['CpoItemID'];
+                $rtCpoItem = $this->findCpoItem->findCpoItem($rtSearch);
+                $isCpoItem['PackingQty'] = $sumQuantity + $rtCpoItem[0]['PackingQty'];
+
+                $this->updateCpoItem->updateCpoItem((int)$rtPackingItem[0]['CpoItemID'], $isCpoItem);
+
+                $upStatus['status'] = "BOXED";
+                $this->updater->updateTagAllFromPackIDApi($packID, $upStatus,  $user_id);
+
+                $upStatus['up_status'] = "TAGGED";
+                $this->updatePack->updatePackStatus($packID, $upStatus, $user_id);
+
+                $rtdata['message'] = "Get Tag Successful";
+                $rtdata['error'] = false;
+                $rtdata['tags'] = $this->finder->findTags($data);
+                
+                // } else if ($rtPack['is_completed'] == 'N') {
+
+
+                //     $rtPacking['PackingID'] = $rtPack['packing_id'];
+
+                //     $sumQuantity = 0;
+                //     $rtPackingItem = $this->findPacking->findPackingItem($rtPacking);
+                //     for ($i = 0; $i < count($rtPackingItem); $i++) {
+                //         $sumQuantity += $rtPackingItem[$i]['Quantity'];
+                //     }
+
+                //     $rtSearch['cpo_item_id'] = $rtPackingItem[0]['CpoItemID'];
+                //     $rtCpoItem = $this->findCpoItem->findCpoItem($rtSearch);
+                //     $isCpoItem['PackingQty'] = $sumQuantity + $rtCpoItem[0]['PackingQty'];
+
+                //     $this->updateCpoItem->updateCpoItem((int)$rtPackingItem[0]['CpoItemID'], $isCpoItem);
+
+                //     $upStatus['status'] = "BOXED";
+                //     $this->updater->updateTagAllFromPackIDApi($packID, $upStatus,  $user_id);
+
+                //     $upStatus['up_status'] = "COMPLETE";
+                //     $this->updatePack->updatePackStatus($packID, $upStatus, $user_id);
+
+                //     $rtdata['message'] = "Get Tag Successful";
+                //     $rtdata['error'] = false;
+                //     $rtdata['tags'] = $this->finder->findTags($data);
+                // }
             } else {
                 $rtdata['message'] = "Get Tag Successful";
                 $rtdata['error'] = true;

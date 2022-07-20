@@ -78,7 +78,7 @@ final class SyncInvoiceNoAction
             if (isset($rtIvoice[0])) {
                 // ค้นหา ข้อมูล ที่มี invoice_no และ invoice_status ตรงกัน
                 $findInvoicePackings['invoice_no'] = $rtIvoice[0]['InvoiceNo'];
-                $findInvoicePackings['invoice_status'] = "INVOICE";
+                $findInvoicePackings['invoice_status'] = "INVOICED";
                 $rtIvoicePack = $this->finder->findInvoicePackings($findInvoicePackings);
 
                 //เมื่อเช็คว่า ข้อมูลใน invoices ไม่มีให้ทำการสร้าง invoices ขึ้นมา ถ้ามีก็ให้ update ข้อมูลลงใน packs
@@ -90,19 +90,24 @@ final class SyncInvoiceNoAction
                     $splitTimeStamp = explode(" ", $timestamp);
                     $date = $splitTimeStamp[0];
                     $insertInvoice['date'] = $date;
-                    $insertInvoice['invoice_status'] = "INVOICE";
+                    $insertInvoice['invoice_status'] = "INVOICED";
                     $invoiceID = $this->updateInvoice->insertInvoicePacking($insertInvoice, $user_id);
 
-                    $upPack['pack_status'] = 'INVOICED';
-                    $upPack['invoice_id'] = $invoiceID;
-                    $this->updatePack->updatePackSyncApi((int)$rtPack[$i]['id'],  $upPack, $user_id);
+                    if ($rtPack[$i]['is_completed'] == 'Y') {
+                        $upPack['pack_status'] = 'INVOICED';
+                        $upPack['invoice_id'] = $invoiceID;
+                        $this->updatePack->updatePackSyncApi((int)$rtPack[$i]['id'],  $upPack, $user_id);
+                    }
 
                     $rtData = [];
                     array_push($rtData, $insertInvoice);
                 } else {
-                    $upPack['pack_status'] = 'INVOICED';
-                    $upPack['invoice_id'] = $rtIvoicePack[0]['id'];
-                    $this->updatePack->updatePackSyncApi((int)$rtPack[$i]['id'],  $upPack, $user_id);
+                    if ($rtPack[$i]['is_completed'] == 'Y') {
+                        $upPack['pack_status'] = 'INVOICED';
+                        $upPack['invoice_id'] = $rtIvoicePack[0]['id'];
+                        $this->updatePack->updatePackSyncApi((int)$rtPack[$i]['id'],  $upPack, $user_id);
+                    }
+
 
                     $rtData = [];
                     array_push($rtData, $rtIvoicePack);

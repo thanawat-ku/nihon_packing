@@ -78,7 +78,7 @@ final class RegisterTagOnPackAction
 
                     //หา invoice no จาก invoice
                     $findInvoicePackings['invoice_no'] = $invoiceNo;
-                    $findInvoicePackings['invoice_status'] = "INVOICE";
+                    $findInvoicePackings['invoice_status'] = "INVOICED";
                     $rtIvoicePack = $this->finder->findInvoices($findInvoicePackings);
 
                     //หา packing id จาก pack
@@ -98,7 +98,7 @@ final class RegisterTagOnPackAction
                         $splitTimeStamp = explode(" ", $timestamp);
                         $date = $splitTimeStamp[0];
                         $insertInvoice['date'] = $date;
-                        $insertInvoice['invoice_status'] = "INVOICE";
+                        $insertInvoice['invoice_status'] = "INVOICED";
                         $invoiceID = $this->updateInvoice->insertInvoicePacking($insertInvoice, $user_id);
 
                         if (isset($rtPack[0])) {
