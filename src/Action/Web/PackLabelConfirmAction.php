@@ -129,6 +129,8 @@ final class PackLabelConfirmAction
         // //#####################################################################
 
         $packID = (int)$data['pack_id'];
+        unset($data['search_product_id']);
+        unset($data['search_pack_status']);
 
         $user_id = $this->session->get('user')["id"];
 
