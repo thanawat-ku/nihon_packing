@@ -53,14 +53,16 @@ final class PackAddAction
         $data = (array)$request->getParsedBody();
         $data['ProductID'] = $data['product_id'];
         $checkPack = false;
-
+        
+        /*
         $rtPackCheck = $this->finder->findPacks($data);
         for ($i = 0; $i < count($rtPackCheck); $i++) {
             if ($rtPackCheck[$i]['pack_status'] == "CREATED" || $rtPackCheck[$i]['pack_status'] == "SELECTING_CPO" || $rtPackCheck[$i]['pack_status'] == "SELECTED_CPO" || $rtPackCheck[$i]['pack_status'] == "SELECTING_LABEL") {
                 $checkPack = true;
             }
         }
-
+        */
+        
         if ($checkPack == false) {
             $id = $this->updater->insertPack($data);
 
