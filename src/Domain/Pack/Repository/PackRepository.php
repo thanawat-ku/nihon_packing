@@ -79,7 +79,8 @@ final class PackRepository
                 'std_pack',
                 'std_box',
                 'invoice_id',
-                'packing_id'
+                'packing_id',
+                'cpo_item_id'
 
             ]
         );
@@ -89,6 +90,13 @@ final class PackRepository
                 'table' => 'products',
                 'type' => 'INNER',
                 'conditions' => 'p.id = packs.product_id',
+            ]
+        ]);
+        $query->join([
+            'c' => [
+                'table' => 'pack_cpo_items',
+                'type' => 'LEFT',
+                'conditions' => 'c.pack_id = packs.id',
             ]
         ]);
 
