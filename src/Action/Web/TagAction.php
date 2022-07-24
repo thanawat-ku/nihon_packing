@@ -61,6 +61,8 @@ final class TagAction
 
                 $checkTagPrinted = "true";
 
+                $packRow = $this->packFinder->findPackRow($packID);
+
                 $rtTags = $this->tagFinder->findTags($params);
                 for ($i = 0; $i < count($rtTags); $i++) {
                     if ($rtTags[$i]['status'] != "PRINTED") {
