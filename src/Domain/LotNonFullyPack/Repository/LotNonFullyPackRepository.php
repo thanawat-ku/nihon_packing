@@ -1,0 +1,99 @@
+<?php
+
+namespace App\Domain\LotNonFullyPack\Repository;
+
+use App\Factory\QueryFactory;
+use DomainException;
+use Cake\Chronos\Chronos;
+use Symfony\Component\HttpFoundation\Session\Session;
+
+final class LotNonFullyPackRepository
+{
+    private $queryFactory;
+    private $session;
+
+    public function __construct(Session $session, QueryFactory $queryFactory)
+    {
+        $this->queryFactory = $queryFactory;
+        $this->session = $session;
+    }
+
+    public function insertLotNonFullyPack(array $row, $user_id): int
+    {
+        $row['created_at'] = Chronos::now()->toDateTimeString();
+        $row['created_user_id'] = $user_id;
+        $row['updated_at'] = Chronos::now()->toDateTimeString();
+        $row['updated_user_id'] = $user_id;
+
+        return (int)$this->queryFactory->newInsert('lot_non_fully_packs', $row)->execute()->lastInsertId();
+    }
+
+    // public function updatePackMerge(int $id, array $data): void
+    // {
+    //     $data['updated_at'] = Chronos::now()->toDateTimeString();
+    //     $data['updated_user_id'] = $this->session->get('user')["id"];
+
+    //     $this->queryFactory->newUpdate('lot_non_fully_packs', $data)->andWhere(['id' => $id])->execute();
+    // }
+    // public function deleteLotNonFullyPackApi(int $labelID): void
+    // {
+    //     $this->queryFactory->newDelete('labels')->andWhere(['id' => $labelID])->execute();
+    // }
+
+    public function deleteLotNonFullyPack(int $labelId): void
+    {
+        $this->queryFactory->newDelete('lot_non_fully_packs')->andWhere(['label_id' => $labelId])->execute();
+    }
+
+    public function findLotNonFullyPacks(array $params): array
+    {
+        $query = $this->queryFactory->newSelect('lot_non_fully_packs');
+        $query->select(
+            [
+                'lot_non_fully_packs.id',
+                'lot_non_fully_packs.lot_id',
+                'lb.label_no',
+                'l.generate_lot_no',
+                'lb.label_type',
+                'l.real_qty',
+                'l.real_lot_qty',
+                'lb.wait_print',
+                'label_id',
+                'date',
+                'is_register',
+                'lb.quantity',
+                'lot_id_in_label'=>'lb.lot_id',
+
+
+            ]
+        );
+        $query->join(
+            [
+                'lb' => [
+                    'table' => 'labels',
+                    'type' => 'INNER',
+                    'conditions' => 'lb.id = lot_non_fully_packs.label_id',
+                ]
+            ]
+        );
+
+        $query->join(
+            [
+                'l' => [
+                    'table' => 'lots',
+                    'type' => 'INNER',
+                    'conditions' => 'l.id = lb.lot_id',
+                ]
+            ]
+        );
+       
+
+        if (isset($params['lot_id'])) {
+            $query->andWhere(['lot_non_fully_packs.lot_id' => $params['lot_id']]);
+            $query->andWhere(['lot_non_fully_packs.is_register' => 'N']);
+        }
+
+        return $query->execute()->fetchAll('assoc') ?: [];
+    }
+
+}

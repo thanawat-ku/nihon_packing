@@ -29,7 +29,7 @@
 				<table id="my-data-table" class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline collapsed">
 					<thead>
 						<tr>
-							<th></th>
+
 							<th>Label No</th>
 							<th>Lot No/Merge No</th>
 							<th>Label Type</th>
@@ -41,7 +41,7 @@
 					<tbody>
 						{% for label in labels[0] %}
 							<tr>
-								<td><input type="checkbox" name="id[]" value="{{ label.id }}"></td>
+
 								<td>{{ label.label_no }}</td>
 								<td>{{ label.generate_lot_no }}</td>
 								<td>{{ label.label_type }}</td>

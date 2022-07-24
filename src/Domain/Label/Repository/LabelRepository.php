@@ -217,6 +217,11 @@ final class LabelRepository
                 $query->andWhere(['labels.status' => $params['search_status']]);
             }
         }
+        if (isset($params['search_label_non_fully'])) {
+            $query->andWhere(['labels.label_type' => 'NONFULLY']);
+            $query->andWhere(['labels.status' => 'PACKED']);
+            $query->andWhere(['p.id' => $params['ProductID']]);
+        }
 
 
         $query->andWhere(['l.is_delete' => 'N']);
@@ -424,6 +429,7 @@ final class LabelRepository
             [
                 'labels.id',
                 'label_no',
+                'lot_id',
                 'product_id',
                 'label_type',
                 'labels.quantity',

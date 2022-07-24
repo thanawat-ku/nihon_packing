@@ -165,6 +165,9 @@ final class LotUpdater
         if (isset($data['real_qty'])) {
             $result['real_qty'] = (string)$data['real_qty'];
         }
+        if (isset($data['real_lot_qty'])) {
+            $result['real_lot_qty'] = (string)$data['real_lot_qty'];
+        }
         if (isset($data['printed_user_id'])) {
             $result['printed_user_id'] = (string)$data['printed_user_id'];
         }

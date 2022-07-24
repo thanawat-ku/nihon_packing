@@ -126,7 +126,12 @@ return function (App $app) {
     $app->post('/delete_printer', \App\Action\Web\PrinterDeleteAction::class)->add(UserAuthMiddleware::class);
 
     $app->get('/invoices', \App\Action\Web\InvoiceAction::class)->add(UserAuthMiddleware::class);
-    $app->get('/invoice_details', \App\Action\Web\InvoiceDetailAction::class)->add(UserAuthMiddleware::class);    
+    $app->get('/invoice_details', \App\Action\Web\InvoiceDetailAction::class)->add(UserAuthMiddleware::class);
+    
+    $app->get('/lot_non_fully_packs', \App\Action\Web\LotNonFullyPackAction::class)->add(UserAuthMiddleware::class);
+    $app->get('/lot_non_fully_pack_details', \App\Action\Web\LotNonFullyPackDetailAction::class)->add(UserAuthMiddleware::class);
+    $app->post('/add_lot_non_fully_pack', \App\Action\Web\LotNonFullyPackAddAction::class)->add(UserAuthMiddleware::class);
+    $app->post('/delete_lot_non_fully_pack', \App\Action\Web\LotNonFullyPackDeleteAction::class)->add(UserAuthMiddleware::class);
 
     //---------------------------Api-------------------------------
 
