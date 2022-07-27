@@ -68,8 +68,8 @@ final class PackUpdater
             $row['pack_status'] = "TAGGED";
         } else if ($data['up_status'] == "PRINTED") {
             $row['pack_status'] = "PRINTED";
-        } else if ($data['up_status'] == "COMPLETE") {
-            $row['pack_status'] = "COMPLETE";
+        } else if ($data['up_status'] == "COMPLETED") {
+            $row['pack_status'] = "COMPLETED";
         }
 
         $this->repository->updatePackApi($packId, $row, $user_id);
@@ -113,7 +113,13 @@ final class PackUpdater
         $row['pack_status'] = "SELECTING_CPO";
         $row['total_qty'] = $data['total_qty'];
         $row['po_no'] = $data['po_no'];
-        $user_id = $this->session->get('user')["id"];
+        //check user_id ที่มาจาก api and web
+        if (isset($data['user_id'])) {
+            $user_id = $data['user_id']; //api
+        }else{
+            $user_id = $this->session->get('user')["id"]; //web
+        }
+        
 
         $this->repository->updatePackApi($productId, $row, $user_id);
     }

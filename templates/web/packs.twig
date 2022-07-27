@@ -76,7 +76,11 @@
 					<tbody>
 						{% for pack in packs %}
 							<tr>
-								<td>{{ pack.pack_no }}</td>
+								<td>
+								{% if pack.pack_no  != "" %}<a href="tags?pack_id={{ pack.id}}&view_pack="true">{% endif %}
+								{{ pack.pack_no}}
+								{% if pack.pack_no  != "" %}</a>{% endif %}
+								</td>
 								<td>{{ pack.pack_date }}</td>
 								<td>{{ pack.part_code }}</td>
 								<td>{{ pack.part_no }}</td>
@@ -89,19 +93,19 @@
 											<i style="font-size:15px; width:20px;" class="fas fa-check"></i>
 										</button>
 									{% endif %}
-									{% if pack.pack_status == "CREATED" or pack.pack_status == "SELECTING_CPO"%}
+									{% if pack.pack_status in ["CREATED", "SELECTING_CPO"] %}
 										<a href="cpo_items?product_id={{pack.product_id}}&pack_id={{pack.id}}&search_product_id={{search_product_id}}&search_pack_status={{search_pack_status}}">
 											<button type="button" class="btn btn-secondary btn-sm" data-toggle="modal">
 												<i style="font-size:15px; width:20px; " class="fa fa-list-ul"></i>
 											</button>
 										</a>
-									{%  elseif pack.pack_status == "SELECTING_LABEL" or pack.pack_status == "SELECTED_CPO"%}
+									{%  elseif pack.pack_status in ["SELECTING_LABEL",  "SELECTED_CPO"] %}
 										<a href="pack_labels?product_id={{pack.product_id}}&pack_id={{pack.id}}&search_product_id={{search_product_id}}&search_pack_status={{search_pack_status}}">
 											<button type="button" class="btn btn-success btn-sm" data-toggle="modal">
 												<i style="font-size:15px; width:20px; " class="fa fa-solid fa-box-open"></i>
 											</button>
 										</a>
-									{%  elseif pack.pack_status == "CONFIRMED" or pack.pack_status == "PRINTED" or pack.pack_status == "TAGGED"%}
+									{%  elseif pack.pack_status in ["CONFIRMED", "PRINTED", "TAGGED"] %}
 										<a href="tags?pack_id={{pack.id}}&search_product_id={{search_product_id}}&search_pack_status={{search_pack_status}}">
 											<button type="button" class="btn btn-success btn-sm" data-toggle="modal">
 												<i style="font-size:15px; width:20px; " class="fas fa-folder-open"></i>
@@ -109,17 +113,15 @@
 										</a>
 										{% else %}
 									{% endif %}
-									{% if pack.pack_status == "SELECTED_CPO" or pack.pack_status == "SELECTING_LABEL"  %}
+									{% if pack.pack_status in ["SELECTED_CPO", "SELECTING_LABEL"] %}
 										<button type="button" id="editBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editPack" name="{{ pack|json_encode }}">
 											<i style="font-size:15px; width:20px;" class="fas fa-edit"></i>
 										</button>
 									{% endif %}
-									{% if pack.pack_status != "COMPLETE" %}
-										<button type="button" id="deleteBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deletePack" name="{{ pack|json_encode }}">
-											<i style="font-size:15px; width:20px;" class="fas fa-trash"></i>
-										</button>
-									{% endif %}
-									{% if pack.pack_status in ["PRINTED","TAGGED","INVOICED","COMPLETE"] %}
+									<button type="button" id="deleteBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deletePack" name="{{ pack|json_encode }}">
+										<i style="font-size:15px; width:20px;" class="fas fa-trash"></i>
+									</button>
+									{% if pack.pack_status in ["PRINTED","TAGGED","INVOICED","COMPLETED"] %}
 										<button type="button" id="reprintBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#reprintPack" name="{{ pack|json_encode }}" data-placement="bottom" title="reprint"><i style="font-size:15px; width:20px;" class="fas fa-recycle"></i></button>
 									{% endif %}
 

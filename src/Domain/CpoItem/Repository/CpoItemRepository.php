@@ -45,6 +45,7 @@ final class CpoItemRepository
                 'Quantity',
                 'DueDate',
                 'PackingQty',
+                'cpo_item.PONo'
 
 
             ]

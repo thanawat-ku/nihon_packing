@@ -80,7 +80,8 @@ final class PackRepository
                 'std_box',
                 'invoice_id',
                 'packing_id',
-                'cpo_item_id'
+                'cpo_item_id',
+                'p.is_completed',
 
             ]
         );
@@ -130,6 +131,10 @@ final class PackRepository
         }
         if (isset($params['search_product_id'])) {
             $query->andWhere(['p.id' => $params['search_product_id']]);
+        }
+        if (isset($params['check_status_pack'])) {
+            $query->andWhere(['packs.pack_status' => "TAGGED"]);
+            $query->andWhere(['P.is_completed' => "N"]);
         }
 
 
@@ -189,6 +194,7 @@ final class PackRepository
                 'p.part_no',
                 'p.is_completed',
                 'packing_id',
+                'packs.po_no'
                 // 'sci.cpo_item_id'
             ]
         );

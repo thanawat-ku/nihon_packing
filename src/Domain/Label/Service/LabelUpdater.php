@@ -370,7 +370,6 @@ final class LabelUpdater
             $data1['status'] = "PRINTED";
             $data1['product_id'] = $productId;
             $data1['printer_id'] = $printerID;
-            $data1['prefer_lot_id'] = $lot_id;
             $data1['wait_print'] = $waitPrint;
             $id = $this->insertLabelApi($data1, $user_id);
             $params2['label_id'] = $id;
@@ -384,7 +383,6 @@ final class LabelUpdater
             $data1['status'] = "PRINTED";
             $data1['product_id'] = $productId;
             $data1['printer_id'] = $printerID;
-            $data1['prefer_lot_id'] = $lot_id;
             $data1['wait_print'] = $waitPrint;
             $id = $this->insertLabelApi($data1, $user_id);
             $params2['label_id'] = $id;

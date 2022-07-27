@@ -168,7 +168,7 @@ final class InvoiceRepository
         }
         if (isset($params['InvoiceNo'])) {
             $query->andWhere(['invoices.invoice_no' => $params['InvoiceNo']]);
-            $query->andWhere(['invoices.invoice_status' => 'INVOICE']);
+            $query->andWhere(['invoices.invoice_status' => 'INVOICED']);
         }
         if (isset($params["startDate"])) {
             $query->andWhere(['invoices.date <=' => $params['endDate'], 'invoices.date >=' => $params['startDate']]);
@@ -233,7 +233,7 @@ final class InvoiceRepository
         }
         if (isset($params['InvoiceNo'])) {
             $query->andWhere(['invoices.invoice_no' => $params['InvoiceNo']]);
-            $query->andWhere(['invoices.invoice_status' => 'INVOICE']);
+            $query->andWhere(['invoices.invoice_status' => 'INVOICED']);
         }
 
         return $query->execute()->fetchAll('assoc') ?: [];
@@ -276,6 +276,8 @@ final class InvoiceRepository
 
         if (isset($params['invoice_id'])) {
             $query->andWhere(['p.invoice_id' => $params['invoice_id']]);
+            $query->andWhere(['p.is_delete' => 'N']);
+            $query->andWhere(['p.pack_status !=' => 'COMPLETED']);
         }
 
         return $query->execute()->fetchAll('assoc') ?: [];

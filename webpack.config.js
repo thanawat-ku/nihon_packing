@@ -38,6 +38,8 @@ module.exports = {
     'web/printers': './templates/web/printers.js',
     'web/invoices': './templates/web/invoices.js',
     'web/invoiceDetails': './templates/web/invoiceDetails.js',
+    'web/lotNonFullyPacks': './templates/web/lotNonFullyPacks.js',
+    'web/lotNonFullyPackDetails': './templates/web/lotNonFullyPackDetails.js',
   },
   output: {
     path: path.resolve(__dirname, 'public/assets'),

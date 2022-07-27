@@ -67,7 +67,7 @@ final class PackTagAction
         $invoiceRow['total_label'] = $totalLabel;
         $invoiceRow['total_tag'] = $totalTag;
 
-        if ($packTag) {
+        if (isset($invoiceRow['total_tag'])) {
             $rtdata['message'] = 'Login successfully';
             $rtdata['error'] = false;
             $rtdata['pack_row'] = $invoiceRow;

@@ -55,28 +55,44 @@ final class TagAction
         if (isset($params['pack_id'])) {
             $packID = $params['pack_id'];
 
-            $checkTagPrinted = "true";
+            //เช็คว่า มีตัวแปร viewpack หรือไม่ ถ้าไม่ ให้ทำ
+            if (!isset($params['view_pack'])) {
+                
 
-            $rtTags = $this->tagFinder->findTags($params);
-            for ($i = 0; $i < count($rtTags); $i++) {
-                if ($rtTags[$i]['status'] != "PRINTED") {
-                    $checkTagPrinted = "false";
+                $checkTagPrinted = "true";
+
+                $packRow = $this->packFinder->findPackRow($packID);
+
+                $rtTags = $this->tagFinder->findTags($params);
+                for ($i = 0; $i < count($rtTags); $i++) {
+                    if ($rtTags[$i]['status'] != "PRINTED") {
+                        $checkTagPrinted = "false";
+                    }
                 }
+
+                
+                $packRow['cpo_item_id'] = $rtTags[0]['cpo_item_id'];
+                $packRow['total_qty'] = $rtTags[0]['total_qty'];
+
+                $viewData = [
+                    'checkTag' => "pack", //tag ที่ยังไม่ได้ register จากการ pack
+                    'checkTagPrinted' => $checkTagPrinted,
+                    'packRow' => $packRow,
+                    'tags' => $rtTags,
+                    'user_login' => $this->session->get('user'),
+                    'search_product_id' => $params['search_product_id'],
+                    'search_pack_status' => $params['search_pack_status'],
+                ];
+            }else{
+                $packRow = $this->packFinder->findPackRow($packID);
+                $rtTags = $this->tagFinder->findTags($params);
+                $viewData = [
+                    'checkTag' => "viewpack", //tag ที่ยังไม่ได้ register จากการ pack
+                    'packRow' => $packRow,
+                    'tags' => $rtTags,
+                    'user_login' => $this->session->get('user'),
+                ];
             }
-
-            $packRow = $this->packFinder->findPackRow($packID);
-            $packRow['cpo_item_id'] = $rtTags[0]['cpo_item_id'];
-            $packRow['total_qty'] = $rtTags[0]['total_qty'];
-
-            $viewData = [
-                'checkTag' => "pack", //tag ที่ยังไม่ได้ register จากการ pack
-                'checkTagPrinted' => $checkTagPrinted,
-                'packRow' => $packRow,
-                'tags' => $rtTags,
-                'user_login' => $this->session->get('user'),
-                'search_product_id' => $params['search_product_id'],
-                'search_pack_status' => $params['search_pack_status'],
-            ];
         } else {
             $rtCustomer = $this->customerFinder->findCustomers($params);
 
@@ -96,7 +112,7 @@ final class TagAction
 
                     $this->session->set('startDateTag', $params['startDate']);
                     $this->session->set('endDateTag', $params['endDate']);
-                }else{
+                } else {
                     $params['startDate'] = $this->session->get('startDateTag');
                     $params['endDate'] = $this->session->get('endDateTag');
                 }

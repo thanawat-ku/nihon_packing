@@ -47,6 +47,9 @@ final class CpoItemSelectAction
         $params = (array)$request->getQueryParams();
         $pack_id = (int)$params['pack_id'];
 
+        //ตัดช่องว่างหลัง string ออก
+        $params['search_product_id'] = str_replace(' ', '', $params['search_product_id']);
+
         $uuid = uniqid();
         $param_search['uuid'] = $uuid;
         $param_search['pack_id'] = $pack_id;
@@ -104,6 +107,8 @@ final class CpoItemSelectAction
             'search_product_id' => $params['search_product_id'],
             'search_pack_status' => $params['search_pack_status'],
         ];
+
+        
 
         return $this->twig->render($response, 'web/cpoItemSelects.twig', $viewData);
     }

@@ -48,8 +48,9 @@
                         <th>Part Code</th>
                         {# <th>Part No</th> #}
                         <th>Quantity</th>
+                        <th>Actual Lot Quantity</th>
                         <th>Actual Quantity</th>
-                        <th>Lot Defect QTY</th>
+                        <th>Lot Defect Qty</th>
                         <th>STD Pack/Box</th>
                         <th>Start Label No</th>
                         <th>End Label No</th>
@@ -66,6 +67,7 @@
                         <td>{{ lot.part_code}} </td>
                         {# <td>{{ lot.part_no}} </td> #}
                         <td>{{ lot.quantity }}</td>
+                        <td>{{ lot.real_lot_qty }}</td>
                         <td>{{ lot.real_qty }}</td>
                         <td>{{ lot.qty_lot_defact }}</td>
                         <td>{{ lot.std_pack ~ '/' ~ lot.std_box }}</td>
@@ -75,6 +77,11 @@
                         <td>
                         {% if lot.status == "CREATED" %}
                           <a href="lot_defect_detail?id={{lot.id}}"><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-placement="bottom" title="defect"><i style="font-size:15px; width:20px;" class="fas fa-tools"></i></button></a>
+                          <a href="lot_non_fully_packs?lot_id={{lot.id}}">
+                            <button type="button" class="btn btn-info btn-sm" data-toggle="modal">
+                              <i style="font-size:15px; width:20px; " class="fas fa-fw fa-folder-plus"></i>
+                            </button>
+                          </a>
                           <button type="button" id="printBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#printLot" name="{{ lot|json_encode }}" data-placement="bottom" title="print"><i style="font-size:15px; width:20px;" class="fas fa-print"></i></button>
                         {% endif %}
                         {% if lot.status == "PRINTED" %}
@@ -118,8 +125,16 @@
             <label for="lotNo">Quantity is: <span id="qtySystem">xxx</span></label></label>
           </div>
           <div>
-          <label for="lotNo">Add Actual Quantity</label>
-            <input type="number" autocomplete="off" class="form-control" id="realQTY" min="1"  required>
+            <label for="lotNo">Actual Lot Quantity</label>
+              <input type="number" autocomplete="off" class="form-control" id="realLotQty" min="1" required>
+            </div>
+          <div>
+              <label for="lotNo">Label Merge Quantity</label>
+                <input type="number" autocomplete="off" class="form-control" id="mergeQty" min="1"  readonly>
+          </div>
+          <div>
+          <label for="lotNo">Actual Quantity</label>
+            <input type="number" autocomplete="off" class="form-control" id="realQty" min="1"  readonly>
           </div>
           <div class="form-product">
             <label for="email">Printer</label>
@@ -154,8 +169,9 @@
           <div class="form-product">
             {# <input type="text" id="printLotID" name ="id"> #}
             <input type="hidden" id="confirmPrintLotID" name ="id">
-            <input type="hidden" id="confirmRealQty2" name ="real_qty">
+            <input type="hidden" id="conrealLotQty" name ="real_lot_qty">
             <input type="hidden" id="addPrinterID2" name ="printer_id">
+            <input type="hidden" id="conmergeQty" name ="lNFPQty">
             <label for="lotNo">Actual Quantity is: <span id="confirmRealQty">xxx</span></label>
           </div>
           <div>

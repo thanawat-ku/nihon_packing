@@ -109,6 +109,7 @@ final class LotRepository
                 'std_box',
                 'status',
                 'real_qty',
+                'real_lot_qty',
                 'issue_date',
 
             ]
@@ -153,6 +154,7 @@ final class LotRepository
                 'std_box',
                 'status',
                 'real_qty',
+                'real_lot_qty',
                 'issue_date',
 
             ]
@@ -190,7 +192,8 @@ final class LotRepository
         $query = $this->queryFactory2->newSelect('lot');
         $query->select(
             [
-                'PackingQty'
+                'PackingQty',
+                'CurrentQty'
             ]
         );
 

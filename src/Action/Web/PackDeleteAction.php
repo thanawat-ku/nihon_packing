@@ -73,58 +73,61 @@ final class PackDeleteAction
         $data = (array)$request->getParsedBody();
         $packID = (int)$data['id'];
 
+        $gg = strlen($data['search_product_id']);
+        $data['search_product_id'] = str_replace(' ', '', $data['search_product_id']);
+        $gg = strlen($data['search_product_id']);
+
         $rtPack =  $this->finder->findPacks($data);
 
-        if ($rtPack[0]['pack_status'] != "COMPLETE") {
 
-            if ($rtPack[0]['pack_status'] == "PRINTED" || $rtPack[0]['pack_status'] == "INVOICED" || $rtPack[0]['pack_status'] == "TAGGED") {
-                $packingID = $rtPack[0]['packing_id'];
-                $searchPackCpoItem['pack_id'] = $packID;
-                $rowPackCpoItem = $this->packCpoItemFinder->findPackCpoItems($searchPackCpoItem);
-                $searchCpoItem['cpo_item_id'] = $rowPackCpoItem[0]['cpo_item_id'];
-                $rowCpoItem = $this->cpoItemFinder->findCpoItem($searchCpoItem);
+        if ($rtPack[0]['pack_status'] == "PRINTED" || $rtPack[0]['pack_status'] == "INVOICED" || $rtPack[0]['pack_status'] == "TAGGED" || $rtPack[0]['pack_status'] == "COMPLETED") {
+            $packingID = $rtPack[0]['packing_id'];
+            $searchPackCpoItem['pack_id'] = $packID;
+            $rowPackCpoItem = $this->packCpoItemFinder->findPackCpoItems($searchPackCpoItem);
+            $searchCpoItem['cpo_item_id'] = $rowPackCpoItem[0]['cpo_item_id'];
+            $rowCpoItem = $this->cpoItemFinder->findCpoItem($searchCpoItem);
 
-                $packingQtyOld = $rowCpoItem[0]['PackingQty'];
-                $packingQtyNew['PackingQty'] = $packingQtyOld - $rowPackCpoItem[0]['pack_qty'];
+            $packingQtyOld = $rowCpoItem[0]['PackingQty'];
+            $packingQtyNew['PackingQty'] = $packingQtyOld - $rowPackCpoItem[0]['pack_qty'];
 
-                $this->cpoItemUpdater->updateCpoItem((int)$rowPackCpoItem[0]['cpo_item_id'], $packingQtyNew);
+            $this->cpoItemUpdater->updateCpoItem((int)$rowPackCpoItem[0]['cpo_item_id'], $packingQtyNew);
 
-                //update cpo item return
+            //update cpo item return
 
-                $searchPackingID['PackingID'] = $packingID;
-                $rowPackingItem = $this->packingItemFinder->findPackingItem($searchPackingID);
+            $searchPackingID['PackingID'] = $packingID;
+            $rowPackingItem = $this->packingItemFinder->findPackingItem($searchPackingID);
 
-                for ($i = 0; $i < count($rowPackingItem); $i++) {
-                    $searchLotID['LotID'] = $rowPackingItem[$i]['LotID'];
-                    $rowLot = $this->lotFinder->findLotNsps($searchLotID);
-                    $PackingQtyOld = $rowLot[0]['PackingQty'];
-                    $PackingQtyNew['PackingQty'] = $PackingQtyOld - $rowPackingItem[$i]['Quantity'];
-                    $this->lotUpdater->updateLotNsp((int)$rowPackingItem[$i]['LotID'], $PackingQtyNew);
-                }
-
-                //#############################################################
-
-                $this->packingItemUpdater->deletePackingItemAll($packingID);
-
-                $this->tagUpdater->deleteTags($packID);
+            for ($i = 0; $i < count($rowPackingItem); $i++) {
+                $searchLotID['LotID'] = $rowPackingItem[$i]['LotID'];
+                $rowLot = $this->lotFinder->findLotNsps($searchLotID);
+                $PackingQtyOld = $rowLot[0]['PackingQty'];
+                $PackingQtyNew['PackingQty'] = $PackingQtyOld - $rowPackingItem[$i]['Quantity'];
+                $this->lotUpdater->updateLotNsp((int)$rowPackingItem[$i]['LotID'], $PackingQtyNew);
             }
 
-            $rtPack['pack_id'] = $packID;
-            $rtPackLabel =  $this->findPackLabel->findPackLabels($rtPack);
+            //#############################################################
 
-            for ($i = 0; $i < count($rtPackLabel); $i++) {
-                $upStatus['status'] = "PACKED";
-                $this->updateLabel->updateLabel($rtPackLabel[$i]['label_id'], $upStatus);
-            }
+            $this->packingItemUpdater->deletePackingItemAll($packingID);
 
-            $this->packLabelUpdater->deletePackLabelApi($packID);
-            $this->packCpoItemUpdater->deleteCpoItemInPackCpoItemApi($packID);
-
-            $data['is_delete'] = 'Y';
-            $this->updater->updatePack($packID, $data);
-
-            $this->tempQueryUpdater->deleteTempQuery((int)$rtPack[0]['product_id']);
+            $this->tagUpdater->deleteTags($packID);
         }
+
+        $rtPack['pack_id'] = $packID;
+        $rtPackLabel =  $this->findPackLabel->findPackLabels($rtPack);
+
+        for ($i = 0; $i < count($rtPackLabel); $i++) {
+            $upStatus['status'] = "PACKED";
+            $this->updateLabel->updateLabel($rtPackLabel[$i]['label_id'], $upStatus);
+        }
+
+        $this->packLabelUpdater->deletePackLabelApi($packID);
+        $this->packCpoItemUpdater->deleteCpoItemInPackCpoItemApi($packID);
+
+        $data['is_delete'] = 'Y';
+        $this->updater->updatePack($packID, $data);
+
+        $this->tempQueryUpdater->deleteTempQuery((int)$rtPack[0]['product_id']);
+
 
         $viewData = [
             'search_product_id' => $data['search_product_id'],

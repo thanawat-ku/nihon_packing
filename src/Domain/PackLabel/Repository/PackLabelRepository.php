@@ -113,6 +113,8 @@ final class PackLabelRepository
             $query->Where(['lb.lot_id !=' => 0]);
             $query->group('lb.lot_id');
         }
+
+        //prefer_lot_idกระบวนการนี้ ยกเลิกไปเเล้ว รอการอัพเดตฐานข้อมูล 25/07/2565
         if (isset($params['find_prefer_lot_id'])) {
             $query->Where(['s.id' => $params["pack_id"]]);
             $query->Where(['lb.lot_id' => 0]);
@@ -130,6 +132,7 @@ final class PackLabelRepository
             [
                 'pack_labels.id',
                 'pack_labels.pack_id',
+                'l.generate_lot_no',
                 'label_id',
                 'label_no',
                 'lot_no',

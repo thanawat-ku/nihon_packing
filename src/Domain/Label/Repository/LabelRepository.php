@@ -217,6 +217,11 @@ final class LabelRepository
                 $query->andWhere(['labels.status' => $params['search_status']]);
             }
         }
+        if (isset($params['search_label_non_fully'])) {
+            $query->andWhere(['labels.label_type' => 'NONFULLY']);
+            $query->andWhere(['labels.status' => 'PACKED']);
+            $query->andWhere(['p.id' => $params['ProductID']]);
+        }
 
 
         $query->andWhere(['l.is_delete' => 'N']);
@@ -424,6 +429,7 @@ final class LabelRepository
             [
                 'labels.id',
                 'label_no',
+                'lot_id',
                 'product_id',
                 'label_type',
                 'labels.quantity',
@@ -686,5 +692,166 @@ final class LabelRepository
         }
         $query->andWhere(['labels.is_delete' => 'N']);
         return $query->execute()->fetchAll('assoc') ?: [];
+    }
+
+
+    //search label in tag
+    public function findLabelFromTagLot(array $params): array
+    {
+        $query = $this->queryFactory->newSelect('labels');
+        $query->select(
+            [
+                'labels.id',
+                'label_no',
+                'merge_pack_id',
+                'split_label_id',
+                'lot_id',
+                'labels.product_id',
+                'label_type',
+                'labels.quantity',
+                'lot_no',
+                'generate_lot_no',
+                'part_name',
+                'part_code',
+                'part_no',
+                'labels.status',
+                'std_pack',
+                'std_box',
+                'labels.split_label_id',
+                'labels.wait_print',
+                'printer_name',
+                'real_qty',
+                'label_void_reason_id',
+            ]
+        );
+        $query->join([
+            'l' => [
+                'table' => 'lots',
+                'type' => 'INNER',
+                'conditions' => 'l.id = labels.lot_id',
+            ]
+        ]);
+        $query->join([
+            'ptl' => [
+                'table' => 'pack_labels',
+                'type' => 'INNER',
+                'conditions' => 'ptl.label_id = labels.id',
+            ]
+        ]);
+        $query->join([
+            'pac' => [
+                'table' => 'packs',
+                'type' => 'INNER',
+                'conditions' => 'pac.id = ptl.pack_id',
+            ]
+        ]);
+        $query->join([
+            't' => [
+                'table' => 'tags',
+                'type' => 'INNER',
+                'conditions' => 't.pack_id = pac.id',
+            ]
+        ]);
+        $query->join([
+            'p' => [
+                'table' => 'products',
+                'type' => 'INNER',
+                'conditions' => 'p.id = l.product_id',
+            ]
+        ]);        
+        $query->join([
+            'pt' => [
+                'table' => 'printers',
+                'type' => 'INNER',
+                'conditions' => 'pt.id = labels.printer_id',
+            ]
+        ]);
+        if (isset($params['tag_id'])) {
+            $query->andWhere(['t.id' => $params['tag_id']]);
+        }
+        // if (isset($params["startDate"])) {
+        //     $query->andWhere(['l.issue_date <=' => $params['endDate'], 'l.issue_date >=' => $params['startDate']]);
+        // }
+       
+        $query->andWhere(['l.is_delete' => 'N']);
+        $query->andWhere(['labels.is_delete' => 'N']);
+
+
+        $get =  $query->execute()->fetchAll('assoc') ?: [];
+
+        return $get;
+    }
+
+    public function findLabelFromTagMerge(array $params): array
+    {
+        $query = $this->queryFactory->newSelect('labels');
+        $query->select(
+            [
+                'labels.id',
+                'label_no',
+                'merge_pack_id',
+                'split_label_id',
+                'lot_id',
+                'labels.product_id',
+                'label_type',
+                'labels.quantity',
+                'part_name',
+                'part_no',
+                'part_code',
+                'labels.status',
+                'std_pack',
+                'std_box',
+                'labels.split_label_id',
+                'merge_no',
+            ]
+        );
+        $query->join([
+            'm' => [
+                'table' => 'merge_packs',
+                'type' => 'INNER',
+                'conditions' => 'm.id = labels.merge_pack_id',
+            ]
+        ]);
+        $query->join([
+            'ptl' => [
+                'table' => 'pack_labels',
+                'type' => 'INNER',
+                'conditions' => 'ptl.label_id = labels.id',
+            ]
+        ]);
+        $query->join([
+            'pac' => [
+                'table' => 'packs',
+                'type' => 'INNER',
+                'conditions' => 'pac.id = ptl.pack_id',
+            ]
+        ]);
+        $query->join([
+            't' => [
+                'table' => 'tags',
+                'type' => 'INNER',
+                'conditions' => 't.pack_id = pac.id',
+            ]
+        ]);
+        $query->join([
+            'p' => [
+                'table' => 'products',
+                'type' => 'INNER',
+                'conditions' => 'p.id = m.product_id',
+            ]
+        ]);
+
+        if (isset($params['tag_id'])) {
+            $query->andWhere(['t.id' => $params['tag_id']]);
+        }
+        if (isset($params["startDate"])) {
+            $query->andWhere(['m.merge_date <=' => $params['endDate'], 'm.merge_date >=' => $params['startDate']]);
+        }
+
+        $query->andWhere(['labels.is_delete' => 'N']);
+
+        $getdata = $query->execute()->fetchAll('assoc') ?: [];
+
+        return $getdata;
     }
 }

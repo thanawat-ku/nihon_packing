@@ -55,7 +55,7 @@ final class InvoiceDetailAction
         $rtInvoice = $this->invoiceFinder->findInvoicePackings($params);
 
         //
-        $data['status'] = 'INVOICE';
+        $data['status'] = 'INVOICED';
         for ($i = 0; $i < count($rtInvoice); $i++) {
             //ค้นหา tag จาก pack id
             $packID = $rtInvoice[$i]['pack_id'];
