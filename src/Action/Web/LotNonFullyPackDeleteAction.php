@@ -43,7 +43,7 @@ final class LotNonFullyPackDeleteAction
 
         //update status label is MERGED
         $labelID=$data['id'];
-        $updateLabel['status']='PACKED';
+        $updateLabel['up_status']='PACKED';
         $user_id = $this->session->get('user')["id"];
         $this->labelUpdater->updateLabelStatus($labelID, $updateLabel, $user_id);
 
