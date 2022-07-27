@@ -62,7 +62,7 @@ final class SyncInvoiceNoAction
         $params = (array)$request->getQueryParams();
         if (!isset($params['sync'])) {
             $params['sync'] = "true";
-            $params['user_id'] = $this->session->get('user')["id"];
+            // $params['user_id'] = $this->session->get('user')["id"];
             $user_id = $params['user_id'];
         } else {
             $user_id = $params['user_id'];

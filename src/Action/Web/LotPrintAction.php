@@ -80,34 +80,36 @@ final class LotPrintAction
             $searchLNFP['lot_id'] = $lotId;
             $rtLNFP = $this->lNFPFinder->findLotNonFullyPacks($searchLNFP);
 
-            for ($i = 0; $i < count($rtLNFP); $i++) {
-                $lotIDInLabel = $rtLNFP[$i]['lot_id_in_label'];
-                $labelID = $rtLNFP[$i]['label_id'];
-                $labelQty = $rtLNFP[$i]['quantity'];
+            //fix error on sql server 
+            if (isset($rtLNFP)) {
+                for ($i = 0; $i < count($rtLNFP); $i++) {
+                    $lotIDInLabel = $rtLNFP[$i]['lot_id_in_label'];
+                    $labelID = $rtLNFP[$i]['label_id'];
+                    $labelQty = $rtLNFP[$i]['quantity'];
 
-                //find lot nsp
-                $searchLotNsp['LotID']=$lotIDInLabel;
-                $rtLotNsp = $this->finder->findLotNsps($searchLotNsp);
-                
-                //update current to nsp
-                $dataLotNsp2['real_qty'] = $rtLotNsp[0]['CurrentQty'] - $labelQty; 
-                $this->updater->updateLotNsp($lotIDInLabel, $dataLotNsp2);
+                    //find lot nsp
+                    $searchLotNsp['LotID'] = $lotIDInLabel;
+                    $rtLotNsp = $this->finder->findLotNsps($searchLotNsp);
 
-                //find lot packing
-                $searchLotPacking['lot_id']=$lotIDInLabel;
-                $rtLotPacking = $this->finder->findLots($searchLotPacking);
+                    //update current to nsp
+                    $dataLotNsp2['real_qty'] = $rtLotNsp[0]['CurrentQty'] - $labelQty;
+                    $this->updater->updateLotNsp($lotIDInLabel, $dataLotNsp2);
 
-                //update real_qty and real_lot_qty to packing
-                $dataLotPacking['real_qty'] = $rtLotPacking[0]['real_qty'] - $labelQty; 
-                $dataLotPacking['real_lot_qty'] = $rtLotPacking[0]['real_lot_qty'] - $labelQty; 
-                $this->updater->updateLot($lotIDInLabel, $dataLotPacking);
+                    //find lot packing
+                    $searchLotPacking['lot_id'] = $lotIDInLabel;
+                    $rtLotPacking = $this->finder->findLots($searchLotPacking);
 
-                //void label
-                $upDateLabel['up_status'] = 'VOID';
-                $upDateLabel['void'] = 'MERGED';
-                $user_id = $this->session->get('user')["id"];
-                $this->labelUpdater->updateLabelStatus($labelID, $upDateLabel, $user_id);
-                
+                    //update real_qty and real_lot_qty to packing
+                    $dataLotPacking['real_qty'] = $rtLotPacking[0]['real_qty'] - $labelQty;
+                    $dataLotPacking['real_lot_qty'] = $rtLotPacking[0]['real_lot_qty'] - $labelQty;
+                    $this->updater->updateLot($lotIDInLabel, $dataLotPacking);
+
+                    //void label
+                    $upDateLabel['up_status'] = 'VOID';
+                    $upDateLabel['void'] = 'MERGED';
+                    $user_id = $this->session->get('user')["id"];
+                    $this->labelUpdater->updateLabelStatus($labelID, $upDateLabel, $user_id);
+                }
             }
         }
 
