@@ -28,13 +28,13 @@ final class LotNonFullyPackRepository
         return (int)$this->queryFactory->newInsert('lot_non_fully_packs', $row)->execute()->lastInsertId();
     }
 
-    // public function updatePackMerge(int $id, array $data): void
-    // {
-    //     $data['updated_at'] = Chronos::now()->toDateTimeString();
-    //     $data['updated_user_id'] = $this->session->get('user')["id"];
+    public function updateLotNonFullyPack(int $labelID, array $data, $user_id): void
+    {
+        $data['updated_at'] = Chronos::now()->toDateTimeString();
+        $data['updated_user_id'] = $user_id;
 
-    //     $this->queryFactory->newUpdate('lot_non_fully_packs', $data)->andWhere(['id' => $id])->execute();
-    // }
+        $this->queryFactory->newUpdate('lot_non_fully_packs', $data)->andWhere(['label_id' => $labelID])->execute();
+    }
     // public function deleteLotNonFullyPackApi(int $labelID): void
     // {
     //     $this->queryFactory->newDelete('labels')->andWhere(['id' => $labelID])->execute();

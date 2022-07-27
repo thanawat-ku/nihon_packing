@@ -54,15 +54,15 @@ final class LotNonFullyPackUpdater
         $this->repository->deleteLotNonFullyPack($labelId);
     }
 
-    // public function updatePackMerge(string $mergeId, array $data): void
-    // {
+    public function updateLotNonFullyPack(string $labelID, array $data, $user_id): void
+    {
 
-    //     $this->validator->validateLotNonFullyPackUpdate($mergeId, $data);
+        $this->validator->validateLotNonFullyPackUpdate($labelID, $data);
 
-    //     $storeRow = $this->mapToLotNonFullyPackRow($data);
+        $row = $this->mapToRow($data);
 
-    //     $this->repository->updatePackMerge($mergeId, $storeRow);
-    // }
+        $this->repository->updateLotNonFullyPack($labelID, $row, $user_id);
+    }
 
     /**
      * Map data to row.
@@ -74,7 +74,7 @@ final class LotNonFullyPackUpdater
     private function mapToRow(array $data): array
     {
         $result = [];
-        
+
         if (isset($data['lot_id'])) {
             $result['lot_id'] = $data['lot_id'];
         }

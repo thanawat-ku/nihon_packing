@@ -34,11 +34,19 @@ function printLot(event) {
     var obj = JSON.parse(lot);
     $("#printLotID").val(obj.id);
     $("#printLotNo").text(obj.lot_no);
-    $("#realQTY").val(Math.floor(obj.quantity) + Math.floor(obj.merge_qty));
-    $("#realLotQTY").val(obj.real_lot_qty);
+    $("#realQty").val(Math.floor(obj.quantity) + Math.floor(obj.merge_qty));
+    $("#realLotQty").val(obj.real_lot_qty)
+    let realLotQty = parseInt($("#realLotQty").val());
+    if(realLotQty == 0){
+        $("#realLotQty").val(obj.quantity);
+    }else{
+        $("#realLotQty").val(obj.real_lot_qty);
+    }
     $("#qtySystem").text(obj.quantity);
-    $("#MergeQty").val(obj.merge_qty);
+    $("#mergeQty").val(obj.merge_qty);
     $("#stdPack").val(obj.std_pack);
+
+
 }
 function reprintLot(event) {
     let lot = event.currentTarget.name;
@@ -56,11 +64,13 @@ function reverseLot(event) {
 }
 
 function confirmPrintLot(event) {
+    $("#conrealLotQty").val($("#realLotQty").val());
+    $("#conmergeQty").val($("#mergeQty").val());
     $("#confirmPrintLotID").val($("#printLotID").val());
-    $("#confirmRealQty").text($("#realQTY").val());
-    $("#confirmRealQty2").val($("#realQTY").val());
+    $("#confirmRealQty").text($("#realQty").val());
+    $("#confirmRealQty2").val($("#realQty").val());
     $("#addPrinterID2").val($("#addPrinterID").val());
-    let real_qty = parseInt($("#realQTY").val());
+    let real_qty = parseInt($("#realQty").val());
     let std_pack = parseInt($("#stdPack").val());
     let num_packs = Math.ceil(real_qty / std_pack);
     let num_full_packs = Math.floor(real_qty / std_pack);
@@ -72,6 +82,7 @@ function confirmPrintLot(event) {
     $("#numLabel").text(num_pack_total);
     $("#numLabelFully").text(num_full_packs);
     $("#numLabelNonFully").text(nonFully);
+    
 }
 
 function addDefectLot(event) {
@@ -193,12 +204,21 @@ function syncInvoices() {
         }
     });
 }
-
+function changeRealLotQty() {
+    $("#realQty").val(eval($("#realLotQty").val())+eval($("#mergeQty").val()))
+}
 $(document).on(
     "click",
     "#syncBt",
     (event) => {
         syncCustomers();
+    }
+);
+$(document).on(
+    "change",
+    "#realLotQty",
+    (event) => {
+        changeRealLotQty();
     }
 );
 $(document).on(

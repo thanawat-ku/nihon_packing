@@ -48,8 +48,8 @@ final class LotPrintAction
         // Extract the form data from the request body
         $data = (array)$request->getParsedBody();
         $lotId = $data["id"];
-        $realLotQty = $data['real_qty'];
-        $realQty = $data['real_qty'] + $data['lNFPQty']; //จำนวนของ lot_real_qty + จำนวน label ที่ merge มา;
+        $realLotQty = $data['real_lot_qty'];
+        $realQty = $data['real_lot_qty'] + $data['lNFPQty']; //จำนวนของ lot_real_qty + จำนวน label ที่ merge มา;
         $printerID = $data['printer_id'];
 
         // generate labels
@@ -73,7 +73,7 @@ final class LotPrintAction
             $dataLot['printed_user_id'] =  $data['user_id'];
             $this->updater->updateLot($lotId, $dataLot);
 
-            $dataLotNsp['real_qty'] = $realLotQty;
+            $dataLotNsp['real_qty'] = $realQty;
             $this->updater->updateLotNsp($lotId, $dataLotNsp);
 
             //find lot_id in label
@@ -99,7 +99,7 @@ final class LotPrintAction
 
                 //update real_qty and real_lot_qty to packing
                 $dataLotPacking['real_qty'] = $rtLotPacking[0]['real_qty'] - $labelQty; 
-                $dataLotPacking['real_lot_qty'] = $rtLotPacking[0]['real_lot_qty'] - $labelQty; 
+                // $dataLotPacking['real_lot_qty'] = $rtLotPacking[0]['real_lot_qty'] - $labelQty; 
                 $this->updater->updateLot($lotIDInLabel, $dataLotPacking);
 
                 //void label
