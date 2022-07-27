@@ -99,7 +99,7 @@ final class LotPrintAction
 
                 //update real_qty and real_lot_qty to packing
                 $dataLotPacking['real_qty'] = $rtLotPacking[0]['real_qty'] - $labelQty; 
-                // $dataLotPacking['real_lot_qty'] = $rtLotPacking[0]['real_lot_qty'] - $labelQty; 
+                $dataLotPacking['real_lot_qty'] = $rtLotPacking[0]['real_lot_qty'] - $labelQty; 
                 $this->updater->updateLot($lotIDInLabel, $dataLotPacking);
 
                 //void label

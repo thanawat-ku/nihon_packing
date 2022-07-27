@@ -1,0 +1,6 @@
+db version 1.60 is db 1.50
+by rachanon klangwong
+
+add field real_lot_qty
+add table lot_non_fully_pack
+change Status all tabel VOICE to VOICED
