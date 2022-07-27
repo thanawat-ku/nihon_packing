@@ -73,7 +73,7 @@ final class LotNonFullyPackAction
        
         for ($i=0; $i < count($rtLNFPs); $i++) { 
             $lNFPQty += $rtLNFPs[$i]['quantity'];
-            $quantityItem += ($i+1); 
+            $quantityItem += 1; 
         }
         $lotRow[0]['quantity_item']=$quantityItem;
         $lotRow[0]['lNFPQty']=$lNFPQty;

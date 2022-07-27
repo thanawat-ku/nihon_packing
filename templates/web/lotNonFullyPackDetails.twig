@@ -36,7 +36,6 @@
                       <th>Part Code</th>
                       <th>Type</th>
                       <th>Quantity</th>
-                      <th>Lot Quantity</th>
                       <th>Wait Print</th>
                       <th>Printer</th>
                       <th>Operation</th>
@@ -54,7 +53,6 @@
                         <td>{{ label.part_code}} </td>
                         <td>{{ label.label_type }}</td>
                         <td>{{ label.quantity }}</td>
-                        <td>{{ label.lot_quantity }}</td>
                         <td>{{ label.wait_print }}</td>
                         <td>{{ label.printer_name }}</td>
                         <td>
@@ -95,7 +93,7 @@
               <div class="form-pack">
                 <input type="hidden" id="addLabelID" name="id">
                 <input type="hidden" id="lot_id" name="lot_id" value="{{ lot_id }}">
-                <input type="hidden" id="ProductID" name="ProductID" value="{{ ProductID }}">
+                <input type="hidden" id="ProductID" name="ProductID" value="{{ productRow.id }}">
                 <label for="labelNo">Label No:
                   <span id="addLabelNo"></span>
                 </label>

@@ -67,7 +67,7 @@ final class LotPrintAction
             $data['wait_print'] = "Y";
             $this->labelUpdater->genLabelNo($data);
             $dataLot['status'] = "PRINTED";
-            $dataLot['lot_real_qty'] = $realLotQty; //lot_real_qty แทน real_qty
+            $dataLot['real_lot_qty'] = $realLotQty; //lot_real_qty แทน real_qty
             $dataLot['real_qty'] = $realQty;
             $dataLot['generate_lot_no'] = "L" . str_pad($lotId, 11, "0", STR_PAD_LEFT);
             $dataLot['printed_user_id'] =  $data['user_id'];
@@ -95,15 +95,16 @@ final class LotPrintAction
 
                 //find lot packing
                 $searchLotPacking['lot_id']=$lotIDInLabel;
-                $rtLotNsp = $this->finder->findLots($searchLotPacking);
+                $rtLotPacking = $this->finder->findLots($searchLotPacking);
 
                 //update real_qty and real_lot_qty to packing
-                $dataLotPacking['real_qty'] = $rtLotNsp[0]['real_qty'] - $labelQty; 
-                $dataLotPacking['real_lot_qty'] = $rtLotNsp[0]['real_lot_qty'] - $labelQty; 
+                $dataLotPacking['real_qty'] = $rtLotPacking[0]['real_qty'] - $labelQty; 
+                $dataLotPacking['real_lot_qty'] = $rtLotPacking[0]['real_lot_qty'] - $labelQty; 
                 $this->updater->updateLot($lotIDInLabel, $dataLotPacking);
 
                 //void label
-                $upDateLabel['up_status'] = 'MERGED';
+                $upDateLabel['up_status'] = 'VOID';
+                $upDateLabel['void'] = 'MERGED';
                 $user_id = $this->session->get('user')["id"];
                 $this->labelUpdater->updateLabelStatus($labelID, $upDateLabel, $user_id);
                 
