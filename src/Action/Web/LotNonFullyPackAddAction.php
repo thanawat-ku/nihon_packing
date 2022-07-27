@@ -58,6 +58,7 @@ final class LotNonFullyPackAddAction
 
         //update status label is MERGED
         $labelID=$data['id'];
+        $data['up_status'] = true;
         $updateLabel['status']='MERGED';
         $user_id = $this->session->get('user')["id"];
         $this->labelUpdater->updateLabelStatus($labelID, $updateLabel, $user_id);
