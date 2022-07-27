@@ -62,8 +62,10 @@ final class SyncInvoiceNoAction
         $params = (array)$request->getQueryParams();
         if (!isset($params['sync'])) {
             $params['sync'] = "true";
-            $params['user_id'] = $this->session->get('user')["id"];
-            $user_id = $params['user_id'];
+            if (isset($this->session->get('user')["id"])) {
+                $params['user_id'] = $this->session->get('user')["id"];
+                $user_id = $params['user_id'];
+            }
         } else {
             $user_id = $params['user_id'];
         }
@@ -71,61 +73,65 @@ final class SyncInvoiceNoAction
         $rtPack = $this->findPack->findPacks($params);
         $rtData = [];
 
-        for ($i = 0; $i < count($rtPack); $i++) {
-            $params['packing_id'] = $rtPack[$i]['packing_id'];
-            $rtIvoice = $this->finder->findInvoice($params);
+        if (isset($rtPack[0])) {
+            for ($i = 0; $i < count($rtPack); $i++) {
+                $params['packing_id'] = $rtPack[$i]['packing_id'];
+                $rtIvoice = $this->finder->findInvoice($params);
 
-            if (isset($rtIvoice[0])) {
-                // ค้นหา ข้อมูล ที่มี invoice_no และ invoice_status ตรงกัน
-                $findInvoicePackings['invoice_no'] = $rtIvoice[0]['InvoiceNo'];
-                $findInvoicePackings['invoice_status'] = "INVOICED";
-                $rtIvoicePack = $this->finder->findInvoicePackings($findInvoicePackings);
+                if (isset($rtIvoice[0])) {
+                    // ค้นหา ข้อมูล ที่มี invoice_no และ invoice_status ตรงกัน
+                    $findInvoicePackings['invoice_no'] = $rtIvoice[0]['InvoiceNo'];
+                    $findInvoicePackings['invoice_status'] = "INVOICED";
+                    $rtIvoicePack = $this->finder->findInvoicePackings($findInvoicePackings);
 
-                //เมื่อเช็คว่า ข้อมูลใน invoices ไม่มีให้ทำการสร้าง invoices ขึ้นมา ถ้ามีก็ให้ update ข้อมูลลงใน packs
-                if (!isset($rtIvoicePack[0])) {
-                    $insertInvoice['invoice_no'] = $rtIvoice[0]['InvoiceNo'];
-                    $insertInvoice['customer_id'] = $rtIvoice[0]['CustomerID'];
-                    //แยกวันเเละเวลาออกจากกัน
-                    $timestamp = $rtIvoice[0]['IssueDate'];
-                    $splitTimeStamp = explode(" ", $timestamp);
-                    $date = $splitTimeStamp[0];
-                    $insertInvoice['date'] = $date;
-                    $insertInvoice['invoice_status'] = "INVOICED";
-                    $invoiceID = $this->updateInvoice->insertInvoicePacking($insertInvoice, $user_id);
+                    //เมื่อเช็คว่า ข้อมูลใน invoices ไม่มีให้ทำการสร้าง invoices ขึ้นมา ถ้ามีก็ให้ update ข้อมูลลงใน packs
+                    if (!isset($rtIvoicePack[0])) {
+                        $insertInvoice['invoice_no'] = $rtIvoice[0]['InvoiceNo'];
+                        $insertInvoice['customer_id'] = $rtIvoice[0]['CustomerID'];
+                        //แยกวันเเละเวลาออกจากกัน
+                        $timestamp = $rtIvoice[0]['IssueDate'];
+                        $splitTimeStamp = explode(" ", $timestamp);
+                        $date = $splitTimeStamp[0];
+                        $insertInvoice['date'] = $date;
+                        $insertInvoice['invoice_status'] = "INVOICED";
+                        $invoiceID = $this->updateInvoice->insertInvoicePacking($insertInvoice, $user_id);
 
-                    if ($rtPack[$i]['is_completed'] == 'Y') {
-                        $upPack['pack_status'] = 'INVOICED';
-                        $upPack['invoice_id'] = $invoiceID;
-                        $this->updatePack->updatePackSyncApi((int)$rtPack[$i]['id'],  $upPack, $user_id);
+                        if ($rtPack[$i]['is_completed'] == 'Y') {
+                            $upPack['pack_status'] = 'INVOICED';
+                            $upPack['invoice_id'] = $invoiceID;
+                            $this->updatePack->updatePackSyncApi((int)$rtPack[$i]['id'],  $upPack, $user_id);
+                        }
+
+                        $rtData = [];
+                        array_push($rtData, $insertInvoice);
+                    } else {
+                        if ($rtPack[$i]['is_completed'] == 'Y') {
+                            $upPack['pack_status'] = 'INVOICED';
+                            $upPack['invoice_id'] = $rtIvoicePack[0]['id'];
+                            $this->updatePack->updatePackSyncApi((int)$rtPack[$i]['id'],  $upPack, $user_id);
+                        }
+
+
+                        $rtData = [];
+                        array_push($rtData, $rtIvoicePack);
                     }
-
-                    $rtData = [];
-                    array_push($rtData, $insertInvoice);
-                } else {
-                    if ($rtPack[$i]['is_completed'] == 'Y') {
-                        $upPack['pack_status'] = 'INVOICED';
-                        $upPack['invoice_id'] = $rtIvoicePack[0]['id'];
-                        $this->updatePack->updatePackSyncApi((int)$rtPack[$i]['id'],  $upPack, $user_id);
-                    }
-
-
-                    $rtData = [];
-                    array_push($rtData, $rtIvoicePack);
                 }
             }
         }
+
 
         //หา pack ที่มี status เป็น TAGGED
         $checkProductCom['check_status_pack'] = true;
         $rtPackProductCom = $this->findPack->findPacks($checkProductCom);
 
-        //เมื่อได้ pack ที่มี status เป็น TAGGED แล้ว เช็คว่า is_completed ของ product เป็น N or Y
-        for ($j = 0; $j < count($rtPackProductCom); $j++) {
-            //เป็น  N  update status is INVOICED
-            $upPackCheckProduct['pack_status'] = 'COMPLETED';
-            $this->updatePack->updatePackSyncApi((int)$rtPackProductCom[$j]['id'],  $upPackCheckProduct, $user_id);
+        if (isset($rtPackProductCom[0])) {
+            //เมื่อได้ pack ที่มี status เป็น TAGGED แล้ว เช็คว่า is_completed ของ product เป็น N or Y
+            for ($j = 0; $j < count($rtPackProductCom); $j++) {
+                //เป็น  N  update status is INVOICED
+                $upPackCheckProduct['pack_status'] = 'COMPLETED';
+                $this->updatePack->updatePackSyncApi((int)$rtPackProductCom[$j]['id'],  $upPackCheckProduct, $user_id);
+            }
         }
-
 
         return $this->responder->withJson($response, $rtData);
     }
