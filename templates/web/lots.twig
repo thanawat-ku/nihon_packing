@@ -79,9 +79,10 @@
                           <a href="lot_defect_detail?id={{lot.id}}"><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-placement="bottom" title="defect"><i style="font-size:15px; width:20px;" class="fas fa-tools"></i></button></a>
                           <a href="lot_non_fully_packs?lot_id={{lot.id}}">
                             <button type="button" class="btn btn-info btn-sm" data-toggle="modal">
-                              <i style="font-size:15px; width:20px; " class="fas fa-print"></i>
+                              <i style="font-size:15px; width:20px; " class="fas fa-fw fa-folder-plus"></i>
                             </button>
                           </a>
+                          <button type="button" id="printBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#printLot" name="{{ lot|json_encode }}" data-placement="bottom" title="print"><i style="font-size:15px; width:20px;" class="fas fa-print"></i></button>
                         {% endif %}
                         {% if lot.status == "PRINTED" %}
                           <button type="button" id="registerBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#registerLot" name="{{ lot|json_encode }}" data-placement="bottom" title="register"><i style="font-size:15px; width:20px;" class="fas fa-check-circle"></i></button>
@@ -122,6 +123,14 @@
             <input type="hidden" id="printLotID">
             <input type="hidden" id="stdPack">
             <label for="lotNo">Quantity is: <span id="qtySystem">xxx</span></label></label>
+          </div>
+          <div>
+            <label for="lotNo">Actual Lot Quantity</label>
+              <input type="number" autocomplete="off" class="form-control" id="realLotQTY" min="1"  readonly>
+            </div>
+          <div>
+              <label for="lotNo">Label Merge Quantity</label>
+                <input type="number" autocomplete="off" class="form-control" id="MergeQty" min="1"  readonly>
           </div>
           <div>
           <label for="lotNo">Add Actual Quantity</label>

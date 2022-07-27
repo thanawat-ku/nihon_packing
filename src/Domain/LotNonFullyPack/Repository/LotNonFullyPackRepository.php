@@ -48,6 +48,8 @@ final class LotNonFullyPackRepository
     public function findLotNonFullyPacks(array $params): array
     {
         $query = $this->queryFactory->newSelect('lot_non_fully_packs');
+
+
         $query->select(
             [
                 'lot_non_fully_packs.id',
@@ -62,11 +64,12 @@ final class LotNonFullyPackRepository
                 'date',
                 'is_register',
                 'lb.quantity',
-                'lot_id_in_label'=>'lb.lot_id',
+                'lot_id_in_label' => 'lb.lot_id',
 
 
             ]
         );
+
         $query->join(
             [
                 'lb' => [
@@ -86,14 +89,14 @@ final class LotNonFullyPackRepository
                 ]
             ]
         );
-       
+
 
         if (isset($params['lot_id'])) {
             $query->andWhere(['lot_non_fully_packs.lot_id' => $params['lot_id']]);
             $query->andWhere(['lot_non_fully_packs.is_register' => 'N']);
         }
 
+
         return $query->execute()->fetchAll('assoc') ?: [];
     }
-
 }

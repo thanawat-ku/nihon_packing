@@ -34,8 +34,10 @@ function printLot(event) {
     var obj = JSON.parse(lot);
     $("#printLotID").val(obj.id);
     $("#printLotNo").text(obj.lot_no);
-    $("#realQTY").val(obj.quantity);
+    $("#realQTY").val(Math.floor(obj.quantity) + Math.floor(obj.merge_qty));
+    $("#realLotQTY").val(obj.real_lot_qty);
     $("#qtySystem").text(obj.quantity);
+    $("#MergeQty").val(obj.merge_qty);
     $("#stdPack").val(obj.std_pack);
 }
 function reprintLot(event) {
