@@ -4,3 +4,10 @@ by rachanon klangwong
 add field real_lot_qty
 add table lot_non_fully_pack
 change Status all tabel VOICE to VOICED
+
+
+ALTER TABLE `invoices` CHANGE `invoice_status` `invoice_status` ENUM('INVOICED','COMPLETED') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL;
+
+ALTER TABLE `tags` CHANGE `status` `status` ENUM('CREATED','PRINTED','BOXED','INVOICED','COMPLETED') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL;
+
+ALTER TABLE `lots` ADD `real_lot_qty` INT NULL DEFAULT '0' AFTER `real_qty`;
