@@ -95,7 +95,9 @@ final class LotNonFullyPackRepository
             $query->andWhere(['lot_non_fully_packs.lot_id' => $params['lot_id']]);
             $query->andWhere(['lot_non_fully_packs.is_register' => 'N']);
         }
-
+        if (isset($params['label_no'])) {
+            $query->andWhere(['lb.label_no' => $params['label_no']]);
+        }
 
         return $query->execute()->fetchAll('assoc') ?: [];
     }
