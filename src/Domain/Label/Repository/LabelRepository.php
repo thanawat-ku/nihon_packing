@@ -168,20 +168,32 @@ final class LabelRepository
                 'label_void_reason_id',
             ]
         );
-        $query->join([
-            'l' => [
-                'table' => 'lots',
-                'type' => 'INNER',
-                'conditions' => 'l.id = labels.lot_id',
-            ]
-        ]);
+        //เนื่องจากในระบบยังมีการทำงานของ label ที่ยังเป็น MERGE_NONFULY และ MERGE_FULLY อยู่ จึงมีการใช้ prefer_lot_id join
+        if (isset($params['search_prefer_lot_id'])) {
+            $query->join([
+                'l' => [
+                    'table' => 'lots',
+                    'type' => 'INNER',
+                    'conditions' => 'l.id = labels.prefer_lot_id',
+                ]
+            ]);
+        } else {
+            $query->join([
+                'l' => [
+                    'table' => 'lots',
+                    'type' => 'INNER',
+                    'conditions' => 'l.id = labels.lot_id',
+                ]
+            ]);
+        }
+
         $query->join([
             'p' => [
                 'table' => 'products',
                 'type' => 'INNER',
                 'conditions' => 'p.id = l.product_id',
             ]
-        ]);        
+        ]);
         $query->join([
             'pt' => [
                 'table' => 'printers',
@@ -217,8 +229,8 @@ final class LabelRepository
                 $query->andWhere(['labels.status' => $params['search_status']]);
             }
         }
-        if (isset($params['search_label_non_fully'])) {
-            $query->andWhere(['labels.label_type' => 'NONFULLY']);
+        if (isset($params['search_label_non_fully']) || isset($params['search_prefer_lot_id'])) {
+            $query->andWhere(['labels.label_type in' => ['NONFULLY', 'MERGE_NONFULLY']]);
             $query->andWhere(['labels.status' => 'PACKED']);
             $query->andWhere(['p.id' => $params['ProductID']]);
         }
@@ -758,7 +770,7 @@ final class LabelRepository
                 'type' => 'INNER',
                 'conditions' => 'p.id = l.product_id',
             ]
-        ]);        
+        ]);
         $query->join([
             'pt' => [
                 'table' => 'printers',
@@ -772,7 +784,7 @@ final class LabelRepository
         // if (isset($params["startDate"])) {
         //     $query->andWhere(['l.issue_date <=' => $params['endDate'], 'l.issue_date >=' => $params['startDate']]);
         // }
-       
+
         $query->andWhere(['l.is_delete' => 'N']);
         $query->andWhere(['labels.is_delete' => 'N']);
 

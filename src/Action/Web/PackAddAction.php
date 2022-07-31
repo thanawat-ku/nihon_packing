@@ -52,55 +52,20 @@ final class PackAddAction
     ): ResponseInterface {
         $data = (array)$request->getParsedBody();
         $data['ProductID'] = $data['product_id'];
-        $checkPack = false;
-        
-        /*
-        $rtPackCheck = $this->finder->findPacks($data);
-        for ($i = 0; $i < count($rtPackCheck); $i++) {
-            if ($rtPackCheck[$i]['pack_status'] == "CREATED" || $rtPackCheck[$i]['pack_status'] == "SELECTING_CPO" || $rtPackCheck[$i]['pack_status'] == "SELECTED_CPO" || $rtPackCheck[$i]['pack_status'] == "SELECTING_LABEL") {
-                $checkPack = true;
-            }
-        }
-        */
-        
-        if ($checkPack == false) {
-            $id = $this->updater->insertPack($data);
 
-            $rtPack['pack_id'] = $id;
+        $id = $this->updater->insertPack($data);
 
-            $packRow = $this->finder->findPackRow($id);
+        $rtPack['pack_id'] = $id;
 
+        $packRow = $this->finder->findPackRow($id);
 
-            $param_search['pack_id'] = $id;
+        $viewData = [
+            'pack_id' => $packRow['id'],
+            'product_id' => $packRow['product_id'],
+            'search_product_id' => $data['search_product_id'],
+            'search_pack_status' => $data['search_pack_status'],
+        ];
 
-            $viewData = [
-                'pack_id' => $packRow['id'],
-                'product_id' => $packRow['product_id'],
-                'search_product_id' => $data['product_id'],
-                'search_pack_status' => $data['search_pack_status'],
-
-            ];
-            return $this->responder->withRedirect($response, "cpo_item_check_temp_query", $viewData);
-        } else {
-            if (!isset($data['startDate'])) {
-                $data['startDate'] = date('Y-m-d', strtotime('-30 days', strtotime(date('Y-m-d'))));
-                $data['endDate'] = date('Y-m-d');
-            }
-
-
-            $viewData = [
-                'products' => $this->findProcut->findProducts($data),
-                'packs' => $this->finder->findPacks($data),
-                'user_login' => $this->session->get('user'),
-                'startDate' => $data['startDate'],
-                'endDate' => $data['endDate'],
-                'checkError' => "true",
-                'search_product_id' => $data['search_product_id'],
-                'search_pack_status' => $data['search_pack_status'],
-
-            ];
-
-            return $this->responder->withRedirect($response, "packs", $viewData);
-        }
+        return $this->responder->withRedirect($response, "cpo_items", $viewData);
     }
 }

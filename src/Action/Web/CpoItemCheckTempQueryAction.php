@@ -52,35 +52,35 @@ final class CpoItemCheckTempQueryAction
         $data = (array)$request->getQueryParams();
         $packID = (int)$data['pack_id'];
 
-        $cpodata = $this->finder->findCpoItem($data);
-        $uuid = uniqid();
+        // $cpodata = $this->finder->findCpoItem($data);
+        // $uuid = uniqid();
 
-        $pack = null;
+        // $pack = null;
 
-        $cpoitemcheck = $this->tempQueryFinder->findTempQueryCheck($data);
+        // $cpoitemcheck = $this->tempQueryFinder->findTempQueryCheck($data);
 
-        if (!$cpoitemcheck) {
-            foreach ($cpodata as $cpo) {
-                $param_cpo['uuid'] = $uuid;
-                $param_cpo['cpo_item_id'] = $cpo['CpoItemID'];
-                $param_cpo['po_no'] = $cpo['PONo'];
-                $param_cpo['product_id'] = $cpo['ProductID'];
-                $param_cpo['quantity'] = $cpo['Quantity'];
-                $param_cpo['packing_qty'] = $cpo['PackingQty'];
-                $param_cpo['due_date'] = $cpo['DueDate'];
-                $this->tempQueryUpdater->insertTempQuery($param_cpo);
+        // if (!$cpoitemcheck) {
+        //     foreach ($cpodata as $cpo) {
+        //         $param_cpo['uuid'] = $uuid;
+        //         $param_cpo['cpo_item_id'] = $cpo['CpoItemID'];
+        //         $param_cpo['po_no'] = $cpo['PONo'];
+        //         $param_cpo['product_id'] = $cpo['ProductID'];
+        //         $param_cpo['quantity'] = $cpo['Quantity'];
+        //         $param_cpo['packing_qty'] = $cpo['PackingQty'];
+        //         $param_cpo['due_date'] = $cpo['DueDate'];
+        //         $this->tempQueryUpdater->insertTempQuery($param_cpo);
 
-            }
-        } else {
-            $productID['product_id'] = $data['product_id'];
-            $cpoitemcheck = $this->tempQueryFinder->findTempQueryCheckUpdate($productID);
-            for ($i = 0; $i < count($cpoitemcheck); $i++) {
-                $param_cpo['cpo_item_id'] = $cpoitemcheck[$i]['CpoItemID'];
-                $param_cpo['packing_qty'] = $$cpoitemcheck[$i]['PackingQty'];
-                $param_cpo['due_date'] = $$cpoitemcheck[$i]['DueDate'];
-                $this->tempQueryUpdater->updateTempquery((int)$cpoitemcheck[$i]['cpo_item_id'], $param_cpo);
-            }
-        }
+        //     }
+        // } else {
+        //     $productID['product_id'] = $data['product_id'];
+        //     $cpoitemcheck = $this->tempQueryFinder->findTempQueryCheckUpdate($productID);
+        //     for ($i = 0; $i < count($cpoitemcheck); $i++) {
+        //         $param_cpo['cpo_item_id'] = $cpoitemcheck[$i]['CpoItemID'];
+        //         $param_cpo['packing_qty'] = $$cpoitemcheck[$i]['PackingQty'];
+        //         $param_cpo['due_date'] = $$cpoitemcheck[$i]['DueDate'];
+        //         $this->tempQueryUpdater->updateTempquery((int)$cpoitemcheck[$i]['cpo_item_id'], $param_cpo);
+        //     }
+        // }
 
 
         $packRow = $this->packFinder->findPackRow($packID);

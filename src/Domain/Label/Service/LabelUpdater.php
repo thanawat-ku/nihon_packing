@@ -368,6 +368,7 @@ final class LabelUpdater
         $labels = [];
         for ($i = 0; $i < $num_full_packs; $i++) {
             $data1['lot_id'] = $lot_id;
+            $data1['prefer_lot_id'] = $lot_id;
             $data1['label_type'] = "FULLY";
             $data1['quantity'] = $std_pack;
             $data1['status'] = "PRINTED";
@@ -381,6 +382,7 @@ final class LabelUpdater
         }
         if ($num_full_packs != $num_packs) {
             $data1['lot_id'] = $lot_id;
+            $data1['prefer_lot_id'] = $lot_id;
             $data1['label_type'] = "NONFULLY";
             $data1['quantity'] = $real_qty - ($num_full_packs * $std_pack);
             $data1['status'] = "PRINTED";

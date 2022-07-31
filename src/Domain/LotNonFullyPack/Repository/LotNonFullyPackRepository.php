@@ -79,16 +79,29 @@ final class LotNonFullyPackRepository
                 ]
             ]
         );
-
-        $query->join(
-            [
-                'l' => [
-                    'table' => 'lots',
-                    'type' => 'INNER',
-                    'conditions' => 'l.id = lb.lot_id',
+        //เนื่องจากในระบบยังมีการทำงานของ label ที่ยังเป็น MERGE_NONFULY และ MERGE_FULLY อยู่ จึงมีการใช้ prefer_lot_id join
+        if (isset($params['search_prefer_lot_id'])) {
+            $query->join(
+                [
+                    'l' => [
+                        'table' => 'lots',
+                        'type' => 'INNER',
+                        'conditions' => 'l.id = lb.prefer_lot_id',
+                    ]
                 ]
-            ]
-        );
+            );
+        }else{
+            $query->join(
+                [
+                    'l' => [
+                        'table' => 'lots',
+                        'type' => 'INNER',
+                        'conditions' => 'l.id = lb.lot_id',
+                    ]
+                ]
+            );
+        }
+        
 
 
         if (isset($params['lot_id'])) {
