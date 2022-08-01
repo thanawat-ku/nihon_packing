@@ -71,18 +71,21 @@ final class LabelUpdater
         $row = $this->mapToLabelRow($data);
 
         //web
-        if ($data['up_status'] == "SELLING") {
-            $row['status'] = "SELLING";
-        } else if ($data['up_status'] == "PACKED") {
-            $row['status'] = "PACKED";
-        } else if ($data['up_status'] == "VOID") {
-            if ($data['void'] == "MERGED") {
-                $row['status'] = "VOID";
-                $row['label_void_reason_id'] = 2;
+        if (isset($data['up_status'])) {
+            if ($data['up_status'] == "SELLING") {
+                $row['status'] = "SELLING";
+            } else if ($data['up_status'] == "PACKED") {
+                $row['status'] = "PACKED";
+            } else if ($data['up_status'] == "VOID") {
+                if ($data['void'] == "MERGED") {
+                    $row['status'] = "VOID";
+                    $row['label_void_reason_id'] = 2;
+                }
+            } else if ($data['up_status'] == "USED") {
+                $row['status'] = "USED";
             }
-        } else if ($data['up_status'] == "USED") {
-            $row['status'] = "USED";
         }
+
 
         $this->repository->updateLabelApi($labelID, $row, $user_id);
     }

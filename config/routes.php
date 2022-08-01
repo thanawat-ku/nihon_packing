@@ -259,4 +259,7 @@ return function (App $app) {
     $app->get('/api/invoices', \App\Action\Api\InvoiceAction::class);
     $app->get('/api/invoice_details', \App\Action\Api\InvoiceDetailAction::class);
 
+    $app->get('/api/lot_non_fully_packs', \App\Action\Api\LotNonFullyPackAction::class);
+    $app->post('/api/check_lot_non_fully_pack', \App\Action\Api\LotNonFullyPackCheckAction::class);
+    $app->post('/api/delete_lot_non_fully_pack', \App\Action\Api\LotNonFullyPackDeleteAction::class);
 };
