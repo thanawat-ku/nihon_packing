@@ -4,8 +4,6 @@ namespace App\Action\Web;
 
 use App\Domain\CpoItem\Service\CpoItemFinder;
 use App\Domain\CpoItem\Service\CpoItemUpdater;
-use App\Domain\TempQuery\Service\TempQueryFinder;
-use App\Domain\TempQuery\Service\TempQueryUpdater;
 use App\Domain\Pack\Service\PackFinder;
 use App\Domain\Pack\Service\PackUpdater;
 use App\Domain\PackCpoItem\Service\PackCpoItemFinder;
@@ -28,19 +26,17 @@ final class CpoItemDeleteAction
     private $packCpoItemFinder;
     private $packCpoItemUpdater;
     private $cpoItemFinder;
-    private $tempQueryUpdater;
 
-    public function __construct(Responder $responder, TempQueryFinder $tempQueryFinder, CpoItemUpdater $updater, PackFinder $finder, PackUpdater $updatePack, PackCpoItemFinder $packCpoItemFinder, PackCpoItemUpdater $packCpoItemUpdater, CpoItemFinder $cpoItemFinder, TempQueryUpdater $tempQueryUpdater)
+    public function __construct(Responder $responder, CpoItemUpdater $updater, PackFinder $finder, PackUpdater $updatePack, PackCpoItemFinder $packCpoItemFinder, 
+    PackCpoItemUpdater $packCpoItemUpdater, CpoItemFinder $cpoItemFinder)
     {
         $this->responder = $responder;
         $this->updater = $updater;
         $this->finder = $finder;
         $this->updatePack = $updatePack;
-        $this->tempQueryFinder = $tempQueryFinder;
         $this->packCpoItemFinder = $packCpoItemFinder;
         $this->packCpoItemUpdater = $packCpoItemUpdater;
         $this->cpoItemFinder = $cpoItemFinder;
-        $this->tempQueryUpdater = $tempQueryUpdater;
     }
 
 

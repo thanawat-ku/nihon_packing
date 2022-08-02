@@ -4,7 +4,6 @@ namespace App\Action\Web;
 
 
 use App\Domain\Pack\Service\PackFinder;
-use App\Domain\TempQuery\Service\TempQueryFinder;
 use App\Domain\Pack\Service\PackUpdater;
 use App\Domain\Product\Service\ProductFinder;
 use App\Responder\Responder;
@@ -32,7 +31,6 @@ final class PackAddAction
         Responder $responder,
         PackFinder $finder,
         PackUpdater $updater,
-        TempQueryFinder $tempQueryFinder,
         ProductFinder $findProcut,
         Session $session
     ) {
@@ -40,7 +38,6 @@ final class PackAddAction
         $this->finder = $finder;
         $this->responder = $responder;
         $this->updater = $updater;
-        $this->tempQueryFinder = $tempQueryFinder;
         $this->findProcut = $findProcut;
         $this->session = $session;
     }

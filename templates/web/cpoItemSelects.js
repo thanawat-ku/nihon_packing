@@ -14,6 +14,7 @@ function addPackCpoItem(event) {
     $("#addRemainQty").val(obj.Quantity - obj.PackingQty);
     $("#addRemainMax").attr({ 'val': obj.Quantity - obj.PackingQty, "max": obj.Quantity - obj.PackingQty });
     $("#addRemainMax").val(obj.Quantity - obj.PackingQty);
+    $("#addDueDate").val(obj.DueDate);
 }
 
 function detailCpoItem(event) {

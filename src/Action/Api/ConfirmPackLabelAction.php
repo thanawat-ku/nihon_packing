@@ -12,7 +12,6 @@ use App\Domain\Tag\Service\TagUpdater;
 use App\Domain\Packing\Service\PackingFinder;
 use App\Domain\Packing\Service\PackingUpdater;
 use App\Domain\PackingItem\Service\PackingItemUpdater;
-use App\Domain\TempQuery\Service\TempQueryUpdater;
 use App\Domain\StockControl\Service\StockControlUpdater;
 use App\Domain\StockItem\Service\StockItemUpdater;
 use App\Domain\Lot\Service\LotFinder;
@@ -43,7 +42,6 @@ final class ConfirmPackLabelAction
     private $findPacking;
     private $updatePacking;
     private $updatePackingItem;
-    private $updateTempQuery;
     private $stockControlUpdater;
     private $stockItemUpdater;
     private $lotFinder;
@@ -65,7 +63,6 @@ final class ConfirmPackLabelAction
         Session $session,
         Responder $responder,
         PackUpdater $updater,
-        TempQueryUpdater $updateTempQuery,
         StockControlUpdater $stockControlUpdater,
         StockItemUpdater $stockItemUpdater,
         LotFinder $lotFinder,
@@ -86,7 +83,6 @@ final class ConfirmPackLabelAction
         $this->updater = $updater;
         $this->session = $session;
         $this->responder = $responder;
-        $this->updateTempQuery = $updateTempQuery;
         $this->stockControlUpdater = $stockControlUpdater;
         $this->stockItemUpdater = $stockItemUpdater;
         $this->lotFinder = $lotFinder;
@@ -403,8 +399,6 @@ final class ConfirmPackLabelAction
 
         $rtPack['printer_id'] = $data['printer_id'];
         $rtTag = $this->updateTag->genTagsApi($packID, $rtPack, $user_id);
-
-        $this->updateTempQuery->deleteTempQuery((int)$rtPack[0]['product_id']);
 
         if (isset($data['start_date'])) {
             $allData['startDate'] = $data['start_date'];

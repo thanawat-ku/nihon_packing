@@ -4,7 +4,6 @@ namespace App\Action\Web;
 
 use App\Domain\Pack\Service\PackFinder;
 use App\Domain\Pack\Service\PackUpdater;
-use App\Domain\TempQuery\Service\TempQueryFinder;
 use App\Domain\PackCpoItem\Service\PackCpoItemUpdater;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
@@ -24,12 +23,11 @@ final class CpoItemEditAction
     private $tempQueryFinder;
     private $packCpoItemUpdater;
 
-    public function __construct( Responder $responder, PackFinder $finder, TempQueryFinder $tempQueryFinder,PackCpoItemUpdater $packCpoItemUpdater, PackUpdater $updatePack)
+    public function __construct( Responder $responder, PackFinder $finder,PackCpoItemUpdater $packCpoItemUpdater, PackUpdater $updatePack)
     {
         $this->responder = $responder;
         $this->updatePack = $updatePack;
         $this->finder = $finder;
-        $this->tempQueryFinder = $tempQueryFinder;
         $this->packCpoItemUpdater = $packCpoItemUpdater;
     }
 
@@ -46,15 +44,7 @@ final class CpoItemEditAction
 
         $this->packCpoItemUpdater->updatePackCpoItem($id, $data);
 
-        $rtPackCpoItem = $this->tempQueryFinder->findTempQuery($data);
-        
-
-        $totalQty = 0;
-        for ($i = 0; $i < count($rtPackCpoItem); $i++) {
-            $totalQty += $rtPackCpoItem[$i]['pack_qty'];
-        }
-
-        $rtPack['total_qty'] = $totalQty;
+        $rtPack['total_qty'] = $data['pack_qty'];
         $this->updatePack->updatePack($packID, $rtPack);
 
 

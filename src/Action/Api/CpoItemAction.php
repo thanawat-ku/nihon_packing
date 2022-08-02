@@ -3,9 +3,6 @@
 namespace App\Action\Api;
 
 use App\Domain\CpoItem\Service\CpoItemFinder;
-// use App\Domain\CpoItem\Service\TempQueryFinder;
-use App\Domain\TempQuery\Service\TempQueryUpdater;
-use App\Domain\TempQuery\Service\TempQueryFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -30,15 +27,13 @@ final class CpoItemAction
      *
      * @param Responder $responder The responder
      */
-    public function __construct(CpoItemFinder $CpoItemFinder, TempQueryFinder $tempQueryFinder, Responder $responder, 
-    Session $session,TempQueryUpdater $tempQueryUpdater)
+    public function __construct(CpoItemFinder $CpoItemFinder, Responder $responder, 
+    Session $session)
     {
 
         $this->CpoItemFinder = $CpoItemFinder;
         $this->responder = $responder;
         $this->session = $session;
-        $this->tempQueryUpdater = $tempQueryUpdater;
-        $this->tempQueryFinder = $tempQueryFinder;
     }
 
     /**
@@ -58,13 +53,10 @@ final class CpoItemAction
         $cpodata = $this->CpoItemFinder->findCpoItem($params);
         $uuid=uniqid();
 
-        $cpoitemcheck = $this->tempQueryFinder->findTempQueryCheck($params);
-
         $param_search['uuid']=$uuid;
         $param_search['pack_id']=$packID;
         $cpoitemdata['message'] = "Get CpoItem Successful";
         $cpoitemdata['error'] = false;
-        $cpoitemdata['data'] = $this->tempQueryFinder->findTempQuery($param_search);
 
         return $this->responder->withJson($response, $cpoitemdata);
     }

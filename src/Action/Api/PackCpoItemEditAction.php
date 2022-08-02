@@ -6,7 +6,6 @@ use App\Domain\PackCpoItem\Service\PackCpoItemFinder;
 use App\Domain\Pack\Service\PackUpdater;
 use App\Domain\PackCpoItem\Service\PackCpoItemUpdater;
 use App\Domain\CpoItem\Service\CpoItemUpdater;
-use App\Domain\TempQuery\Service\TempQueryFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -23,18 +22,21 @@ final class PackCpoItemEditAction
     private $finder;
     private $updatepack;
     private $updateCpoitem;
-    private $findTempQuery;
 
 
 
-    public function __construct(Responder $responder,  PackCpoItemUpdater $updater, PackCpoItemFinder $finder, PackUpdater $updatepack, CpoItemUpdater $updateCpoitem, TempQueryFinder $findTempQuery)
-    {
+    public function __construct(
+        Responder $responder,
+        PackCpoItemUpdater $updater,
+        PackCpoItemFinder $finder,
+        PackUpdater $updatepack,
+        CpoItemUpdater $updateCpoitem
+    ) {
         $this->responder = $responder;
         $this->updater = $updater;
         $this->finder = $finder;
         $this->updatepack = $updatepack;
         $this->updateCpoitem = $updateCpoitem;
-        $this->findTempQuery = $findTempQuery;
     }
 
     public function __invoke(
@@ -48,19 +50,15 @@ final class PackCpoItemEditAction
         $packID = $data['pack_id'];
         $packCpoItemID = $data['id'];
 
-        $rtTempQuery = $this->findTempQuery->findTempQuery($data);
-
         $rowPackCpoItem = $this->finder->findPackCpoItems($data);
 
         $dataFinder['cpo_item_id'] = $rowPackCpoItem[0]['cpo_item_id'];
-        $dataCpoItem['PackingQty'] = $data['pack_qty'] + $rtTempQuery[0]['packing_qty'];
+        // $dataCpoItem['PackingQty'] = $data['pack_qty'] + $rtTempQuery[0]['packing_qty'];
         $cpoItemID = $dataFinder['cpo_item_id'];
 
         $this->updater->updatePackCpoItemApi($packCpoItemID, $data, $user_id);
         $packs = $this->finder->findPackCpoItems($data);
         $this->updatepack->updatePackApi($packID, $packs, $user_id);
-
-        // $this->updateCpoitem->updateCpoItem($cpoItemID, $dataCpoItem);
 
         $rtdata['message'] = "Get Pack Cpo Item Successful";
         $rtdata['error'] = false;

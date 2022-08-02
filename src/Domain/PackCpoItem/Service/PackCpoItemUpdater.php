@@ -4,6 +4,7 @@ namespace App\Domain\PackCpoItem\Service;
 
 use App\Domain\PackCpoItem\Repository\PackCpoItemRepository;
 use Symfony\Component\HttpFoundation\Session\Session;
+
 /**
  * Service.
  */
@@ -20,10 +21,10 @@ final class PackCpoItemUpdater
     ) {
         $this->repository = $repository;
         $this->validator = $validator;
-        $this->session=$session;
+        $this->session = $session;
         //$this->logger = $loggerFactory
-            //->addFileHandler('store_updater.log')
-            //->createInstance();
+        //->addFileHandler('store_updater.log')
+        //->createInstance();
     }
 
     public function insertPackCpoItemApi(array $data, $user_id): int
@@ -32,7 +33,7 @@ final class PackCpoItemUpdater
 
         $row = $this->mapToRow($data);
 
-        $id=$this->repository->insertPackCpoItemApi($row, $user_id);
+        $id = $this->repository->insertPackCpoItemApi($row, $user_id);
 
         return $id;
     }
@@ -41,9 +42,9 @@ final class PackCpoItemUpdater
         $this->validator->validatePackCpoItemInsert($data);
 
         $row = $this->mapToRow($data);
-        $user_id=$this->session->get('user')["id"];
+        $user_id = $this->session->get('user')["id"];
 
-        $id=$this->repository->insertPackCpoItemApi($row, $user_id);
+        $id = $this->repository->insertPackCpoItemApi($row, $user_id);
 
         return $id;
     }
@@ -54,7 +55,6 @@ final class PackCpoItemUpdater
         $row = $this->mapToRow($data);
 
         $this->repository->updatePackCpoItemApi($id, $row,  $user_id);
-
     }
     public function updatePackCpoItem(int $id, array $data): void
     {
@@ -63,7 +63,6 @@ final class PackCpoItemUpdater
         $row = $this->mapToRow($data);
 
         $this->repository->updatePackCpoItem($id, $row);
-
     }
     public function deletePackCpoItemApi(int $id): void
     {
@@ -89,6 +88,9 @@ final class PackCpoItemUpdater
         }
         if (isset($data['pack_qty'])) {
             $result['pack_qty'] = $data['pack_qty'];
+        }
+        if (isset($data['due_date'])) {
+            $result['due_date'] = $data['due_date'];
         }
 
         return $result;

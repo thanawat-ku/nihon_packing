@@ -11,7 +11,6 @@ use App\Domain\PackCpoItem\Service\PackCpoItemUpdater;
 use App\Domain\Pack\Service\PackUpdater;
 use App\Domain\CpoItem\Service\CpoItemFinder;
 use App\Domain\CpoItem\Service\CpoItemUpdater;
-use App\Domain\TempQuery\Service\TempQueryUpdater;
 use App\Domain\Packing\Service\PackingUpdater;
 use App\Domain\PackingItem\Service\PackingItemUpdater;
 use App\Domain\Lot\Service\LotFinder;
@@ -40,7 +39,6 @@ final class PackDeleteAction
     private $updatePackCpoItem;
     private $findCpoItem;
     private $updateCpoItem;
-    private $updateTempQuery;
     private $packingUpdater;
     private $packingItemUpdater;
     private $lotFinder;
@@ -61,7 +59,6 @@ final class PackDeleteAction
         PackCpoItemUpdater $updatePackCpoItem,
         CpoItemFinder $findCpoItem,
         CpoItemUpdater $updateCpoItem,
-        TempQueryUpdater $updateTempQuery,
         PackingUpdater $packingUpdater,
         PackingItemUpdater $packingItemUpdater,
         LotFinder $lotFinder,
@@ -79,7 +76,6 @@ final class PackDeleteAction
         $this->updatePackCpoItem = $updatePackCpoItem;
         $this->findCpoItem = $findCpoItem;
         $this->updateCpoItem = $updateCpoItem;
-        $this->updateTempQuery = $updateTempQuery;
         $this->packingUpdater = $packingUpdater;
         $this->packingItemUpdater = $packingItemUpdater;
         $this->lotFinder = $lotFinder;
@@ -158,7 +154,6 @@ final class PackDeleteAction
         $data['is_delete'] = "Y";
         $this->updater->updatePackDeleteApi($packID, $data, $user_id);
 
-        $this->updateTempQuery->deleteTempQuery((int)$rtPack[0]['product_id']);
 
         return $this->responder->withJson($response, $data);
     }
