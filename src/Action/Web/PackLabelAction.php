@@ -93,7 +93,7 @@ final class PackLabelAction
 
         $rtPackLabel = $this->packLabelFinder->findPackLabels($params);
 
-        if (!$rtPackLabel) {
+        if (!isset($rtPackLabel[0])) {
             $upStatus['pack_status'] = "SELECTED_CPO";
             $this->updater->updatePack($packID, $upStatus);
         }
