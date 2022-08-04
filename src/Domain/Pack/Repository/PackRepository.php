@@ -82,6 +82,7 @@ final class PackRepository
                 'packing_id',
                 'cpo_item_id',
                 'p.is_completed',
+                'c.pack_qty'
 
             ]
         );

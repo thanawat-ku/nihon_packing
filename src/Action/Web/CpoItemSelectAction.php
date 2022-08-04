@@ -3,7 +3,6 @@
 namespace App\Action\Web;
 
 use App\Domain\CpoItem\Service\CpoItemFinder;
-use App\Domain\TempQuery\Service\TempQueryFinder;
 use App\Domain\Pack\Service\PackFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
@@ -32,14 +31,12 @@ final class CpoItemSelectAction
         PackFinder $packFinder,
         Session $session,
         Responder $responder,
-        TempQueryFinder $tempQueryFinder
     ) {
         $this->twig = $twig;
         $this->finder = $finder;
         $this->packFinder = $packFinder;
         $this->session = $session;
         $this->responder = $responder;
-        $this->tempQueryFinder = $tempQueryFinder;
     }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
@@ -67,9 +64,6 @@ final class CpoItemSelectAction
 
         $packRow = $this->packFinder->findPackRow($pack_id);
 
-
-
-        $arrTemQuery = $this->tempQueryFinder->findTempQuery($param_search);
         $arrCpoItem = $this->finder->findCpoItemSelect($params);
 
         function CheckCpoItemSelect(array $arrTemQuery, array $arrCpoItem)
@@ -100,7 +94,7 @@ final class CpoItemSelectAction
 
         $viewData = [
             'packRow' => $packRow,
-            'CpoItemSelects' =>  CheckCpoItemSelect($arrTemQuery, $arrCpoItem),
+            'CpoItemSelects' =>  $arrCpoItem,
             'user_login' => $this->session->get('user'),
             'startDate' => $params['startDate'],
             'endDate' => $params['endDate'],

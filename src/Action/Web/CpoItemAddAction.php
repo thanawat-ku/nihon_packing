@@ -3,7 +3,6 @@
 namespace App\Action\Web;
 
 use App\Domain\CpoItem\Service\CpoItemFinder;
-use App\Domain\TempQuery\Service\TempQueryFinder;
 use App\Domain\Pack\Service\PackFinder;
 use App\Domain\PackCpoItem\Service\PackCpoItemUpdater;
 use App\Domain\Pack\Service\PackUpdater;
@@ -37,11 +36,9 @@ final class CpoItemAddAction
         Responder $responder,
         PackUpdater  $packUpdater,
         PackFinder $packFinder,
-        TempQueryFinder $tempQueryFinder,
     ) {
         $this->twig = $twig;
         $this->finder = $finder;
-        $this->tempQueryFinder = $tempQueryFinder;
         $this->packFinder = $packFinder;
         $this->packFinder = $packFinder;
         $this->packUpdater = $packUpdater;
@@ -56,14 +53,14 @@ final class CpoItemAddAction
         $pack_id = (int)$data['pack_id'];
         $user_id=$this->session->get('user')["id"];
 
-        $rtCpoItem = $this->finder->findCpoItem($data);
+        // $rtCpoItem = $this->finder->findCpoItem($data);
 
-        $dataCpoItem['PackingQty'] = $rtCpoItem[0]['PackingQty'] + $data['pack_qty'];
+        // $dataCpoItem['PackingQty'] = $rtCpoItem[0]['PackingQty'] + $data['pack_qty'];
 
 
-        $uuid = uniqid();
-        $param_search['uuid'] = $uuid;
-        $param_search['pack_id'] = $pack_id;
+        // $uuid = uniqid();
+        // $param_search['uuid'] = $uuid;
+        // $param_search['pack_id'] = $pack_id;
 
         $this->packCpoItemUpdater->insertPackCpoItem($data);
 
@@ -72,15 +69,22 @@ final class CpoItemAddAction
 
         $totalQty = 0;
 
-        $packCpoItem = $this->tempQueryFinder->findTempQuery($param_search);
+        // $rtPackCpoItem = $this->packFinder->findPacks($data);
+        
+
+        //ค้นหา po_no ในฐานข้อมูล nsp
+        $searchCpoItemNsp['CpoItemID'] = $data['cpo_item_id'];
+        $rtPackCpoItem = $this->finder->findCpoItemSelect($searchCpoItemNsp);
+        $arrTotalQty['po_no'] = $rtPackCpoItem[0]['PONo'];
+        $arrTotalQty['total_qty'] = $data['pack_qty']; 
 
 
 
-        for ($i = 0; $i < count($packCpoItem); $i++) {
-            $totalQty += (int)$packCpoItem[$i]['pack_qty'];
-            $arrTotalQty['total_qty'] = $totalQty;
-            $arrTotalQty['po_no'] = $packCpoItem[$i]['po_no'];
-        }
+        // for ($i = 0; $i < count($packCpoItem); $i++) {
+        //     $totalQty += (int)$packCpoItem[$i]['pack_qty'];
+        //     $arrTotalQty['total_qty'] = $totalQty;
+        //     $arrTotalQty['po_no'] = $packCpoItem[$i]['po_no'];
+        // }
 
 
         $this->packUpdater->updatePackStatusSelectingCpo($pack_id,  $arrTotalQty);

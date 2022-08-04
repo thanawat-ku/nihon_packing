@@ -69,7 +69,9 @@ final class PackCpoItemRepository
                 'pack_id',
                 'cpo_item_id',
                 'remain_qty',
-                'pack_qty'
+                'pack_qty',
+                'due_date'
+                
             ]
         );
 
@@ -81,6 +83,10 @@ final class PackCpoItemRepository
             ]
         ]);
 
+        //ใช้ค้นหาเมื่อต้องการตรวจสอบว่ามีการสร้าง pack_cpo_item รึยัง
+        if(isset($params['serch_pack_id'])){
+            $query->andWhere(['pack_cpo_items.pack_id ' => $params['pack_id']]);
+        }
         if(isset($params['pack_id'])){
             $query->andWhere(['pack_cpo_items.pack_id ' => $params['pack_id']]);
         }

@@ -7,7 +7,6 @@ use App\Domain\CpoItem\Service\CpoItemFinder;
 use App\Domain\CpoItem\Service\CpoItemUpdater;
 use App\Domain\Pack\Service\PackUpdater;
 use App\Domain\PackCpoItem\Service\PackCpoItemUpdater;
-use App\Domain\TempQuery\Service\TempQueryFinder;
 use App\Domain\Pack\Service\PackUpdtaer;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
@@ -29,7 +28,8 @@ final class PackCpoItemAddAction
     private $tempQueryFinder;
 
 
-    public function __construct(Responder $responder,  PackCpoItemUpdater $updater, PackCpoItemFinder $finder, CpoItemFinder $findCpoItem,CpoItemUpdater $updateCpoItem, PackUpdater $updatepack,TempQueryFinder $tempQueryFinder)
+    public function __construct(Responder $responder,  PackCpoItemUpdater $updater, PackCpoItemFinder $finder, CpoItemFinder $findCpoItem,
+    CpoItemUpdater $updateCpoItem, PackUpdater $updatepack)
     {
         $this->responder = $responder;
         $this->updater = $updater;
@@ -37,7 +37,6 @@ final class PackCpoItemAddAction
         $this->updatepack=$updatepack;
         $this->findCpoItem = $findCpoItem;
         $this->updateCpoItem = $updateCpoItem;
-        $this->tempQueryFinder = $tempQueryFinder;
     }
 
     public function __invoke(
@@ -63,15 +62,13 @@ final class PackCpoItemAddAction
         $this->updater->insertPackCpoItemApi($data, $user_id);
 
 
-        $packCpoItem = $this->tempQueryFinder->findTempQuery($param_search);
-
         $totalQty = 0;
 
-        for ($i = 0; $i < count($packCpoItem); $i++) {
-            $totalQty += (int)$packCpoItem[$i]['pack_qty'];
-            $arrTotalQty['total_qty'] = $totalQty;
-            $arrTotalQty['po_no'] = $packCpoItem[$i]['po_no'];
-        }
+        // for ($i = 0; $i < count($packCpoItem); $i++) {
+        //     $totalQty += (int)$packCpoItem[$i]['pack_qty'];
+        //     $arrTotalQty['total_qty'] = $totalQty;
+        //     $arrTotalQty['po_no'] = $packCpoItem[$i]['po_no'];
+        // }
 
         $arrTotalQty['user_id']=$user_id;
         $this->updatepack->updatePackStatusSelectingCpo($packID,  $arrTotalQty);

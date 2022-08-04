@@ -11,7 +11,6 @@ use App\Domain\CpoItem\Service\CpoItemFinder;
 use App\Domain\CpoItem\Service\CpoItemUpdater;
 use App\Domain\PackCpoItem\Service\PackCpoItemFinder;
 use App\Domain\PackCpoItem\Service\PackCpoItemUpdater;
-use App\Domain\TempQuery\Service\TempQueryUpdater;
 use App\Domain\Packing\Service\PackingUpdater;
 use App\Domain\PackingItem\Service\PackingItemUpdater;
 use App\Domain\Lot\Service\LotFinder;
@@ -44,7 +43,8 @@ final class PackDeleteAction
     private $lotUpdater;
     private $tagUpdater;
 
-    public function __construct(Responder $responder, PackFinder $finder, PackLabelFinder $findPackLabel, PackLabelUpdater $packLabelUpdater, PackUpdater $updater, LabelUpdater $updateLabel, CpoItemFinder $cpoItemFinder, CpoItemUpdater $cpoItemUpdater, PackCpoItemFinder $packCpoItemFinder, PackCpoItemUpdater $packCpoItemUpdater, TempQueryUpdater $tempQueryUpdater, PackingUpdater $packingUpdater, PackingFinder $packingItemFinder, PackingItemUpdater $packingItemUpdater, LotFinder $lotFinder, LotUpdater $lotUpdater, TagUpdater $tagUpdater)
+    public function __construct(Responder $responder, PackFinder $finder, PackLabelFinder $findPackLabel, PackLabelUpdater $packLabelUpdater, PackUpdater $updater, LabelUpdater $updateLabel, CpoItemFinder $cpoItemFinder, CpoItemUpdater $cpoItemUpdater, PackCpoItemFinder $packCpoItemFinder, 
+    PackCpoItemUpdater $packCpoItemUpdater, PackingUpdater $packingUpdater, PackingFinder $packingItemFinder, PackingItemUpdater $packingItemUpdater, LotFinder $lotFinder, LotUpdater $lotUpdater, TagUpdater $tagUpdater)
     {
         $this->finder = $finder;
         $this->findPackLabel = $findPackLabel;
@@ -56,7 +56,6 @@ final class PackDeleteAction
         $this->packCpoItemFinder = $packCpoItemFinder;
         $this->packLabelUpdater = $packLabelUpdater;
         $this->packCpoItemUpdater = $packCpoItemUpdater;
-        $this->tempQueryUpdater = $tempQueryUpdater;
         $this->packingUpdater = $packingUpdater;
         $this->packingItemFinder = $packingItemFinder;
         $this->packingItemUpdater = $packingItemUpdater;
@@ -125,8 +124,6 @@ final class PackDeleteAction
 
         $data['is_delete'] = 'Y';
         $this->updater->updatePack($packID, $data);
-
-        $this->tempQueryUpdater->deleteTempQuery((int)$rtPack[0]['product_id']);
 
 
         $viewData = [
