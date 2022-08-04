@@ -65,29 +65,45 @@ final class LotNonFullyPackDetailAction
         $searchLabelP['search_label_non_fully'] = true;
         $searchLabelP['ProductID'] = $params['ProductID'];
         $rtLabelLotID = $this->labelFinder->findLabels($searchLabelP); //find label ที่เป็น NONFULLY
-        $seachLabelRreferLotID['search_prefer_lot_id']=true;
-        $seachLabelRreferLotID['ProductID']=$params['ProductID'];
+        $seachLabelRreferLotID['search_prefer_lot_id'] = true;
+        $seachLabelRreferLotID['ProductID'] = $params['ProductID'];
         $rtLabelPreferLotID = $this->labelFinder->findLabels($seachLabelRreferLotID); //find label ที่เป็น MERGE_NONFULLY
         $productRow = $this->productFinder->findProducts($params); //find product
 
         $rtaLbels = array_merge($rtLabelLotID, $rtLabelPreferLotID);
+        //เนื่องจากข้อมูลที่ได้มาซ้ำกัน จึงต้องจัดกลุ่ม
+        $grouped_array = array();
+        foreach ($rtaLbels as $rtaLbel) {
+            $grouped_array[$rtaLbel['id']] = $rtaLbel;
+        }
+        // $rtaLbels[0]=$grouped_array;
         //find data of lot non fully pack for find quantity label
         $rtLNFPLots = $this->lNFPFinder->findLotNonFullyPacks($params);
 
-        $serchLnfpMerge['search_prefer_lot_id']=true;
+        $serchLnfpMerge['search_prefer_lot_id'] = true;
         $serchLnfpMerge['prefer_lot_id'] = $params['lot_id'];
         $rtLNFPMerges = $this->lNFPFinder->findLotNonFullyPacks($serchLnfpMerge);
 
+
         $rtLNFPs = array_merge($rtLNFPLots, $rtLNFPMerges);
+        //เนื่องจากข้อมูลที่ได้มาซ้ำกัน จึงต้องจัดกลุ่ม
+        $grouped_rtLNFPs = array();
+        foreach ($rtLNFPs as $rtLNFP) {
+            $grouped_rtLNFPs[$rtLNFP['id']] = $rtLNFP;
+        }
+
         $lNFPQty = 0;
         //sum quantity of labels
-        for ($i = 0; $i < count($rtLNFPs); $i++) {
-            $lNFPQty += $rtLNFPs[$i]['quantity'];
+        // for ($i = 0; $i < count($grouped_rtLNFPs); $i++) {
+        //     $lNFPQty += $grouped_rtLNFPs[$i]['quantity'];
+        // }
+        foreach ($grouped_rtLNFPs as $grouped_rtLNFP) {
+            $lNFPQty += $grouped_rtLNFP['quantity'];
         }
 
         $printerType['printer_type'] = "LABEL";
         $viewData = [
-            'labels' => $rtaLbels,
+            'labels' => $grouped_array,
             'productRow' => $productRow[0],
             'lot_id' => $params['lot_id'],
             'lNFPQty' => $lNFPQty,

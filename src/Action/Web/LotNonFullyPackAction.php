@@ -69,19 +69,22 @@ final class LotNonFullyPackAction
         $lotRow = $this->lotFinder->findLotProduct($params);
 
         $rtLNFs = array_merge($rtLNFPLot, $rtLNFPPreferLot);
-
+        $grouped_rtLNFPs = array();
+        foreach ($rtLNFs as $rtLNF) {
+            $grouped_rtLNFPs[$rtLNF['id']] = $rtLNF;
+        }
+        
         $lNFPQty = 0;
         $quantityItem = 0;
-
-        for ($i = 0; $i < count($rtLNFs); $i++) {
-            $lNFPQty += $rtLNFs[$i]['quantity'];
+        foreach ($grouped_rtLNFPs as $grouped_rtLNFP) {
+            $lNFPQty += $grouped_rtLNFP['quantity'];
             $quantityItem += 1;
         }
         $lotRow[0]['quantity_item'] = $quantityItem;
         $lotRow[0]['lNFPQty'] = $lNFPQty;
 
         $viewData = [
-            'labels' => $rtLNFs,
+            'labels' => $grouped_rtLNFPs,
             'lot_id' => $params['lot_id'],
             'lotRow' => $lotRow[0],
             'printers' => $this->printerFinder->findPrinters($params),
