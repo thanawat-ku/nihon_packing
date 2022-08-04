@@ -53,23 +53,15 @@ final class CpoItemAddAction
         $pack_id = (int)$data['pack_id'];
         $user_id=$this->session->get('user')["id"];
 
-        // $rtCpoItem = $this->finder->findCpoItem($data);
-
-        // $dataCpoItem['PackingQty'] = $rtCpoItem[0]['PackingQty'] + $data['pack_qty'];
-
-
-        // $uuid = uniqid();
-        // $param_search['uuid'] = $uuid;
-        // $param_search['pack_id'] = $pack_id;
-
+        $dueDate = explode(" ", $data['due_date']);
+        $data['due_date']=$dueDate[0];
+        
         $this->packCpoItemUpdater->insertPackCpoItem($data);
 
         $flash = $this->session->getFlashBag();
         $flash->clear();
 
         $totalQty = 0;
-
-        // $rtPackCpoItem = $this->packFinder->findPacks($data);
         
 
         //ค้นหา po_no ในฐานข้อมูล nsp
@@ -77,14 +69,6 @@ final class CpoItemAddAction
         $rtPackCpoItem = $this->finder->findCpoItemSelect($searchCpoItemNsp);
         $arrTotalQty['po_no'] = $rtPackCpoItem[0]['PONo'];
         $arrTotalQty['total_qty'] = $data['pack_qty']; 
-
-
-
-        // for ($i = 0; $i < count($packCpoItem); $i++) {
-        //     $totalQty += (int)$packCpoItem[$i]['pack_qty'];
-        //     $arrTotalQty['total_qty'] = $totalQty;
-        //     $arrTotalQty['po_no'] = $packCpoItem[$i]['po_no'];
-        // }
 
 
         $this->packUpdater->updatePackStatusSelectingCpo($pack_id,  $arrTotalQty);
