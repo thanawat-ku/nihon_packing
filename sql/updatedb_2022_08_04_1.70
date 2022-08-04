@@ -1,0 +1,9 @@
+db version 1.70
+by rachanon klangwong
+
+add fill due_date in table pack_cpo_item
+drop table temp_query
+
+ALTER TABLE `pack_cpo_items` ADD `due_date` DATE NULL DEFAULT NULL AFTER `pack_qty`;
+
+DROP TABLE temp_query;
