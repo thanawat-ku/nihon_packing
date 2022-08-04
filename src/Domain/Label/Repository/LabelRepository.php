@@ -231,7 +231,7 @@ final class LabelRepository
         }
         if (isset($params['search_label_non_fully']) || isset($params['search_prefer_lot_id'])) {
             $query->andWhere(['labels.label_type in' => ['NONFULLY', 'MERGE_NONFULLY']]);
-            $query->andWhere(['labels.status' => 'PACKED']);
+            $query->andWhere(['labels.status in' => 'PACKED']);
             $query->andWhere(['p.id' => $params['ProductID']]);
         }
 

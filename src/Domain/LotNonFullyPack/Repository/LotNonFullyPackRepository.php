@@ -103,7 +103,10 @@ final class LotNonFullyPackRepository
         }
         
 
-
+        if (isset($params['prefer_lot_id'])) {
+            $query->andWhere(['lot_non_fully_packs.lot_id' => $params['prefer_lot_id']]);
+            $query->andWhere(['lot_non_fully_packs.is_register' => 'N']);
+        }
         if (isset($params['lot_id'])) {
             $query->andWhere(['lot_non_fully_packs.lot_id' => $params['lot_id']]);
             $query->andWhere(['lot_non_fully_packs.is_register' => 'N']);

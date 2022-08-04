@@ -72,8 +72,13 @@ final class LotNonFullyPackDetailAction
 
         $rtaLbels = array_merge($rtLabelLotID, $rtLabelPreferLotID);
         //find data of lot non fully pack for find quantity label
-        $rtLNFPs = $this->lNFPFinder->findLotNonFullyPacks($params);
+        $rtLNFPLots = $this->lNFPFinder->findLotNonFullyPacks($params);
 
+        $serchLnfpMerge['search_prefer_lot_id']=true;
+        $serchLnfpMerge['prefer_lot_id'] = $params['lot_id'];
+        $rtLNFPMerges = $this->lNFPFinder->findLotNonFullyPacks($serchLnfpMerge);
+
+        $rtLNFPs = array_merge($rtLNFPLots, $rtLNFPMerges);
         $lNFPQty = 0;
         //sum quantity of labels
         for ($i = 0; $i < count($rtLNFPs); $i++) {
