@@ -90,11 +90,11 @@ final class LotAction
         //loop for find data in table lot_non_fully_pack
         for ($j = 0; $j < count($lots); $j++) {
             $searchLotID['lot_id'] = $lots[$j]['id'];
-            $rtLotNonFullyLot = $this->lNFPFinder->findLotNonFullyPacks($searchLotID);
+            //$rtLotNonFullyLot = $this->lNFPFinder->findLotNonFullyPacks($searchLotID);
             $searchLotID['search_prefer_lot_id'] = true;
-            $rtLotNonFullyPrefer = $this->lNFPFinder->findLotNonFullyPacks($searchLotID);
+            $rtLotNonFully = $this->lNFPFinder->findLotNonFullyPacks($searchLotID);
 
-            $rtLotNonFully = array_merge($rtLotNonFullyLot, $rtLotNonFullyPrefer);
+            //$rtLotNonFully = array_merge($rtLotNonFullyLot, $rtLotNonFullyPrefer);
             $sumQty = 0;
             foreach ($rtLotNonFully as $lotNonFullyRow) {
                 $sumQty += $lotNonFullyRow['quantity'];
