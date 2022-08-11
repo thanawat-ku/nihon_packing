@@ -17,6 +17,7 @@ final class LotNonFullyPackDeleteAction
     private $responder;
     private $lnfpFinder;
     private $lnfpUpdater;
+    private $labelFinder;
     private $labelUpdater;
 
     public function __construct(
@@ -43,13 +44,9 @@ final class LotNonFullyPackDeleteAction
         $lotID = $data['lot_id'];
         $user_id = $data['user_id'];
 
-        $rtLnfps = $this->lnfpFinder->findLotNonFullyPacks($data);
-
-        foreach ($rtLnfps as $lnfp) {
-            $this->lnfpUpdater->deleteLotNonFullyPack($labelID);
-            $updateStatus['status'] = 'PACKED';
-            $this->labelUpdater->updateLabelStatus($labelID, $updateStatus, $user_id);
-        }
+        $this->lnfpUpdater->deleteLotNonFullyPack($labelID);
+        $updateStatus['up_status'] = 'PACKED';
+        $this->labelUpdater->updateLabelStatus($labelID, $updateStatus, $user_id);
 
         $rtdata['message'] = "Delete Lot Non Fully Pack Successful";
         $rtdata['error'] = false;

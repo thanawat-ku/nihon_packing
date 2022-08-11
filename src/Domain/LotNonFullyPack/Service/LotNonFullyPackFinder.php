@@ -27,4 +27,8 @@ final class LotNonFullyPackFinder
     {
         return $this->repository->findLotNonFullyPacks($params);
     }
+    public function checkLabelInLotNonFullyPacks(array $params): array
+    {
+        return $this->repository->checkLabelInLotNonFullyPacks($params);
+    }
 }

@@ -38,7 +38,7 @@ final class LotNonFullyPackAction
 
         $rtdata['message'] = "Get LotNonFullyPack Successful";
         $rtdata['error'] = false;
-        $rtdata['lot_non_fully_packss'] = $this->finder->findLotNonFullyPacks($params);
+        $rtdata['lot_non_fully_packs'] = $this->finder->findLotNonFullyPacks($params);
 
         return $this->responder->withJson($response, $rtdata);
     }

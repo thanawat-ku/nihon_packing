@@ -28,6 +28,16 @@ final class LotNonFullyPackRepository
         return (int)$this->queryFactory->newInsert('lot_non_fully_packs', $row)->execute()->lastInsertId();
     }
 
+    public function insertLotNonFullyPackApi(array $row, $user_id): int
+    {
+        $row['created_at'] = Chronos::now()->toDateTimeString();
+        $row['created_user_id'] = $user_id;
+        $row['updated_at'] = Chronos::now()->toDateTimeString();
+        $row['updated_user_id'] = $user_id;
+
+        return (int)$this->queryFactory->newInsert('lot_non_fully_packs', $row)->execute()->lastInsertId();
+    }
+
     public function updateLotNonFullyPack(int $labelID, array $data, $user_id): void
     {
         $data['updated_at'] = Chronos::now()->toDateTimeString();
@@ -43,6 +53,11 @@ final class LotNonFullyPackRepository
     public function deleteLotNonFullyPack(int $labelId): void
     {
         $this->queryFactory->newDelete('lot_non_fully_packs')->andWhere(['label_id' => $labelId])->execute();
+    }
+
+    public function deleteLotNonFullyPackAll(int $lotID): void
+    {
+        $this->queryFactory->newDelete('lot_non_fully_packs')->andWhere(['lot_id' => $lotID])->execute();
     }
 
     public function findLotNonFullyPacks(array $params): array
@@ -90,7 +105,7 @@ final class LotNonFullyPackRepository
                     ]
                 ]
             );
-        }else{
+        } else {
             $query->join(
                 [
                     'l' => [
@@ -101,7 +116,7 @@ final class LotNonFullyPackRepository
                 ]
             );
         }
-        
+
 
         if (isset($params['prefer_lot_id'])) {
             $query->andWhere(['lot_non_fully_packs.lot_id' => $params['prefer_lot_id']]);
@@ -113,6 +128,29 @@ final class LotNonFullyPackRepository
         }
         if (isset($params['label_no'])) {
             $query->andWhere(['lb.label_no' => $params['label_no']]);
+        }
+
+        return $query->execute()->fetchAll('assoc') ?: [];
+    }
+
+    //เอาไว้ตรวจสอบว่ามี label ที่ทำการ merge ซ้ำกันหรือไม่ ในกรณีที่ทำพร้อมกัน 2 คน
+    public function checkLabelInLotNonFullyPacks(array $params): array
+    {
+        $query = $this->queryFactory->newSelect('lot_non_fully_packs');
+
+
+        $query->select(
+            [
+                'lot_non_fully_packs.id',
+                'lot_non_fully_packs.lot_id',
+                'label_id',
+                'date',
+                'is_register',
+            ]
+        );
+
+        if (isset($params['label_id'])) {
+            $query->andWhere(['label_id' => $params['label_id']]);
         }
 
         return $query->execute()->fetchAll('assoc') ?: [];
