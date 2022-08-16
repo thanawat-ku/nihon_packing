@@ -50,9 +50,9 @@ final class LotNonFullyPackRepository
     //     $this->queryFactory->newDelete('labels')->andWhere(['id' => $labelID])->execute();
     // }
 
-    public function deleteLotNonFullyPack(int $labelId): void
+    public function deleteLotNonFullyPack(int $id): void
     {
-        $this->queryFactory->newDelete('lot_non_fully_packs')->andWhere(['label_id' => $labelId])->execute();
+        $this->queryFactory->newDelete('lot_non_fully_packs')->andWhere(['id' => $id])->execute();
     }
 
     public function deleteLotNonFullyPackAll(int $lotID): void
@@ -72,6 +72,7 @@ final class LotNonFullyPackRepository
                 'lb.label_no',
                 'l.generate_lot_no',
                 'lb.label_type',
+                'lb.status',
                 'l.real_qty',
                 'l.real_lot_qty',
                 'lb.wait_print',
@@ -152,6 +153,7 @@ final class LotNonFullyPackRepository
         if (isset($params['label_id'])) {
             $query->andWhere(['label_id' => $params['label_id']]);
         }
+
 
         return $query->execute()->fetchAll('assoc') ?: [];
     }

@@ -58,7 +58,7 @@ final class LotNonFullyPackCheckAction
                 $searchLabel['label_no'] = $label;
                 $labelRow = $this->labelFinder->findLabelSingleTable($searchLabel);
 
-                if ($labelRow[0]['status'] == 'PACKED' && $labelRow[0]['label_type'] == "NONFULLY") {
+                if (($labelRow[0]['status'] == 'PACKED' || $labelRow[0]['status'] == 'MERGED') && $labelRow[0]['label_type'] == "NONFULLY") {
 
                     //เปลี่ยนสถานะเป็น merge เมื่อที่การ merge
                     $upStatus['status'] = 'MERGED';
@@ -78,7 +78,6 @@ final class LotNonFullyPackCheckAction
                 } else {
                     $labelRow[0]['check_correct'] = false;
                 }
-                $mergeQty += $labelRow[0]['quantity'];
                 array_push($rtLabel, $labelRow[0]);
 
                 //insert data ลงไปใน lot non fully pack
@@ -93,7 +92,6 @@ final class LotNonFullyPackCheckAction
         $rtdata['message'] = "Get Lot Non Fully Pack Successful";
         $rtdata['error'] = false;
         $rtdata['lot_non_fully_packs'] = $rtLabel;
-        $rtdata['merge_qty'] = $mergeQty;
 
         return $this->responder->withJson($response, $rtdata);
     }

@@ -3,6 +3,7 @@
 namespace App\Action\Api;
 
 use App\Domain\LotNonFullyPack\Service\LotNonFullyPackFinder;
+use App\Domain\Lot\Service\LotFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -12,22 +13,25 @@ use Symfony\Component\HttpFoundation\Session\Session;
 /**
  * Action.
  */
-final class LotNonFullyPackAction
+final class LotNonFullyPackRowAction
 {
     /**
      * @var Responder
      */
     private $responder;
     private $finder;
+    private $lotFinder;
 
     public function __construct(
         Twig $twig,
         LotNonFullyPackFinder $finder,
+        LotFinder $lotFinder,
         Session $session,
         Responder $responder
     ) {
         $this->twig = $twig;
         $this->finder = $finder;
+        $this->lotFinder = $lotFinder;
         $this->session = $session;
         $this->responder = $responder;
     }
@@ -37,31 +41,11 @@ final class LotNonFullyPackAction
         $params = (array)$request->getQueryParams();
         $params['search_prefer_lot_id'] = true;
         $params['prefer_lot_id'] = $params['lot_id'];
-        $user_id = $params['user_id'];
 
-        $rtLabel = [];
-        $mergeQty = 0;
         $rtLabelMerge = $this->finder->findLotNonFullyPacks($params);
+        $rtLot = $this->lotFinder->findLots($params);
 
-        for ($i = 0; $i < count($rtLabelMerge); $i++) {
-            if (($rtLabelMerge[0]['status'] == 'PACKED' || $rtLabelMerge[0]['status'] == 'MERGED') && $rtLabelMerge[0]['label_type'] == "NONFULLY") {
-                //ค้นหาข้อมูลที่มี label_id ซ้ำกัน
-                $seachData['label_id'] = $rtLabelMerge[0]['id'];
-                $checkDupli = $this->finder->checkLabelInLotNonFullyPacks($seachData);
-
-                //เช็คความถูกต้อง เเละส่งข้อมูลไปยัง app
-                // ถ้าไม่มีข้อมูลที่ซ้ำกัน ให้ข้อมูลถูกต้อง
-                if (!isset($checkDupli[0])) {
-                    $rtLabelMerge[0]['check_correct'] = true;
-                } else {
-                    $rtLabelMerge[0]['check_correct'] = false;
-                }
-            } else {
-                $rtLabelMerge[0]['check_correct'] = false;
-            }
-            array_push($rtLabel, $rtLabelMerge[0]);
-        }
-
+        $mergeQty = 0;
         //ทำการหาจำนวน quantity ของ label
         for ($j = 0; $j < count($rtLabelMerge); $j++) {
             $mergeQty += $rtLabelMerge[$j]['quantity'];
@@ -69,7 +53,7 @@ final class LotNonFullyPackAction
 
         $rtdata['message'] = "Get LotNonFullyPack Successful";
         $rtdata['error'] = false;
-        $rtdata['lot_non_fully_packs'] = $rtLabel;
+        $rtdata['lot_non_fully_pack_row'] = $rtLot;
         $rtdata['merge_qty'] = $mergeQty;
 
         return $this->responder->withJson($response, $rtdata);

@@ -141,6 +141,8 @@ return function (App $app) {
     $app->post('/api/confirm_lot', \App\Action\Api\LotConfirmAction::class);
     $app->post('/api/save_lot', \App\Action\Api\LotSaveAction::class);
 
+    $app->post('/api/lot_merges', \App\Action\Api\LotMergeAction::class);
+
     $app->get('/api/lot_defects', \App\Action\Api\LotDefectAction::class);
     $app->post('/api/add_lot_defect', \App\Action\Api\LotDefectAddAction::class);
     $app->post('/api/edit_lotdefects', \App\Action\Api\LotDefectEditAction::class);
@@ -261,4 +263,5 @@ return function (App $app) {
     $app->get('/api/lot_non_fully_packs', \App\Action\Api\LotNonFullyPackAction::class);
     $app->post('/api/check_lot_non_fully_pack', \App\Action\Api\LotNonFullyPackCheckAction::class);
     $app->post('/api/delete_lot_non_fully_pack', \App\Action\Api\LotNonFullyPackDeleteAction::class);
+    $app->get('/api/lot_non_fully_pack_row', \App\Action\Api\LotNonFullyPackRowAction::class);
 };

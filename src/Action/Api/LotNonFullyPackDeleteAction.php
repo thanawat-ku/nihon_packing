@@ -40,11 +40,11 @@ final class LotNonFullyPackDeleteAction
     ): ResponseInterface {
 
         $data = (array)$request->getParsedBody();
+        $lnfpID = $data['lot_non_fully_pack_id'];
         $labelID = $data['label_id'];
-        $lotID = $data['lot_id'];
         $user_id = $data['user_id'];
 
-        $this->lnfpUpdater->deleteLotNonFullyPack($labelID);
+        $this->lnfpUpdater->deleteLotNonFullyPack($lnfpID);
         $updateStatus['up_status'] = 'PACKED';
         $this->labelUpdater->updateLabelStatus($labelID, $updateStatus, $user_id);
 

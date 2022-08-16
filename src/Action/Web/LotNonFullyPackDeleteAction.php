@@ -48,7 +48,7 @@ final class LotNonFullyPackDeleteAction
         $this->labelUpdater->updateLabelStatus($labelID, $updateLabel, $user_id);
 
         //delete label in tabel lot_non_fully_packs
-        $this->lNFPUpdater->deleteLotNonFullyPack($labelID);
+        $this->lNFPUpdater->deleteLotNonFullyPack($labelID); //รอการแก้ไข ให้เหมือน app
 
         $viewData = [
             'lot_id' => $data['lot_id'],
