@@ -9,6 +9,10 @@
 	{% webpack_entry_js 'web/tags' %}
 {% endblock %}
 
+{% block title_all_page %}
+  <title> Nihon Packing : Tags </title>
+{% endblock %}
+
 {% block content %}
 	<div class="container-fluid">
 		<div class="row">
@@ -72,7 +76,7 @@
 							{% endfor %}
 						</select>&nbsp;&nbsp;
 						Status:&nbsp;&nbsp;
-						<select id="searchStatus" name="search_tag_status">
+						<select id="searchStatus" class="form-control" name="search_tag_status">
 							<option value="ALL" {{ search_tag_status=="ALL"?"selected" }}>ALL</option>
 							<option value="CREATED" {{ search_tag_status=="CREATED"?"selected" }}>CREATED</option>
 							<option value="PRINTED" {{ search_tag_status=="PRINTED"?"selected" }}>PRINTED</option>
