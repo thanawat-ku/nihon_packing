@@ -9,6 +9,10 @@
 	{% webpack_entry_js 'web/lotDefects' %}
 {% endblock %}
 
+{% block title_all_page %}
+  <title> Nihon Packing : Lot Defects</title>
+{% endblock %}
+
 {% block content %}
 	<div class="container-fluid">
 		<div class="row">
@@ -54,10 +58,10 @@
 					<tfoot></tfoot>
 				</table>
 				<form id="form-black" class="form-inline float-none" action="lots" method="get">
-                  	<input type="hidden" id="searchProductID" name="search_product_id" value="{{search_product_id}}">
-                	<input type="hidden" id="searchProductID" name="search_status" value="{{search_status}}">
-					<button type="submit" class="btn btn-primary" id="black"><i class="fas fa-arrow-left"></i>Back</button>
-				</form>
+                  {# <input type="hidden" id="searchProductID" name="search_product_id" value="{{search_product_id}}">
+                  <input type="hidden" id="searchProductID" name="search_status" value="{{search_status}}"> #}
+                  <button type="submit" class="btn btn-primary" id="black"><i class="fas fa-arrow-left"></i> Back</button>
+                </form>
 				<p></p>
 			</div>
 		</div>

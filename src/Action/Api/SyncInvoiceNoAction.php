@@ -111,7 +111,6 @@ final class SyncInvoiceNoAction
                             $this->updatePack->updatePackSyncApi((int)$rtPack[$i]['id'],  $upPack, $user_id);
                         }
 
-
                         $rtData = [];
                         array_push($rtData, $rtIvoicePack);
                     }
@@ -127,9 +126,47 @@ final class SyncInvoiceNoAction
         if (isset($rtPackProductCom[0])) {
             //เมื่อได้ pack ที่มี status เป็น TAGGED แล้ว เช็คว่า is_completed ของ product เป็น N or Y
             for ($j = 0; $j < count($rtPackProductCom); $j++) {
-                //เป็น  N  update status is INVOICED
-                $upPackCheckProduct['pack_status'] = 'COMPLETED';
-                $this->updatePack->updatePackSyncApi((int)$rtPackProductCom[$j]['id'],  $upPackCheckProduct, $user_id);
+                //หา data invoice ที่อยู่ใน จาก packing id ที่อยู่ใน db packing
+                $params['packing_id'] = $rtPackProductCom[$j]['packing_id'];
+                $rtIvoice = $this->finder->findInvoice($params);
+
+                if (isset($rtIvoice[0])) {
+                    // ค้นหา ข้อมูล ที่มี invoice_no และ invoice_status ตรงกัน
+                    $findInvoicePackings['invoice_no'] = $rtIvoice[0]['InvoiceNo'];
+                    $findInvoicePackings['invoice_status'] = "INVOICED";
+                    $rtIvoicePack = $this->finder->findInvoicePackings($findInvoicePackings);
+
+                    //เมื่อเช็คว่า ข้อมูลใน invoices ไม่มีให้ทำการสร้าง invoices ขึ้นมา ถ้ามีก็ให้ update ข้อมูลลงใน packs
+                    if (!isset($rtIvoicePack[0])) {
+                        $insertInvoice['invoice_no'] = $rtIvoice[0]['InvoiceNo'];
+                        $insertInvoice['customer_id'] = $rtIvoice[0]['CustomerID'];
+                        //แยกวันเเละเวลาออกจากกัน
+                        $timestamp = $rtIvoice[0]['IssueDate'];
+                        $splitTimeStamp = explode(" ", $timestamp);
+                        $date = $splitTimeStamp[0];
+                        $insertInvoice['date'] = $date;
+                        $invoiceID = $this->updateInvoice->insertInvoicePacking($insertInvoice, $user_id);
+
+                        if ($rtPackProductCom[$j]['is_completed'] == 'N') {
+                            $upPack['invoice_id'] = $invoiceID;
+                            $this->updatePack->updatePackSyncApi((int)$rtPackProductCom[$j]['id'],  $upPack, $user_id);
+                        }
+
+                    } else {
+                        if ($rtPackProductCom[$j]['is_completed'] == 'N') {
+                            $upPack['invoice_id'] = $rtIvoicePack[0]['id'];
+                            $this->updatePack->updatePackSyncApi((int)$rtPackProductCom[$j]['id'],  $upPack, $user_id);
+                        }
+                        
+                    }
+                }
+
+                //update pack status ที่มีสถานะเป็น TAGGED
+                if ($rtPackProductCom[$j]['pack_status'] == 'TAGGED') {
+                    //เป็น  N  update status is INVOICED
+                    $upPackCheckProduct['pack_status'] = 'COMPLETED';
+                    $this->updatePack->updatePackSyncApi((int)$rtPackProductCom[$j]['id'],  $upPackCheckProduct, $user_id);
+                }
             }
         }
 

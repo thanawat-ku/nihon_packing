@@ -42,6 +42,18 @@ final class LotNonFullyPackUpdater
         return $id;
     }    
 
+    public function insertLotNonFullyPackApi(array $data, $user_id): int
+    {
+        $this->validator->validateLotNonFullyPackInsert($data);
+
+        $row = $this->mapToRow($data);
+
+        $id = $this->repository->insertLotNonFullyPackApi($data, $user_id);
+
+        return $id;
+    }    
+
+
   
 
     // public function deleteLotNonFullyPack(int $labelId, array $data): void
@@ -49,9 +61,14 @@ final class LotNonFullyPackUpdater
     //     $this->repository->deleteLotNonFullyPack($labelId);
     // }
 
-    public function deleteLotNonFullyPack(int $labelId): void
+    public function deleteLotNonFullyPack(int $id): void
     {
-        $this->repository->deleteLotNonFullyPack($labelId);
+        $this->repository->deleteLotNonFullyPack($id);
+    }
+
+    public function deleteLotNonFullyPackAll(int $lotID): void
+    {
+        $this->repository->deleteLotNonFullyPackAll($lotID);
     }
 
     public function updateLotNonFullyPack(string $labelID, array $data, $user_id): void

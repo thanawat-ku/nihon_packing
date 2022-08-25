@@ -9,6 +9,10 @@
 	{% webpack_entry_js 'web/packs' %}
 {% endblock %}
 
+{% block title_all_page %}
+  <title> Nihon Packing : Packs</title>
+{% endblock %}
+
 {% block content %}
 	<div class="container-fluid">
 		<div class="row">
@@ -42,7 +46,7 @@
 					  {% endfor %}
 					</select>&nbsp;&nbsp;
 					Status:&nbsp;&nbsp;
-					<select id="searchStatus" name="search_pack_status">
+					<select id="searchStatus" class="form-control" name="search_pack_status">
 						<option value="ALL" {{ search_pack_status=="ALL"?"selected" }}>ALL</option>
 						<option value="CREATED" {{ search_pack_status=="CREATED"?"selected" }}>CREATED</option>
 						<option value="SELECTING_CPO" {{ search_pack_status=="SELECTING_CPO"?"selected" }}>SELECTING_CPO</option>

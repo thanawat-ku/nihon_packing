@@ -10,6 +10,8 @@
 
 		{% webpack_entry_css 'layout/layout' %}
 		{% block css %}{% endblock %}
+		{% block title_all_page %}{% endblock %}
+        {# <title>{% if title_all_page is defined %} {{ title_all_page }}|{% endif %} Nihon Packing </title> #}
 
 		{% webpack_entry_js 'layout/layout' %}
 		<link rel="icon" href="images/nihon-seiki.jpg" type="image/x-icon">
@@ -62,7 +64,7 @@
 							Sections</a>
 						<a class="dropdown-item" href="label_void_reasons">
 							<i class="fas fa-fw fa-sticky-note"></i>
-							Label Void Reason</a>
+							Label Void Reasons</a>
 						<a class="dropdown-item" href="printers">
 							<i class="fas fa-fw fa-print"></i>
 							Printer</a>
@@ -83,7 +85,7 @@
 					<div class="dropdown-menu dropdown-menu-right shadow" aria-labelledby="masterDropdown">
 						<a class="dropdown-item" href="labels">
 							<i class="fas fa-fw fa-newspaper"></i>
-							Labels All</a>
+							Label All</a>
 						<a class="dropdown-item" href="splitLabels">
 							<i class="fas fa-fw fa-object-ungroup"></i>
 							Split Labels</a>
@@ -115,7 +117,7 @@
 				<li class="nav-item">
 					<a class="nav-link" href="scraps">
 						<i class="fas fa-marker text-dark"></i>
-						<span class="text-dark">Scrap</span>
+						<span class="text-dark">Scraps</span>
 					</a>
 				</li>
 
