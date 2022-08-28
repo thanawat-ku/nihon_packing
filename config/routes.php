@@ -132,6 +132,7 @@ return function (App $app) {
     $app->post('/add_lot_non_fully_pack', \App\Action\Web\LotNonFullyPackAddAction::class)->add(UserAuthMiddleware::class);
     $app->post('/delete_lot_non_fully_pack', \App\Action\Web\LotNonFullyPackDeleteAction::class)->add(UserAuthMiddleware::class);
 
+    $app->get('/report_all', \App\Action\Web\LotNonFullyPackAction::class)->add(UserAuthMiddleware::class);
     //---------------------------Api-------------------------------
 
     $app->get('/api/users', \App\Action\Api\UserAction::class);

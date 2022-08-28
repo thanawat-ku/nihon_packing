@@ -99,26 +99,45 @@
 						<span class="text-dark">Packs</span>
 					</a>
 				</li>
-
+				<!-- Tags -->
 				<li class="nav-item">
 					<a class="nav-link" href="tags">
 						<i class="fas fa-thin fa-tags text-dark"></i>
 						<span class="text-dark">Tags</span>
 					</a>
 				</li>
-
+				<!-- Invoices -->
 				<li class="nav-item">
 					<a class="nav-link" href="invoices">
 						<i class="fas fa-thin fa-file-invoice text-dark"></i>
 						<span class="text-dark">Invoices</span>
 					</a>
 				</li>
-
+				<!-- Scraps -->
 				<li class="nav-item">
 					<a class="nav-link" href="scraps">
 						<i class="fas fa-marker text-dark"></i>
 						<span class="text-dark">Scraps</span>
 					</a>
+				</li>
+				<!-- Report -->
+				<li class="nav-item dropdown no-arrow">
+					<a class="nav-link" dropdown-toggle href="#" id="reportDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<i class="fas fa-fw fa-chart-bar text-dark"></i>
+						{# icon of Master #}
+						<span class="text-dark">Report</span>
+					</a>
+					<!-- Dropdown - Report Information -->
+                <div class="dropdown-menu dropdown-menu-right shadow" aria-labelledby="reportDropdown">
+					<a class="dropdown-item" href="report_all">
+						<i class="fas fa-fw fa-print"></i> Report </a>
+                    <a class="dropdown-item" href="report_not_sell">
+                        <i class="fas fa-fw fa-hammer"></i> Report not sell </a>
+                    <a class="dropdown-item" href="report_scrap">
+                        <i class="fas fa-fw fa-hammer"></i> Report Scrap </a>
+                    <a class="dropdown-item" href="report_dif">
+                        <i class="fas fa-fw fa-hammer"></i> Report Dif </a>
+                </div>
 				</li>
 
 				<!-- Nav Item -Application Tools -->
