@@ -23,23 +23,8 @@ final class ReportAllFinder
      *
      * @return array<mixed> The result
      */
-    public function findReportAlls(array $params): array
+    public function findReportAll(array $params): array
     {
-        return $this->repository->findReportAlls($params);
-    }
-    
-    public function getLocalMaxReportAllId():int
-    {
-        $data=$this->repository->getLocalMaxReportAllId()[0]["max_id"];
-        if(is_null($data)){
-            return 0;
-        }
-        else{
-            return $data;
-        }
-    }
-    public function getSyncReportAlls(int $maxId):array
-    {
-        return $this->repository->getSyncReportAlls($maxId);
+        return $this->repository->findReportAll($params);
     }
 }

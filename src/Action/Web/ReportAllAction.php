@@ -22,7 +22,13 @@ final class ReportAllAction
     private $finder;
     private $productFinder;
     private $session;
+    private $reportAllFinder;
 
+    /**
+     * The constructor.
+     *
+     * @param Responder $responder The responder
+     */
     public function __construct(
         Twig $twig,
         ReportAllFinder $finder,
@@ -30,27 +36,35 @@ final class ReportAllAction
         Responder $responder
     ) {
         $this->twig = $twig;
-        $this->finder = $finder;
+        // $this->finder = $finder;
+        $this->reportAllFinder=$finder;
         $this->session = $session;
         $this->responder = $responder;
     }
+    
+    /**
+     * Action.
+     *
+     * @param ServerRequestInterface $request The request
+     * @param ResponseInterface $response The response
+     *
+     * @return ResponseInterface The response
+     */
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $params = (array)$request->getQueryParams();
-
-        if (!isset($params['startDate'])) {
-            $params['startDate'] = date('Y-m-d', strtotime('-30 days', strtotime(date('Y-m-d'))));
-            $params['endDate'] = date('Y-m-d');
-        } 
-
+        if(!isset($params['startDate'])){
+            $params['startDate']=date('Y-m-d',strtotime('-30 days',strtotime(date('Y-m-d'))));
+            $params['endDate']=date('Y-m-d');
+        }
+        
         $viewData = [
-            'ReportAlls' => $this->finder->findReportAlls($params),
-            'user_login' => $this->session->get('user'),
             'startDate' => $params['startDate'],
             'endDate' => $params['endDate'],
+            'products' => $this->reportAllFinder->findReportAll($params),
         ];
 
-        return $this->twig->render($response, 'web/ReportAll.twig', $viewData);
+        return $this->twig->render($response, 'web/reportAll.twig',$viewData);
     }
 }
