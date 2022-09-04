@@ -2,7 +2,8 @@
 
 namespace App\Action\Web;
 
-use App\Domain\ReportAll\Service\ReportAllFinder;
+// use App\Domain\ReportAll\Service\ReportAllFinder;
+use App\Domain\Product\Service\ProductFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -19,10 +20,10 @@ final class ReportAllAction
      */
     private $responder;
     private $twig;
-    private $finder;
     private $productFinder;
+    // private $finder;
+    // private $reportAllFinder;
     private $session;
-    private $reportAllFinder;
 
     /**
      * The constructor.
@@ -31,13 +32,12 @@ final class ReportAllAction
      */
     public function __construct(
         Twig $twig,
-        ReportAllFinder $finder,
+        ProductFinder $productFinder,
         Session $session,
         Responder $responder
     ) {
         $this->twig = $twig;
-        // $this->finder = $finder;
-        $this->reportAllFinder=$finder;
+        $this->productFinder=$productFinder;
         $this->session = $session;
         $this->responder = $responder;
     }
@@ -62,7 +62,7 @@ final class ReportAllAction
         $viewData = [
             'startDate' => $params['startDate'],
             'endDate' => $params['endDate'],
-            'products' => $this->reportAllFinder->findReportAll($params),
+            'products' => $this->productFinder->findProducts($params),
         ];
 
         return $this->twig->render($response, 'web/reportAll.twig',$viewData);

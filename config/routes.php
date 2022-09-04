@@ -132,8 +132,7 @@ return function (App $app) {
     $app->post('/add_lot_non_fully_pack', \App\Action\Web\LotNonFullyPackAddAction::class)->add(UserAuthMiddleware::class);
     $app->post('/delete_lot_non_fully_pack', \App\Action\Web\LotNonFullyPackDeleteAction::class)->add(UserAuthMiddleware::class);
 
-    $app->get('/report_all', \App\Action\Web\ReportAllAction::class)->add(UserAuthMiddleware::class);
-    $app->get('/export_report_all', \App\Action\Api\ExportReportAllAction::class);
+    $app->get('/report_all', \App\Action\Web\ReportAllAction::class)->add(UserAuthMiddleware::class); #<<< Report All Action
 
     //---------------------------Api-------------------------------
 
@@ -267,4 +266,12 @@ return function (App $app) {
     $app->post('/api/check_lot_non_fully_pack', \App\Action\Api\LotNonFullyPackCheckAction::class);
     $app->post('/api/delete_lot_non_fully_pack', \App\Action\Api\LotNonFullyPackDeleteAction::class);
     $app->get('/api/lot_non_fully_pack_row', \App\Action\Api\LotNonFullyPackRowAction::class);
+    
+    // Password protected area
+    $app->group(
+        '/api',
+        function (RouteCollectorProxy $app) {
+            $app->get('/export_report_all', \App\Action\Api\ExportReportAllAction::class); #<<<< Export Report All Action
+        }
+    )->add(UserAuthMiddleware::class);
 };

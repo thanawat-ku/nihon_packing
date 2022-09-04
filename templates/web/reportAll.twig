@@ -28,9 +28,20 @@
                                     <div class="row">
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <label for="searchIssueStartDate">From Date</label>
-                                                <div class='input-group' id='datetimepickerFirstTime'>
-                                                    <input type='text' class="form-control" readonly="readonly" id="searchIssueStartDate"
+                                                <label for="PartID-report">Part Code</label>
+                                                <select class="selectpicker form-control" id="PartID-report" name="part_id"
+                                                    title="Please select Part Code" data-live-search="true">
+                                                      <option value="0">All products</option> 
+                                                    {% for product in products %}
+                                                      <option value="{{ product.id }}">{{ product.part_code }}</option>                                                  
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="searchIssueStartDate">From Date</label>
+                                            <div class='input-group' id='datetimepickerFirstTime'>
+                                                <input type='text' class="form-control" readonly="readonly" id="searchIssueStartDate"
                                                         name="from_date" style="background-color: inherit"
                                                         placeholder="input first time" value="{{ startDate }}">
                                                     <span class="input-group-append">
@@ -38,22 +49,12 @@
                                                             <span class="far fa-calendar-alt"></span>
                                                         </span>
                                                     </span>
-                                                </div>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="ProductID-report">Part Code: </label>
-                                             <select class="selectpicker" id="ReportAllProductID-report" name="search_product_id " data-live-search="true" title="Please select Part Code">                                                    
-                                                    {% for product in products %}
-                                                      <option value={{ product.id }} {{ product.id==search_product_id?"selected"}}>{{product.part_code}}</option>                                                  
-                                                    {% endfor %}
-                                             </select>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="form-group">
-                                                <label for="searchIssueEndDate">To Date</label>
-                                                <div class='input-group' id='datetimepickerLastTime'>
-                                                    <input type='text' class="form-control" readonly="readonly" id="searchIssueEndDate"
+                                            <label for="searchIssueEndDate">To Date</label>
+                                            <div class='input-group' id='datetimepickerLastTime'>
+                                                <input type='text' class="form-control" readonly="readonly" id="searchIssueEndDate"
                                                         name="to_date" style="background-color: inherit" placeholder="End Date"
                                                         value="{{ endDate }}">
                                                     <span class="input-group-append">
@@ -61,7 +62,6 @@
                                                             <span class="far fa-calendar-alt"></span>
                                                         </span>
                                                     </span>
-                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-12 text-center">
