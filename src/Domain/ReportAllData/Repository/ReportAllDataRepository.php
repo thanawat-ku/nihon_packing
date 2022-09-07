@@ -76,7 +76,18 @@ final class ReportAllDataRepository
                 'type' => 'INNER',
                 'conditions' => 'packs.invoice_id=IV.id',
             ]
-        ]);
+        ]); 
+        if ($params["part_id"]!="0") {
+            $query->andWhere(['packs.product_id' => $params['part_id']]);
+        }
+        // if($params["part_id"]!="0"){
+        //     $sql .= " AND p.id = '" . $params["part_id"] . "'";
+        // }
+        
+        // $query->andWhere(['packs.product_id' => $params['part_id']]!="0");
+        if (isset($params["startDate"])) {
+            $query->andWhere(['issue_date <=' => $params['endDate'], 'issue_date >=' => $params['startDate']]);
+        }
         return $query->execute()->fetchAll('assoc') ?: [];
     }
 }

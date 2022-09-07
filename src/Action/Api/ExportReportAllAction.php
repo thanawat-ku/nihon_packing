@@ -37,30 +37,30 @@ final class ExportReportAllAction
 
         $details=$this->reportAllDataFinder->getReportAllData($params);
 
-        $cell = $sheet->getCell('A1');
-        $cell->setValue("From ".$params['from_date']." to ".$params['to_date']);
+        $cell = $sheet->getCell('A2');
+        $cell->setValue("From ".$params['startDate']." to ".$params['endDate']);
 
         $rowNo=4;
         for($i=0;$i<count($details);$i++)
         {
             $cell = $sheet->getCell('A'.($rowNo+$i));
-            $cell->setValue($details[$i]["PD.part_code"]); 
+            $cell->setValue($details[$i]["part_code"]); 
             $cell = $sheet->getCell('B'.($rowNo+$i)); 
-            $cell->setValue($details[$i]["PD.part_no"]);
+            $cell->setValue($details[$i]["part_no"]);
             $cell = $sheet->getCell('D'.($rowNo+$i)); 
-            $cell->setValue($details[$i]["IV.invoice_no"]);
+            $cell->setValue($details[$i]["invoice_no"]);
             $cell = $sheet->getCell('D'.($rowNo+$i)); 
-            $cell->setValue($details[$i]["packs.pack_date"]);
+            $cell->setValue($details[$i]["pack_date"]);
             $cell = $sheet->getCell('E'.($rowNo+$i)); 
-            $cell->setValue($details[$i]["PCI.cpo_item_id"]);
+            $cell->setValue($details[$i]["cpo_item_id"]);
             $cell = $sheet->getCell('F'.($rowNo+$i)); 
-            $cell->setValue($details[$i]["LT.lot_no"]);
+            $cell->setValue($details[$i]["lot_no"]);
             $cell = $sheet->getCell('G'.($rowNo+$i)); 
-            $cell->setValue($details[$i]["packs.pack_no"]);
-            $cell = $sheet->getCell('G'.($rowNo+$i)); 
-            $cell->setValue($details[$i]["L.label_no"]);
-            $cell = $sheet->getCell('G'.($rowNo+$i)); 
-            $cell->setValue($details[$i]["L.quantity"]);
+            $cell->setValue($details[$i]["pack_no"]);
+            $cell = $sheet->getCell('H'.($rowNo+$i)); 
+            $cell->setValue($details[$i]["label_no"]);
+            $cell = $sheet->getCell('I'.($rowNo+$i)); 
+            $cell->setValue($details[$i]["quantity"]);
         }
 
         $excelWriter = new Writer\Xlsx($spreadsheet);
@@ -68,8 +68,8 @@ final class ExportReportAllAction
         $tempFile = $tempFile ?: __DIR__ . '/temp.xlsx';
         $excelWriter->save($tempFile);
         $response = $response->withHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        $response = $response->withHeader('Content-Disposition', 'attachment; filename="report_all-'.
-            $params["from_date"]."-".$params["to_date"].'.xlsx"');
+        $response = $response->withHeader('Content-Disposition', 'attachment; filename="report_all'.
+            $params["startDate"]."-".$params["endDate"].'.xlsx"');
 
         $stream = fopen($tempFile, 'r+');
         return $response->withBody(new Stream($stream));
