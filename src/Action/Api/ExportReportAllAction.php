@@ -68,7 +68,7 @@ final class ExportReportAllAction
         $tempFile = $tempFile ?: __DIR__ . '/temp.xlsx';
         $excelWriter->save($tempFile);
         $response = $response->withHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        $response = $response->withHeader('Content-Disposition', 'attachment; filename="report_all'.
+        $response = $response->withHeader('Content-Disposition', 'attachment; filename="report_all-'.
             $params["startDate"]."-".$params["endDate"].'.xlsx"');
 
         $stream = fopen($tempFile, 'r+');

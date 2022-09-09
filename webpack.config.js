@@ -41,7 +41,8 @@ module.exports = {
         'web/lotNonFullyPacks': './templates/web/lotNonFullyPacks.js',
         'web/lotNonFullyPackDetails': './templates/web/lotNonFullyPackDetails.js',
         'web/reportAll': './templates/web/reportAll.js',
-        'web/reportPacksNotSell': './templates/web/reportPacksNotSell.js'
+        'web/reportPacksNotSell': './templates/web/reportPacksNotSell.js',
+        'web/reportQtyDif': './templates/web/reportQtyDif.js'
 
     },
     output: {
