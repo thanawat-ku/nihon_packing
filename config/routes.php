@@ -132,7 +132,9 @@ return function (App $app) {
     $app->post('/add_lot_non_fully_pack', \App\Action\Web\LotNonFullyPackAddAction::class)->add(UserAuthMiddleware::class);
     $app->post('/delete_lot_non_fully_pack', \App\Action\Web\LotNonFullyPackDeleteAction::class)->add(UserAuthMiddleware::class);
 
+    //after get('/****') it mean event click from Twig Page
     $app->get('/report_all', \App\Action\Web\ReportAllAction::class)->add(UserAuthMiddleware::class); #<<< Report All Action
+    $app->get('/report_not_sell', \App\Action\Web\ReportPacksNotSellAction::class)->add(UserAuthMiddleware::class); #<<< Report packs not sell Action
 
     //---------------------------Api-------------------------------
 
@@ -272,6 +274,7 @@ return function (App $app) {
         '/api',
         function (RouteCollectorProxy $app) {
             $app->get('/export_report_all', \App\Action\Api\ExportReportAllAction::class); #<<<< Export Report All Action
+            $app->get('/export_report_packs_not_sell', \App\Action\Api\ExportReportPacksNotSellAction::class); #<<<< Export Report packs not sell Action
         }
     )->add(UserAuthMiddleware::class);
 };
