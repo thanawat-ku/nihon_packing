@@ -80,6 +80,9 @@ final class ReportAllDataRepository
         if ($params["part_id"]!="0") {
             $query->andWhere(['packs.product_id' => $params['part_id']]);
         }
+        if ($params["invoice_id"]!="0") {
+            $query->andWhere(['packs.invoice_id' => $params['invoice_id']]);
+        }
         if (isset($params["startDate"])) {
             $query->andWhere(['issue_date <=' => $params['endDate'], 'issue_date >=' => $params['startDate']]);
         }
