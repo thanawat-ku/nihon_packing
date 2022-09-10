@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 /**
  * Action.
  */
-final class ReportAllAction
+final class ReportMFGLotAction
 {
     /**
      * @var Responder
@@ -21,8 +21,6 @@ final class ReportAllAction
     private $responder;
     private $twig;
     private $productFinder;
-    // private $finder;
-    // private $reportAllFinder;
     private $session;
 
     /**

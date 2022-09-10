@@ -133,7 +133,7 @@ return function (App $app) {
     $app->post('/delete_lot_non_fully_pack', \App\Action\Web\LotNonFullyPackDeleteAction::class)->add(UserAuthMiddleware::class);
 
     //after get('/****') it mean event click from Twig Page
-    $app->get('/report_all', \App\Action\Web\ReportAllAction::class)->add(UserAuthMiddleware::class); #<<< Report MFG lot Action
+    $app->get('/report_mfg_lot', \App\Action\Web\ReportMFGLotAction::class)->add(UserAuthMiddleware::class); #<<< Report MFG lot Action
     $app->get('/report_not_sell', \App\Action\Web\ReportPacksNotSellAction::class)->add(UserAuthMiddleware::class); #<<< Report stock pack Action
     // $app->get('/report_not_sell', \App\Action\Web\ReportPacksNotSellAction::class)->add(UserAuthMiddleware::class); #<<< Report scrap Action
     $app->get('/report_dif', \App\Action\Web\ReportQtyDifAction::class)->add(UserAuthMiddleware::class); #<<< Report qty dif Action

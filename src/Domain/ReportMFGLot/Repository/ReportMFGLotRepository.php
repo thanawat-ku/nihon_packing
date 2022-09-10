@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Domain\ReportAllData\Repository;
+namespace App\Domain\ReportMFGLot\Repository;
 
 use App\Factory\QueryFactory;
 use DomainException;
 use Cake\Chronos\Chronos;
 use Symfony\Component\HttpFoundation\Session\Session;
 
-final class ReportAllDataRepository
+final class ReportMFGLotRepository
 {
     private $queryFactory;
     private $session;
@@ -18,7 +18,7 @@ final class ReportAllDataRepository
         $this->session=$session;
     }
 
-    public function getReportAllData(array $params): array #focus that!!! get regrind
+    public function getReportMFGLot(array $params): array #focus that!!! get regrind
     {
         
         $query = $this->queryFactory->newSelect('packs'); #select from table title
