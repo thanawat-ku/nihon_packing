@@ -1,23 +1,23 @@
 <?php
 
-namespace App\Domain\ReportPacksNotSell\Service;
+namespace App\Domain\ReportQtyDif\Service;
 
-use App\Domain\ReportPacksNotSell\Repository\ReportPacksNotSellRepository;
+use App\Domain\ReportQtyDif\Repository\ReportQtyDifRepository;
 
 /**
  * Service.
  */
-final class ReportPacksNotSellFinder
+final class ReportQtyDifFinder
 {
     private $repository;
 
-    public function __construct(ReportPacksNotSellRepository $repository)
+    public function __construct(ReportQtyDifRepository $repository)
     {
         $this->repository = $repository;
     }
 
-    public function getReportQtyDifFinder(array $params): array
+    public function getReportQtyDif(array $params): array
     {
-        return $this->repository->getReportQtyDifFinder($params);
+        return $this->repository->getReportQtyDif($params);
     }
 }

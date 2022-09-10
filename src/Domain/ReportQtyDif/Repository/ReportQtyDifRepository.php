@@ -20,23 +20,17 @@ final class ReportQtyDifRepository
 
     public function getReportQtyDif(array $params): array #focus that!!! get regrind
     {
-        
-        // SELECT P.part_code,P.part_no,LT.lot_no,LT.generate_lot_no,LT.quantity,LT.real_lot_qty,LT.real_lot_qty-LT.quantity AS Diff
-        // FROM lots LT 
-        // INNER JOIN products P ON LT.product_id=P.id
-        // WHERE LT.`status`='PACKED'
-
+    
         $query = $this->queryFactory->newSelect('lots'); #select from table title
         $query->select( [
             
             'PD.part_code',
             'PD.part_no',
-            'lots.lot_no',
-            'labels.label_no',
-            'lots.generate_lot_no ',
-            'labels.quantity',
+            'lots.issue_date',
+            'lots.lot_no ', //MFG lot
+            'lots.quantity',
             'lots.real_lot_qty',
-            'lots.real_lot_qty-lots.quantity AS diff',
+            // 'diff'=>$query->func()->concat(['lots.real_lot_qty'=>'identifier' ,'-', 'lots.quantity'=>'identifier']),
         ]
         );
         $query->join([

@@ -267,6 +267,32 @@ final class LotRepository
         ]);
         return $query->execute()->fetchAll('assoc') ?: [];
     }
+
+    public function findLotsNo(array $params): array
+    {
+        $query = $this->queryFactory->newSelect('lots');
+        $query->select(
+            [
+                // 'lots.id' => 'LotsID',
+                // 'lots.lot_no' => 'LotsNo',
+                'lots.id',
+                'lots.lot_no',
+            ]
+        );
+
+        if(isset($params['LotsID'])){
+            $query->andWhere(['lots.id' => $params['LotsID']]);
+        }
+        if(isset($params['LotsNo'])){
+            $query->andWhere(['lots.lot_no ' => $params['LotsNo']]);
+        }
+
+        $query->andWhere(['lots.is_delete' => 'N']);
+        $query->orderAsc('lot_no');
+
+        return $query->execute()->fetchAll('assoc') ?: [];
+    }
+    
     public function getLocalMaxLotId():array
     {
         $query = $this->queryFactory->newSelect('lots');

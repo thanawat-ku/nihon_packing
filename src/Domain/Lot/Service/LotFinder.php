@@ -42,4 +42,8 @@ final class LotFinder
     {
         return $this->repository->getSyncLots($max_id);
     }
+    public function findLotsNo(array $params): array
+    {
+        return $this->repository->findLotsNo($params);
+    }
 }

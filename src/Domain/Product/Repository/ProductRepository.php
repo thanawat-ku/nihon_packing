@@ -69,7 +69,7 @@ final class ProductRepository
         return $query->execute()->fetchAll('assoc') ?: [];
     }
 
-    //
+    //focus that!!
     public function findProducts(array $params): array
     {
         $query = $this->queryFactory->newSelect('products');
@@ -97,7 +97,6 @@ final class ProductRepository
 
         return $query->execute()->fetchAll('assoc') ?: [];
     }
-    //
 
     public function findProduct(array $params): array
     {
