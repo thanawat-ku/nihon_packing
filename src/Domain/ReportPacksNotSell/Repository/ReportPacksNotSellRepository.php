@@ -26,9 +26,9 @@ final class ReportPacksNotSellRepository
             
             'PD.part_code',
             'PD.part_no',
-            'LT.lot_no',
+            'LT.lot_no', //MFG lot
             'labels.label_no',
-            'LT.generate_lot_no',
+            'LT.generate_lot_no', //pack lot No
             'labels.quantity',
         ]
         );

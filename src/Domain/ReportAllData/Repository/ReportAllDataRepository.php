@@ -73,7 +73,7 @@ final class ReportAllDataRepository
         $query->join([
             'IV' =>[
                 'table' => 'invoices',
-                'type' => 'INNER',
+                'type' => 'LEFT', // get data from left side
                 'conditions' => 'packs.invoice_id=IV.id',
             ]
         ]); 
