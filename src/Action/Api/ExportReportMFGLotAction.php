@@ -9,33 +9,33 @@ use Slim\Psr7\Stream;
 use PhpOffice\PhpSpreadsheet\Reader;
 use PhpOffice\PhpSpreadsheet\Writer;
 use PhpOffice\PhpSpreadsheet\Shared\File;
-use App\Domain\ReportAllData\Service\ReportAlldataFinder;
+use App\Domain\ReportMFGLot\Service\ReportMFGLotFinder;
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
 /**
  * Action.
  */
-final class ExportReportAllAction
+final class ExportReportMFGLotAction
 {
     /**
      * @var Responder
      */
     private $responder;
-    private $reportAllDataFinder;
+    private $reportMFGLotFinder;
     
-    public function __construct(Responder $responder, ReportAlldataFinder $reportAllDataFinder)
+    public function __construct(Responder $responder, ReportMFGLotFinder $reportMFGLotFinder)
     {
         $this->responder = $responder;
-        $this->reportAllDataFinder = $reportAllDataFinder;
+        $this->reportMFGLotFinder = $reportMFGLotFinder;
     }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
         $params = (array)$request->getQueryParams();
 
         $reader = new Reader\Xlsx();
-        $spreadsheet = $reader->load("upload/excel/report/report_all.xlsx");
-        $sheet = $spreadsheet->getSheetByName('reportAll');
+        $spreadsheet = $reader->load("upload/excel/report/report_mfg_lot.xlsx");
+        $sheet = $spreadsheet->getSheetByName('reportMFGLot');
 
-        $details=$this->reportAllDataFinder->getReportAllData($params);
+        $details=$this->reportMFGLotFinder->getReportMFGLot($params);
 
         $cell = $sheet->getCell('A2');
         $cell->setValue("From ".$params['startDate']." to ".$params['endDate']);
@@ -68,7 +68,7 @@ final class ExportReportAllAction
         $tempFile = $tempFile ?: __DIR__ . '/temp.xlsx';
         $excelWriter->save($tempFile);
         $response = $response->withHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        $response = $response->withHeader('Content-Disposition', 'attachment; filename="report_all-'.
+        $response = $response->withHeader('Content-Disposition', 'attachment; filename="report_mfg_lot-'.
             $params["startDate"]."-".$params["endDate"].'.xlsx"');
 
         $stream = fopen($tempFile, 'r+');

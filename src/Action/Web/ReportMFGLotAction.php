@@ -2,7 +2,6 @@
 
 namespace App\Action\Web;
 
-// use App\Domain\ReportAll\Service\ReportAllFinder;
 use App\Domain\Product\Service\ProductFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
@@ -63,6 +62,6 @@ final class ReportMFGLotAction
             'products' => $this->productFinder->findProducts($params),
         ];
 
-        return $this->twig->render($response, 'web/reportAll.twig',$viewData);
+        return $this->twig->render($response, 'web/reportMFGLot.twig',$viewData);
     }
 }

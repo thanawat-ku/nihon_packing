@@ -40,7 +40,7 @@ module.exports = {
         'web/invoiceDetails': './templates/web/invoiceDetails.js',
         'web/lotNonFullyPacks': './templates/web/lotNonFullyPacks.js',
         'web/lotNonFullyPackDetails': './templates/web/lotNonFullyPackDetails.js',
-        'web/reportAll': './templates/web/reportAll.js',
+        'web/reportMFGLot': './templates/web/reportMFGLot.js',
         'web/reportPacksNotSell': './templates/web/reportPacksNotSell.js',
         'web/reportQtyDif': './templates/web/reportQtyDif.js'
 

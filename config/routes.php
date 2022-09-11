@@ -275,7 +275,7 @@ return function (App $app) {
     $app->group(
         '/api',
         function (RouteCollectorProxy $app) {
-            $app->get('/export_report_all', \App\Action\Api\ExportReportAllAction::class); #<<<< Export Report MFG lot Action
+            $app->get('/export_report_mfg_lot', \App\Action\Api\ExportReportMFGLotAction::class); #<<<< Export Report MFG lot Action
             $app->get('/export_report_packs_not_sell', \App\Action\Api\ExportReportPacksNotSellAction::class); #<<<< Export Report stock pack Action
             // $app->get('/export_report_scrap', \App\Action\Api\ExportReportScrapAction::class); #<<<< Export Report Scrap Action
             $app->get('/export_report_qty_dif', \App\Action\Api\ExportReportQtyDifAction::class); #<<<< Export Report qty dif Action
