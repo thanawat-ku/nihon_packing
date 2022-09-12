@@ -42,7 +42,7 @@ module.exports = {
         'web/lotNonFullyPackDetails': './templates/web/lotNonFullyPackDetails.js',
         'web/reportMFGLot': './templates/web/reportMFGLot.js',
         'web/reportStockPack': './templates/web/reportStockPack.js',
-        // 'web/reportScrap': './templates/web/reportScrap.js',
+        'web/reportScrap': './templates/web/reportScrap.js',
         'web/reportQtyDif': './templates/web/reportQtyDif.js'
 
     },
