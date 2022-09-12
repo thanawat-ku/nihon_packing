@@ -41,7 +41,8 @@ module.exports = {
         'web/lotNonFullyPacks': './templates/web/lotNonFullyPacks.js',
         'web/lotNonFullyPackDetails': './templates/web/lotNonFullyPackDetails.js',
         'web/reportMFGLot': './templates/web/reportMFGLot.js',
-        'web/reportPacksNotSell': './templates/web/reportPacksNotSell.js',
+        'web/reportStockPack': './templates/web/reportStockPack.js',
+        // 'web/reportScrap': './templates/web/reportScrap.js',
         'web/reportQtyDif': './templates/web/reportQtyDif.js'
 
     },

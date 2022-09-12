@@ -134,9 +134,9 @@ return function (App $app) {
 
     //after get('/****') it mean event click from Twig Page
     $app->get('/report_mfg_lot', \App\Action\Web\ReportMFGLotAction::class)->add(UserAuthMiddleware::class); #<<< Report MFG lot Action
-    $app->get('/report_not_sell', \App\Action\Web\ReportPacksNotSellAction::class)->add(UserAuthMiddleware::class); #<<< Report stock pack Action
-    // $app->get('/report_not_sell', \App\Action\Web\ReportPacksNotSellAction::class)->add(UserAuthMiddleware::class); #<<< Report scrap Action
-    $app->get('/report_dif', \App\Action\Web\ReportQtyDifAction::class)->add(UserAuthMiddleware::class); #<<< Report qty dif Action
+    $app->get('/report_stock_pack', \App\Action\Web\ReportStockPackAction::class)->add(UserAuthMiddleware::class); #<<< Report stock pack Action
+    // $app->get('/report_scrap', \App\Action\Web\ReportScrapAction::class)->add(UserAuthMiddleware::class); #<<< Report scrap Action
+    $app->get('/report_qty_dif', \App\Action\Web\ReportQtyDifAction::class)->add(UserAuthMiddleware::class); #<<< Report qty dif Action
 
     //---------------------------Api-------------------------------
 
@@ -276,7 +276,7 @@ return function (App $app) {
         '/api',
         function (RouteCollectorProxy $app) {
             $app->get('/export_report_mfg_lot', \App\Action\Api\ExportReportMFGLotAction::class); #<<<< Export Report MFG lot Action
-            $app->get('/export_report_packs_not_sell', \App\Action\Api\ExportReportPacksNotSellAction::class); #<<<< Export Report stock pack Action
+            $app->get('/export_report_stock_pack', \App\Action\Api\ExportReportStockPackAction::class); #<<<< Export Report stock pack Action
             // $app->get('/export_report_scrap', \App\Action\Api\ExportReportScrapAction::class); #<<<< Export Report Scrap Action
             $app->get('/export_report_qty_dif', \App\Action\Api\ExportReportQtyDifAction::class); #<<<< Export Report qty dif Action
         }

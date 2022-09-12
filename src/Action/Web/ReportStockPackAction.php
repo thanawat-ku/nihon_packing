@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 /**
  * Action.
  */
-final class ReportPacksNotSellAction
+final class ReportStockPackAction
 {
     /**
      * @var Responder
@@ -21,8 +21,6 @@ final class ReportPacksNotSellAction
     private $responder;
     private $twig;
     private $productFinder;
-    // private $finder;
-    // private $reportAllFinder;
     private $session;
 
     /**
@@ -65,6 +63,6 @@ final class ReportPacksNotSellAction
             'products' => $this->productFinder->findProducts($params),
         ];
 
-        return $this->twig->render($response, 'web/reportPacksNotSell.twig',$viewData);
+        return $this->twig->render($response, 'web/reportStockPack.twig',$viewData);
     }
 }

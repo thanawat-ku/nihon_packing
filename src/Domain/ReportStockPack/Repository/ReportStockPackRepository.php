@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Domain\ReportPacksNotSell\Repository;
+namespace App\Domain\ReportStockPack\Repository;
 
 use App\Factory\QueryFactory;
 use DomainException;
 use Cake\Chronos\Chronos;
 use Symfony\Component\HttpFoundation\Session\Session;
 
-final class ReportPacksNotSellRepository
+final class ReportStockPackRepository
 {
     private $queryFactory;
     private $session;
@@ -18,7 +18,7 @@ final class ReportPacksNotSellRepository
         $this->session=$session;
     }
 
-    public function getReportPacksNotSell(array $params): array #focus that!!! get regrind
+    public function getReportStockPack(array $params): array #focus that!!! get regrind
     {
         
         $query = $this->queryFactory->newSelect('labels'); #select from table title
@@ -46,34 +46,6 @@ final class ReportPacksNotSellRepository
                 'conditions' => 'LT.product_id=PD.id',
             ]
         ]);
-        // $query->join([
-        //     'PCI' =>[
-        //         'table' => 'pack_cpo_items',
-        //         'type' => 'INNER',
-        //         'conditions' => 'packs.id=PCI.pack_id',
-        //     ]
-        // ]);
-        // $query->join([
-        //     'PL' =>[
-        //         'table' => 'pack_labels',
-        //         'type' => 'INNER',
-        //         'conditions' => 'packs.id=PL.pack_id',
-        //     ]
-        // ]);
-        // $query->join([
-        //     'L' =>[
-        //         'table' => 'labels',
-        //         'type' => 'INNER',
-        //         'conditions' => 'PL.label_id=L.id',
-        //     ]
-        // ]);
-        // $query->join([
-        //     'IV' =>[
-        //         'table' => 'invoices',
-        //         'type' => 'INNER',
-        //         'conditions' => 'packs.invoice_id=IV.id',
-        //     ]
-        // ]); 
         if ($params["part_id"]!="0") {
             $query->andWhere(['LT.product_id' => $params['part_id']]);
         }
