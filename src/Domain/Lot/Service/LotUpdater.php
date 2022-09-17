@@ -200,6 +200,7 @@ final class LotUpdater
 
         if (isset($data['real_qty'])) {
             $result['CurrentQty'] = (string)$data['real_qty'];
+            $result['EndQty'] = (string)$data['real_qty'];
         }
         if (isset($data['PackingQty'])) {
             $result['PackingQty'] = (string)$data['PackingQty'];
