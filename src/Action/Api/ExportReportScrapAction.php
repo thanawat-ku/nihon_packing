@@ -22,7 +22,7 @@ final class ExportReportScrapAction
     private $responder;
     private $reportScrapFinder;
     
-    public function __construct(Responder $responder, App\Action\Api\ReportScrapFinder $reportScrapFinder)
+    public function __construct(Responder $responder, ReportScrapFinder $reportScrapFinder)
     {
         $this->responder = $responder;
         $this->reportScrapFinder = $reportScrapFinder;
@@ -33,9 +33,9 @@ final class ExportReportScrapAction
 
         $reader = new Reader\Xlsx();
         $spreadsheet = $reader->load("upload/excel/report/report_qty_dif.xlsx");
-        $sheet = $spreadsheet->getSheetByName('reportQtyDif');
+        $sheet = $spreadsheet->getSheetByName('reportScrap');
 
-        $details=$this->reportScrapFinder->getReportScrapFinder($params);
+        $details=$this->reportScrapFinder->getReportScrap($params);
 
         $cell = $sheet->getCell('A2');
         $cell->setValue("From ".$params['startDate']." to ".$params['endDate']);
