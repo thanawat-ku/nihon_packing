@@ -1,0 +1,221 @@
+{% extends "layout/layout.twig" %}
+
+{% block css %}
+{% endblock %}
+
+{% block js %}
+    {% webpack_entry_js 'web/reportMfgLots' %}
+{% endblock %}
+
+{% block content %}
+  <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                  <div class="row">
+                    <div class="col-12">
+                        <div class="modal-content">
+                            <form id="form-testReport" action="api/export_report_mfg_lots">
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <h2><i class="fas fa-shipping-fast"></i> Report MFG Lot</h2>
+                                </div>
+                                <!-- Modal body -->
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label for="SparePartCode-report">Spare Part Code</label>
+                                                <select class="selectpicker form-control" id="SparePartCode-report" name="spare_part_code"
+                                                    title="Please select Part Code" data-live-search="true">
+                                                      <option value="">All spare parts</option> 
+                                                    {% for spare_part in spare_parts %}
+                                                      <option value="{{ spare_part.spare_part_code }}">{{ spare_part.spare_part_code }}</option>                                                  
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="searchIssueStartDate">From Date</label>
+                                                <div class='input-group' id='datetimepickerFirstTime'>
+                                                    <input type='text' class="form-control" readonly="readonly" id="searchIssueStartDate"
+                                                        name="from_date" style="background-color: inherit"
+                                                        placeholder="input first time" value="{{ startDate }}">
+                                                    <span class="input-group-append">
+                                                        <span class="input-group-text">
+                                                            <span class="far fa-calendar-alt"></span>
+                                                        </span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label for="Store-report">Store</label>
+                                                <select class="selectpicker form-control" id="Store-report" name="store_id"
+                                                    title="Please select Machine No">
+                                                    <option value="">All stores</option> 
+                                                    <option value="1">NSTA</option>  
+                                                    <option value="2">NSTK</option>  
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="searchIssueEndDate">To Date</label>
+                                                <div class='input-group' id='datetimepickerLastTime'>
+                                                    <input type='text' class="form-control" readonly="readonly" id="searchIssueEndDate"
+                                                        name="to_date" style="background-color: inherit" placeholder="End Date"
+                                                        value="{{ endDate }}">
+                                                    <span class="input-group-append">
+                                                        <span class="input-group-text">
+                                                            <span class="far fa-calendar-alt"></span>
+                                                        </span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 text-center">
+                                            <button type="submit" class="btn btn-primary">Generate Excel</button>
+                                        </div>
+                                    </div>
+                                </div>                                
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<div class="modal fade" id="addTransferStore">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form id="form-addTransferStore" action="add_transfer_store" method="post">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Add Transfer Store</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">       
+          <div class="form-tool">
+            <label>Do you want to transfer store</label>
+          </div>          
+          <div class="form-tool">
+            <label for="fromStore">From Store</label>
+            <select class="form-control" id="addFromStoreID" name="from_store_id" required>
+              <option value="1">Ayutthaya</option>
+              <option value="2">Khonkean</option>
+            </select>
+          </div>        
+          <div class="form-tool">
+            <label for="toStore">To Store</label>
+            <select class="form-control" id="addToStoreID" name="to_store_id" required>
+              <option value="1">Ayutthaya</option>
+              <option value="2">Khonkean</option>
+            </select>
+          </div>            
+        </div>  
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Yes</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="editTransferStore">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form id="form-editTransferStore" action="edit_transfer_store" method="post">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Edit Transfer Store</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">       
+          <div class="form-tool">
+            <label>Do you want to edit transfer store</label>
+          </div>          
+          <div class="form-tool">
+            <input type="text" id="editTransferStoreID" name="id" hidden>
+            <label for="fromStore">Transfer No</label>
+            <input type="text" autocomplete="off" class="form-control" id="editTransferNo" name="transfer_no" readonly>
+          </div>           
+          <div class="form-tool">
+            <label for="fromStore">Date</label>
+            <input type="text" autocomplete="off" class="form-control" id="editTransferDate" name="transfer_date" readonly>
+          </div>            
+          <div class="form-tool">
+            <label for="fromStore">From Store</label>
+            <select class="form-control" id="editFromStoreID" name="from_store_id" required>
+              <option value="1">Ayutthaya</option>
+              <option value="2">Khonkean</option>
+            </select>
+          </div>        
+          <div class="form-tool">
+            <label for="toStore">To Store</label>
+            <select class="form-control" id="editToStoreID" name="to_store_id" required>
+              <option value="1">Ayutthaya</option>
+              <option value="2">Khonkean</option>
+            </select>
+          </div>             
+        </div>  
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Yes</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="operationTransferStore">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form id="form-operationTransferStore" action="operation_transfer_store" method="post">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title"><span id="operationName1"></span> Transfers Store</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <input type="text" id="operation" name="operation" hidden>
+          <input type="text" id="transfer_store_id" name="id" hidden>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">       
+          <div class="form-tool">
+            <label>Do you want to <span id="operationName2"></span> transfer no <span id="operationTransferNo"></span></label>
+          </div>     
+        </div> 
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Yes</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- Modal disable transfer_store -->
+<div class="modal fade" id="disableTransferStore">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form id="form-disableTransferStore" action="disable_transfer_store" method="post">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Delete Transfer Store</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">        
+          <div class="form-transfer_store">
+            <input type="text" id="disableTransferStoreID" name="id" hidden>
+            <label for="disableTransferNo">Do you want to delete <span id="disableTransferNo"></span></label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-danger">Delete</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

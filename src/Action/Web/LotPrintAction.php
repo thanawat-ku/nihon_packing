@@ -77,7 +77,8 @@ final class LotPrintAction
             $this->updater->updateLotNsp($lotId, $dataLotNsp);
 
             //find lot_id in label
-            $searchLNFP['lot_id'] = $lotId;
+            $searchLNFP['search_prefer_lot_id'] = true;
+            $searchLNFP['prefer_lot_id'] = $lotId;
             $rtLNFP = $this->lNFPFinder->findLotNonFullyPacks($searchLNFP);
 
             //fix error on sql server 
