@@ -301,4 +301,81 @@ final class PackRepository
 
         return $query->execute()->fetchAll('assoc') ?: [];
     }
+    public function findMfgLots(array $params): array
+    {
+        $query = $this->queryFactory->newSelect('packs');
+        $query->select(
+            [
+                'packs.pack_no',
+                'pd.part_code',
+                'pd.part_no',
+                'packs.pack_date',
+                'pci.cpo_item_id',
+                'lt.lot_no',
+                'lt.label_no',
+                'lt.quantity',
+                'iv.invoice_no',
+
+            ]
+        );
+        $query->join([
+            'pd' => [
+                'table' => 'products',
+                'type' => 'INNER',
+                'conditions' => 'packs.product_id = pd.id',
+            ]
+        ]);
+        $query->join([
+            'pci' => [
+                'table' => 'pack_cpo_items',
+                'type' => 'INNER',
+                'conditions' => 'packs.id = pci.pack_id',
+            ]
+        ]);
+        $query->join([
+            'pl' => [
+                'table' => 'pack_labels',
+                'type' => 'INNER',
+                'conditions' => 'packs.id = pl.pack_id',
+            ]
+        ]);
+        $query->join([
+            'l' => [
+                'table' => 'labels',
+                'type' => 'INNER',
+                'conditions' => 'pl.label_id = l.id',
+            ]
+        ]);
+        $query->join([
+            'lt' => [
+                'table' => 'lots',
+                'type' => 'INNER',
+                'conditions' => 'l.prefer_lot_id = lt.id',
+            ]
+        ]);
+        $query->join([
+            'iv' => [
+                'table' => 'invoices',
+                'type' => 'INNER',
+                'conditions' => 'packs.invoice_id = iv.id',
+            ]
+        ]);
+
+        // if (isset($params['lot_id'])) {
+        //     $query->andWhere(['lots.id' => $params["lot_id"]]);
+        // }
+        // if (isset($params['search_product_id'])) {
+        //     $query->andWhere(['p.id' => $params['search_product_id']]);
+        // }
+        // if (isset($params["search_status"])) {
+        //     if($params["search_status"]!="ALL"){
+        //         $query->andWhere(['status' => $params['search_status']]);
+        //     }
+        // }
+        if (isset($params["from_date"])) {
+            $query->andWhere(['pack_date <=' => $params['to_date'], 'pack_date >=' => $params['from_date']]);
+        }
+
+        return $query->execute()->fetchAll('assoc') ?: [];
+    }
 }

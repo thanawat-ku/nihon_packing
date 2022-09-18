@@ -132,6 +132,8 @@ return function (App $app) {
     $app->post('/add_lot_non_fully_pack', \App\Action\Web\LotNonFullyPackAddAction::class)->add(UserAuthMiddleware::class);
     $app->post('/delete_lot_non_fully_pack', \App\Action\Web\LotNonFullyPackDeleteAction::class)->add(UserAuthMiddleware::class);
 
+    $app->get('/report_mfg_lots', \App\Action\Web\ReportMfgLot::class)->add(UserAuthMiddleware::class);
+
     //---------------------------Api-------------------------------
 
     $app->get('/api/users', \App\Action\Api\UserAction::class);
@@ -264,4 +266,8 @@ return function (App $app) {
     $app->post('/api/check_lot_non_fully_pack', \App\Action\Api\LotNonFullyPackCheckAction::class);
     $app->post('/api/delete_lot_non_fully_pack', \App\Action\Api\LotNonFullyPackDeleteAction::class);
     $app->get('/api/lot_non_fully_pack_row', \App\Action\Api\LotNonFullyPackRowAction::class);
+
+    $app->get('/api/export_report_mfg_lots', \App\Action\Api\ExportReportMfgLotAction::class);
+
+
 };

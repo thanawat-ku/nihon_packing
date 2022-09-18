@@ -67,7 +67,8 @@ final class LotRegisterAction
             $this->updater->registerLot($lotId, $dataPack);
         }
 
-        $searchLnfp['lot_id'] = $lotId;
+        $searchLnfp['search_prefer_lot_id'] = true;
+        $searchLnfp['prefer_lot_id'] = $lotId;
         $rtLnfps = $this->lnfpFinder->findLotNonFullyPacks($searchLnfp);
 
         foreach ($rtLnfps as $rtLnfp) {

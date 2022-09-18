@@ -40,6 +40,7 @@ module.exports = {
     'web/invoiceDetails': './templates/web/invoiceDetails.js',
     'web/lotNonFullyPacks': './templates/web/lotNonFullyPacks.js',
     'web/lotNonFullyPackDetails': './templates/web/lotNonFullyPackDetails.js',
+    'web/reportMfgLots': './templates/web/reportMfgLots.js',
   },
   output: {
     path: path.resolve(__dirname, 'public/assets'),
