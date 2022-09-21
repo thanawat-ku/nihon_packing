@@ -1,7 +1,8 @@
-$(function () {
+$(function() {
     $("#searchIssueStartDate, #searchIssueEndDate").datepicker({
         format: "yyyy-mm-dd",
     });
+    $("#CustomerName-report").val(0);
 });
 
 function datePick() {

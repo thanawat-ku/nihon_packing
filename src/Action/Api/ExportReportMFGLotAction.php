@@ -42,6 +42,7 @@ final class ExportReportMFGLotAction
             $dataReportMFG['startDate'] = $params['startDate'];
             $dataReportMFG['endDate'] = $params['endDate'];
         }
+        $dataReportMFG['customer_id'] = $params['customer_id'];
         $details = $this->reportMFGLotFinder->getReportMFGLot($dataReportMFG);
 
         $cell = $sheet->getCell('A2');

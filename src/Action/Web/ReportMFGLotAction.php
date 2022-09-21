@@ -2,7 +2,8 @@
 
 namespace App\Action\Web;
 
-use App\Domain\Product\Service\ProductFinder;
+// use App\Domain\Product\Service\ProductFinder;
+use App\Domain\Customer\Service\CustomerFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -19,7 +20,8 @@ final class ReportMFGLotAction
      */
     private $responder;
     private $twig;
-    private $productFinder;
+    // private $productFinder;
+    private $customerFinder;
     private $session;
 
     /**
@@ -29,12 +31,12 @@ final class ReportMFGLotAction
      */
     public function __construct(
         Twig $twig,
-        ProductFinder $productFinder,
+        CustomerFinder $customerFinder,
         Session $session,
         Responder $responder
     ) {
         $this->twig = $twig;
-        $this->productFinder=$productFinder;
+        $this->customerFinder=$customerFinder;
         $this->session = $session;
         $this->responder = $responder;
     }
@@ -59,7 +61,7 @@ final class ReportMFGLotAction
         $viewData = [
             'startDate' => $params['startDate'],
             'endDate' => $params['endDate'],
-            'products' => $this->productFinder->findProducts($params),
+            'customers' => $this->customerFinder->findCustomers($params),
         ];
 
         return $this->twig->render($response, 'web/reportMFGLot.twig',$viewData);

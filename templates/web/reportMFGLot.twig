@@ -28,9 +28,26 @@
                                     <div class="row">
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <label for="PartID-report">MSG Lot </label>
+                                                <label for="MFGLot-report">MFG Lot No</label>
                                                 <input type="text" class="form-control" name="lot_no"></input>
                                             </div>
+                                        </div> 
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label for="InvoiceLot-report">Invoice No</label>
+                                                <input type="text" class="form-control" name="invoice_no"></input>
+                                            </div>
+                                        </div>
+                                        {# dropdown customer name #}
+                                        <div class="col-6">
+                                            <label for="CustomerName-report">Customer Name</label>
+                                            <select class="selectpicker form-control" id="CustomerName-report" name="customer_id"
+                                                title="Please select Customer Name" data-live-search="true">
+                                                    <option value="0">All Customer</option> 
+                                                {% for customer in customers %}
+                                                    <option value="{{ customer.id }}">{{ customer.customer_name }}</option>                                                  
+                                                {% endfor %}
+                                            </select>
                                         </div>
                                         <div class="col-1 pt-5 pl-5">
                                             <div class="row">

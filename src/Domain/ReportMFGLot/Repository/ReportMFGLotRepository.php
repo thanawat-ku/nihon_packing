@@ -28,6 +28,7 @@ final class ReportMFGLotRepository
                 'PD.part_code',
                 'PD.part_no',
                 'CM.customer_name',
+                // 'PD.customer_id',
                 'IV.invoice_no',
                 'packs.pack_date',
                 'PCI.cpo_item_id',
@@ -86,9 +87,9 @@ final class ReportMFGLotRepository
                 'conditions' => 'packs.invoice_id=IV.id',
             ]
         ]);
-        // if ($params["part_id"] != "0") {
-        //     $query->andWhere(['packs.product_id' => $params['part_id']]);
-        // }
+        if ($params["customer_id"] != "0") {
+            $query->andWhere(['PD.customer_id' => $params['customer_id']]);
+        }
         if ($params["lot_no"] != "") {
             $query->andWhere(['LT.lot_no' => $params['lot_no']]);
         }
