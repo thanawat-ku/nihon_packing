@@ -54,18 +54,20 @@ final class ExportReportMFGLotAction
             $cell = $sheet->getCell('B' . ($rowNo + $i));
             $cell->setValue($details[$i]["part_no"]);
             $cell = $sheet->getCell('C' . ($rowNo + $i));
-            $cell->setValue($details[$i]["invoice_no"]);
+            $cell->setValue($details[$i]["customer_name"]);
             $cell = $sheet->getCell('D' . ($rowNo + $i));
-            $cell->setValue($details[$i]["pack_date"]);
+            $cell->setValue($details[$i]["invoice_no"]);
             $cell = $sheet->getCell('E' . ($rowNo + $i));
-            $cell->setValue($details[$i]["cpo_item_id"]);
+            $cell->setValue($details[$i]["pack_date"]);
             $cell = $sheet->getCell('F' . ($rowNo + $i));
-            $cell->setValue($details[$i]["lot_no"]);
+            $cell->setValue($details[$i]["cpo_item_id"]);
             $cell = $sheet->getCell('G' . ($rowNo + $i));
-            $cell->setValue($details[$i]["pack_no"]);
+            $cell->setValue($details[$i]["lot_no"]);
             $cell = $sheet->getCell('H' . ($rowNo + $i));
-            $cell->setValue($details[$i]["label_no"]);
+            $cell->setValue($details[$i]["pack_no"]);
             $cell = $sheet->getCell('I' . ($rowNo + $i));
+            $cell->setValue($details[$i]["label_no"]);
+            $cell = $sheet->getCell('J' . ($rowNo + $i));
             $cell->setValue($details[$i]["quantity"]);
         }
 

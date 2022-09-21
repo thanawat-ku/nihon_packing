@@ -18,7 +18,7 @@ final class ReportMFGLotRepository
         $this->session = $session;
     }
 
-    public function getReportMFGLot(array $params): array #focus that!!! get regrind
+    public function getReportMFGLot(array $params): array 
     {
 
         $query = $this->queryFactory->newSelect('packs'); #select from table title
@@ -27,6 +27,7 @@ final class ReportMFGLotRepository
 
                 'PD.part_code',
                 'PD.part_no',
+                'CM.customer_name',
                 'IV.invoice_no',
                 'packs.pack_date',
                 'PCI.cpo_item_id',
@@ -41,6 +42,13 @@ final class ReportMFGLotRepository
                 'table' => 'products',
                 'type' => 'INNER',
                 'conditions' => 'packs.product_id=PD.id',
+            ]
+        ]);
+        $query->join([
+            'CM' => [
+                'table' => 'customers',
+                'type' => 'INNER',
+                'conditions' => 'PD.customer_id=CM.id',
             ]
         ]);
         $query->join([
