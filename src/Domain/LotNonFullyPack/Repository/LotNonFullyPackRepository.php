@@ -52,7 +52,7 @@ final class LotNonFullyPackRepository
 
     public function deleteLotNonFullyPack(int $id): void
     {
-        $this->queryFactory->newDelete('lot_non_fully_packs')->andWhere(['id' => $id])->execute();
+        $this->queryFactory->newDelete('lot_non_fully_packs')->andWhere(['label_id' => $id])->execute();
     }
 
     public function deleteLotNonFullyPackAll(int $lotID): void

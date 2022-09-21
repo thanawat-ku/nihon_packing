@@ -22,10 +22,12 @@
                   <input type="hidden" id="productID" name="ProductID" value="{{ lotRow.product_id }}">
                   <input type="hidden" id="lot_id" name="lot_id" value="{{ lotRow.id }}">
                 </form>
+                {% if lotRow.status != "PACKED" %}
                 <button type="submit" form="{{ lotRow.product_id }}" id="addBt" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#addCpoItem">
                   <i style="font-size:15px; width:20px;" class="fas fa-plus"></i>
                   Add Label Non Fully
                 </button>
+                {% endif %}
                 <form id="form-searchIssue" class="form-inline float-right" action="" method="get">
                   Product:&nbsp;&nbsp;
                   Status:&nbsp;&nbsp;
@@ -68,9 +70,11 @@
                         <td>{{ label.quantity }}</td>
                         <td>{{ label.wait_print }}</td>
                         <td>
+                        {% if lotRow.status!="PACKED" %}
                           <button type="button" id="removeBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#removeLabel" name="{{ label|json_encode }}">
                             <i style="font-size:15px; width:20px;" class="fas fa-trash"></i>
                           </button>
+                        {% endif %}
                         </td>
                     </tr>
                     {% endfor %}

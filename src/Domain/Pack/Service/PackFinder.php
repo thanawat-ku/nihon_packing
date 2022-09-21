@@ -38,4 +38,9 @@ final class PackFinder
     {
         return $this->repository->findPackLabel($params);
     }
+    public function findMfgLots(array $params): array
+    {
+        return $this->repository->findMfgLots($params);
+    }
+    
 }
