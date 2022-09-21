@@ -37,12 +37,14 @@ final class ExportReportMFGLotAction
         $spreadsheet = $reader->load("upload/excel/report/report_mfg_lot.xlsx");
         $sheet = $spreadsheet->getSheetByName('reportMFGLot');
 
-        $dataReportMFG['lot_no'] = $params['lot_no'];
         if ($params['is_pick_date'] == "Y") {
             $dataReportMFG['startDate'] = $params['startDate'];
             $dataReportMFG['endDate'] = $params['endDate'];
         }
+        $dataReportMFG['lot_no'] = $params['lot_no'];
+        $dataReportMFG['invoice_no'] = $params['invoice_no']; 
         $dataReportMFG['customer_id'] = $params['customer_id'];
+
         $details = $this->reportMFGLotFinder->getReportMFGLot($dataReportMFG);
 
         $cell = $sheet->getCell('A2');
