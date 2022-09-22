@@ -64,7 +64,6 @@ final class ReportQtyDifAction
             'startDate' => $params['startDate'],
             'endDate' => $params['endDate'],
             'products' => $this->productFinder->findProducts($params),
-            'mfg_lot_no' => $this->lotFinder->findLotsNo($params),
         ];
 
         return $this->twig->render($response, 'web/reportQtyDif.twig', $viewData);

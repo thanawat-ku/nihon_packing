@@ -35,7 +35,15 @@ final class ExportReportStockPackAction
         $spreadsheet = $reader->load("upload/excel/report/report_stock_pack.xlsx");
         $sheet = $spreadsheet->getSheetByName('reportStockPack');
 
-        $details=$this->reportStockPackFinder->getReportStockPack($params);
+        // filter data from input in report stock pack
+        if ($params['is_pick_date'] == "Y") {
+            $dataReportStockPack['startDate'] = $params['startDate'];
+            $dataReportStockPack['endDate'] = $params['endDate'];
+        }
+        $dataReportStockPack['lot_no'] = $params['lot_no'];
+        $dataReportStockPack['part_id'] = $params['part_id'];
+
+        $details=$this->reportStockPackFinder->getReportStockPack($dataReportStockPack);
 
         $cell = $sheet->getCell('A2');
         $cell->setValue("From ".$params['startDate']." to ".$params['endDate']);

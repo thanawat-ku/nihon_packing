@@ -26,10 +26,11 @@ final class ReportStockPackRepository
             
             'PD.part_code',
             'PD.part_no',
-            'LT.lot_no', //MFG lot
+            'LT.lot_no', //MFG lot no
             'labels.label_no',
             'LT.generate_lot_no', //pack lot No
             'labels.quantity',
+            'LT.issue_date', //pack lot No
         ]
         );
         $query->join([
@@ -49,8 +50,14 @@ final class ReportStockPackRepository
         if ($params["part_id"]!="0") {
             $query->andWhere(['LT.product_id' => $params['part_id']]);
         }
+        if ($params["lot_no"] != "") {
+            $query->andWhere(['LT.lot_no' => $params['lot_no']]);
+        }
         if (isset($params["startDate"])) {
             $query->andWhere(['issue_date <=' => $params['endDate'], 'issue_date >=' => $params['startDate']]);
+        }
+        if (isset($params["startDate"])) {
+            $query->andWhere(['LT.issue_date <=' => $params['endDate'], 'LT.issue_date >=' => $params['startDate']]);
         }
         $query->andWhere(['labels.status' => 'PACKED']);
         return $query->execute()->fetchAll('assoc') ?: [];

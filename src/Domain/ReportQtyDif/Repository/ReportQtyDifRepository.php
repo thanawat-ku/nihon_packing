@@ -27,10 +27,9 @@ final class ReportQtyDifRepository
             'PD.part_code',
             'PD.part_no',
             'lots.issue_date',
-            'lots.lot_no ', //MFG lot
+            'lots.lot_no ', //MFG lot no
             'lots.quantity',
             'lots.real_lot_qty',
-            // 'diff'=>$query->func()->concat(['lots.real_lot_qty'=>'identifier' ,'-', 'lots.quantity'=>'identifier']),
         ]
         );
         $query->join([
@@ -40,11 +39,15 @@ final class ReportQtyDifRepository
                 'conditions' => 'lots.product_id=PD.id',
             ]
         ]);
+        
         if ($params["part_id"]!="0") {
             $query->andWhere(['lots.product_id' => $params['part_id']]);
         }
+        if ($params["lot_no"] != "") {
+            $query->andWhere(['lots.lot_no' => $params['lot_no']]);
+        }
         if (isset($params["startDate"])) {
-            $query->andWhere(['issue_date <=' => $params['endDate'], 'issue_date >=' => $params['startDate']]);
+            $query->andWhere(['lots.issue_date <=' => $params['endDate'], 'lots.issue_date >=' => $params['startDate']]);
         }
         $query->andWhere(['lots.status' => 'PACKED']);
         return $query->execute()->fetchAll('assoc') ?: [];

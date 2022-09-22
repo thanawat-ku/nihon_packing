@@ -35,12 +35,18 @@ final class ExportReportQtyDifAction
         $spreadsheet = $reader->load("upload/excel/report/report_qty_dif.xlsx");
         $sheet = $spreadsheet->getSheetByName('reportQtyDif');
 
-        $details=$this->reportQtyDifFinder->getReportQtyDif($params);
+        // filter data from input in report qty diff
+        if ($params['is_pick_date'] == "Y") {
+            $dataReportQTYDif['startDate'] = $params['startDate'];
+            $dataReportQTYDif['endDate'] = $params['endDate'];
+        }
+        $dataReportQTYDif['lot_no'] = $params['lot_no'];
+        $dataReportQTYDif['part_id'] = $params['part_id'];
+
+        $details=$this->reportQtyDifFinder->getReportQtyDif($dataReportQTYDif);
 
         $cell = $sheet->getCell('A2');
         $cell->setValue("From ".$params['startDate']." to ".$params['endDate']);
-        // $cell = $sheet->getCell('A3');
-        // $cell->setValue("From ".$params['startDate']." to ".$params['endDate']);
 
         $rowNo=4;
         for($i=0;$i<sizeof($details);$i++)
