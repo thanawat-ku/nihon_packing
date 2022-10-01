@@ -115,7 +115,7 @@ final class SplitLabelRepository
         if (isset($params["startDate"])) {
             $query->andWhere(['split_labels.split_date <=' => $params['endDate'], 'split_labels.split_date >=' => $params['startDate']]);
         }
-        if (isset($params['search_product_id'])) {
+        if (isset($params['search_product_id']) && $params['search_product_id']!=0) {
             $query->andWhere(['l.product_id' => $params['search_product_id']]);
         }
         if (isset($params["search_status"])) {

@@ -221,7 +221,7 @@ final class LabelRepository
         if (isset($params["startDate"])) {
             $query->andWhere(['l.issue_date <=' => $params['endDate'], 'l.issue_date >=' => $params['startDate']]);
         }
-        if (isset($params['search_product_id'])) {
+        if (isset($params['search_product_id']) && $params['search_product_id']!=0) {
             $query->andWhere(['p.id' => $params['search_product_id']]);
         }
         if (isset($params["search_status"])) {

@@ -22,6 +22,7 @@
                 <form id="form-searchIssue" class="form-inline float-right" action="" method="get">
                   Product:&nbsp;&nbsp;
                   <select class="selectpicker" id="searchProductID" name="search_product_id" data-live-search="true">
+                    <option value=0 {{ search_product_id==0?"selected" }}> All Product</option>
                     {% for p in products %}
                       <option value={{ p.id }} {{ p.id==search_product_id?"selected" }}>{{p.part_code }}
                       </option>
