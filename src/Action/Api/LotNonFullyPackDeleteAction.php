@@ -44,7 +44,7 @@ final class LotNonFullyPackDeleteAction
         $labelID = $data['label_id'];
         $user_id = $data['user_id'];
 
-        $this->lnfpUpdater->deleteLotNonFullyPack($lnfpID);
+        $this->lnfpUpdater->deleteLotNonFullyPackApi($lnfpID);
         $updateStatus['up_status'] = 'PACKED';
         $this->labelUpdater->updateLabelStatus($labelID, $updateStatus, $user_id);
 
