@@ -56,10 +56,10 @@ final class LotNonFullyPackUpdater
 
   
 
-    // public function deleteLotNonFullyPack(int $labelId, array $data): void
-    // {
-    //     $this->repository->deleteLotNonFullyPack($labelId);
-    // }
+    public function deleteLotNonFullyPackApi(int $id): void
+    {
+        $this->repository->deleteLotNonFullyPackApi($id);
+    }
 
     public function deleteLotNonFullyPack(int $id): void
     {

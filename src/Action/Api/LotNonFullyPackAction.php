@@ -52,14 +52,14 @@ final class LotNonFullyPackAction
                 //เช็คความถูกต้อง เเละส่งข้อมูลไปยัง app
                 // ถ้าไม่มีข้อมูลที่ซ้ำกัน ให้ข้อมูลถูกต้อง
                 if (!isset($checkDupli[0])) {
-                    $rtLabelMerge[0]['check_correct'] = true;
+                    $rtLabelMerge[$i]['check_correct'] = true;
                 } else {
-                    $rtLabelMerge[0]['check_correct'] = false;
+                    $rtLabelMerge[$i]['check_correct'] = false;
                 }
             } else {
-                $rtLabelMerge[0]['check_correct'] = false;
+                $rtLabelMerge[$i]['check_correct'] = false;
             }
-            array_push($rtLabel, $rtLabelMerge[0]);
+            array_push($rtLabel, $rtLabelMerge[$i]);
         }
 
         //ทำการหาจำนวน quantity ของ label
