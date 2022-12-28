@@ -27,7 +27,7 @@ for i in range(1,2):
 
 ^FO480,10
 ^BQN,2,4
-^FD3P412927-1A 400 XXX 190600001^FS
+^FDXXX3P412927-1A 400 XXX 190600001^FS
 
 ^XZ"""
     #z.autosense()
