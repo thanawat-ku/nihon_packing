@@ -81,6 +81,9 @@ final class LabelUpdater
                     $row['status'] = "VOID";
                     $row['label_void_reason_id'] = 2;
                 }
+            } else if ($data['up_status'] == "PACKED") {
+                $row['status'] = "PACKED";
+                $row['label_void_reason_id'] = 0;
             } else if ($data['up_status'] == "USED") {
                 $row['status'] = "USED";
             }
