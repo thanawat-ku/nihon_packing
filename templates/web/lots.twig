@@ -92,7 +92,7 @@
                         {% endif %}
                         {% if lot.status == "PRINTED" %}
                           <button type="button" id="registerBt" class="btn btn-info btn-sm" data-toggle="modal" data-target="#registerLot" name="{{ lot|json_encode }}" data-placement="bottom" title="register"><i style="font-size:15px; width:20px;" class="fas fa-check-circle"></i></button>
-                          <!--<button type="button" id="reverseBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#reverseLot" name="{{ lot|json_encode }}" data-placement="bottom" title="reverse"><i style="font-size:15px; width:20px;" class="fas fa-undo"></i></button>-->
+                          <button type="button" id="reverseBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#reverseLot" name="{{ lot|json_encode }}" data-placement="bottom" title="reverse"><i style="font-size:15px; width:20px;" class="fas fa-undo"></i></button>
                         {% endif %}
                         {% if lot.status != "CREATED" %}
                           <a href="label_lot?id={{lot.id}}"><button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-placement="bottom" title="labels"><i style="font-size:15px; width:20px;" class="fas fa-info-circle"></i></button></a> 
