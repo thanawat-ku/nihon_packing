@@ -137,6 +137,7 @@ return function (App $app) {
     $app->get('/report_stock_pack', \App\Action\Web\ReportStockPackAction::class)->add(UserAuthMiddleware::class); #<<< Report stock pack Action
     $app->get('/report_scrap', \App\Action\Web\ReportScrapAction::class)->add(UserAuthMiddleware::class); #<<< Report scrap Action
     $app->get('/report_qty_dif', \App\Action\Web\ReportQtyDifAction::class)->add(UserAuthMiddleware::class); #<<< Report qty dif Action
+    $app->get('/report_lot_labels', \App\Action\Web\ReportLotLabelsAction::class)->add(UserAuthMiddleware::class); #<<< Report qty dif Action
 
     //---------------------------Api-------------------------------
 

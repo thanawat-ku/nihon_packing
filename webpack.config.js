@@ -44,7 +44,8 @@ module.exports = {
         'web/reportMFGLot': './templates/web/reportMFGLot.js',
         'web/reportStockPack': './templates/web/reportStockPack.js',
         'web/reportScrap': './templates/web/reportScrap.js',
-        'web/reportQtyDif': './templates/web/reportQtyDif.js'
+        'web/reportQtyDif': './templates/web/reportQtyDif.js',
+        'web/reportLotLabels': './templates/web/reportLotLabels.js'
     },
     output: {
         path: path.resolve(__dirname, 'public/assets'),
