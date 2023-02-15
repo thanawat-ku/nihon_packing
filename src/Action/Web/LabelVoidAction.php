@@ -43,7 +43,7 @@ final class LabelVoidAction
             $this->updater->updateLabel($labelId, $dataLabel);
         }
 
-        if ($data['from'] == "label_lot") {
+        if (isset($data['from']) && $data['from'] == "label_lot") {
             $lotId = $label[0]['lot_id'];
             $viewData = [
                 'id' => $lotId,
@@ -51,19 +51,19 @@ final class LabelVoidAction
                 'search_status' => $params['search_status'] ?? null,
             ];
             return $this->responder->withRedirect($response, "label_lot", $viewData);
-        } else if ($data['from'] == "label_split") {
+        } else if (isset($data['from']) && $data['from'] == "label_split") {
             $splitId = $data['split_id'];
             $viewData = [
                 'id' => $splitId,
             ];
             return $this->responder->withRedirect($response, "label_splitlabel", $viewData);
-        } else if ($data['from'] == "label_split") {
+        } else if (isset($data['from']) && $data['from'] == "label_split") {
             $splitId = $data['split_id'];
             $viewData = [
                 'id' => $splitId,
             ];
             return $this->responder->withRedirect($response, "label_splitlabel", $viewData);
-        } else if ($data['from'] == "label_merge") {
+        } else if (isset($data['from']) && $data['from'] == "label_merge") {
             $mergeId = $data['merge_id'];
             $viewData = [
                 'id' => $mergeId,
