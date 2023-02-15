@@ -46,4 +46,8 @@ final class LotFinder
     {
         return $this->repository->findLotsNo($params);
     }
+    public function findLotLabels(array $params): array
+    {
+        return $this->repository->findLotLabels($params);
+    }
 }

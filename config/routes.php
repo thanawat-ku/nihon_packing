@@ -279,6 +279,7 @@ return function (App $app) {
             $app->get('/export_report_stock_pack', \App\Action\Api\ExportReportStockPackAction::class); #<<<< Export Report stock pack Action
             $app->get('/export_report_scrap', \App\Action\Api\ExportReportScrapAction::class); #<<<< Export Report Scrap Action
             $app->get('/export_report_qty_dif', \App\Action\Api\ExportReportQtyDifAction::class); #<<<< Export Report qty dif Action
+            $app->get('/export_report_lot_labels', \App\Action\Api\ExportReportLotLabelAction::class); #<<<< Export Reportlot labels Action
         }
     )->add(UserAuthMiddleware::class);
 };

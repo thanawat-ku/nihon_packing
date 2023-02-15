@@ -302,4 +302,62 @@ final class LotRepository
             ]);
         return $query->execute()->fetchAll('assoc') ?: [];
     }
+
+    public function findLotLabels(array $params): array
+    {
+        $query = $this->queryFactory->newSelect('lots');
+        $subquery = $this->queryFactory->newSelect('pack_labels');
+        $subquery->select(
+            [
+                'pack_labels.label_id',
+                'pack_no',
+                'invoice_no',
+                'po_no',
+                'pack_date',
+                'pack_status'
+            ]
+        );
+        $subquery->join([
+            'p' => [
+                'table' => 'packs',
+                'type' => 'INNER',
+                'conditions' => 'p.id = pack_labels.pack_id',
+            ]
+        ]);
+        $subquery->join([
+            'i' => [
+                'table' => 'invoices',
+                'type' => 'INNER',
+                'conditions' => 'i.id = P.invoice_id',
+            ]
+        ]);
+        $query->select(
+            [
+                'lots.lot_no',
+                'lb.label_no',
+                'lb.status',
+                'sq.pack_no',
+                'sq.invoice_no',
+                'sq.po_no',
+                'sq.pack_date',
+                'sq.pack_status'
+            ]
+        );
+        $query->join([
+                'lb' => [
+                'table' => 'labels',
+                'type' => 'INNER',
+                'conditions' => 'lb.lot_id = lots.id',
+            ]
+        ]);
+        $query->join([
+            'sq' => [
+                'table' => $subquery,
+                'type' => 'LEFT',
+                'conditions' => 'sq.label_id=lb.id',
+            ]
+        ]);
+        $query->andWhere(['lots.lot_no' => $params['lot_no']]);
+        return $query->execute()->fetchAll('assoc') ?: [];
+    }
 }
