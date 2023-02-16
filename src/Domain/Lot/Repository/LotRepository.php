@@ -328,7 +328,7 @@ final class LotRepository
             'i' => [
                 'table' => 'invoices',
                 'type' => 'INNER',
-                'conditions' => 'i.id = P.invoice_id',
+                'conditions' => 'i.id = p.invoice_id',
             ]
         ]);
         $query->select(
