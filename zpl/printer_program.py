@@ -1,15 +1,15 @@
 import sys
 # for pyside6
-#from PySide6.QtWidgets import (
-#    QMainWindow, QApplication, QWidget, QLabel, QComboBox, QPushButton, QVBoxLayout, QHBoxLayout
-#)
-#from PySide6.QtCore import QTimer
+from PySide6.QtWidgets import (
+   QMainWindow, QApplication, QWidget, QLabel, QComboBox, QPushButton, QVBoxLayout, QHBoxLayout
+)
+from PySide6.QtCore import QTimer
 
 # for pyside
-from PySide.QtGui import (
-    QMainWindow, QApplication, QWidget, QLabel, QComboBox, QPushButton, QVBoxLayout, QHBoxLayout
-)
-from PySide.QtCore import QTimer
+# from PySide.QtGui import (
+#     QMainWindow, QApplication, QWidget, QLabel, QComboBox, QPushButton, QVBoxLayout, QHBoxLayout
+# )
+# from PySide.QtCore import QTimer
 
 import mysql.connector
 import time
