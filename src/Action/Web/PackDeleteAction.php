@@ -36,7 +36,7 @@ final class PackDeleteAction
     private $packCpoItemFinder;
     private $packLabelUpdater;
     private $packCpoItemUpdater;
-    private $tempQueryUpdater;
+    private $packingUpdater;
     private $packingItemFinder;
     private $packingItemUpdater;
     private $lotFinder;

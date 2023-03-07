@@ -92,6 +92,7 @@ final class ProductRepository
             $query->andWhere(['id' => $params['ProductID']]);
         }
 
+        $query->andWhere(['is_delete' => 'N']);
         $query->orderAsc('part_code');
 
         return $query->execute()->fetchAll('assoc') ?: [];
