@@ -1,5 +1,6 @@
+import DataTable from 'datatables.net-bs4';
 $(function() {
-    $('#my-data-table').DataTable();
+    let table=DataTable('#my-data-table');
 });
 function editPrinter(event){
     let printer = event.currentTarget.name;

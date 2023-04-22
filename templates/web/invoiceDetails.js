@@ -1,3 +1,4 @@
+import DataTable from 'datatables.net-bs4';
 $(function() {
-    $('#my-data-table').DataTable();
+    let table=new DataTable('#my-data-table');
 });

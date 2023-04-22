@@ -1,5 +1,6 @@
+import DataTable from 'datatables.net-bs4';
 $(function () {
-    var table = $('#my-data-table').DataTable({
+    let table=new DataTable('#my-data-table',{
         'columnDefs': [{
             'targets': 0,
             'searchable':false,
