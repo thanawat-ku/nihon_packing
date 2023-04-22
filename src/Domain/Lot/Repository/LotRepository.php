@@ -309,6 +309,7 @@ final class LotRepository
         $subquery = $this->queryFactory->newSelect('pack_labels');
         $subquery->select(
             [
+                
                 'pack_labels.label_id',
                 'pack_no',
                 'invoice_no',
@@ -333,8 +334,11 @@ final class LotRepository
         ]);
         $query->select(
             [
+                'lots.id',
+                'lots.generate_lot_no',
                 'lots.lot_no',
                 'lb.label_no',
+                'lb.quantity',
                 'lb.status',
                 'sq.pack_no',
                 'sq.invoice_no',
@@ -357,7 +361,7 @@ final class LotRepository
                 'conditions' => 'sq.label_id=lb.id',
             ]
         ]);
-        $query->andWhere(['lots.lot_no' => $params['lot_no']]);
+        $query->where(['OR' => [['lots.lot_no' => $params['lot_no']],['lots.id' => $params['lot_no']]]]);
         return $query->execute()->fetchAll('assoc') ?: [];
     }
 }
