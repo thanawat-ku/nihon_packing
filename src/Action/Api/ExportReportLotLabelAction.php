@@ -44,19 +44,23 @@ final class ExportReportLotLabelAction
         $rowNo=4;
         for($i=0;$i<count($details);$i++)
         {
+            $cell = $sheet->getCell('A2');
+            $cell->setValue("Lot No:".$details[$i]["lot_no"]." Gen Lot:".$details[$i]["generate_lot_no"]);
             $cell = $sheet->getCell('A'.($rowNo+$i));
             $cell->setValue($details[$i]["label_no"]); 
             $cell = $sheet->getCell('B'.($rowNo+$i)); 
             $cell->setValue($details[$i]["lot_no"]);
             $cell = $sheet->getCell('C'.($rowNo+$i)); 
-            $cell->setValue($details[$i]["status"]);
+            $cell->setValue($details[$i]["quantity"]);
             $cell = $sheet->getCell('D'.($rowNo+$i)); 
-            $cell->setValue($details[$i]["invoice_no"]);
+            $cell->setValue($details[$i]["status"]);
             $cell = $sheet->getCell('E'.($rowNo+$i)); 
-            $cell->setValue($details[$i]["po_no"]);
+            $cell->setValue($details[$i]["invoice_no"]);
             $cell = $sheet->getCell('F'.($rowNo+$i)); 
-            $cell->setValue($details[$i]["pack_date"]);
+            $cell->setValue($details[$i]["po_no"]);
             $cell = $sheet->getCell('G'.($rowNo+$i)); 
+            $cell->setValue($details[$i]["pack_date"]);
+            $cell = $sheet->getCell('H'.($rowNo+$i)); 
             $cell->setValue($details[$i]["pack_status"]);
         }
 
