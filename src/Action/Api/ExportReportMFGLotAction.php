@@ -72,6 +72,8 @@ final class ExportReportMFGLotAction
             $cell->setValue($details[$i]["label_no"]);
             $cell = $sheet->getCell('J' . ($rowNo + $i));
             $cell->setValue($details[$i]["quantity"]);
+            $cell = $sheet->getCell('K' . ($rowNo + $i));
+            $cell->setValue($details[$i]["generate_lot_no"]);
         }
 
         $excelWriter = new Writer\Xlsx($spreadsheet);

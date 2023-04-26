@@ -361,7 +361,7 @@ final class LotRepository
                 'conditions' => 'sq.label_id=lb.id',
             ]
         ]);
-        $query->where(['OR' => [['lots.lot_no' => $params['lot_no']],['lots.id' => $params['lot_no']]]]);
+        $query->where(['OR' => [['lots.lot_no' => $params['lot_no']],['lots.id' => str_replace("L","",$params['lot_no'])]]]);
         return $query->execute()->fetchAll('assoc') ?: [];
     }
 }

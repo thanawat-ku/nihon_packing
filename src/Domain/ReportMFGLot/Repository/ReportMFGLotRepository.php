@@ -32,6 +32,7 @@ final class ReportMFGLotRepository
                 'packs.pack_date',
                 'PCI.cpo_item_id',
                 'LT.lot_no',
+                'LT.generate_lot_no',
                 'packs.pack_no',
                 'L.label_no',
                 'L.quantity',
