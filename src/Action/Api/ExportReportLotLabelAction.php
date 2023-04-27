@@ -53,7 +53,14 @@ final class ExportReportLotLabelAction
             $cell = $sheet->getCell('C'.($rowNo+$i)); 
             $cell->setValue($details[$i]["quantity"]);
             $cell = $sheet->getCell('D'.($rowNo+$i)); 
-            $cell->setValue($details[$i]["status"]);
+            if($details[$i]["status"]!="VOID"){
+                $cell->setValue($details[$i]["status"]);
+            }else if($details[$i]["merge_lot_no"]!=""){
+                $cell->setValue($details[$i]["status"] . " (" . $details[$i]["merge_lot_no"] . ")");
+            }else{
+                $cell->setValue($details[$i]["status"]);
+            }
+            
             $cell = $sheet->getCell('E'.($rowNo+$i)); 
             $cell->setValue($details[$i]["invoice_no"]);
             $cell = $sheet->getCell('F'.($rowNo+$i)); 

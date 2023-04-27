@@ -307,6 +307,21 @@ final class LotRepository
     {
         $query = $this->queryFactory->newSelect('lots');
         $subquery = $this->queryFactory->newSelect('pack_labels');
+        $subquery1 = $this->queryFactory->newSelect('lot_non_fully_packs');
+        $subquery1->select(
+            [
+                
+                'lot_non_fully_packs.label_id',
+                'lot_no',
+            ]
+        );
+        $subquery1->join([
+            'l1' => [
+                'table' => 'lots',
+                'type' => 'INNER',
+                'conditions' => 'lot_non_fully_packs.lot_id = l1.id',
+            ]
+        ]);
         $subquery->select(
             [
                 
@@ -344,7 +359,8 @@ final class LotRepository
                 'sq.invoice_no',
                 'sq.po_no',
                 'sq.pack_date',
-                'sq.pack_status'
+                'sq.pack_status',
+                'merge_lot_no' => 'sq1.lot_no'
             ]
         );
         $query->join([
@@ -359,6 +375,13 @@ final class LotRepository
                 'table' => $subquery,
                 'type' => 'LEFT',
                 'conditions' => 'sq.label_id=lb.id',
+            ]
+        ]);
+        $query->join([
+            'sq1' => [
+                'table' => $subquery1,
+                'type' => 'LEFT',
+                'conditions' => 'sq1.label_id=lb.id',
             ]
         ]);
         $query->where(['OR' => [['lots.lot_no' => $params['lot_no']],['lots.id' => str_replace("L","",$params['lot_no'])]]]);
