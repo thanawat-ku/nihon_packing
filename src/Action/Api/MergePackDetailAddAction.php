@@ -23,6 +23,9 @@ final class MergePackDetailAddAction
     private $finder;
     private $updater;
     private $finderlabel;
+    private $twig;
+    private $productFinder;
+    private $session;
 
     public function __construct(Twig $twig,MergePackDetailFinder $finder, ProductFinder $productFinder, MergePackDetailUpdater $updater,
     Session $session,Responder $responder)

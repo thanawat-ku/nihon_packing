@@ -20,6 +20,8 @@ final class LotAction
      */ 
     private $responder;
     private $finder;
+    private $twig;
+    private $productFinder;
 
     public function __construct(
         Twig $twig,

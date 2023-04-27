@@ -20,6 +20,7 @@ final class PrintLabelMergePackAction
     private $responder;
     private $finder;
     private $updater;
+    private $productFinder;
 
     public function __construct(LabelFinder $finder,ProductFinder $productFinder, LabelUpdater $updater,
     Responder $responder)

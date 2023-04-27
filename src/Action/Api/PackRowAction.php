@@ -26,6 +26,9 @@ final class PackRowAction
     private $finder;
     private $findersct;
     private $updater;
+    private $twig;
+    private $productFinder;
+    private $session;
 
     public function __construct(
         Twig $twig,

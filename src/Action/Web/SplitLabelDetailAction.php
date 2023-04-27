@@ -23,6 +23,7 @@ final class  SplitLabelDetailAction
     private $splitDetailFinder;
     private $labelFinder;
     private $printerFinder;
+    private $voidReasonFinder;
 
     public function __construct(
         Twig $twig,

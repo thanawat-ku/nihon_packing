@@ -19,6 +19,8 @@ final class DefectAction
      */
     private $responder;
     private $finder;
+    private $twig;
+    private $session;
 
     public function __construct(Twig $twig,DefectFinder $finder,
     Session $session,Responder $responder)

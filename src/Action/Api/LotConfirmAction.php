@@ -10,6 +10,7 @@ use App\Domain\LotNonFullyPack\Service\LotNonFullyPackFinder;
 use App\Responder\Responder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * Action.
@@ -24,9 +25,12 @@ final class LotConfirmAction
     private $updater;
     private $labelUpdater;
     private $lNFPFinder;
+    private $productFinder;
+    private $session;
 
     public function __construct(LotFinder $finder, ProductFinder $productFinder, 
     Responder $responder, LotUpdater $updater, LabelUpdater $labelUpdater,
+    Session $session,
     LotNonFullyPackFinder $lNFPFinder)
     {
         $this->finder = $finder;

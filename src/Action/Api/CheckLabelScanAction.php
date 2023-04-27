@@ -23,11 +23,13 @@ final class CheckLabelScanAction
      * @var Responder
      */
     private $responder;
+    private $twig;
     private $finder;
     private $updater;
     private $upmergepack;
     private $upmergepackdetail;
     private $mergepackDetailFinder;
+    private $session;
 
     public function __construct(
         Twig $twig,

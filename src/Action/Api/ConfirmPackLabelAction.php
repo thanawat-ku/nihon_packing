@@ -49,6 +49,8 @@ final class ConfirmPackLabelAction
     private $cpoItemFinder;
     private $cpoItemUpdater;
     private $packingItemFinder;
+    private $findLabel;
+    private $session;
 
     public function __construct(
         PackLabelFinder $finder,

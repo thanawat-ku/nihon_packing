@@ -19,6 +19,7 @@ final class ScrapDetailAddAction
 
     private $responder;
     private $session;
+    private $scrapDetailFinder;
 
     public function __construct(
         ScrapDetailUpdater $updateScrapDetail,

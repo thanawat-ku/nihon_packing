@@ -22,6 +22,9 @@ final class DefectAddAction
     private $responder;
     private $finder;
     private $updater;
+    private $twig;
+    private $productFinder;
+    private $session;
 
     public function __construct(Twig $twig,LotDefectFinder $finder,LotFinder $productFinder,
     Session $session,Responder $responder, LotDefectUpdater $updater)

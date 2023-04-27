@@ -20,6 +20,7 @@ final class CpoItemAction
     private $CpoItemFinder;
     private $tempQueryUpdater;
     private $tempQueryFinder;
+    private $session;
 
 
     /**

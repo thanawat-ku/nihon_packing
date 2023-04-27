@@ -19,6 +19,9 @@ final class LotNonFullyPackAction
      */
     private $responder;
     private $finder;
+    private $twig;
+    private $session;
+
 
     public function __construct(
         Twig $twig,

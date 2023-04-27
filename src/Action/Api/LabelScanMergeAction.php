@@ -29,6 +29,7 @@ final class LabelScanMergeAction
     private $upmergepackdetail;
     private $mergepackDetailFinder;
     private $findMergePack;
+    private $session;
 
     public function __construct(
         LabelFinder $finder,

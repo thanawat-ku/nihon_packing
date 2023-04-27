@@ -24,6 +24,7 @@ final class MergePackAddAction
     private $responder;
     private $finder;
     private $updater;
+    private $productFinder;
 
     public function __construct(
         Twig $twig,

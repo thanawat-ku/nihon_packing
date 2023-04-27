@@ -20,6 +20,7 @@ final class ScrapRejectAction
     private $responder;
     private $updater;
     private $session;
+    private $updateScrapDetail;
 
     public function __construct(Responder $responder, ScrapFinder $finder, 
     ScrapUpdater $updater, ScrapDetailUpdater $updateScrapDetail, Session $session)

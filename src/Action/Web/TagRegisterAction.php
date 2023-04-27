@@ -28,6 +28,7 @@ final class TagRegisterAction
     private $findCpoItem;
     private $updateCpoItem;
     private $session;
+    private $tagFinder;
 
     /**
      * The constructor.

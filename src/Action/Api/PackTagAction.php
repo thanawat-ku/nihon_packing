@@ -24,6 +24,9 @@ final class PackTagAction
     private $responder;
     private $finder;
     private $findInvoice;
+    private $twig;
+    private $productFinder;
+    private $session;
 
 
     public function __construct(

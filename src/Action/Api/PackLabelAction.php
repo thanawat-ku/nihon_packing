@@ -18,6 +18,7 @@ final class PackLabelAction
      */
     private $responder;
     private $finder;
+    private $session;
     
 
     /**

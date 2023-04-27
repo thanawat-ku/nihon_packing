@@ -25,6 +25,7 @@ final class CancelLabelAction
     private $findermpd;
     private $updater;
     private $upmergepackdetail;
+    private $productFinder;
 
     public function __construct(LabelFinder $finder,ProductFinder $productFinder, LabelUpdater $updater,
     Responder $responder, MergePackDetailUpdater $findermpd,MergePackDetailUpdater $upmergepackdetail)

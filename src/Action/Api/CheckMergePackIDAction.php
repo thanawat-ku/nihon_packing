@@ -22,6 +22,10 @@ final class CheckMergePackIDAction
     private $responder;
     private $finder;
     private $updater;
+    private $twig;
+    private $productFinder;
+    private $session;
+
 
     public function __construct(Twig $twig,MergePackFinder $finder,ProductFinder $productFinder, MergePackUpdater $updater,
     Session $session,Responder $responder)

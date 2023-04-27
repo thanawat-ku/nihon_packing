@@ -26,6 +26,7 @@ final class AddMergeNoFromLabelAction
     private $updatermergepackdetail;
     private $finLabel;
     private $updaterlabel;
+    private $productFinder;
 
     public function __construct(MergePackFinder $finder,ProductFinder $productFinder, MergePackUpdater $updater,
     Responder $responder,  MergePackDetailUpdater $updatermergepackdetail,LabelFinder $finLabel, LabelUpdater $updaterlabel)

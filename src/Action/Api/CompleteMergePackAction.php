@@ -26,6 +26,7 @@ final class CompleteMergePackAction
     private $finderlabel;
     private $updater;
     private $updatelabel;
+    private $productFinder;
 
     public function __construct(
         MergePackFinder $finder,

@@ -19,6 +19,7 @@ final class TagAction
      */
     private $responder;
     private $finder;
+    private $twig;
 
     public function __construct(
         Twig $twig,

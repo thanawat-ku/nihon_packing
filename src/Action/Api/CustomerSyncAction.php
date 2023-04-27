@@ -18,6 +18,7 @@ final class CustomerSyncAction
     private $responder;
     private $finder;
     private $updater;
+    private $twig;
 
     public function __construct(
         Twig $twig,

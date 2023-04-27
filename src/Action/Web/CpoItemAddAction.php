@@ -27,6 +27,7 @@ final class CpoItemAddAction
     private $packUpdater;
     private $session;
     private $tempQueryFinder;
+    private $twig;
 
     public function __construct(
         Twig $twig,

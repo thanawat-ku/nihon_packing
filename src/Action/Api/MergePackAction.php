@@ -20,6 +20,9 @@ final class MergePackAction
      */
     private $responder;
     private $finder;
+    private $twig;
+    private $productFinder;
+    private $session;
 
     public function __construct(Twig $twig,MergePackFinder $finder,ProductFinder $productFinder,
     Session $session,Responder $responder)

@@ -23,6 +23,8 @@ final class MergePackDetailAction
     private $finder;
     private $updater;
     private $mergePackFinder;
+    private $twig;
+    private $session;
 
     public function __construct(
         Twig $twig,

@@ -24,6 +24,7 @@ final class LabelScanSplitAction
     private $updater;
     private $splitDetailFinder;
     private $lotFinder;
+    private $productFinder;
 
     public function __construct(
         LabelFinder $finder,

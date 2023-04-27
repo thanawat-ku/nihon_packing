@@ -21,6 +21,8 @@ final class LotNonFullyPackRowAction
     private $responder;
     private $finder;
     private $lotFinder;
+    private $twig;
+    private $session;
 
     public function __construct(
         Twig $twig,

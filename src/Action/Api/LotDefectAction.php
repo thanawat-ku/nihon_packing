@@ -19,6 +19,8 @@ final class LotDefectAction
      */
     private $responder;
     private $finder;
+    private $twig;
+    private $session;
 
     public function __construct(Twig $twig,LotDefectFinder $finder,
     Session $session,Responder $responder)

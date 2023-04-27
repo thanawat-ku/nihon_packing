@@ -15,6 +15,8 @@ final class LabelDeleteAction
 {
     private $responder;
     private $updater;
+    private $finder;
+    
     public function __construct(Responder $responder, LabelUpdater $updater, LabelFinder $finder)
     {
         $this->responder = $responder;

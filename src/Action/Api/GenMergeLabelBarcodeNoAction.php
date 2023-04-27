@@ -29,6 +29,8 @@ final class GenMergeLabelBarcodeNoAction
     private $findMergePack;
     private $upmergepack;
     private $findermpdetail;
+    private $twig;
+    private $session;
 
 
     public function __construct(

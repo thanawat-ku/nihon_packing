@@ -18,6 +18,7 @@ final class LabelSearchAction
      */
     private $responder;
     private $finder;
+    private $productFinder;
 
     public function __construct(LabelFinder $finder,ProductFinder $productFinder, 
     Responder $responder)
