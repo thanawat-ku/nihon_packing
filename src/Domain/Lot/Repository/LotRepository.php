@@ -303,6 +303,17 @@ final class LotRepository
         return $query->execute()->fetchAll('assoc') ?: [];
     }
 
+    public function getCountDate($date_count):array
+    {
+        $query = $this->queryFactory->newSelect('lots');
+        $query->select(
+            [
+                'count_lot' => $query->func()->count('id'),
+            ]);
+        $query->andWhere(['generate_lot_no LIKE' => 'S'.$date_count.'-%']);
+        return $query->execute()->fetchAll('assoc') ?: [];
+    }
+
     public function findLotLabels(array $params): array
     {
         $query = $this->queryFactory->newSelect('lots');
