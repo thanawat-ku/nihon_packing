@@ -50,4 +50,8 @@ final class LotFinder
     {
         return $this->repository->findLotLabels($params);
     }
+    public function getCountDate($date_count):int
+    {
+        return $this->repository->getCountDate($date_count)[0]["count_lot"];
+    }
 }
