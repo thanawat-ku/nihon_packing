@@ -69,9 +69,9 @@ final class LotPrintAction
             $dataLot['status'] = "PRINTED";
             $dataLot['real_lot_qty'] = $realLotQty; //lot_real_qty แทน real_qty
             $dataLot['real_qty'] = $realQty;
-            $count_date = $this->finder->getCountDate(date("Ymd"));
-            $dataLot['generate_lot_no'] = "S" . date("Ymd") . "-" . str_pad($count_date + 1, 4, "0", STR_PAD_LEFT);
-            //$dataLot['generate_lot_no'] = "L" . str_pad($lotId, 11, "0", STR_PAD_LEFT);
+            //$count_date = $this->finder->getCountDate(date("Ymd"));
+            //$dataLot['generate_lot_no'] = "S" . date("Ymd") . "-" . str_pad($count_date + 1, 4, "0", STR_PAD_LEFT);
+            $dataLot['generate_lot_no'] = "L" . str_pad($lotId, 11, "0", STR_PAD_LEFT);
             $dataLot['printed_user_id'] =  $data['user_id'];
             $this->updater->updateLot($lotId, $dataLot);
 
