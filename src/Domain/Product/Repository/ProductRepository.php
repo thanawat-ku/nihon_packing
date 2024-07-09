@@ -81,7 +81,8 @@ final class ProductRepository
                 'part_name',
                 'std_pack',
                 'std_box',
-                'is_completed'
+                'is_completed',
+                'is_delete'
             ]
         );
 
@@ -92,7 +93,9 @@ final class ProductRepository
             $query->andWhere(['id' => $params['ProductID']]);
         }
 
-        $query->andWhere(['is_delete' => 'N']);
+        if($this->session->get('user')["user_role_id"]!=1){
+            $query->andWhere(['is_delete' => 'N']);
+        }
         $query->orderAsc('part_code');
 
         return $query->execute()->fetchAll('assoc') ?: [];

@@ -32,9 +32,21 @@ final class QueryFactory
      *
      * @return Query The query
      */
-    public function newQuery(): Query
+    public function selectQuery(): Query
     {
-        return $this->connection->newQuery();
+        return $this->connection->SelectQuery();
+    }
+    public function updateQuery(): Query
+    {
+        return $this->connection->UpdateQuery ();
+    }
+    public function deleteQuery(): Query
+    {
+        return $this->connection->DeleteQuery ();
+    }
+    public function insertQuery(): Query
+    {
+        return $this->connection->InsertQuery  ();
     }
 
     /**
@@ -48,7 +60,7 @@ final class QueryFactory
      */
     public function newSelect(string $table): Query
     {
-        $query = $this->newQuery()->from($table);
+        $query = $this->selectQuery()->from($table);
 
         if (!$query instanceof Query) {
             throw new UnexpectedValueException('Failed to create query');
@@ -67,7 +79,7 @@ final class QueryFactory
      */
     public function newUpdate(string $table, array $data): Query
     {
-        return $this->newQuery()->update($table)->set($data);
+        return $this->updateQuery()->update($table)->set($data);
     }
 
     /**
@@ -80,7 +92,7 @@ final class QueryFactory
      */
     public function newInsert(string $table, array $data): Query
     {
-        return $this->newQuery()->insert(array_keys($data))
+        return $this->insertQuery()->insert(array_keys($data))
             ->into($table)
             ->values($data);
     }
@@ -94,6 +106,6 @@ final class QueryFactory
      */
     public function newDelete(string $table): Query
     {
-        return $this->newQuery()->delete($table);
+        return $this->deleteQuery()->delete($table);
     }
 }

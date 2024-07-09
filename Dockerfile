@@ -23,7 +23,7 @@
 #   docker build -f Dockerfile-dev -t {{volume_name}} .
 #   docker run -it -p "8080:80" -v $PWD:/var/www {{volume_name}}
 #
-FROM php:7.4-apache
+FROM php:8.1-apache
 
 # system dependecies
 RUN apt-get update \
@@ -32,6 +32,7 @@ RUN apt-get update \
  git \
  libssl-dev \
  default-mysql-client \
+ gnupg2 \
  libmcrypt-dev \
  libicu-dev \
  libpq-dev \
@@ -44,6 +45,19 @@ RUN apt-get update \
  libzip-dev \
  unzip
 
+ENV ACCEPT_EULA=Y 
+
+RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
+RUN curl https://packages.microsoft.com/config/debian/11/prod.list > /etc/apt/sources.list.d/mssql-release.list
+# Update package lists and install dependencies
+RUN apt-get update && apt-get install -y \
+    unixodbc-dev \
+    unixodbc \
+    msodbcsql17
+
+# Install pdo_sqlsrv extension
+RUN pecl install sqlsrv pdo_sqlsrv
+
 # PHP dependencies
 RUN docker-php-ext-install \
  gd \
@@ -53,6 +67,8 @@ RUN docker-php-ext-install \
  pdo_mysql \
  mysqli \
  zip
+
+RUN docker-php-ext-enable sqlsrv pdo_sqlsrv
 
 # Xdebug
 RUN pecl install xdebug \

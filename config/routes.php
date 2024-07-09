@@ -30,6 +30,7 @@ return function (App $app) {
     $app->post('/add_product', \App\Action\Web\ProductAddAction::class)->add(UserAuthMiddleware::class);
     $app->post('/edit_product', \App\Action\Web\ProductEditAction::class)->add(UserAuthMiddleware::class);
     $app->post('/delete_product', \App\Action\Web\ProductDeleteAction::class)->add(UserAuthMiddleware::class);
+    $app->post('/undelete_product', \App\Action\Web\ProductUndeleteAction::class)->add(UserAuthMiddleware::class);
 
     $app->get('/merges', \App\Action\Web\MergeAction::class)->add(UserAuthMiddleware::class);
     $app->post('/add_merges', \App\Action\Web\MergeAddAction::class)->add(UserAuthMiddleware::class);

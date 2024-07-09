@@ -23,9 +23,18 @@ function editProduct(event){
     $("#deleteProductName").text(obj.part_name);
 }
 
+function undeleteProduct(event){
+  let product = event.currentTarget.name;
+  console.log(product);
+  var obj = JSON.parse(product);
+  $("#undeleteProductID").val(obj.id);
+  $("#undeleteProductCode").text(obj.part_code);
+  $("#undeleteProductName").text(obj.part_name);
+}
+
 $(document).on(
     "click",
-    "#editBt, #deleteBt",
+    "#editBt, #deleteBt, #undeleteBt",
     (event) => {
         let id = event.currentTarget.id;
         switch (id) {
@@ -34,6 +43,8 @@ $(document).on(
                 break;
             case "deleteBt":
                 deleteProduct(event);
+            case "undeleteBt":
+                undeleteProduct(event);
                 break;
             default:
                 console.log("no any events click");

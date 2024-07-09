@@ -10,7 +10,7 @@ use Psr\Http\Message\ServerRequestInterface;
 /**
  * Action.
  */
-final class ProductDeleteAction
+final class ProductUndeleteAction
 {
     private $responder;
     private $updater;
@@ -31,7 +31,7 @@ final class ProductDeleteAction
         $productId = $data["id"];
 
         // Invoke the Domain with inputs and retain the result
-        $data2['is_delete'] = "Y";
+        $data2['is_delete'] = "N";
         $this->updater->updateProduct($productId,$data2);
 
         // Build the HTTP response

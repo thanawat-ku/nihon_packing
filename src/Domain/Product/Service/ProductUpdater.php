@@ -97,6 +97,9 @@ final class ProductUpdater
         if (isset($data['is_completed'])) {
             $result['is_completed'] = (string)$data['is_completed'];
         }
+        if (isset($data['is_delete'])) {
+            $result['is_delete'] = (string)$data['is_delete'];
+        }
 
         return $result;
     }

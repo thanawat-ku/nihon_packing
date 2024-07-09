@@ -42,7 +42,11 @@
                         <td>{{ product.is_completed }}</td>
                         <td>
                         <button type="button" id="editBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editProduct" name="{{ product|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-edit"></i></button>
-                        <button type="button" id="deleteBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteProduct" name="{{ product|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-trash"></i></button>
+                        {% if product.is_delete == 'Y' %}
+                        <button type="button" id="undeleteBt" class="btn btn-success btn-sm" data-toggle="modal" data-target="#undeleteProduct" name="{{ product|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-recycle"></i></button>
+                        {% else %}
+                        <button type="button" id="deleteBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteProduct" name="{{ product|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-trash"></i></button>                       
+                        {% endif %}
                         </td>
                     </tr>
                     {% endfor %}
@@ -124,6 +128,33 @@
         </div>
         <div class="modal-footer">
           <button type="submit" class="btn btn-danger">Delete</button>
+          <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Undelete product -->
+<div class="modal fade" id="undeleteProduct">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form id="form-undeleteProduct" action="undelete_product" method="post">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Undelete Product</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">          
+          <div class="form-product">
+            <input type="hidden" id="undeleteProductID" name="id">
+            <label for="productNo">Do you want to undelete product: <span id="undeleteProductCode"></span><span> </span><span id="undeleteProductName"></span></label>
+          </div>                 
+          
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success">Undelete</button>
           <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
         </div>
       </form>
