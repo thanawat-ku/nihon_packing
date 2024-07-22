@@ -108,6 +108,7 @@ function syncCustomers() {
         type: "GET",
         url: "api/mis_sync_customers",
         success: function (data) {
+            let code="";
             if (data.length > 0) {
                 code = data[0].CustomerCode + ' ';
             } else {
@@ -125,6 +126,7 @@ function syncProducts() {
         type: "GET",
         url: "api/mis_sync_products",
         success: function (data) {
+            let code="";
             if (data.length > 0) {
                 code = data[0].PartCode + ' ';
             } else {
@@ -142,6 +144,7 @@ function syncSections() {
         type: "GET",
         url: "api/mis_sync_sections",
         success: function (data) {
+            let code="";
             if (data.length > 0) {
                 code = data[0].SectionName + ' ';
             } else {
@@ -158,6 +161,7 @@ function syncDefects() {
         type: "GET",
         url: "api/mis_sync_defects",
         success: function (data) {
+            let code="";
             if (data.length > 0) {
                 code = data[0].CuaseName + ' ';
             } else {
@@ -174,6 +178,7 @@ function syncLots() {
         type: "GET",
         url: "api/mis_sync_lots",
         success: function (data) {
+            let code="";
             if (data.length > 0) {
                 code = data[0].LotNo + ' ';
             } else {
@@ -192,6 +197,7 @@ function syncInvoices() {
         type: "GET",
         url: "api/mis_sync_invoice",
         success: function (data) {
+            let code="";
             if (data.length > 0) {
                 code = data[0].invoice_no + ' ';
             } else {
