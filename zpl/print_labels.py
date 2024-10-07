@@ -52,7 +52,7 @@ mycursor.execute("SELECT L.id,P.part_no,P.part_name,LT.generate_lot_no,L.quantit
     INNER JOIN products P ON LT.product_id=P.id \
     INNER JOIN printers PT ON L.printer_id=PT.id \
     LEFT OUTER JOIN users U1 ON LT.packed_user_id=U1.id \
-    WHERE L.wait_print='Y' AND PT.printer_name=+"+str(printer_name)+" \
+    WHERE L.wait_print='Y' AND PT.printer_name="+str(printer_name)+" \
     ORDER BY L.id")
 myresult = mycursor.fetchall()
 i=0
