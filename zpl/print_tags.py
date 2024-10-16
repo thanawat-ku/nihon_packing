@@ -45,7 +45,7 @@ def print_tag(printer_name,customer_name,part_no,part_name,po_no,
     z.output(tag)
 
 mydb = mysql.connector.connect(
-  host="192.168.10.10",
+  host="mis.nihonseikithai.co.th",
   user="root",
   password="qctest123",
   database="packing"
@@ -57,10 +57,10 @@ mycursor = mydb.cursor()
 mycursor.execute("SELECT T.id,C.customer_name,P.part_no,P.part_name,S.pack_no, \
     S.pack_date,T.box_no,T.total_box,T.tag_no,T.quantity \
     FROM tags T \
-    INNER JOIN packs S ON T.pack_id=S.id \
-    INNER JOIN products P ON S.product_id=P.id \
-    INNER JOIN customers C ON P.customer_id=C.id \
-    INNER JOIN printers PT ON T.printer_id=PT.id \
+    STRAIGHT_JOIN packs S ON T.pack_id=S.id \
+    STRAIGHT_JOIN products P ON S.product_id=P.id \
+    STRAIGHT_JOIN customers C ON P.customer_id=C.id \
+    STRAIGHT_JOIN printers PT ON T.printer_id=PT.id \
     WHERE T.wait_print='Y' AND PT.printer_name="+str(tag_printer)+" \
     ORDER BY T.id")
 myresult = mycursor.fetchall()

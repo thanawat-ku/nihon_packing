@@ -38,7 +38,7 @@ def print_label(printer_name,part_no,part_name,lot_no,qty,label_no,visual_by,pac
     z.output(label)
 
 mydb = mysql.connector.connect(
-  host="192.168.10.10",
+  host="mis.nihonseikithai.co.th",
   user="root",
   password="qctest123",
   database="packing"
@@ -48,11 +48,11 @@ mycursor = mydb.cursor()
 #print_label(printer_name,part_no,part_name,lot_no,qty,label_no,visual_by,pack_by)
 mycursor.execute("SELECT L.id,P.part_no,P.part_name,LT.generate_lot_no,L.quantity,L.label_no,U1.first_name,'' AS pack_by \
     FROM labels L \
-    INNER JOIN lots LT ON L.prefer_lot_id=LT.id \
-    INNER JOIN products P ON LT.product_id=P.id \
-    INNER JOIN printers PT ON L.printer_id=PT.id \
+    STRAIGHT_JOIN lots LT ON L.prefer_lot_id=LT.id \
+    STRAIGHT_JOIN products P ON LT.product_id=P.id \
+    STRAIGHT_JOIN printers PT ON L.printer_id=PT.id \
     LEFT OUTER JOIN users U1 ON LT.packed_user_id=U1.id \
-    WHERE L.wait_print='Y' AND PT.printer_name=+"+str(printer_name)+" \
+    WHERE L.wait_print='Y' AND PT.printer_name="+str(printer_name)+" \
     ORDER BY L.id")
 myresult = mycursor.fetchall()
 i=0
