@@ -9,6 +9,7 @@ function editCustomer(event){
     $("#editCustomerID").val(obj.id);
     $("#editCustomerCode").val(obj.customer_code);
     $("#editCustomerName").val(obj.customer_name);
+    $("#editIsSync").val(obj.is_sync);
 }
 
   function deleteCustomer(event){

@@ -49,6 +49,7 @@ final class CustomerRepository
                 'id',
                 'customer_name',
                 'customer_code',
+                'is_sync',
             ]
         );
 

@@ -24,6 +24,7 @@
                     <tr>
                         <th>Code</th>
                         <th>Name</th>
+                        <th>Sync</th>
                         <th>Operation</th>
                     </tr>
                     </thead>
@@ -32,6 +33,7 @@
                     <tr>
                         <td>{{ customer.customer_code }}</td>
                         <td>{{ customer.customer_name }}</td>
+                        <td>{{ customer.is_sync }}</td>
                         <td>
                         <button type="button" id="editBt" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editCustomer" name="{{ customer|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-edit"></i></button>
                         <button type="button" id="deleteBt" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteCustomer" name="{{ customer|json_encode }}"><i style="font-size:15px; width:20px;" class="fas fa-trash"></i></button>
@@ -66,6 +68,13 @@
           <div class="form-customer">
             <label for="customerName">Customer Name</label>
             <input type="text" autocomplete="off" class="form-control" id="editCustomerName" name="customer_name" required>
+          </div>          
+          <div class="form-customer">
+            <label for="isSync">Sync</label>
+            <select class="form-control" name="is_sync" id="editIsSync">
+              <option value="N">N</option>
+              <option value="Y">Y</option>
+            </select>
           </div>
         </div>            
         <div class="modal-footer">

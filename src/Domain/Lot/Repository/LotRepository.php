@@ -241,6 +241,14 @@ final class LotRepository
     }
     public function getSyncLots($max_id): array
     {
+        $query = $this->queryFactory->newSelect('customers');
+        $query->select('id');
+        $query->andWhere(['is_sync' => 'Y']);
+        $customers = $query->execute()->fetchAll('assoc') ?: [];
+        $customer = "148";
+        foreach ($customers as $c){
+            $customer.=",".$c["id"];
+        }
         $query = $this->queryFactory2->newSelect('lot');
         $query->select(
             [
@@ -262,7 +270,7 @@ final class LotRepository
             'p' => [
                 'table' => 'product',
                 'type' => 'INNER',
-                'conditions' => 'lot.ProductID=p.ProductID AND p.CustomerID IN (245,243,99)',
+                'conditions' => 'lot.ProductID=p.ProductID AND p.CustomerID IN('.$customer.')',
             ]
         ]);
         return $query->execute()->fetchAll('assoc') ?: [];

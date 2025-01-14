@@ -23,8 +23,9 @@ final class CustomerValidator
         $validator = $this->validationFactory->createValidator();
 
         return $validator
-            ->notEmptyString('customer_code', 'Input required')
-            ->notEmptyString('customer_name', 'Input required');
+        ->notEmptyString('customer_code', 'Input required')
+        ->notEmptyString('customer_name', 'Input required')
+        ->notEmptyString('is_sync', 'Input required');
     }
     public function validateCustomer(array $data): void
     {

@@ -90,6 +90,9 @@ final class CustomerUpdater
         if (isset($data['address3'])) {
             $result['address3'] = (string)$data['address3'];
         }
+        if (isset($data['is_sync'])) {
+            $result['is_sync'] = (string)$data['is_sync'];
+        }
 
         return $result;
     }
