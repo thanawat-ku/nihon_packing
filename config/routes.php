@@ -16,7 +16,7 @@ return function (App $app) {
     // Swagger API documentation
     $app->get('/docs/v1', \App\Action\Documentation\SwaggerUiAction::class)->setName('docs');
 
-    $app->get('/', \App\Action\Web\HomeAction::class)->setName('home')->add(UserAuthMiddleware::class);
+    // $app->get('/', \App\Action\Web\HomeAction::class)->setName('home')->add(UserAuthMiddleware::class);
     $app->get('/users', \App\Action\Web\UserAction::class)->add(UserAuthMiddleware::class);
     $app->post('/edit_user', \App\Action\Web\UserEditAction::class)->add(UserAuthMiddleware::class);
     $app->post('/add_user', \App\Action\Web\UserAddAction::class)->add(UserAuthMiddleware::class);
@@ -94,7 +94,7 @@ return function (App $app) {
     $app->post('/reprint_pack', \App\Action\Web\PackReprintAction::class)->add(UserAuthMiddleware::class);
 
     $app->post('/api/login', \App\Action\ApiLoginSubmitAction::class);
-    $app->get('/api/merges', \App\Action\Api\MergeAction::class);
+    // $app->get('/api/merges', \App\Action\Api\MergeAction::class);
     $app->get('/cpo_items', \App\Action\Web\CpoItemAction::class)->add(UserAuthMiddleware::class);
     $app->get('/cpo_item_selects', \App\Action\Web\CpoItemSelectAction::class)->add(UserAuthMiddleware::class);
     $app->post('/add_cpo_item', \App\Action\Web\CpoItemAddAction::class)->add(UserAuthMiddleware::class);
@@ -159,8 +159,8 @@ return function (App $app) {
 
     $app->get('/api/defects', \App\Action\Api\DefectAction::class);
     $app->post('/api/add_defect', \App\Action\Api\DefectAddAction::class);
-    $app->post('/api/delete_defect', \App\Action\Api\DefectDeleteAction::class);
-    $app->post('/api/edit_defect', \App\Action\Api\DefectEditAction::class);
+    // $app->post('/api/delete_defect', \App\Action\Api\DefectDeleteAction::class);
+    // $app->post('/api/edit_defect', \App\Action\Api\DefectEditAction::class);
 
     $app->get('/api/products', \App\Action\Api\ProductAction::class);
 
@@ -190,7 +190,7 @@ return function (App $app) {
     $app->post('/api/delete_split_label', \App\Action\Api\SplitLabelDeleteAction::class);
 
     $app->get('/api/split_label_detail',  \App\Action\Api\SplitLabelDetailAction::class);
-    $app->post('/api/add_split_label_detail', \App\Action\Api\SplitLabelDetailAddAction::class);
+    // $app->post('/api/add_split_label_detail', \App\Action\Api\SplitLabelDetailAddAction::class);
 
     $app->get('/api/merge_packs', \App\Action\Api\MergePackAction::class);
 
@@ -221,7 +221,7 @@ return function (App $app) {
     $app->post('/api/complete_pack', \App\Action\Api\PackCompleteAction::class);
     $app->get('/api/mis_sync_invoice', \App\Action\Api\SyncInvoiceNoAction::class);
 
-    $app->get('/api/product_for_packs', \App\Action\Api\ProductForPackAction::class);
+    // $app->get('/api/product_for_packs', \App\Action\Api\ProductForPackAction::class);
 
     $app->get('/api/pack_cpo_items', \App\Action\Api\PackCpoItemAction::class);
     $app->post('/api/add_pack_cpo_item', \App\Action\Api\PackCpoItemAddAction::class);

@@ -93,7 +93,10 @@ final class ProductRepository
             $query->andWhere(['id' => $params['ProductID']]);
         }
 
-        if($this->session->get('user')["user_role_id"]!=1){
+        if(isset($params['username'])){
+            $query->andWhere(['is_delete' => 'N']);
+        }
+        else if($this->session->get('user')["user_role_id"]!=1){
             $query->andWhere(['is_delete' => 'N']);
         }
         $query->orderAsc('part_code');
