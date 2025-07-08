@@ -16,7 +16,7 @@ return function (App $app) {
     // Swagger API documentation
     $app->get('/docs/v1', \App\Action\Documentation\SwaggerUiAction::class)->setName('docs');
 
-    // $app->get('/', \App\Action\Web\HomeAction::class)->setName('home')->add(UserAuthMiddleware::class);
+    $app->get('/', \App\Action\Web\HomeAction::class)->setName('home')->add(UserAuthMiddleware::class);
     $app->get('/users', \App\Action\Web\UserAction::class)->add(UserAuthMiddleware::class);
     $app->post('/edit_user', \App\Action\Web\UserEditAction::class)->add(UserAuthMiddleware::class);
     $app->post('/add_user', \App\Action\Web\UserAddAction::class)->add(UserAuthMiddleware::class);
