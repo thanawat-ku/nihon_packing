@@ -152,7 +152,7 @@
 						{% for tag in tags %}
 							<tr>
 								<td>
-									{% if tag.tag_no  != "" %}<a href="labels?tag_id={{tag.id}}&find_label_tag="true">{% endif %}
+									{% if tag.tag_no  != "" %}<a href="labels?tag_id={{tag.id}}&find_label_tag=true">{% endif %}
 										{{ tag.tag_no}}
 									{% if tag.tag_no  != "" %}</a>{% endif %}
 								</td>

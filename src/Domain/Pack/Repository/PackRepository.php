@@ -378,4 +378,45 @@ final class PackRepository
 
         return $query->execute()->fetchAll('assoc') ?: [];
     }
+    
+    public function findTagSerial(array $params): array
+    {
+        $query = $this->queryFactory->newSelect('packs');
+        $query->select(
+            [
+                'packs.po_no',
+                'pd.part_code',
+                'pd.part_no',
+                'pd.part_name',
+                'packs.pack_date',
+                't.quantity',
+                't.box_no',
+                't.total_box',
+                'ts.serial_no',
+            ]
+        );
+        $query->join([
+            'pd' => [
+                'table' => 'products',
+                'type' => 'INNER',
+                'conditions' => 'packs.product_id = pd.id',
+            ]
+        ]);
+        $query->join([
+            't' => [
+                'table' => 'tags',
+                'type' => 'INNER',
+                'conditions' => 'packs.id = t.pack_id',
+            ]
+        ]);
+        $query->join([
+            'ts' => [
+                'table' => 'tag_serials',
+                'type' => 'INNER',
+                'conditions' => 't.id = ts.tag_id',
+            ]
+        ]);
+        $query->andWhere(['packs.id' => $params['pack_id']]);
+        return $query->execute()->fetchAll('assoc') ?: [];
+    }
 }

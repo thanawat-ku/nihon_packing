@@ -4,6 +4,7 @@ namespace App\Domain\Tag\Service;
 
 use App\Domain\Tag\Repository\TagRepository;
 use App\Domain\Tag\Service\TagFinder;
+use App\Domain\TagSerial\Service\TagSerialUpdater;
 
 
 /**
@@ -14,18 +15,18 @@ final class TagUpdater
     private $repository;
     private $validator;
     private $finder;
+    private $updater;
 
     public function __construct(
         TagRepository $repository,
         TagValidator $validator,
-        TagFinder $finder
+        TagFinder $finder,
+        TagSerialUpdater $updater
     ) {
         $this->repository = $repository;
         $this->validator = $validator;
         $this->finder = $finder;
-        //$this->logger = $loggerFactory
-        //->addFileHandler('store_updater.log')
-        //->createInstance();
+        $this->updater = $updater;
     }
 
     public function insertTag(array $data): int
@@ -172,6 +173,10 @@ final class TagUpdater
                 $this->updatetagApi($id, $dataTag, $user_id);
                 $params['tag_id'] = $id;
                 $rtTag = $this->finder->findTags($params);
+                $customerId=$rtTag[0]["customer_id"];
+                $params1['tag_id']=$id;
+                $params1['customer_id']=$customerId;
+                $this->updater->insertTagSerial($params1);
                 array_push($tags, $rtTag[0]);
             } else if ($i == ($totalBox - 1) || $totalBox < 1) {
                 $quantity = $totalQty - (($totalBox - 1) * $stdBox);
@@ -187,6 +192,10 @@ final class TagUpdater
                 $this->updatetagApi($id, $dataTag, $user_id);
                 $params['tag_id'] = $id;
                 $rtTag = $this->finder->findTags($params);
+                $customerId=$rtTag[0]["customer_id"];
+                $params1['tag_id']=$id;
+                $params1['customer_id']=$customerId;
+                $this->updater->insertTagSerial($params1);
                 array_push($tags, $rtTag[0]);
             }
         }

@@ -42,5 +42,9 @@ final class PackFinder
     {
         return $this->repository->findMfgLots($params);
     }
+    public function findTagSerial(array $params): array
+    {
+        return $this->repository->findTagSerial($params);
+    }
     
 }

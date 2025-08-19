@@ -131,9 +131,8 @@ final class TagRepository
                 'part_no',
                 'pack_status',
                 'total_qty',
-                's_cpo_item.cpo_item_id'
-
-
+                's_cpo_item.cpo_item_id',
+                'p.customer_id'
             ]
         );
         $query->join([

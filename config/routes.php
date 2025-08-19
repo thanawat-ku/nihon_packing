@@ -284,4 +284,8 @@ return function (App $app) {
             $app->get('/export_report_lot_labels', \App\Action\Api\ExportReportLotLabelAction::class); #<<<< Export Reportlot labels Action
         }
     )->add(UserAuthMiddleware::class);
+
+
+    
+    $app->get('/api/pdf_test', \App\Action\Api\PdfTestAction::class);
 };
