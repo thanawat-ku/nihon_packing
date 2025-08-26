@@ -32,10 +32,18 @@ final class TagSerialFinder
         $ym = date("ym");
         $rt = $this->repository->getMaxNo($cusomerId, $ym);
         if ($rt) {
-            $serial_no = $rt[0][0] + 1;
+            $serial_no = $rt + 1;
         } else {
             $serial_no = $ym . "00001";
         }
-        return 1;
+        return $serial_no;
+    }
+    
+    public function getTagSerialNoTest($cusomerId)
+    {
+        $ym = date("ym");
+        $rt = $this->repository->getMaxNo($cusomerId, $ym);
+        
+        return $rt;
     }
 }

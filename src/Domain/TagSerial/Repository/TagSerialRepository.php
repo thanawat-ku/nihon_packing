@@ -59,7 +59,7 @@ final class TagSerialRepository
         return $query->execute()->fetchAll('assoc') ?: [];
     }
 
-    public function getMaxNo($customerId,$ym): array
+    public function getMaxNo($customerId,$ym): int
     {
         $query = $this->queryFactory->newSelect('tag_serials');
         $query->select(
@@ -67,7 +67,8 @@ final class TagSerialRepository
                 'MaxNo' => $query->func()->max('serial_no')
             ]
         );
-        $query->andWhere(['customer_id' => $customerId,'serial_no LIKE' => "$ym%"]);
-        return $query->execute()->fetchAll('assoc') ?: [];
+        $query->where(['customer_id' => $customerId,'serial_no LIKE' => "$ym%"]);
+        $result = $query->execute()->fetchColumn(0);
+        return $result !== null ? (int)$result : null;
     }
 }

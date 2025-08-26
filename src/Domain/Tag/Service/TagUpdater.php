@@ -166,7 +166,7 @@ final class TagUpdater
                 $dataTag['box_no'] = $i + 1;
                 $dataTag['total_box'] = $totalBox;
                 $dataTag['status'] = 'PRINTED';
-                $dataTag['wait_print'] = 'Y';
+                $dataTag['wait_print'] = 'N';
                 $dataTag['printer_id'] = $data['printer_id'];
                 $id = $this->insertTagApi($dataTag, $user_id);
                 $dataTag['tag_no'] = "T" . str_pad($id, 11, "0", STR_PAD_LEFT);
@@ -185,7 +185,7 @@ final class TagUpdater
                 $dataTag['box_no'] = $i + 1;
                 $dataTag['total_box'] = $totalBox;
                 $dataTag['status'] = 'PRINTED';
-                $dataTag['wait_print'] = 'Y';
+                $dataTag['wait_print'] = 'N';
                 $dataTag['printer_id'] = $data['printer_id'];
                 $id = $this->insertTagApi($dataTag, $user_id);
                 $dataTag['tag_no'] = "T" . str_pad($id, 11, "0", STR_PAD_LEFT);
@@ -221,13 +221,17 @@ final class TagUpdater
                 $dataTag['box_no'] = $i + 1;
                 $dataTag['total_box'] = $totalBox;
                 $dataTag['status'] = 'PRINTED';
-                $dataTag['wait_print'] = 'Y';
+                $dataTag['wait_print'] = 'N';
                 $dataTag['printer_id'] = $data['printer_id'];
                 $id = $this->insertTag($dataTag);
                 $dataTag['tag_no'] = "T" . str_pad($id, 11, "0", STR_PAD_LEFT);
                 $this->updatetag($id, $dataTag);
                 $params['tag_id'] = $id;
                 $rtTag = $this->finder->findTags($params);
+                $customerId=$rtTag[0]["customer_id"];
+                $params1['tag_id']=$id;
+                $params1['customer_id']=$customerId;
+                $this->updater->insertTagSerial($params1);
                 array_push($tags, $rtTag[0]);
             } else if ($i == ($totalBox - 1) || $totalBox < 1) {
                 $quantity = $totalQty - (($totalBox - 1) * $stdBox);
@@ -236,13 +240,17 @@ final class TagUpdater
                 $dataTag['box_no'] = $i + 1;
                 $dataTag['total_box'] = $totalBox;
                 $dataTag['status'] = 'PRINTED';
-                $dataTag['wait_print'] = 'Y';
+                $dataTag['wait_print'] = 'N';
                 $dataTag['printer_id'] = $data['printer_id'];
                 $id = $this->insertTag($dataTag);
                 $dataTag['tag_no'] = "T" . str_pad($id, 11, "0", STR_PAD_LEFT);
                 $this->updatetag($id, $dataTag);
                 $params['tag_id'] = $id;
                 $rtTag = $this->finder->findTags($params);
+                $customerId=$rtTag[0]["customer_id"];
+                $params1['tag_id']=$id;
+                $params1['customer_id']=$customerId;
+                $this->updater->insertTagSerial($params1);
                 array_push($tags, $rtTag[0]);
             }
         }
