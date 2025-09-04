@@ -288,4 +288,5 @@ return function (App $app) {
 
     
     $app->get('/api/pdf_test', \App\Action\Api\PdfTestAction::class);
+    $app->get('/api/pdf_test2', \App\Action\Api\PdfTest2Action::class);
 };
