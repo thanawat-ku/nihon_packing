@@ -40,8 +40,6 @@ class MainWindow(QMainWindow):
 
         print("Set Config!")
 
-        self.label_printer = str(self.combo1.currentText())
-        self.tag_printer = str(self.combo2.currentText())
         self.label_printer = Printer(self.label_printer_name)
         self.tag_printer = Printer(self.tag_printer_name)
 
@@ -139,10 +137,11 @@ class MainWindow(QMainWindow):
             mydb.commit()
         elif self.label_printer_name=="HAN-Label":
             #for HAN label
-            mycursor.execute("SELECT L.id,P.part_no,P.part_name,LT.generate_lot_no,L.quantity,L.label_no,U1.first_name,'' AS pack_by \
+            mycursor.execute("SELECT L.id,P.part_no,P.part_name,LT.generate_lot_no,L.quantity,L.label_no,U1.first_name,'' AS pack_by,LT.lot_no,C.customer_code \
             FROM labels L \
             STRAIGHT_JOIN lots LT ON L.prefer_lot_id=LT.id \
             STRAIGHT_JOIN products P ON LT.product_id=P.id \
+            STRAIGHT_JOIN customers C ON P.customer_id=C.id \
             STRAIGHT_JOIN printers PT ON L.printer_id=PT.id \
             LEFT OUTER JOIN users U1 ON LT.packed_user_id=U1.id \
             WHERE L.wait_print='Y' AND PT.printer_name='"+str(self.label_printer_name)+"' \
@@ -151,7 +150,10 @@ class MainWindow(QMainWindow):
             i=0
             for l in myresult:
                 print(l)
-                self.label_printer.print_hitachi_label(l[1],l[2],l[3],str(l[4]),l[5],"","")
+                if l[9] != "TSK":
+                    self.label_printer.print_hitachi_label(l[1],l[2],l[3],str(l[4]),l[5],"","")
+                else:
+                    self.label_printer.print_tsk_label(l[1],l[2],l[8],str(l[4])) 
                 mycursor.execute("UPDATE labels SET wait_print='N' WHERE id="+str(l[0]))
                 i=i+1
                 if i%5==4:

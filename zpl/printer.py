@@ -204,3 +204,25 @@ THAILAND 13210^FS
 ^XZ"""
         print(label)        
         self.z.output(label)
+
+    def print_tsk_label(self,part_no,part_name,lot_no,qty):
+            label="""
+^XA
+^FO145,10^A0,15,15^FDPartNo:^FS
+^FO145,30^A0,20,20^FD"""+part_no+"""^FS
+^FO145,50^GB280,3,3^FS
+^FO145,60^A0,15,15^FDPartName:^FS
+^FO145,80^A0,20,20^FD"""+part_name+"""^FS
+^FO145,100^GB280,3,3^FS
+^FO500,20^BQN,2,5^FD"""+part_no+"""^FS
+^FO145,110^A0,15,15^FDLotNo:^FS
+^FO145,130^A0,20,20^FD"""+lot_no+"""^FS
+^FO420,10^GB5,180,3^FS
+^FO420,155^GB270,3,3^FS
+^FO145,150^GB280,3,3^FS
+^FO145,160^A0,15,15^FDQuantity:^FS
+^FO220,160^A0,40,40^FD"""+qty+"""^FS
+^FO440,165^A0,25,25^FDNIHON SEIKI THAI LTD.^FS
+^XZ"""
+            print(label)        
+            self.z.output(label)
