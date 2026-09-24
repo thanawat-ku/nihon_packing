@@ -1,1 +1,1 @@
-python printer_program.py
+C:\Python27\pythonw.exe "C:\Python27\Lib\idlelib\idle.pyw" -r "C:\Users\barcode\Documents\zpl\printer_program.py"

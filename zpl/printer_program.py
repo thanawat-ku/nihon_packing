@@ -1,4 +1,5 @@
 import sys
+# print(sys.executable)
 # for pyside6
 #from PySide6.QtWidgets import (
 #    QMainWindow, QApplication, QWidget, QLabel, QComboBox, QPushButton, QVBoxLayout, QHBoxLayout
@@ -20,7 +21,7 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
 
-        self.setWindowTitle("Print")
+        self.setWindowTitle("Print 1.1")
 
         self.label_printer_name="HAN-Label"
         self.tag_printer_name="AY-Tag"
@@ -40,6 +41,8 @@ class MainWindow(QMainWindow):
 
         print("Set Config!")
 
+        self.label_printer = str(self.combo1.currentText())
+        self.tag_printer = str(self.combo2.currentText())
         self.label_printer = Printer(self.label_printer_name)
         self.tag_printer = Printer(self.tag_printer_name)
 
@@ -108,7 +111,7 @@ class MainWindow(QMainWindow):
         if self.isSetting==True:
             return
         mydb = mysql.connector.connect(
-        host="mis.nihonseikithai.co.th",
+        host="192.168.10.10",
         user="root",
         password="qctest123",
         database="packing"
@@ -119,11 +122,11 @@ class MainWindow(QMainWindow):
             #for label
             mycursor.execute("SELECT L.id,P.part_no,P.part_name,LT.generate_lot_no,L.quantity,L.label_no,U1.first_name,'' AS pack_by \
             FROM labels L \
-            STRAIGHT_JOIN lots LT ON L.prefer_lot_id=LT.id \
-            STRAIGHT_JOIN products P ON LT.product_id=P.id \
-            STRAIGHT_JOIN printers PT ON L.printer_id=PT.id \
+            INNER JOIN lots LT ON L.prefer_lot_id=LT.id \
+            INNER JOIN products P ON LT.product_id=P.id \
+            INNER JOIN printers PT ON L.printer_id=PT.id \
             LEFT OUTER JOIN users U1 ON LT.packed_user_id=U1.id \
-            WHERE L.wait_print='Y' AND PT.printer_name='"+str(self.label_printer_name)+"' \
+            WHERE L.wait_print='Y' AND PT.printer_name=+'"+str(self.label_printer_name)+"' \
             ORDER BY L.id")
             myresult = mycursor.fetchall()
             i=0
@@ -139,21 +142,18 @@ class MainWindow(QMainWindow):
             #for HAN label
             mycursor.execute("SELECT L.id,P.part_no,P.part_name,LT.generate_lot_no,L.quantity,L.label_no,U1.first_name,'' AS pack_by,LT.lot_no,C.customer_code \
             FROM labels L \
-            STRAIGHT_JOIN lots LT ON L.prefer_lot_id=LT.id \
-            STRAIGHT_JOIN products P ON LT.product_id=P.id \
-            STRAIGHT_JOIN customers C ON P.customer_id=C.id \
-            STRAIGHT_JOIN printers PT ON L.printer_id=PT.id \
+            INNER JOIN lots LT ON L.prefer_lot_id=LT.id \
+            INNER JOIN products P ON LT.product_id=P.id \
+            INNER JOIN customers C ON P.customer_id=C.id \
+            INNER JOIN printers PT ON L.printer_id=PT.id \
             LEFT OUTER JOIN users U1 ON LT.packed_user_id=U1.id \
-            WHERE L.wait_print='Y' AND PT.printer_name='"+str(self.label_printer_name)+"' \
+            WHERE L.wait_print='Y' AND PT.printer_name=+'"+str(self.label_printer_name)+"' \
             ORDER BY L.id")
             myresult = mycursor.fetchall()
             i=0
             for l in myresult:
                 print(l)
-                if l[9] != "TSK":
-                    self.label_printer.print_hitachi_label(l[1],l[2],l[3],str(l[4]),l[5],"","")
-                else:
-                    self.label_printer.print_tsk_label(l[1],l[2],l[8],str(l[4])) 
+                self.label_printer.print_hitachi_label(l[1],l[2],l[3],str(l[4]),l[5],"","")
                 mycursor.execute("UPDATE labels SET wait_print='N' WHERE id="+str(l[0]))
                 i=i+1
                 if i%5==4:
@@ -165,10 +165,10 @@ class MainWindow(QMainWindow):
             mycursor.execute("SELECT T.id,C.customer_name,P.part_no,P.part_name,S.po_no, \
                 S.pack_date,T.box_no,T.total_box,T.tag_no,T.quantity,C.address1,C.address2,C.address3 \
                 FROM tags T \
-                STRAIGHT_JOIN packs S ON T.pack_id=S.id \
-                STRAIGHT_JOIN products P ON S.product_id=P.id \
-                STRAIGHT_JOIN customers C ON P.customer_id=C.id \
-                STRAIGHT_JOIN printers PT ON T.printer_id=PT.id \
+                INNER JOIN packs S ON T.pack_id=S.id \
+                INNER JOIN products P ON S.product_id=P.id \
+                INNER JOIN customers C ON P.customer_id=C.id \
+                INNER JOIN printers PT ON T.printer_id=PT.id \
                 WHERE T.wait_print='Y' AND PT.printer_name='"+str(self.tag_printer_name)+"' \
                 ORDER BY T.id")
             myresult = mycursor.fetchall()
@@ -186,10 +186,10 @@ class MainWindow(QMainWindow):
             mycursor.execute("SELECT T.id,C.customer_name,P.part_no,P.part_name,S.pack_no, \
                 S.pack_date,T.box_no,T.total_box,T.tag_no,T.quantity,C.address1,C.address2,C.address3 \
                 FROM tags T \
-                STRAIGHT_JOIN packs S ON T.pack_id=S.id \
-                STRAIGHT_JOIN products P ON S.product_id=P.id \
-                STRAIGHT_JOIN customers C ON P.customer_id=C.id \
-                STRAIGHT_JOIN printers PT ON T.printer_id=PT.id \
+                INNER JOIN packs S ON T.pack_id=S.id \
+                INNER JOIN products P ON S.product_id=P.id \
+                INNER JOIN customers C ON P.customer_id=C.id \
+                INNER JOIN printers PT ON T.printer_id=PT.id \
                 WHERE T.wait_print='Y' AND PT.printer_name='"+str(self.tag_printer_name)+"' \
                 ORDER BY T.id")
             myresult = mycursor.fetchall()

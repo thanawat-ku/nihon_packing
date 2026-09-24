@@ -64,8 +64,8 @@ class Printer:
 ^FO540,65^GB160,1,3^FS
 ^FO540,360^GB160,1,3^FS
 ^FO540,415^GB160,1,3^FS
-^FO540,830^GB160,1,3^FS
-^FO370,830^GB170,1,3^FS
+^FO540,800^GB160,1,3^FS
+^FO370,800^GB170,1,3^FS
 ^FO190,415^GB180,1,3^FS
 ^FO190,1070^GB180,1,3^FS
 ^FO15,750^GB175,1,3^FS
@@ -96,9 +96,11 @@ THAILAND 13210^FS
 
 ^CF0,18
 ^FO675,850^FDPO# (K)^FS
-^FO590,880^BC,70,N^FDK"""+po_no+"""^FS
+^BY2,3,70
+^FO590,820^BC,70,N^FDK"""+po_no+"""^FS
 ^CF0,30
-^FO550,980^FD"""+po_no+"""^FS
+^FO550,820^FD"""+po_no+"""^FS
+^BY3,3,70
 
 ^CF0,18
 ^FO500,30^FDPC# (P)^FS
@@ -144,7 +146,7 @@ THAILAND 13210^FS
         
         label="""
     ^XA
-
+^FWN
     ^CF0,20
     ^FO50,30^FDPart No^FS
     ^FO50,60^FD(P) """+part_no+"""^FS
@@ -166,8 +168,8 @@ THAILAND 13210^FS
     ^CF0,80
     ^FO600,530^FDTH^FS
 
-    ^FO520,50
-    ^BQN,2,7
+    ^FO550,90
+    ^BQN,2,5
     ^FDQA,P"""+part_no+""";Q"""+qty+""";VA8130;1T"""+lot_no+""";S"""+label_no+"""^FS
     ^CF0,45
     ^FO340,350^FDNIHON SEIKI THAI LTD^FS
@@ -180,33 +182,34 @@ THAILAND 13210^FS
     def print_label(self,part_no,part_name,lot_no,qty,label_no,visual_by,pack_by):
         label="""
 ^XA
-^FO145,10^A0,15,15^FDPartNo:^FS
-^FO145,30^A0,20,20^FD"""+part_no+"""^FS
-^FO145,50^GB280,3,3^FS
-^FO145,60^A0,15,15^FDPartName:^FS
-^FO145,80^A0,20,20^FD"""+part_name+"""^FS
-^FO145,100^GB280,3,3^FS
-^FO145,110^A0,15,15^FDLotNo:^FS
-^FO145,130^A0,20,20^FD"""+lot_no+"""^FS
-^FO420,60^GB270,3,3^FS
-^FO435,10^A0,15,15^FDQuantity:^FS
-^FO510,10^A0,60,60^FD"""+qty+"""^FS
-^FO420,10^GB5,180,3^FS
-^FO435,70^BY2^BC,60,,,,A^FD"""+label_no+"""^FS
-^FO420,155^GB270,3,3^FS
+^FO155,10^A0,15,15^FDPartNo:^FS
+^FO155,30^A0,20,20^FD"""+part_no+"""^FS
+^FO155,50^GB280,3,3^FS
+^FO155,60^A0,15,15^FDPartName:^FS
+^FO155,80^A0,20,20^FD"""+part_name+"""^FS
+^FO155,100^GB280,3,3^FS
+^FO155,110^A0,15,15^FDLotNo:^FS
+^FO155,130^A0,20,20^FD"""+lot_no+"""^FS
+^FO430,60^GB270,3,3^FS
+^FO445,10^A0,15,15^FDQuantity:^FS
+^FO520,10^A0,60,60^FD"""+qty+"""^FS
+^FO430,10^GB5,180,3^FS
+^FO445,70^BY2^BC,60,,,,A^FD"""+label_no+"""^FS
+^FO430,155^GB270,3,3^FS
 ^FO145,150^GB280,3,3^FS
-^FO145,160^A0,15,15^FDVisual By:^FS
-^FO145,175^A0,20,20^FD"""+visual_by+"""^FS
-^FO285,150^GB3,40,3^FS
-^FO295,160^A0,15,15^FDPack By:^FS
-^FO295,175^A0,20,20^FD"""+pack_by+"""^FS
-^FO440,165^A0,25,25^FDNIHON SEIKI THAI LTD.^FS
-^XZ"""
+^FO155,160^A0,15,15^FDVisual By:^FS
+^FO310,175^A0,20,20^FD"""+visual_by+"""^FS
+^FO304,150^GB3,40,3^FS
+^FO310,160^A0,15,15^FDPack By:^FS
+^FO310,175^A0,20,20^FD"""+pack_by+"""^FS
+^FO450,165^A0,25,25^FDNIHON SEIKI THAI LTD.^FS
+^XZ
+"""
         print(label)        
         self.z.output(label)
 
     def print_tsk_label(self,part_no,part_name,lot_no,qty):
-            label="""
+        label="""
 ^XA
 ^FO145,10^A0,15,15^FDPartNo:^FS
 ^FO145,30^A0,20,20^FD"""+part_no+"""^FS
@@ -224,5 +227,5 @@ THAILAND 13210^FS
 ^FO220,160^A0,40,40^FD"""+qty+"""^FS
 ^FO440,165^A0,25,25^FDNIHON SEIKI THAI LTD.^FS
 ^XZ"""
-            print(label)        
-            self.z.output(label)
+        print(label)        
+        self.z.output(label)
